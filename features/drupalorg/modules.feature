@@ -7,5 +7,5 @@ Feature: Download & Extend Modules page
   Scenario: Search for existing module
     Given I am at "/project/modules"
     When I search for "masquerade"
-    Then I should see the text "Masquerade"
+    Then I should see "Masquerade"
 

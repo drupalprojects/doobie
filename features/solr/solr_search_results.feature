@@ -7,6 +7,6 @@ Feature: Visitor searches site for Views
  
   Scenario: Drupal.org has facet blocks on search results page
 
-  When I visit "/search/apachesolr_search/views"
-  Then I should see the heading "or filter by…"
-    And I should see the heading "or search for…"
+  When I go to "/search/apachesolr_search/views"
+  Then I should see "or filter by…"
+    And I should see "or search for…"

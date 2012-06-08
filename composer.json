@@ -8,6 +8,9 @@
         "behat/mink-sahi-driver": "*",
         "behat/mink-zombie-driver": "*",
         "symfony/process": "*",
+        "behat/symfony2-extension": "*",
+        "symfony/form": "*",
+        "symfony/validator": "*",
         "behat/mink-extension": "*",
         "symfony/http-kernel": "*"
 },
