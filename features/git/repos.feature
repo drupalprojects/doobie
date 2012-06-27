@@ -1,11 +1,10 @@
-Feature: Users must agree to the terms of service to commit code
-  In order to prove that I am aware of the terms of service
+Feature: Users want to share code 
+  In order to share and improve code
   As a user
-  I need to agree to the terms of service before I can commit code
+  I need to create sandboxes and projects
 
   Background: 
- Given I am logged in as a user with the "authenticated user" role
-#  Given I am logged in as "Git User" with the password "gituser1"
+  Given I am logged in as "git user" with the password "gituser1"
 
 @javascript
   Scenario: Git User agrees to terms of service for the first time
@@ -42,26 +41,6 @@ Feature: Users must agree to the terms of service to commit code
       | Maintenance status|Minimally maintained     |
       | Development status|Under active development |
       And I press the "Save" button
-   Then I should see the text "Pink Ponies"
+   Then I should see the project title
 
-  Scenario: Git User no longer agrees to terms of service
-    Given I am at "/user"
-    When I click "Edit" 
-     And I click "Git access" 
-     And I uncheck the box "I agree to these terms"
-     And I press the "Update Git access agreement" button
-    Then I should see the text "You will not be able to use Git"
 
-  Scenario: Git User, having disagreed, tries to edit an existing project
-    When I visit "/project/user"
-    Then I should see the link "View"
-      And I should not see the link "Edit"
-   
-  Scenario: Git User decides to agree again
-    Given I am at "/user"
-    When I click "Edit"
-      And I click "Git access"
-      And I check the box "I agree to these terms"
-      And I press the "Save" button
-    Then I should not see the text "You will not be able to use Git"
-      And I should see the text "Git user configuration"
