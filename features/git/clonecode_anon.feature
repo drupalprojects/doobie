@@ -12,4 +12,4 @@ Feature: Visitor clones repositories
     Given I am at "/project/git_dev"
     When I click "Version control"
     Then I should see the heading "Empty Repository"     
-      And I should see the heading "Git on Drupal.org"
+    And I should see the heading "Git on Drupal.org"
