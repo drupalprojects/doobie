@@ -6,7 +6,6 @@ default:
   context:
     parameters:
       default_browser: 'goutte'
-      base_url: 'http://git6site.devdrupal.org'
       basic_auth:
         username: 'drupal'
         password: 'drupal'
@@ -22,7 +21,6 @@ selenium:
   context:
     parameters:
       default_browser: 'selenium_firefox'
-      base_url: 'http://git6site.devdrupal.org'
 progress:
     formatter:
         name: 'progress'
@@ -30,4 +28,3 @@ sahi:
   context:
     parameters:
       default_browser: 'sahi_firefox'
-      base_url: 'http://git6site.devdrupal.org'
