@@ -1,10 +1,11 @@
+@shellAccess
 Feature: Users must agree to the terms of service to commit code
   In order to prove that I am aware of the terms of service
   As a user
   I need to agree to the terms of service before I can commit code
 
   Background: 
- Given I am logged in as a user with the "authenticated user" role
+    Given I am logged in as a user with the "authenticated user" role
 
 @javascript
   Scenario: Git User agrees to terms of service for the first time
