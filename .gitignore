@@ -1,4 +1,4 @@
 composer.phar
 bin
 vendor
-behat.yml
+behat.local.yml
