@@ -9,12 +9,8 @@ default:
       basic_auth:
         username: 'drupal'
         password: 'drupal'
-      # Set this drush alias in your aliases.drushrc.php file to match
-      # the base_url set above.
-      drush_alias: 'myalias'
   extensions:
     Behat\MinkExtension\Extension:
-      base_url: 'http://git6site.devdrupal.org'
       goutte: ~
       selenium2: ~
 selenium:
@@ -28,3 +24,6 @@ sahi:
   context:
     parameters:
       default_browser: 'sahi_firefox'
+
+imports:
+  - behat.local.yml
