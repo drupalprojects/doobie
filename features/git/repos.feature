@@ -1,9 +1,9 @@
-Feature: Users want to share code 
+Feature: Users want to share code
   In order to share and improve code
   As a user
   I need to create sandboxes and projects
 
-  Background: 
+  Background:
     Given I am logged in as "git user" with the password "GitUser100"
 
   Scenario: Git User creates a project
@@ -13,7 +13,9 @@ Feature: Users want to share code
 
   Scenario: Git user inits the repo
     Given I am on the Version control tab
-    And I see "Empty Sandbox repository"
+    Then show last response
+    And I should see "Empty Sandbox repository"
     When I execute the codeblock
     Then the repository should be initialized
+
 

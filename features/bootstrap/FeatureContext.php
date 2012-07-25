@@ -9,7 +9,7 @@
  * or find a different approach.  In the meantime This is at the top
  * of the file to nag the maintainers until they have an answer.
  */
-class HackyDataRegistry {
+abstract class HackyDataRegistry {
   public static $data = array();
   public static function set($name, $value) {
     self::$data[$name] = $value;
@@ -458,19 +458,6 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @When /^I create a project$/
-   */
-  public function iCreateAProject() {
-    $this->project = $this->user->name;
-    $element = $this->getSession()->getPage();
-    $result = $element->hasField('Project title');
-    if ($result === False) {
-      throw new Exception("No Project title field was found.");
-    }
-    $element->fillField('Project title', $this->project);
-  }
-
-  /**
    * @Then /^I should see the project$/
    */
   public function iShouldSeeTheProject() {
@@ -616,6 +603,73 @@ class FeatureContext extends MinkContext {
    * @Given /^I execute the commands$/
    */
   public function iExecuteTheCommands() {
+    throw new PendingException();
+  }
+
+  /**
+   * @When /^I create a "([^"]*)"$/
+   */
+  public function iCreateA($type) {
+    if ($type != 'module' && $type != 'theme') {
+      throw new PendingException('Only modules and themes have been implemented.');
+    }
+    $element = $this->getSession()->getPage();
+    $result = $element->hasField('Project title');
+    $this->projectTitle = $this->randomString(16);
+
+    $element->fillField('Project title', $this->projectTitle);
+    $element->fillField('Maintenance status', '13028');
+    $element->fillField('Development status', '9988');
+    $this->iSelectTheRadioButtonWithTheId('Modules', 'edit-project-type-14');
+    $element->fillField('Description', $this->randomString(1000));
+    $element->pressButton('Save');
+  }
+
+  /**
+   * @Then /^I should see the project title$/
+   */
+  public function iShouldSeeTheProjectTitle() {
+    $element = $this->getSession()->getPage();
+    $element = $element->find('css', 'h1#page-subtitle');
+    $versionControlTabPath = $this->getSession()
+      ->getPage()
+      ->findLink('Version control')
+      ->getAttribute('href');
+    HackyDataRegistry::set('version control path', $versionControlTabPath);
+    if (empty($element) || strpos($element->getText(), $this->projectTitle) === FALSE) {
+      throw new Exception('Project title not found where it was expected.');
+    }
+  }
+
+  /**
+   * @Given /^I am on the Version control tab$/
+   */
+  public function iAmOnTheVersionControlTab() {
+    $path = $this->locatePath(HackyDataRegistry::get('version control path'));
+    $this->getSession()->visit($path);
+  }
+
+  /**
+   * @When /^I execute the codeblock$/
+   */
+  public function iExecuteTheCodeblock() {
+    $element = $this->getSession()->getPage()->find('css', 'div.codeblock');
+    $rawCommand = $element->getHTML();
+    $rawCommand = str_replace('<br/>', '', $rawCommand);
+    $rawCommand = str_replace('&gt;', '>', $rawCommand);
+    $command = preg_replace('/<code>(.*)?<\/code>/U', '\1 ; ', $rawCommand);
+    $process = new Process($command);
+    $process->setTimeout(5);
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new Exception('Intiializing repository failed - Command: ' . $command . ' Error: ' . $process->getErrorOutput());
+    }
+  }
+
+  /**
+   * @Then /^the repository should be initialized$/
+   */
+  public function theRepositoryShouldBeInitialized() {
     throw new PendingException();
   }
 }
