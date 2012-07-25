@@ -1,5 +1,24 @@
 <?php
 
+/**
+ * Note: This is awful and makes us all feel filthy.  However,
+ * some of our features need to run their scenarios sequentially
+ * and we need a way to pass relevant data (like generated node id)
+ * from one scenario to the next.  This class provides a simple
+ * registry to pass data.  We need to either commit to this method
+ * or find a different approach.  In the meantime This is at the top
+ * of the file to nag the maintainers until they have an answer.
+ */
+class HackyDataRegistry {
+  public static $data = array();
+  public static function set($name, $value) {
+    self::$data[$name] = $value;
+  }
+  public static function get($name) {
+    return self::$data[$name];
+  }
+}
+
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Behat\Context\ClosuredContextInterface,
