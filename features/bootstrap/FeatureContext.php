@@ -422,7 +422,7 @@ class FeatureContext extends MinkContext {
    */
   public function iCloneTheRepo() {
     //mypath stores the last path visited in another iAmAt  step.
-    $element = $this->getSession()->getPage($this->mypath);
+    $element = $this->getSession()->getPage();
     $result = $element->find('css', '#content div.codeblock code');
     if (!empty($result)) {
       $this->repo = $result->getText();
