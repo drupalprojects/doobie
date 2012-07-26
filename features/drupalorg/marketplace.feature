@@ -14,16 +14,16 @@ Feature: Find Drupal services
     Then I should see the link "next ›"
     And I should see the heading <category>
 
-    Examples: 
+    Examples:
     | category           |
     | "Services"         |
     | "Sectors"          |
     | "Countries served" |
 
   Scenario: See a filtered list of service providers
-    Given I am at "/marketplace-preview" 
+    Given I am at "/marketplace-preview"
     When I click "Consulting"
     And I click "Government"
     Then I should see the link "Achieve Internet"
     And I should not see the link "2020Media"
-   
+
