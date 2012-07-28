@@ -270,6 +270,15 @@ class FeatureContext extends MinkContext {
   }
 
   /**
+   * @Given /^(?:that I|I) am (?:on|at) the homepage$/
+   */
+  public function thatIAmOnTheHomepage($path) {
+    // Use the Mink Extenstion step definition.
+    return new Given("I am on homepage");
+  }
+
+
+  /**
    * @When /^I visit "([^"]*)"$/
    */
   public function iVisit($path) {
