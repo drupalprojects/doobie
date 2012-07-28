@@ -491,6 +491,19 @@ class FeatureContext extends MinkContext {
   }
 
   /**
+   * @When /^I search sitewide for "([^"]*)"$/
+   */
+  public function iSearchSitewideFor($searchterm) {
+    $element = $this->getSession()->getPage();
+    $element->fillField('edit-search-theme-form-1', $searchterm);
+    $submit = $element->findById('search-theme-form-submit');
+    if (empty($submit)) {
+      throw new Exception('No submit button at ' . $session->getCurrentUrl());
+    }
+    $submit->click();
+  }
+
+  /**
    * @} End of defgroup "drupal.org"
    */
 
