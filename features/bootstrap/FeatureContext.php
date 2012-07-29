@@ -1117,12 +1117,72 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-  * @Given /^(?:|I )wait for "([^"]*)" second(?:|s)$/
+  * @Given /^(?:|I )wait (?:|for )"([^"]*)" second(?:|s)$/
   */
   public function iWaitForSeconds($seconds, $condition = "") {
     $milliseconds = (int) ($seconds * 1000);
-    $this->getMainContext()->getSession()->wait($milliseconds, $condition);
+    $this->getSession()->wait($milliseconds, $condition);
   }
 
+  /**
+  * @When /^I click on a case study image$/
+  */
+  public function iClickOnACaseStudyImage() {
+    $page = $this->getSession()->getPage();
+    $result = $page->find('css', '.view-content .col-first a');
+    if (empty($result)) {
+      throw new Exception("This page does not have any case study");
+    }
+    $result->click();
+  }
+
+ /**
+   * @Given /^I should see the link "([^"]*)" at the "([^"]*)" in the right sidebar$/
+   */
+  public function iShouldSeeTheLinkAtTheInTheRightSidebar($link, $position) {
+    $mainContext = $this->getMainContext();
+    $page = $mainContext->getSession()->getPage();
+    $error = 0;
+    $curr_url = $mainContext->getSession()->getCurrentUrl();
+    $message = "The page ".$curr_url." did not contain the specified texts";
+    $nodes = $page->findAll("css", $mainContext->right_sidebar." .item-list a");
+    if (sizeof($nodes)) {
+      // get all the categories
+      foreach ($nodes as $node) {
+        $categories[] = $node->getText();
+      }
+      // check for firt element
+      if ($position == "top") {
+        if ($link != $categories[0]) {
+          $error = 1;
+        }
+      }
+      // check for last element
+      elseif ($position == "bottom") {
+        if($link != $categories[sizeof($categories) - 1]) {
+          $error = 1;
+        }
+      }
+      if ($error == 1) {
+        $message = "The page " . $curr_url . " does not contain '" .
+        $link . "' in " . $position . " position";
+      }
+      else {
+        return true;
+      }
+    }
+    throw new Exception($message);
+  }
+
+  /**
+   * @Then /^I should see "([^"]*)" links on the right sidebar$/
+   */
+  public function iShouldSeeLinksOnTheRightSidebar($count) {
+    $page = $this->getSession()->getPage();
+    $nodes = $page->findAll("css", $this->right_sidebar." .item-list a");
+    if (sizeof($nodes) == $count) return true;
+      throw new Exception('Found ' . sizeof($nodes) . ' links instead of ' .
+      $count . ' links on the right sidebar');
+  }
 
 }
