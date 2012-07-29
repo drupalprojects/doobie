@@ -970,4 +970,66 @@ class FeatureContext extends MinkContext {
     return $return;
   }
 
+  /**
+   * @When /^I click on the feed icon$/
+   * Works only with Goutte as ResponseHeaders are not supported by Selenium
+   */
+  public function iClickOnTheFeedIcon() {
+    $page = $this->getSession()->getPage();
+    $result = $page->find('css', '.feed-icon');
+    if (empty($result)) {
+      throw new Exception("This page does not have a feed icon");
+    }
+    $result->click();
+    //use response headers to make sure we got the xml data and not html
+    $responseHeaders = $this->getSession()->getResponseHeaders();
+    if (strpos($responseHeaders['Content-Type'], "application/rss+xml") === FALSE) {
+      throw new Exception("This page '" . $this->getSession()->getCurrentUrl() .
+       "' does not provide xml data");
+    }
+    // Use goutedriver get content to get the complete xml data and store it
+    //temporarily in a variable for use by function iShouldSeeTheTextInTheFeed()
+    $this->xmlContent =
+     $this->getSession()->getDriver()->getClient()->getResponse()->getContent();
+  }
+  /**
+   * @Then /^I should see the text "([^"]*)" in the feed$/
+   */
+  public function iShouldSeeTheTextInTheFeed($text) {
+    $xmlString = trim($this->xmlContent);
+    if ($xmlString) {
+      if (strpos($xmlString, trim($text)) === FALSE) {
+        throw new Exception("The text '" . $text . "' was not found in the
+         xml feed");
+      }
+    }
+    else {
+      throw new Exception("No xml data found");
+    }
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" feed items$/
+   */
+  public function iShouldSeeAtLeastFeedItems($count) {
+    $count = (int) $count;
+    $xmlString = trim($this->xmlContent);
+    if ($xmlString) {
+      $match = preg_match_all("/<item>/", $xmlString, $matches);
+      // checks whether $count items were present in the xml feed or not
+      // if count > 0, then match should be >= count
+      if ($count) {
+        if ($match < $count) {
+          throw new Exception('The feed contains less than ' . $count .
+           ' feed items');
+        }
+      }
+      // if count = 0, then no feeds should be found
+      elseif ($match > 0) {
+        throw new Exception('The feed contains more than ' . $count .
+         ' feed items');
+      }
+    }
+  }
+
 }
