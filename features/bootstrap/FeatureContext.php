@@ -1093,5 +1093,4 @@ class FeatureContext extends MinkContext {
     return $result;
   }
 
-
 }
