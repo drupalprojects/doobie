@@ -19,6 +19,5 @@ Feature: Search
     When I fill in "projects" with "Userdashboard"
     And  I wait for the suggestion box to appear
     And I fill in "Project" with "UserDashboard"
-    Then show last response
     And I press "Search" to filter
     Then I should see the link "UserDashboard"
