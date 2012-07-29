@@ -332,7 +332,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Then /^I should see the link "([^"]*)"$/
+   * @Then /^I (?:|should )see the link "([^"]*)"$/
    */
   public function iShouldSeeTheLink($linkname) {
     $element = $this->getSession()->getPage();
@@ -343,7 +343,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Then /^I should not see the link "([^"]*)"$/
+   * @Then /^I (?:should|do) not see the link "([^"]*)"$/
    */
   public function iShouldNotSeeTheLink($linkname) {
     $element = $this->getSession()->getPage();
