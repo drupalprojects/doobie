@@ -1,3 +1,4 @@
+@known_git6failure
 Feature: Find About News
   In order to find the Latest news for me
   As any user
@@ -7,8 +8,8 @@ Feature: Find About News
     Given I am on "/"
     When I follow "More news…"
     Then I should be on "/news"
-    And I should see "Drupal News"
-    And I should see "Read more"
+    And I should see the heading "Drupal News"
+    And I should see the link "Read more"
 
    Scenario: Browse to the Detail News page
     Given I am on "/news"
@@ -58,7 +59,7 @@ Feature: Find About News
   @javascript
   Scenario: Refine the search
     Given I am on "/community"
-    And I see "Search Documentation: "
+    And I see the text "Search Documentation: "
     And I fill in "search_term" with "invite"
     And I wait for the suggestion box to appear
     Then I should see "Chat invites"

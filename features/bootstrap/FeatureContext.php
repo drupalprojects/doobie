@@ -354,7 +354,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Then /^(?:I|I should )see the heading "([^"]*)"$/
+   * @Then /^I (?:|should )see the heading "([^"]*)"$/
    */
   public function iShouldSeeTheHeading($headingname) {
     $element = $this->getSession()->getPage();
@@ -366,11 +366,11 @@ class FeatureContext extends MinkContext {
         }
       }
     }
-    throw new Exception("The text " . $headingname . " was not found in any heading " . $session->getCurrentUrl());
+    throw new Exception("The text " . $headingname . " was not found in any heading " . $this->getSession()->getCurrentUrl());
   }
 
   /**
-   * @Then /^(?:I|I should) see the text "([^"]*)"$/
+   * @Then /^I (?:|should )see the text "([^"]*)"$/
    */
   public function iShouldSeeTheText($text) {
     // Use the Mink Extension step definition.
