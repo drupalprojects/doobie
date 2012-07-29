@@ -73,6 +73,9 @@ class FeatureContext extends MinkContext {
     if (isset($parameters['drush_alias'])) {
       $this->drushAlias = $parameters['drush_alias'];
     }
+    if (isset($parameters['drupal_users'])) {
+      $this->drupal_users = $parameters['drupal_users'];
+    }
   }
 
   /**
@@ -615,6 +618,19 @@ class FeatureContext extends MinkContext {
     }
 
     throw new Exception('Not logged in.');
+  }
+
+  /**
+   * Authenticates a user with password from configuration.
+   *
+   * @Given /^I am logged in as "([^"]*)"$/
+   */
+  public function iAmLoggedInAs($username) {
+    if (empty($this->drupal_users[$username])) {
+      throw new Exception('No configured password for user "' . $username . '".');
+    }
+    $password = $this->drupal_users[$username];
+    $this->iAmLoggedInAsWithThePassword($username, $password);
   }
 
   /**

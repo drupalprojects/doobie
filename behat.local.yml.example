@@ -5,6 +5,17 @@ default:
       # Set this drush alias in your aliases.drushrc.php file to match
       # the base_url set above. Leave off the preceding '@'.
       drush_alias: 'myalias'
+
+      drupal_users:
+        drupal:
+          'drupal'
+        site user:
+          'site user pass here'
+        git user:
+          'git user pass here'
+        git vetted user:
+          'git vetted user pass here'
+
   extensions:
     Behat\MinkExtension\Extension:
       base_url: 'http://git6site.devdrupal.org'
