@@ -4,7 +4,7 @@ Feature: Users want to share code
   I need to create sandboxes and projects
 
   Background:
-    Given I am logged in as "git user" with the password "GitUser100"
+    Given I am logged in as "git user"
 
   Scenario: Git User creates a project
     Given I am at "/node/add/project-project"
