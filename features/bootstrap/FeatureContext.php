@@ -1059,4 +1059,39 @@ class FeatureContext extends MinkContext {
     return new Then($step);
   }
 
+  /**
+   * @Given /^I should see at least "([^"]*)" records$/
+   */
+  public function iShouldSeeAtLeastRecords($count) {
+    $element = $this->getSession()->getPage();
+    // counts the number of rows in the view table
+    $records = $this->getViewDisplayRows($element);
+    if ($records == "" || sizeof($records) < $count) {
+        throw new Exception("The page (" . $this->getSession()->getCurrentUrl() .
+         ") has less than " . $count . " records");
+    }
+  }
+
+  /**
+   * Function to get the array of records from the current view listing
+   * @param $page Object The page object to look into
+   * @return $result Array An array of items
+  */
+  private function getViewDisplayRows($page) {
+    $result = "";
+    $classes = array(
+      'table' => '.view table.views-table tr',
+      'grid' => '.view table.views-view-grid tr td',
+      'row' => '.view div.views-row'
+    );
+    foreach ($classes as $type => $class) {
+      $result = $page->findAll('css', $class);
+      if (!empty($result)) {
+        break;
+      }
+    }
+    return $result;
+  }
+
+
 }
