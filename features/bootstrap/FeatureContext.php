@@ -1469,4 +1469,53 @@ class FeatureContext extends MinkContext {
     $this->project_value = $value;
   }
 
+  /**
+   * @Given /^I download the "([^"]*)" file "([^"]*)"$/
+   */
+  public function iDownloadTheFile($type, $filename) {
+    $href = "";
+    $mainContext = $this->getMainContext();
+    $page = $mainContext->getSession()->getPage();
+    $result = $page->findAll('css', '.views-field a');
+    // get the link to download
+    if (!empty($result)) {
+      foreach ($result as $res) {
+        if ($res->getText() == $filename) {
+          $href = $res->getAttribute("href");
+          break;
+        }
+      }
+      if ($href) {
+        // this will work only on Goutte as Selenium does not support this
+        $mainContext->getSession()->visit($href);
+        $responseHeaders = $mainContext->getSession()->getResponseHeaders();
+        if ((int) $responseHeaders['Content-Length'][0] > 10000) {
+          if ($type != "tar" || $type != "zip" ||
+           $responseHeaders['Content-Type'] != "application/x-gzip" ||
+           $responseHeaders['Content-Type'] == "application/zip") {
+            throw new Exception("The file '" . $filename. "' was not downloaded");
+          }
+        }
+        else {
+          throw new Exception("The file '" . $filename. "' was not downloaded");
+        }
+      }
+      else {
+        throw new Exception("The link '" . $filename. "' was not found on the page");
+      }
+    }
+    else {
+      throw new Exception("The link '" . $filename. "' was not found on the page");
+    }
+  }
+
+    /**
+     * @Then /^the md5 hash should match$/
+     */
+    public function theMdHashShouldMatch($arg1)
+    {
+        throw new PendingException();
+    }
+
+
 }
