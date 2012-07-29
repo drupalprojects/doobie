@@ -1093,4 +1093,36 @@ class FeatureContext extends MinkContext {
     return $result;
   }
 
+  /**
+    * @When /^I press "([^"]*)" to filter$/
+    * TODO this should work generically to exclude the sitewide search
+    */
+  public function iPressToFilter($arg1) {
+    $element = $this->getSession()->getPage();
+    $submit = $element->findById('edit-submit-project-issue-all-projects');
+   /* if (empty($submit)) {
+      throw new Exception('No submit button at ' . $session->getCurrentUrl());
+    }*/
+    if(!($submit->click())) {
+      throw new Exception('No Click happened at ' . $this->getSession()->getCurrentUrl());
+    }
+   }
+
+   /**
+    * @Then /^I wait for the suggestion box to appear$/
+    */
+  public function iWaitForTheSuggestionBoxToAppear() {
+    $seconds = 1;
+    $this->iWaitForSeconds($seconds, "$('#edit-search-term-results').children().length > 0");
+  }
+
+  /**
+  * @Given /^(?:|I )wait for "([^"]*)" second(?:|s)$/
+  */
+  public function iWaitForSeconds($seconds, $condition = "") {
+    $milliseconds = (int) ($seconds * 1000);
+    $this->getMainContext()->getSession()->wait($milliseconds, $condition);
+  }
+
+
 }
