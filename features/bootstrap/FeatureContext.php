@@ -1056,8 +1056,6 @@ class FeatureContext extends MinkContext {
     // A @Tranform would be more elegant.
     $randomString = $this->randomString();
     $step = "I fill in \"$label\" with \"$randomString\"";
-    print "STEP\r\n";
-    print $step;
     return new Then($step);
   }
 
