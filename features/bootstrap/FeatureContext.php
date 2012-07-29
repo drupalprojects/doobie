@@ -1124,6 +1124,24 @@ class FeatureContext extends MinkContext {
     }
    }
 
+  /**
+    * @When /^I press search to filter$/
+    */
+  public function iPressSearchToFilter()
+   {
+    $button = 'edit-submit-project-issue-all-projects';
+    $element = $this->getSession()->getPage();
+    $element->fillField('Project', $this->project_value);
+    //$submit = $element->findById('edit-submit-project-issue-all-projects');
+    $submit = $element->findButton($button);
+    if (empty($submit)) {
+      throw new Exception('No submit button at ' . $this->getSession()->getCurrentUrl());
+    }
+    $element->pressButton($button);
+
+   }
+
+
    /**
     * @Then /^I wait for the suggestion box to appear$/
     */
@@ -1211,6 +1229,244 @@ class FeatureContext extends MinkContext {
     foreach ($table as $key => $value) {
       $element->selectFieldOption($table[$key]['fields'], $table[$key]['values']);
     }
+  }
+
+  /**
+  * @When /^(?:|I )upload the following "([^"]*)" <files>$/
+  */
+  public function iUpdloadTheFollowingFiles($type, TableNode $table)
+  {
+    // Multiple file upload:
+    // update the below 'if' if this function needs to be reused
+    switch ($type) {
+      // for Create Project image upload
+      case 'project image':
+        $addmore_id = 'edit-field-project-images-field-project-images-add-more';
+        // upload field id
+        $filefield_id   = 'edit-field-project-images-{index}-upload';
+        // upload button id
+        $uploadbutton_id  = 'edit-field-project-images-{index}-filefield-upload';
+        // upload response id
+        $responsebox_id = 'edit-field-project-images-{index}-data-description';
+        // upload set wrapper
+        $wrapperbox_id  = 'edit-field-project-images-{index}-ahah-wrapper';
+        // parameters to be filled in after upload finishes
+        $arr_postupload_params = array(
+          // in description
+          'description' => 'edit-field-project-images-{index}-data-description',
+          // al tag
+          'alt text' => 'edit-field-project-images-{index}-data-alt',
+        );
+        break;
+      // for Create Case Study image upload
+      case 'case study image':
+        $addmore_id = 'edit-field-images-field-images-add-more';
+        // upload field id
+        $filefield_id   = 'edit-field-images-{index}-upload';
+        // upload button id
+        $uploadbutton_id  = 'edit-field-images-{index}-filefield-upload';
+        // upload response id
+        $responsebox_id = 'edit-field-images-{index}-data-description';
+        // upload set wrapper
+        $wrapperbox_id  = 'edit-field-images-{index}-ahah-wrapper';
+        // parameters to be filled in after upload finishes
+        $arr_postupload_params = array(
+          // in description
+          'description' => 'edit-field-images-{index}-data-description',
+          // al tag
+          'alt text' => 'edit-field-images-{index}-data-alt',
+          // title
+          'title' => 'edit-field-images-{index}-data-title',
+        );
+        break;
+      default:
+        throw new Exception('Type of files to be uploaded is not specified/correct. Eg: \'I updload the following "project image" <files>\'');
+        break;
+    }
+    $session = $this->getSession();
+    $page = $session->getPage();
+    $table = $table->getHash();
+    $total_files = count($table);
+    $subcontext = $this->getSubcontext('subcontext_alias');
+    $sele_handler = $session->getSelectorsHandler();
+
+    // 'add more' button
+    $add_more = $page->findById($addmore_id);
+    $upload = 0;
+
+    if ($total_files > 0) {
+      // wait
+      $subcontext->iWaitForSeconds(2);
+      // loop through files and upload
+      for($i=0; $i < $total_files; $i++) {
+        // find newly inserted file and attach local file
+        $file_id = str_replace('{index}', $i, $filefield_id);
+        $file = $this->getSession()->getPage()->findById($file_id);
+        //add more items
+        if (!is_object($file)) {
+          $subcontext->iWaitForSeconds(2);
+          $wrapper_id = str_replace('{index}', $i, $wrapperbox_id);
+          $add_more->click();
+          $subcontext->iWaitForSeconds(10, "typeof($('#". $wrapper_id ."').html()) != 'undefined'");
+          $subcontext->iWaitForSeconds(2);
+          $file = $this->getSession()->getPage()->findById($file_id);
+        }
+        // attach again
+        $file->attachFile($table[$i]['files']);
+        // find upload button and click
+        $button_id = str_replace( '{index}', $i, $uploadbutton_id);
+        $submit = $this->getSession()->getPage()->findById($button_id);
+        $submit->click();
+        // wait for upload to finish: will wait untill the upload completes OR 300 seconds
+        $box_id = str_replace('{index}', $i, $responsebox_id);
+        $subcontext->iWaitForSeconds(300, "typeof($('#". $box_id . "').val()) != 'undefined'");
+
+        // process post upload parameters
+        if (!empty($arr_postupload_params)) {
+          foreach ($arr_postupload_params as $param => $field_id) {
+            if ( isset($table[$i][$param]) && !empty($table[$i][$param])) {
+              $field_id = str_replace('{index}', $i, $field_id);
+              $this->getSession()->getPage()->findById($field_id)->setValue($table[$i][$param]);
+            }
+          }
+        }
+        // mark as done
+        $upload++;
+      }
+    }
+    if (!$upload)
+      throw new Exception('Upload failed');
+  }
+
+ /**
+     * @When /^I select "([^"]*)" from Project Type on Create Project page$/
+     */
+  public function iSelectFromProjectTypeOnCreateProjectPage($option)
+  {
+    $field = "project_type";
+    switch($option) {
+      case 'Modules':
+        $id = 'edit-project-type-14';
+        break;
+      case 'Themes':
+        $id = 'edit-project-type-15';
+        break;
+      case 'Theme engines':
+        $id = 'edit-project-type-32';
+        break;
+      case 'Distributions':
+        $id = 'edit-project-type-96';
+        break;
+      case 'Drupal.org projects':
+        $id = 'edit-project-type-22588';
+        break;
+      case 'Drupal core':
+        $id = 'edit-project-type-13';
+        break;
+
+    }
+    $main_context = $this->getMainContext();
+    $session = $main_context->getSession();
+    $page = $session->getPage();
+    $radio = $page->findById($id);
+    $radio->click();
+    $this->iWaitForSeconds(1, "");
+    $this->iShouldSeeTheText('Modules categories');
+  }
+
+  /**
+   * @Given /^I should see "([^"]*)" under "([^"]*)"$/
+   */
+  public function iShouldSeeUnder($text, $column) {
+    $result = $this->checkTextInColumn($text, $column, 1);
+    if ($result)
+      throw new Exception($result);
+  }
+
+  /**
+   * @Given /^I should not see "([^"]*)" under "([^"]*)"$/
+   */
+  public function iShouldNotSeeUnder($text, $column) {
+    $result = $this->checkTextInColumn($text, $column, 0);
+    if ($result)
+      throw new Exception($result);
+ }
+
+  /**
+   * Function to check whether a particular text is present in the column or not
+   * @param $text String The text to search for
+   * @param $column String The column in which the search has to be performed
+   * @param $flag Int A flag where 1 = Should see in all cols, 0 = should not see
+   */
+  private function checkTextInColumn($text, $column, $flag) {
+    $message = "";
+    $class = "";
+    $check = FALSE;
+    $mainContext = $this->getMainContext();
+    $page = $mainContext->getSession()->getPage();
+    // get the class name of the column
+    $result = $page->findAll('css', '.view table.views-table tr th');
+    if (!empty($result)) {
+      foreach ($result as $res) {
+        if ($res->getText() == $column) {
+          $class = $res->getAttribute('class');
+          // class will be like 'views-field views-field-status'
+          $temp = explode(" ", $class);
+          $class = $temp[1];
+          break;
+        }
+      }
+      if ($class) {
+        // get the column value of each row
+        $result = $page->findAll('css', '.view table.views-table tr td.'.$class);
+        if (!empty($result)) {
+          $text = strtolower($text);
+          foreach ($result as $res) {
+            $colText = strtolower($res->getText());
+            // flag = 1 => The part of the text should be found in every row of the specified column
+            if ($flag) {
+              if (strpos($colText, $text) === FALSE) {
+                $check = TRUE;
+                break;
+              }
+            }
+            // flag = 0 => The part of the text should not be found in any row of the specified column
+            else {
+              if (strpos($colText, $text) !== FALSE) {
+                $check = TRUE;
+                break;
+              }
+            }
+          }
+          if ($check) {
+            if ($flag)
+              $message = "The text '" . $text . "' was not found in all the rows of the column '" . $column . "'";
+            else
+              $message = "The text '" . $text . "' was found in atleast one row of the column '" . $column . "'";
+          }
+        }
+        else {
+          $message = "The column " . $column . " was not found in the page";
+        }
+      }
+      else {
+        $message = "The column " . $column . " was not found in the page";
+      }
+    }
+    else {
+      $message = "The column " . $column . " was not found in the page";
+    }
+    return $message;
+  }
+
+  /**
+   * @Given /^I select "([^"]*)" from the suggestion "([^"]*)"$/
+   */
+  public function iSelectFromTheSuggestion($value, $locator)
+  {
+    $element = $this->getSession()->getPage();
+    $element->fillField($locator, $value);
+    $this->project_value = $value;
   }
 
 }
