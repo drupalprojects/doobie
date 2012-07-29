@@ -694,4 +694,280 @@ class FeatureContext extends MinkContext {
   public function theRepositoryShouldBeInitialized() {
     throw new PendingException();
   }
+
+  /**
+   * @defgroup sandbox integration
+   * @{
+   * Steps added for sandbox feature files integration
+   * TODO Place in the right defgroups
+   */
+
+   /**
+   * @Given /^I should not see the following <texts>$/
+   */
+  public function iShouldNotSeeTheFollowingTexts(TableNode $table) {
+    $page = $this->getSession()->getPage();
+    $table = $table->getHash();
+    foreach ($table as $key => $value) {
+      $text = $table[$key]['texts'];
+      if(!$page->hasContent($text) === FALSE) {
+        throw new Exception("The text '" . $text . "' was found");
+      }
+    }
+  }
+
+  /**
+   * @Given /^I should see the following <texts>$/
+   */
+  public function iShouldSeeTheFollowingTexts(TableNode $table) {
+    $page = $this->getSession()->getPage();
+    $table = $table->getHash();
+    foreach ($table as $key => $value) {
+      $text = $table[$key]['texts'];
+      if($page->hasContent($text) === FALSE) {
+        throw new Exception("The text '" . $text . "' was not found");
+      }
+    }
+  }
+
+  /**
+  * @Given /^I should see the following <links>$/
+  */
+  public function iShouldSeeTheFollowingLinks(TableNode $table) {
+    $page = $this->getSession()->getPage();
+    $table = $table->getHash();
+    foreach ($table as $key => $value) {
+      $link = $table[$key]['links'];
+      $result = $page->findLink($link);
+      if(empty($result)) {
+        throw new Exception("The link '" . $link . "' was not found");
+      }
+    }
+  }
+
+  /**
+   * @Given /^I should not see the following <links>$/
+   */
+  public function iShouldNotSeeTheFollowingLinks(TableNode $table) {
+    $page = $this->getSession()->getPage();
+    $table = $table->getHash();
+    foreach ($table as $key => $value) {
+      $link = $table[$key]['links'];
+      $result = $page->findLink($link);
+      if(!empty($result)) {
+        throw new Exception("The link '" . $link . "' was found");
+      }
+    }
+  }
+
+  /**
+   * @When /^I select "([^"]*)" from field "([^"]*)"$/
+   * This step is to be used when a label for a field is not recognized
+   */
+  public function iSelectFromField($value, $field) {
+    $field = strtolower($field);
+    if ($field == 'change node created')
+      $field = 'created_op';
+    elseif ($field == 'comment count')
+      $field = 'edit-comment-count-op';
+    elseif ($field == 'top level book')
+      $field = 'edit-title-op';
+    $mainContext = $this->getMainContext();
+    $page = $mainContext->getSession()->getPage();
+    $page->selectFieldOption($field, trim($value));
+    if (empty($page))
+      throw new Exception("Unable to select the text");
+  }
+
+  /**
+   * @Given /^I enter "([^"]*)" for field "([^"]*)"$/
+   * This step is to be used when a label for a field is not recognized
+   */
+  public function iEnterForField($value, $field) {
+    $field = strtolower($field);
+    if ($field == "created date")
+      $field = "edit-created-value";
+    elseif ($field == "start date")
+      $field = "edit-created-min";
+    elseif ($field == "end date")
+      $field = "edit-created-max";
+    elseif ($field == "key modules/theme/distribution used")
+      $field = "edit-field-module-0-nid-nid";
+    elseif ($field == "issues")
+      $field = "edit-field-issues-0-nid-nid";
+    elseif ($field == "comment count")
+      $field = "edit-comment-count-value";
+    elseif ($field == "top level book")
+      $field = "edit-title";
+    elseif ($field == "comment count minimum")
+      $field = "edit-comment-count-min";
+    elseif ($field == "comment count maximum")
+      $field = "edit-comment-count-max";
+    return new Given("I fill in \"$field\" with \"$value\"");
+  }
+
+  /**
+   * @When /^I click on page "([^"]*)"$/
+   * Used to test pager links
+   */
+  public function iClickOnPage($pager) {
+    $class = "";
+    $page = $this->getSession()->getPage();
+    $result = $page->findAll('css', '.pager .pager-item a');
+    foreach ($result as $temp) {
+      if (trim($temp->getText()) == trim($pager)) {
+        $href = $temp->getAttribute("href");
+        $this->getSession()->visit($href);
+        return;
+      }
+    }
+    // make sure we look at pager links only
+    if ($pager == "first" || $pager == "previous" || $pager == "next" || $pager == "last") {
+      $class = '.pager .pager-' . $pager . ' a';
+    }
+    else {
+      throw new Exception("The page '" . $pager . "' was not found");
+    }
+    $result = $page->find('css', $class);
+    $href = $result->getAttribute("href");
+    $this->getSession()->visit($href);
+  }
+
+  /**
+   * @When /^I click the table heading "([^"]*)"$/
+   */
+  public function iClickTheTableHeading($column) {
+    // make sure we click on the table heading and not any other link
+    $count = 0;
+    $page = $this->getSession()->getPage();
+    // all table headings of a view have this class - view -> views-table -> th
+    $heading = $page->findAll('css', '.view table.views-table th a');
+    if (sizeof($heading)) {
+      foreach ($heading as $text) {
+        if ($text->getText() == $column) {
+          $count++;
+          $href = $text->getAttribute("href");
+          $this->getSession()->visit($href);
+          break;
+        }
+      }
+      if ($count == 0) {
+        throw new Exception("The page does not have a table with the
+         heading '" . $column . "'");
+      }
+    }
+    else {
+      throw new Exception("The page has no table headings");
+    }
+  }
+
+  /**
+   * @Then /^I should see "([^"]*)" sorted in "([^"]*)" order$/
+   */
+  public function iShouldSeeSortedInOrder($column, $order)
+  {
+    $column_class = "";
+    $count = 0;
+    $date = FALSE;
+    $page = $this->getSession()->getPage();
+    $heading = $page->findAll('css', '.view table.views-table th');
+    foreach ($heading as $text) {
+      if ($text->getText() == $column) {
+        $count = 1;
+        $class = $text->getAttribute("class");
+        $temp = explode(" ", $class);
+        $column_class = $temp[1];
+        break;
+      }
+    }
+    if ($count == 0) {
+      throw new Exception("The page does not have a table with column '" . $column . "'");
+    }
+    $count = 0;
+    $items = $page->findAll('css', '.view table.views-table tr td.'.$column_class);
+    // make sure we have the data
+    if (sizeof($items)) {
+      // put all items in an array
+      $loop = 1;
+      //date_default_timezone_set ("UTC");
+      foreach ($items as $item) {
+        $text = $item->getText();
+        if ($loop == 1) {
+          // check if the text is date field
+          if ($this->isStringDate($text)) {
+            $date = TRUE;
+          }
+        }
+        if ($date) {
+          $orig_arr[] = $this->isStringDate($text);
+        }
+        else {
+          $orig_arr[] = $text;
+        }
+        $loop = 2;
+      }
+      // create a temp array for sorting and comparing
+      $temp_arr = $orig_arr;
+      // sort
+      if ($order == "ascending") {
+        if ($date) {
+          sort($temp_arr, SORT_NUMERIC);
+        }
+        else {
+          sort($temp_arr);
+        }
+      }
+      elseif ($order == "descending") {
+        if ($date) {
+          rsort($temp_arr, SORT_NUMERIC);
+        }
+        else {
+          rsort($temp_arr);
+        }
+      }
+      // after sorting, compare each index value of temp array & original array
+      for ($i = 0; $i < sizeof($temp_arr); $i++) {
+        if ($temp_arr[$i] == $orig_arr[$i]) {
+          $count++;
+        }
+      }
+      // if all indexs match, then count will be same as array size
+      if ($count == sizeof($temp_arr)) {
+       return true;
+      }
+      else {
+        throw new Exception("The column '" . $column . "' is not sorted in " . $order . " order");
+      }
+    }
+    else {
+      throw new Exception("The column '" . $column . "' is not sorted in " . $order . " order");
+    }
+  }
+
+  /**
+   * Function to check whether the given string is a date or not
+   * @param $string String The string to be checked for
+   * @return $return String/Bool - Return timestamp if it is date, false otherwise
+   */
+  public function isStringDate($string) {
+    $return = "";;
+    $string = trim($string);
+    if ($string) {
+      $time = strtotime($string);
+      if ($time === FALSE) {
+        $return = FALSE;
+      }
+      elseif(is_numeric($time) && strlen($time) == 10) {
+        return $time;
+      }
+      else {
+        $return = FALSE;
+      }
+    }
+    else {
+      $return = FALSE;
+    }
+    return $return;
+  }
+
 }
