@@ -57,6 +57,22 @@ class FeatureContext extends MinkContext {
    */
   private $drushAlias = FALSE;
 
+  /** 
+   * Store region ids
+   */
+  public $right_sidebar = "";
+  private $home_bottom_right = '';
+
+  /** 
+   *Store rss feed xml content 
+   */
+  private $xmlContent = "";
+
+  /**
+   * Store project value
+   */
+  private $project_value = '';
+
   /**
    * Initializes context.
    *

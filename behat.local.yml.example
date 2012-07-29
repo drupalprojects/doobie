@@ -15,9 +15,14 @@ default:
           'git user pass here'
         git vetted user:
           'git vetted user pass here'
+      #this should probably be configured like the drupal_users
+        right_sidebar: '#column-right'
+        home_bottom_right: '#front-bottom-right'
+
 
   extensions:
     Behat\MinkExtension\Extension:
       base_url: 'http://git6site.devdrupal.org'
       # set the absolute path to the files folder of this project
       files_path: '/path/to/doobie/files'
+
