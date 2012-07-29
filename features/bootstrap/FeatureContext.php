@@ -1512,10 +1512,183 @@ class FeatureContext extends MinkContext {
     /**
      * @Then /^the md5 hash should match$/
      */
-    public function theMdHashShouldMatch($arg1)
-    {
+    public function theMdHashShouldMatch($md5hash) {
         throw new PendingException();
     }
 
+  /**
+  * @Then /^I should see the following <subcategories> under "([^"]*)"$/
+  */
+  public function iShouldSeeTheFollowingSubcategoriesUnder($category, TableNode $table)
+  {
+    // find grid container
+    $page = $this->getSession()->getPage();
+    $grids = $page->findAll('css', 'div.grid-2');
+    if (!empty($grids)) {
+      $table = $table->getHash();
+      $arr_subcats = array();
+      $arr_visiblecats = array();
+      if(!empty($table)) {
+        foreach($table as $subcat) {
+          $arr_subcats[] = $subcat['subcategories'];
+        }
+        // loop through the grid to identify appropriate DIV
+        foreach ( $grids as $grid) {
+          // check main category
+          if (is_object($h3 = $grid->find('css', 'h3')) &&  $h3->getText() == $category) {
+            // find sub-category links
+            $links = $grid->findAll('css', 'ul > li > a');
+            if (!empty($links)) {
+              //$visible = false;
+              foreach($links as $a) {
+                // if visible
+                if (!('display: none;' == $a->getParent()->getAttribute('style'))) {
+                  // remove count with parenthasis
+                  if($text = trim(preg_replace('~\(.*?\)~', "", $a->getText()))) {
+                    $arr_visiblecats[] = $text;
+                  }
+                }
+              }
+            }
+            break;
+          }
+        }
+        //check presence of given subcategories in visible subcategories
+        if (count($arr_np = array_diff($arr_subcats, $arr_visiblecats))) {
+          $catcount = count($arr_np);
+          throw new Exception('The subcategor' . ($catcount == 1 ? 'y' : 'ies') . ': "' . ($np = implode('", "', $arr_np)).'" cannot be found.');
+        }
+      }else {
+      throw new Exception('Subcategories are not given.');
+      }
+    }else {
+      throw new Exception('Subcategories are not given.');
+    }
+  }
+
+  /**
+  * @Then /^I should not see the following <subcategories> under "([^"]*)"$/
+  */
+  public function iShouldNotSeeTheFollowingSubcategoriesUnder($category, TableNode $table)
+  {
+    // find grid container
+    $page = $this->getSession()->getPage();
+    $grids = $page->findAll('css', 'div.grid-2');
+    if (!empty($grids)) {
+      $table = $table->getHash();
+      $arr_subcats = array();
+      $arr_hiddencats = array();
+      if(!empty($table)) {
+        foreach($table as $subcat) {
+          $arr_subcats[] = $subcat['subcategories'];
+        }
+
+        foreach ( $grids as $grid) {
+          // check main category
+          if (is_object($h3 = $grid->find('css', 'h3')) &&  $h3->getText() == $category) {
+            // find sub-category links
+            $links = $grid->findAll('css', 'ul > li > a');
+            if (!empty($links)) {
+              foreach($links as $a) {
+                // check the links are hidden
+                if (('display: none;' == $a->getParent()->getAttribute('style'))) {
+                // remove count with parenthasis
+                  if($text = trim(preg_replace('~\(.*?\)~', "", $a->getText()))) {
+                    $arr_hiddencats[] = $text;
+                  }
+                }
+              }
+            }
+            break;
+          }
+        }
+        //check presence of given subcategories in hidden subcategories
+        if (count($arr_np = array_diff($arr_subcats, $arr_hiddencats))) {
+          $catcount = count($arr_np);
+          throw new Exception('The subcategor' . ($catcount == 1 ? 'y' : 'ies') . ': "' . ($np = implode('", "', $arr_np)).'" ' .($catcount == 1 ? 'is' : 'are') . ' present on the page.');
+        }
+      }else {
+      throw new Exception('Subcategories are not given.');
+      }
+    }else {
+      throw new Exception('Subcategories are not given.');
+    }
+  }
+
+  /**
+   * @Then /^I expand the category "([^"]*)"$/
+   */
+  public function iExpandTheCategory($category)
+  {
+    // find grid container
+    $expanded = 0;
+    $category_found = 0;
+    $page = $this->getSession()->getPage();
+    $grids = $page->findAll('css', 'div.grid-2');
+    if (!empty($grids)) {
+      foreach ( $grids as $grid) {
+        // check main category
+        if (is_object($h3 = $grid->find('css', 'h3')) &&  $h3->getText() == $category) {
+          $category_found++;
+          // find sub-category links
+          $links = $grid->findAll('css', 'ul > li > a');
+          if (!empty($links)) {
+            foreach ($links as $a) {
+              // find show more link to expand
+              if ($a->getText() == 'Show more') {
+                $a->click();
+                $expanded++;
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+    if (!$category_found) {
+      throw new Exception('The category:"' . $category .  '" cannot be found.');
+    }
+    if (!$expanded) {
+      throw new Exception('The category: "' . $category. ' cannot be expanded');
+    }
+  }
+
+  /**
+   * @Then /^I collapse the category "([^"]*)"$/
+   */
+  public function iCollapseTheCategory($category)
+  {
+    // find grid container
+    $collapsed = 0;
+    $category_found = 0;
+    $page = $this->getSession()->getPage();
+    $grids = $page->findAll('css', 'div.grid-2');
+    if (!empty($grids)) {
+      foreach ( $grids as $grid) {
+        // check main category
+        if (is_object($h3 = $grid->find('css', 'h3')) &&  $h3->getText() == $category) {
+          $category_found++;
+          // find sub-category links
+          $links = $grid->findAll('css', 'ul > li > a');
+          if (!empty($links)) {
+            foreach ($links as $a) {
+              // find Show fewer link to collapse
+              if ($a->getText() == 'Show fewer') {
+                $a->click();
+                $collapsed++;
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+    if (!$category_found) {
+      throw new Exception('The category:"' . $category .  '" cannot be found.');
+    }
+    if (!$collapsed) {
+      throw new Exception('The category: "' . $category. ' cannot be collapsed');
+    }
+  }
 
 }
