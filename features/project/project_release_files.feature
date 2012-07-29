@@ -30,7 +30,7 @@ Feature: Project release files
     And I download the "tar" file "drupal-7.7.tar.gz"
     Then the md5 hash should match
 
-  @wip
+  @wip 
   Scenario: Download zip file
     Given I am on "/node/3060/release"
     When I select "8.x" from "API version"
