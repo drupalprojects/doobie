@@ -354,7 +354,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Then /^I should see the heading "([^"]*)"$/
+   * @Then /^(?:I|I should )see the heading "([^"]*)"$/
    */
   public function iShouldSeeTheHeading($headingname) {
     $element = $this->getSession()->getPage();
@@ -1690,5 +1690,37 @@ class FeatureContext extends MinkContext {
       throw new Exception('The category: "' . $category. ' cannot be collapsed');
     }
   }
+
+  /**
+   * Function to check whether the links exists under the news/specific tab
+   * @param $tab String The tab to be selected for
+   * @param $count counts the number of links exists
+   * @Then /^(?:I|I should) see at least "([^"]*)" links under the "([^"]*)" tab$/
+   */
+  public function iShouldSeeAtleastLinksUnderTab($count, $tab) {
+    $page = $this->getSession()->getPage();
+    $tab = strtolower($tab);
+    switch($tab) {
+      case 'news':
+        $id = '#fragment-1';
+        break;
+      case 'docs updates':
+        $id = '#fragment-2';
+        break;
+      case 'forum posts':
+        $id = '#fragment-3';
+        break;
+      case 'commits':
+        $id = '#fragment-4';
+        break;
+      default:
+        throw new Exception('The tab "' . ucfirst($tab) . '" was not found on the page');
+        }
+      $nodes = $page->findAll("css", $this->home_bottom_right." ".$id." a");
+      if (sizeof($nodes) == $count) return true;
+      throw new Exception('Found ' . sizeof($nodes) . ' links instead of ' .
+      $count . ' links on the home bottom right');
+  }
+
 
 }
