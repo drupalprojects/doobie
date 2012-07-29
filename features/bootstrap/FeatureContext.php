@@ -1201,4 +1201,16 @@ class FeatureContext extends MinkContext {
       $count . ' links on the right sidebar');
   }
 
+  /**
+  * @When /^I select the following <fields> with <values>$/
+  */
+  public function iSelectTheFollowingFieldsWithValues(TableNode $table)
+  {
+    $element = $this->getSession()->getPage();
+    $table = $table->getHash();
+    foreach ($table as $key => $value) {
+      $element->selectFieldOption($table[$key]['fields'], $table[$key]['values']);
+    }
+  }
+
 }
