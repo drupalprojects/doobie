@@ -3,7 +3,6 @@ Feature: View Drupal case studies as authenticated user
   As an authenticated user
   I want to look for a link on the case studies page and add one
 
-  @javascript
   Scenario: Add a new case study
     Given I am logged in as "git user"
     And I am on "/case-studies"
@@ -18,4 +17,4 @@ Feature: View Drupal case studies as authenticated user
     And I attach the file "koala.jpg" to "Primary screenshot"
     And I enter "Features" for field "Key modules/theme/distribution used"
     And I press "Save"
-    Then I should see "was created."
+    Then I should see "was created"

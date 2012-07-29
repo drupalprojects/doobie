@@ -19,3 +19,5 @@ default:
   extensions:
     Behat\MinkExtension\Extension:
       base_url: 'http://git6site.devdrupal.org'
+      # set the absolute path to the files folder of this project
+      files_path: '/path/to/doobie/files'
