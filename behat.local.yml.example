@@ -18,9 +18,8 @@ default:
         docs manager:
           'docs moderator pass here'
       #this should probably be configured like the drupal_users
-        right_sidebar: '#column-right'
-        home_bottom_right: '#front-bottom-right'
-
+      right_sidebar: '#column-right'
+      home_bottom_right: '#front-bottom-right'
 
   extensions:
     Behat\MinkExtension\Extension:
