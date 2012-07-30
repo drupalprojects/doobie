@@ -60,7 +60,7 @@ class FeatureContext extends MinkContext {
   /** 
    * Store region ids
    */
-  public $right_sidebar = "";
+  private $right_sidebar = "";
   private $home_bottom_right = '';
 
   /** 
@@ -91,6 +91,9 @@ class FeatureContext extends MinkContext {
     }
     if (isset($parameters['drupal_users'])) {
       $this->drupal_users = $parameters['drupal_users'];
+    }
+    if (isset($parameters['drupal_users']['right_sidebar'])) {
+      $this->right_sidebar = $parameters['drupal_users']['right_sidebar'];
     }
   }
 
@@ -804,8 +807,7 @@ class FeatureContext extends MinkContext {
       $field = 'edit-comment-count-op';
     elseif ($field == 'top level book')
       $field = 'edit-title-op';
-    $mainContext = $this->getMainContext();
-    $page = $mainContext->getSession()->getPage();
+    $page = $this->getSession()->getPage();
     $page->selectFieldOption($field, trim($value));
     if (empty($page))
       throw new Exception("Unable to select the text");
@@ -1174,12 +1176,11 @@ class FeatureContext extends MinkContext {
    * @Given /^I should see the link "([^"]*)" at the "([^"]*)" in the right sidebar$/
    */
   public function iShouldSeeTheLinkAtTheInTheRightSidebar($link, $position) {
-    $mainContext = $this->getMainContext();
-    $page = $mainContext->getSession()->getPage();
+    $page = $this->getSession()->getPage();
     $error = 0;
-    $curr_url = $mainContext->getSession()->getCurrentUrl();
+    $curr_url = $this->getSession()->getCurrentUrl();
     $message = "The page ".$curr_url." did not contain the specified texts";
-    $nodes = $page->findAll("css", $mainContext->right_sidebar." .item-list a");
+    $nodes = $page->findAll("css", $this->right_sidebar." .item-list a");
     if (sizeof($nodes)) {
       // get all the categories
       foreach ($nodes as $node) {
@@ -1258,8 +1259,7 @@ class FeatureContext extends MinkContext {
         break;
 
     }
-    $main_context = $this->getMainContext();
-    $session = $main_context->getSession();
+    $session = $this->getSession();
     $page = $session->getPage();
     $radio = $page->findById($id);
     $radio->click();
@@ -1295,8 +1295,7 @@ class FeatureContext extends MinkContext {
     $message = "";
     $class = "";
     $check = FALSE;
-    $mainContext = $this->getMainContext();
-    $page = $mainContext->getSession()->getPage();
+    $page = $this->getSession()->getPage();
     // get the class name of the column
     $result = $page->findAll('css', '.view table.views-table tr th');
     if (!empty($result)) {
@@ -1367,8 +1366,7 @@ class FeatureContext extends MinkContext {
    */
   public function iDownloadTheFile($type, $filename) {
     $href = "";
-    $mainContext = $this->getMainContext();
-    $page = $mainContext->getSession()->getPage();
+    $page = $this->getSession()->getPage();
     $result = $page->findAll('css', '.views-field a');
     // get the link to download
     if (!empty($result)) {
@@ -1380,8 +1378,8 @@ class FeatureContext extends MinkContext {
       }
       if ($href) {
         // this will work only on Goutte as Selenium does not support this
-        $mainContext->getSession()->visit($href);
-        $responseHeaders = $mainContext->getSession()->getResponseHeaders();
+        $this->getSession()->visit($href);
+        $responseHeaders = $this->getSession()->getResponseHeaders();
         if ((int) $responseHeaders['Content-Length'][0] > 10000) {
           if ($type != "tar" || $type != "zip" ||
            $responseHeaders['Content-Type'] != "application/x-gzip" ||
@@ -1615,5 +1613,24 @@ class FeatureContext extends MinkContext {
       $count . ' links on the home bottom right');
   }
 
+  /**
+  * @When /^I select <option> from "([^"]*)" results will contain <text>$/
+  */
+  public function iSelectOptionFromResultsWillContainText($select, TableNode $table)
+  {
+    if (!empty($table)) {
+      $arr_return  = array();
+      $table = $table->getHash();
+      // loop through page
+      for ($i = 0,$count = count($table); $i < $count; $i++) {
+        if (!empty($table[$i]['option']) && !empty($table[$i]['text']) ) {
+          $arr_return[] = new When("I select ". $table[$i]['option'] ." from \"" . $select ."\"");
+          $arr_return[] = new Then("I should see " . $table[$i]['text']);
+        }
+      }
 
+    return $arr_return;
+  }else
+    throw new Exception("No options/texts specified");
+  }
 }
