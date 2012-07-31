@@ -13,7 +13,6 @@ Feature: Users want to share code
 
   Scenario: Git user inits the repo
     Given I am on the Version control tab
-    Then show last response
     And I should see "Empty Sandbox repository"
     When I execute the codeblock
     Then the repository should be initialized

@@ -17,6 +17,12 @@ default:
           'git vetted user pass here'
         docs manager:
           'docs moderator pass here'
+      #git usernames don't always match the drupal username
+      git_users:
+        gituser:
+          'gituser pass here'
+
+
       #this should probably be configured like the drupal_users
       right_sidebar: '#column-right'
       home_bottom_right: '#front-bottom-right'

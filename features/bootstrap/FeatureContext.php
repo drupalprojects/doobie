@@ -92,6 +92,9 @@ class FeatureContext extends MinkContext {
     if (isset($parameters['drupal_users'])) {
       $this->drupal_users = $parameters['drupal_users'];
     }
+    if (isset($parameters['git_users'])) {
+      $this->git_users = $parameters['git_users'];
+    }
     if (isset($parameters['drupal_users']['right_sidebar'])) {
       $this->right_sidebar = $parameters['drupal_users']['right_sidebar'];
     }
@@ -712,11 +715,18 @@ class FeatureContext extends MinkContext {
   public function iExecuteTheCodeblock() {
     $element = $this->getSession()->getPage()->find('css', 'div.codeblock');
     $rawCommand = $element->getHTML();
+    $matches = array();
+    preg_match('/add origin ([^@]*)@/', $rawCommand, $matches);
+    $username = $matches[1];
+    $password = $this->git_users[$username];
     $rawCommand = str_replace('<br/>', '', $rawCommand);
     $rawCommand = str_replace('&gt;', '>', $rawCommand);
+    $rawCommand = str_replace('&#13;', '', $rawCommand);
+    $rawCommand = str_replace('git push origin master', "../bin/gitwrapper $password", $rawCommand);
     $command = preg_replace('/<code>(.*)?<\/code>/U', '\1 ; ', $rawCommand);
+    var_dump($command);
     $process = new Process($command);
-    $process->setTimeout(5);
+    $process->setTimeout(10);
     $process->run();
     if (!$process->isSuccessful()) {
       throw new Exception('Intiializing repository failed - Command: ' . $command . ' Error: ' . $process->getErrorOutput());
