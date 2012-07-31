@@ -6,9 +6,9 @@ Feature: Get a feed of security announcements for contributed modules
   Scenario:
     Given that I am on the homepage
     When I follow "Security Info"
-    Then I follow "Contributed projects"
-    And I should see "Subscribe with RSS"
-    When I click on the feed icon
+    And I follow "Contributed projects"
+    And I see "Subscribe with RSS"
+    And I click on the feed icon
     Then I should be on "/security/contrib/rss.xml"
     And I should see the text "Security advisories for contributed projects" in the feed
     And I should see the text "Description" in the feed
