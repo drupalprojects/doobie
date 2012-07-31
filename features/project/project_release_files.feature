@@ -12,7 +12,7 @@ Feature: Project release files
   Scenario: Navigate to releases page
     Given I am on "/node/3060/release"
     And I select "6.x" from "API version"
-    And I press "Apply"
+    When I press "Apply"
     Then I should see the following <texts>
     | texts     |
     | Drupal 6. |
@@ -22,18 +22,16 @@ Feature: Project release files
     And I should see the link "drupal-6.25.tar.gz"
     And I should see the link "drupal-6.25.zip"
 
-  @wip
   Scenario: Download tar file
     Given I am on "/node/3060/release"
     When I select "7.x" from "API version"
     And I press "Apply"
     And I download the "tar" file "drupal-7.7.tar.gz"
-    Then the md5 hash should match
+    Then the md5 hash should match "2eeb63fd1ef6b23b0a9f5f6b8aef8850"
 
-  @wip 
   Scenario: Download zip file
     Given I am on "/node/3060/release"
     When I select "8.x" from "API version"
     And I press "Apply"
     And I download the "zip" file "drupal-8.x-dev.zip"
-    Then the md5 hash should match
+    Then the md5 hash should match "e888bc45a3f608932a77a322b25ca857"
