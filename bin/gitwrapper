@@ -1,0 +1,31 @@
+#!/usr/bin/expect
+#exp_internal 1
+
+set pass [lindex $argv 0]
+#set user [lindex $argv 1]
+#set host [lindex $argv 2]
+
+spawn git push origin master
+
+
+expect {
+  "assword:" { 
+        send "$pass\n" 
+        expect {
+          "> " { }
+          "$ " { }
+        }
+  }
+  "(yes/no)? " { 
+        send "yes\n"
+        expect {
+          "> " { }
+          "$ " { }
+        }
+  }
+  default {
+        send_user "Login failed\n"
+        exit
+  }
+}
+
