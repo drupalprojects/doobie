@@ -49,21 +49,21 @@ A tutorial on how to write features, scenarios, and tests can be found at http:/
 RUNNING TESTS AGAINST THE STAGING SITES
 ---------------------------------------
 
-
 Pre-created users should existing on the site; they must be made by hand at this time if the database has been refreshed. You'll find the users expected by the tests in the behat.local.yml.example
-
-Note: Git tests based on the directions on the Version control tab will fail if Git instructions has not been configured through the interface to use the url
-Git url.
- 
-
-Drupal 6
 Website: http://git6site.devdrupal.org
-Git url: ssh://git6.devdrupal.org:2020/
-
-Drupal 7
 Website: http://git7site.devdrupal.org
-Git url: ssh://git7.devdrupal.org:2020/
 
+GIT TESTS
+---------
 
+Git tests based on the directions on the Version control tab will fail if Git instructions has not been configured through the interface to use the url
+Git url.
 
+  Git url: ssh://git6.devdrupal.org:2020/
+  Git url: ssh://git7.devdrupal.org:2020/
+
+@linux 
+Features or scenarios tagged @linux will only run from Linux-based hosts. To exclude these, use 'bin/behat tags='~@linux' when executing your tests.
+
+Password authenticated git push tests require the expect program to be installed on the host running the tests.
 
