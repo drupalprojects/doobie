@@ -1643,4 +1643,116 @@ class FeatureContext extends MinkContext {
   }else
     throw new Exception("No options/texts specified");
   }
+
+  /**
+   * @When /^I click on "([^"]*)" of a commit$/
+   * Function to clik on various links present in a commit
+   * @param $linkType String The type of link to click
+   * This function is specific to /commitlog screen
+   */
+  public function iClickOnOfACommit($linkType) {
+    $page = $this->getSession()->getPage();
+    $href = "";
+    switch ($linkType) {
+      case 'user name':
+        $temp = $page->find("css", ".commit-global .attribution a");
+        $href = $temp->getAttribute('href');
+      break;
+      case 'project title':
+        $links = $page->findAll("css", ".commit-global h3 a");
+        foreach ($links as $link) {
+          $temp = $link->getAttribute('href');
+          // check if this is full project. If not, then check for next link
+          if (strpos($temp, '/project/') !== FALSE) {
+            $href = $temp;
+            break;
+          }
+        }
+      break;
+      case 'sandbox project title':
+        $links = $page->findAll("css", ".commit-global h3 a");
+        foreach ($links as $link) {
+          $temp = $link->getAttribute('href');
+          // check if this is sandbox project. If not, then check for next link
+          if (strpos($temp, '/sandbox/') !== FALSE) {
+            $href = $temp;
+            break;
+          }
+        }
+      break;
+      case 'date':
+        $links = $page->findAll("css", ".commit-global h3 a");
+        foreach ($links as $link) {
+          if ($link->hasAttribute('href')) {
+            $href = $link->getAttribute('href');
+          }
+        }
+      break;
+      case 'commit info':
+        // this is the 8 digit hash
+        $temp = $page->find("css", ".commit-global .commit-info a");
+        $href = $temp->getAttribute('href');
+      break;
+      case 'file name':
+        // this is the file name that got committed and can be seen in individual commit message
+        $temp = $page->findAll("css", ".view-vc-git-individual-commit .view-commitlog-commit-items .views-field-nothing span a");
+        if (!empty($temp)) {
+          foreach ($temp as $tempLinks) {
+            $href = $tempLinks->getAttribute('href');
+            break;
+          }
+        }
+      break;
+      default:
+      break;
+    }
+    if ($href != "") {
+      $this->getSession()->visit($this->locatePath($href));
+    }
+    else {
+      throw new Exception("No link for '" . $linkType . "' was found");
+    }
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" files in the list$/
+   */
+  public function iShouldSeeAtLeastFilesInTheList($count) {
+    $page = $this->getSession()->getPage();
+    $temp = $page->findAll("css", ".view-vc-git-individual-commit .view-commitlog-commit-items .views-field-nothing span.field-content");
+    if (sizeof($temp) < $count) {
+      throw new Exception("The page has less than '" . $count . "' files in the list");
+    }
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" "([^"]*)" symbol$/
+   */
+  public function iShouldSeeAtLeastSymbol($count, $symbol) {
+    $page = $this->getSession()->getPage();
+    $temp = $page->find("css", ".versioncontrol-diffstat .".$symbol);
+    // if an image is committed, + or - does not appear, so check if its empty first
+    if (empty($temp)) {
+      throw new Exception("The page does not have any '" . $symbol . "' symbols");
+    }
+    if (sizeof($temp) < $count) {
+      throw new Exception("The page has less than '" . $count . "' symbols for '" . $symbol . "'");
+    }
+  }
+
+  /**
+   * @Given /^I should see the commit message$/
+   */
+  public function iShouldSeeTheCommitMessage() {
+    $page = $this->getSession()->getPage();
+    $temp = $page->find("css", ".view-vc-git-individual-commit .views-field-nothing-1 span.field-content");
+    // check whether message is present or not before calling getText(), otherwise it will throw error
+    if (empty($temp)) {
+      throw new Exception("The page does not contain any commit message");
+    }
+    $text = $temp->getText();
+    if (trim($text) == "") {
+      throw new Exception("The page does not contain any commit message");
+    }
+  }
 }
