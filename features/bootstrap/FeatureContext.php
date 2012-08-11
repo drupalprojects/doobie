@@ -710,13 +710,15 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @When /^I execute the codeblock$/
+   * Requires the Expect library to supply password to ssh on the command line.
+   *
+   * @When /^I initialize the repository$/
    */
-  public function iExecuteTheCodeblock() {
+  public function iInitializeTheRepository() {
     $element = $this->getSession()->getPage()->find('css', 'div.codeblock');
     $rawCommand = $element->getHTML();
     $matches = array();
-    preg_match('/add origin ([^@]*)@/', $rawCommand, $matches);
+    preg_match('|add origin ssh://([^@]*)@|', $rawCommand, $matches);
     $username = $matches[1];
     $password = $this->git_users[$username];
     $rawCommand = str_replace('<br/>', '', $rawCommand);
@@ -729,15 +731,8 @@ class FeatureContext extends MinkContext {
     $process->setTimeout(10);
     $process->run();
     if (!$process->isSuccessful()) {
-      throw new Exception('Intiializing repository failed - Command: ' . $command . ' Error: ' . $process->getErrorOutput());
+      throw new Exception('Initializing repository failed - Command: ' . $command . ' Error: ' . $process->getErrorOutput());
     }
-  }
-
-  /**
-   * @Then /^the repository should be initialized$/
-   */
-  public function theRepositoryShouldBeInitialized() {
-    throw new PendingException();
   }
 
   /**

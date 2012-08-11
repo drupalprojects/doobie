@@ -14,7 +14,6 @@ Feature: Users want to share code
   Scenario: Git user inits the repo
     Given I am on the Version control tab
     And I should see "Empty Sandbox repository"
-    When I execute the codeblock
-    Then the repository should be initialized
-
+    When I initialize the repository
+#TODO determine some visible indicator of success on the site
 
