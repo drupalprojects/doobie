@@ -15,5 +15,7 @@ Feature: Users want to share code
     Given I am on the Version control tab
     And I should see "Empty Sandbox repository"
     When I initialize the repository
-#TODO determine some visible indicator of success on the site
+    And I am on the Version control tab
+    Then I should see the heading "Routinely"
+    And I should see the heading "Switching to a different branch" 
 

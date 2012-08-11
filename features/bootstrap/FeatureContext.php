@@ -726,7 +726,7 @@ class FeatureContext extends MinkContext {
     $rawCommand = str_replace('&#13;', '', $rawCommand);
     $rawCommand = str_replace('git push origin master', "../bin/gitwrapper $password", $rawCommand);
     $command = preg_replace('/<code>(.*)?<\/code>/U', '\1 ; ', $rawCommand);
-    var_dump($command);
+    # var_dump($command);
     $process = new Process($command);
     $process->setTimeout(10);
     $process->run();
