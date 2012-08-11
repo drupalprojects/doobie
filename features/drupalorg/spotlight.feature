@@ -9,7 +9,7 @@ Feature: View Community Spotlight
     When I follow "Community"
     And I follow "Community Spotlight"
     Then I should see the heading "Community Spotlight"
-    Then I should see at least "8" records
+    And I should see at least "8" records
     
   Scenario: Browse to Community Spotlight page of Melissa 
     Given I am on "/community-spotlight"
@@ -30,20 +30,19 @@ Feature: View Community Spotlight
     | "g.d.o wouldn't be the same" |
     | "Profound respect for Greg's" |
 	
-  @wip
   Scenario: Search and find Neil Drumm Community Spotlight
     Given I am on "/community-spotlight"
-    When I fill in "Search drupal.org" with "Neil Drumm"
+    When I search sitewide for "Neil Drumm"
     And I follow "Refine your search"
     And I check "Forums & Issues" 
     And I press "Search"
     Then I should not see "Your search yielded no results"
     And I should see "Community Spotlight: Neil Drumm"
     And I follow "Community Spotlight: Neil Drumm"
-    Then I should see "Community Spotlight: Neil Drumm"
-    And I move backward one page
-    Then I should see "Search results"
-    When I select <option> from "Sort by:" results will contain <text>
+    And I should see "Community Spotlight: Neil Drumm"
+    Then I move backward one page
+    And I should see "Search results"
+    Then I select <option> from "Sort by:" results will contain <text>
     | option | text |
     | "Type" | "Aten Design Group" |
     | "Date" | "Make better use of Grammar Parser" |
