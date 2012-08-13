@@ -24,8 +24,10 @@ default:
 
 
       #this should probably be configured like the drupal_users
-      right_sidebar: '#column-right'
-      home_bottom_right: '#front-bottom-right'
+      layout:
+        right_sidebar: '#column-right'
+        home_bottom_right: '#front-bottom-right'
+        content: '#column-left'
 
   extensions:
     Behat\MinkExtension\Extension:

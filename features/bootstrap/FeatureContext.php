@@ -95,8 +95,11 @@ class FeatureContext extends MinkContext {
     if (isset($parameters['git_users'])) {
       $this->git_users = $parameters['git_users'];
     }
-    if (isset($parameters['drupal_users']['right_sidebar'])) {
-      $this->right_sidebar = $parameters['drupal_users']['right_sidebar'];
+    if (isset($parameters['layout']['right_sidebar'])) {
+      $this->right_sidebar = $parameters['layout']['right_sidebar'];
+    }
+    if (isset($parameters['layout']['content'])) {
+      $this->content = $parameters['layout']['content'];
     }
   }
 
@@ -1749,5 +1752,45 @@ class FeatureContext extends MinkContext {
     if (trim($text) == "") {
       throw new Exception("The page does not contain any commit message");
     }
+  }
+
+  /**
+   * @Given /^I press "([^"]*)" in the "([^"]*)" region$/
+   * Function to press the particular button on the specified region
+   * Note: The function looks for input type = 'submit' and not
+   * input type = 'button' or 'image'
+   * @param $button String The value of the button to be pressed
+   * @param $region String The region (right sidebar, content) where
+   * the button is located
+   * @return Object Given class object
+   */
+  public function iPressInTheRegion($button, $region) {
+    $buttonId = "";
+    $page = $this->getSession()->getPage();
+    // based on the region, get region locator(id or class as defined in yml)
+    switch ($region) {
+      case 'right sidebar':
+        $regionLocator = $this->right_sidebar;
+      break;
+      case 'content':
+        $regionLocator = $this->content;
+      break;
+      default:
+        $regionLocator = $this->content;
+      break;
+    }
+    // get all the buttons present within a form in that region
+    $inputs = $page->findAll('css', $regionLocator . " form input[type=submit]");
+    foreach ($inputs as $input) {
+      // just to make sure we press the right button
+      if ($input->getAttribute("value") == $button) {
+        $buttonId = $input->getAttribute("id");
+        break;
+      }
+    }
+    if ($buttonId) {
+      return new Given("I press \"$buttonId\"");
+    }
+    return new Exception("No '" . $button . "' was found in the region '" . $region . "'");
   }
 }
