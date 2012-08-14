@@ -815,6 +815,8 @@ class FeatureContext extends MinkContext {
       $field = 'edit-comment-count-op';
     elseif ($field == 'top level book')
       $field = 'edit-title-op';
+    elseif ($field == 'select...')
+      $field = 'edit-objects-selector';
     $page = $this->getSession()->getPage();
     $page->selectFieldOption($field, trim($value));
     if (empty($page))
@@ -1792,5 +1794,107 @@ class FeatureContext extends MinkContext {
       return new Given("I press \"$buttonId\"");
     }
     return new Exception("No '" . $button . "' was found in the region '" . $region . "'");
+  }
+
+  /**
+   * @When /^I follow a post$/
+   * Function to get the link from a table's first row
+   */
+  public function iFollowAPost() {
+    $page = $this->getSession()->getPage();
+    $temp = $page->find("css", ".views-table .views-row-first td a");
+    if (empty($temp)) {
+      throw new Exception("No posts found to follow");
+    }
+    $this->getSession()->visit($this->locatePath($temp->getAttribute('href')));
+  }
+
+  /**
+   * @When /^I follow "([^"]*)" for a post$/
+   * Get the link $link from the table's first row
+   */
+  public function iFollowForAPost($link) {
+    $page = $this->getSession()->getPage();
+    $links = $page->findAll("css", ".views-table .views-row-first td a");
+    if (empty($links)) {
+      throw new Exception("No posts found to follow");
+    }
+    foreach ($links as $temp) {
+      if (trim($temp->getText()) == $link) {
+        $this->getSession()->visit($this->locatePath($temp->getAttribute('href')));
+      }
+    }
+  }
+
+  /**
+   * @Given /^all the checkboxes are selected$/
+   */
+  public function allTheCheckboxesAreSelected($flag = true) {
+    $page = $this->getSession()->getPage();
+    $chks = $page->findAll("css", ".views-table .form-item input[type=checkbox]");
+    if (empty($chks)) {
+      throw new Exception("No checkboxes were found on the page");
+    }
+    foreach ($chks as $chk) {
+      // If flag is true then all checkboxes must be checked.
+      if ($flag && !$chk->getAttribute('checked')) {
+        throw new Exception("Not all checkboxes are selected");
+      }
+      // If flag is false then no checkboxes must be checked.
+      elseif (!$flag && $chk->getAttribute('checked')) {
+        throw new Exception("Some of the checkboxes are selected");
+      }
+    }
+  }
+
+  /**
+   * @Then /^none the checkboxes are selected$/
+   */
+  public function noneTheCheckboxesAreSelected() {
+    $this->allTheCheckboxesAreSelected(false);
+  }
+
+  /**
+   * @When /^I check "([^"]*)" checkboxes to "([^"]*)"$/
+   */
+  public function iCheckCheckboxesTo($count, $context) {
+    $chkboxs = array();
+    $i = 1;
+    $page = $this->getSession()->getPage();
+    // get all checkboxes
+    $chks = $page->findAll("css", ".views-table .form-item input[type=checkbox]");
+    if (empty($chks)) {
+      throw new Exception("No checkboxes were found on the page");
+    }
+    foreach ($chks as $chk) {
+      // check only the requested no. of checkboxes
+      if ($i > $count) {
+        return;
+      }
+      if ($context == "unpublish") {
+        // if a post is already unpublished, then take next.
+        // checkbox > label > div > td > tr
+        $tr = $chk->getParent()->getParent()->getParent()->getParent();
+        $tds = $tr->findAll("css", "td.views-field");
+        if (empty($tds)) {
+          continue;
+        }
+        $td = "";
+        // 'Published' is present in the last column, so get the last 'td'
+        foreach ($tds as $td) {
+          $td = $td->getText();
+        }
+        if ($td == "Yes") {
+          // 'check()' checked the checkbox but when 'unpublish' button was pressed, the values were not considered
+          $chk->click();
+          $i++;
+        }
+      }
+      elseif($context == "delete") {
+        $chk->click();
+        $i++;
+      }
+    }
+    throw new Exception("No checkboxes were selected on the page");
   }
 }
