@@ -6,16 +6,9 @@ Feature: Drupal Create Issues
   Scenario: Create an issue by following a project sidebar link
     Given I am logged in as "site user"
     And I am on "/project/issues"
-    And I follow "Create a new issue"
+    When I follow "Create a new issue"
     And I select "Achievements" from "Project"
     And I press "Next"
-    And I should see the following <texts>
-    | texts |
-    | Version |
-    | Component |
-    | Category |
-    | Title |
-    | Description |
     And I select the following <fields> with <values>
     | fields | values |
     | Version | 7.x-1.4 |
