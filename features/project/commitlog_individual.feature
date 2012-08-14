@@ -34,3 +34,9 @@ Feature: To view an individual commit
     And I click on "file name" of a commit
     Then I should see "blob"
     And I should see "For more information about this repository"
+
+  Scenario: Check for unverified commit
+    Given I am on "/commitlog/commit/37412/d54c6ba4b3b04a1b05bda70dc85ad9135430e3c1"
+    Then I should not see the link "eliza411"
+    And I should see "Melissa Anderson"
+    And I should see the heading "Commit d54c6ba4b3b04a1b05bda70dc85ad9135430e3c1"
