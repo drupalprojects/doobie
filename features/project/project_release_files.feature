@@ -1,9 +1,9 @@
 Feature: Project release files
-  In order install a specific release of Drupal core
+  In order to install a specific release of Drupal core
   As any user
   I should be able to download the release file
 
-  Scenario:
+  Scenario: Navigate to core releases
     Given that I am on the homepage
     When I follow "Download & Extend"
     And I follow "Other Releases"
