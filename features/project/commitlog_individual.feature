@@ -7,11 +7,7 @@ Feature: To view an individual commit
     Given I am on "/commitlog"
     When I click on "date" of a commit
     Then I should see "Author date:"
-    And I should see "Custom text:"
     And I should see "Commit"
-    And I should see at least "1" files in the list
-    And I should see at least "1" "plus" symbol
-    And I should see at least "1" "minus" symbol
     And I should see the commit message
 
   Scenario: Click link on commit information page
