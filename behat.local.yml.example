@@ -21,8 +21,8 @@ default:
       git_users:
         gituser:
           'gituser pass here'
-
-
+        gitvetteduser:
+          'gitvetteduser pass here'
       #this should probably be configured like the drupal_users
       layout:
         right_sidebar: '#column-right'

@@ -9,11 +9,11 @@
         },
         {
             "package": "behat/behat",
-            "version": "v2.4.2"
+            "version": "v2.4.3"
         },
         {
             "package": "behat/gherkin",
-            "version": "v2.2.2"
+            "version": "v2.2.4"
         },
         {
             "package": "behat/mink",
@@ -28,14 +28,14 @@
         {
             "package": "behat/mink-extension",
             "version": "dev-master",
-            "source-reference": "da58c1b572349310ce5b65066a4d8b7e487a63a7",
-            "commit-date": "1342818063"
+            "source-reference": "26a7d073348ab445ef654713f8656954f9467d0d",
+            "commit-date": "1344108318"
         },
         {
             "package": "behat/mink-goutte-driver",
             "version": "dev-master",
-            "source-reference": "v1.0.3",
-            "commit-date": "1341477036"
+            "source-reference": "192e58dfd26098385218d65637426c26d148d9b0",
+            "commit-date": "1343123643"
         },
         {
             "package": "behat/mink-sahi-driver",
@@ -52,14 +52,14 @@
         {
             "package": "behat/mink-selenium2-driver",
             "version": "dev-master",
-            "source-reference": "v1.0.2",
-            "commit-date": "1341477123"
+            "source-reference": "aad26bdb19f904b1990048750fc33c7b6f7f2e0e",
+            "commit-date": "1343748582"
         },
         {
             "package": "behat/mink-zombie-driver",
             "version": "dev-master",
-            "source-reference": "a4fb8ce8d2c9b1e0833880297891ccb0167bd088",
-            "commit-date": "1342742844"
+            "source-reference": "610c484c2a736533e076c05ddaa6098f42906c60",
+            "commit-date": "1344599890"
         },
         {
             "package": "behat/sahi-client",
@@ -68,36 +68,38 @@
         {
             "package": "behat/symfony2-extension",
             "version": "dev-master",
-            "source-reference": "a2d91eb0460854f0aa3f69674f5479343eea55e9",
-            "commit-date": "1342426705"
+            "source-reference": "3955aea7932b69aa35893c594ae76da9ce7e1e42",
+            "commit-date": "1343142072"
         },
         {
             "package": "doctrine/common",
             "version": "2.3.x-dev",
-            "source-reference": "b0ed9cc35ec28b7cd23d3d001e6fd4c7b5092926",
-            "commit-date": "1343082138"
+            "source-reference": "2ec4bc6db13db6a0976a16b71058083c55cbcdbd",
+            "commit-date": "1343847076"
         },
         {
             "package": "fabpot/goutte",
             "version": "dev-master",
-            "alias-pretty-version": "1.0.x-dev",
-            "alias-version": "1.0.9999999.9999999-dev"
+            "source-reference": "5f7fd00c7f1c47a66e552f636450ff883e02cf33",
+            "commit-date": "1343461948"
         },
         {
-            "package": "fabpot/goutte",
-            "version": "dev-master",
-            "source-reference": "c2ea8d9a6682d14482e57ede2371001b8a5238d2",
-            "commit-date": "1340264258"
+            "package": "guzzle/common",
+            "version": "v2.8.2"
         },
         {
-            "package": "guzzle/guzzle",
-            "version": "v2.6.6"
+            "package": "guzzle/http",
+            "version": "v2.8.2"
+        },
+        {
+            "package": "guzzle/parser",
+            "version": "v2.8.2"
         },
         {
             "package": "instaclick/php-webdriver",
             "version": "dev-master",
-            "source-reference": "v1.0",
-            "commit-date": "1337727558"
+            "source-reference": "v1.0.5",
+            "commit-date": "1343829434"
         },
         {
             "package": "kriswallsmith/buzz",
@@ -114,8 +116,8 @@
         {
             "package": "symfony/browser-kit",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342347231"
+            "source-reference": "v2.1.0-RC1",
+            "commit-date": "1343564266"
         },
         {
             "package": "symfony/config",
@@ -126,8 +128,8 @@
         {
             "package": "symfony/config",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342347231"
+            "source-reference": "f68ad44f3ee1603ce96387bacba0ecba488c2a33",
+            "commit-date": "1344599303"
         },
         {
             "package": "symfony/console",
@@ -138,8 +140,8 @@
         {
             "package": "symfony/console",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342347231"
+            "source-reference": "3b66f1056f5ac37146d3b755964e8a43a205f2f5",
+            "commit-date": "1344349441"
         },
         {
             "package": "symfony/css-selector",
@@ -150,7 +152,7 @@
         {
             "package": "symfony/css-selector",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
+            "source-reference": "v2.1.0-RC1",
             "commit-date": "1342347231"
         },
         {
@@ -162,8 +164,8 @@
         {
             "package": "symfony/dependency-injection",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342347231"
+            "source-reference": "98fa735a7ef5dc07c43bfe6faa4367a983b6ba6f",
+            "commit-date": "1344599303"
         },
         {
             "package": "symfony/dom-crawler",
@@ -174,7 +176,7 @@
         {
             "package": "symfony/dom-crawler",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
+            "source-reference": "v2.1.0-RC1",
             "commit-date": "1342347231"
         },
         {
@@ -198,8 +200,8 @@
         {
             "package": "symfony/filesystem",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342347231"
+            "source-reference": "v2.1.0-RC1",
+            "commit-date": "1343491637"
         },
         {
             "package": "symfony/finder",
@@ -210,20 +212,14 @@
         {
             "package": "symfony/finder",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342778082"
+            "source-reference": "v2.1.0-RC1",
+            "commit-date": "1343512949"
         },
         {
             "package": "symfony/form",
             "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/form",
-            "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342944184"
+            "source-reference": "5c51d2ff0014b6b0f17fe6bdce5834064353cfad",
+            "commit-date": "1344595022"
         },
         {
             "package": "symfony/framework-bundle",
@@ -234,8 +230,8 @@
         {
             "package": "symfony/framework-bundle",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1343035643"
+            "source-reference": "6164cc2860a9c4c17f21463be8a2ec79b18fc8a0",
+            "commit-date": "1344965670"
         },
         {
             "package": "symfony/http-foundation",
@@ -246,8 +242,8 @@
         {
             "package": "symfony/http-foundation",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1343042318"
+            "source-reference": "9a509ac3bb52076f5a765a85e9552042b40ce287",
+            "commit-date": "1344594770"
         },
         {
             "package": "symfony/http-kernel",
@@ -258,8 +254,8 @@
         {
             "package": "symfony/http-kernel",
             "version": "dev-master",
-            "source-reference": "91f3e0892bd0c7f2a5ade8a82024ec4925e26c64",
-            "commit-date": "1343064472"
+            "source-reference": "0d0ee371ab0425f3399dba9e25d7ad98ca5c0d62",
+            "commit-date": "1344074675"
         },
         {
             "package": "symfony/locale",
@@ -270,8 +266,8 @@
         {
             "package": "symfony/locale",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342468486"
+            "source-reference": "58ff3213b4e187f410d6795a1da11dfde8a0e118",
+            "commit-date": "1344352623"
         },
         {
             "package": "symfony/options-resolver",
@@ -282,8 +278,8 @@
         {
             "package": "symfony/options-resolver",
             "version": "dev-master",
-            "source-reference": "1b7b1c59acbe5a49bb58b8fecae86dcdf1c64999",
-            "commit-date": "1342868532"
+            "source-reference": "6a1159eb868b3af059d0a8c578db1f7efab89850",
+            "commit-date": "1344014278"
         },
         {
             "package": "symfony/process",
@@ -294,8 +290,8 @@
         {
             "package": "symfony/process",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342632812"
+            "source-reference": "v2.1.0-RC1",
+            "commit-date": "1343512949"
         },
         {
             "package": "symfony/routing",
@@ -306,8 +302,8 @@
         {
             "package": "symfony/routing",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342708743"
+            "source-reference": "v2.1.0-RC1",
+            "commit-date": "1343744077"
         },
         {
             "package": "symfony/templating",
@@ -318,8 +314,8 @@
         {
             "package": "symfony/templating",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342456146"
+            "source-reference": "v2.1.0-RC1",
+            "commit-date": "1343982509"
         },
         {
             "package": "symfony/translation",
@@ -330,20 +326,14 @@
         {
             "package": "symfony/translation",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342347231"
+            "source-reference": "v2.1.0-RC1",
+            "commit-date": "1343512949"
         },
         {
             "package": "symfony/validator",
             "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/validator",
-            "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342762453"
+            "source-reference": "2794f1d7bfea5c017c50f870ca1bf2dd1c363f03",
+            "commit-date": "1344856683"
         },
         {
             "package": "symfony/yaml",
@@ -354,8 +344,8 @@
         {
             "package": "symfony/yaml",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA4",
-            "commit-date": "1342347231"
+            "source-reference": "6b3eb66a7c4495dcaa35a64dd93c8ba8c29f35d8",
+            "commit-date": "1344325256"
         }
     ],
     "packages-dev": null,
