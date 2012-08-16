@@ -1411,7 +1411,7 @@ class FeatureContext extends MinkContext {
   }
 
     /**
-     * @Then /^the md5 hash should match$/
+     * @Then /^the md5 hash should match "(?P<md5hash>[^"]*)"$/
      */
     public function theMdHashShouldMatch($md5hash) {
         throw new PendingException();
