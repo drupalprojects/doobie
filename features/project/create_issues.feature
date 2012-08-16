@@ -27,8 +27,6 @@ Feature: Drupal Create Issues
     Given I am logged in as "site user"
     And I am on "/project/issues/achievements"
     When I follow "Create a new issue"
-    And I select "Achievements" from "Project"
-    And I press "Next"
     And I select the following <fields> with <values>
     | fields    | values     |
     | Version   | 7.x-1.4    |
