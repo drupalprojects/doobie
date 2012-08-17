@@ -1640,9 +1640,10 @@ class FeatureContext extends MinkContext {
         }
       }
 
-    return $arr_return;
-  }else
-    throw new Exception("No options/texts specified");
+      return $arr_return;
+    }else {
+      throw new Exception("No options/texts specified");
+    }
   }
 
   /**
@@ -1936,6 +1937,58 @@ class FeatureContext extends MinkContext {
     }
     if ($total < $count) {
       throw new Exception("The project has less than '" . $count . "' commits");
+    }
+  }
+  
+  /**
+   * @Given /^I click the edit link for the first sandbox project from the list$/
+   */
+  public function iClickTheEditLinkForTheFirstSandboxProjectFromTheList()
+  {
+    // find the first title link from sandbox table
+    $first_a = $this->getSession()->getPage()->find('css', '#content-inner > table.projects.sandbox > tbody td.project-name > a');
+    if (!empty($first_a)) {
+      // fetch the <tr> the link belongs to
+      $tr = $first_a->getParent()->getParent();
+      if (!empty($tr)) {
+        $edit = $tr->findLink('Edit');
+        if (!empty($edit)) {
+          $edit->click();
+        }else {
+          $message = 'Edit link can not be found';
+        }
+      }else {
+        $message = 'Edit link can not be found';
+      }
+    }else {
+      $message = 'Sand box project doesn\'t exist for the user';
+    }
+    if (isset($message)) {
+      throw new Exception($message);
+    }
+  }
+
+  /**
+   * @Then /^I should not see the Releases tab$/
+   */
+  public function iShouldNotSeeTheReleasesTab()
+  {
+    $tabs = $this->getSession()->getPage()->find('css', '#column-left #tabs');
+    if (!empty($tabs)) {
+      if ($tabs->findLink('Releases')) {
+        throw new Exception('Releases tab exists on Edit Project page');
+      }
+    }
+  }
+
+  /**
+   * @Given /^I should see that the project short name is readonly$/
+   */
+  public function iShouldSeeThatTheProjectShortNameIsReadonly()
+  {
+    $field = $this->getSession()->getPage()->findField('Short project name:');
+    if (!empty($field)) {
+      throw new Exception('Short project name form field exists on Edit Project page');
     }
   }
 }
