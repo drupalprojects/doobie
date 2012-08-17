@@ -1110,7 +1110,8 @@ class FeatureContext extends MinkContext {
     $classes = array(
       'table' => '.view table.views-table tr',
       'grid' => '.view table.views-view-grid tr td',
-      'row' => '.view div.views-row'
+      'row' => '.view div.views-row',
+      'row li' => '.view li.views-row'
     );
     foreach ($classes as $type => $class) {
       $result = $page->findAll('css', $class);
@@ -1896,5 +1897,45 @@ class FeatureContext extends MinkContext {
       }
     }
     throw new Exception("No checkboxes were selected on the page");
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" committers$/
+   */
+  public function iShouldSeeAtLeastCommitters($count) {
+    $page = $this->getSession()->getPage();
+    // parse till anchor tag bcoz, there are empty <li>'s as well
+    $result = $page->findAll('css', "#block-versioncontrol_project-project_maintainers div.item-list ul li a");
+    if (empty($result)) {
+      throw new Exception("Unable to find the block of committers");
+    }
+    if (sizeof($result) < $count) {
+      throw new Exception("The project has less than '" . $count . "' committers");
+    }
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" commits$/
+   */
+  public function iShouldSeeAtLeastCommits($count) {
+    $total = 0;
+    $page = $this->getSession()->getPage();
+    // parse till span tag, bcoz the span tag contains text 'xx commits'
+    $result = $page->findAll('css', "#block-versioncontrol_project-project_maintainers div.item-list ul li div span");
+    if (empty($result)) {
+      throw new Exception("Unable to find the block of committers");
+    }
+    foreach ($result as $commit) {
+      // Get the text and make sure it has the string 'commits'.
+      $text = trim($commit->getText());
+      if (strpos($text, "commits") !== FALSE) {
+        $temp = explode(" ", $text);
+        // temp[0]=xx, temp[1]=commits. Convert to integer before adding to total
+        $total = $total + (int) trim($temp[0]);
+      }
+    }
+    if ($total < $count) {
+      throw new Exception("The project has less than '" . $count . "' commits");
+    }
   }
 }
