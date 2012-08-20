@@ -32,6 +32,7 @@ use Symfony\Component\Process\Process;
 use Behat\Behat\Context\Step\Given;
 use Behat\Behat\Context\Step\When;
 use Behat\Behat\Context\Step\Then;
+use Behat\Behat\Event\ScenarioEvent;
 
 require 'vendor/autoload.php';
 
@@ -679,6 +680,7 @@ class FeatureContext extends MinkContext {
     $element = $this->getSession()->getPage();
     $result = $element->hasField('Project title');
     $this->projectTitle = $this->randomString(16);
+    HackyDataRegistry::set('project title', $this->projectTitle);
 
     $element->fillField('Project title', $this->projectTitle);
     $element->fillField('Maintenance status', '13028');
@@ -735,6 +737,22 @@ class FeatureContext extends MinkContext {
     $process->run();
     if (!$process->isSuccessful()) {
       throw new Exception('Initializing repository failed - Command: ' . $command . ' Error: ' . $process->getErrorOutput());
+    }
+  }
+
+  /**
+   * @AfterScenario @gitrepo
+   */
+  public function cleanGitRepos(ScenarioEvent $event) {
+    // Repos on drupal.org never contain capital letters.
+    $projectTitle = strtolower(HackyDataRegistry::get('project title'));
+    print "Deleting $projectTitle.";
+    if (!empty($projectTitle)) {
+      if (strpos($projectTitle, '/') === FALSE) {
+        $process = new Process("rm -Rf $projectTitle");
+        $process->setTimeout(10);
+        $process->run();
+      }
     }
   }
 
