@@ -749,9 +749,11 @@ class FeatureContext extends MinkContext {
     print "Deleting $projectTitle.";
     if (!empty($projectTitle)) {
       if (strpos($projectTitle, '/') === FALSE) {
-        $process = new Process("rm -Rf $projectTitle");
-        $process->setTimeout(10);
-        $process->run();
+        if (file_exists($projectTitle) && isdir($projectTitle)) {
+          $process = new Process("rm -Rf $projectTitle");
+          $process->setTimeout(10);
+          $process->run();
+        }
       }
     }
   }
