@@ -9,23 +9,23 @@ Feature: List and search change records
     Then I should see the heading "Change records for Drupal core"
     And I should see at least "40" records
     And I should see the following <texts>
-    | texts |
-    | 1 |
-    | 2 |
-    | next |
-    | last |
-    | Keywords |
+    | texts                |
+    | 1                    |
+    | 2                    |
+    | next                 |
+    | last                 |
+    | Keywords             |
     | Introduced in branch |
     And I should not see the following <texts>
-    | texts |
+    | texts    |
     | previous |
-    | first |
+    | first    |
 
   Scenario: Search by keyword
     Given I am on "/list-changes/drupal"
     When I fill in "jquery" for "Keywords"
     And I press "Apply"
-    Then I should see at least "1" records
+    Then I should see at least "1" record
     And I should see "Jquery"
     And I should not see "Invalid project or no changes found"
 
@@ -36,9 +36,9 @@ Feature: List and search change records
     Then I should see "Invalid project or no changes found"
     And I should not see the following <texts>
     | texts |
-    | 6.x |
-    | 7.x |
-    | 8.x |  
+    | 6.x   |
+    | 7.x   |
+    | 8.x   |   
 
   Scenario: Search, filtering by 7.x branch
     Given I am on "/list-changes/drupal"
@@ -47,9 +47,9 @@ Feature: List and search change records
     Then I should see "7.x"
     And I should not see the following <texts>
     | texts |
-    | 6.x |
-    | 8.x |
-    And I should see at least "1" records
+    | 6.x   |
+    | 8.x   |
+    And I should see at least "1" record
 
   Scenario: Search, filtering by 8.x version
     Given I am on "/list-changes/drupal"

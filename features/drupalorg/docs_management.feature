@@ -113,7 +113,7 @@ Feature: Documents Management
     | Audience type | Developers and coders |
     | Level | Intermediate |
     And I press "Apply"
-    Then I should see at least "1" records
+    Then I should see at least "1" record
     
   Scenario: Search by entering in all the fields: No records
     When I select "Is less than" from field "Comment count"

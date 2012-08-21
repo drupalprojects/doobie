@@ -16,39 +16,39 @@ Feature: Use Marketplace Preview to find services
     And I click on page "2"
     And I should see at least "10" records
     And I should see the following <links>
-    | links |
-    | first |
-    | next |
+    | links    |
+    | first    |
+    | next     |
     | previous |
-    | last |
+    | last     |
     And I should see at least "10" records
     When I click on page "last"
-    Then I should see at least "1" records
+    Then I should see at least "1" record
     
   @javascript
   Scenario: Check the subcategories under Main category
     Given I am on "/marketplace-preview"
     Then I should see the following <texts>
-    | texts |
-    | Services |
-    | Sectors |
+    | texts            |
+    | Services         |
+    | Sectors          |
     | Countries served |
     Then I should see the following <subcategories> under "Services"
     | subcategories |
-    | Development |
-    | Theming |    
+    | Development   |
+    | Theming       |    
     Then I should see the following <subcategories> under "Countries served"
     | subcategories |
     | United States |
-    | Canada |
-    | Germany |    
+    | Canada        |
+    | Germany       |    
     When I expand the category "Sectors"
     Then I wait for "2" seconds
     Then I should see the following <subcategories> under "Sectors"
     | subcategories |
-    | Travel |
-    | Healthcare |
-    | Music |
+    | Travel        |
+    | Healthcare    |
+    | Music         |
     Then I wait for "2" seconds
     When I collapse the category "Sectors"
     Then I wait for "2" seconds 
