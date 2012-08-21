@@ -47,7 +47,7 @@ The actual code for each can be found in the 'bootstrap' directory within.
 A tutorial on how to write features, scenarios, and tests can be found at http://docs.behat.org/guides/1.gherkin.html
 
 RUNNING TESTS AGAINST THE STAGING SITES
----------------------------------------
+----------------------------------------
 
 Pre-created users should existing on the site; they must be made by hand at this time if the database has been refreshed. You'll find the users expected by the tests in the behat.local.yml.example
 Website: http://git6site.devdrupal.org
