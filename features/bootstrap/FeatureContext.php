@@ -2328,4 +2328,24 @@ class FeatureContext extends MinkContext {
       throw new Exception("Project Creation failed");
     }  
   }
+
+    /**
+   * @Given /^I should see that the Sandbox checkbox is "([^"]*)"$/
+   */
+  public function iShouldSeeThatTheSandboxCheckboxIs($attribute)
+  {
+    $attribute = strtolower($attribute);
+    $field = $this->getSession()->getPage()->findField('Sandbox');
+    if (empty($field)) {
+      throw new Exception('Sandbox checkbox cannot be found');
+    }
+    $disabled = $field->getAttribute('disabled');
+    // Return true if checking for enabled and the checkbox is already enabled
+    if (!$disabled && $attribute == 'enabled') {
+      return;
+    }
+    if ($attribute != $disabled) {
+      throw new Exception('Sandbox checkbox is not '. $attribute);
+    }
+  }
 }

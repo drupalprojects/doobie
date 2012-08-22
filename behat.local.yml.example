@@ -17,6 +17,8 @@ default:
           'git vetted user pass here'
         docs manager:
           'docs moderator pass here'
+        admin test:
+          'admin test pass here'
       #git usernames don't always match the drupal username
       git_users:
         gituser:
