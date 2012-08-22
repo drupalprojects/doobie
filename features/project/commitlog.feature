@@ -35,21 +35,21 @@ Feature: To see the list of all the commits
     When I click on "user name" of a commit
     Then I should see the heading "Personal information"
     And I should see the following <texts>
-    | texts               |
-    | Full name           |
-    | Country             |
-    | History             |
+    | texts     |
+    | Full name |
+    | Country   |
+    | History   |
 
   Scenario: Click link to repository
     Given I am on "/commitlog"
     When I click on "commit info" of a commit
     Then I should see the link "summary"
     And I should see the following <texts>
-    | texts               |
-    | author              |
-    | committer           |
-    | commit              |
-    | tree                |
+    | texts     |
+    | author    |
+    | committer |
+    | commit    |
+    | tree      |
 
   Scenario: Check for project title is displayed first
     Given that I am on the homepage
