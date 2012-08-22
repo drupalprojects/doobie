@@ -28,10 +28,9 @@ default:
         right_sidebar: '#column-right'
         home_bottom_right: '#front-bottom-right'
         content: '#column-left'
+      # set the absolute path to the files folder of this project
+      files_path: '/path/to/doobie/files'
 
   extensions:
     Behat\MinkExtension\Extension:
       base_url: 'http://git6site.devdrupal.org'
-      # set the absolute path to the files folder of this project
-      files_path: '/path/to/doobie/files'
-

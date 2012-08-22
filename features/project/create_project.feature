@@ -1,11 +1,11 @@
-Feature:
-  In order to test the functionalities of Create Project
-  As an Authenticated User
-  I should be able to Create a Project
+Feature: Create a project
+  In order to share my code with the community
+  As a git vetted user
+  I need to be able to create a project
 
   @javascript
   Scenario: Create a Project
-    Given I am logged in as "git user"
+    Given I am logged in as "git vetted user"
     When I follow "Your Dashboard"
     And I follow "Your Projects"
     And I follow "Add a new project"

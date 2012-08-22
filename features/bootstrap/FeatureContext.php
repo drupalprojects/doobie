@@ -74,6 +74,9 @@ class FeatureContext extends MinkContext {
    */
   private $project_value = '';
 
+  /* Store file diretcory*/
+  private $file_path = '';
+
   /**
    * Initializes context.
    *
@@ -101,6 +104,9 @@ class FeatureContext extends MinkContext {
     }
     if (isset($parameters['layout']['content'])) {
       $this->content = $parameters['layout']['content'];
+    }
+    if (isset($parameters['files_path'])) {
+      $this->file_path = $parameters['files_path'];
     }
   }
 
@@ -2174,5 +2180,152 @@ class FeatureContext extends MinkContext {
       return;
     }
     throw new Exception('Sandbox project link cannot be found');
+  }
+
+    /**
+   * Multiple File Upload
+   */
+  private function uploadMultipleFiles($type, TableNode $files) {
+    // Multiple file upload:
+    // update the below 'switch' if this function needs to be reused
+    switch ($type) {
+      // for Create Project image upload
+      case 'project image':
+        $addmore_id = 'edit-field-project-images-field-project-images-add-more';
+        // upload field id
+        $filefield_id 	= 'edit-field-project-images-{index}-upload';
+        // upload button id
+        $uploadbutton_id 	= 'edit-field-project-images-{index}-filefield-upload';
+        // upload response id
+        $responsebox_id	= 'edit-field-project-images-{index}-data-description';
+        // upload set wrapper
+        $wrapperbox_id 	= 'edit-field-project-images-{index}-ahah-wrapper';
+        // parameters to be filled in after upload finishes
+        $arr_postupload_params = array(
+          // in description
+          'description' => 'edit-field-project-images-{index}-data-description',
+          // al tag
+          'alt text' => 'edit-field-project-images-{index}-data-alt',
+        );
+        break;
+      // for Create Case Study image upload
+      case 'case study image':
+        $addmore_id = 'edit-field-images-field-images-add-more';
+        // upload field id
+        $filefield_id 	= 'edit-field-images-{index}-upload';
+        // upload button id
+        $uploadbutton_id 	= 'edit-field-images-{index}-filefield-upload';
+        // upload response id
+        $responsebox_id	= 'edit-field-images-{index}-data-description';
+        // upload set wrapper
+        $wrapperbox_id 	= 'edit-field-images-{index}-ahah-wrapper';
+        // parameters to be filled in after upload finishes
+        $arr_postupload_params = array(
+          // in description
+          'description' => 'edit-field-images-{index}-data-description',
+          // al tag
+          'alt text' => 'edit-field-images-{index}-data-alt',
+          // title
+          'title' => 'edit-field-images-{index}-data-title',
+        );
+        break;
+      default:
+        throw new Exception('Type of files to be uploaded is not specified/correct. Eg: \'I upload the following "project image" <files>\'');
+        break;
+    }
+    $session = $this->getSession();
+    $page = $session->getPage();
+    $files = $files->getHash();
+    $total_files = count($files);
+    $sele_handler = $session->getSelectorsHandler();
+
+    // 'add more' button
+    $add_more = $page->findById($addmore_id);
+    $upload = 0;
+    $ds = '/';
+    if ($total_files > 0) {
+      // wait
+      $this->iWaitForSeconds(2);
+      if (empty($this->file_path) || $this->file_path == '/path/to/doobie/files') {
+        throw new Exception('The "file_path" cannot be found. Configure the variable as files_path: "/path/to/doobie/files"');
+       }else {
+          // use backslash if Windows server
+          if (strtoupper(substr(php_uname(), 0, 3)) == 'WIN') {
+            $ds = '\\';
+          }
+        }
+      // loop through files and upload
+      for($i = 0; $i < $total_files; $i++) {
+        // find newly inserted file and attach local file
+        $file_id = str_replace('{index}', $i, $filefield_id);
+        $file = $this->getSession()->getPage()->findById($file_id);
+        //add more items
+        if (!is_object($file)) {
+          $this->iWaitForSeconds(2);
+          $wrapper_id = str_replace('{index}', $i, $wrapperbox_id);
+          $add_more->click();
+          $this->iWaitForSeconds(10, "typeof($('#". $wrapper_id ."').html()) != 'undefined'");
+          $this->iWaitForSeconds(2);
+          $file = $this->getSession()->getPage()->findById($file_id);
+        }
+        // attach again
+        $filepath = $this->file_path . $ds . $files[$i]['files'];
+        if (!file_exists($filepath)) {
+          throw new Exception('The file: "' . $files[$i]['files'] . '" cannot be found.');
+        }
+        $file->attachFile($filepath);
+        // find upload button and click
+        $button_id = str_replace( '{index}', $i, $uploadbutton_id);
+        $submit = $this->getSession()->getPage()->findById($button_id);
+        $submit->click();
+        // wait for upload to finish: will wait until the upload completes OR 300 seconds
+        $box_id = str_replace('{index}', $i, $responsebox_id);
+        $this->iWaitForSeconds(300, "typeof($('#". $box_id . "').val()) != 'undefined'");
+
+        // process post upload parameters
+        if (!empty($arr_postupload_params)) {
+          foreach ($arr_postupload_params as $param => $field_id) {
+            if (isset($files[$i][$param]) && !empty($files[$i][$param])) {
+              $field_id = str_replace('{index}', $i, $field_id);
+              $this->getSession()->getPage()->findById($field_id)->setValue($files[$i][$param]);
+            }
+          }
+        }
+        // mark as done
+        $upload++;
+      }
+    }
+    if (!$upload) {
+      throw new Exception('Upload failed');
+    }
+  }
+
+  /**
+   * @Given /^I upload the following "([^"]*)" <files>$/
+   */
+  public function iUploadTheFollowingFiles($type, TableNode $files)
+  {
+    $this->uploadMultipleFiles($type, $files);
+  }
+
+  /**
+   * @Given /^I check the project is created$/
+   */
+  public function iCheckTheProjectIsCreated()
+  {
+    $success = false;
+    $lis = $this->getSession()->getPage()->findAll('css', 'div.messages.messages-status.clear-block.messages-multiple > ul > li');
+    if (!empty($lis)) {
+      foreach ($lis as $li) {
+        $msg = $li->getText();
+        if (preg_match("/has been created/", $msg)) {
+          $success = true;
+          break;
+        }
+      }
+    }
+    if (!$success) {
+      throw new Exception("Project Creation failed");
+    }  
   }
 }
