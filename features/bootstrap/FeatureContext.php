@@ -2102,7 +2102,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Then /^I should see at least "([^"]*)" email address$/
+   * @Then /^I should see at least "([^"]*)" email (?:address|addresses)$/
    * Function to count the no. of records in the email address table
    * @param $count Integer The minimum no. of records expected
    */
@@ -2119,7 +2119,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Then /^I should see at least "([^"]*)" confirmed email address$/
+   * @Then /^I should see at least "([^"]*)" confirmed email (?:address|addresses)$/
    * Function to count no. of emails that have confirmed
    * @param $count Integer The minimum no. of records expected
    */
