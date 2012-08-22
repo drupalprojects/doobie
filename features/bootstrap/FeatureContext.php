@@ -1079,7 +1079,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Given /^I should see at least "([^"]*)" feed items$/
+   * @Given /^I should see at least "([^"]*)" feed item(?:|s)$/
    */
   public function iShouldSeeAtLeastFeedItems($count) {
     $count = (int) $count;
@@ -1114,7 +1114,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Given /^I should see at least "([^"]*)" records$/
+   * @Given /^I should see at least "([^"]*)" record(?:|s)$/
    */
   public function iShouldSeeAtLeastRecords($count) {
     $element = $this->getSession()->getPage();
@@ -1623,7 +1623,7 @@ class FeatureContext extends MinkContext {
    * Function to check whether the links exists under the news/specific tab
    * @param $tab String The tab to be selected for
    * @param $count counts the number of links exists
-   * @Then /^(?:I|I should) see at least "([^"]*)" links under the "([^"]*)" tab$/
+   * @Then /^(?:I|I should) see at least "([^"]*)" link(?:|s) under the "([^"]*)" tab$/
    */
   public function iShouldSeeAtleastLinksUnderTab($count, $tab) {
     $page = $this->getSession()->getPage();
@@ -1762,7 +1762,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Given /^I should see at least "([^"]*)" files in the list$/
+   * @Given /^I should see at least "([^"]*)" file(?:|s) in the list$/
    */
   public function iShouldSeeAtLeastFilesInTheList($count) {
     $page = $this->getSession()->getPage();
@@ -1773,7 +1773,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Given /^I should see at least "([^"]*)" "([^"]*)" symbol$/
+   * @Given /^I should see at least "([^"]*)" "([^"]*)" symbol(?:|s)$/
    */
   public function iShouldSeeAtLeastSymbol($count, $symbol) {
     $page = $this->getSession()->getPage();
@@ -1946,7 +1946,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Given /^I should see at least "([^"]*)" committers$/
+   * @Given /^I should see at least "([^"]*)" committer(?:|s)$/
    */
   public function iShouldSeeAtLeastCommitters($count) {
     $page = $this->getSession()->getPage();
@@ -1961,7 +1961,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Given /^I should see at least "([^"]*)" commits$/
+   * @Given /^I should see at least "([^"]*)" commit(?:|s)$/
    */
   public function iShouldSeeAtLeastCommits($count) {
     $total = 0;
@@ -2181,7 +2181,19 @@ class FeatureContext extends MinkContext {
     }
     throw new Exception('Sandbox project link cannot be found');
   }
-
+  
+  /**
+   * @Given /^I click the Full project link$/
+   */
+  public function iClickTheFullProjectLink() {
+      // Find the first title link from full project table
+    $first_a = $this->getSession()->getPage()->find('css', '#content-inner > table.projects > tbody td.project-name > a');
+    if (!empty($first_a)) {
+      $this->getSession()->visit($first_a->getAttribute('href'));
+      return;
+    }
+    throw new Exception('Full project link cannot be found');
+   }
     /**
    * Multiple File Upload
    */

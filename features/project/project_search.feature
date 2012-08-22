@@ -42,7 +42,7 @@ Feature: Overall Filter Search for Issues
     Scenario: For Searching issues that needs review
     When I select "needs review" from "Status"
     And I press search to filter
-    Then I should see at least "1" records
+    Then I should see at least "1" record
     And I should see "needs review" under "Status"
     And I should not see "needs work" under "Status"
     And I should not see "active" under "Status"
@@ -50,11 +50,11 @@ Feature: Overall Filter Search for Issues
     Scenario: For Searching issues based on Priorty and Category
     When I select "normal" from "Priority"
     Then I press search to filter
-    And I should see at least "1" records
+    And I should see at least "1" record
     And I should see "normal" under "Priority"
     And I select "bug report" from "Category"
     And I press search to filter
-    And I should see at least "1" records
+    And I should see at least "1" record
     And I should see "bug reports" under "Category"
 
   Scenario: For Searching issues with all filters

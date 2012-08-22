@@ -12,12 +12,12 @@ Feature: To test search on various pages
     Given I am on "/project/issues"
     When I fill in "Doobie" for "Search for"
     And I press "Search" in the "content" region
-    Then I should see at least "1" records
+    Then I should see at least "1" record
     And I should see "Drupal.org BDD"
 
   Scenario: Search using issues search box in right sidebar region
     Given I am on "/project/doobie"
     When I fill in "doobie" for "edit-text"
     And I press "Search" in the "right sidebar" region
-    Then I should see at least "1" records
+    Then I should see at least "1" record
     And I should see "Feature/Scenarios"
