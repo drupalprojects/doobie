@@ -29,7 +29,7 @@ Feature:
   Scenario: Check the positions of Documentation Team Links and Project Issue Summary links
     When I follow "Your Dashboard"
     And I follow "Dashboard"
-    When I click "Add a block"
+    And I click "Add a block"
     Then I should see the following <blocklinks> in small boxes
     | blocklinks                |
     | Project Issue Summary     |
