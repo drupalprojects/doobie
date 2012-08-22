@@ -2143,5 +2143,25 @@ class FeatureContext extends MinkContext {
     if ($i < $count) {
       throw new Exception('The page has less than "' . $count .'" confirmed email addresses');
     }
-  }  
+  }
+
+  /**
+   * @Then /^I should not see "([^"]*)" in the dropdown "([^"]*)"$/
+   * Function to check if an option is present in the dropdown or not
+   * @param $value String The option string to be searched for
+   * @param $field String The dropdown field label
+   */
+  public function iShouldNotSeeInTheDropdown($value, $field) {
+    $page = $this->getSession()->getPage();
+    // get the object of the dropdown field
+    $dropDown = $page->findField($field);
+    if (empty($dropDown)) {
+      throw new Exception('The page does not have the dropdown with label "' . $field . '"');
+    }
+    // get all the texts under the dropdown field
+    $options = $dropDown->getText();
+    if (strpos($value, $options) !== FALSE) {
+      throw new Exception('The dropdown "' . $field . '" has the option "' . $value . '", but it should not be.');
+    }
+  }
 }
