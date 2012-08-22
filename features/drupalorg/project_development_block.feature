@@ -1,6 +1,6 @@
 Feature: Project Development Block
 In order to get the information I need to contribute code effectively
-As a git user
+As a git vetted user
 I need to be able to access links in the Development block
   
   Background:
@@ -8,7 +8,7 @@ I need to be able to access links in the Development block
     And I follow "Your Projects"
     And I click the Full project link
   
-  Scenario: Project Git instructions
+  Scenario: Check for Development Block Links
     Then I should see the heading "Development"
     And I should see the following <links>
     | links                   |
