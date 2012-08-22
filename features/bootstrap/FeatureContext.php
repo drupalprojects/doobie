@@ -2067,4 +2067,81 @@ class FeatureContext extends MinkContext {
     }
     throw new Exception("Project title was not found in the first part of the heading");
   }
+
+  /**
+   * @Then /^the "([^"]*)" field should be "([^"]*)"$/
+   * Function to find the state of a field. Here disabled/enabled is supported
+   * @param $field String The field name to check for
+   * @param $state String The expected state of the field.
+   */
+  public function theFieldShouldBe($field, $state) {
+    $page = $this->getSession()->getPage();
+    $fieldObj = $page->findField($field);
+    if (empty($fieldObj)) {
+      throw new Exception("The field '" . $field . "' was not found on the page");
+    }
+    switch ($state) {
+      case 'disabled':
+      case 'disable':
+        if (!$fieldObj->hasAttribute("disabled")) {
+          throw new Exception("The field '" . $field . "' is not '" . $state . "'");
+        }
+        break;
+
+      case 'enabled':
+      case 'enable':
+        if ($fieldObj->hasAttribute("disabled")) {
+          throw new Exception("The field '" . $field . "' is not '" . $state . "'");
+        }
+        break;
+
+      default:
+        throw new Exception("The field '" . $field . "' is not '" . $state . "'");
+        break;
+    }
+  }
+
+  /**
+   * @Then /^I should see at least "([^"]*)" email address$/
+   * Function to count the no. of records in the email address table
+   * @param $count Integer The minimum no. of records expected
+   */
+  public function iShouldSeeAtLeastEmailAddress($count) {
+    $page = $this->getSession()->getPage();
+    $trs = $this->getViewDisplayRows($page);
+    if (empty($trs)) {
+      throw new Exception('The page does not have any email addresses');
+    }
+    // the table has extra non-data row at the bottom, so exclude it
+    if (sizeof($trs)-1 < $count) {
+      throw new Exception('The page has less than "' . $count . '" email addresses');
+    }
+  }
+
+  /**
+   * @Then /^I should see at least "([^"]*)" confirmed email address$/
+   * Function to count no. of emails that have confirmed
+   * @param $count Integer The minimum no. of records expected
+   */
+  public function iShouldSeeAtLeastConfirmedEmailAddress($count) {
+    $i = 0;
+    $page = $this->getSession()->getPage();
+    $trs = $this->getViewDisplayRows($page);
+    if (empty($trs)) {
+      throw new Exception('The page does not have any email addresses');
+    }
+    // narrowing down to "table tbody tr" becoz, we do not want that string to be anywhere else
+    foreach ($trs as $tr) {
+      // using 'xpath' to find the string
+      // $el = $page->find('xpath', '//div[@id="myid14"]/div/div[2]/a');
+      $td = $tr->find("xpath", '//td[text()="Yes"]');
+      if (!empty($td)) {
+        // not all email addresses will be confirmed, so take the count
+        $i++;
+      }
+    }
+    if ($i < $count) {
+      throw new Exception('The page has less than "' . $count .'" confirmed email addresses');
+    }
+  }  
 }
