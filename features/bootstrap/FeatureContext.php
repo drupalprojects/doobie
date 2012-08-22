@@ -1675,45 +1675,65 @@ class FeatureContext extends MinkContext {
   public function iClickOnOfACommit($linkType) {
     $page = $this->getSession()->getPage();
     $href = "";
+    $project = "";
+    $results = $page->findAll("css", ".commit-global h3 a");
+    foreach ($results as $result) {
+      if ($result->hasAttribute('href')) {
+        $project = $result;
+        break;
+      }
+    }
+    if (empty($project)) {
+      throw new Exception("The page did not contain any projects.");
+    }
+    // a > h3 > div.commit-global
+    $commitGlobal = $project->getParent()->getParent();
     switch ($linkType) {
       case 'user name':
-        $temp = $page->find("css", ".commit-global .attribution a");
-        $href = $temp->getAttribute('href');
-      break;
-      case 'project title':
-        $links = $page->findAll("css", ".commit-global h3 a");
-        foreach ($links as $link) {
-          $temp = $link->getAttribute('href');
-          // check if this is full project. If not, then check for next link
-          if (strpos($temp, '/project/') !== FALSE) {
-            $href = $temp;
-            break;
+        $temp = $commitGlobal->find("css", ".attribtution a");
+        if (!empty($temp)) {
+          $href = $temp->getAttribute('href');
+        }
+        else {
+          $temp = $commitGlobal->find("css", ".commit-global .attribution a");
+          if (!empty($temp)) {
+            $href = $temp->getAttribute('href');
           }
         }
       break;
+      case 'project title':
+        $href = $project->getAttribute('href');
+      break;
       case 'sandbox project title':
         $links = $page->findAll("css", ".commit-global h3 a");
-        foreach ($links as $link) {
-          $temp = $link->getAttribute('href');
-          // check if this is sandbox project. If not, then check for next link
-          if (strpos($temp, '/sandbox/') !== FALSE) {
-            $href = $temp;
-            break;
+        if (!empty($links)) {
+          foreach ($links as $link) {
+            $temp = $link->getAttribute('href');
+            // check if this is sandbox project. If not, then check for next link
+            if (strpos($temp, '/sandbox/') !== FALSE) {
+              $href = $temp;
+              break;
+            }
           }
         }
       break;
       case 'date':
-        $links = $page->findAll("css", ".commit-global h3 a");
-        foreach ($links as $link) {
-          if ($link->hasAttribute('href')) {
-            $href = $link->getAttribute('href');
+        $links = $commitGlobal->findAll("css", "h3 a");
+        if (!empty($links)) {
+          foreach ($links as $link) {
+            // get the second link from h3 tag
+            if ($link->hasAttribute('href')) {
+              $href = $link->getAttribute('href');
+            }
           }
         }
       break;
       case 'commit info':
         // this is the 8 digit hash
-        $temp = $page->find("css", ".commit-global .commit-info a");
-        $href = $temp->getAttribute('href');
+        $temp = $commitGlobal->find("css", ".commit-info a");
+        if (!empty($temp)) {
+          $href = $temp->getAttribute('href');
+        }
       break;
       case 'file name':
         // this is the file name that got committed and can be seen in individual commit message
@@ -1726,14 +1746,13 @@ class FeatureContext extends MinkContext {
         }
       break;
       default:
+        throw new Exception("Link type '" . $linkType . "' is not valid.");
       break;
     }
-    if ($href != "") {
-      $this->getSession()->visit($this->locatePath($href));
+    if (trim($href) == "") {
+      throw new Exception("No link for '" . $linkType . "' was found on the page");
     }
-    else {
-      throw new Exception("No link for '" . $linkType . "' was found");
-    }
+    $this->getSession()->visit($this->locatePath($href));
   }
 
   /**
@@ -2009,6 +2028,140 @@ class FeatureContext extends MinkContext {
     $field = $this->getSession()->getPage()->findField('Short project name:');
     if (!empty($field)) {
       throw new Exception('Short project name form field exists on Edit Project page');
+    }
+  }
+
+  /**
+   * @Given /^I should see project name in the first part of the heading$/
+   * Function to check whether project name is present in the commit heding or not
+   * This function is specific to /commitlog screen
+   */
+  public function iShouldSeeProjectNameInTheFirstPartOfTheHeading() {
+    $chk = "";
+    $page = $this->getSession()->getPage();
+    $project = "";
+    $results = $page->findAll("css", ".commit-global h3 a");
+    foreach ($results as $result) {
+      if ($result->hasAttribute('href')) {
+        $project = $result;
+        break;
+      }
+    }
+    if (empty($project)) {
+      throw new Exception("The page did not contain any projects.");
+    }
+    // a > h3
+    $links = $project->getParent();
+    // get all anchor tags under h3 tag
+    $links = $links->findAll("css", "a");
+    foreach ($links as $link) {
+      if ($link->hasAttribute('href')) {
+        $chk = $link->getAttribute('href');
+        // check for '/project/' or '/sandbox/', if available - success
+        if (strpos($chk, '/project/') === FALSE && strpos($chk, '/sandbox/') === FALSE) {
+          throw new Exception("Project title was not found in the first part of the heading");
+        }
+        // as we are looking only for project name, we need only the first link
+        return;
+      }
+    }
+    throw new Exception("Project title was not found in the first part of the heading");
+  }
+
+  /**
+   * @Then /^the "([^"]*)" field should be "([^"]*)"$/
+   * Function to find the state of a field. Here disabled/enabled is supported
+   * @param $field String The field name to check for
+   * @param $state String The expected state of the field.
+   */
+  public function theFieldShouldBe($field, $state) {
+    $page = $this->getSession()->getPage();
+    $fieldObj = $page->findField($field);
+    if (empty($fieldObj)) {
+      throw new Exception("The field '" . $field . "' was not found on the page");
+    }
+    switch ($state) {
+      case 'disabled':
+      case 'disable':
+        if (!$fieldObj->hasAttribute("disabled")) {
+          throw new Exception("The field '" . $field . "' is not '" . $state . "'");
+        }
+        break;
+
+      case 'enabled':
+      case 'enable':
+        if ($fieldObj->hasAttribute("disabled")) {
+          throw new Exception("The field '" . $field . "' is not '" . $state . "'");
+        }
+        break;
+
+      default:
+        throw new Exception("The field '" . $field . "' is not '" . $state . "'");
+        break;
+    }
+  }
+
+  /**
+   * @Then /^I should see at least "([^"]*)" email (?:address|addresses)$/
+   * Function to count the no. of records in the email address table
+   * @param $count Integer The minimum no. of records expected
+   */
+  public function iShouldSeeAtLeastEmailAddress($count) {
+    $page = $this->getSession()->getPage();
+    $trs = $this->getViewDisplayRows($page);
+    if (empty($trs)) {
+      throw new Exception('The page does not have any email addresses');
+    }
+    // the table has extra non-data row at the bottom, so exclude it
+    if (sizeof($trs)-1 < $count) {
+      throw new Exception('The page has less than "' . $count . '" email addresses');
+    }
+  }
+
+  /**
+   * @Then /^I should see at least "([^"]*)" confirmed email (?:address|addresses)$/
+   * Function to count no. of emails that have confirmed
+   * @param $count Integer The minimum no. of records expected
+   */
+  public function iShouldSeeAtLeastConfirmedEmailAddress($count) {
+    $i = 0;
+    $page = $this->getSession()->getPage();
+    $trs = $this->getViewDisplayRows($page);
+    if (empty($trs)) {
+      throw new Exception('The page does not have any email addresses');
+    }
+    // narrowing down to "table tbody tr" becoz, we do not want that string to be anywhere else
+    foreach ($trs as $tr) {
+      // using 'xpath' to find the string
+      // $el = $page->find('xpath', '//div[@id="myid14"]/div/div[2]/a');
+      $td = $tr->find("xpath", '//td[text()="Yes"]');
+      if (!empty($td)) {
+        // not all email addresses will be confirmed, so take the count
+        $i++;
+      }
+    }
+    if ($i < $count) {
+      throw new Exception('The page has less than "' . $count .'" confirmed email addresses');
+    }
+  }
+
+  /**
+   * @Then /^I should not see "([^"]*)" in the dropdown "([^"]*)"$/
+   * Function to check if an option is present in the dropdown or not
+   * @param $value String The option string to be searched for
+   * @param $field String The dropdown field label
+   */
+  public function iShouldNotSeeInTheDropdown($value, $field) {
+    $page = $this->getSession()->getPage();
+    // get the object of the dropdown field
+    $dropDown = $page->findField($field);
+    if (empty($dropDown)) {
+      throw new Exception('The page does not have the dropdown with label "' . $field . '"');
+    }
+    // get all the texts under the dropdown field
+    $options = $dropDown->getText();
+    if (strpos($value, $options) !== FALSE) {
+      throw new Exception('The dropdown "' . $field . '" has the option "' . $value . '", but it should not be.');
     }
   }
 }
