@@ -5,7 +5,7 @@ Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
 
   Scenario: Visit Sandbox Project edit page
     Given I am logged in as "git vetted user"
-    And I follow "Your Dashboard"
+    When I follow "Your Dashboard"
     And I follow "Your Projects"
     And I click the edit link for the first sandbox project from the list
     Then I should not see the Releases tab
