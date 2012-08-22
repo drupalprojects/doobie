@@ -56,47 +56,47 @@ Feature: Documents Management
     And I press "Apply"
     Then I should see at least "2" records
     Examples:
-    | value |
+    | value             |
     | No known problems |
-    | Incomplete |
-    | Insecure code |
+    | Incomplete        |
+    | Insecure code     |
     
   Scenario Outline: Search records by Drupal version
     When I select "<version>" from "Drupal version"
     And I press "Apply"
     Then I should see at least "2" records
     Examples:
-    | version |
+    | version               |
     | Drupal 4.5.x or older |
-    | Drupal 4.6.x |
-    | Drupal 4.7.x |
-    | Drupal 5.x |
-    | Drupal 6.x |
-    | Drupal 7.x |
-    | Drupal 8.x |
+    | Drupal 4.6.x          |
+    | Drupal 4.7.x          |
+    | Drupal 5.x            |
+    | Drupal 6.x            |
+    | Drupal 7.x            |
+    | Drupal 8.x            |
     
   Scenario Outline: Search records by Audience type
     When I select "<audience>" from "Audience type"
     And I press "Apply"
     Then I should see at least "2" records
     Examples:
-    | audience |
-    | Developers and coders |
+    | audience                   |
+    | Developers and coders      |
     | Documentation contributors |
-    | Site administrators |
-    | Site builders |
-    | Site users |
-    | Themers |
+    | Site administrators        |
+    | Site builders              |
+    | Site users                 |
+    | Themers                    |
     
   Scenario Outline: Search records by Level
     When I select "<levelss>" from "Level"
     And I press "Apply"
     Then I should see at least "2" records
     Examples:
-    | levelss |
-    | Beginner |
+    | levels       |
+    | Beginner     |
     | Intermediate |
-    | Advanced |
+    | Advanced     |
   
   Scenario: Search by entering in all the fields
     When I select "Is between" from field "Comment count"
@@ -106,14 +106,14 @@ Feature: Documents Management
     And I enter "site" for field "top level book"
     And I fill in "git" for "Title contains"
     And I select the following <fields> with <values>
-    | fields | values |
-    | Published | Yes |
-    | Page status | No known problems |
-    | Drupal version | Drupal 6.x |
-    | Audience type | Developers and coders |
-    | Level | Intermediate |
+    | fields         | values                 |
+    | Published      | Yes                    |
+    | Page status    | No known problems      |
+    | Drupal version | Drupal 6.x             |
+    | Audience type  | Developers and coders  |
+    | Level          | Intermediate |
     And I press "Apply"
-    Then I should see at least "1" records
+    Then I should see at least "1" record
     
   Scenario: Search by entering in all the fields: No records
     When I select "Is less than" from field "Comment count"
@@ -124,22 +124,22 @@ Feature: Documents Management
   Scenario: Verify pagination links: First page
     And I should see the following <links>
     | links |
-    | next |
-    | last |
-    | 1 |
-    | 2|
+    | next  |
+    | last  |
+    | 1     |
+    | 2     |
     And I should not see the link "first"
-  
+    
   Scenario: Verify pagination links: Second page
     When I click on page "2"
     Then I should see the following <links>
-    | links |
-    | first |
+    | links    |
+    | first    |
     | previous |
-    | 1 |
-    | 3 |
-    | next |
-    | last |
+    | 1        |
+    | 3        |
+    | next     |
+    | last     |
    
   Scenario: Verify pagination links: Last page
     When I click on page "last"

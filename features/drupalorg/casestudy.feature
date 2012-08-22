@@ -28,27 +28,27 @@ Feature: Drupal case studies
     When I follow "Community showcase"
     Then I should see at least "7" records
     And I should see the following <texts>
-    | texts |
-    | Featured showcase |
+    | texts              |
+    | Featured showcase  |
     | Community showcase |
-    | Categories: |
+    | Categories:        |
     | Browse by category |
-    | next |
-    | last |
+    | next               |
+    | last               |
     And I should not see the following <texts>
-    | texts |
+    | texts    |
     | previous |
-    | first |
+    | first    |
 
   Scenario: Browse pagination links in community showcase page: Second page
     Given I am on "/case-studies/community?page=2"
     Then I should see "Drupal Case Studies"
     And I should see the following <links>
-    | links |
-    | first |
-    | previous |
-    | next |
-    | last |
+    | links     |
+    | first     |
+    | previous  |
+    | next      |
+    | last      |
 
   Scenario: Browse pagination links in community showcase page: Last page
     Given I am on "/case-studies/community?page=2"
@@ -72,29 +72,29 @@ Feature: Drupal case studies
     And I should see "Drupal Case Studies: <category>"
 
     Examples:
-    | category |
-    | Education |
+    | category      |
+    | Education     |
     | Entertainment |
-    | Healthcare |
+    | Healthcare    |
     | International |
-    | Journalism |
-    | Publishing |
+    | Journalism    |
+    | Publishing    |
 
   Scenario Outline: Navigate into community showcase categories
     Given I am on "/case-studies/community"
     When I follow "<category>"
     And I should see "Categories:"
     And I should not see "Page not found"
-    And I should see at least "1" records
+    And I should see at least "1" record
 
     Examples:
-    | category |
-    | Arts |
+    | category  |
+    | Arts      |
     | Athletics |
-    | Bikes |
-    | Blogging |
+    | Bikes     |
+    | Blogging  |
     | Corporate |
-    | Design |
+    | Design    |
 
   Scenario: Navigate into an individual case study
     Given I am on "/case-studies/community"
@@ -102,7 +102,7 @@ Feature: Drupal case studies
     Then I should not see "Page not found"
     And I should see "Categories:"
     And I should see the following <texts>
-    | texts |
-    | Why Drupal was chosen: |
+    | texts                                |
+    | Why Drupal was chosen:               |
     | Completed Drupal site or project URL |
-    | Key modules/theme/distribution used |
+    | Key modules/theme/distribution used  |

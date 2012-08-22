@@ -23,7 +23,7 @@ Feature: Use Marketplace Preview to find services
     | last      |
     And I should see at least "10" records
     When I click on page "last"
-    Then I should see at least "1" records
+    Then I should see at least "1" record
 
   @javascript
   Scenario: Check the subcategories under Main category
