@@ -1980,30 +1980,27 @@ class FeatureContext extends MinkContext {
   }
   
   /**
-   * @Given /^I click the edit link for the first sandbox project from the list$/
+   * @Given /^I click the edit link for the sandbox project$/
    */
-  public function iClickTheEditLinkForTheFirstSandboxProjectFromTheList()
+  public function iClickTheEditLinkForTheSandboxProject()
   {
-    // find the first title link from sandbox table
+    // Find the first title link from sandbox table
     $first_a = $this->getSession()->getPage()->find('css', '#content-inner > table.projects.sandbox > tbody td.project-name > a');
     if (!empty($first_a)) {
-      // fetch the <tr> the link belongs to
+      // Fetch the <TR>, the link belongs to
       $tr = $first_a->getParent()->getParent();
       if (!empty($tr)) {
         $edit = $tr->findLink('Edit');
         if (!empty($edit)) {
           $edit->click();
         }else {
-          $message = 'Edit link can not be found';
+          throw new Exception('Edit link can not be found');
         }
       }else {
-        $message = 'Edit link can not be found';
+        throw new Exception('Edit link can not be found');
       }
     }else {
-      $message = 'Sand box project doesn\'t exist for the user';
-    }
-    if (isset($message)) {
-      throw new Exception($message);
+      throw new Exception('Sand box project doesn\'t exist for the user');
     }
   }
 
@@ -2163,5 +2160,19 @@ class FeatureContext extends MinkContext {
     if (strpos($value, $options) !== FALSE) {
       throw new Exception('The dropdown "' . $field . '" has the option "' . $value . '", but it should not be.');
     }
+  }
+
+  /**
+   * @When /^I click the Sandbox project link$/
+   */
+  public function iClickTheSandboxProjectLink()
+  {
+    // Find the first title link from sandbox table
+    $first_a = $this->getSession()->getPage()->find('css', '#content-inner > table.projects.sandbox > tbody td.project-name > a');
+    if (!empty($first_a)) {
+      $this->getSession()->visit($first_a->getAttribute('href'));
+      return;
+    }
+    throw new Exception('Sandbox project link cannot be found');
   }
 }
