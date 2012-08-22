@@ -1668,52 +1668,72 @@ class FeatureContext extends MinkContext {
 
   /**
    * @When /^I click on "([^"]*)" of a commit$/
-   * Function to clik on various links present in a commit
+   * Function to click on various links present in a commit
    * @param $linkType String The type of link to click
    * This function is specific to /commitlog screen
    */
   public function iClickOnOfACommit($linkType) {
     $page = $this->getSession()->getPage();
     $href = "";
+    $project = "";
+    $results = $page->findAll("css", ".commit-global h3 a");
+    foreach ($results as $result) {
+      if ($result->hasAttribute('href')) {
+        $project = $result;
+        break;
+      }
+    }
+    if (empty($project)) {
+      throw new Exception("The page did not contain any projects.");
+    }
+    // a > h3 > div.commit-global
+    $commitGlobal = $project->getParent()->getParent();
     switch ($linkType) {
       case 'user name':
-        $temp = $page->find("css", ".commit-global .attribution a");
-        $href = $temp->getAttribute('href');
-      break;
-      case 'project title':
-        $links = $page->findAll("css", ".commit-global h3 a");
-        foreach ($links as $link) {
-          $temp = $link->getAttribute('href');
-          // check if this is full project. If not, then check for next link
-          if (strpos($temp, '/project/') !== FALSE) {
-            $href = $temp;
-            break;
+        $temp = $commitGlobal->find("css", ".attribtution a");
+        if (!empty($temp)) {
+          $href = $temp->getAttribute('href');
+        }
+        else {
+          $temp = $commitGlobal->find("css", ".commit-global .attribution a");
+          if (!empty($temp)) {
+            $href = $temp->getAttribute('href');
           }
         }
       break;
+      case 'project title':
+        $href = $project->getAttribute('href');
+      break;
       case 'sandbox project title':
         $links = $page->findAll("css", ".commit-global h3 a");
-        foreach ($links as $link) {
-          $temp = $link->getAttribute('href');
-          // check if this is sandbox project. If not, then check for next link
-          if (strpos($temp, '/sandbox/') !== FALSE) {
-            $href = $temp;
-            break;
+        if (!empty($links)) {
+          foreach ($links as $link) {
+            $temp = $link->getAttribute('href');
+            // check if this is sandbox project. If not, then check for next link
+            if (strpos($temp, '/sandbox/') !== FALSE) {
+              $href = $temp;
+              break;
+            }
           }
         }
       break;
       case 'date':
-        $links = $page->findAll("css", ".commit-global h3 a");
-        foreach ($links as $link) {
-          if ($link->hasAttribute('href')) {
-            $href = $link->getAttribute('href');
+        $links = $commitGlobal->findAll("css", "h3 a");
+        if (!empty($links)) {
+          foreach ($links as $link) {
+            // get the second link from h3 tag
+            if ($link->hasAttribute('href')) {
+              $href = $link->getAttribute('href');
+            }
           }
         }
       break;
       case 'commit info':
         // this is the 8 digit hash
-        $temp = $page->find("css", ".commit-global .commit-info a");
-        $href = $temp->getAttribute('href');
+        $temp = $commitGlobal->find("css", ".commit-info a");
+        if (!empty($temp)) {
+          $href = $temp->getAttribute('href');
+        }
       break;
       case 'file name':
         // this is the file name that got committed and can be seen in individual commit message
@@ -1726,14 +1746,50 @@ class FeatureContext extends MinkContext {
         }
       break;
       default:
+        throw new Exception("Link type '" . $linkType . "' is not valid.");
       break;
     }
-    if ($href != "") {
-      $this->getSession()->visit($this->locatePath($href));
+    if (trim($href) == "") {
+      throw new Exception("No link for '" . $linkType . "' was found on the page");
     }
-    else {
-      throw new Exception("No link for '" . $linkType . "' was found");
+    $this->getSession()->visit($this->locatePath($href));
+  }
+
+    /**
+   * @Given /^I should see project name in the first part of the heading$/
+   * Function to check whether project name is present in the commit heading or not
+   * This function is specific to /commitlog screen
+   */
+  public function iShouldSeeProjectNameInTheFirstPartOfTheHeading() {
+    $chk = "";
+    $page = $this->getSession()->getPage();
+    $project = "";
+    $results = $page->findAll("css", ".commit-global h3 a");
+    foreach ($results as $result) {
+      if ($result->hasAttribute('href')) {
+        $project = $result;
+        break;
+      }
     }
+    if (empty($project)) {
+      throw new Exception("The page did not contain any projects.");
+    }
+    // a > h3
+    $links = $project->getParent();
+    // get all anchor tags under h3 tag
+    $links = $links->findAll("css", "a");
+    foreach ($links as $link) {
+      if ($link->hasAttribute('href')) {
+        $chk = $link->getAttribute('href');
+        // check for '/project/' or '/sandbox/', if available - success
+        if (strpos($chk, '/project/') === FALSE && strpos($chk, '/sandbox/') === FALSE) {
+          throw new Exception("Project title was not found in the first part of the heading");
+        }
+        // as we are looking only for project name, we need only the first link
+        return;
+      }
+    }
+    throw new Exception("Project title was not found in the first part of the heading");
   }
 
   /**
