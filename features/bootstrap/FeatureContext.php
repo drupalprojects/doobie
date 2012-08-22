@@ -2181,7 +2181,19 @@ class FeatureContext extends MinkContext {
     }
     throw new Exception('Sandbox project link cannot be found');
   }
-
+  
+  /**
+   * @Given /^I click the Full project link$/
+   */
+  public function iClickTheFullProjectLink() {
+      // Find the first title link from project table
+    $first_a = $this->getSession()->getPage()->find('css', '#content-inner > table.projects > tbody td.project-name > a');
+    if (!empty($first_a)) {
+      $this->getSession()->visit($first_a->getAttribute('href'));
+      return;
+    }
+    throw new Exception('Full project link cannot be found');
+   }
     /**
    * Multiple File Upload
    */
