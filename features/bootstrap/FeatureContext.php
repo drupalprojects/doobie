@@ -188,7 +188,8 @@ class FeatureContext extends MinkContext {
    * @defgroup helper functions
    * @{
    */
-
+  private static $random = array();
+  
   /**
    * Helper function to generate a random string of arbitrary length.
    *
@@ -196,11 +197,13 @@ class FeatureContext extends MinkContext {
    *
    * @param int $length
    *   Number of characters the generated string should contain.
+   * @param string $store
+   *   The name to store this random string in for later retrieval with fetchRandomString()
    *
    * @return string
    *   The generated string.
    */
-  public function randomString($length = 10) {
+  public function randomString($length = 10, $store = FALSE) {
     // This variable contains the list of allowable characters for the
     // password. Note that the number 0 and the letter 'O' have been
     // removed to avoid confusion between the two. The same is true
@@ -221,7 +224,27 @@ class FeatureContext extends MinkContext {
       $pass .= $allowable_characters[mt_rand(0, $len)];
     }
 
+    if ($store) {
+      $this->random[$store] = $pass;
+    }
+
     return $pass;
+  }
+
+  /**
+   * Helper function to fetch previously generated random strings stored by randomString().
+   *
+   * @param string $name
+   *   The name of the random string.
+   *
+   * @return string
+   *   The stored string.
+   */
+  public function fetchRandomString($name) {
+    if (array_key_exists($name, $this->random)) {
+      return $this->random[$name];
+    }
+    return FALSE;
   }
 
   /**
@@ -1113,10 +1136,24 @@ class FeatureContext extends MinkContext {
   public function iFillInWithRandomText($label)
   {
     // A @Tranform would be more elegant.
-    $randomString = $this->randomString();
+    $randomString = $this->randomString(10, $label);
     $step = "I fill in \"$label\" with \"$randomString\"";
     return new Then($step);
   }
+
+  /**
+   * @Then /^I should see the random "([^"]*)" text$/
+   */
+  public function iShouldSeeTheRandomText($label)
+  {
+    $text = $this->fetchRandomString($label);
+    if (!$text) {
+      throw new Exception("No random text stored for $label.");
+    }
+    $step = "I should see \"$text\"";
+    return new Then($step); 
+  }
+
 
   /**
    * @Given /^I should see at least "([^"]*)" record(?:|s)$/
