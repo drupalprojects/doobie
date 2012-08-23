@@ -26,7 +26,7 @@ Feature: Create a project
     And I am on "/node/add/project-project"
     Then I should see that the Sandbox checkbox is "enabled"
 
-  Scenario: Check Sandbox checkbox can be checked by git vetted user
+  Scenario: Check Sandbox checkbox can be checked by admin
     Given I am logged in as "admin test"
     And I am on "/node/add/project-project"
     Then I should see that the Sandbox checkbox is "enabled"
