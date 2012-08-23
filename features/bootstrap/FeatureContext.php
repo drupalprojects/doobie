@@ -2386,4 +2386,26 @@ class FeatureContext extends MinkContext {
       throw new Exception('Sandbox checkbox is not '. $attribute);
     }
   }
+
+  /**
+   * @Given /^the field "([^"]*)" should be outlined in red$/
+   * Function to check if the field specified is outlined in red or not
+   * @param $field String The form field label to be checked
+   */
+  public function theFieldShouldBeOutlinedInRed($field) {
+    $page = $this->getSession()->getPage();
+    // get the object of the field
+    $formField = $page->findField($field);
+    if (empty($formField)) {
+      throw new Exception('The page does not have the field with label "' . $field . '"');
+    }
+    // get the 'class' attribute of the field
+    $class = $formField->getAttribute("class");
+    // we get one or more classes with space separated. Split them using space
+    $class = explode(" ", $class);
+    // if the field has 'error' class, then the field will be outlined with red
+    if (!in_array("error", $class)) {
+      throw new Exception('The field "' . $field . '" is not outlined with red');
+    }
+  }
 }
