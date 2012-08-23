@@ -34,4 +34,4 @@ Feature: Project release files
     When I select "8.x" from "API version"
     And I press "Apply"
     And I download the "zip" file "drupal-8.x-dev.zip"
-    Then the md5 hash should match "e888bc45a3f608932a77a322b25ca857"
+    Then the md5 hash should match "95b5798567bf9704855d95baae0e8856"

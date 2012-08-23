@@ -78,6 +78,11 @@ class FeatureContext extends MinkContext {
   private $file_path = '';
 
   /**
+   * Store the md5 hash of a downloaded file
+   */
+  private $md5Hash = '';
+
+  /**
    * Initializes context.
    *
    * Every scenario gets its own context object.
@@ -1409,19 +1414,38 @@ class FeatureContext extends MinkContext {
     if (!empty($result)) {
       foreach ($result as $res) {
         if ($res->getText() == $filename) {
+          // get the link to download
           $href = $res->getAttribute("href");
+          // get parent row $res = <a>, $res->getParent() = <td>
+          // $res->getParent()->getParent() = <tr>
+          $parent = $res->getParent()->getParent();
+          // from parent row get the file hash column and its contents
+          $md5Hash = $parent->find('css', '.views-field-filehash')->getText();
+          // set the temporary variable for use in "the md5 hash should match"
+          $this->md5Hash = $md5Hash;
           break;
         }
       }
       if ($href) {
-        // this will work only on Goutte as Selenium does not support this
         $this->getSession()->visit($href);
+        //will work only on Goutte. Selenium does not support responseHeaders
         $responseHeaders = $this->getSession()->getResponseHeaders();
         if ((int) $responseHeaders['Content-Length'][0] > 10000) {
-          if ($type != "tar" || $type != "zip" ||
-           $responseHeaders['Content-Type'] != "application/x-gzip" ||
-           $responseHeaders['Content-Type'] == "application/zip") {
-            throw new Exception("The file '" . $filename. "' was not downloaded");
+          // if "tar" is requested, then chk corresponding content type
+          if ($type == "tar") {
+            if ($responseHeaders['Content-Type'] != "application/x-gzip") {
+              throw new Exception("The file '" . $filename. "' was not downloaded");
+            }
+          }
+          // if "zip" is requested, then chk corresponding content type
+          elseif ($type == "zip") {
+            if ($responseHeaders['Content-Type'] != "application/zip") {
+              throw new Exception("The file '" . $filename. "' was not downloaded");
+            }
+          }
+          // if any thing other than tar or zip is requested, throw error
+          else {
+            throw new Exception("Only 'tar' and 'zip' files can be downloaded");
           }
         }
         else {
@@ -1437,12 +1461,14 @@ class FeatureContext extends MinkContext {
     }
   }
 
-    /**
-     * @Then /^the md5 hash should match "(?P<md5hash>[^"]*)"$/
-     */
-    public function theMdHashShouldMatch($md5hash) {
-        throw new PendingException();
+  /**
+   * @Then /^the md5 hash should match "([^"]*)"$/
+   */
+  public function theMd5HashShouldMatch($md5hash) {
+    if ($md5hash != $this->md5Hash) {
+      throw new Exception("The md5 hash does not match");
     }
+  }
 
   /**
   * @Then /^I should see the following <subcategories> under "([^"]*)"$/
