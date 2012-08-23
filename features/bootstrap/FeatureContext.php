@@ -1154,6 +1154,14 @@ class FeatureContext extends MinkContext {
     return new Then($step); 
   }
 
+  /**
+   * @When /^I see "([^"]*)"$/
+   */
+  public function iSee($text)
+  {
+    $step = "I should see \"$text\"";
+    return new Then($step);
+  }
 
   /**
    * @Given /^I should see at least "([^"]*)" record(?:|s)$/
