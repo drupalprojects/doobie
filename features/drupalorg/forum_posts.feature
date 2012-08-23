@@ -1,5 +1,5 @@
 Feature: Post a forum topic as a site user
-  In order to discuss about a topic
+  In order to discuss a topic
   As a site user
   I should be able to post a new forum topic
 

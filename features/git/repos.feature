@@ -1,7 +1,7 @@
-Feature: Users want to share code
+Feature: Users create git repository
   In order to share and improve code
-  As a user
-  I need to create sandboxes and projects
+  As a git user
+  I need to initialize a git repo for my project 
 
   Background:
     Given I am logged in as "git user"
