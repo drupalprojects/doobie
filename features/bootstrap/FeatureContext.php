@@ -917,6 +917,9 @@ class FeatureContext extends MinkContext {
     elseif ($field == "enter your keywords") {
       $field = "edit-keys";
     }
+    elseif ($field == "add new e-mail") {
+      $field = "edit-email";
+    }
     return new Given("I fill in \"$field\" with \"$value\"");
   }
 
@@ -1205,6 +1208,7 @@ class FeatureContext extends MinkContext {
       'row' => '.view div.views-row',
       'row li' => '.view li.views-row',
       'sitewide search' => 'dl.search-results dt',
+      'emails table' => '#multiple-email-manage table tbody tr'
     );
     foreach ($classes as $type => $class) {
       $result = $page->findAll('css', $class);
