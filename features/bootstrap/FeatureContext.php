@@ -863,14 +863,18 @@ class FeatureContext extends MinkContext {
    */
   public function iSelectFromField($value, $field) {
     $field = strtolower($field);
-    if ($field == 'change node created')
+    if ($field == 'change node created') {
       $field = 'created_op';
-    elseif ($field == 'comment count')
+    }
+    elseif ($field == 'comment count') {
       $field = 'edit-comment-count-op';
-    elseif ($field == 'top level book')
+    }
+    elseif ($field == 'top level book') {
       $field = 'edit-title-op';
-    elseif ($field == 'select...')
+    }
+    elseif ($field == 'select...') {
       $field = 'edit-objects-selector';
+    }
     $page = $this->getSession()->getPage();
     $page->selectFieldOption($field, trim($value));
     if (empty($page))
@@ -883,24 +887,36 @@ class FeatureContext extends MinkContext {
    */
   public function iEnterForField($value, $field) {
     $field = strtolower($field);
-    if ($field == "created date")
+    if ($field == "created date") {
       $field = "edit-created-value";
-    elseif ($field == "start date")
+    }
+    elseif ($field == "start date") {
       $field = "edit-created-min";
-    elseif ($field == "end date")
+    }
+    elseif ($field == "end date") {
       $field = "edit-created-max";
-    elseif ($field == "key modules/theme/distribution used")
+    }
+    elseif ($field == "key modules/theme/distribution used") {
       $field = "edit-field-module-0-nid-nid";
-    elseif ($field == "issues")
+    }
+    elseif ($field == "issues") {
       $field = "edit-field-issues-0-nid-nid";
-    elseif ($field == "comment count")
+    }
+    elseif ($field == "comment count") {
       $field = "edit-comment-count-value";
-    elseif ($field == "top level book")
+    }
+    elseif ($field == "top level book") {
       $field = "edit-title";
-    elseif ($field == "comment count minimum")
+    }
+    elseif ($field == "comment count minimum") {
       $field = "edit-comment-count-min";
-    elseif ($field == "comment count maximum")
+    }
+    elseif ($field == "comment count maximum") {
       $field = "edit-comment-count-max";
+    }
+    elseif ($field == "enter your keywords") {
+      $field = "edit-keys";
+    }
     return new Given("I fill in \"$field\" with \"$value\"");
   }
 
@@ -1187,7 +1203,8 @@ class FeatureContext extends MinkContext {
       'table' => '.view table.views-table tr',
       'grid' => '.view table.views-view-grid tr td',
       'row' => '.view div.views-row',
-      'row li' => '.view li.views-row'
+      'row li' => '.view li.views-row',
+      'sitewide search' => 'dl.search-results dt',
     );
     foreach ($classes as $type => $class) {
       $result = $page->findAll('css', $class);
