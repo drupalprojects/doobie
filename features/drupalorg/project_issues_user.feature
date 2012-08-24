@@ -9,16 +9,16 @@ Feature: Your Issues
 
   Scenario: For navigating on the user specific issues.
     Then I should see the following <links>
-    | links |
+    | links              |
     | Create a new issue |
-    | Advanced search |
+    | Advanced search    |
     And I should see the following <texts>
-    | texts |
+    | texts      |
     | Search for |
-    | Project |
-    | Status |
-    | Priority |
-    | Category |
+    | Project    |
+    | Status     |
+    | Priority   |
+    | Category   |
 
   Scenario: For searching for a matching records.
     When I fill in "Search for" with "test 6"
@@ -31,8 +31,8 @@ Feature: Your Issues
     And I wait for the suggestion box to appear
     And I select "443 Session" from the suggestion "Project"
     And I select the following <fields> with <values>
-    | fields | values |
-    | Status | fixed |
+    | fields   | values |
+    | Status   | fixed  |
     | Priority | normal |
     And I wait for "5" seconds
     And I press "Search" in the "content" region
@@ -52,9 +52,9 @@ Feature: Your Issues
 
   Scenario: For searching the records with priority with status/priority
     When I select the following <fields> with <values>
-    | fields | values |
-    | Status | needs work |
-    | Priority | normal |
+    | fields   | values     |
+    | Status   | needs work |
+    | Priority | normal     |
     And I press "Search" in the "content" region
     Then I should see at least "1" record
     And I should see "needs work" under "Status"
