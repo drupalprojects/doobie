@@ -32,6 +32,7 @@ default:
         content: '#column-left'
       # set the absolute path to the files folder of this project
       files_path: '/path/to/doobie/files'
+      post title: 'enter a node title here that has a link on the current page'
 
   extensions:
     Behat\MinkExtension\Extension:
