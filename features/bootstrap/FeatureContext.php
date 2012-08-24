@@ -1111,14 +1111,15 @@ class FeatureContext extends MinkContext {
     $result->click();
     //use response headers to make sure we got the xml data and not html
     $responseHeaders = $this->getSession()->getResponseHeaders();
-    if (strpos($responseHeaders['Content-Type'], "application/rss+xml") === FALSE) {
-      throw new Exception("This page '" . $this->getSession()->getCurrentUrl() .
-       "' does not provide xml data");
-    }
     // Use goutedriver get content to get the complete xml data and store it
     //temporarily in a variable for use by function iShouldSeeTheTextInTheFeed()
     $this->xmlContent =
      $this->getSession()->getDriver()->getClient()->getResponse()->getContent();
+    if (strpos($responseHeaders['Content-Type'], "application/rss+xml") === FALSE) {
+      if (strpos($this->xmlContent, "<?xml version=") === FALSE && strpos($this->xmlContent, "<rss version=") === FALSE) {
+        throw new Exception("This page '" . $this->getSession()->getCurrentUrl() . "' does not provide xml data");
+      }
+    }
   }
   /**
    * @Then /^I should see the text "([^"]*)" in the feed$/
