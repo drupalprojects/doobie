@@ -83,7 +83,7 @@ class FeatureContext extends MinkContext {
   private $md5Hash = '';
 
   /**
-   * Store a post title
+   * Store a post title value
    */
   private $postTitle = '';
 
