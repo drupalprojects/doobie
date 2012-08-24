@@ -5,7 +5,7 @@ Feature: Overall Filter Search for Issues
 
   Background:
     Given I am on "/project/issues"
-  
+
   Scenario: Visting the project issues page
     Then I should see the heading "Issues for all projects"
     And I should see "Download & Extend"
@@ -38,7 +38,7 @@ Feature: Overall Filter Search for Issues
     And I should not see "needs work" under "Status"
     And I should not see "fixed" under "Status"
 
-    Scenario: For Searching issues that needs review
+  Scenario: For Searching issues that needs review
     When I select "needs review" from "Status"
     And I press "Search" in the "content" region
     Then I should see at least "1" records
@@ -46,7 +46,7 @@ Feature: Overall Filter Search for Issues
     And I should not see "needs work" under "Status"
     And I should not see "active" under "Status"
 
-    Scenario: For Searching Issues based on Priorty and Category
+  Scenario: For Searching Issues based on Priorty and Category
     When I select "normal" from "Priority"
     Then I press search to filter
     And I should see at least "1" records
