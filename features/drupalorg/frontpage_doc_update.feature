@@ -13,7 +13,7 @@ Feature: Verify document list update on homepage
     And I fill in "Title" with random text
     And I fill in "Body" with "Sample random behat testing body text of more than 10 words."
     And I press "Save"
-    And I should see "has been created"
+    And I see "has been created"
     And I follow "Drupal Homepage"
     And I follow "Docs Updates"
     Then I should see the random "Title" text
@@ -31,7 +31,7 @@ Feature: Verify document list update on homepage
     And I fill in "Keywords" with random text
     And I fill in "Body" with "Sample behat testing body text of more than 10 words."
     And I press "Save"
-    And I should see "has been created"
+    And I see "has been created"
     And I follow "Drupal Homepage"
     And I follow "Docs Updates"
     Then I should see the random "Title" text
