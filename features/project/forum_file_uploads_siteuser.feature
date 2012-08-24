@@ -1,7 +1,7 @@
 Feature:
   In order to restrict unauthorized users from uploading files while creating a Forum Topic
-  As a site user
-  I need to be able to check file upload is not permitted
+  As a site admin
+  I need to know that file upload is not permitted for auth users without elevated permission.
 
   Scenario: Check File Attachments is not available for site user
     Given I am logged in as "site user"
