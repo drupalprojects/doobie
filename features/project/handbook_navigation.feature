@@ -10,7 +10,7 @@ Feature:
     | Community Docs Home   |
     | Installation Guide    |
     | Administration Guide  |
-    Then I should see that the tab "Community Docs Home" is highlighted
+    And I should see that the tab "Community Docs Home" is highlighted
     And I should see the heading "Community Documentation"
     And I should see the following <blocks> in the right sidebar
     | blocks |
@@ -24,7 +24,7 @@ Feature:
     | Community Docs Home   |
     | Installation Guide    |
     | Administration Guide  |
-    Then I should see that the tab "Installation Guide" is highlighted
+    And I should see that the tab "Installation Guide" is highlighted
     And I should see the heading "Community Documentation"
     And I should see the following <blocks> in the right sidebar
     | blocks |
@@ -40,7 +40,7 @@ Feature:
     | Community Docs Home   |
     | Installation Guide    |
     | Administration Guide  |
-    Then I should see that the tab "Administration Guide" is highlighted
+    And I should see that the tab "Administration Guide" is highlighted
     And I should see the heading "Community Documentation"
     And I should see the following <blocks> in the right sidebar
     | blocks |

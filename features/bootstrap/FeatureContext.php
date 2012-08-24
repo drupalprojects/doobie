@@ -2606,7 +2606,6 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-<<<<<<< HEAD
    * @Then /^I should see the following <tabs>$/
    */
   public function iShouldSeeTheFollowingTabs(TableNode $table)
@@ -2628,7 +2627,10 @@ class FeatureContext extends MinkContext {
       if (!in_array($t['tabs'], $arr_tabs)) {
         throw new Exception('The tab: "' . $t['tabs'] . '" cannot be found' );
       }
-=======
+    }    
+  }
+
+  /**
    * @Then /^the page status should be "([^"]*)"$/
    * Function to check the status of a book page
    * @param $status String The status of the page
@@ -2641,12 +2643,10 @@ class FeatureContext extends MinkContext {
     }
     if (trim($currStatus->getText()) != trim($status)) {
       throw new Exception("The status of the page is not '" . $status . "'");
->>>>>>> 3d6d84300e887179590baa1717e3bec2334621a7
     }
   }
 
   /**
-<<<<<<< HEAD
    * @Then /^I should see that the tab "([^"]*)" is highlighted$/
    */
   public function iShouldSeeThatTheTabIsHighlighted($tab)
@@ -2693,7 +2693,10 @@ class FeatureContext extends MinkContext {
       if (!in_array($t['blocks'], $arr_headings)) {
         throw new Exception('The block: "' . $t['blocks'] . '" cannot be found in the right sidebar' );
       }
-=======
+    }
+  }
+
+  /**
    * @Given /^the background of the status should be "([^"]*)"$/
    * Function to check the background of the status message on a book page
    * @param $color String The color of the status
@@ -2731,12 +2734,10 @@ class FeatureContext extends MinkContext {
       default:
         throw new Exception("There is no status on the page " . $this->getSession()->getCurrentUrl());
       break;
->>>>>>> 3d6d84300e887179590baa1717e3bec2334621a7
     }
   }
 
   /**
-<<<<<<< HEAD
    * @Given /^I should see the copyright statement in the right sidebar$/
    */
   public function iShouldSeeTheCopyrightStatementInTheRightSidebar()
@@ -2751,8 +2752,8 @@ class FeatureContext extends MinkContext {
       throw new Exception('Copyright statement cannot be found in the right sidebar');
     }
   }
-}
-=======
+
+  /**
    * @Given /^I click on a book page$/
    * Function to navigate to a page. The page to be navigated is defined in getPostTitleObject()
    */
@@ -2765,4 +2766,3 @@ class FeatureContext extends MinkContext {
     $this->getSession()->visit($this->locatePath($bookPage->getAttribute('href')));
   }
 }
->>>>>>> 3d6d84300e887179590baa1717e3bec2334621a7
