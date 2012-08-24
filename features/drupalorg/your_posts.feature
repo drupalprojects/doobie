@@ -4,7 +4,7 @@ Feature: Your Posts
   I want to find them listed all in a single place
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as "ksbalajisundar"
     And I follow "Your Posts"
 
   Scenario: To navigate to your posts page
@@ -16,7 +16,7 @@ Feature: Your Posts
     | Replies      |
     | Last updated |
     And I should see at least "5" replies for the post
-    And I should see at least '1" new replies for the post
+    And I should see at least "1" new replies for the post
     And I should see updated for the post
 
   Scenario: Verify pagination links: First page
