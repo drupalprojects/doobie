@@ -2603,4 +2603,95 @@ class FeatureContext extends MinkContext {
     }
     return $result;
   }
+
+  /**
+   * @Then /^I should see the following <tabs>$/
+   */
+  public function iShouldSeeTheFollowingTabs(TableNode $table)
+  {
+    // Fetch tab links
+    $tab_links = $this->getSession()->getPage()->findAll('css', '#nav-content ul.links > li > a');
+    if (empty($tab_links)) {
+      throw new Exception('No tabs found');
+    }
+    $arr_tabs = array();
+    foreach ($tab_links as $tab) {
+      $arr_tabs[] = $tab->getText();
+    }
+    if (empty($table)) {
+      throw new Exception('No tabs specified');
+    }
+    // Loop through table and check tab is present
+    foreach ($table->getHash() as $t) {
+      if (!in_array($t['tabs'], $arr_tabs)) {
+        throw new Exception('The tab: "' . $t['tabs'] . '" cannot be found' );
+      }
+    }
+  }
+
+  /**
+   * @Then /^I should see that the tab "([^"]*)" is highlighted$/
+   */
+  public function iShouldSeeThatTheTabIsHighlighted($tab)
+  {
+    $ul = $this->getSession()->getPage()->find('css', '#nav-content ul.links');
+    if (empty($ul)) {
+      throw new Exception('No tabs found');
+    }
+    $tablink = $ul->findLink($tab);
+    if (empty($tablink)) {
+      throw new Exception('The tab: "' . $tab . '" cannot be found' );
+    }
+    if ('active active' != $tablink->getAttribute('class')) {
+      throw new Exception('The tab: "' . $tab . '" is not highlighted' );
+    }
+  }
+
+  /**
+   * @Given /^I should see the following <blocks> in the right sidebar$/
+   */
+  public function iShouldSeeTheFollowingBlocksInTheRightSidebar(TableNode $table)
+  {
+    $blocks = $this->getSession()->getPage()->findAll("css", $this->right_sidebar." #column-right-region > div");
+    if (empty($blocks)) {
+      throw new Exception('No blocks found in the right sidebar');
+    }
+    $arr_headings = array();
+    foreach ($blocks as $block) {
+       $h2 = $block->find('css', 'h2');
+       if (!empty($h2)) {
+         $arr_headings[] = $h2->getText();
+       }else {
+         $link = $block->find('css', 'a');
+         if (!empty($link)) {
+           $arr_headings[] = $link->getText();
+         }
+       }       
+    }
+    if (empty($table)) {
+      throw new Exception('No blocks specified');
+    }
+    // Loop through table and check tab is present
+    foreach ($table->getHash() as $t) {
+      if (!in_array($t['blocks'], $arr_headings)) {
+        throw new Exception('The block: "' . $t['blocks'] . '" cannot be found in the right sidebar' );
+      }
+    }
+  }
+
+  /**
+   * @Given /^I should see the copyright statement in the right sidebar$/
+   */
+  public function iShouldSeeTheCopyrightStatementInTheRightSidebar()
+  {
+    $block = $this->getSession()->getPage()->find("css", $this->right_sidebar." #column-right-region > #block-drupalorg_handbook-license div.block-inner div.block-content");
+    if (empty($block)) {
+      throw new Exception('No blocks found in the right sidebar');
+    }
+    $copyright = 'Drupal&rsquo;s online documentation is &copy; 2000-2012 by the individual contributors and can be used in accordance with the';
+    $contents = htmlentities(trim($block->getText()));
+    if (!strstr($contents, $copyright)) {
+      throw new Exception('Copyright statement cannot be found in the right sidebar');
+    }
+  }
 }
