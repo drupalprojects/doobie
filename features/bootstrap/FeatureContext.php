@@ -2604,4 +2604,74 @@ class FeatureContext extends MinkContext {
     }
     return $result;
   }
+
+  /**
+   * @Then /^the page status should be "([^"]*)"$/
+   * Function to check the status of a book page
+   * @param $status String The status of the page
+   */
+  public function thePageStatusShouldBe($status) {
+    $page = $this->getSession()->getPage();
+    $currStatus = $page->find("css", "#block-drupalorg_handbook-meta-sidebar .page-status");
+    if (empty($currStatus)) {
+      throw new Exception("The status of the page is not '" . $status . "'");
+    }
+    if (trim($currStatus->getText()) != trim($status)) {
+      throw new Exception("The status of the page is not '" . $status . "'");
+    }
+  }
+
+  /**
+   * @Given /^the background of the status should be "([^"]*)"$/
+   * Function to check the background of the status message on a book page
+   * @param $color String The color of the status
+   */
+  public function theBackgroundOfTheStatusShouldBe($color) {
+    $page = $this->getSession()->getPage();
+    $currStatus = $page->find("css", "#block-drupalorg_handbook-meta-sidebar .page-status");
+    if (empty($currStatus)) {
+      throw new Exception("There is no status on the page (" . $this->getSession()->getCurrentUrl() . ")");
+    }
+    $classes = $currStatus->getAttribute('class');
+    $classes = explode(" ", $classes);
+    switch ($color) {
+      case 'red':
+      case 'Red':
+        if (!in_array('page-major-problem', $classes)) {
+          throw new Exception("The background of the status is not '" . $color . "' on the page " . $this->getSession()->getCurrentUrl());
+        }
+      break;
+
+      case 'green':
+      case 'Green':
+        if (!in_array('page-ok', $classes)) {
+          throw new Exception("The background of the status is not '" . $color . "' on the page " . $this->getSession()->getCurrentUrl());
+        }
+      break;
+
+      case 'yellow':
+      case 'Yellow':
+        if (!in_array('page-needs-work', $classes)) {
+          throw new Exception("The background of the status is not '" . $color . "' on the page " . $this->getSession()->getCurrentUrl());
+        }
+      break;
+
+      default:
+        throw new Exception("There is no status on the page " . $this->getSession()->getCurrentUrl());
+      break;
+    }
+  }
+
+  /**
+   * @Given /^I click on a book page$/
+   * Function to navigate to a page. The page to be navigated is defined in getPostTitleObject()
+   */
+  public function iClickOnABookPage() {
+    $page = $this->getSession()->getPage();
+    $bookPage = $this->getPostTitleObject($page);
+    if (empty($bookPage)) {
+      throw new Exception("The page does not have any book page");
+    }
+    $this->getSession()->visit($this->locatePath($bookPage->getAttribute('href')));
+  }
 }
