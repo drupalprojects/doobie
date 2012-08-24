@@ -1,6 +1,7 @@
-Feature: In order to keep track of responses to issues I've posted
-As an authenticated user
-I want to find them listed all in a single place
+Feature: Your Posts
+  In order to keep track of responses to issues I've posted
+  As an authenticated user
+  I want to find them listed all in a single place
 
   Background:
     Given I am logged in as "site user"
@@ -17,7 +18,7 @@ I want to find them listed all in a single place
     And I should see at least "5" replies for the post
     And I should see at least '1" new replies for the post
     And I should see updated for the post
-    
+
   Scenario: Verify pagination links: First page
     Then I should see the following <links>
     | links        |

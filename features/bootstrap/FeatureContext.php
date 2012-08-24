@@ -58,14 +58,14 @@ class FeatureContext extends MinkContext {
    */
   private $drushAlias = FALSE;
 
-  /** 
+  /**
    * Store region ids
    */
   private $right_sidebar = "";
   private $home_bottom_right = '';
 
-  /** 
-   *Store rss feed xml content 
+  /**
+   *Store rss feed xml content
    */
   private $xmlContent = "";
 
@@ -81,6 +81,11 @@ class FeatureContext extends MinkContext {
    * Store the md5 hash of a downloaded file
    */
   private $md5Hash = '';
+
+  /**
+   * Store a post title
+   */
+  private $postTitle = '';
 
   /**
    * Initializes context.
@@ -112,6 +117,9 @@ class FeatureContext extends MinkContext {
     }
     if (isset($parameters['files_path'])) {
       $this->file_path = $parameters['files_path'];
+    }
+    if (isset($parameters['post title'])) {
+      $this->postTitle= $parameters['post title'];
     }
   }
 
@@ -189,7 +197,7 @@ class FeatureContext extends MinkContext {
    * @{
    */
   private static $random = array();
-  
+
   /**
    * Helper function to generate a random string of arbitrary length.
    *
@@ -946,6 +954,9 @@ class FeatureContext extends MinkContext {
       throw new Exception("The page '" . $pager . "' was not found");
     }
     $result = $page->find('css', $class);
+    if(empty($result)) {
+    throw new Exception("The page '" . $pager . "' was not found");
+    }
     $href = $result->getAttribute("href");
     $this->getSession()->visit($href);
   }
@@ -1170,7 +1181,7 @@ class FeatureContext extends MinkContext {
       throw new Exception("No random text stored for $label.");
     }
     $step = "I should see \"$text\"";
-    return new Then($step); 
+    return new Then($step);
   }
 
   /**
@@ -1941,7 +1952,7 @@ class FeatureContext extends MinkContext {
    */
   public function iFollowAPost() {
     $page = $this->getSession()->getPage();
-    $temp = $page->find("css", ".views-table .views-row-first td a");
+    $temp = $this->getPostTitleObject($page);
     if (empty($temp)) {
       throw new Exception("No posts found to follow");
     }
@@ -2076,7 +2087,7 @@ class FeatureContext extends MinkContext {
       throw new Exception("The project has less than '" . $count . "' commits");
     }
   }
-  
+
   /**
    * @Given /^I click the edit link for the sandbox project$/
    */
@@ -2273,7 +2284,7 @@ class FeatureContext extends MinkContext {
     }
     throw new Exception('Sandbox project link cannot be found');
   }
-  
+
   /**
    * @Given /^I click the Full project link$/
    */
@@ -2430,7 +2441,7 @@ class FeatureContext extends MinkContext {
     }
     if (!$success) {
       throw new Exception("Project Creation failed");
-    }  
+    }
   }
 
     /**
@@ -2473,5 +2484,119 @@ class FeatureContext extends MinkContext {
     if (!in_array("error", $class)) {
       throw new Exception('The field "' . $field . '" is not outlined with red');
     }
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" (?:reply|replies) for the post$/
+   */
+  public function iShouldSeeAtLeastRepliesForThePost($count) {
+    $page = $this->getSession()->getPage();
+    $result = $this->getPostTitleObject($page);
+    if (empty($result)) {
+      throw new Exception();
+    }
+    $postTitle = $result->getText();
+    // get the row in which the post resides. a > td > tr
+    $tr = $result->getParent()->getParent();
+    // if there is a new reply, we get an anchor tag
+    $replies = $tr->find('css', '.replies');
+    if(empty($replies)) {
+      throw new Exception('Could not find any replies for this post');
+    }
+    $replies_new = $replies->getText();
+    // the replies text will be in the format "2 new" or "11 new"
+    $temp = explode(" ", $replies_new);
+    // temp[0] = xx, temp[1] = "new"
+    $newreplies_count = trim($temp[0]);
+    if($newreplies_count < $count) {
+      throw new Exception("The post '" . $postTitle . "' has less than '" . $count . "' new replies");
+    }
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" new (?:reply|replies) for the post$/
+   */
+   public function iShouldSeeAtLeastNewRepliesForThePost($count) {
+    $page = $this->getSession()->getPage();
+    $result = $this->getPostTitleObject($page);
+    if (empty($result)) {
+      throw new Exception();
+    }
+    $postTitle = $result->getText();
+    // get the row in which the post resides. a > td > tr
+    $tr = $result->getParent()->getParent();
+    // if there is a new reply, we get an anchor tag
+    $replies = $tr->find('css', '.replies a');
+    if(empty($replies)) {
+      throw new Exception('Could not find any new replies for this post');
+    }
+    $replies_new = $replies->getText();
+    // the replies text will be in the format "2 new" or "11 new"
+    $temp = explode(" ", $replies_new);
+    // temp[0] = xx, temp[1] = "new"
+    $newreplies_count = trim($temp[0]);
+    if($newreplies_count < $count) {
+      throw new Exception("The post '" . $postTitle . "' has less than '" . $count . "' new replies");
+    }
+  }
+
+  /**
+   * @Given /^I should see updated for the post$/
+   */
+  public function iShouldSeeUpdatedForThePost() {
+    $page = $this->getSession()->getPage();
+    $result = $this->getPostTitleObject($page);
+    if (empty($result)) {
+      throw new Exception();
+    }
+    $postTitle = $result->getText();
+    // get the row in which the post resides. span > td
+    $td = $result->getParent();
+    // if there is a update message, we get the status message
+    $stat_message = $td->find('css', '.marker');
+    if(empty($stat_message)) {
+      throw new Exception('Could not find updated status message for this post');
+    }
+    $update_message = $stat_message->getText();
+    if(empty($update_message)) {
+      throw new Exception("The post '" . $postTitle . "' could not find any new comment");
+    }
+  }
+
+  /**
+   * @Given /^I should not see updated for the post$/
+   */
+  public function iShouldNotSeeUpdatedForThePost() {
+    $page = $this->getSession()->getPage();
+    $result = $this->getPostTitleObject($page);
+    if (empty($result)) {
+      throw new Exception();
+    }
+    $postTitle = $result->getText();
+    // get the row in which the post resides. span > td
+    $td = $result->getParent();
+    // if there is a update message, we get the status message
+    $stat_message = $td->find('css', '.marker');
+    if(!empty($stat_message)) {
+      throw new Exception("The post '" . $postTitle . "' has an updated status message");
+    }
+  }
+
+  /**
+   * Function to get the Title for Post of type Issue
+   */
+  function getPostTitleObject($page) {
+    $flag = 0;
+    if(!empty($this->postTitle)) {
+      $postTitle = $this->postTitle;
+      $result = $page->findLink($postTitle);
+      if (!empty($result)) {
+        $flag = 1;
+      }
+    }
+    if ($flag == 0) {
+      $result = $page->find("css", "table tbody tr td a");
+    }
+    return $result;
   }
 }
