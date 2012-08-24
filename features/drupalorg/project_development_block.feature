@@ -25,33 +25,33 @@ Feature: Project Development Block
     When I follow "Repository viewer"
     Then I should not see "Page not found"
     And I should see the following <links>
-    | links |
-    | shortlog |
-    | log |
-    | commit |
+    | links      |
+    | shortlog   |
+    | log        |
+    | commit     |
     | commitdiff |
-    | tree |
-    | snapshot |
-    | tags |
-    | heads |
+    | tree       |
+    | snapshot   |
+    | tags       |
+    | heads      |
     And I should see the following <texts>
-    | texts |
+    | texts       |
     | description |
-    | owner |
-    | drupal-git |
+    | owner       |
+    | drupal-git  |
     | last change |
-    | search: |
-    | summary |
+    | search:     |
+    | summary     |
 
   Scenario: View Commits
     When I follow "View commits"
     Then I should see "Commits for"
     And I should see at least "2" records
     And I should see the following <texts>
-    | texts |
-    | Commit |
-    | commits |
-    | Issue # |
+    | texts              |
+    | Commit             |
+    | commits            |
+    | Issue #            |
     | Subscribe with RSS |
     And I should see the link "next"
     And I should not see the link "first"
