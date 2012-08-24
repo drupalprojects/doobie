@@ -1340,20 +1340,24 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-  * @When /^I select the following <fields> with <values>$/
-  */
+   * @When /^I select the following <fields> with <values>$/
+   */
   public function iSelectTheFollowingFieldsWithValues(TableNode $table)
-  {
-    $element = $this->getSession()->getPage();
-    $table = $table->getHash();
-    foreach ($table as $key => $value) {
-      $element->selectFieldOption($table[$key]['fields'], $table[$key]['values']);
-    }
-  }
+   {
+    $multiple = true;
+    $page = $this->getSession()->getPage();
+     $table = $table->getHash();
+     foreach ($table as $key => $value) {
+      $select = $page->find('named', array('select', $table[$key]['fields']));
+      // if multiple is always true we get "value cannot be an array" error for single select fields
+      $multiple = $select->getAttribute('multiple') ? true : false;
+      $page->selectFieldOption($table[$key]['fields'], $table[$key]['values'], $multiple);
+     }
+   }
 
- /**
-     * @When /^I select "([^"]*)" from Project Type on Create Project page$/
-     */
+  /**
+   * @When /^I select "([^"]*)" from Project Type on Create Project page$/
+   */
   public function iSelectFromProjectTypeOnCreateProjectPage($option)
   {
     $field = "project_type";
