@@ -4,7 +4,7 @@ Feature: Your Posts
   I want to find them listed all in a single place
 
   Background:
-    Given I am logged in as "ksbalajisundar"
+    Given I am logged in as "site user"
     And I follow "Your Posts"
 
   Scenario: To navigate to your posts page
