@@ -725,15 +725,15 @@ class FeatureContext extends MinkContext {
     HackyDataRegistry::set('project title', $this->projectTitle);
 
     $element->fillField('Project title', $this->projectTitle);
-    $element->fillField('Maintenance status', '13028');
-    $element->fillField('Development status', '9988');
+    $element->fillField('Maintenance status', '13028'); /* Actively Maintained */
+    $element->fillField('Development status', '9988'); /* Under Active Development */
     $this->iSelectTheRadioButtonWithTheId('Modules', 'edit-project-type-14');
     $element->fillField('Description', $this->randomString(1000));
     $element->pressButton('Save');
   }
 
   /**
-   * @Then /^I should see the project title$/
+   * @Then /^I (?:|should )see the project title$/
    */
   public function iShouldSeeTheProjectTitle() {
     $element = $this->getSession()->getPage();
@@ -2627,7 +2627,7 @@ class FeatureContext extends MinkContext {
       if (!in_array($t['tabs'], $arr_tabs)) {
         throw new Exception('The tab: "' . $t['tabs'] . '" cannot be found' );
       }
-    }    
+    }
   }
 
   /**
@@ -2683,7 +2683,7 @@ class FeatureContext extends MinkContext {
          if (!empty($link)) {
            $arr_headings[] = $link->getText();
          }
-       }       
+       }
     }
     if (empty($table)) {
       throw new Exception('No blocks specified');
@@ -2764,5 +2764,23 @@ class FeatureContext extends MinkContext {
       throw new Exception("The page does not have any book page");
     }
     $this->getSession()->visit($this->locatePath($bookPage->getAttribute('href')));
+  }
+
+  /**
+   * @Given /^"([^"]*)" should not contain an input element$/
+   */
+  public function shouldNotContainAnImputElement($id) {
+    $element = $this->getSession()->getPage();
+    $div = $element->findById($id);
+
+    if (!$div) {
+      throw new Exception("The page does not have any div with the id '" . $id . "'");
+    }
+
+    $input = $div->find('css', 'input');
+
+    if ($input) {
+      throw new Exception("The element with the id '" . $id . "' contains an input element.");
+    }
   }
 }
