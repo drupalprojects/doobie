@@ -4,7 +4,8 @@ Feature:
   I need to be able to go through Community Documentations
 
   Scenario: Check Community Documentation tab
-    Given I am on "/documentation"
+    Given I am on the homepage
+    When I follow "Documentation"
     Then I should see the following <tabs>
     | tabs                  |
     | Community Docs Home   |
@@ -18,7 +19,8 @@ Feature:
     And I should see the copyright statement in the right sidebar
 
   Scenario: Check Installation Guide tab
-    Given I am on "/documentation/install"
+    Given I am on "/documentation"
+    When I follow "Installation Guide"
     Then I should see the following <tabs>
     | tabs                  |
     | Community Docs Home   |
@@ -27,14 +29,15 @@ Feature:
     And I should see that the tab "Installation Guide" is highlighted
     And I should see the heading "Community Documentation"
     And I should see the following <blocks> in the right sidebar
-    | blocks |
-    | Page status |
-    | About this page |
+    | blocks             |
+    | Page status        |
+    | About this page    |
     | Installation guide |
     And I should see the copyright statement in the right sidebar
 
   Scenario: Check Administration Guide tab
-    Given I am on "/documentation/administer"
+    Given I am on "Documentation"
+    When I follow "Administration Guide"
     Then I should see the following <tabs>
     | tabs                  |
     | Community Docs Home   |
@@ -43,8 +46,8 @@ Feature:
     And I should see that the tab "Administration Guide" is highlighted
     And I should see the heading "Community Documentation"
     And I should see the following <blocks> in the right sidebar
-    | blocks |
-    | Page status |
-    | About this page |
+    | blocks               |
+    | Page status 	   |
+    | About this page      |
     | Administration Guide |
     And I should see the copyright statement in the right sidebar
