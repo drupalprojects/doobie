@@ -256,6 +256,17 @@ class FeatureContext extends MinkContext {
   }
 
   /**
+   * Helper function to check if the `expect` library is installed.
+   */
+  public function checkExpectLibraryStatus() {
+    $process = new Process('which expect');
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new RuntimeException('This feature requires that the `expect` library be installed');
+    }
+  }
+
+  /**
    * Helper function to login the current user.
    */
   public function login() {
@@ -762,6 +773,9 @@ class FeatureContext extends MinkContext {
    * @When /^I initialize the repository$/
    */
   public function iInitializeTheRepository() {
+    // Check for the `expect` library.
+    $this->checkExpectLibraryStatus();
+
     $element = $this->getSession()->getPage()->find('css', 'div.codeblock');
     $rawCommand = $element->getHTML();
     $matches = array();
