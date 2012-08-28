@@ -2090,7 +2090,7 @@ class FeatureContext extends MinkContext {
   public function iShouldSeeAtLeastCommits($count) {
     $total = 0;
     $page = $this->getSession()->getPage();
-    // parse till span tag, bcoz the span tag contains text 'xx commits'
+    // Parse until the <span> tag, since it contains text 'xx commits'.
     $result = $page->findAll('css', "#block-versioncontrol_project-project_maintainers div.item-list ul li div span");
     if (empty($result)) {
       throw new Exception("Unable to find the block of committers");
@@ -2100,7 +2100,7 @@ class FeatureContext extends MinkContext {
       $text = trim($commit->getText());
       if (strpos($text, "commits") !== FALSE) {
         $temp = explode(" ", $text);
-        // temp[0]=xx, temp[1]=commits. Convert to integer before adding to total
+        // temp[0]=xx, temp[1]=commits. Convert to integer before adding to total.
         $total = $total + (int) trim($temp[0]);
       }
     }
