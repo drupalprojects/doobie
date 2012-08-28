@@ -2486,9 +2486,12 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Given /^the field "([^"]*)" should be outlined in red$/
    * Function to check if the field specified is outlined in red or not
-   * @param $field String The form field label to be checked
+   *
+   * @Given /^the field "([^"]*)" should be outlined in red$/
+   *
+   * @param string $field
+   *   The form field label to be checked.
    */
   public function theFieldShouldBeOutlinedInRed($field) {
     $page = $this->getSession()->getPage();
