@@ -2711,43 +2711,22 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Given /^the background of the status should be "([^"]*)"$/
-   * Function to check the background of the status message on a book page
+   * @Given /^the background color of the status should be "([^"]*)"$/
+   * Function to check the background color of the status message on a book page
    * @param $color String The color of the status
    */
-  public function theBackgroundOfTheStatusShouldBe($color) {
-    $page = $this->getSession()->getPage();
-    $currStatus = $page->find("css", "#block-drupalorg_handbook-meta-sidebar .page-status");
-    if (empty($currStatus)) {
-      throw new Exception("There is no status on the page (" . $this->getSession()->getCurrentUrl() . ")");
-    }
-    $classes = $currStatus->getAttribute('class');
-    $classes = explode(" ", $classes);
-    switch ($color) {
-      case 'red':
-      case 'Red':
-        if (!in_array('page-major-problem', $classes)) {
-          throw new Exception("The background of the status is not '" . $color . "' on the page " . $this->getSession()->getCurrentUrl());
-        }
-      break;
-
-      case 'green':
-      case 'Green':
-        if (!in_array('page-ok', $classes)) {
-          throw new Exception("The background of the status is not '" . $color . "' on the page " . $this->getSession()->getCurrentUrl());
-        }
-      break;
-
-      case 'yellow':
-      case 'Yellow':
-        if (!in_array('page-needs-work', $classes)) {
-          throw new Exception("The background of the status is not '" . $color . "' on the page " . $this->getSession()->getCurrentUrl());
-        }
-      break;
-
-      default:
-        throw new Exception("There is no status on the page " . $this->getSession()->getCurrentUrl());
-      break;
+  public function theBackgroundColorOfTheStatusShouldBe($color) {
+    $flag = FALSE;
+    $colorCode = array('red' => '#EBCCCC', 'green' => '#D4EFCC', 'yellow' => '#FFE69F');
+    // Get the background color of an element using javascript and then compare with above array
+    $this->getSession()->executeScript("
+      var currColorCode = $('.page-status').css('background-color');
+      if (currColorCode == '".$colorCode[$color]."') {
+        var flag = ".($flag = TRUE).";
+      }
+    ");
+    if (!$flag) {
+      throw new Exception("The background of the status is not '" . $color . "' on the page " . $this->getSession()->getCurrentUrl());
     }
   }
 
@@ -2795,6 +2774,31 @@ class FeatureContext extends MinkContext {
 
     if ($input) {
       throw new Exception("The element with the id '" . $id . "' contains an input element.");
+    }
+  }
+
+  /**
+   * @Given /^I should see the following <slides>$/
+   * Function to check the slide texts on the page
+   * @param $table Array List of texts that should appear on the page
+   */
+  public function iShouldSeeTheFollowingSlides(TableNode $table) {
+    $page = $this->getSession()->getPage();
+    if (empty($table)) {
+      throw new Exception("No slides were provided");
+    }
+    $table = $table->getHash();
+    if (empty($table)) {
+      throw new Exception("No slides were provided");
+    }
+    // Loop through all the texts provided in the table
+    foreach ($table as $key => $value) {
+      $text = $table[$key]['slides'];
+      // Use xpath to get the "alt" value of the image in 'slideshow' div
+      $temp = $page->find('xpath', '//div[@class="slideshow"]/img[@alt="' . $text . '"]');
+      if (empty($temp)) {
+        throw new Exception("The text '" . $text . "' was not found in the slideshow");
+      }
     }
   }
 }
