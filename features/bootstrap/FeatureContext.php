@@ -2776,4 +2776,29 @@ class FeatureContext extends MinkContext {
       throw new Exception("The element with the id '" . $id . "' contains an input element.");
     }
   }
+
+  /**
+   * @Given /^I should see the following <slides>$/
+   * Function to check the slide texts on the page
+   * @param $table Array List of texts that should appear on the page
+   */
+  public function iShouldSeeTheFollowingSlides(TableNode $table) {
+    $page = $this->getSession()->getPage();
+    if (empty($table)) {
+      throw new Exception("No slides were provided");
+    }
+    $table = $table->getHash();
+    if (empty($table)) {
+      throw new Exception("No slides were provided");
+    }
+    // Loop through all the texts provided in the table
+    foreach ($table as $key => $value) {
+      $text = $table[$key]['slides'];
+      // Use xpath to get the "alt" value of the image in 'slideshow' div
+      $temp = $page->find('xpath', '//div[@class="slideshow"]/img[@alt="' . $text . '"]');
+      if (empty($temp)) {
+        throw new Exception("The text '" . $text . "' was not found in the slideshow");
+      }
+    }
+  }
 }
