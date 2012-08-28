@@ -78,7 +78,7 @@ class FeatureContext extends MinkContext {
   private $file_path = '';
 
   /**
-   * Store the md5 hash of a downloaded file
+   * Store the md5 hash of a downloaded file.
    */
   private $md5Hash = '';
 
@@ -1508,40 +1508,40 @@ class FeatureContext extends MinkContext {
     $href = "";
     $page = $this->getSession()->getPage();
     $result = $page->findAll('css', '.views-field a');
-    // get the link to download
+    // Get the link to download.
     if (!empty($result)) {
       foreach ($result as $res) {
         if ($res->getText() == $filename) {
-          // get the link to download
+          // Get the link to download.
           $href = $res->getAttribute("href");
-          // get parent row $res = <a>, $res->getParent() = <td>
-          // $res->getParent()->getParent() = <tr>
+          // Get parent row $res = <a>, $res->getParent() = <td>
+          // $res->getParent()->getParent() = <tr>.
           $parent = $res->getParent()->getParent();
-          // from parent row get the file hash column and its contents
+          // From parent row get the file hash column and its contents.
           $md5Hash = $parent->find('css', '.views-field-filehash')->getText();
-          // set the temporary variable for use in "the md5 hash should match"
+          // Set the temporary variable for use in "the md5 hash should match".
           $this->md5Hash = $md5Hash;
           break;
         }
       }
       if ($href) {
         $this->getSession()->visit($href);
-        //will work only on Goutte. Selenium does not support responseHeaders
+        // Will work only on Goutte. Selenium does not support responseHeaders.
         $responseHeaders = $this->getSession()->getResponseHeaders();
         if ((int) $responseHeaders['Content-Length'][0] > 10000) {
-          // if "tar" is requested, then chk corresponding content type
+          // If "tar" is requested, then chk corresponding content type.
           if ($type == "tar") {
             if ($responseHeaders['Content-Type'] != "application/x-gzip") {
               throw new Exception("The file '" . $filename. "' was not downloaded");
             }
           }
-          // if "zip" is requested, then chk corresponding content type
+          // If "zip" is requested, then chk corresponding content type.
           elseif ($type == "zip") {
             if ($responseHeaders['Content-Type'] != "application/zip") {
               throw new Exception("The file '" . $filename. "' was not downloaded");
             }
           }
-          // if any thing other than tar or zip is requested, throw error
+          // If any thing other than tar or zip is requested, throw error.
           else {
             throw new Exception("Only 'tar' and 'zip' files can be downloaded");
           }
