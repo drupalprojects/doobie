@@ -909,6 +909,8 @@ class FeatureContext extends MinkContext {
    */
   public function iEnterForField($value, $field) {
     $field = strtolower($field);
+    // @todo this would be great to implement as a custom selector (see Drupal
+    // Extension's region selector).
     if ($field == "created date") {
       $field = "edit-created-value";
     }
