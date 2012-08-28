@@ -2112,24 +2112,23 @@ class FeatureContext extends MinkContext {
   /**
    * @Given /^I click the edit link for the sandbox project$/
    */
-  public function iClickTheEditLinkForTheSandboxProject()
-  {
-    // Find the first title link from sandbox table
+  public function iClickTheEditLinkForTheSandboxProject() {
+    // Find the first title link from sandbox table.
     $first_a = $this->getSession()->getPage()->find('css', '#content-inner > table.projects.sandbox > tbody td.project-name > a');
     if (!empty($first_a)) {
-      // Fetch the <TR>, the link belongs to
+      // Fetch the <TR>, the link belongs to.
       $tr = $first_a->getParent()->getParent();
       if (!empty($tr)) {
         $edit = $tr->findLink('Edit');
         if (!empty($edit)) {
           $edit->click();
-        }else {
+        } else {
           throw new Exception('Edit link can not be found');
         }
-      }else {
+      } else {
         throw new Exception('Edit link can not be found');
       }
-    }else {
+    } else {
       throw new Exception('Sand box project doesn\'t exist for the user');
     }
   }
