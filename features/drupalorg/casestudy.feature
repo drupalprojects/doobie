@@ -36,9 +36,9 @@ Feature: Drupal case studies
     | next               |
     | last               |
     And I should not see the following <texts>
-    | texts     |
-    | previous  |
-    | first     |
+    | texts    |
+    | previous |
+    | first    |
 
   Scenario: Browse pagination links in community showcase page: Second page
     Given I am on "/case-studies/community?page=2"

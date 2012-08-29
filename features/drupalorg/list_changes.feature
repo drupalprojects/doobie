@@ -82,26 +82,26 @@ Feature: List and search change records
     Then I should see at least "10" records
     And I should see the following <texts>
     | texts |
-    | 7.x |
-    | 8.x |
+    | 7.x   |
+    | 8.x   |
     But I should not see "Invalid project or no changes found"
     Examples:
-    | value |
+    | value                                  |
     | Site builders, administrators, editors |
-    | Module developers |
-    | Themers |
+    | Module developers                      |
+    | Themers                                |
 
   Scenario: Navigate through pagination links: Third page
     Given I am on "/list-changes/drupal?page=2"
     Then I should see at least "40" records
     And I should see the following <texts>
-    | texts |
-    | 1 |
-    | 2 |
-    | first |
+    | texts    |
+    | 1        |
+    | 2        |
+    | first    |
     | previous |
-    | next |
-    | last |
+    | next     |
+    | last     |
     But I should not see "Invalid project or no changes found"
 
   Scenario: Navigate through pagination links: Last page
@@ -109,15 +109,15 @@ Feature: List and search change records
     When I click on page "last"
     Then I should see at least "10" records
     And I should see the following <texts>
-    | texts |
-    | 1 |
-    | 2 |
+    | texts    |
+    | 1        |
+    | 2        |
     | previous |
-    | first |
+    | first    |
     And I should not see the following <texts>
-    | texts |
-    | next |
-    | last |
+    | texts    |
+    | next     |
+    | last     |
 
   Scenario: Enter values in all the fields and search
     Given I am on "/list-changes/drupal"

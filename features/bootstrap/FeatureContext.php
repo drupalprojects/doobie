@@ -1815,7 +1815,7 @@ class FeatureContext extends MinkContext {
 
   /**
    * @When /^I click on "([^"]*)" of a commit$/
-   * Function to clik on various links present in a commit
+   * Function to click on various links present in a commit
    * @param $linkType String The type of link to click
    * This function is specific to /commitlog screen
    */
