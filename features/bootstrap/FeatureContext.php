@@ -2792,4 +2792,97 @@ class FeatureContext extends MinkContext {
       }
     }
   }
+
+   /**
+   * @Given /^I should see the following <blocks> in the "([^"]*)" column$/
+   */
+  public function iShouldSeeTheFollowingBlocksInTheColumn($position, TableNode $table)
+  {
+    // Validate empty arguements.
+    $this->validateBlankArgs(func_get_args());
+    // Define order for columns.
+    $arr_order = array( 'left' => 1,'center' => 2,'right' => 3,);
+    $this->iShouldSeeTheBelowBlocksInColumn($arr_order[$position], $table);
+  }
+
+  /**
+   * Validate against blank function arguments
+   * Usage: $this->validateBlankArgs(func_get_args());
+   */
+  private function validateBlankArgs($args) {
+    foreach ($args as $arg) {
+      $arg = trim($arg);
+      if (empty($arg)) {
+        throw new Exception("Missing Input value(s)");
+        break;
+      }
+    }
+  }
+
+  /**
+   * @Then /^I should see the below <blocks> in column "([^"]*)"$/
+   */
+  public function iShouldSeeTheBelowBlocksInColumn($column, TableNode $table)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    if (empty($table)) {
+      throw new Exception('Block list cannot be empty.');
+    }
+    $table = $table->getHash();
+    $page = $this->getSession()->getPage();
+    // Find block with header, for the column.
+    $blocks_h3 = $page->findAll('css', '#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
+    if (empty($blocks_h3)) {
+      throw new Exception('The column "' . $column . '" is empty.');
+    }
+    $arr_boxes = array();
+    // Store box names
+    foreach ($blocks_h3 as $header_span) {
+      if ($boxname = $header_span->getText()) {
+        $arr_boxes[] = $boxname;
+      }
+    }
+    // Check boxes exist or not
+    if (empty($arr_boxes)) {
+      throw new Exception('The column "' . $column . '" is empty.');
+    }
+    foreach ($table as $item) {
+      // Check the box exists in column boxes
+      if (!in_array($item['blocks'], $arr_boxes)) {
+        throw new Exception('The box: "' . $item['blocks'] . '" cannot be found in the column "'. $column.'".');
+        break;
+      }
+    }
+  }
+
+  /**
+   * Check the existence of "Add links" for blocks
+   * @Then /^I should see the following <blocklinks> in small boxes$/
+   */
+  public function iShouldSeeTheFollowingBlocklinksInSmallBoxes(TableNode $table)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    $block_links = $this->getSession()->getPage()->findAll('css', '#homebox-add > div.item-list > ul > li > a');
+    if (empty($block_links)) {
+      throw new Exception('The link for the blocks cannot be found.');
+    }
+    $arr_blocks = array();
+    // Loop through and check the block name
+    foreach ($block_links as $a) {
+      if ($a_label = $a->getText()) {
+        $arr_blocks[] = $a_label;
+      }
+    }
+    if (empty($arr_blocks)) {
+      throw new Exception('The link for the blocks cannot be found.');
+    }
+    foreach ($table->getHash() as $t) {
+      if (!in_array($t['blocklinks'], $arr_blocks)) {
+        throw new Exception('The link for the block: "' . $t['blocklinks'] .'" cannot be found.');
+        break;
+      }
+    }
+  }
 }
