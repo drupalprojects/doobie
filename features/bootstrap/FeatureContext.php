@@ -799,6 +799,9 @@ class FeatureContext extends MinkContext {
     if (!$process->isSuccessful()) {
       throw new Exception('Initializing repository failed - Command: ' . $command . ' Error: ' . $process->getErrorOutput());
     }
+
+    // Pause for front end to catch up.
+    sleep(10);
   }
 
   /**
