@@ -34,6 +34,8 @@ use Behat\Behat\Context\Step\When;
 use Behat\Behat\Context\Step\Then;
 use Behat\Behat\Event\ScenarioEvent;
 
+use Behat\Mink\Exception\ElementNotFoundException;
+
 require 'vendor/autoload.php';
 
 /**
@@ -1383,9 +1385,10 @@ class FeatureContext extends MinkContext {
 
   /**
    * @When /^I select "([^"]*)" from Project Type on Create Project page$/
+   *
+   * @throws ElementNotFoundException
    */
-  public function iSelectFromProjectTypeOnCreateProjectPage($option)
-  {
+  public function iSelectFromProjectTypeOnCreateProjectPage($option) {
     $field = "project_type";
     switch($option) {
       case 'Modules':
@@ -1410,7 +1413,12 @@ class FeatureContext extends MinkContext {
     }
     $session = $this->getSession();
     $page = $session->getPage();
-    $radio = $page->findById($id);
+    $radio = FALSE && $page->findById($id);
+    if (!$radio) {
+      throw new ElementNotFoundException(
+        $this->getSession(), 'radio', 'id', $id
+      );
+    }
     $radio->click();
     $this->iWaitForSeconds(1, "");
     $this->iShouldSeeTheText('Modules categories');
