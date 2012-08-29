@@ -3620,4 +3620,15 @@ class FeatureContext extends MinkContext {
       }
     }
   }
+
+  /**
+   * @Given /^I should see the advertisment in the right sidebar$/
+   */
+  public function iShouldSeeTheAdvertismentInTheRightSidebar() {
+    $result = $this->getSession()->getPage()->find('css', $this->right_sidebar. '#column-right-region .block-inner .block-content #gam-holder-HostingForumBlock');
+    if (empty($result)) {
+      throw new Exception('No advertisement exists in the right sidebar');
+    }
+    return $result;
+  }
 }
