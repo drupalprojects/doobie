@@ -88,6 +88,11 @@ class FeatureContext extends MinkContext {
   private $postTitle = '';
 
   /**
+   *Store temporary variables as array, so that the values can be used in the next scenario
+   */
+  private $temp_vars = array();
+
+  /**
    * Initializes context.
    *
    * Every scenario gets its own context object.
@@ -2883,6 +2888,314 @@ class FeatureContext extends MinkContext {
         throw new Exception('The link for the block: "' . $t['blocklinks'] .'" cannot be found.');
         break;
       }
+    }
+  }
+
+  /**
+   * Check number of rows in a table - Add more cases if table/row class is different
+   * $tableType = "Projects"/"Sandbox Projects"/"Project Issues"
+   * @Given /^I should see at least "([^"]*)" records in "([^"]*)" table$/
+   */
+  public function iShouldSeeAtLeastRecordsInTable($count, $tableType)
+  {
+    // Find the table element object and other data
+    $arr_table = $this->getTableElement($tableType);
+    if (!isset($arr_table['element'])) {
+      throw new Exception('The table: "' . $tableType . '" cannot be found');
+    }
+    $records = 0;
+    // Find the <TR>s
+    $trs = $arr_table['element']->findAll('css', 'tbody > tr');
+    if (empty($trs)) {
+      throw new Exception('No records found.');
+    }
+    foreach ($trs as $tr) {
+      $tds = $tr->findAll('css', 'td');
+      if (empty($tds)) {
+        throw new Exception('No columns found.');
+      }
+      // Select the column the main link belongs to
+      $column = !empty($arr_table['link_column']) ? $arr_table['link_column'] - 1 : 0;
+      foreach ($tds as $index => $td) {
+        if ($index == $column) {
+          // Find the links inside the <TD>
+          $link = $td->find('css', 'a');
+          if (!empty($link)) {
+            $text = $link->getText();
+            // Bypass exceptions
+            if (in_array($text, $arr_table['link_exceptions'])) {
+              continue;
+            }
+            $records++;
+          }
+        }
+      }
+    }
+    if ( $records < $count ) {
+      throw new Exception('The table has less than ' . $count . ' records only.');
+    }
+  }
+
+  /**
+   * Checks the links displayed in a column for the tables of the type: Project/Sandbox Project/Project Issue
+   *
+   * @Then /^I should see the following <links> in column "([^"]*)" in "([^"]*)" table$/
+   */
+  public function iShouldSeeTheFollowingLinksInColumnInTable($column, $tableType, TableNode $links)
+  {
+    $column_class = $this->getColumnClasses($column);
+    if (empty($column_class)) {
+      throw new Exception('The column cannot be found.');
+    }
+    // Find the table element object
+    $arr_table = $this->getTableElement($tableType);
+    if (empty($arr_table['element'])) {
+      throw new Exception('The table: "' . $tableType . '" cannot be found.');
+    }
+    $first_tr = $arr_table['element']->find('css', 'tbody tr');
+    if (empty($first_tr)) {
+      throw new Exception('No records found.');
+    }
+    $arr_a = $first_tr->findAll('css', 'td.' . $column_class . ' a');
+    if (empty($arr_a)) {
+      throw new Exception('No links exist in column: "' . $column . '"');
+    }
+    $arr_links = array();
+    foreach ($arr_a as $a) {
+      $arr_links[] = $a->getText();
+    }
+    foreach ($links->getHash() as $link) {
+      if (!in_array($link['links'], $arr_links)) {
+        throw new Exception('The link: "' . $link['links'] . '" cannot be found in column: "' . $column . '"');
+      }
+    }
+  }
+
+  /**
+   * Visits the link inside a column of a table
+   * @Given /^I click "([^"]*)" from "([^"]*)" table$/
+   */
+  public function iClickFromTable($link, $tableType)
+  {
+    // Find column for the Link
+    switch ($link) {
+      // Issue links column of "Projects"/"Projects Sandbox"
+      case 'View':
+      case 'Search':
+      case 'Create':
+        $column = 'Issue links';
+        break;
+      // Project links column of "Projects"/"Projects Sandbox"
+      case 'Edit':
+      case 'Add release':
+        $column = 'Project links';
+        break;
+      // Project column of Project issues Table
+      case 'Project':
+        $column = 'Project Issue';
+         break;
+      case 'Summary':
+        $column = 'Issue Summary';
+        break;
+    }
+    if (empty($column)) {
+      throw new Exception('The column cannot be found.');
+    }
+    // Find column class from column name
+    $column_class = $this->getColumnClasses($column);
+    // Find the table element object
+    $arr_table = $this->getTableElement($tableType);
+    if (empty($arr_table['element'])) {
+      throw new Exception('The table: "' . $tableType . '" cannot be found.');
+    }
+    // Find <TR>s
+    $first_tr = $arr_table['element']->find('css', 'tbody tr');
+    if (empty($first_tr)) {
+      throw new Exception('No records found');
+    }
+    // Find the first link
+    $a_first = $first_tr->find('css', 'td a');
+    if (!empty($a_first)) {
+      // Store the link label to use afterwards
+      $this->temp_vars['project_name'] = $a_first->getText();
+    }
+    // Find all links inside a column
+    $arr_a = $first_tr->findAll('css', 'td.' . $column_class . ' a');
+    if (empty($arr_a)) {
+      throw new Exception('No links exist in column: "'. $column .'".');
+    }
+    $visited = false;
+    foreach ($arr_a as $a) {
+      if (in_array($link, array('Project', 'Summary')) || $link == $a->getText()) {
+        // Store issue name if it is a "Summary column" from "Project Issues" table
+        if ($link == 'Summary') {
+          $this->temp_vars['issue_name'] = $a->getText();
+        }
+        // Visit the link to make sure it actually exists
+        $this->getSession()->visit($a->getAttribute('href'));
+        $visited = true;
+        break;
+      }
+    }
+    if (!$visited) {
+      throw new Exception('The link couldn\'t be visited.');
+    }
+  }
+
+  /**
+   * Identify the page
+   * @Given /^I should see "([^"]*)" page$/
+   */
+  public function iShouldSeePage($page)
+  {
+    switch ($page) {
+      case 'Project Issue';
+        $heading = 'Issues for' . (!empty($this->temp_vars['project_name']) ? ' ' . $this->temp_vars['project_name'] : '' );
+        break;
+      case 'Advanced Search';
+        $heading = 'Search issues for' . (!empty($this->temp_vars['project_name']) ? ' ' . $this->temp_vars['project_name'] : '' );
+        break;
+      case 'Create Issue';
+        $heading = 'Create Issue';
+        break;
+      case 'Project Edit';
+        $heading = (!empty($this->temp_vars['project_name']) ? $this->temp_vars['project_name'] : '' );
+        break;
+      case 'Create Project Release';
+        $heading = 'Create Project release';
+        break;
+      case 'Issue';
+        $heading = (!empty($this->temp_vars['issue_name']) ? $this->temp_vars['issue_name'] : '' );
+        break;
+    }
+    return array(
+      new Given('I should see the heading "' . $heading . '"'),
+      new Given('I move backward one page'),
+    );
+  }
+
+  /**
+   * @Given /^I fill in "([^"]*)" with Project Name$/
+   */
+  public function iFillInWithProjectName($label)
+  {
+    // Find project from Projects table
+    $table_type = 'Projects';
+    // Find the table element object
+    $arr_table = $this->getTableElement($table_type);
+    if (empty($arr_table['element'])) {
+      throw new Exception('The table: "' . $table_type . '" cannot be found');
+    }
+    $first_tr = $arr_table['element']->find('css', 'tbody tr');
+    if (empty($first_tr)) {
+      throw new Exception('No records found');
+    }
+    // Find the first link
+    $a_first = $first_tr->find('css', 'td a');
+    if (empty($a_first)) {
+      // Store the link label to use afterwards
+      throw new Exception('Project link cannot be found');
+    }
+    $this->temp_vars['project_name'] = $a_first->getText();
+    return new Given('I fill in "' . $label . '" with "' . $a_first->getText() .'"');
+  }
+
+  /**
+   * @Given /^I select Project Name from "([^"]*)"$/
+   */
+  public function iSelectProjectNameFrom($label)
+  {
+    if (!empty($this->temp_vars['project_name'])) {
+      return new Given('I select "' . $this->temp_vars['project_name'] . '" from "' . $label .'"');
+    }else {
+      // Find project from Projects table
+      $table_type = 'Projects';
+      // Find the table element object
+      $arr_table = $this->getTableElement($table_type);
+      if (empty($arr_table['element'])) {
+        throw new Exception('The table: "' . $table_type . '" cannot be found.');
+      }
+      $first_tr = $arr_table['element']->find('css', 'tbody tr');
+      if (empty($first_tr)) {
+        throw new Exception('No records found.');
+      }
+      // Find the first link
+      $a_first = $first_tr->find('css', 'td a');
+      if (empty($a_first)) {
+        // Store the link label to use afterwards
+        throw new Exception('Project link cannot be found.');
+      }
+       return new Given('I select "' . $a_first->getText() . '" from "' . $label .'"');
+    }
+  }
+
+  /**
+   * Gets Table Element for the specified type
+   * Update the switch to consider other tables as well
+   */
+  private function getTableElement($type) {
+    $arr_table = array();
+    switch ($type) {
+      case 'Projects':
+        // Class name(s) of the table. Multiple classnames are specified as getAttribute('class') returns different values with and without Goutte
+        $arr_table['table_class'] = array('projects sticky-enabled', 'projects sticky-enabled sticky-table');
+        // In which column, the main link is placed - Optional
+        $arr_table['link_column'] = '1';
+        // If any link(s) need not be considered, gice it here seperated bby comma - Optional
+        $arr_table['link_exceptions'] = array('Add a new project');
+        break;
+      case 'Sandbox Projects':
+        $arr_table['table_class'] = array('projects sandbox sticky-enabled', 'projects sandbox sticky-enabled sticky-table');
+        $arr_table['link_column'] = '1';
+        $arr_table['link_exceptions'] = array('Add a new project');
+        break;
+      case 'Project Issues':
+        $arr_table['table_class'] = array(
+          'views-table sticky-enabled cols-10 project-issue',
+          'views-table sticky-enabled cols-10 project-issue sticky-table',
+          'views-table sticky-enabled cols-9 project-issue sticky-table',
+        );
+        $arr_table['link_column'] = '1';
+        $arr_table['link_exceptions'] = array();
+        break;
+    }
+    if (empty($arr_table)) {
+      throw new Exception('Step definition is incomplete for: "' . $type . '"');
+    }
+    // find the tables
+    $tables = $this->getSession()->getPage()->findAll('css','#content-inner table');
+    if (empty($tables)) {
+      $this->getSession()->getCurrentUrl();
+      throw new Exception('No tables found');
+    }
+    foreach ($tables as $table) {
+     // find the Table class
+      $table_class = $table->getAttribute('class');
+      // Consider only the required table
+      if (in_array($table_class, $arr_table['table_class'])) {
+        $arr_table['element'] = $table;
+        return $arr_table;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Gets class names of columns of "Projects"/"Sandbox Projects"/"Project Issues" tables
+   *
+   */
+  private function getColumnClasses($column = null) {
+    $arr_td_classes = array(
+      'Project' => 'project-name',
+      'Issue links' => 'project-issue-links',
+      'Project links' => 'project-project-links',
+      'Project Issue' => 'views-field-project-issue-queue',
+      'Issue Summary' => 'views-field-title',
+    );
+    if (is_null($column)) {
+      return $arr_td_classes;
+    }else {
+      return $arr_td_classes[$column];
     }
   }
 }
