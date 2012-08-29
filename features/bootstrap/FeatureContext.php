@@ -203,7 +203,7 @@ class FeatureContext extends MinkContext {
    * @defgroup helper functions
    * @{
    */
-  private static $random = array();
+  private $random = array();
 
   /**
    * Helper function to generate a random string of arbitrary length.
