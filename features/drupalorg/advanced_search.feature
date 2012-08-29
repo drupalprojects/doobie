@@ -1,7 +1,7 @@
 Feature: Overall Filter Search for Issues
-  In order to define the Advanced Filter search for Issues
+  In order to define the Advanced Filter search for Project Issues
   As an Authenticated user
-  I wanted to look for Advanced Filter search for Issues
+  I wanted to look for Advanced Filter search options for finding the Issues
 
   Background:
     Given I am logged in as "site user"
