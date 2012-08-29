@@ -1,6 +1,6 @@
 Feature: Create a project
   In order to share my code with the community
-  As a git vetted user
+  As a contributor 
   I need to be able to create a project
 
   Scenario: Access the form using path
