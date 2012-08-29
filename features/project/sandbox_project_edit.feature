@@ -1,5 +1,5 @@
 Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
-  In order to ensure that unsuspecting users don't access sandbox code 
+  In order to ensure that unsuspecting users don't access sandbox code
   As a vetted user
   I should not be able to see the Releases tab, Administer releases permissions and Release links and not be able to edit the Project Short Name
 
@@ -10,7 +10,7 @@ Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
 
   Scenario: Check Sandbox Project edit page doesn't have Releases Tab and editable Project Short Name
     When I click the edit link for the sandbox project
-    Then I should not see the Releases tab
+    Then I should not see the link "Releases"
     And I should see that the project short name is readonly
 
   Scenario: Check Administer Releases column doesn't exist in maintainers table

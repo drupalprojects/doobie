@@ -2134,26 +2134,13 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Then /^I should not see the Releases tab$/
-   */
-  public function iShouldNotSeeTheReleasesTab()
-  {
-    $tabs = $this->getSession()->getPage()->find('css', '#column-left #tabs');
-    if (!empty($tabs)) {
-      if ($tabs->findLink('Releases')) {
-        throw new Exception('Releases tab exists on Edit Project page');
-      }
-    }
-  }
-
-  /**
    * @Given /^I should see that the project short name is readonly$/
    */
   public function iShouldSeeThatTheProjectShortNameIsReadonly()
   {
     $field = $this->getSession()->getPage()->findField('Short project name:');
-    if (!empty($field)) {
-      throw new Exception('Short project name form field exists on Edit Project page');
+    if (!empty($field) && !$field->getAttribute('disabled')) {
+      throw new Exception('Short project name form field exists on Edit Project page and is editable');
     }
   }
 
