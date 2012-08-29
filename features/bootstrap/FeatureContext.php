@@ -3198,4 +3198,409 @@ class FeatureContext extends MinkContext {
       return $arr_td_classes[$column];
     }
   }
+
+  /**
+   * @Then /^I should see at least "([^"]*)" blocks$/
+   */
+  public function iShouldSeeAtLeastBlocks($count)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    // Find divs with the class 'homebox-portlet' inside #homebox div
+    $boxes = $this->getSession()->getPage()->findAll('css', '#homebox div.homebox-portlet');
+    if (empty($boxes) || count($boxes) < $count) {
+      throw new Exception('Dashboard has only less than ' . $count . ' block' . ($count > 1 ? 's' : ''));
+    }
+  }
+
+  /**
+   * @Then /^I should see at least "([^"]*)" blocks in column "([^"]*)"$/
+   */
+  public function iShouldSeeAtLeastBlocksInColumn($count, $column)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    // Find divs with the class 'homebox-portlet' inside #homebox div
+    $boxes = $this->getSession()->getPage()->findAll('css', '#homebox div.homebox-column-wrapper-' . $column . ' div.homebox-portlet');
+    if (empty($boxes) || count($boxes) < $count) {
+      throw new Exception('Column '. $column . ' has only less than ' . $count . ' block' . ($count > 1 ? 's' : ''));
+    }
+  }
+
+  /**
+   * @Then /^I should see at least "([^"]*)" items in block "([^"]*)"$/
+   */
+  public function iShouldSeeAtLeastItemsInBlock($count, $block)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    $obj_block = $this->getBlockInnerContainer($block);
+    if (!empty($obj_block)) {
+      $items = $obj_block->findAll('css', '.portlet-content > .item-list ul > li');
+      if (empty($items) || count($items) < $count) {
+        throw new Exception('The block: '. $block . ' has only less than ' . $count . ' item' . ($count > 1 ? 's' : ''));
+      }
+    }else {
+      throw new Exception('The block: '. $block . ' couldn\'t be found on Dashboard.');
+    }
+  }
+
+  /**
+   * @Then /^I should see the item "([^"]*)" in the block "([^"]*)"$/
+   */
+  public function iShouldSeeTheItemInTheBlock($item, $block)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    $obj_block = $this->getBlockInnerContainer($block);
+    if (!empty($obj_block)) {
+      $found = false;
+      // Find <li> tags in item-list div
+      $lis = $obj_block->findAll('css', '.portlet-content > .item-list ul > li');
+      if (!empty($lis)) {
+        foreach ($lis as $li) {
+          // Check <li> text
+          if ($item == $li->getText()) {
+            $found = true;
+            break;
+          }
+        }
+      }
+      if (!$found){
+        throw new Exception('The item: '. $item . ' cannot be found in block: ' . $block);
+      }
+    }else {
+      throw new Exception('The block: '. $block . ' couldn\'t be found on Dashboard');
+    }
+  }
+
+  /**
+   * @Then /^I drag the block "([^"]*)" onto "([^"]*)"$/
+   */
+  public function iDragTheBlockOnto($origin, $destination)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    $block_ele = $this->getBlockInnerContainer($origin);
+    if (!empty($block_ele) && $draggable = $block_ele->getParent()) {
+      $droppable = $this->getBlockInnerContainer($destination)->getParent()->getParent();
+      if ($droppable) {
+        $this->getSession()->wait(1, '');
+        $draggable->dragTo($droppable);
+        $this->getSession()->wait(1, '');
+      }else {
+        throw new Exception('The block: ' . $destination . ' cannot be found on Dashboard');
+      }
+    }else {
+      throw new Exception('The block: ' . $origin . ' cannot be found on Dashboard');
+    }
+  }
+
+  /**
+   * @Then /^I drag the block "([^"]*)" onto column "([^"]*)"$/
+   */
+  public function iDragTheBlockOntoColumn($origin, $destination)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    $block_ele = $this->getBlockInnerContainer($origin);
+    if (!empty($block_ele) && $draggable = $block_ele->getParent()) {
+      $droppable = $this->getSession()->getPage()->find('css', '#homebox-column-'. $destination );
+      if ($droppable) {
+        $this->getSession()->wait(1, '');
+        $draggable->dragTo($droppable);
+        $this->getSession()->wait(1, '');
+      }else {
+        throw new Exception('The column: ' . $destination . ' cannot be found on Dashboard');
+      }
+    }else {
+      throw new Exception('The block: ' . $origin . ' cannot be found on Dashboard');
+    }
+  }
+
+  /**
+   * @Then /^I should not see the below <blocks> in column "([^"]*)"$/
+   */
+  public function iShouldNotSeeTheBelowBlocksInColumn($column, TableNode $table)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    $table = $table->getHash();
+    if (!empty($table)) {
+      $page = $this->getSession()->getPage();
+      // Find block with header, for the column
+      $blocks_h3 = $page->findAll('css', '#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
+      if (!empty($blocks_h3)) {
+        $arr_boxes = array();
+        foreach ($blocks_h3 as $header_span) {
+          if ($boxname = $header_span->getText()) {
+            $arr_boxes[] = $boxname;
+          }
+        }
+        // Check box exists
+        if (!empty($arr_boxes)) {
+          foreach ($table as $item) {
+            // Check the box exists in column boxes
+            if (in_array($item['blocks'], $arr_boxes)) {
+              throw new Exception('The box: ' . $item['blocks'] .' is present in column '. $column);
+              break;
+            }
+          }
+        }else {
+          throw new Exception('The column '. $column . ' is empty');
+        }
+      }else {
+        throw new Exception('The column '. $column . ' is empty');
+      }
+    }else {
+      throw new Exception('Block list cannot be empty');
+    }
+  }
+
+  /**
+   * @Then /^I should see the block "([^"]*)" in column "([^"]*)" just "([^"]*)" the block "([^"]*)"$/
+   */
+  public function iShouldSeeTheBlockInColumnJustTheBlock($blockToFind, $column, $position, $blockNearBy )
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    $arr_exporder = array();
+    // Expected order
+    if ($position == 'above') {
+      $arr_exporder[0] = $blockToFind;
+      $arr_exporder[1] = $blockNearBy;
+    }elseif($position == 'below') {
+      $arr_exporder[0] = $blockNearBy;
+      $arr_exporder[1] = $blockToFind;
+    }
+    // Find blocks from the column
+    $blocks_h3 = $this->getSession()->getPage()->findAll('css', '#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
+    if (!empty($blocks_h3)) {
+      $arr_order = array();
+      foreach ($blocks_h3 as $header_span) {
+        if ($boxname = $header_span->getText()) {
+          if (in_array($boxname ,$arr_exporder)) {
+            $arr_order[] = $boxname;
+          }
+        }
+      }
+      // Check for errors
+      if (($count = count($arr_order)) < 2) {
+        throw new Exception('The box'.( $count==1 ? '' : 'es' ). ': "' .(implode('"," ', (!empty($arr_order) ? $arr_order : $arr_exporder))).'" cannot be found in column: "'. $column.'"');
+      }elseif($arr_order != $arr_exporder) {
+        throw new Exception('The block: "'. $blockToFind . '" couldn\'t be found "' .$position. '" the block "' . $blockNearBy . '" in Column "' . $column . '"') ;
+      }
+      // fine
+    }else {
+      throw new Exception('The column '. $column . ' is empty');
+    }
+  }
+
+  /**
+   * @Then /^I change the setting "([^"]*)" to "([^"]*)" for the block "([^"]*)" and save$/
+   */
+  public function iChangeTheSettingToForTheBlockAndSave($setting, $value, $block)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    $page = $this->getSession()->getPage();
+    $block_inner = $this->getBlockInnerContainer($block);
+    if (!empty($block_inner)) {
+      $setting_link = $block_inner->find('css', 'h3.portlet-header > a.portlet-icon.portlet-settings');
+      if (!empty($setting_link)) {
+        // Click Settings click
+        $setting_link->click();
+        // Find Setting with label
+        $setting_textfield = $block_inner->findField($setting);
+        if (!empty($setting_textfield)) {
+          $setting_textfield->setValue($value);
+          // Find save button and submit
+          $setting_submit = $block_inner->find('css', 'div.portlet-config > form .form-submit');
+          if (!empty($setting_submit)) {
+            // Submit
+            $setting_submit->press();
+            $block_container_id = $block_inner->getParent()->getAttribute('id');
+            // Wait for the results
+            $this->getSession()->wait(1, "typeof($('#". $block_container_id ." > div.ahah-progress.ahah-progress-throbber').html()) == 'undefined'");
+          }else {
+            throw new Exception('The setting cannot be saved for the block: "'  . $block . '"');
+          }
+        }else {
+          throw new Exception('The setting: "' . $setting . '" cannot be found for the block: "'  . $block . '"');
+        }
+      }else {
+        throw new Exception('No Setting Icon found for the block: "'  . $block . '"');
+      }
+    }else {
+      throw new Exception('The block: "'  . $block . '" cannot be found.');
+    }
+  }
+
+  /**
+   * @Then /^I close the block "([^"]*)" from dashboard$/
+   */
+  public function iCloseTheBlockFromDashboard($block)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    // Find the block inner div
+    $block_inner = $this->getBlockInnerContainer($block);
+    if (!empty($block_inner)) {
+      // Find the close link
+      $close_link = $block_inner->find('css', 'h3.portlet-header > a.portlet-icon.portlet-close');
+      if (!empty($close_link)) {
+        // Click it
+        $close_link->click();
+      }else {
+        throw new Exception('Close Icon cannot be found for the block: "'  . $block . '"');
+      }
+    }else {
+      throw new Exception('The block: "'  . $block . '" cannot be found.');
+    }
+  }
+
+  /**
+   * @Then /^I close the block$/
+   */
+  public function iCloseTheBlock()
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    // Find the block inner div
+    $block_inner = $this->getBlockInnerContainer();
+    if (!empty($block_inner)) {
+      // Find the close link
+      $close_link = $block_inner->find('css', 'h3.portlet-header > a.portlet-icon.portlet-close');
+      if (!empty($close_link)) {
+        $title_span = $block_inner->find('css', 'h3.portlet-header > span.portlet-title');
+        // Store the block name to temp variable
+        if (!empty($title_span)) {
+          $this->temp_vars['block_name'] = $title_span->getText();
+        }
+        // Click it
+        $close_link->click();
+      }else {
+        throw new Exception('Close Icon cannot be found');
+      }
+    }else {
+      throw new Exception('The block cannot be found.');
+    }
+  }
+
+  /**
+   * @Then /^I should not see the block$/
+   */
+  public function iShouldNotSeeTheBlock()
+  {
+    if (empty($this->temp_vars['block_name'])) {
+      throw new Exception('Block name is empty');
+    }
+    $block_inner = $this->getBlockInnerContainer($this->temp_vars['block_name']);
+    if (!empty($block_inner)) {
+      throw new Exception('The block exists on Dashboard');
+    }
+  }
+
+  /**
+   * @When /^I click the link "([^"]*)" to add$/
+   */
+  public function iClickTheLinkToAdd($blockLink)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    // Loop through the links
+    $ul_ele = $this->getSession()->getPage()->find('css', '#homebox-add > div.item-list > ul' );
+    if (!empty($ul_ele)) {
+      $link = $ul_ele->findLink($blockLink);
+      if (!empty($link)) {
+        $link->click();
+      }else {
+        $message = true;
+      }
+    }else {
+      $message = true;
+    }
+    if(isset($message)) {
+      throw new Exception('The link: "'  . $blockLink . '" cannot be found.');
+    }
+  }
+
+  /**
+   * @Then /^I should see the block "([^"]*)" in column "([^"]*)"$/
+   */
+  public function iShouldSeeTheBlockInColumn($block, $column)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    // Find blocks from the column
+    $blocks_h3 = $this->getSession()->getPage()->findAll('css', '#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
+    if (!empty($blocks_h3)) {
+      $found = false;
+      foreach ($blocks_h3 as $header_span) {
+        // Find the exact block
+        if ($block = $header_span->getText()) {
+          $found = true;
+          break;
+        }
+      }
+      if(!$found) {
+        throw new Exception('The block: "' . $block .'" cannot be found');
+      }
+    }else {
+      throw new Exception('The column: '. $column . ' is empty');
+    }
+  }
+
+  /**
+   * @Given /^I should see the following <icons> on the block "([^"]*)"$/
+   */
+  public function iShouldSeeTheFollowingOnTheBlock($block, TableNode $table)
+  {
+    // Validate empty arguments
+    $this->validateBlankArgs(func_get_args());
+    // Classes for icons
+    $arr_iconclasses = array(
+      'settings' => 'a.portlet-icon.portlet-settings',
+      'close' => 'a.portlet-icon.portlet-close',
+    );
+    // Find the block inner div
+    $block_inner = $this->getBlockInnerContainer($block);
+    if (!empty($table)) {
+      foreach ($table->getHash() as $icon) {
+        if (!empty($arr_iconclasses[strtolower($icon['icons'])])) {
+          $icon_link = $block_inner->find('css', 'h3.portlet-header > ' . $arr_iconclasses[strtolower($icon['icons'])]);
+          if (empty($icon_link)) {
+            throw new Exception('The icon: "' .$icon['icons'] .'" cannot be found in the block');
+            break;
+          }
+        }else {
+          throw new Exception('The icon: "' .$icon['icons'] .'" cannot be found in the block');
+          break;
+        }
+      }
+    }else {
+      throw new Exception('Icon list should not be empty');
+    }
+  }
+
+  /**
+   * Find dashboard block inner container div
+   */
+  private function getBlockInnerContainer($block = null) {
+    $page = $this->getSession()->getPage();
+    // Find blocks with header
+    if (is_null($block)) {
+      $blocks_h3 = array( 0 => $page->find('css', 'h3.portlet-header > span.portlet-title'));
+    }else {
+      $blocks_h3 = $page->findAll('css', 'h3.portlet-header > span.portlet-title');
+    }
+    if (!empty($blocks_h3)) {
+      foreach ($blocks_h3 as $header_span) {
+        if (!empty($header_span) && (is_null($block) || $block == $header_span->getText())) {
+          return $header_span->getParent()->getParent();
+        }
+      }
+    }
+    return null;
+  }
 }
