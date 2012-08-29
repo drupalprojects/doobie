@@ -1364,18 +1364,19 @@ class FeatureContext extends MinkContext {
   /**
    * @When /^I select the following <fields> with <values>$/
    */
-  public function iSelectTheFollowingFieldsWithValues(TableNode $table)
-   {
+  public function iSelectTheFollowingFieldsWithValues(TableNode $table) {
     $multiple = true;
-    $page = $this->getSession()->getPage();
-     $table = $table->getHash();
-     foreach ($table as $key => $value) {
-      $select = $page->find('named', array('select', $table[$key]['fields']));
+    $table = $table->getHash();
+    foreach ($table as $key => $value) {
+      $select = $this->getSession()->getPage()->findField($table[$key]['fields']);
+      if(empty($select)) {
+        throw new Exception('The page does not have the field with label');
+      }
       // if multiple is always true we get "value cannot be an array" error for single select fields
       $multiple = $select->getAttribute('multiple') ? true : false;
-      $page->selectFieldOption($table[$key]['fields'], $table[$key]['values'], $multiple);
-     }
-   }
+      $this->getSession()->getPage()->selectFieldOption($table[$key]['fields'], $table[$key]['values'], $multiple);
+    }
+  }
 
   /**
    * @When /^I select "([^"]*)" from Project Type on Create Project page$/
