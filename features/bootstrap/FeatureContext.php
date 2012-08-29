@@ -3631,4 +3631,45 @@ class FeatureContext extends MinkContext {
     }
     return $result;
   }
+
+  /**
+   * @Then /^I should see the <users> with the following <permissions>$/
+   */
+  public function iShouldSeeTheUsersWithTheFollowingPermissions(TableNode $table) {
+    $message = '';
+    $table = $table->getHash();
+    if (empty($table)) {
+      throw new Exception("No maintainers for this Project");
+    }
+    $ths = $this->getSession()->getPage()->findAll('css', '#project-maintainers-form table thead tr th');
+    $arr_th = array();
+    foreach ($ths as $th) {
+      if ('User'!= ($header = $th->getText())) {
+        $arr_th[] = $header;
+      }
+    }
+    foreach ($table as $data) {
+      $user = $data['users'];
+      $permission = $data['permissions'];
+      $userLink = $this->getSession()->getPage()->findLink($user);
+      if (empty($userLink)) {
+        throw new Exception('The page does not have the following users "' . $user . '"');
+      }
+      // a -> td -> tr In order to find the maintainers link for checking his permissons.
+      $tr = $userLink->getParent()->getParent();
+      $vcsCheckboxes = $tr->findAll('css', 'td .form-item .form-checkbox');
+      if (empty($vcsCheckboxes)) {
+        throw new Exception('The page could not find any checkboxes');
+      }
+      $index = array_search($permission, $arr_th);
+      // Find the checkbox corresponding to the header column.
+      $chk = $vcsCheckboxes[$index];
+      if (!($chk->hasAttribute('checked'))) {
+        $message .= 'The user "' . $user . '" does not have "' . $permission . '" permissions' . "\n";
+      }
+    }
+    if (($message)) {
+      throw new Exception($message);
+    }
+  }
 }
