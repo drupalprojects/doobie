@@ -13,17 +13,5 @@ default:
     Behat\MinkExtension\Extension:
       goutte: ~
       selenium2: ~
-selenium:
-  context:
-    parameters:
-      default_browser: 'selenium_firefox'
-progress:
-    formatter:
-        name: 'progress'
-sahi:
-  context:
-    parameters:
-      default_browser: 'sahi_firefox'
-
 imports:
   - behat.local.yml
