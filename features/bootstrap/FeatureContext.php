@@ -2658,9 +2658,12 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Then /^the page status should be "([^"]*)"$/
    * Function to check the status of a book page
-   * @param $status String The status of the page
+   *
+   * @Then /^the page status should be "([^"]*)"$/
+   *
+   * @param string $status
+   *   String The status of the page
    */
   public function thePageStatusShouldBe($status) {
     $page = $this->getSession()->getPage();
@@ -2668,7 +2671,7 @@ class FeatureContext extends MinkContext {
     if (empty($currStatus)) {
       throw new Exception("The status of the page is not '" . $status . "'");
     }
-    if (trim($currStatus->getText()) != trim($status)) {
+    if (trim($status) != trim($currStatus->getText())) {
       throw new Exception("The status of the page is not '" . $status . "'");
     }
   }
@@ -2724,9 +2727,12 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Given /^the background color of the status should be "([^"]*)"$/
    * Function to check the background color of the status message on a book page
-   * @param $color String The color of the status
+   *
+   * @Given /^the background color of the status should be "([^"]*)"$/
+   *
+   * @param string $color
+   *   The color of the status
    */
   public function theBackgroundColorOfTheStatusShouldBe($color) {
     $flag = FALSE;
@@ -2757,19 +2763,6 @@ class FeatureContext extends MinkContext {
     if (!strstr($contents, $copyright)) {
       throw new Exception('Copyright statement cannot be found in the right sidebar');
     }
-  }
-
-  /**
-   * @Given /^I click on a book page$/
-   * Function to navigate to a page. The page to be navigated is defined in getPostTitleObject()
-   */
-  public function iClickOnABookPage() {
-    $page = $this->getSession()->getPage();
-    $bookPage = $this->getPostTitleObject($page);
-    if (empty($bookPage)) {
-      throw new Exception("The page does not have any book page");
-    }
-    $this->getSession()->visit($this->locatePath($bookPage->getAttribute('href')));
   }
 
   /**
@@ -3685,4 +3678,31 @@ class FeatureContext extends MinkContext {
       throw new Exception($message);
     }
   }
+
+  /**
+   * Create a book page and store the title
+   *
+   * @Given /^I create a book page$/
+   */
+  public function iCreateABookPage() {
+    $page = $this->getSession()->getPage();
+    $title = $this->randomString(8);
+    $page->fillField("Title:", $title);
+    $page->fillField("Body:", "The body of the book page having more than ten words");
+    HackyDataRegistry::set('book page title', $title);
+    $page->pressButton('Save');
+  }
+
+  /**
+   * Use the title stored in the above function and follow the link
+   *
+   * @When /^I follow a random book page$/
+   */
+  public function iFollowARandomBookPage() {
+    $title = HackyDataRegistry::get('book page title');
+    if ($title == "") {
+      throw new Exception("Book page was not found");
+    }
+    return new Given("I follow \"$title\"");
+  }  
 }

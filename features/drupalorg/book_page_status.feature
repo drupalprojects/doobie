@@ -7,11 +7,18 @@ Feature: Check the background color of the book page status
     Given I am logged in as "site user"
     And I follow "Documentation"
     And I follow "Understanding Drupal"
-    And I click on a book page
+
+  Scenario: Create a book page
+    When I follow "Add child page"
+    And I create a book page
+    Then I should see "has been created"
 
   @javascript
   Scenario Outline: Edit a book page and set status
-    When I follow "Edit"
+    When I follow a random book page
+    And I wait "1" second
+    And I follow "Edit"
+    And I wait "1" second
     And I select "<status>" from "Page status:"
     And I fill in "Log message:" with random text
     And I press "Save"
