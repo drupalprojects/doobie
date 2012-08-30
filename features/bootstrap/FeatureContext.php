@@ -78,9 +78,6 @@ class FeatureContext extends MinkContext {
    */
   private $project_value = '';
 
-  /* Store file diretcory*/
-  private $file_path = '';
-
   /**
    * Store the md5 hash of a downloaded file.
    */
@@ -123,9 +120,6 @@ class FeatureContext extends MinkContext {
     }
     if (isset($parameters['layout']['content'])) {
       $this->content = $parameters['layout']['content'];
-    }
-    if (isset($parameters['files_path'])) {
-      $this->file_path = $parameters['files_path'];
     }
     if (isset($parameters['post title'])) {
       $this->postTitle= $parameters['post title'];
@@ -2395,25 +2389,18 @@ class FeatureContext extends MinkContext {
     $page = $session->getPage();
     $files = $files->getHash();
     $total_files = count($files);
-    $sele_handler = $session->getSelectorsHandler();
 
-    // 'add more' button
+    // 'add more' button.
     $add_more = $page->findById($addmore_id);
     $upload = 0;
     $ds = '/';
     if ($total_files > 0) {
-      // wait
+      // Wait.
+      // @TODO why?
       $this->iWaitForSeconds(2);
-      if (empty($this->file_path) || $this->file_path == '/path/to/doobie/files') {
-        throw new Exception('The "file_path" cannot be found. Configure the variable as files_path: "/path/to/doobie/files"');
-       }else {
-          // use backslash if Windows server
-          if (strtoupper(substr(php_uname(), 0, 3)) == 'WIN') {
-            $ds = '\\';
-          }
-        }
-      // loop through files and upload
-      for($i = 0; $i < $total_files; $i++) {
+
+      // Loop through files and upload.
+      for ($i = 0; $i < $total_files; $i++) {
         // find newly inserted file and attach local file
         $file_id = str_replace('{index}', $i, $filefield_id);
         $file = $this->getSession()->getPage()->findById($file_id);
@@ -2426,8 +2413,9 @@ class FeatureContext extends MinkContext {
           $this->iWaitForSeconds(2);
           $file = $this->getSession()->getPage()->findById($file_id);
         }
-        // attach again
-        $filepath = $this->file_path . $ds . $files[$i]['files'];
+        // Attach again.
+        $filepath = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . $files[$i]['files'];
+
         if (!file_exists($filepath)) {
           throw new Exception('The file: "' . $files[$i]['files'] . '" cannot be found.');
         }
