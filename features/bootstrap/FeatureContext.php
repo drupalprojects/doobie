@@ -1190,8 +1190,7 @@ class FeatureContext extends MinkContext {
   /**
    * @Given /^I fill in "([^"]*)" with random text$/
    */
-  public function iFillInWithRandomText($label)
-  {
+  public function iFillInWithRandomText($label) {
     // A @Tranform would be more elegant.
     $randomString = $this->randomString(10, $label);
     $step = "I fill in \"$label\" with \"$randomString\"";
@@ -1201,8 +1200,7 @@ class FeatureContext extends MinkContext {
   /**
    * @Then /^I should see the random "([^"]*)" text$/
    */
-  public function iShouldSeeTheRandomText($label)
-  {
+  public function iShouldSeeTheRandomText($label) {
     $text = $this->fetchRandomString($label);
     if (!$text) {
       throw new Exception("No random text stored for $label.");
@@ -1214,8 +1212,7 @@ class FeatureContext extends MinkContext {
   /**
    * @When /^I see "([^"]*)"$/
    */
-  public function iSee($text)
-  {
+  public function iSee($text) {
     $step = "I should see \"$text\"";
     return new Then($step);
   }
