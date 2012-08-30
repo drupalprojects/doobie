@@ -763,6 +763,12 @@ class FeatureContext extends MinkContext {
       ->findLink('Version control')
       ->getAttribute('href');
     HackyDataRegistry::set('version control path', $versionControlTabPath);
+    $maintainersTabPath = $this->getSession()
+      ->getPage()
+      ->findLink('Maintainers')
+      ->getAttribute('href');
+    HackyDataRegistry::set('maintainers tab path', $maintainersTabPath);
+    HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
     if (empty($element) || strpos($element->getText(), $this->projectTitle) === FALSE) {
       throw new Exception('Project title not found where it was expected.');
     }
@@ -961,6 +967,9 @@ class FeatureContext extends MinkContext {
     }
     elseif ($field == "issue tags") {
       $field = "edit-issue-tags";
+    }
+    elseif ($field == "maintainer user name") {
+      $field = "edit-new-maintainer-user";
     }
     return new Given("I fill in \"$field\" with \"$value\"");
   }
@@ -3710,4 +3719,121 @@ class FeatureContext extends MinkContext {
     }
     return new Given("I follow \"$title\"");
   }  
+
+  /**
+   * @When /^I am on the Maintainers tab$/
+   */
+  public function iAmOnTheMaintainersTab() {
+    $path = $this->locatePath(HackyDataRegistry::get('maintainers tab path'));
+    if (!$path) {
+      throw new Exception("Maintainers tab was not found");
+    }
+    return new Given("I am on \"$path\"");
+  }
+
+  /**
+   * @When /^I follow "([^"]*)" for the maintainer "([^"]*)"$/
+   */
+  public function iFollowForTheMaintainer($link, $maintainer) {
+    $page = $this->getSession()->getPage();
+    $userLink = $page->findLink($maintainer);
+    if (empty($userLink)) {
+      throw new Exception("The maintainer '" . $maintainer . "' was not found on the page");
+    }
+    // Get the row in which the maintainer resides
+    // a > td > tr
+    $tr = $userLink->getParent()->getParent();
+    // Get the $link from the row
+    $link = $tr->findLink($link);
+    if (empty($link)) {
+      throw new Exception("The link '" . $link . "' was not found for the maintainer '" . $maintainer . "'");
+    }
+    $this->getSession()->visit($this->locatePath($link->getAttribute('href')));
+  }
+
+  /**
+   * @When /^I assign the following <permissions> to the maintainer "([^"]*)"$/
+   */
+  public function iAssignTheFollowingPermissionsToTheMaintainer($maintainer, TableNode $permissions, $assign = TRUE) {
+    if (empty($permissions)) {
+      throw new Exception("No permissions were provided");
+    }
+    $permissions = $permissions->getHash();
+    if (empty($permissions)) {
+      throw new Exception("No permissions were provided");
+    }
+    // Loop through all the permissions provided and assign/unassign the permission
+    foreach ($permissions as $key => $value) {
+      $permission = $permissions[$key]['permissions'];
+      // If $assign is TRUE then "assign" permission otherwise "unassign"
+      $this->iAssignToTheMaintainer($permission, $maintainer, $assign);
+    }
+  }
+
+  /**
+   * @When /^I assign "([^"]*)" to the maintainer "([^"]*)"$/
+   */
+  public function iAssignToTheMaintainer($permission, $maintainer, $assign = TRUE) {
+    $page = $this->getSession()->getPage();
+    // Find the row in which the $maintainer exists
+    $userLink = $page->findLink($maintainer);
+    if (empty($userLink)) {
+      throw new Exception("The maintainer '" . $maintainer . "' was not found on the page");
+    }
+    // Get the user id of the maintainer
+    $href = $userLink->getAttribute('href');
+    // The pattern of 'href' - /user/<uid>
+    $user = explode("/", $href);
+    // 0 => "", 1 => "user", 2 => <uid>
+    $uid  = $user[2];
+    // Convert permission to lowercase
+    $tempPerm = strtolower($permission);
+    // Convert spaces into hyphens (-)
+    $tempPerm = str_replace(" ", "-", $tempPerm);
+    // Get the checkbox id using the above uid and permission
+    // Format of checkbox id - edit-maintainers-2244103-permissions-maintain-issues
+    $chkbxId = "edit-maintainers-" . $uid . "-permissions-" . $tempPerm;
+    // Make sure the field with the above ID exists on the page
+    $chkbx = $page->findField($chkbxId);
+    if (empty($chkbx)) {
+      throw new Exception("The permission '" . $permission . "' for the user '" . $maintainer . "' was not found on the page");
+    }
+    if ($assign) {
+      // If a checkbox with the above id exists and it is not checked, then 'check' it
+      if (!$chkbx->isChecked()) {
+        $chkbx->check();
+      }
+    }
+    else {
+      // If a checkbox with the above id exists and it is checked, then 'uncheck' it
+      if ($chkbx->isChecked()) {
+        $chkbx->uncheck();
+      }
+    }
+  }
+
+  /**
+   * @When /^I unassign the following <permissions> from the maintainer "([^"]*)"$/
+   */
+  public function iUnassignTheFollowingPermissionsFromTheMaintainer($maintainer, TableNode $permissions) {
+    $this->iAssignTheFollowingPermissionsToTheMaintainer($maintainer, $permissions, FALSE);
+  }
+
+  /**
+   * @When /^I unassign "([^"]*)" from the maintainer "([^"]*)"$/
+   */
+  public function iUnassignThePermissionFromTheMaintainer($permission, $maintainer) {
+    $this->iAssignToTheMaintainer($permission, $maintainer, FALSE);
+  }
+
+  /**
+   * @Given /^I am on the project page$/
+   */
+  public function iAmOnTheProjectPage() {
+    $path = $this->locatePath(HackyDataRegistry::get('project path'));
+    if (!$path) {
+      throw new Exception("Project was not found");
+    }
+    return new Given("I am on \"$path\"");
+  }
 }
