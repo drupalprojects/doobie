@@ -909,6 +909,9 @@ class FeatureContext extends MinkContext {
     elseif ($field == 'select...') {
       $field = 'edit-objects-selector';
     }
+    elseif ($field == 'issue tags') {
+      $field = 'edit-issue-tags-op';
+    }
     $page = $this->getSession()->getPage();
     $page->selectFieldOption($field, trim($value));
     if (empty($page))
@@ -955,6 +958,9 @@ class FeatureContext extends MinkContext {
     }
     elseif ($field == "add new e-mail") {
       $field = "edit-email";
+    }
+    elseif ($field == "issue tags") {
+      $field = "edit-issue-tags";
     }
     return new Given("I fill in \"$field\" with \"$value\"");
   }
