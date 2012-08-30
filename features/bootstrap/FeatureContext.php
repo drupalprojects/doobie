@@ -3622,10 +3622,7 @@ class FeatureContext extends MinkContext {
     $result = $this->getSession()->getPage()->find('css', '.node .submitted a');
     if (!empty($result)) {
       $findUser = $result->getText('link');
-      if(trim($findUser) == trim($submUser)) {
-        return;
-      }
-      else {
+      if (trim($findUser) != trim($submUser)) {
         throw new Exception('The user "' . $submUser .  '"  was not the submitted user for this issue.');
       }
     }
