@@ -61,7 +61,9 @@ class FeatureContext extends MinkContext {
   private $drushAlias = FALSE;
 
   /**
-   * Store region ids
+   * Store region ids.
+   *
+   * @todo move this to the Drupal Extension's region selector.
    */
   private $right_sidebar = "";
   private $home_bottom_right = '';
