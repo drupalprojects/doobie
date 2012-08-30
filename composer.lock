@@ -78,6 +78,12 @@
             "commit-date": "1343847076"
         },
         {
+            "package": "drupal/drupal-extension",
+            "version": "dev-master",
+            "source-reference": "082b497d68dd25ed862296806d1897d3bd2fad13",
+            "commit-date": "1343341066"
+        },
+        {
             "package": "fabpot/goutte",
             "version": "dev-master",
             "source-reference": "5f7fd00c7f1c47a66e552f636450ff883e02cf33",
