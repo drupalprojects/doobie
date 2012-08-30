@@ -2028,6 +2028,8 @@ class FeatureContext extends MinkContext {
   }
 
   /**
+   * Verifies that all checkboxes in a VBO view are selected.
+   *
    * @Given /^all the checkboxes are selected$/
    */
   public function allTheCheckboxesAreSelected($flag = true) {
