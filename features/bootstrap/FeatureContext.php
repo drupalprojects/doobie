@@ -1395,9 +1395,11 @@ class FeatureContext extends MinkContext {
    */
   public function iSelectFromProjectTypeOnCreateProjectPage($option) {
     $field = "project_type";
+    $check_category = false;
     switch($option) {
       case 'Modules':
         $id = 'edit-project-type-14';
+        $check_category = true;
         break;
       case 'Themes':
         $id = 'edit-project-type-15';
@@ -1414,19 +1416,22 @@ class FeatureContext extends MinkContext {
       case 'Drupal core':
         $id = 'edit-project-type-13';
         break;
-
+      default:
+        throw new Exception('The option: "' . $option .'" doesn\'t exist' );
+        break;
     }
-    $session = $this->getSession();
-    $page = $session->getPage();
-    $radio = FALSE && $page->findById($id);
+    $radio = $this->getSession()->getPage()->findById($id);
     if (!$radio) {
       throw new ElementNotFoundException(
         $this->getSession(), 'radio', 'id', $id
       );
     }
     $radio->click();
-    $this->iWaitForSeconds(1, "");
-    $this->iShouldSeeTheText('Modules categories');
+    // Check Modules categories if Modules is selected 
+    if ($check_category) {
+      $this->iWaitForSeconds(1, "");
+      $this->iShouldSeeTheText('Modules categories');
+    }
   }
 
   /**

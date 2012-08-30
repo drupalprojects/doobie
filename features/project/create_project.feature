@@ -40,10 +40,8 @@ Feature: Create a project
   @javascript
   Scenario: Create a Project
     Given I am logged in as "git vetted user"
-    When I follow "Your Dashboard"
-    And I follow "Your Projects"
-    And I follow "Add a new project"
-    And I select "Modules" from Project Type on Create Project page
+    And I am on "/node/add/project-project"
+    When I select "Modules" from Project Type on Create Project page
     And I select the following <fields> with <values>
     | fields              | values                    |
     | Modules categories  | Event                     |
