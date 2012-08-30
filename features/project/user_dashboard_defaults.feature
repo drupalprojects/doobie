@@ -12,6 +12,8 @@ Feature:
     And I follow "Dashboard"
     And I click "Add a block"
     And I click "Restore to defaults"
+    # Intermittent failures unless we wait.
+    And wait "2" seconds
     And I press "Confirm"
     Then I should see the following <blocks> in the "left" column
     | blocks        |
