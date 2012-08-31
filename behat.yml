@@ -6,12 +6,13 @@ default:
   context:
     parameters:
       default_browser: 'goutte'
-      basic_auth:
-        username: 'drupal'
-        password: 'drupal'
   extensions:
     Behat\MinkExtension\Extension:
       goutte: ~
       selenium2: ~
+    Drupal\DrupalExtension\Extension:
+      basic_auth:
+        username: drupal
+        password: drupal
 imports:
   - behat.local.yml
