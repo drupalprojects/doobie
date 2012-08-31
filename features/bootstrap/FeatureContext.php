@@ -30,6 +30,8 @@ use Behat\Behat\Event\ScenarioEvent;
 
 use Behat\Mink\Exception\ElementNotFoundException;
 
+use Behat\Gherkin\Node\TableNode;
+
 require 'vendor/autoload.php';
 
 /**
@@ -744,18 +746,19 @@ class FeatureContext extends MinkContext {
    * @Then /^I (?:|should )see the project title$/
    */
   public function iShouldSeeTheProjectTitle() {
-    $element = $this->getSession()->getPage();
-    $element = $element->find('css', 'h1#page-subtitle');
-    $versionControlTabPath = $this->getSession()
-      ->getPage()
-      ->findLink('Version control')
-      ->getAttribute('href');
+    $page = $this->getSession()->getPage();
+    $element = $page->find('css', 'h1#page-subtitle');
+    // Get link to Version control tab
+    $versionControlTabPath = $page->findLink('Version control')->getAttribute('href');
     HackyDataRegistry::set('version control path', $versionControlTabPath);
-    $maintainersTabPath = $this->getSession()
-      ->getPage()
-      ->findLink('Maintainers')
-      ->getAttribute('href');
-    HackyDataRegistry::set('maintainers tab path', $maintainersTabPath);
+    // Get link to Maintainers tab
+    $maintainersTabLink = $page->findLink('Maintainers');
+    // For anonymous users this link is not accessible
+    if (!empty($maintainersTabLink)) {
+      $maintainersTabPath = $maintainersTabLink->getAttribute('href');
+      HackyDataRegistry::set('maintainers tab path', $maintainersTabPath);
+    }
+    // Get the path of the current project
     HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
     if (empty($element) || strpos($element->getText(), $this->projectTitle) === FALSE) {
       throw new Exception('Project title not found where it was expected.');
@@ -797,7 +800,7 @@ class FeatureContext extends MinkContext {
     if (!$process->isSuccessful()) {
       throw new Exception('Initializing repository failed - Command: ' . $command . ' Error: ' . $process->getErrorOutput());
     }
-
+    HackyDataRegistry::set('git username', $username);
     // Pause for front end to catch up.
     sleep(10);
   }
@@ -2285,10 +2288,14 @@ class FeatureContext extends MinkContext {
   }
 
   /**
+   * Function to check if an option is not present in the dropdown
+   *
    * @Then /^I should not see "([^"]*)" in the dropdown "([^"]*)"$/
-   * Function to check if an option is present in the dropdown or not
-   * @param $value String The option string to be searched for
-   * @param $field String The dropdown field label
+   * 
+   * @param string $value
+    *  The option string to be searched for
+   * @param string $field
+   *   The dropdown field label
    */
   public function iShouldNotSeeInTheDropdown($value, $field) {
     $page = $this->getSession()->getPage();
@@ -3747,8 +3754,8 @@ class FeatureContext extends MinkContext {
       throw new Exception("No permissions were provided");
     }
     // Loop through all the permissions provided and assign/unassign the permission
-    foreach ($permissions as $key => $value) {
-      $permission = $permissions[$key]['permissions'];
+    foreach ($permissions as $value) {
+      $permission = $value['permissions'];
       // If $assign is TRUE then "assign" permission otherwise "unassign"
       $this->iAssignToTheMaintainer($permission, $maintainer, $assign);
     }
@@ -3819,5 +3826,116 @@ class FeatureContext extends MinkContext {
       throw new Exception("Project was not found");
     }
     return new Given("I am on \"$path\"");
+  }
+
+  /**
+   * @When /^I create a full project$/
+   */
+  public function iCreateAFullProject() {
+    $element = $this->getSession()->getPage();
+    $this->projectTitle = $this->randomString(16);
+    HackyDataRegistry::set('project title', $this->projectTitle);
+
+    $element->fillField('Project title', $this->projectTitle);
+    $element->fillField('Maintenance status', '13028'); /* Actively Maintained */
+    $element->fillField('Development status', '9988'); /* Under Active Development */
+    $this->iSelectTheRadioButtonWithTheId('Modules', 'edit-project-type-14');
+    $element->fillField('Description', $this->randomString(32));
+    $chk = $element->findField("Sandbox");
+    $chk->uncheck();
+    $element->fillField('Short project name', $this->randomString(6));
+    $element->pressButton('Save');
+  }
+
+  /**
+   * @Then /^I create a new issue$/
+   */
+  public function iCreateANewIssue() {
+    $element = $this->getSession()->getPage();
+    $this->issueTitle = $this->randomString(12);
+    $element->selectFieldOption("Component", "Code");
+    $element->selectFieldOption("Category", "task");
+    $element->selectFieldOption("Component", "Code");
+    $element->fillField("Title:", $this->issueTitle);
+    $element->fillField("Description:", $this->randomString(18));
+    HackyDataRegistry::set('issue title', $this->issueTitle);
+    $element->pressButton("Save");
+  }
+
+  /**
+   * @Given /^I follow an issue of the project$/
+   */
+  public function iFollowAnIssueOfTheProject() {
+    $issueTitle = HackyDataRegistry::get('issue title');
+    if (!$issueTitle) {
+      throw new Exception("No issue was found");
+    }
+    return new Given("I follow \"$issueTitle\"");
+  }
+
+  /**
+   * Step definition to be called immediately after initializing repo or cloning a repo
+   *
+   * @Then /^I should be able to push a commit to the repository$/
+   */
+  public function iShouldBeAbleToPushACommitToTheRepository() {
+    $projectTitle = strtolower(HackyDataRegistry::get('project title'));
+    if (!$projectTitle) {
+      throw new Exception("No project found to push");
+    }
+    if (!is_dir($projectTitle)) {
+      throw new Exception("The folder '" . $projectTitle . "' does not exist");
+    }
+    // Move into the project folder
+    chdir($projectTitle);
+    // Edit the info file present in the folder
+    $fh = fopen($projectTitle . ".info", "a");
+    fwrite($fh, "Test data for BDD");
+    fclose($fh);
+    // Git add
+    $process = new Process('git add ' . $projectTitle . '.info');
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new RuntimeException('Git add failed - ' . $process->getErrorOutput());
+    }
+    // Git commit
+    $username = HackyDataRegistry::get('git username');
+    $process = new Process('git commit -m "by ' . $username . ': From the step definition"');
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new RuntimeException('Git commit failed - ' . $process->getErrorOutput());
+    }
+    // Git push
+    //$process = new Process('git push -u origin master');
+    $password = $this->git_users[$username];
+    $process = new Process("../bin/gitwrapper $password");
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new RuntimeException('Git push failed - ' . $process->getErrorOutput());
+    }
+  }
+
+  /**
+   * Function to check if an option is present in the dropdown
+   *
+   * @Then /^I should see "([^"]*)" in the dropdown "([^"]*)"$/
+   * 
+   * @param string $value
+   *   The option string to be searched for
+   * @param string $field
+   *   The dropdown field label
+   */
+  public function iShouldSeeInTheDropdown($value, $field) {
+    $page = $this->getSession()->getPage();
+    // Get the object of the dropdown field
+    $dropDown = $page->findField($field);
+    if (empty($dropDown)) {
+      throw new Exception('The page does not have the dropdown with label "' . $field . '"');
+    }
+    // Get all the texts under the dropdown field
+    $options = $dropDown->getText();
+    if (strpos(trim($options), trim($value)) === FALSE) {
+      throw new Exception('The dropdown "' . $field . '" does not have the option "' . $value . '", but it should be.');
+    }
   }
 }
