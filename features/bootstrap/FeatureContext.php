@@ -19,14 +19,8 @@ abstract class HackyDataRegistry {
   }
 }
 
-use Behat\Symfony2Extension\Context\KernelAwareInterface;
-use Behat\MinkExtension\Context\MinkContext;
-use Behat\Behat\Context\ClosuredContextInterface,
-    Behat\Behat\Context\TranslatedContextInterface,
-    Behat\Behat\Context\BehatContext,
+use Behat\MinkExtension\Context\MinkContext,
     Behat\Behat\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode,
-    Behat\Gherkin\Node\TableNode;
 use Symfony\Component\Process\Process;
 
 use Behat\Behat\Context\Step\Given;
