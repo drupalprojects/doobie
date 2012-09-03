@@ -1,7 +1,7 @@
 Feature: Verify Write to VCS permission
   In order to commit or push to the repository
-  As a user
-  I should have the permission to write to VCS
+  As a project maintainer
+  I should have the permission to Write to VCS
 
   Scenario: Create a new project
     Given I am logged in as "git vetted user"
