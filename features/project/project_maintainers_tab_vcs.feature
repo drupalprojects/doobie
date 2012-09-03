@@ -19,6 +19,7 @@ Feature: Verify Write to VCS permission
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
+  @gitrepo
   Scenario: Git user does a push a commit to the repository
     Given I am logged in as "git user"
     And I am on the Version control tab
