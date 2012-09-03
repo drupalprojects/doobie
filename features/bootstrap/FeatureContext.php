@@ -15,7 +15,11 @@ abstract class HackyDataRegistry {
     self::$data[$name] = $value;
   }
   public static function get($name) {
-    return self::$data[$name];
+    $value = "";
+    if (isset(self::$data[$name])) {
+      $value = self::$data[$name];
+    }
+    return $value;
   }
 }
 
@@ -1833,15 +1837,21 @@ class FeatureContext extends MinkContext {
     $page = $this->getSession()->getPage();
     $href = "";
     $project = "";
-    $results = $page->findAll("css", ".commit-global h3 a");
-    foreach ($results as $result) {
-      if ($result->hasAttribute('href')) {
-        $project = $result;
-        break;
+    $result = $this->getPostTitleObject($page);
+    if (empty($result)) {
+      $results = $page->findAll("css", ".commit-global h3 a");
+      foreach ($results as $result) {
+        if ($result->hasAttribute('href')) {
+          $project = $result;
+          break;
+        }
+      }
+      if (empty($project)) {
+        throw new Exception("The page did not contain any projects.");
       }
     }
-    if (empty($project)) {
-      throw new Exception("The page did not contain any projects.");
+    else {
+      $project = $result;
     }
     // a > h3 > div.commit-global
     $commitGlobal = $project->getParent()->getParent();
@@ -3876,7 +3886,7 @@ class FeatureContext extends MinkContext {
   /**
    * Step definition to be called immediately after initializing repo or cloning a repo
    *
-   * @Then /^I should be able to push a commit to the repository$/
+   * @Then /^I should be able to push (?:a|one more) commit to the repository$/
    */
   public function iShouldBeAbleToPushACommitToTheRepository() {
     $projectTitle = strtolower(HackyDataRegistry::get('project title'));
@@ -3913,6 +3923,8 @@ class FeatureContext extends MinkContext {
     if (!$process->isSuccessful()) {
       throw new RuntimeException('Git push failed - ' . $process->getErrorOutput());
     }
+    // Move out of the project folder
+    chdir("../");
   }
 
   /**
