@@ -1437,7 +1437,7 @@ class FeatureContext extends MinkContext {
       );
     }
     $radio->click();
-    // Check Modules categories if Modules is selected 
+    // Check Modules categories if Modules is selected
     if ($check_category) {
       $this->iWaitForSeconds(1, "");
       $this->iShouldSeeTheText('Modules categories');
@@ -2307,7 +2307,7 @@ class FeatureContext extends MinkContext {
    * Function to check if an option is not present in the dropdown
    *
    * @Then /^I should not see "([^"]*)" in the dropdown "([^"]*)"$/
-   * 
+   *
    * @param string $value
     *  The option string to be searched for
    * @param string $field
@@ -3674,47 +3674,6 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Then /^I should see the <users> with the following <permissions>$/
-   */
-  public function iShouldSeeTheUsersWithTheFollowingPermissions(TableNode $table) {
-    $message = '';
-    $table = $table->getHash();
-    if (empty($table)) {
-      throw new Exception("No maintainers for this Project");
-    }
-    $ths = $this->getSession()->getPage()->findAll('css', '#project-maintainers-form table thead tr th');
-    $arr_th = array();
-    foreach ($ths as $th) {
-      if ('User'!= ($header = $th->getText())) {
-        $arr_th[] = $header;
-      }
-    }
-    foreach ($table as $data) {
-      $user = $data['users'];
-      $permission = $data['permissions'];
-      $userLink = $this->getSession()->getPage()->findLink($user);
-      if (empty($userLink)) {
-        throw new Exception('The page does not have the following users "' . $user . '"');
-      }
-      // a -> td -> tr In order to find the maintainers link for checking his permissons.
-      $tr = $userLink->getParent()->getParent();
-      $vcsCheckboxes = $tr->findAll('css', 'td .form-item .form-checkbox');
-      if (empty($vcsCheckboxes)) {
-        throw new Exception('The page could not find any checkboxes');
-      }
-      $index = array_search($permission, $arr_th);
-      // Find the checkbox corresponding to the header column.
-      $chk = $vcsCheckboxes[$index];
-      if (!($chk->hasAttribute('checked'))) {
-        $message .= 'The user "' . $user . '" does not have "' . $permission . '" permissions' . "\n";
-      }
-    }
-    if (($message)) {
-      throw new Exception($message);
-    }
-  }
-
-  /**
    * Create a book page and store the title
    *
    * @Given /^I create a book page$/
@@ -3739,7 +3698,7 @@ class FeatureContext extends MinkContext {
       throw new Exception("Book page was not found");
     }
     return new Given("I follow \"$title\"");
-  }  
+  }
 
   /**
    * @When /^I am on the Maintainers tab$/
@@ -3951,7 +3910,7 @@ class FeatureContext extends MinkContext {
    * Function to check if an option is present in the dropdown
    *
    * @Then /^I should see "([^"]*)" in the dropdown "([^"]*)"$/
-   * 
+   *
    * @param string $value
    *   The option string to be searched for
    * @param string $field
@@ -4081,7 +4040,7 @@ class FeatureContext extends MinkContext {
     $this->iCreateA('theme');
     HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
     return new Given('I check the project is created');
-    
+
   }
 
   /**
@@ -4148,7 +4107,7 @@ class FeatureContext extends MinkContext {
       throw new RuntimeException('The Sandbox project can be cloned');
     }
   }
-  
+
   /**
    * Get logged in username if user session exists
    *
@@ -4160,5 +4119,66 @@ class FeatureContext extends MinkContext {
       return HackyDataRegistry::get('username');
     }
     return null;
+  }
+
+	/**
+   * @Then /^I should see the <users> with the following <permissions>$/
+   */
+  public function iShouldSeeTheUsersWithTheFollowingPermissions(TableNode $table,$assign = TRUE) {
+    $message = '';
+    $table = $table->getHash();
+    if (empty($table)) {
+      throw new Exception("No maintainers for this project");
+    }
+    $ths = $this->getSession()->getPage()->findAll('css', '#project-maintainers-form table thead tr th');
+	  if (empty($ths)) {
+      throw new Exception("Could not find project maintainers desired permissions for this project");
+    }
+    $arr_th = array();
+    foreach ($ths as $th) {
+      if ('User'!= ($header = $th->getText())) {
+        $arr_th[] = $header;
+      }
+    }
+    foreach ($table as $data) {
+      $user = $data['users'];
+      $permission = $data['permissions'];
+			$userLink = $this->getSession()->getPage()->findLink($user);
+      if (empty($userLink)) {
+        $message .= 'The page does not have the following user "' . $user . '" '. "\n";
+      }
+			// a -> td -> tr In order to find the maintainers link for checking his permissons.
+      else {
+        $tr = $userLink->getParent()->getParent();
+        $vcsCheckboxes = $tr->findAll('css', 'td .form-item .form-checkbox');
+        if (empty($vcsCheckboxes)) {
+          throw new Exception('The page could not find any checkboxes');
+        }
+				$index = array_search($permission, $arr_th);
+				// Find the checkbox corresponding to the header column.
+        $chk = $vcsCheckboxes[$index];
+				if ($assign) {
+				 	// If a checkbox with the above id exists and it is not checked, then 'check' it
+					if (!($chk->hasAttribute('checked'))) {
+					 	$message .= 'The user "' . $user . '" does not have "' . $permission . '" permissions' . "\n";
+					}
+				}
+				else {
+					if (($chk->hasAttribute('checked'))) {
+						$message .= 'The user "' . $user . '" already have the mentioned "' . $permission . '" permissions' . "\n";
+					}
+				}
+			}
+    }
+    if (($message)) {
+      throw new Exception($message);
+    }
+  }
+
+  /**
+   * @Given /^I should see the <users> without the following <permissions>$/
+   */
+  public function iShouldSeeTheUsersWithoutTheFollowingPermissions(TableNode $table) {
+    $this->iShouldSeeTheUsersWithTheFollowingPermissions($table,FALSE);
   }
 }
