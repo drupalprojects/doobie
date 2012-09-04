@@ -1,7 +1,7 @@
 Feature: To check maintainers permissions
   In order to maintain a project
   As a project owner
-  I should make sure proper permissions have been assigned to the maintainers
+  I should make sure that proper permissions have been assigned to the maintainers
 
   Background:
     Given I am logged in as "git vetted user"
@@ -16,8 +16,7 @@ Feature: To check maintainers permissions
     | ksbalajisundar | Maintain issues           |
     | eliza411       | Edit project              |
     | eliza411       | Administer maintainers    |
-		| sachin2dhoni   | Write to VCS              |
-    And I should see the <users> without the following <permissions>
+		And I should see the <users> without the following <permissions>
     | users          | permissions               |
     | ksbalajisundar | Administer maintainers    |
     | pradeeprkara   | Write to VCS              |
