@@ -2638,15 +2638,29 @@ class FeatureContext extends MinkContext {
    */
   function getPostTitleObject($page) {
     $flag = 0;
+    $result = "";
+    // Try to get title from HackyDataRegistry
+    $temp = HackyDataRegistry::get('project title');
+    if ($temp) {
+      $result = $page->findLink($temp);
+      if (!empty($result)) {
+        return $result;
+      }
+    }
+    // If not avalilable from Hacky, then get from yml
     if(!empty($this->postTitle)) {
       $postTitle = $this->postTitle;
       $result = $page->findLink($postTitle);
       if (!empty($result)) {
-        $flag = 1;
+        return $result;
       }
     }
+    // If not available from yml then take the first item from table
     if ($flag == 0) {
       $result = $page->find("css", "table tbody tr td a");
+      if (!empty($result)) {
+        return $result;
+      }
     }
     return $result;
   }
