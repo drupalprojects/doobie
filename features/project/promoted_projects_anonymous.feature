@@ -1,4 +1,4 @@
-Feature: Ensure sandbox repository is not available once the project is promoted
+Feature: Ensure that sandbox repository is not available once the project is promoted
   In order to restrict using sandbox repository once it is promoted
   As a project owner
   I should be able to promote sandbox project and make sure it is not available
