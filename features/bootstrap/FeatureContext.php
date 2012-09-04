@@ -4074,28 +4074,6 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-    * @Then /^I should not be able to clone the sandbox repo$/
-    */
-  public function iShouldHaveALocalCopyOfTheProject($project = null) {
-    $project_shortname = $project ? $project : HackyDataRegistry::get('project_short_name');
-    if (empty($project_shortname)) {
-      throw new Exception('The project cannot be found.');
-    }
-    return new Then('I should have a local copy of "' . $project_shortname . '"');
-  }
-
-  /**
-   * @Then /^I should not be able to clone the sandbox repo$/
-   */
-  public function iShouldHaveALocalCopyOfTheProject($project = null) {
-    $project_shortname = $project ? $project : HackyDataRegistry::get('project_short_name');
-    if (empty($project_shortname)) {
-      throw new Exception('The project cannot be found.');
-    }
-    return new Then('I should have a local copy of "' . $project_shortname . '"');
-  }
-
-  /**
    * @Then /^I should not be able to clone the sandbox repo$/
    */
   public function IShouldNotBeAbleToCloneTheSandboxRepo() {
