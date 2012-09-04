@@ -1,7 +1,7 @@
 Feature: Check the background color of the book page status
-  In order to know the current status of a book page
-  As a site user
-  I should edit the book page and view the status
+  In order to quickly communicate the status of a book page to site visitors
+  As someone editing a page
+  I need to change the status
 
   Background:
     Given I am logged in as "site user"
@@ -22,7 +22,7 @@ Feature: Check the background color of the book page status
     And I select "<status>" from "Page status:"
     And I fill in "Log message:" with random text
     And I press "Save"
-    Then I see "has been updated"
+    Then I should see "has been updated"
     And the page status should be "<status>"
     And the background color of the status should be "<color>"
     Examples:
