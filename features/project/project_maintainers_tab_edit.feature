@@ -1,6 +1,6 @@
 Feature: 'Edit project' permission check
   In order to provide information about a project
-  As an authenticated user
+  As a project maintainer
   I should be able to edit the project
 
   Scenario: Create a new project

@@ -15,7 +15,11 @@ abstract class HackyDataRegistry {
     self::$data[$name] = $value;
   }
   public static function get($name) {
-    return self::$data[$name];
+    $value = "";
+    if (isset(self::$data[$name])) {
+      $value = self::$data[$name];
+    }
+    return $value;
   }
 }
 
@@ -30,6 +34,8 @@ use Behat\Behat\Context\Step\Then;
 use Behat\Behat\Event\ScenarioEvent;
 
 use Behat\Mink\Exception\ElementNotFoundException;
+
+use Behat\Gherkin\Node\TableNode;
 
 require 'vendor/autoload.php';
 
@@ -78,6 +84,10 @@ class FeatureContext extends DrupalContext {
    */
   private $temp_vars = array();
 
+  /**
+   * Store the file name of a downloaded file
+   */
+  private $downloadedFileName = '';
   /**
    * Initializes context.
    *
@@ -361,6 +371,7 @@ class FeatureContext extends DrupalContext {
       $submit->click();
       $user = $this->whoami();
       if (strtolower($user) == strtolower($username)) {
+        HackyDataRegistry::set('username', $username);
         // Successfully logged in.
         return;
       }
@@ -414,24 +425,26 @@ class FeatureContext extends DrupalContext {
     $this->iSelectTheRadioButtonWithTheId('Modules', 'edit-project-type-14');
     $element->fillField('Description', $this->randomString(1000));
     $element->pressButton('Save');
+    HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
   }
 
   /**
    * @Then /^I (?:|should )see the project title$/
    */
   public function iShouldSeeTheProjectTitle() {
-    $element = $this->getSession()->getPage();
-    $element = $element->find('css', 'h1#page-subtitle');
-    $versionControlTabPath = $this->getSession()
-      ->getPage()
-      ->findLink('Version control')
-      ->getAttribute('href');
+    $page = $this->getSession()->getPage();
+    $element = $page->find('css', 'h1#page-subtitle');
+    // Get link to Version control tab
+    $versionControlTabPath = $page->findLink('Version control')->getAttribute('href');
     HackyDataRegistry::set('version control path', $versionControlTabPath);
-    $maintainersTabPath = $this->getSession()
-      ->getPage()
-      ->findLink('Maintainers')
-      ->getAttribute('href');
-    HackyDataRegistry::set('maintainers tab path', $maintainersTabPath);
+    // Get link to Maintainers tab
+    $maintainersTabLink = $page->findLink('Maintainers');
+    // For anonymous users this link is not accessible
+    if (!empty($maintainersTabLink)) {
+      $maintainersTabPath = $maintainersTabLink->getAttribute('href');
+      HackyDataRegistry::set('maintainers tab path', $maintainersTabPath);
+    }
+    // Get the path of the current project
     HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
     if (empty($element) || strpos($element->getText(), $this->projectTitle) === FALSE) {
       throw new Exception('Project title not found where it was expected.');
@@ -473,7 +486,7 @@ class FeatureContext extends DrupalContext {
     if (!$process->isSuccessful()) {
       throw new Exception('Initializing repository failed - Command: ' . $command . ' Error: ' . $process->getErrorOutput());
     }
-
+    HackyDataRegistry::set('git username', $username);
     // Pause for front end to catch up.
     sleep(10);
   }
@@ -1100,7 +1113,7 @@ class FeatureContext extends DrupalContext {
       );
     }
     $radio->click();
-    // Check Modules categories if Modules is selected 
+    // Check Modules categories if Modules is selected
     if ($check_category) {
       $this->iWaitForSeconds(1, "");
       $this->iShouldSeeTheText('Modules categories');
@@ -1506,15 +1519,21 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     $href = "";
     $project = "";
-    $results = $page->findAll("css", ".commit-global h3 a");
-    foreach ($results as $result) {
-      if ($result->hasAttribute('href')) {
-        $project = $result;
-        break;
+    $result = $this->getPostTitleObject($page);
+    if (empty($result)) {
+      $results = $page->findAll("css", ".commit-global h3 a");
+      foreach ($results as $result) {
+        if ($result->hasAttribute('href')) {
+          $project = $result;
+          break;
+        }
+      }
+      if (empty($project)) {
+        throw new Exception("The page did not contain any projects.");
       }
     }
-    if (empty($project)) {
-      throw new Exception("The page did not contain any projects.");
+    else {
+      $project = $result;
     }
     // a > h3 > div.commit-global
     $commitGlobal = $project->getParent()->getParent();
@@ -1961,10 +1980,14 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Function to check if an option is not present in the dropdown
+   *
    * @Then /^I should not see "([^"]*)" in the dropdown "([^"]*)"$/
-   * Function to check if an option is present in the dropdown or not
-   * @param $value String The option string to be searched for
-   * @param $field String The dropdown field label
+   *
+   * @param string $value
+    *  The option string to be searched for
+   * @param string $field
+   *   The dropdown field label
    */
   public function iShouldNotSeeInTheDropdown($value, $field) {
     $page = $this->getSession()->getPage();
@@ -2293,15 +2316,29 @@ class FeatureContext extends DrupalContext {
    */
   function getPostTitleObject($page) {
     $flag = 0;
+    $result = "";
+    // Try to get title from HackyDataRegistry
+    $temp = HackyDataRegistry::get('project title');
+    if ($temp) {
+      $result = $page->findLink($temp);
+      if (!empty($result)) {
+        return $result;
+      }
+    }
+    // If not avalilable from Hacky, then get from yml
     if(!empty($this->postTitle)) {
       $postTitle = $this->postTitle;
       $result = $page->findLink($postTitle);
       if (!empty($result)) {
-        $flag = 1;
+        return $result;
       }
     }
+    // If not available from yml then take the first item from table
     if ($flag == 0) {
       $result = $page->find("css", "table tbody tr td a");
+      if (!empty($result)) {
+        return $result;
+      }
     }
     return $result;
   }
@@ -3313,47 +3350,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see the <users> with the following <permissions>$/
-   */
-  public function iShouldSeeTheUsersWithTheFollowingPermissions(TableNode $table) {
-    $message = '';
-    $table = $table->getHash();
-    if (empty($table)) {
-      throw new Exception("No maintainers for this Project");
-    }
-    $ths = $this->getSession()->getPage()->findAll('css', '#project-maintainers-form table thead tr th');
-    $arr_th = array();
-    foreach ($ths as $th) {
-      if ('User'!= ($header = $th->getText())) {
-        $arr_th[] = $header;
-      }
-    }
-    foreach ($table as $data) {
-      $user = $data['users'];
-      $permission = $data['permissions'];
-      $userLink = $this->getSession()->getPage()->findLink($user);
-      if (empty($userLink)) {
-        throw new Exception('The page does not have the following users "' . $user . '"');
-      }
-      // a -> td -> tr In order to find the maintainers link for checking his permissons.
-      $tr = $userLink->getParent()->getParent();
-      $vcsCheckboxes = $tr->findAll('css', 'td .form-item .form-checkbox');
-      if (empty($vcsCheckboxes)) {
-        throw new Exception('The page could not find any checkboxes');
-      }
-      $index = array_search($permission, $arr_th);
-      // Find the checkbox corresponding to the header column.
-      $chk = $vcsCheckboxes[$index];
-      if (!($chk->hasAttribute('checked'))) {
-        $message .= 'The user "' . $user . '" does not have "' . $permission . '" permissions' . "\n";
-      }
-    }
-    if (($message)) {
-      throw new Exception($message);
-    }
-  }
-
-  /**
    * Create a book page and store the title
    *
    * @Given /^I create a book page$/
@@ -3378,7 +3374,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception("Book page was not found");
     }
     return new Given("I follow \"$title\"");
-  }  
+  }
 
   /**
    * @When /^I am on the Maintainers tab$/
@@ -3423,8 +3419,8 @@ class FeatureContext extends DrupalContext {
       throw new Exception("No permissions were provided");
     }
     // Loop through all the permissions provided and assign/unassign the permission
-    foreach ($permissions as $key => $value) {
-      $permission = $permissions[$key]['permissions'];
+    foreach ($permissions as $value) {
+      $permission = $value['permissions'];
       // If $assign is TRUE then "assign" permission otherwise "unassign"
       $this->iAssignToTheMaintainer($permission, $maintainer, $assign);
     }
@@ -3495,5 +3491,387 @@ class FeatureContext extends DrupalContext {
       throw new Exception("Project was not found");
     }
     return new Given("I am on \"$path\"");
+  }
+
+  /**
+   * @When /^I create a full project$/
+   */
+  public function iCreateAFullProject() {
+    $element = $this->getSession()->getPage();
+    $this->projectTitle = $this->randomString(16);
+    HackyDataRegistry::set('project title', $this->projectTitle);
+
+    $element->fillField('Project title', $this->projectTitle);
+    $element->fillField('Maintenance status', '13028'); /* Actively Maintained */
+    $element->fillField('Development status', '9988'); /* Under Active Development */
+    $this->iSelectTheRadioButtonWithTheId('Modules', 'edit-project-type-14');
+    $element->fillField('Description', $this->randomString(32));
+    $chk = $element->findField("Sandbox");
+    $chk->uncheck();
+    $element->fillField('Short project name', $this->randomString(6));
+    $element->pressButton('Save');
+  }
+
+  /**
+   * @Then /^I create a new issue$/
+   */
+  public function iCreateANewIssue() {
+    $element = $this->getSession()->getPage();
+    $this->issueTitle = $this->randomString(12);
+    $element->selectFieldOption("Component", "Code");
+    $element->selectFieldOption("Category", "task");
+    $element->selectFieldOption("Component", "Code");
+    $element->fillField("Title:", $this->issueTitle);
+    $element->fillField("Description:", $this->randomString(18));
+    HackyDataRegistry::set('issue title', $this->issueTitle);
+    $element->pressButton("Save");
+  }
+
+  /**
+   * @Given /^I follow an issue of the project$/
+   */
+  public function iFollowAnIssueOfTheProject() {
+    $issueTitle = HackyDataRegistry::get('issue title');
+    if (!$issueTitle) {
+      throw new Exception("No issue was found");
+    }
+    return new Given("I follow \"$issueTitle\"");
+  }
+
+  /**
+   * Step definition to be called immediately after initializing repo or cloning a repo
+   *
+   * @Then /^I should be able to push (?:a|one more) commit to the repository$/
+   */
+  public function iShouldBeAbleToPushACommitToTheRepository() {
+    $projectTitle = strtolower(HackyDataRegistry::get('project title'));
+    if (!$projectTitle) {
+      throw new Exception("No project found to push");
+    }
+    if (!is_dir($projectTitle)) {
+      throw new Exception("The folder '" . $projectTitle . "' does not exist");
+    }
+    // Move into the project folder
+    chdir($projectTitle);
+    // Edit the info file present in the folder
+    $fh = fopen($projectTitle . ".info", "a");
+    fwrite($fh, "Test data for BDD");
+    fclose($fh);
+    // Git add
+    $process = new Process('git add ' . $projectTitle . '.info');
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new RuntimeException('Git add failed - ' . $process->getErrorOutput());
+    }
+    // Git commit
+    $username = HackyDataRegistry::get('git username');
+    $process = new Process('git commit -m "by ' . $username . ': From the step definition"');
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new RuntimeException('Git commit failed - ' . $process->getErrorOutput());
+    }
+    // Git push
+    //$process = new Process('git push -u origin master');
+    $password = $this->git_users[$username];
+    $process = new Process("../bin/gitwrapper $password");
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new RuntimeException('Git push failed - ' . $process->getErrorOutput());
+    }
+    // Move out of the project folder
+    chdir("../");
+  }
+
+  /**
+   * Function to check if an option is present in the dropdown
+   *
+   * @Then /^I should see "([^"]*)" in the dropdown "([^"]*)"$/
+   *
+   * @param string $value
+   *   The option string to be searched for
+   * @param string $field
+   *   The dropdown field label
+   */
+  public function iShouldSeeInTheDropdown($value, $field) {
+    $page = $this->getSession()->getPage();
+    // Get the object of the dropdown field
+    $dropDown = $page->findField($field);
+    if (empty($dropDown)) {
+      throw new Exception('The page does not have the dropdown with label "' . $field . '"');
+    }
+    // Get all the texts under the dropdown field
+    $options = $dropDown->getText();
+    if (strpos(trim($options), trim($value)) === FALSE) {
+      throw new Exception('The dropdown "' . $field . '" does not have the option "' . $value . '", but it should be.');
+    }
+  }
+
+  /**
+   * @When /^I follow "([^"]*)" for version "([^"]*)"$/
+   */
+  public function iFollowForVersion($link, $version) {
+    $result = $this->getRowOfLink($this->getSession()->getPage(), $version, $link);
+    if (empty($result)) {
+      throw new Exception("The link '" . $link . "' was not found for the version '" . $version . "' on the page.");
+    }
+    $href = $result->getAttribute('href');
+    return new Given("I am at \"$href\"");
+  }
+
+  /**
+   * @When /^I download the "([^"]*)" file for version "([^"]*)"$/
+   */
+  public function iDownloadTheFileForVersion($format, $version) {
+    $flag = 0;
+    $noDownloadMsg = "The '" . $format. "' file for version '" . $version . "' was not downloaded";
+    $result = $this->getRowOfLink($this->getSession()->getPage(), $version, $format);
+    if (empty($result)) {
+      throw new Exception("The format '" . $format . "' was not found for the version '" . $version . "' on the page.");
+    }
+    $href = $result->getAttribute('href');
+    $this->getSession()->visit($href);
+
+    // Will work only on Goutte. Selenium does not support responseHeaders
+    $responseHeaders = $this->getSession()->getResponseHeaders();
+    if ((int) $responseHeaders['Content-Length'][0] > 10000) {
+      // If "tar" is requested, then check corresponding content type
+      if ($format == "tar") {
+        if ($responseHeaders['Content-Type'] != "application/x-gzip") {
+          throw new Exception($noDownloadMsg);
+        }
+      }
+      // If "zip" is requested, then check corresponding content type
+      elseif ($format == "zip") {
+        if ($responseHeaders['Content-Type'] != "application/zip") {
+          throw new Exception($noDownloadMsg);
+        }
+      }
+      // If any thing other than tar or zip is requested, throw error
+      else {
+        throw new Exception("Only 'tar' and 'zip' files can be downloaded");
+      }
+    }
+    else {
+      throw new Exception($noDownloadMsg);
+    }
+    // Verify that the current url has FTP
+    if (strpos($href, "http://ftp.drupal.org") === FALSE) {
+      throw new Exception($noDownloadMsg);
+    }
+    else {
+      // Get the filename and store it for use in the next step
+      $temp = explode("/", $href);
+      $filename = $temp[sizeof($temp) - 1];
+      $this->downloadedFileName = trim($filename);
+    }
+  }
+
+  /**
+   * @Then /^the downloaded file name should be "([^"]*)"$/
+   */
+  public function theDownloadedFileNameShouldBe($filename) {
+    if ($filename != $this->downloadedFileName) {
+      throw new Exception("The filename did not match");
+    }
+  }
+
+  /**
+   * Function to get the link corresponding to a particular row based on selector
+   *
+   * @param object $page
+   *   The page object in which the link is present
+   * @param string $linkRow
+   *   The link to find in the page
+   * @param string $link
+   *   The link to find in the row obtained by $linkRow
+   * @return object $result
+   *   The link object found in the selected row
+   */
+  private function getRowOfLink($page, $linkRow, $link) {
+    // Find the link corresponding to the version specified
+    $result = $page->findLink($linkRow);
+    if (empty($result)) {
+      throw new Exception("The link '" . $linkRow . "' was not found on the page");
+    }
+    // Navigate above to read the row. a > td > tr
+    $tr = $result->getParent()->getParent();
+    if (empty($tr)) {
+      throw new Exception("No rows were found on the page for the link '" . $linkRow . "'");
+    }
+    // Find the link $link in the current row
+    $result = $tr->findLink($link);
+    if (empty($result)) {
+      throw new Exception("The link '" . $link . "' was not found for the row '" . $linkRow . "' on the page.");
+    }
+    return $result;
+  }
+
+	/**
+   * @Given /^(?:that I|I) created a sandbox project$/
+   */
+  public function iCreatedASandboxProject() {
+    $session = $this->getSession();
+    $session->visit($this->locatePath('/node/add/project-project'));
+    $page = $this->getSession()->getPage();
+    $this->iCreateA('theme');
+    HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
+    return new Given('I check the project is created');
+
+  }
+
+  /**
+   * Promote a sandbox project:
+   * @When /^I promote the project$/
+   */
+  public function iPromoteTheProject() {
+    $page = $this->getSession()->getPage();
+    $page->clickLink('Edit');
+    $page = $this->getSession()->getPage();
+    $page->clickLink('Promote');
+    $page->checkField('confirm');
+    $this->projectShortName = $this->randomString(10);
+    HackyDataRegistry::set('project_short_name', $this->projectShortName);
+    $page->fillField('Short project name:', $this->projectShortName);
+    $page->pressButton('Promote to full project');
+    $page = $this->getSession()->getPage();
+    // Confirm promote
+    $page->pressButton('Promote');
+  }
+
+  /**
+   * @Then /^I should have a local copy of (?:the|([^"]*)") project$/
+   */
+  public function iShouldHaveALocalCopyOfTheProject($project = null) {
+    $project_shortname = $project ? $project : HackyDataRegistry::get('project_short_name');
+    if (empty($project_shortname)) {
+      throw new Exception('The project cannot be found.');
+    }
+    return new Then('I should have a local copy of "' . $project_shortname . '"');
+  }
+
+  /**
+   * @Then /^I should not be able to clone the sandbox repo$/
+   */
+  public function IShouldNotBeAbleToCloneTheSandboxRepo() {
+    $gitwrapper = "";
+    // Fetch the stored sandbox url to generate the old git url for sandbox
+    $sandbox_url = HackyDataRegistry::get('sandbox_url');
+    // Eg: $sandbox_url = "http://git6site.devdrupal.org/sandbox/gitvetteduser/172444";
+    $components = parse_url($sandbox_url);
+    // Attach port if git6site
+    $is_drupal_org = ($components['host'] == 'drupal.org');
+    // Find logged in username
+    $loggedin_user = $this->whoami();
+    // Remove spaces if any
+    $loggedin_user = str_replace(" ", "", $loggedin_user);
+    if (isset($this->git_users[$loggedin_user])) {
+      $gitwrapper = '../bin/gitwrapper ' . $this->git_users[$loggedin_user] . ' ; ';
+    }else {
+      $loggedin_user = "";
+    }
+    if (!$is_drupal_org) {
+      $components['host'] .= ':2020';
+    }
+    // Attach git extension
+    $components['path'] .= '.git';
+    // Generate the git clone command
+    $command = 'git clone --recursive --branch master';
+    if ($is_drupal_org) {
+      if ($loggedin_user) {
+        // Eg: git clone --recursive --branch master username@git.drupal.org:sandbox/username/project_short_code.git
+        $command .=  ' ' . $loggedin_user . '@' . $components['host'] . ':' . substr($components['path'], 1, strlen($components['path']));
+      }else {
+        // Eg: git clone --recursive --branch master http://git.drupal.org/sandbox/username/project_short_code.git
+        $command .= ' http://' . $components['host'] . $components['path'];
+      }      
+    }else {
+      // Eg: logged in: git clone --recursive --branch master ssh://username@git6.devdrupal.org:2020/sandbox/username/project_short_code.git
+      // anonymous: git clone --recursive --branch master ssh://git6.devdrupal.org:2020/sandbox/username/project_short_code.git
+      $command .= ' ssh://' . ($loggedin_user ? $loggedin_user . '@' : '') . $components['host'] . $components['path'];
+    }
+    $command .= ' ; ' . $gitwrapper;
+    // Initialize the process
+    $process = new Process($command);
+    $process->setTimeout(3600);
+    $process->run();
+    if ($process->isSuccessful()) {
+      throw new RuntimeException('The Sandbox project can be cloned');
+    }
+  }
+
+  /**
+   * Get logged in username if user session exists
+   *
+   */
+  private function getLoggedinUsername() {
+    // Return saved username if the user is logged in
+    // This is to make sure the already saved username is not used if there is no user session
+    if ($this->getSession()->getPage()->findLink('Log out')) {
+      return HackyDataRegistry::get('username');
+    }
+    return null;
+  }
+
+	/**
+   * @Then /^I should see the <users> with the following <permissions>$/
+   */
+  public function iShouldSeeTheUsersWithTheFollowingPermissions(TableNode $table,$assign = TRUE) {
+    $message = '';
+    $table = $table->getHash();
+    if (empty($table)) {
+      throw new Exception("No maintainers for this project");
+    }
+    $ths = $this->getSession()->getPage()->findAll('css', '#project-maintainers-form table thead tr th');
+	  if (empty($ths)) {
+      throw new Exception("Could not find project maintainers desired permissions for this project");
+    }
+    $arr_th = array();
+    foreach ($ths as $th) {
+      if ('User'!= ($header = $th->getText())) {
+        $arr_th[] = $header;
+      }
+    }
+    foreach ($table as $data) {
+      $user = $data['users'];
+      $permission = $data['permissions'];
+			$userLink = $this->getSession()->getPage()->findLink($user);
+      if (empty($userLink)) {
+        $message .= 'The page does not have the following user "' . $user . '" '. "\n";
+      }
+			// a -> td -> tr In order to find the maintainers link for checking his permissons.
+      else {
+        $tr = $userLink->getParent()->getParent();
+        $vcsCheckboxes = $tr->findAll('css', 'td .form-item .form-checkbox');
+        if (empty($vcsCheckboxes)) {
+          throw new Exception('The page could not find any checkboxes');
+        }
+				$index = array_search($permission, $arr_th);
+				// Find the checkbox corresponding to the header column.
+        $chk = $vcsCheckboxes[$index];
+				if ($assign) {
+				 	// If a checkbox with the above id exists and it is not checked, then 'check' it
+					if (!($chk->hasAttribute('checked'))) {
+					  //The error messages will be concatenated and message will be thrown at the end
+					 	$message .= 'The user "' . $user . '" does not have "' . $permission . '" permissions' . "\n";
+					}
+				}
+				else {
+					if (($chk->hasAttribute('checked'))) {
+					  //The error messages will be concatenated and message will be thrown at the end
+						$message .= 'The user "' . $user . '" already have the mentioned "' . $permission . '" permissions' . "\n";
+					}
+				}
+			}
+    }
+    if (($message)) {
+      throw new Exception($message);
+    }
+  }
+
+  /**
+   * @Given /^I should see the <users> without the following <permissions>$/
+   */
+  public function iShouldSeeTheUsersWithoutTheFollowingPermissions(TableNode $table) {
+    $this->iShouldSeeTheUsersWithTheFollowingPermissions($table,FALSE);
   }
 }

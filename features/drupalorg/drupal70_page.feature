@@ -26,6 +26,8 @@ Feature: To check the contents of Drupal 7.0 page
     Given I am on "/drupal-7.0"
     When I follow "<language>"
     Then I should see "This announcement is available in"
+    And I should see "<translation text 1>"
+    And I should see "<translation text 2>"
     And I should not see the following <texts>
     | texts                   |
     | We are proud to present |
@@ -39,14 +41,15 @@ Feature: To check the contents of Drupal 7.0 page
     | PHP      |
     | Drupal 7 |
     Examples:
-    | language   |
-    | Chinese    |
-    | French     |
-    | Hindi      |
-    | Portuguese |
-    | Russian    |
-    | Spanish    |
-    | Thai       |
+    | language   | translation text 1       | translation text 2 |
+    | English    | Friendly and powerful    | Features           |
+    | French     | Agréable et puissant     | Fonctionnalités    |
+    | Portuguese | Amigável e poderoso      | Caraterísticas     |
+    | Spanish    | Amigable y poderoso      | Funcionalidades    |
+    | Catalan    | Amigable i potent        | Característiques   |
+    | Croatian   | Prijateljski i ucinkovit | Mogucnosti         |
+    | Danish     | Venligt og kraftfuldt    | Features           |
+    | Italian    | Facile e potente         | Funzionalità       |
 
   Scenario: View slideshow texts
     Given I am on "/drupal-7.0"
