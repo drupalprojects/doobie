@@ -4184,11 +4184,13 @@ class FeatureContext extends MinkContext {
 				if ($assign) {
 				 	// If a checkbox with the above id exists and it is not checked, then 'check' it
 					if (!($chk->hasAttribute('checked'))) {
+					  //The error messages will be concatenated and message will be thrown at the end
 					 	$message .= 'The user "' . $user . '" does not have "' . $permission . '" permissions' . "\n";
 					}
 				}
 				else {
 					if (($chk->hasAttribute('checked'))) {
+					  //The error messages will be concatenated and message will be thrown at the end
 						$message .= 'The user "' . $user . '" already have the mentioned "' . $permission . '" permissions' . "\n";
 					}
 				}
