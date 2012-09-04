@@ -695,6 +695,7 @@ class FeatureContext extends MinkContext {
       $submit->click();
       $user = $this->whoami();
       if (strtolower($user) == strtolower($username)) {
+        HackyDataRegistry::set('username', $username);
         // Successfully logged in.
         return;
       }
@@ -748,6 +749,7 @@ class FeatureContext extends MinkContext {
     $this->iSelectTheRadioButtonWithTheId('Modules', 'edit-project-type-14');
     $element->fillField('Description', $this->randomString(1000));
     $element->pressButton('Save');
+    HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
   }
 
   /**
@@ -4067,5 +4069,96 @@ class FeatureContext extends MinkContext {
       throw new Exception("The link '" . $link . "' was not found for the row '" . $linkRow . "' on the page.");
     }
     return $result;
+  }
+
+	/**
+   * @Given /^(?:that I|I) created a sandbox project$/
+   */
+  public function iCreatedASandboxProject() {
+    $session = $this->getSession();
+    $session->visit($this->locatePath('/node/add/project-project'));
+    $page = $this->getSession()->getPage();
+    $this->iCreateA('theme');
+    HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
+    return new Given('I check the project is created');
+    
+  }
+
+  /**
+   * Promote a sandbox project:
+   * @When /^I promote the project$/
+   */
+  public function iPromoteTheProject() {
+    $page = $this->getSession()->getPage();
+    $page->clickLink('Edit');
+    $page = $this->getSession()->getPage();
+    $page->clickLink('Promote');
+    $page->checkField('confirm');
+    $this->projectShortName = $this->randomString(10);
+    HackyDataRegistry::set('project_short_name', $this->projectShortName);
+    $page->fillField('Short project name:', $this->projectShortName);
+    $page->pressButton('Promote to full project');
+    $page = $this->getSession()->getPage();
+    // Confirm promote
+    $page->pressButton('Promote');
+  }
+
+  /**
+   * @Then /^I should have a local copy of (?:the|([^"]*)") project$/
+   */
+  public function iShouldHaveALocalCopyOfTheProject($project = null) {
+    $project_shortname = $project ? $project : HackyDataRegistry::get('project_short_name');
+    if (empty($project_shortname)) {
+      throw new Exception('The project cannot be found.');
+    }
+    return new Then('I should have a local copy of "' . $project_shortname . '"');
+  }
+
+  /**
+    * @Then /^I should not be able to clone the sandbox repo$/
+    */
+  public function IShouldNotBeAbleToCloneTheSandboxRepo() {
+    $gitwrapper = '';
+    // Fetch the stored sandbox url to generate the old git url for sandbox
+    $sandbox_url = HackyDataRegistry::get('sandbox_url');
+    // Find logged in username
+    $loggedin_user = $this->getLoggedinUsername();
+    if ($loggedin_user) {
+      // Remove spaces if any
+      $loggedin_user = str_replace(" ", "", $loggedin_user);
+      $gitwrapper = '../bin/gitwrapper ' . $this->git_users[$loggedin_user];
+    }
+    // Eg: $sandbox_url = "http://git6site.devdrupal.org/sandbox/gitvetteduser/172444";
+    $components = parse_url($sandbox_url);
+    // Attach port if git6site
+    if ($components['host'] != 'drupal.org') {
+      $components['host'] .= ':2020';
+    }
+    // Attach git extension
+    $components['path'] .= '.git';
+    // Generate the git clone command
+    $command = 'git clone --recursive --branch master';
+    $command .= ' ssh://' . ($loggedin_user ? $loggedin_user . '@' : '') . $components['host'] . $components['path'];
+    $command .= ' ; ' . $gitwrapper . ' ; ';
+    // Initialize the process
+    $process = new Process($command);
+    $process->setTimeout(3600);
+    $process->run();
+    if ($process->isSuccessful()) {
+      throw new RuntimeException('The Sandbox project can be cloned');
+    }
+  }
+  
+  /**
+   * Get logged in username if user session exists
+   *
+   */
+  private function getLoggedinUsername() {
+    // Return saved username if the user is logged in
+    // This is to make sure the already saved username is not used if there is no user session
+    if ($this->getSession()->getPage()->findLink('Log out')) {
+      return HackyDataRegistry::get('username');
+    }
+    return null;
   }
 }
