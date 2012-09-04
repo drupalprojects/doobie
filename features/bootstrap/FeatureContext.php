@@ -94,6 +94,10 @@ class FeatureContext extends MinkContext {
   private $temp_vars = array();
 
   /**
+   * Store the file name of a downloaded file
+   */
+  private $downloadedFileName = '';
+  /**
    * Initializes context.
    *
    * Every scenario gets its own context object.
@@ -3949,5 +3953,105 @@ class FeatureContext extends MinkContext {
     if (strpos(trim($options), trim($value)) === FALSE) {
       throw new Exception('The dropdown "' . $field . '" does not have the option "' . $value . '", but it should be.');
     }
+  }
+
+  /**
+   * @When /^I follow "([^"]*)" for version "([^"]*)"$/
+   */
+  public function iFollowForVersion($link, $version) {
+    $result = $this->getRowOfLink($this->getSession()->getPage(), $version, $link);
+    if (empty($result)) {
+      throw new Exception("The link '" . $link . "' was not found for the version '" . $version . "' on the page.");
+    }
+    $href = $result->getAttribute('href');
+    return new Given("I am at \"$href\"");
+  }
+
+  /**
+   * @When /^I download the "([^"]*)" file for version "([^"]*)"$/
+   */
+  public function iDownloadTheFileForVersion($format, $version) {
+    $flag = 0;
+    $noDownloadMsg = "The '" . $format. "' file for version '" . $version . "' was not downloaded";
+    $result = $this->getRowOfLink($this->getSession()->getPage(), $version, $format);
+    if (empty($result)) {
+      throw new Exception("The format '" . $format . "' was not found for the version '" . $version . "' on the page.");
+    }
+    $href = $result->getAttribute('href');
+    $this->getSession()->visit($href);
+
+    // Will work only on Goutte. Selenium does not support responseHeaders
+    $responseHeaders = $this->getSession()->getResponseHeaders();
+    if ((int) $responseHeaders['Content-Length'][0] > 10000) {
+      // If "tar" is requested, then check corresponding content type
+      if ($format == "tar") {
+        if ($responseHeaders['Content-Type'] != "application/x-gzip") {
+          throw new Exception($noDownloadMsg);
+        }
+      }
+      // If "zip" is requested, then check corresponding content type
+      elseif ($format == "zip") {
+        if ($responseHeaders['Content-Type'] != "application/zip") {
+          throw new Exception($noDownloadMsg);
+        }
+      }
+      // If any thing other than tar or zip is requested, throw error
+      else {
+        throw new Exception("Only 'tar' and 'zip' files can be downloaded");
+      }
+    }
+    else {
+      throw new Exception($noDownloadMsg);
+    }
+    // Verify that the current url has FTP
+    if (strpos($href, "http://ftp.drupal.org") === FALSE) {
+      throw new Exception($noDownloadMsg);
+    }
+    else {
+      // Get the filename and store it for use in the next step
+      $temp = explode("/", $href);
+      $filename = $temp[sizeof($temp) - 1];
+      $this->downloadedFileName = trim($filename);
+    }
+  }
+
+  /**
+   * @Then /^the downloaded file name should be "([^"]*)"$/
+   */
+  public function theDownloadedFileNameShouldBe($filename) {
+    if ($filename != $this->downloadedFileName) {
+      throw new Exception("The filename did not match");
+    }
+  }
+
+  /**
+   * Function to get the link corresponding to a particular row based on selector
+   *
+   * @param object $page
+   *   The page object in which the link is present
+   * @param string $linkRow
+   *   The link to find in the page
+   * @param string $link
+   *   The link to find in the row obtained by $linkRow
+   * @return object $result
+   *   The link object found in the selected row
+   */
+  private function getRowOfLink($page, $linkRow, $link) {
+    // Find the link corresponding to the version specified
+    $result = $page->findLink($linkRow);
+    if (empty($result)) {
+      throw new Exception("The link '" . $linkRow . "' was not found on the page");
+    }
+    // Navigate above to read the row. a > td > tr
+    $tr = $result->getParent()->getParent();
+    if (empty($tr)) {
+      throw new Exception("No rows were found on the page for the link '" . $linkRow . "'");
+    }
+    // Find the link $link in the current row
+    $result = $tr->findLink($link);
+    if (empty($result)) {
+      throw new Exception("The link '" . $link . "' was not found for the row '" . $linkRow . "' on the page.");
+    }
+    return $result;
   }
 }
