@@ -4080,27 +4080,40 @@ class FeatureContext extends MinkContext {
     $gitwrapper = "";
     // Fetch the stored sandbox url to generate the old git url for sandbox
     $sandbox_url = HackyDataRegistry::get('sandbox_url');
+    // Eg: $sandbox_url = "http://git6site.devdrupal.org/sandbox/gitvetteduser/172444";
+    $components = parse_url($sandbox_url);
+    // Attach port if git6site
+    $is_drupal_org = ($components['host'] == 'drupal.org');
     // Find logged in username
     $loggedin_user = $this->whoami();
     // Remove spaces if any
     $loggedin_user = str_replace(" ", "", $loggedin_user);
     if (isset($this->git_users[$loggedin_user])) {
-      $gitwrapper = '../bin/gitwrapper ' . $this->git_users[$loggedin_user];
+      $gitwrapper = '../bin/gitwrapper ' . $this->git_users[$loggedin_user] . ' ; ';
     }else {
       $loggedin_user = "";
     }
-    // Eg: $sandbox_url = "http://git6site.devdrupal.org/sandbox/gitvetteduser/172444";
-    $components = parse_url($sandbox_url);
-    // Attach port if git6site
-    if ($components['host'] != 'drupal.org') {
+    if (!$is_drupal_org) {
       $components['host'] .= ':2020';
     }
     // Attach git extension
     $components['path'] .= '.git';
     // Generate the git clone command
     $command = 'git clone --recursive --branch master';
-    $command .= ' ssh://' . ($loggedin_user ? $loggedin_user . '@' : '') . $components['host'] . $components['path'];
-    $command .= ' ; ' . $gitwrapper . ' ; ';
+    if ($is_drupal_org) {
+      if ($loggedin_user) {
+        // Eg: git clone --recursive --branch master username@git.drupal.org:sandbox/username/project_short_code.git
+        $command .=  ' ' . $loggedin_user . '@' . $components['host'] . ':' . substr($components['path'], 1, strlen($components['path']));
+      }else {
+        // Eg: git clone --recursive --branch master http://git.drupal.org/sandbox/username/project_short_code.git
+        $command .= ' http://' . $components['host'] . $components['path'];
+      }      
+    }else {
+      // Eg: logged in: git clone --recursive --branch master ssh://username@git6.devdrupal.org:2020/sandbox/username/project_short_code.git
+      // anonymous: git clone --recursive --branch master ssh://git6.devdrupal.org:2020/sandbox/username/project_short_code.git
+      $command .= ' ssh://' . ($loggedin_user ? $loggedin_user . '@' : '') . $components['host'] . $components['path'];
+    }
+    $command .= ' ; ' . $gitwrapper;
     // Initialize the process
     $process = new Process($command);
     $process->setTimeout(3600);
