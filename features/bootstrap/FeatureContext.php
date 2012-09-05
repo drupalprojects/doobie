@@ -36,8 +36,6 @@ use Behat\Behat\Event\ScenarioEvent;
 
 use Behat\Mink\Exception\ElementNotFoundException;
 
-use Behat\Gherkin\Node\TableNode;
-
 require 'vendor/autoload.php';
 
 /**
