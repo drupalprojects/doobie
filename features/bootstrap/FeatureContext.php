@@ -1165,10 +1165,14 @@ class FeatureContext extends MinkContext {
       }
     }
   }
+
   /**
-   * @Then /^I should see the text "([^"]*)" in the feed$/
+   * @Then /^I should see the (?:issue|text )(?:|"([^"]*)") in the feed$/
    */
-  public function iShouldSeeTheTextInTheFeed($text) {
+  public function iShouldSeeTheTextInTheFeed($text = null) {
+    if ($issue = HackyDataRegistry::get('issue title')) {
+      $text = $issue;
+    }
     $xmlString = trim($this->xmlContent);
     if ($xmlString) {
       if (strpos($xmlString, trim($text)) === FALSE) {
@@ -2939,7 +2943,8 @@ class FeatureContext extends MinkContext {
   /**
    * Check number of rows in a table - Add more cases if table/row class is different
    * $tableType = "Projects"/"Sandbox Projects"/"Project Issues"
-   * @Given /^I should see at least "([^"]*)" records in "([^"]*)" table$/
+   *
+   * @Given /^I should see at least "([^"]*)" record(?:|s) in "([^"]*)" table$/
    */
   public function iShouldSeeAtLeastRecordsInTable($count, $tableType)
   {
@@ -4197,5 +4202,16 @@ class FeatureContext extends MinkContext {
    */
   public function iShouldSeeTheUsersWithoutTheFollowingPermissions(TableNode $table) {
     $this->iShouldSeeTheUsersWithTheFollowingPermissions($table,FALSE);
+  }
+
+  /**
+   * @Then /^I (?:|should )see the issue title$/
+   */
+  public function iShouldSeeTheIssueTitle() {
+    $page = $this->getSession()->getPage();
+    $element = $page->find('css', 'h1#page-subtitle');
+    if (empty($element) || strpos($element->getText(), $this->issueTitle) === FALSE) {
+      throw new Exception('Issue title not found where it was expected.');
+    }
   }
 }
