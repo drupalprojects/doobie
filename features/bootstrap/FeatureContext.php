@@ -2547,16 +2547,13 @@ class FeatureContext extends MinkContext {
    * @Given /^I should see at least "([^"]*)" (?:reply|replies) for the post$/
    */
   public function iShouldSeeAtLeastRepliesForThePost($count) {
-    $page = $this->getSession()->getPage();
-    $result = $this->getPostTitleObject($page);
-    if (empty($result)) {
-      throw new Exception();
-    }
-    $postTitle = $result->getText();
+	  $page = $this->getSession()->getPage();
+    $result = $this->getIssueTiteObj($page);
+		$postTitle = $result->getText();
     // get the row in which the post resides. a > td > tr
-    $tr = $result->getParent()->getParent();
+    $trow = $result->getParent()->getParent();
     // if there is a new reply, we get an anchor tag
-    $replies = $tr->find('css', '.replies');
+    $replies = $trow->find('css', '.replies');
     if(empty($replies)) {
       throw new Exception('Could not find any replies for this post');
     }
@@ -2573,19 +2570,16 @@ class FeatureContext extends MinkContext {
   /**
    * @Given /^I should see at least "([^"]*)" new (?:reply|replies) for the post$/
    */
-   public function iShouldSeeAtLeastNewRepliesForThePost($count) {
-    $page = $this->getSession()->getPage();
-    $result = $this->getPostTitleObject($page);
-    if (empty($result)) {
-      throw new Exception();
-    }
+  public function iShouldSeeAtLeastNewRepliesForThePost($count) {
+	  $page = $this->getSession()->getPage();
+    $result = $this->getIssueTiteObj($page);
     $postTitle = $result->getText();
     // get the row in which the post resides. a > td > tr
-    $tr = $result->getParent()->getParent();
+    $trow = $result->getParent()->getParent();
     // if there is a new reply, we get an anchor tag
-    $replies = $tr->find('css', '.replies a');
+    $replies = $trow->find('css', '.replies a');
     if(empty($replies)) {
-      throw new Exception('Could not find any new replies for this post');
+      throw new Exception("Could not find any new replies for this '" . $postTitle . "'post");
     }
     $replies_new = $replies->getText();
     // the replies text will be in the format "2 new" or "11 new"
@@ -2600,44 +2594,32 @@ class FeatureContext extends MinkContext {
   /**
    * @Given /^I should see updated for the post$/
    */
-  public function iShouldSeeUpdatedForThePost() {
-    $page = $this->getSession()->getPage();
-    $result = $this->getPostTitleObject($page);
-    if (empty($result)) {
-      throw new Exception();
-    }
+  public function iShouldSeeUpdatedForThePost($postUpdated= TRUE) {
+	  $page = $this->getSession()->getPage();
+    $result = $this->getIssueTiteObj($page);
     $postTitle = $result->getText();
     // get the row in which the post resides. span > td
     $td = $result->getParent();
     // if there is a update message, we get the status message
     $stat_message = $td->find('css', '.marker');
-    if(empty($stat_message)) {
-      throw new Exception('Could not find updated status message for this post');
-    }
-    $update_message = $stat_message->getText();
-    if(empty($update_message)) {
-      throw new Exception("The post '" . $postTitle . "' could not find any new comment");
-    }
+    if($postUpdated) {
+			if(empty($stat_message)) {
+				throw new Exception("The post '" . $postTitle . "' does not have updated status message");
+			}
+		}
+		else {
+			if(!empty($stat_message)) {
+			  throw new Exception("The post '" . $postTitle . "' has an updated status message");
+			}
+		}
   }
 
   /**
    * @Given /^I should not see updated for the post$/
    */
-  public function iShouldNotSeeUpdatedForThePost() {
-    $page = $this->getSession()->getPage();
-    $result = $this->getPostTitleObject($page);
-    if (empty($result)) {
-      throw new Exception();
-    }
-    $postTitle = $result->getText();
-    // get the row in which the post resides. span > td
-    $td = $result->getParent();
-    // if there is a update message, we get the status message
-    $stat_message = $td->find('css', '.marker');
-    if(!empty($stat_message)) {
-      throw new Exception("The post '" . $postTitle . "' has an updated status message");
-    }
-  }
+	public function iShouldNotSeeUpdatedForThePost() {
+		$this->iShouldSeeUpdatedForThePost(FALSE);
+	}
 
   /**
    * Function to get the Title for Post of type Issue
@@ -4234,5 +4216,27 @@ class FeatureContext extends MinkContext {
       }
     }
     return FALSE;
+  }
+
+  /**
+   * Function to get the Title for Post of type Issue
+   */
+  function getIssueTiteObj($page) {
+    $temp = HackyDataRegistry::get('issue title');
+    $result = $page->findLink($temp);
+    if (empty($result)) {
+      throw new Exception('Could not find the link with this title');
+    }
+		return $result;
+  }
+
+	/**
+   * @Given /^I add (?:a|one more) comment to the issue$/
+   */
+  public function iAddACommentToTheIssue() {
+    $page = $this->getSession()->getPage();
+    $this->comment = $this->randomString(12);
+    $page->fillField("Comment:", $this->comment);
+    $page->pressButton("Save");
   }
 }

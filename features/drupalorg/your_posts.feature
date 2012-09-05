@@ -3,11 +3,28 @@ Feature: Your Posts
   As an authenticated user
   I want to find them listed all in a single place
 
-  Background:
-    Given I am logged in as "site user"
-    And I follow "Your Posts"
+  Scenario: Create test data for the following scenarios
+    Given I am logged in as "git vetted user"
+    And I am at "/node/add/project-project"
+    When I create a "module"
+    Then I should see the project title
+    And I follow "open"
+    And I follow "Create a new issue"
+    And I create a new issue
+    And I add a comment to the issue
+    And I add one more comment to the issue
+
+  Scenario: To comment on a specific post
+    Given I am logged in as "git user"
+    And I am on the project page
+    And I follow "open"
+    And I follow an issue of the project
+    And I add a comment to the issue
+    And I add one more comment to the issue
 
   Scenario: To navigate to your posts page
+    Given I am logged in as "git vetted user"
+    When I follow "Your Posts"
     Then I should see the following <texts>
     | texts        |
     | Type         |
@@ -15,20 +32,23 @@ Feature: Your Posts
     | Author       |
     | Replies      |
     | Last updated |
-    And I should see at least "5" replies for the post
+    And I should see at least "1" reply for the post
     And I should see at least "1" new reply for the post
     And I should see updated for the post
 
   Scenario: Verify pagination links: First page
+    Given I am logged in as "git vetted user"
+    When I follow "Your Posts"
     Then I should see the following <links>
     | links        |
     | next         |
     | last         |
-    | 1            |
     | 2            |
     And I should not see the link "first"
 
   Scenario: Verify pagination links: Second page
+    Given I am logged in as "git vetted user"
+    And I follow "Your Posts"
     When I click on page "2"
     Then I should see the following <links>
     | links       |
@@ -38,29 +58,17 @@ Feature: Your Posts
     | 2           |
 
   Scenario: Verify pagination links: Last page
+    Given I am logged in as "git vetted user"
+    And I follow "Your Posts"
     When I click on page "last"
     Then I should see the link "first"
     And I should see the link "previous"
     And I should not see the link "last"
 
   Scenario: Navigate to the specific post and check for the new post.
-    When I follow a post
-    And I move backward one page
-    Then I should see at least "5" replies for the post
+    Given I am logged in as "git vetted user"
+    And I follow "Your Posts"
+    And I follow an issue of the project
+    When I move backward one page
+    Then I should see at least "4" replies for the post
     And I should not see updated for the post
-
-  Scenario: To check for the comments posting page
-    When I follow a post
-    Then I should see the heading "Issue Summary"
-    And I should see the heading "Comments"
-    And I should see the heading "Post new comment"
-    And I should see the following <texts>
-    | texts       |
-    | Issue title |
-    | Project     |
-    | Component   |
-    | Assigned    |
-    | Category    |
-    | Priority    |
-    | Status      |
-    | Comment     |
