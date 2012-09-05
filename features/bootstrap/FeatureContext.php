@@ -28,16 +28,12 @@ use Behat\Behat\Exception\PendingException,
 use Drupal\DrupalExtension\Context\DrupalContext;
 use Symfony\Component\Process\Process;
 
-use Behat\Gherkin\Node\TableNode;
-
 use Behat\Behat\Context\Step\Given;
 use Behat\Behat\Context\Step\When;
 use Behat\Behat\Context\Step\Then;
 use Behat\Behat\Event\ScenarioEvent;
 
 use Behat\Mink\Exception\ElementNotFoundException;
-
-use Behat\Gherkin\Node\TableNode;
 
 require 'vendor/autoload.php';
 
