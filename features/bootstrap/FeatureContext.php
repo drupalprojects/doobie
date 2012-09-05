@@ -27,6 +27,8 @@ use Behat\MinkExtension\Context\MinkContext,
     Behat\Behat\Exception\PendingException;
 use Symfony\Component\Process\Process;
 
+use Behat\Gherkin\Node\TableNode;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Behat\Context\Step\When;
 use Behat\Behat\Context\Step\Then;
