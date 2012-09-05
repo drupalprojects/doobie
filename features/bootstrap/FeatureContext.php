@@ -2547,20 +2547,20 @@ class FeatureContext extends MinkContext {
    * @Given /^I should see at least "([^"]*)" (?:reply|replies) for the post$/
    */
   public function iShouldSeeAtLeastRepliesForThePost($count) {
-	  $page = $this->getSession()->getPage();
+    $page = $this->getSession()->getPage();
     $result = $this->getIssueTiteObj($page);
-		$postTitle = $result->getText();
-    // get the row in which the post resides. a > td > tr
+    $postTitle = $result->getText();
+    // Get the row in which the post resides. a > td > tr.
     $trow = $result->getParent()->getParent();
-    // if there is a new reply, we get an anchor tag
+    // If there is a new reply, we get an anchor tag.
     $replies = $trow->find('css', '.replies');
-    if(empty($replies)) {
+    if (empty($replies)) {
       throw new Exception('Could not find any replies for this post');
     }
     $replies_new = $replies->getText();
-    // the replies text will be in the format "2 new" or "11 new"
+    // The replies text will be in the format "2 new" or "11 new".
     $temp = explode(" ", $replies_new);
-    // temp[0] = xx, temp[1] = "new"
+    // temp[0] = xx, temp[1] = "new".
     $newreplies_count = trim($temp[0]);
     if($newreplies_count < $count) {
       throw new Exception("The post '" . $postTitle . "' has less than '" . $count . "' new replies");
@@ -2602,16 +2602,16 @@ class FeatureContext extends MinkContext {
     $td = $result->getParent();
     // if there is a update message, we get the status message
     $stat_message = $td->find('css', '.marker');
-    if($postUpdated) {
-			if(empty($stat_message)) {
-				throw new Exception("The post '" . $postTitle . "' does not have updated status message");
-			}
-		}
-		else {
-			if(!empty($stat_message)) {
-			  throw new Exception("The post '" . $postTitle . "' has an updated status message");
-			}
-		}
+    if ($postUpdated) {
+      if (empty($stat_message)) {
+        throw new Exception("The post '" . $postTitle . "' does not have updated status message");
+      }
+    }
+    else {
+      if(!empty($stat_message)) {
+        throw new Exception("The post '" . $postTitle . "' has an updated status message");
+      }
+    }
   }
 
   /**
