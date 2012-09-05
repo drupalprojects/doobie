@@ -28,6 +28,8 @@ use Behat\Behat\Exception\PendingException,
 use Drupal\DrupalExtension\Context\DrupalContext;
 use Symfony\Component\Process\Process;
 
+use Behat\Gherkin\Node\TableNode;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Behat\Context\Step\When;
 use Behat\Behat\Context\Step\Then;
@@ -841,10 +843,14 @@ class FeatureContext extends DrupalContext {
       }
     }
   }
+
   /**
-   * @Then /^I should see the text "([^"]*)" in the feed$/
+   * @Then /^I should see the (?:issue|text )(?:|"([^"]*)") in the feed$/
    */
-  public function iShouldSeeTheTextInTheFeed($text) {
+  public function iShouldSeeTheTextInTheFeed($text = null) {
+    if ($issue = HackyDataRegistry::get('issue title')) {
+      $text = $issue;
+    }
     $xmlString = trim($this->xmlContent);
     if ($xmlString) {
       if (strpos($xmlString, trim($text)) === FALSE) {
@@ -2220,22 +2226,19 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastRepliesForThePost($count) {
     $page = $this->getSession()->getPage();
-    $result = $this->getPostTitleObject($page);
-    if (empty($result)) {
-      throw new Exception();
-    }
+    $result = $this->getIssueTiteObj($page);
     $postTitle = $result->getText();
-    // get the row in which the post resides. a > td > tr
-    $tr = $result->getParent()->getParent();
-    // if there is a new reply, we get an anchor tag
-    $replies = $tr->find('css', '.replies');
-    if(empty($replies)) {
+    // Get the row in which the post resides. a > td > tr.
+    $trow = $result->getParent()->getParent();
+    // If there is a new reply, we get an anchor tag.
+    $replies = $trow->find('css', '.replies');
+    if (empty($replies)) {
       throw new Exception('Could not find any replies for this post');
     }
     $replies_new = $replies->getText();
-    // the replies text will be in the format "2 new" or "11 new"
+    // The replies text will be in the format "2 new" or "11 new".
     $temp = explode(" ", $replies_new);
-    // temp[0] = xx, temp[1] = "new"
+    // temp[0] = xx, temp[1] = "new".
     $newreplies_count = trim($temp[0]);
     if($newreplies_count < $count) {
       throw new Exception("The post '" . $postTitle . "' has less than '" . $count . "' new replies");
@@ -2245,24 +2248,21 @@ class FeatureContext extends DrupalContext {
   /**
    * @Given /^I should see at least "([^"]*)" new (?:reply|replies) for the post$/
    */
-   public function iShouldSeeAtLeastNewRepliesForThePost($count) {
-    $page = $this->getSession()->getPage();
-    $result = $this->getPostTitleObject($page);
-    if (empty($result)) {
-      throw new Exception();
-    }
+  public function iShouldSeeAtLeastNewRepliesForThePost($count) {
+	  $page = $this->getSession()->getPage();
+    $result = $this->getIssueTiteObj($page);
     $postTitle = $result->getText();
-    // get the row in which the post resides. a > td > tr
-    $tr = $result->getParent()->getParent();
-    // if there is a new reply, we get an anchor tag
-    $replies = $tr->find('css', '.replies a');
+    // Get the row in which the post resides. a > td > tr.
+    $trow = $result->getParent()->getParent();
+    // If there is a new reply, we get an anchor tag.
+    $replies = $trow->find('css', '.replies a');
     if(empty($replies)) {
-      throw new Exception('Could not find any new replies for this post');
+      throw new Exception("Could not find any new replies for this '" . $postTitle . "'post");
     }
     $replies_new = $replies->getText();
-    // the replies text will be in the format "2 new" or "11 new"
+    // The replies text will be in the format "2 new" or "11 new".
     $temp = explode(" ", $replies_new);
-    // temp[0] = xx, temp[1] = "new"
+    // temp[0] = xx, temp[1] = "new".
     $newreplies_count = trim($temp[0]);
     if($newreplies_count < $count) {
       throw new Exception("The post '" . $postTitle . "' has less than '" . $count . "' new replies");
@@ -2272,44 +2272,32 @@ class FeatureContext extends DrupalContext {
   /**
    * @Given /^I should see updated for the post$/
    */
-  public function iShouldSeeUpdatedForThePost() {
-    $page = $this->getSession()->getPage();
-    $result = $this->getPostTitleObject($page);
-    if (empty($result)) {
-      throw new Exception();
-    }
+  public function iShouldSeeUpdatedForThePost($postUpdated= TRUE) {
+	  $page = $this->getSession()->getPage();
+    $result = $this->getIssueTiteObj($page);
     $postTitle = $result->getText();
-    // get the row in which the post resides. span > td
+    // Get the row in which the post resides. span > td.
     $td = $result->getParent();
-    // if there is a update message, we get the status message
+    // If there is a update message, we get the status message.
     $stat_message = $td->find('css', '.marker');
-    if(empty($stat_message)) {
-      throw new Exception('Could not find updated status message for this post');
+    if ($postUpdated) {
+      if (empty($stat_message)) {
+        throw new Exception("The post '" . $postTitle . "' does not have updated status message");
+      }
     }
-    $update_message = $stat_message->getText();
-    if(empty($update_message)) {
-      throw new Exception("The post '" . $postTitle . "' could not find any new comment");
+    else {
+      if(!empty($stat_message)) {
+        throw new Exception("The post '" . $postTitle . "' has an updated status message");
+      }
     }
   }
 
   /**
    * @Given /^I should not see updated for the post$/
    */
-  public function iShouldNotSeeUpdatedForThePost() {
-    $page = $this->getSession()->getPage();
-    $result = $this->getPostTitleObject($page);
-    if (empty($result)) {
-      throw new Exception();
-    }
-    $postTitle = $result->getText();
-    // get the row in which the post resides. span > td
-    $td = $result->getParent();
-    // if there is a update message, we get the status message
-    $stat_message = $td->find('css', '.marker');
-    if(!empty($stat_message)) {
-      throw new Exception("The post '" . $postTitle . "' has an updated status message");
-    }
-  }
+	public function iShouldNotSeeUpdatedForThePost() {
+		$this->iShouldSeeUpdatedForThePost(FALSE);
+	}
 
   /**
    * Function to get the Title for Post of type Issue
@@ -2317,7 +2305,7 @@ class FeatureContext extends DrupalContext {
   function getPostTitleObject($page) {
     $flag = 0;
     $result = "";
-    // Try to get title from HackyDataRegistry
+    // Try to get title from HackyDataRegistry.
     $temp = HackyDataRegistry::get('project title');
     if ($temp) {
       $result = $page->findLink($temp);
@@ -2325,7 +2313,7 @@ class FeatureContext extends DrupalContext {
         return $result;
       }
     }
-    // If not avalilable from Hacky, then get from yml
+    // If not avalilable from Hacky, then get from yml.
     if(!empty($this->postTitle)) {
       $postTitle = $this->postTitle;
       $result = $page->findLink($postTitle);
@@ -2333,7 +2321,7 @@ class FeatureContext extends DrupalContext {
         return $result;
       }
     }
-    // If not available from yml then take the first item from table
+    // If not available from yml then take the first item from table.
     if ($flag == 0) {
       $result = $page->find("css", "table tbody tr td a");
       if (!empty($result)) {
@@ -2346,9 +2334,8 @@ class FeatureContext extends DrupalContext {
   /**
    * @Then /^I should see the following <tabs>$/
    */
-  public function iShouldSeeTheFollowingTabs(TableNode $table)
-  {
-    // Fetch tab links
+  public function iShouldSeeTheFollowingTabs(TableNode $table) {
+    // Fetch tab links.
     $tab_links = $this->getSession()->getPage()->findAll('css', '#nav-content ul.links > li > a');
     if (empty($tab_links)) {
       throw new Exception('No tabs found');
@@ -2360,7 +2347,7 @@ class FeatureContext extends DrupalContext {
     if (empty($table)) {
       throw new Exception('No tabs specified');
     }
-    // Loop through table and check tab is present
+    // Loop through table and check tab is present.
     foreach ($table->getHash() as $t) {
       if (!in_array($t['tabs'], $arr_tabs)) {
         throw new Exception('The tab: "' . $t['tabs'] . '" cannot be found' );
@@ -2369,12 +2356,12 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Function to check the status of a book page
+   * Function to check the status of a book page.
    *
    * @Then /^the page status should be "([^"]*)"$/
    *
    * @param string $status
-   *   String The status of the page
+   *   String The status of the page.
    */
   public function thePageStatusShouldBe($status) {
     $page = $this->getSession()->getPage();
@@ -2390,8 +2377,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Then /^I should see that the tab "([^"]*)" is highlighted$/
    */
-  public function iShouldSeeThatTheTabIsHighlighted($tab)
-  {
+  public function iShouldSeeThatTheTabIsHighlighted($tab) {
     $ul = $this->getSession()->getPage()->find('css', '#nav-content ul.links');
     if (empty($ul)) {
       throw new Exception('No tabs found');
@@ -2408,8 +2394,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Given /^I should see the following <blocks> in the right sidebar$/
    */
-  public function iShouldSeeTheFollowingBlocksInTheRightSidebar(TableNode $table)
-  {
+  public function iShouldSeeTheFollowingBlocksInTheRightSidebar(TableNode $table) {
     $blocks = $this->getSession()->getPage()->findAll("css", $this->right_sidebar." #column-right-region > div");
     if (empty($blocks)) {
       throw new Exception('No blocks found in the right sidebar');
@@ -2429,7 +2414,7 @@ class FeatureContext extends DrupalContext {
     if (empty($table)) {
       throw new Exception('No blocks specified');
     }
-    // Loop through table and check tab is present
+    // Loop through table and check tab is present.
     foreach ($table->getHash() as $t) {
       if (!in_array($t['blocks'], $arr_headings)) {
         throw new Exception('The block: "' . $t['blocks'] . '" cannot be found in the right sidebar' );
@@ -2438,17 +2423,17 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Function to check the background color of the status message on a book page
+   * Function to check the background color of the status message on a book page.
    *
    * @Given /^the background color of the status should be "([^"]*)"$/
    *
    * @param string $color
-   *   The color of the status
+   *   The color of the status.
    */
   public function theBackgroundColorOfTheStatusShouldBe($color) {
     $flag = FALSE;
     $colorCode = array('red' => '#EBCCCC', 'green' => '#D4EFCC', 'yellow' => '#FFE69F');
-    // Get the background color of an element using javascript and then compare with above array
+    // Get the background color of an element using javascript and then compare with above array.
     $this->getSession()->executeScript("
       var currColorCode = $('.page-status').css('background-color');
       if (currColorCode == '".$colorCode[$color]."') {
@@ -2463,8 +2448,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Given /^I should see the copyright statement in the right sidebar$/
    */
-  public function iShouldSeeTheCopyrightStatementInTheRightSidebar()
-  {
+  public function iShouldSeeTheCopyrightStatementInTheRightSidebar() {
     $block = $this->getSession()->getPage()->find("css", $this->right_sidebar." #column-right-region > #block-drupalorg_handbook-license div.block-inner div.block-content");
     if (empty($block)) {
       throw new Exception('No blocks found in the right sidebar');
@@ -2495,9 +2479,12 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Function to check the slide texts on the page.
+   *
    * @Given /^I should see the following <slides>$/
-   * Function to check the slide texts on the page
-   * @param $table Array List of texts that should appear on the page
+   *
+   * @param $table
+   *   Array List of texts that should appear on the page.
    */
   public function iShouldSeeTheFollowingSlides(TableNode $table) {
     $page = $this->getSession()->getPage();
@@ -2508,10 +2495,10 @@ class FeatureContext extends DrupalContext {
     if (empty($table)) {
       throw new Exception("No slides were provided");
     }
-    // Loop through all the texts provided in the table
+    // Loop through all the texts provided in the table.
     foreach ($table as $key => $value) {
       $text = $table[$key]['slides'];
-      // Use xpath to get the "alt" value of the image in 'slideshow' div
+      // Use xpath to get the "alt" value of the image in 'slideshow' div.
       $temp = $page->find('xpath', '//div[@class="slideshow"]/img[@alt="' . $text . '"]');
       if (empty($temp)) {
         throw new Exception("The text '" . $text . "' was not found in the slideshow");
@@ -2519,11 +2506,10 @@ class FeatureContext extends DrupalContext {
     }
   }
 
-   /**
+  /**
    * @Given /^I should see the following <blocks> in the "([^"]*)" column$/
    */
-  public function iShouldSeeTheFollowingBlocksInTheColumn($position, TableNode $table)
-  {
+  public function iShouldSeeTheFollowingBlocksInTheColumn($position, TableNode $table) {
     // Validate empty arguements.
     $this->validateBlankArgs(func_get_args());
     // Define order for columns.
@@ -2532,7 +2518,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Validate against blank function arguments
+   * Validate against blank function arguments.
    * Usage: $this->validateBlankArgs(func_get_args());
    */
   private function validateBlankArgs($args) {
@@ -2615,7 +2601,8 @@ class FeatureContext extends DrupalContext {
   /**
    * Check number of rows in a table - Add more cases if table/row class is different
    * $tableType = "Projects"/"Sandbox Projects"/"Project Issues"
-   * @Given /^I should see at least "([^"]*)" records in "([^"]*)" table$/
+   *
+   * @Given /^I should see at least "([^"]*)" record(?:|s) in "([^"]*)" table$/
    */
   public function iShouldSeeAtLeastRecordsInTable($count, $tableType)
   {
@@ -3815,7 +3802,7 @@ class FeatureContext extends DrupalContext {
 	/**
    * @Then /^I should see the <users> with the following <permissions>$/
    */
-  public function iShouldSeeTheUsersWithTheFollowingPermissions(TableNode $table,$assign = TRUE) {
+  public function iShouldSeeTheUsersWithTheFollowingPermissions(TableNode $table, $assign = TRUE) {
     $message = '';
     $table = $table->getHash();
     if (empty($table)) {
@@ -3827,7 +3814,7 @@ class FeatureContext extends DrupalContext {
     }
     $arr_th = array();
     foreach ($ths as $th) {
-      if ('User'!= ($header = $th->getText())) {
+      if ('User' != ($header = $th->getText())) {
         $arr_th[] = $header;
       }
     }
@@ -3849,15 +3836,15 @@ class FeatureContext extends DrupalContext {
 				// Find the checkbox corresponding to the header column.
         $chk = $vcsCheckboxes[$index];
 				if ($assign) {
-				 	// If a checkbox with the above id exists and it is not checked, then 'check' it
+          // If a checkbox with the above id exists and it is not checked, then 'check' it.
 					if (!($chk->hasAttribute('checked'))) {
-					  //The error messages will be concatenated and message will be thrown at the end
+					  // The error messages will be concatenated and message will be thrown at the end.
 					 	$message .= 'The user "' . $user . '" does not have "' . $permission . '" permissions' . "\n";
 					}
 				}
 				else {
 					if (($chk->hasAttribute('checked'))) {
-					  //The error messages will be concatenated and message will be thrown at the end
+					  // The error messages will be concatenated and message will be thrown at the end.
 						$message .= 'The user "' . $user . '" already have the mentioned "' . $permission . '" permissions' . "\n";
 					}
 				}
@@ -3872,6 +3859,60 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the <users> without the following <permissions>$/
    */
   public function iShouldSeeTheUsersWithoutTheFollowingPermissions(TableNode $table) {
-    $this->iShouldSeeTheUsersWithTheFollowingPermissions($table,FALSE);
+    $this->iShouldSeeTheUsersWithTheFollowingPermissions($table, FALSE);
+  }
+
+  /**
+   * @Then /^I (?:|should )see the issue title$/
+   */
+  public function iShouldSeeTheIssueTitle() {
+    $page = $this->getSession()->getPage();
+    $element = $page->find('css', 'h1#page-subtitle');
+    if (empty($element) || strpos($element->getText(), $this->issueTitle) === FALSE) {
+      throw new Exception('Issue title not found where it was expected.');
+    }
+  }
+
+  /**
+   * Function to get the email address of the currently logged in user
+   * @return string/FALSE
+   *   Return the email address if user is logged in or return FALSE otherwise
+   */
+  private function getMyEmail() {
+    $session = $this->getSession();
+    $session->visit($this->locatePath('/user'));
+    $page = $session->getPage();
+    // Find the Edit link and click on it
+    if ($editLink = $page->findLink("Edit")) {
+      $editLink->click();
+      $page = $session->getPage();
+      // Get the value from Email address field
+      if ($emailField = $page->findField("E-mail address:")) {
+        return $emailField->getAttribute("value");
+      }
+    }
+    return FALSE;
+  }
+
+  /**
+   * Function to get the Title for Post of type Issue
+   */
+  function getIssueTiteObj($page) {
+    $temp = HackyDataRegistry::get('issue title');
+    $result = $page->findLink($temp);
+    if (empty($result)) {
+      throw new Exception('Could not find the link with this title');
+    }
+		return $result;
+  }
+
+	/**
+   * @Given /^I add (?:a|one more) comment to the issue$/
+   */
+  public function iAddACommentToTheIssue() {
+    $page = $this->getSession()->getPage();
+    $this->comment = $this->randomString(12);
+    $page->fillField("Comment:", $this->comment);
+    $page->pressButton("Save");
   }
 }

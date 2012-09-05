@@ -10,6 +10,13 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     And I promote the project
     Then I should see the project title
 
+  Scenario: Check Releases tab is available and project short name is readonly
+    Given I am logged in as "git vetted user"
+    And I am on the project page
+    When I follow "Edit"
+    Then I should see the link "Releases"
+    And I should see that the project short name is readonly
+
   Scenario: Initialize the repository as project owner
     Given I am logged in as "git vetted user"
     And I am on the Version control tab
