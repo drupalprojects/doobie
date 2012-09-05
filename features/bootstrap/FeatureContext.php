@@ -4126,7 +4126,7 @@ class FeatureContext extends MinkContext {
 	/**
    * @Then /^I should see the <users> with the following <permissions>$/
    */
-  public function iShouldSeeTheUsersWithTheFollowingPermissions(TableNode $table,$assign = TRUE) {
+  public function iShouldSeeTheUsersWithTheFollowingPermissions(TableNode $table, $assign = TRUE) {
     $message = '';
     $table = $table->getHash();
     if (empty($table)) {
@@ -4138,7 +4138,7 @@ class FeatureContext extends MinkContext {
     }
     $arr_th = array();
     foreach ($ths as $th) {
-      if ('User'!= ($header = $th->getText())) {
+      if ('User' != ($header = $th->getText())) {
         $arr_th[] = $header;
       }
     }
@@ -4160,15 +4160,15 @@ class FeatureContext extends MinkContext {
 				// Find the checkbox corresponding to the header column.
         $chk = $vcsCheckboxes[$index];
 				if ($assign) {
-				 	// If a checkbox with the above id exists and it is not checked, then 'check' it
+          // If a checkbox with the above id exists and it is not checked, then 'check' it.
 					if (!($chk->hasAttribute('checked'))) {
-					  //The error messages will be concatenated and message will be thrown at the end
+					  // The error messages will be concatenated and message will be thrown at the end.
 					 	$message .= 'The user "' . $user . '" does not have "' . $permission . '" permissions' . "\n";
 					}
 				}
 				else {
 					if (($chk->hasAttribute('checked'))) {
-					  //The error messages will be concatenated and message will be thrown at the end
+					  // The error messages will be concatenated and message will be thrown at the end.
 						$message .= 'The user "' . $user . '" already have the mentioned "' . $permission . '" permissions' . "\n";
 					}
 				}
@@ -4183,7 +4183,7 @@ class FeatureContext extends MinkContext {
    * @Given /^I should see the <users> without the following <permissions>$/
    */
   public function iShouldSeeTheUsersWithoutTheFollowingPermissions(TableNode $table) {
-    $this->iShouldSeeTheUsersWithTheFollowingPermissions($table,FALSE);
+    $this->iShouldSeeTheUsersWithTheFollowingPermissions($table, FALSE);
   }
 
   /**
