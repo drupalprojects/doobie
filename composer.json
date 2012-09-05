@@ -13,8 +13,9 @@
         "symfony/form": "*",
         "symfony/validator": "*",
         "behat/mink-extension": "*",
-        "symfony/http-kernel": "*"
-},
+        "symfony/http-kernel": "*",
+        "fabpot/goutte": "dev-master#5f7fd00"
+    },
     "minimum-stability": "dev",
     "config": {
       "bin-dir": "bin/"
