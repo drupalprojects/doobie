@@ -43,13 +43,13 @@ Feature: To check the contents of Drupal 7.0 page
     Examples:
     | language   | translation text 1       | translation text 2 |
     | English    | Friendly and powerful    | Features           |
-    | French     | AgrÈable et puissant     | FonctionnalitÈs    |
-    | Portuguese | Amig·vel e poderoso      | CaraterÌsticas     |
+    | French     | Agr√©able et puissant     | Fonctionnalit√©s    |
+    | Portuguese | Amig√°vel e poderoso      | Carater√≠sticas     |
     | Spanish    | Amigable y poderoso      | Funcionalidades    |
-    | Catalan    | Amigable i potent        | CaracterÌstiques   |
+    | Catalan    | Amigable i potent        | Caracter√≠stiques   |
     | Croatian   | Prijateljski i ucinkovit | Mogucnosti         |
     | Danish     | Venligt og kraftfuldt    | Features           |
-    | Italian    | Facile e potente         | Funzionalit‡       |
+    | Italian    | Facile e potente         | Funzionalit√†       |
 
   Scenario: View slideshow texts
     Given I am on "/drupal-7.0"
