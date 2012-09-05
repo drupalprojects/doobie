@@ -80,8 +80,8 @@
         {
             "package": "drupal/drupal-extension",
             "version": "dev-master",
-            "source-reference": "45d026068d8044ed216d07deb322c535537a8596",
-            "commit-date": "1346374203"
+            "source-reference": "119378b46002d770f9bc0bbef914a131276cb569",
+            "commit-date": "1346878111"
         },
         {
             "package": "fabpot/goutte",
