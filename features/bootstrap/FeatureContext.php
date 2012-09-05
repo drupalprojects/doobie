@@ -2576,17 +2576,17 @@ class FeatureContext extends MinkContext {
 	  $page = $this->getSession()->getPage();
     $result = $this->getIssueTiteObj($page);
     $postTitle = $result->getText();
-    // get the row in which the post resides. a > td > tr
+    // Get the row in which the post resides. a > td > tr.
     $trow = $result->getParent()->getParent();
-    // if there is a new reply, we get an anchor tag
+    // If there is a new reply, we get an anchor tag.
     $replies = $trow->find('css', '.replies a');
     if(empty($replies)) {
       throw new Exception("Could not find any new replies for this '" . $postTitle . "'post");
     }
     $replies_new = $replies->getText();
-    // the replies text will be in the format "2 new" or "11 new"
+    // The replies text will be in the format "2 new" or "11 new".
     $temp = explode(" ", $replies_new);
-    // temp[0] = xx, temp[1] = "new"
+    // temp[0] = xx, temp[1] = "new".
     $newreplies_count = trim($temp[0]);
     if($newreplies_count < $count) {
       throw new Exception("The post '" . $postTitle . "' has less than '" . $count . "' new replies");
@@ -2600,9 +2600,9 @@ class FeatureContext extends MinkContext {
 	  $page = $this->getSession()->getPage();
     $result = $this->getIssueTiteObj($page);
     $postTitle = $result->getText();
-    // get the row in which the post resides. span > td
+    // Get the row in which the post resides. span > td.
     $td = $result->getParent();
-    // if there is a update message, we get the status message
+    // If there is a update message, we get the status message.
     $stat_message = $td->find('css', '.marker');
     if ($postUpdated) {
       if (empty($stat_message)) {
@@ -2629,7 +2629,7 @@ class FeatureContext extends MinkContext {
   function getPostTitleObject($page) {
     $flag = 0;
     $result = "";
-    // Try to get title from HackyDataRegistry
+    // Try to get title from HackyDataRegistry.
     $temp = HackyDataRegistry::get('project title');
     if ($temp) {
       $result = $page->findLink($temp);
@@ -2637,7 +2637,7 @@ class FeatureContext extends MinkContext {
         return $result;
       }
     }
-    // If not avalilable from Hacky, then get from yml
+    // If not avalilable from Hacky, then get from yml.
     if(!empty($this->postTitle)) {
       $postTitle = $this->postTitle;
       $result = $page->findLink($postTitle);
@@ -2645,7 +2645,7 @@ class FeatureContext extends MinkContext {
         return $result;
       }
     }
-    // If not available from yml then take the first item from table
+    // If not available from yml then take the first item from table.
     if ($flag == 0) {
       $result = $page->find("css", "table tbody tr td a");
       if (!empty($result)) {
@@ -2658,9 +2658,8 @@ class FeatureContext extends MinkContext {
   /**
    * @Then /^I should see the following <tabs>$/
    */
-  public function iShouldSeeTheFollowingTabs(TableNode $table)
-  {
-    // Fetch tab links
+  public function iShouldSeeTheFollowingTabs(TableNode $table) {
+    // Fetch tab links.
     $tab_links = $this->getSession()->getPage()->findAll('css', '#nav-content ul.links > li > a');
     if (empty($tab_links)) {
       throw new Exception('No tabs found');
@@ -2672,7 +2671,7 @@ class FeatureContext extends MinkContext {
     if (empty($table)) {
       throw new Exception('No tabs specified');
     }
-    // Loop through table and check tab is present
+    // Loop through table and check tab is present.
     foreach ($table->getHash() as $t) {
       if (!in_array($t['tabs'], $arr_tabs)) {
         throw new Exception('The tab: "' . $t['tabs'] . '" cannot be found' );
@@ -2681,12 +2680,12 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * Function to check the status of a book page
+   * Function to check the status of a book page.
    *
    * @Then /^the page status should be "([^"]*)"$/
    *
    * @param string $status
-   *   String The status of the page
+   *   String The status of the page.
    */
   public function thePageStatusShouldBe($status) {
     $page = $this->getSession()->getPage();
@@ -2702,8 +2701,7 @@ class FeatureContext extends MinkContext {
   /**
    * @Then /^I should see that the tab "([^"]*)" is highlighted$/
    */
-  public function iShouldSeeThatTheTabIsHighlighted($tab)
-  {
+  public function iShouldSeeThatTheTabIsHighlighted($tab) {
     $ul = $this->getSession()->getPage()->find('css', '#nav-content ul.links');
     if (empty($ul)) {
       throw new Exception('No tabs found');
@@ -2720,8 +2718,7 @@ class FeatureContext extends MinkContext {
   /**
    * @Given /^I should see the following <blocks> in the right sidebar$/
    */
-  public function iShouldSeeTheFollowingBlocksInTheRightSidebar(TableNode $table)
-  {
+  public function iShouldSeeTheFollowingBlocksInTheRightSidebar(TableNode $table) {
     $blocks = $this->getSession()->getPage()->findAll("css", $this->right_sidebar." #column-right-region > div");
     if (empty($blocks)) {
       throw new Exception('No blocks found in the right sidebar');
@@ -2741,7 +2738,7 @@ class FeatureContext extends MinkContext {
     if (empty($table)) {
       throw new Exception('No blocks specified');
     }
-    // Loop through table and check tab is present
+    // Loop through table and check tab is present.
     foreach ($table->getHash() as $t) {
       if (!in_array($t['blocks'], $arr_headings)) {
         throw new Exception('The block: "' . $t['blocks'] . '" cannot be found in the right sidebar' );
@@ -2750,17 +2747,17 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * Function to check the background color of the status message on a book page
+   * Function to check the background color of the status message on a book page.
    *
    * @Given /^the background color of the status should be "([^"]*)"$/
    *
    * @param string $color
-   *   The color of the status
+   *   The color of the status.
    */
   public function theBackgroundColorOfTheStatusShouldBe($color) {
     $flag = FALSE;
     $colorCode = array('red' => '#EBCCCC', 'green' => '#D4EFCC', 'yellow' => '#FFE69F');
-    // Get the background color of an element using javascript and then compare with above array
+    // Get the background color of an element using javascript and then compare with above array.
     $this->getSession()->executeScript("
       var currColorCode = $('.page-status').css('background-color');
       if (currColorCode == '".$colorCode[$color]."') {
@@ -2775,8 +2772,7 @@ class FeatureContext extends MinkContext {
   /**
    * @Given /^I should see the copyright statement in the right sidebar$/
    */
-  public function iShouldSeeTheCopyrightStatementInTheRightSidebar()
-  {
+  public function iShouldSeeTheCopyrightStatementInTheRightSidebar() {
     $block = $this->getSession()->getPage()->find("css", $this->right_sidebar." #column-right-region > #block-drupalorg_handbook-license div.block-inner div.block-content");
     if (empty($block)) {
       throw new Exception('No blocks found in the right sidebar');
@@ -2807,9 +2803,12 @@ class FeatureContext extends MinkContext {
   }
 
   /**
+   * Function to check the slide texts on the page.
+   *
    * @Given /^I should see the following <slides>$/
-   * Function to check the slide texts on the page
-   * @param $table Array List of texts that should appear on the page
+   *
+   * @param $table
+   *   Array List of texts that should appear on the page.
    */
   public function iShouldSeeTheFollowingSlides(TableNode $table) {
     $page = $this->getSession()->getPage();
@@ -2820,10 +2819,10 @@ class FeatureContext extends MinkContext {
     if (empty($table)) {
       throw new Exception("No slides were provided");
     }
-    // Loop through all the texts provided in the table
+    // Loop through all the texts provided in the table.
     foreach ($table as $key => $value) {
       $text = $table[$key]['slides'];
-      // Use xpath to get the "alt" value of the image in 'slideshow' div
+      // Use xpath to get the "alt" value of the image in 'slideshow' div.
       $temp = $page->find('xpath', '//div[@class="slideshow"]/img[@alt="' . $text . '"]');
       if (empty($temp)) {
         throw new Exception("The text '" . $text . "' was not found in the slideshow");
@@ -2831,11 +2830,10 @@ class FeatureContext extends MinkContext {
     }
   }
 
-   /**
+  /**
    * @Given /^I should see the following <blocks> in the "([^"]*)" column$/
    */
-  public function iShouldSeeTheFollowingBlocksInTheColumn($position, TableNode $table)
-  {
+  public function iShouldSeeTheFollowingBlocksInTheColumn($position, TableNode $table) {
     // Validate empty arguements.
     $this->validateBlankArgs(func_get_args());
     // Define order for columns.
@@ -2844,7 +2842,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * Validate against blank function arguments
+   * Validate against blank function arguments.
    * Usage: $this->validateBlankArgs(func_get_args());
    */
   private function validateBlankArgs($args) {
