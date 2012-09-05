@@ -4214,4 +4214,25 @@ class FeatureContext extends MinkContext {
       throw new Exception('Issue title not found where it was expected.');
     }
   }
+
+  /**
+   * Function to get the email address of the currently logged in user
+   * @return string/FALSE
+   *   Return the email address if user is logged in or return FALSE otherwise
+   */
+  private function getMyEmail() {
+    $session = $this->getSession();
+    $session->visit($this->locatePath('/user'));
+    $page = $session->getPage();
+    // Find the Edit link and click on it
+    if ($editLink = $page->findLink("Edit")) {
+      $editLink->click();
+      $page = $session->getPage();
+      // Get the value from Email address field
+      if ($emailField = $page->findField("E-mail address:")) {
+        return $emailField->getAttribute("value");
+      }
+    }
+    return FALSE;
+  }
 }
