@@ -230,6 +230,12 @@
         {
             "package": "symfony/form",
             "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/form",
+            "version": "dev-master",
             "source-reference": "01b3042b47a9b803de4d49c323c3f35e3d7c25f1",
             "commit-date": "1346416467"
         },
@@ -340,6 +346,12 @@
             "version": "dev-master",
             "source-reference": "v2.1.0-RC2",
             "commit-date": "1346140482"
+        },
+        {
+            "package": "symfony/validator",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
         },
         {
             "package": "symfony/validator",
