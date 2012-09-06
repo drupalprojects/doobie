@@ -50,14 +50,6 @@ class FeatureContext extends DrupalContext {
   public $user = FALSE;
 
   /**
-   * Store region ids.
-   *
-   * @todo move this to the Drupal Extension's region selector.
-   */
-  private $right_sidebar = "";
-  private $home_bottom_right = '';
-
-  /**
    *Store rss feed xml content
    */
   private $xmlContent = "";
@@ -101,12 +93,6 @@ class FeatureContext extends DrupalContext {
     }
     if (isset($parameters['git_users'])) {
       $this->git_users = $parameters['git_users'];
-    }
-    if (isset($parameters['layout']['right_sidebar'])) {
-      $this->right_sidebar = $parameters['layout']['right_sidebar'];
-    }
-    if (isset($parameters['layout']['content'])) {
-      $this->content = $parameters['layout']['content'];
     }
     if (isset($parameters['post title'])) {
       $this->postTitle= $parameters['post title'];
@@ -1002,14 +988,15 @@ class FeatureContext extends DrupalContext {
   }
 
  /**
-   * @Given /^I should see the link "([^"]*)" at the "([^"]*)" in the right sidebar$/
+   * @Given /^I should see the link "(?P<link>[^"]*)" at the "(?P<position>[^"]*)" in the "(?P<region>[^"]*)"(?:| region)$/
    */
-  public function iShouldSeeTheLinkAtTheInTheRightSidebar($link, $position) {
+  public function iShouldSeeTheLinkAtTheInTheRightSidebar($link, $position, $region) {
     $page = $this->getSession()->getPage();
     $error = 0;
     $curr_url = $this->getSession()->getCurrentUrl();
-    $message = "The page ".$curr_url." did not contain the specified texts";
-    $nodes = $page->findAll("css", $this->right_sidebar." .item-list a");
+    $message = "The page " . $curr_url . " did not contain the specified texts";
+    $region = $page->find('region', $region);
+    $nodes = $region->findAll('css', '.item-list a');
     if (sizeof($nodes)) {
       // get all the categories
       foreach ($nodes as $node) {
@@ -1039,11 +1026,12 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see "([^"]*)" links on the right sidebar$/
+   * @Then /^I should see "(?P<count>\d+)" links in the "(?P<region>[^"]*)"(?:| region)$/
    */
   public function iShouldSeeLinksOnTheRightSidebar($count) {
     $page = $this->getSession()->getPage();
-    $nodes = $page->findAll("css", $this->right_sidebar." .item-list a");
+    $region = $page->find('region', 'right sidebar');
+    $nodes = $region->findAll('css', '.item-list a');
     if (sizeof($nodes) == $count) return true;
       throw new Exception('Found ' . sizeof($nodes) . ' links instead of ' .
       $count . ' links on the right sidebar');
@@ -1450,9 +1438,13 @@ class FeatureContext extends DrupalContext {
 
   /**
    * Function to check whether the links exists under the news/specific tab
-   * @param $tab String The tab to be selected for
-   * @param $count counts the number of links exists
-   * @Then /^(?:I|I should) see at least "([^"]*)" link(?:|s) under the "([^"]*)" tab$/
+   *
+   * @Then /^(?:I|I should) see at least "(?P<count>\d+)" link(?:|s) under the "(?P<tab>[^"]*)" tab$/
+   *
+   * @param string $tab
+   *   The tab to be selected for.
+   * @param integer $count
+   *   Counts the number of links exists.
    */
   public function iShouldSeeAtleastLinksUnderTab($count, $tab) {
     $page = $this->getSession()->getPage();
@@ -1472,10 +1464,16 @@ class FeatureContext extends DrupalContext {
         break;
       default:
         throw new Exception('The tab "' . ucfirst($tab) . '" was not found on the page');
-        }
-      $nodes = $page->findAll("css", $this->home_bottom_right." ".$id." a");
-      if (sizeof($nodes) == $count) return true;
-      throw new Exception('Found ' . sizeof($nodes) . ' links instead of ' .
+    }
+    $region = $page->find('region', 'bottom right');
+    if (!$region) {
+      throw new Exception('Region "bottom right" not found');
+    }
+    $nodes = $region->findAll("css", $id . ' a');
+    if (sizeof($nodes) == $count) {
+      return TRUE;
+    }
+    throw new Exception('Found ' . sizeof($nodes) . ' links instead of ' .
       $count . ' links on the home bottom right');
   }
 
@@ -1639,34 +1637,28 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I press "([^"]*)" in the "([^"]*)" region$/
    * Function to press the particular button on the specified region
    * Note: The function looks for input type = 'submit' and not
    * input type = 'button' or 'image'
-   * @param $button String The value of the button to be pressed
-   * @param $region String The region (right sidebar, content) where
-   * the button is located
-   * @return Object Given class object
+   *
+   * @Given /^I press "(?P<button>[^"]*)" in the "(?P<region>[^"]*)" region$/
+   *
+   * @param string $button
+   *   The value of the button to be pressed.
+   * @param string $region
+   *   The region (right sidebar, content) where.  the button is located
+   *
+   * @return object
+   *   Given class object.
    */
   public function iPressInTheRegion($button, $region) {
     $buttonId = "";
     $page = $this->getSession()->getPage();
-    // based on the region, get region locator(id or class as defined in yml)
-    switch ($region) {
-      case 'right sidebar':
-        $regionLocator = $this->right_sidebar;
-      break;
-      case 'content':
-        $regionLocator = $this->content;
-      break;
-      default:
-        $regionLocator = $this->content;
-      break;
-    }
-    // get all the buttons present within a form in that region
-    $inputs = $page->findAll('css', $regionLocator . " form input[type=submit]");
+    $region = $page->find('region', $region);
+    // Get all the buttons present within a form in that region.
+    $inputs = $region->findAll('css', 'form input[type=submit]');
     foreach ($inputs as $input) {
-      // just to make sure we press the right button
+      // Just to make sure we press the right button.
       if ($input->getAttribute("value") == $button) {
         $buttonId = $input->getAttribute("id");
         break;
@@ -2381,7 +2373,8 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the following <blocks> in the right sidebar$/
    */
   public function iShouldSeeTheFollowingBlocksInTheRightSidebar(TableNode $table) {
-    $blocks = $this->getSession()->getPage()->findAll("css", $this->right_sidebar." #column-right-region > div");
+    $region = $this->getSession()->getPage()->find('region', 'right sidebar');
+    $blocks = $region->findAll('css', '#column-right-region > div');
     if (empty($blocks)) {
       throw new Exception('No blocks found in the right sidebar');
     }
@@ -2435,7 +2428,8 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the copyright statement in the right sidebar$/
    */
   public function iShouldSeeTheCopyrightStatementInTheRightSidebar() {
-    $block = $this->getSession()->getPage()->find("css", $this->right_sidebar." #column-right-region > #block-drupalorg_handbook-license div.block-inner div.block-content");
+    $region = $this->getSession()->getPage()->find('region', 'right sidebar');
+    $block = $region->find('css', '#column-right-region > #block-drupalorg_handbook-license div.block-inner div.block-content');
     if (empty($block)) {
       throw new Exception('No blocks found in the right sidebar');
     }
@@ -3315,7 +3309,8 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the advertisment in the right sidebar$/
    */
   public function iShouldSeeTheAdvertismentInTheRightSidebar() {
-    $result = $this->getSession()->getPage()->find('css', $this->right_sidebar. '#column-right-region .block-inner .block-content #gam-holder-HostingForumBlock');
+    $region = $this->getSession()->getPage()->find('region', 'right sidebar');
+    $result = $region->find('css', '#column-right-region .block-inner .block-content #gam-holder-HostingForumBlock');
     if (empty($result)) {
       throw new Exception('No advertisement exists in the right sidebar');
     }

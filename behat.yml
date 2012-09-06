@@ -14,5 +14,13 @@ default:
       basic_auth:
         username: drupal
         password: drupal
+      # Blue Cheese regions
+      region_map:
+        page tools: "#page-tools"
+        right sidebar: "#column-right-region"
+        content top: "#content-top-region"
+        content: "#column-left"
+        content bottom: "#content-bottom-region"
+        bottom right: "#front-bottom-right"
 imports:
   - behat.local.yml

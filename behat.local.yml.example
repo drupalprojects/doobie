@@ -21,11 +21,6 @@ default:
           'gituser pass here'
         gitvetteduser:
           'gitvetteduser pass here'
-      #this should probably be configured like the drupal_users
-      layout:
-        right_sidebar: '#column-right'
-        home_bottom_right: '#front-bottom-right'
-        content: '#column-left'
       post title: 'enter a node title here that has a link on the current page'
 
   extensions:

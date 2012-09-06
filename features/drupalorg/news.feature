@@ -27,7 +27,7 @@ Feature: Find About News
     Then I should see "Community"
     And I should see the heading "News and announcements"
     And I should see the heading "New forum topics"
-    And I should see "10" links on the right sidebar
+    And I should see "10" links in the "right sidebar"
     And I should see <tablist>
     Examples:
     | tablist             |
