@@ -4005,4 +4005,86 @@ class FeatureContext extends DrupalContext {
       }
     }
   }
+
+  /**
+   * @Given /^I fill in "([^"]*)" with a "([^"]*)" ssh key$/
+   */
+  public function iFillInWithASshKey($field, $validity) {
+    if ($validity == "valid") {
+      $key = HackyDataRegistry::get('sshkey');
+    }
+    elseif ($validity == "invalid") {
+      $key = substr(HackyDataRegistry::get('sshkey'), 10);
+    }
+    if (trim($key) == "") {
+      throw new Exception("No SSH Key was found");
+    }
+    return new Given("I fill in \"$field\" with \"$key\"");
+  }
+
+  /**
+   * @When /^I follow "([^"]*)" for a key$/
+   */
+  public function iFollowForAKey($link) {
+    $column = "";
+    $page = $this->getSession()->getPage();
+    $title = HackyDataRegistry::get('sshkey title');
+    if (trim($title) == "") {
+      throw new Exception("SSH key title was not found");
+    }
+    // Get all the columns
+    $text = $page->find("xpath", '//td[text()="' . $title . '"]');
+    if (empty($text)) {
+      throw new Exception("Could not find the title '" . $title . "'");
+    }
+    // Get the row of the title -- text > td > tr
+    $tr = $text->getParent()->getParent();
+    if (!$tr) {
+      throw new Exception("Could not find the title '" . $title . "'");
+    }
+    $linkResult = $tr->findLink($link);
+    if (empty($linkResult)) {
+      throw new Exception("Could not find '" . $link . "' for the title '" . $title . "'");
+    }
+    $href = $this->locatePath($linkResult->getAttribute('href'));
+    return new Given("I am at \"$href\"");
+  }
+
+  /**
+   * @Given /^I generate a ssh key$/
+   */
+  public function iGenerateASshKey() {
+    $user = get_current_user();
+    $pubFile = "/" . $user . "/.ssh/id_rsa.pub";
+    $rsaFile = "/" . $user . "/.ssh/id_rsa";
+    // Delete the file if exists so that we can generate a new one
+    if (file_exists($pubFile)) {
+      $process = new Process("rm -Rf $pubFile");
+      $process->run();
+    }
+    if (file_exists($rsaFile)) {
+      $process = new Process("rm -Rf $rsaFile");
+      $process->run();
+    }
+    // Give a title for this key
+    $title = $this->randomString(8);
+    // Process class was not asking for any input & was failing. So using 'exec'
+    exec("ssh-keygen -t rsa -C \"$title\"", $output);
+    if (array_search("The key fingerprint is:", $output) === FALSE) {
+      throw new Exception("No key was generated");
+    }
+    // If the file does not exist, then key has not generated
+    if (!file_exists($pubFile)) {
+      throw new Exception("No key was generated");
+    }
+    // Open the file and read the key
+    $fh = fopen($pubFile, "r");
+    $key = fread($fh, filesize($pubFile));
+    if (trim($key) == "") {
+      throw new Exception("No key was generated");
+    }
+    // Store the key and title for other step definitions to use
+    HackyDataRegistry::set('sshkey', $key);
+    HackyDataRegistry::set('sshkey title', $title);
+  }
 }
