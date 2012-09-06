@@ -454,7 +454,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iAmOnTheVersionControlTab() {
     $path = $this->locatePath(HackyDataRegistry::get('version control path'));
-    $this->getSession()->visit($path);
+    return new Given("I am at \"$path\"");
   }
 
   /**
@@ -484,7 +484,6 @@ class FeatureContext extends DrupalContext {
     if (!$process->isSuccessful()) {
       throw new Exception('Initializing repository failed - Command: ' . $command . ' Error: ' . $process->getErrorOutput());
     }
-    HackyDataRegistry::set('git username', $username);
     // Pause for front end to catch up.
     sleep(10);
   }
@@ -493,18 +492,9 @@ class FeatureContext extends DrupalContext {
    * @AfterScenario @gitrepo
    */
   public function cleanGitRepos(ScenarioEvent $event) {
-    // Repos on drupal.org never contain capital letters.
-    $projectTitle = strtolower(HackyDataRegistry::get('project title'));
-    print "Deleting $projectTitle.";
-    if (!empty($projectTitle)) {
-      if (strpos($projectTitle, '/') === FALSE) {
-        if (file_exists($projectTitle) && is_dir($projectTitle)) {
-          $process = new Process("rm -Rf $projectTitle");
-          $process->setTimeout(10);
-          $process->run();
-        }
-      }
-    }
+    $this->deleteFolder(strtolower(HackyDataRegistry::get('project title')));
+    // If there is a promoted project, then shot name will be set
+    $this->deleteFolder(HackyDataRegistry::get('project_short_name'));
   }
 
   /**
@@ -3491,7 +3481,9 @@ class FeatureContext extends DrupalContext {
     $element->fillField('Description', $this->randomString(32));
     $chk = $element->findField("Sandbox");
     $chk->uncheck();
-    $element->fillField('Short project name', $this->randomString(6));
+    $this->projectShortName = $this->randomString(6);
+    HackyDataRegistry::set('project_short_name', $this->projectShortName);
+    $element->fillField('Short project name', $this->projectShortName);
     $element->pressButton('Save');
   }
 
@@ -3527,15 +3519,35 @@ class FeatureContext extends DrupalContext {
    * @Then /^I should be able to push (?:a|one more) commit to the repository$/
    */
   public function iShouldBeAbleToPushACommitToTheRepository() {
-    $projectTitle = strtolower(HackyDataRegistry::get('project title'));
+    $page = $this->getSession()->getPage();
+    $currUrl = $this->getSession()->getCurrentUrl();
+    // Get the git username from the code block
+    $codeBlock = $page->find('css', '.codeblock code');
+    $code = $codeBlock->getText();
+    $code = explode("@", $code);
+    $code = explode(" ", $code[0]);
+    $gitUsername = trim(end($code));
+    $gitUsername = str_replace("ssh://", "", $gitUsername);
+    // Get the project folder name
+    $projectTitle = HackyDataRegistry::get('project_short_name');
+    if (!$projectTitle) {
+      $projectTitle = strtolower(HackyDataRegistry::get('project title'));
+    }
     if (!$projectTitle) {
       throw new Exception("No project found to push");
     }
+    // Make sure the project directory exists before any step is taken
     if (!is_dir($projectTitle)) {
       throw new Exception("The folder '" . $projectTitle . "' does not exist");
     }
     // Move into the project folder
     chdir($projectTitle);
+    // Set the git config user.email and user.name
+    if (!$this->setGitConfig($gitUsername)) {
+      throw new Exception("Unable to set the git config value");
+    }
+    // Come back to the current page
+    $this->getSession()->visit($currUrl);
     // Edit the info file present in the folder
     $fh = fopen($projectTitle . ".info", "a");
     fwrite($fh, "Test data for BDD");
@@ -3547,15 +3559,13 @@ class FeatureContext extends DrupalContext {
       throw new RuntimeException('Git add failed - ' . $process->getErrorOutput());
     }
     // Git commit
-    $username = HackyDataRegistry::get('git username');
-    $process = new Process('git commit -m "by ' . $username . ': From the step definition"');
+    $process = new Process('git commit -m "by ' . $gitUsername . ': From the step definition"');
     $process->run();
     if (!$process->isSuccessful()) {
       throw new RuntimeException('Git commit failed - ' . $process->getErrorOutput());
     }
     // Git push
-    //$process = new Process('git push -u origin master');
-    $password = $this->git_users[$username];
+    $password = $this->git_users[$gitUsername];
     $process = new Process("../bin/gitwrapper $password");
     $process->run();
     if (!$process->isSuccessful()) {
@@ -3910,5 +3920,89 @@ class FeatureContext extends DrupalContext {
     $this->comment = $this->randomString(12);
     $page->fillField("Comment:", $this->comment);
     $page->pressButton("Save");
+  }
+
+  /**
+   * Function to set the git config user.name and user.email
+   * @param string $gitUsername
+   *   Git username to supply for user.name
+   * @return boolean True/False
+   *   Return True if success, false otherwise
+   */
+  private function setGitConfig($gitUsername = "") {
+    $email = $this->getMyEmail();
+    if ($email) {
+      $process = new Process('git config user.email "' . $email . '"');
+      $process->run();
+      if (!$process->isSuccessful()) {
+        return FALSE;
+      }
+      if ($gitUsername == "") {
+        $gitUsername = $this->whoami();
+      }
+      $process = new Process('git config user.name "' . $gitUsername . '"');
+      $process->run();
+		  if ($process->isSuccessful()) {
+    	  return TRUE;
+      }
+    }
+    return FALSE;
+  }
+
+  /**
+   * @Then /^I should see the project link$/
+   */
+  public function iShouldSeeTheProjectLink() {
+    $projectTitle = HackyDataRegistry::get('project title');
+    $link = $this->getSession()->getPage()->findLink($projectTitle);
+    if (empty($link)) {
+      throw new Exception("The project title '" . $projectTitle . "' was not found on the page");
+    }
+  }
+
+  /**
+   * @Given /^I should see "([^"]*)" commit(?:|s) for the project$/
+   */
+  public function iShouldSeeCommitsForTheProject($count) {
+    $projectTitle = HackyDataRegistry::get('project title');
+    if (!$projectTitle) {
+      throw new Exception("No project found");
+    }
+    $page = $this->getSession()->getPage();
+    $prjLink = $page->findLink($projectTitle);
+    if (empty($prjLink)) {
+      throw new Exception("Project '" . $projectTitle . "' was not found on the page");
+    }
+    // a > li
+    $li = $prjLink->getParent();
+    $text = $li->getText();
+    // Fomat <a href='link'>text</a> (5 commits)
+    $temp = explode("(", $text);
+    // Array here [0] = <a href='link'>text</a> [1] = 5 commits)
+    $temp = explode(" commits", $temp[1]);
+    // Array here [0] = 5
+    $commits = (int) trim($temp[0]);
+    if ($commits != $count) {
+      throw new Exception("The number of commits is not equal to '" . $count . "' but it is '" . $commits . "'");
+    }
+  }
+
+  /**
+   * Function to delete the repository folder
+   * @param string $folderName
+   *   Name of the folder to delete
+   */
+  private function deleteFolder($folderName) {
+    // Repos on drupal.org never contain capital letters.
+    if (!empty($folderName)) {
+      if (strpos($folderName, '/') === FALSE) {
+        if (file_exists($folderName) && is_dir($folderName)) {
+          print "\nDeleting folder: $folderName \n";
+          $process = new Process("rm -Rf $folderName");
+          $process->setTimeout(10);
+          $process->run();
+        }
+      }
+    }
   }
 }
