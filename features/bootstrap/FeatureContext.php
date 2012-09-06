@@ -1005,7 +1005,7 @@ class FeatureContext extends DrupalContext {
     $error = 0;
     $curr_url = $this->getSession()->getCurrentUrl();
     $message = "The page " . $curr_url . " did not contain the specified texts";
-    $region = $page->find('region', 'Right column');
+    $region = $page->find('region', 'right sidebar');
     $nodes = $region->findAll('css', '.item-list a');
     if (sizeof($nodes)) {
       // get all the categories
@@ -1040,7 +1040,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeLinksOnTheRightSidebar($count) {
     $page = $this->getSession()->getPage();
-    $region = $page->find('region', 'Right sidebar');
+    $region = $page->find('region', 'right sidebar');
     $nodes = $region->findAll('css', '.item-list a');
     if (sizeof($nodes) == $count) return true;
       throw new Exception('Found ' . sizeof($nodes) . ' links instead of ' .
@@ -1654,7 +1654,7 @@ class FeatureContext extends DrupalContext {
   public function iPressInTheRegion($button, $region) {
     $buttonId = "";
     $page = $this->getSession()->getPage();
-    $region = $page->find('region', 'right sidebar');
+    $region = $page->find('region', $region);
     // Get all the buttons present within a form in that region.
     $inputs = $region->findAll('css', 'form input[type=submit]');
     foreach ($inputs as $input) {
