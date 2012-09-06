@@ -2,10 +2,6 @@
 default:
   context:
     parameters:
-      # Set this drush alias in your aliases.drushrc.php file to match
-      # the base_url set above. Leave off the preceding '@'.
-      drush_alias: 'myalias'
-
       drupal_users:
         drupal:
           'drupal'
@@ -35,3 +31,8 @@ default:
   extensions:
     Behat\MinkExtension\Extension:
       base_url: 'http://git6site.devdrupal.org'
+
+    Drupal\DrupalExtension\Extension:
+      # Set this drush alias in your aliases.drushrc.php file to match
+      # the base_url set above. Leave off the preceding '@'.
+      drush_alias: 'myalias'
