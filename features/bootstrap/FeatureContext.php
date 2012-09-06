@@ -1201,7 +1201,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^the md5 hash should match "([^"]*)"$/
+   * @Then /^the md5 hash should match "(?P<md5hash>[^"]*)"$/
    */
   public function theMd5HashShouldMatch($md5hash) {
     if ($md5hash != $this->md5Hash) {
