@@ -100,24 +100,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Override MinkContext::locatePath() to work around Selenium not supporting
-   * basic auth.
-   */
-  protected function locatePath($path) {
-    $driver = $this->getSession()->getDriver();
-    if ($driver instanceof Behat\Mink\Driver\Selenium2Driver && isset($this->basic_auth)) {
-      // Add the basic auth parameters to the base url. This only works for
-      // Firefox.
-      $startUrl = rtrim($this->getMinkParameter('base_url'), '/') . '/';
-      $startUrl = str_replace('://', '://' . $this->basic_auth['username'] . ':' . $this->basic_auth['password'] . '@', $startUrl);
-      return 0 !== strpos($path, 'http') ? $startUrl . ltrim($path, '/') : $path;
-    }
-    else {
-      return parent::locatePath($path);
-    }
-  }
-
-  /**
    * @defgroup helper functions
    * @{
    */
@@ -148,43 +130,6 @@ class FeatureContext extends DrupalContext {
     if (!$process->isSuccessful()) {
       throw new RuntimeException('This feature requires that the `expect` library be installed');
     }
-  }
-
-  /**
-   * Helper function to login the current user.
-   */
-  public function login() {
-    // Check if logged in.
-    if ($this->loggedIn()) {
-      $this->logout();
-    }
-
-    if (!$this->user) {
-      throw new Exception('Tried to login without a user.');
-    }
-
-    $this->getSession()->visit($this->locatePath('/user'));
-    $element = $this->getSession()->getPage();
-    $element->fillField('Username', $this->user->name);
-    $element->fillField('Password', $this->user->pass);
-    $submit = $element->findButton('Log in');
-    if (empty($submit)) {
-      throw new Exception('No submit button at ' . $this->getSession()->getCurrentUrl());
-    }
-
-    // Log in.
-    $submit->click();
-
-    if (!$this->loggedIn()) {
-      throw new Exception("Failed to log in as user \"{$this->user->name}\" with role \"{$this->user->role}\".");
-    }
-  }
-
-  /**
-   * Helper function to logout.
-   */
-  public function logout() {
-    $this->getSession()->visit($this->locatePath('/user/logout'));
   }
 
   /**
