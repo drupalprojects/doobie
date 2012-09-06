@@ -50,14 +50,6 @@ class FeatureContext extends DrupalContext {
   public $user = FALSE;
 
   /**
-   * Store region ids.
-   *
-   * @todo move this to the Drupal Extension's region selector.
-   */
-  private $right_sidebar = "";
-  private $home_bottom_right = '';
-
-  /**
    *Store rss feed xml content
    */
   private $xmlContent = "";
@@ -101,12 +93,6 @@ class FeatureContext extends DrupalContext {
     }
     if (isset($parameters['git_users'])) {
       $this->git_users = $parameters['git_users'];
-    }
-    if (isset($parameters['layout']['right_sidebar'])) {
-      $this->right_sidebar = $parameters['layout']['right_sidebar'];
-    }
-    if (isset($parameters['layout']['content'])) {
-      $this->content = $parameters['layout']['content'];
     }
     if (isset($parameters['post title'])) {
       $this->postTitle= $parameters['post title'];
@@ -1018,8 +1004,9 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     $error = 0;
     $curr_url = $this->getSession()->getCurrentUrl();
-    $message = "The page ".$curr_url." did not contain the specified texts";
-    $nodes = $page->findAll("css", $this->right_sidebar." .item-list a");
+    $message = "The page " . $curr_url . " did not contain the specified texts";
+    $region = $page->find('region', 'Right column');
+    $nodes = $region->findAll('css', '.item-list a');
     if (sizeof($nodes)) {
       // get all the categories
       foreach ($nodes as $node) {
@@ -1053,7 +1040,8 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeLinksOnTheRightSidebar($count) {
     $page = $this->getSession()->getPage();
-    $nodes = $page->findAll("css", $this->right_sidebar." .item-list a");
+    $region = $page->find('region', 'Right sidebar');
+    $nodes = $region->findAll('css', '.item-list a');
     if (sizeof($nodes) == $count) return true;
       throw new Exception('Found ' . sizeof($nodes) . ' links instead of ' .
       $count . ' links on the right sidebar');
@@ -1661,20 +1649,9 @@ class FeatureContext extends DrupalContext {
   public function iPressInTheRegion($button, $region) {
     $buttonId = "";
     $page = $this->getSession()->getPage();
-    // based on the region, get region locator(id or class as defined in yml)
-    switch ($region) {
-      case 'right sidebar':
-        $regionLocator = $this->right_sidebar;
-      break;
-      case 'content':
-        $regionLocator = $this->content;
-      break;
-      default:
-        $regionLocator = $this->content;
-      break;
-    }
-    // get all the buttons present within a form in that region
-    $inputs = $page->findAll('css', $regionLocator . " form input[type=submit]");
+    $region = $page->find('region', 'right sidebar');
+    // Get all the buttons present within a form in that region.
+    $inputs = $region->findAll('css', 'form input[type=submit]');
     foreach ($inputs as $input) {
       // just to make sure we press the right button
       if ($input->getAttribute("value") == $button) {
