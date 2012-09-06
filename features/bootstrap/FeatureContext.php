@@ -2383,7 +2383,8 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the following <blocks> in the right sidebar$/
    */
   public function iShouldSeeTheFollowingBlocksInTheRightSidebar(TableNode $table) {
-    $blocks = $this->getSession()->getPage()->findAll("css", $this->right_sidebar." #column-right-region > div");
+    $region = $this->getSession()->getPage()->find('region', 'right sidebar');
+    $blocks = $region->findAll('css', '#column-right-region > div');
     if (empty($blocks)) {
       throw new Exception('No blocks found in the right sidebar');
     }
@@ -2437,7 +2438,8 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the copyright statement in the right sidebar$/
    */
   public function iShouldSeeTheCopyrightStatementInTheRightSidebar() {
-    $block = $this->getSession()->getPage()->find("css", $this->right_sidebar." #column-right-region > #block-drupalorg_handbook-license div.block-inner div.block-content");
+    $region = $this->getSession()->getPage()->find('region', 'right sidebar');
+    $block = $region->find('css', '#column-right-region > #block-drupalorg_handbook-license div.block-inner div.block-content');
     if (empty($block)) {
       throw new Exception('No blocks found in the right sidebar');
     }
