@@ -998,7 +998,7 @@ class FeatureContext extends DrupalContext {
   }
 
  /**
-   * @Given /^I should see the link "([^"]*)" at the "([^"]*)" in the "(?P<region>[^"]*)"(?:| region)$/
+   * @Given /^I should see the link "(?P<link>[^"]*)" at the "(?P<position>[^"]*)" in the "(?P<region>[^"]*)"(?:| region)$/
    */
   public function iShouldSeeTheLinkAtTheInTheRightSidebar($link, $position, $region) {
     $page = $this->getSession()->getPage();
