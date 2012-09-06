@@ -43,13 +43,6 @@ require 'vendor/autoload.php';
 class FeatureContext extends DrupalContext {
 
   /**
-   * Current authenticated user.
-   *
-   * A value of FALSE denotes an anonymous user.
-   */
-  public $user = FALSE;
-
-  /**
    *Store rss feed xml content
    */
   private $xmlContent = "";
