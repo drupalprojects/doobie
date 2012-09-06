@@ -1651,7 +1651,7 @@ class FeatureContext extends DrupalContext {
    * Note: The function looks for input type = 'submit' and not
    * input type = 'button' or 'image'
    *
-   * @Given /^I press "([^"]*)" in the "([^"]*)" region$/
+   * @Given /^I press "(?P<button>[^"]*)" in the "(?P<region>[^"]*)" region$/
    *
    * @param string $button
    *   The value of the button to be pressed.
