@@ -4054,24 +4054,16 @@ class FeatureContext extends DrupalContext {
    * @Given /^I generate a ssh key$/
    */
   public function iGenerateASshKey() {
-    $user = get_current_user();
-    $pubFile = "/" . $user . "/.ssh/id_rsa.pub";
-    $rsaFile = "/" . $user . "/.ssh/id_rsa";
-    // Delete the file if exists so that we can generate a new one
-    if (file_exists($pubFile)) {
-      $process = new Process("rm -Rf $pubFile");
-      $process->run();
-    }
-    if (file_exists($rsaFile)) {
-      $process = new Process("rm -Rf $rsaFile");
-      $process->run();
-    }
     // Give a title for this key
     $title = $this->randomString(8);
-    // Process class was not asking for any input & was failing. So using 'exec'
-    exec("ssh-keygen -t rsa -C \"$title\"", $output);
-    if (array_search("The key fingerprint is:", $output) === FALSE) {
-      throw new Exception("No key was generated");
+    $pass = $this->randomString(10);
+    $sshFile = "files/$title";
+    $pubFile = "files/$title.pub";
+    $command = "ssh-keygen -f \"$sshFile\" -N \"$pass\" -t rsa -C \"$title\"";
+    $process = new Process($command);
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new RuntimeException('No key was generated - ' . $process->getErrorOutput());
     }
     // If the file does not exist, then key has not generated
     if (!file_exists($pubFile)) {
@@ -4086,5 +4078,10 @@ class FeatureContext extends DrupalContext {
     // Store the key and title for other step definitions to use
     HackyDataRegistry::set('sshkey', $key);
     HackyDataRegistry::set('sshkey title', $title);
+    // Delete the files as they are no longer required after this function
+    $process = new Process("rm -Rf $sshFile");
+    $process->run();
+    $process = new Process("rm -Rf $pubFile");
+    $process->run();
   }
 }
