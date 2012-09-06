@@ -21,5 +21,6 @@ default:
         content top: "#content-top-region"
         content: "#column-left"
         content bottom: "#content-bottom-region"
+        bottom right: "#front-bottom-right"
 imports:
   - behat.local.yml

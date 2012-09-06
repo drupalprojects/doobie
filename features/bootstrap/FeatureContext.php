@@ -1036,7 +1036,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see "([^"]*)" links on the right sidebar$/
+   * @Then /^I should see "(?P<count>\d+)" links in the "(?P<region>[^"]*)"(?:| region)$/
    */
   public function iShouldSeeLinksOnTheRightSidebar($count) {
     $page = $this->getSession()->getPage();
@@ -1448,9 +1448,13 @@ class FeatureContext extends DrupalContext {
 
   /**
    * Function to check whether the links exists under the news/specific tab
-   * @param $tab String The tab to be selected for
-   * @param $count counts the number of links exists
-   * @Then /^(?:I|I should) see at least "([^"]*)" link(?:|s) under the "([^"]*)" tab$/
+   *
+   * @Then /^(?:I|I should) see at least "(?P<count>\d+)" link(?:|s) under the "(?P<tab>[^"]*)" tab$/
+   *
+   * @param string $tab
+   *   The tab to be selected for.
+   * @param integer $count
+   *   Counts the number of links exists.
    */
   public function iShouldSeeAtleastLinksUnderTab($count, $tab) {
     $page = $this->getSession()->getPage();
@@ -1470,10 +1474,16 @@ class FeatureContext extends DrupalContext {
         break;
       default:
         throw new Exception('The tab "' . ucfirst($tab) . '" was not found on the page');
-        }
-      $nodes = $page->findAll("css", $this->home_bottom_right." ".$id." a");
-      if (sizeof($nodes) == $count) return true;
-      throw new Exception('Found ' . sizeof($nodes) . ' links instead of ' .
+    }
+    $region = $page->find('region', 'bottom right');
+    if (!$region) {
+      throw new Exception('Region "bottom right" not found');
+    }
+    $nodes = $region->findAll("css", $id . ' a');
+    if (sizeof($nodes) == $count) {
+      return TRUE;
+    }
+    throw new Exception('Found ' . sizeof($nodes) . ' links instead of ' .
       $count . ' links on the home bottom right');
   }
 
