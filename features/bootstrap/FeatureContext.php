@@ -3493,6 +3493,10 @@ class FeatureContext extends DrupalContext {
   public function iCreateANewIssue() {
     $element = $this->getSession()->getPage();
     $this->issueTitle = $this->randomString(12);
+		$field = $this->getSession()->getPage()->findField('Version');
+		if(!empty($field)) {
+		$element->selectFieldOption("Version", "6.x-1.0");
+		}
     $element->selectFieldOption("Component", "Code");
     $element->selectFieldOption("Category", "task");
     $element->selectFieldOption("Component", "Code");
