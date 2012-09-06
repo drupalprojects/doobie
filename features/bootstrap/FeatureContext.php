@@ -998,14 +998,14 @@ class FeatureContext extends DrupalContext {
   }
 
  /**
-   * @Given /^I should see the link "([^"]*)" at the "([^"]*)" in the right sidebar$/
+   * @Given /^I should see the link "([^"]*)" at the "([^"]*)" in the "(?P<region>[^"]*)"(?:| region)$/
    */
-  public function iShouldSeeTheLinkAtTheInTheRightSidebar($link, $position) {
+  public function iShouldSeeTheLinkAtTheInTheRightSidebar($link, $position, $region) {
     $page = $this->getSession()->getPage();
     $error = 0;
     $curr_url = $this->getSession()->getCurrentUrl();
     $message = "The page " . $curr_url . " did not contain the specified texts";
-    $region = $page->find('region', 'right sidebar');
+    $region = $page->find('region', $region);
     $nodes = $region->findAll('css', '.item-list a');
     if (sizeof($nodes)) {
       // get all the categories

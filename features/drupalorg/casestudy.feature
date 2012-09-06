@@ -19,8 +19,8 @@ Feature: Drupal case studies
   Scenario: To see the list of categories on the right sidebar
     Given I am on "/case-studies"
     Then I should see "7" links on the right sidebar
-    And I should see the link "Education" at the "top" in the right sidebar
-    And I should see the link "Technology" at the "bottom" in the right sidebar
+    And I should see the link "Education" at the "top" in the "right sidebar"
+    And I should see the link "Technology" at the "bottom" in the "right sidebar"
     And I should see the heading "Browse by category"
 
   Scenario: Browse the community showcase tab and look for pagination links
@@ -61,8 +61,8 @@ Feature: Drupal case studies
   Scenario: To see the list of categories on the right sidebar in community showcase page
     Given I am on "/case-studies/community"
     Then I should see "46" links on the right sidebar
-    And I should see the link "All sectors" at the "top" in the right sidebar
-    And I should see the link "Youth" at the "bottom" in the right sidebar
+    And I should see the link "All sectors" at the "top" in the "right sidebar"
+    And I should see the link "Youth" at the "bottom" in the "right sidebar"
 
   Scenario Outline: Navigate into featured showcase categories
     Given I am on "/case-studies"
