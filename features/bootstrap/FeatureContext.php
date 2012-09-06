@@ -1637,14 +1637,19 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I press "([^"]*)" in the "([^"]*)" region$/
    * Function to press the particular button on the specified region
    * Note: The function looks for input type = 'submit' and not
    * input type = 'button' or 'image'
-   * @param $button String The value of the button to be pressed
-   * @param $region String The region (right sidebar, content) where
-   * the button is located
-   * @return Object Given class object
+   *
+   * @Given /^I press "([^"]*)" in the "([^"]*)" region$/
+   *
+   * @param string $button
+   *   The value of the button to be pressed.
+   * @param string $region
+   *   The region (right sidebar, content) where.  the button is located
+   *
+   * @return object
+   *   Given class object.
    */
   public function iPressInTheRegion($button, $region) {
     $buttonId = "";
@@ -1653,7 +1658,7 @@ class FeatureContext extends DrupalContext {
     // Get all the buttons present within a form in that region.
     $inputs = $region->findAll('css', 'form input[type=submit]');
     foreach ($inputs as $input) {
-      // just to make sure we press the right button
+      // Just to make sure we press the right button.
       if ($input->getAttribute("value") == $button) {
         $buttonId = $input->getAttribute("id");
         break;
