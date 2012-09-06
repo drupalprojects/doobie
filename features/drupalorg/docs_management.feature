@@ -4,7 +4,7 @@ Feature: Documents Management
   I should be able to search and filter the list
 
   Background:
-   Given I am logged in as "docs moderator" 
+   Given I am logged in as "docs manager" 
    And I am on "/documentation/manage"
   
   Scenario: Search records by Comment count
