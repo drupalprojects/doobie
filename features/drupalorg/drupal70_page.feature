@@ -42,14 +42,13 @@ Feature: To check the contents of Drupal 7.0 page
     | Drupal 7 |
     Examples:
     | language   | translation text 1       | translation text 2 |
-    | English    | Friendly and powerful    | Features           |
     | French     | Agréable et puissant     | Fonctionnalités    |
     | Portuguese | Amigável e poderoso      | Caraterísticas     |
     | Spanish    | Amigable y poderoso      | Funcionalidades    |
     | Catalan    | Amigable i potent        | Característiques   |
-    | Croatian   | Prijateljski i ucinkovit | Mogucnosti         |
     | Danish     | Venligt og kraftfuldt    | Features           |
     | Italian    | Facile e potente         | Funzionalità       |
+    | Swedish    | Enkel och kraftfull      | Features           |
 
   Scenario: View slideshow texts
     Given I am on "/drupal-7.0"
