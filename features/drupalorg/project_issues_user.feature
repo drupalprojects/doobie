@@ -15,6 +15,7 @@ Feature: Your Issues
     And I create a new issue
     Then I should see "has been created"
 
+  @dependent
   Scenario: For navigating on the user specific issues.
     Then I should see the following <links>
     | links |
@@ -28,11 +29,12 @@ Feature: Your Issues
     | Priority |
     | Category |
 
-  Scenario: For searching for alteast records.
+  @dependent
+  Scenario: For searching for at least records.
     When I press "Search" in the "content" region
     Then I should see at least "1" records
 
-  @javascript
+  @javascript @dependent
   Scenario: For Searching user specific issues.
     When I fill in "Project" with "443"
     And I wait for the suggestion box to appear
@@ -46,7 +48,7 @@ Feature: Your Issues
     Then I should see at least "1" records
     And I should not see "No issues match your criteria."
 
-  @javascript 
+  @javascript @dependent
   Scenario: For navigating through a specific project issue
     When I select the following <fields> with <values>
     | fields | values |
@@ -59,6 +61,7 @@ Feature: Your Issues
     And I should see the heading "Comments"
     And I should see the heading "Post new comment"
 
+  @dependent
   Scenario: For searching the records with priority with status/priority
     When I select the following <fields> with <values>
     | fields | values |
