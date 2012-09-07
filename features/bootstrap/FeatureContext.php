@@ -915,7 +915,8 @@ class FeatureContext extends DrupalContext {
     if (empty($result)) {
       throw new Exception("This page does not have any case study");
     }
-    $result->click();
+    $path = $this->locatePath($result->getAttribute("href"));
+    return new Given("I am at \"$path\"");
   }
 
  /**
@@ -957,15 +958,15 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see "(?P<count>\d+)" links in the "(?P<region>[^"]*)"(?:| region)$/
+   * @Then /^I should see(?:| at least) "(?P<count>\d+)" links in the "(?P<region>[^"]*)"(?:| region)$/
    */
-  public function iShouldSeeLinksOnTheRightSidebar($count) {
+  public function iShouldSeeAtLeastLinksInThe($count, $regionSelector = "right sidebar") {
     $page = $this->getSession()->getPage();
-    $region = $page->find('region', 'right sidebar');
-    $nodes = $region->findAll('css', '.item-list a');
-    if (sizeof($nodes) == $count) return true;
-      throw new Exception('Found ' . sizeof($nodes) . ' links instead of ' .
-      $count . ' links on the right sidebar');
+    $region = $page->find('region', $regionSelector);
+    $links = $region->findAll('css', '.item-list a');
+    if (sizeof($links) < $count) {
+      throw new Exception("The page has less than '" . $count . "' links in the region '" . $regionSelector . "'");
+    }
   }
 
   /**

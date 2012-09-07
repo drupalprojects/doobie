@@ -9,18 +9,18 @@ Feature: Drupal case studies
     When I follow "Sites Made with Drupal"
     Then I should see the heading "Drupal Case Studies"
     And I should see "1"
-    And wait "2" seconds 
+    And wait "2" seconds
     And I should see "2"
     And wait "2" seconds
-    And I should see "3" 
+    And I should see "3"
     And wait "2" seconds
     And I should see "4"
 
   Scenario: To see the list of categories on the right sidebar
     Given I am on "/case-studies"
-    Then I should see "7" links in the "right sidebar"
-    And I should see the link "Education" at the "top" in the "right sidebar"
-    And I should see the link "Technology" at the "bottom" in the "right sidebar"
+    Then I should see at least "7" links in the "right sidebar"
+    And I should see the link "Education"
+    And I should see the link "Technology"
     And I should see the heading "Browse by category"
 
   Scenario: Browse the community showcase tab and look for pagination links
@@ -40,6 +40,27 @@ Feature: Drupal case studies
     | previous |
     | first    |
 
+  Scenario Outline: Navigate into featured showcase categories
+    Given I am on "/case-studies"
+    When I follow "<category>"
+    And I should see "Categories:"
+    And I should not see "Page not found"
+    And I should see "Category: <category>"
+    Examples:
+    | category      |
+    | Education     |
+    | Entertainment |
+    | Healthcare    |
+    | International |
+    | Journalism    |
+    | Publishing    |
+
+  Scenario: To see the list of categories on the right sidebar in community showcase page
+    Given I am on "/case-studies/community"
+    Then I should see at least "40" links in the "right sidebar"
+    And I should see the link "All sectors"
+    And I should see the link "Youth"
+
   Scenario: Browse pagination links in community showcase page: Second page
     Given I am on "/case-studies/community?page=2"
     Then I should see "Drupal Case Studies"
@@ -58,35 +79,12 @@ Feature: Drupal case studies
     And I should not see the link "next"
     And I should not see the link "last"
 
-  Scenario: To see the list of categories on the right sidebar in community showcase page
-    Given I am on "/case-studies/community"
-    Then I should see "46" links in the "right sidebar"
-    And I should see the link "All sectors" at the "top" in the "right sidebar"
-    And I should see the link "Youth" at the "bottom" in the "right sidebar"
-
-  Scenario Outline: Navigate into featured showcase categories
-    Given I am on "/case-studies"
-    When I follow "<category>"
-    And I should see "Categories:"
-    And I should not see "Page not found"
-    And I should see "Drupal Case Studies: <category>"
-
-    Examples:
-    | category      |
-    | Education     |
-    | Entertainment |
-    | Healthcare    |
-    | International |
-    | Journalism    |
-    | Publishing    |
-
   Scenario Outline: Navigate into community showcase categories
     Given I am on "/case-studies/community"
     When I follow "<category>"
     And I should see "Categories:"
     And I should not see "Page not found"
     And I should see at least "1" record
-
     Examples:
     | category  |
     | Arts      |
@@ -100,7 +98,6 @@ Feature: Drupal case studies
     Given I am on "/case-studies/community"
     When I click on a case study image
     Then I should not see "Page not found"
-    And I should see "Categories:"
     And I should see the following <texts>
     | texts                                |
     | Why Drupal was chosen:               |
