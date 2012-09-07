@@ -283,7 +283,7 @@ class FeatureContext extends DrupalContext {
 
     if ($user != 'User account') {
       // Logout.
-      $this->getSession()->visit($this->locatePath('/user/logout'));
+      $this->getSession()->visit($this->locatePath('/logout'));
     }
 
     // Go to the user page.
@@ -2043,6 +2043,9 @@ class FeatureContext extends DrupalContext {
           $this->iWaitForSeconds(2);
           $file = $this->getSession()->getPage()->findById($file_id);
         }
+        if (empty($file)) {
+          throw new Exception('The file: "' . $files[$i]['files'] . '" cannot be attached.');
+        }
         // Attach again.
         $filepath = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . $files[$i]['files'];
 
@@ -2053,6 +2056,9 @@ class FeatureContext extends DrupalContext {
         // find upload button and click
         $button_id = str_replace( '{index}', $i, $uploadbutton_id);
         $submit = $this->getSession()->getPage()->findById($button_id);
+        if (empty($submit)) {
+          throw new Exception('The file: "' . $files[$i]['files'] . '" cannot be uploaded.');
+        }
         $submit->click();
         // wait for upload to finish: will wait until the upload completes OR 300 seconds
         $box_id = str_replace('{index}', $i, $responsebox_id);
@@ -2103,6 +2109,8 @@ class FeatureContext extends DrupalContext {
     if (!$success) {
       throw new Exception("Project Creation failed");
     }
+    // Store project url for later use
+    HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
   }
 
     /**
@@ -4035,5 +4043,40 @@ class FeatureContext extends DrupalContext {
     $process->run();
     $process = new Process("rm -Rf $pubFile");
     $process->run();
+  }
+
+  /**
+   * @AfterScenario @cleanData
+   *
+   * Delete test project/issue nodes
+   */
+  public function cleanData() {
+    // Read stored project url and delete
+    $arr_nodeurl = array();    
+    if ($project_url = HackyDataRegistry::get('project_url')) {
+      $arr_nodeurl[] = $project_url;
+    }
+    if ($issue_url = HackyDataRegistry::get('issue_url')) {
+      $arr_nodeurl[] = $issue_url;
+    }
+    if (empty($arr_nodeurl)) {
+      return;
+    }
+    $arr_nodeurl = array_unique($arr_nodeurl);
+    // Log in as admin to perform node deletion
+    $this->iAmLoggedInAs('admin test');
+    $session = $this->getSession();
+    foreach ($arr_nodeurl as $url) {
+      $session->visit($this->locatePath($url));
+      sleep(1);
+      $session->visit($this->locatePath($session->getPage()->findLink('Edit')->getAttribute('href')));
+      $page = $session->getPage();
+      $page->fillField("Log message:", 'Deleted');
+      $page->pressButton("Delete");
+      sleep(1);
+      // Confirm delete
+      $page->pressButton("Delete");
+      echo "\nDeleting " . $url;
+    }
   }
 }

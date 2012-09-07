@@ -1,6 +1,6 @@
 Feature: Create a project
   In order to share my code with the community
-  As a contributor 
+  As a contributor
   I need to be able to create a project
 
   Scenario: Access the form using path
@@ -38,7 +38,7 @@ Feature: Create a project
     When I check "Sandbox"
     Then I should see "Short project name:"
 
-  @javascript
+  @javascript @cleanData
   Scenario: Create a Project
     Given I am logged in as "git vetted user"
     And I am on "/node/add/project-project"
