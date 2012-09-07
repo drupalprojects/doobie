@@ -413,7 +413,7 @@ class FeatureContext extends DrupalContext {
     }
     HackyDataRegistry::set('git username', $username);
     // Pause for front end to catch up.
-    sleep(15);
+    sleep(10);
   }
 
   /**
