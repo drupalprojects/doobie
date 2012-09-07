@@ -1,3 +1,4 @@
+@wip
 Feature: Your Issues
   In order to define the search for your own issues
   As an Authenticated user
@@ -39,7 +40,7 @@ Feature: Your Issues
     Then I should see at least "2" records
     And I should not see "No issues match your criteria."
 
-  @javascript
+  @javascript 
   Scenario: For navigating through a specific project issue
     When I fill in "Search for" with "test 6"
     And I press "Search" in the "content" region
