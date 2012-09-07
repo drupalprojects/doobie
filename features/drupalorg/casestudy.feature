@@ -98,11 +98,12 @@ Feature: Drupal case studies
     | Corporate |
     | Design    |
 
+  @wip
   Scenario: Navigate into an individual case study
     Given I am on "/case-studies/community"
     When I click on a case study image
     Then I should not see "Page not found"
-    And I should see "Categories:"
+    And I should see "Categories"
     And I should see the following <texts>
     | texts                                |
     | Why Drupal was chosen:               |
