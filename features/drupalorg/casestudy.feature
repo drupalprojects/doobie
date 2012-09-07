@@ -23,6 +23,7 @@ Feature: Drupal case studies
     And I should see the link "Technology" at the "bottom" in the "right sidebar"
     And I should see the heading "Browse by category"
 
+  @wip
   Scenario: Browse the community showcase tab and look for pagination links
     Given I am on "/case-studies"
     When I follow "Community showcase"
@@ -58,6 +59,7 @@ Feature: Drupal case studies
     And I should not see the link "next"
     And I should not see the link "last"
 
+  @wip
   Scenario: To see the list of categories on the right sidebar in community showcase page
     Given I am on "/case-studies/community"
     Then I should see "46" links in the "right sidebar"
@@ -69,7 +71,7 @@ Feature: Drupal case studies
     When I follow "<category>"
     And I should see "Categories:"
     And I should not see "Page not found"
-    And I should see "Drupal Case Studies: <category>"
+    And I should see "<category>"
 
     Examples:
     | category      |
