@@ -27,6 +27,7 @@ Feature: Overall Filter Search for Issues
     When I fill in "Project" with "Achie"
     And I wait for the suggestion box to appear
     And I select "Achievements" from the suggestion "Project"
+    And I wait for "5" seconds
     And I press "Search" in the "content" region
     Then I should see at least "5" records
 
