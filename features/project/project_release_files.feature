@@ -3,6 +3,7 @@ Feature: Project release files
   As any user
   I should be able to download the release file
 
+  @known_git6failure
   Scenario: Navigate to core releases
     Given that I am on the homepage
     When I follow "Download & Extend"
@@ -29,6 +30,7 @@ Feature: Project release files
     And I download the "tar" file "drupal-7.7.tar.gz"
     Then the md5 hash should match "2eeb63fd1ef6b23b0a9f5f6b8aef8850"
 
+  @known_git6failure
   Scenario: Download zip file
     Given I am on "/node/3060/release"
     When I select "8.x" from "API version"

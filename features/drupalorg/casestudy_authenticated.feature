@@ -1,3 +1,4 @@
+@wip
 Feature: View Drupal case studies as authenticated user
   In order to add a Drupal case studies
   As an authenticated user

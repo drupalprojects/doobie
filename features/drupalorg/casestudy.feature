@@ -16,6 +16,7 @@ Feature: Drupal case studies
     And wait "2" seconds
     And I should see "4"
 
+  @wip
   Scenario: To see the list of categories on the right sidebar
     Given I am on "/case-studies"
     Then I should see "7" links in the "right sidebar"
