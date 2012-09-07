@@ -243,12 +243,6 @@ class FeatureContext extends DrupalContext {
    */
 
   /**
-   * @defgroup drupal extensions
-   * @{
-   * Drupal-specific step definitions.
-   */
-
-  /**
    * Authenticates a user.
    *
    * @Given /^I am logged in as "([^"]*)" with the password "([^"]*)"$/
@@ -308,10 +302,6 @@ class FeatureContext extends DrupalContext {
     $password = $this->drupal_users[$username];
     $this->iAmLoggedInAsWithThePassword($username, $password);
   }
-
-  /**
-   * @} End of defgroup "drupal extensions"
-   */
 
   /**
    * @Given /^I execute the commands$/
