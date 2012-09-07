@@ -17,7 +17,6 @@ Feature: List of organizations providing hosting
     | links |
     | Services |
     | Training |
-    | Marketplace preview |
     | Enterprise & Managed |
     | Platform as a Service |
     | Paid services |
