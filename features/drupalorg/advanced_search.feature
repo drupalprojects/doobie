@@ -1,3 +1,4 @@
+@slow
 Feature: Overall Filter Search for Issues
   In order to define the Advanced Filter search for Project Issues
   As an Authenticated user
@@ -7,7 +8,9 @@ Feature: Overall Filter Search for Issues
     Given I am logged in as "site user"
     And I am on "/project/issues/search"
 
+@javascript
   Scenario: For visting the advanced search page
+    When I wait for "3" seconds
     Then I should see the heading "Search issues for all projects"
     And I should see the following <texts>
     | texts        |
