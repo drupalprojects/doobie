@@ -43,13 +43,6 @@ require 'vendor/autoload.php';
 class FeatureContext extends DrupalContext {
 
   /**
-   * Current authenticated user.
-   *
-   * A value of FALSE denotes an anonymous user.
-   */
-  public $user = FALSE;
-
-  /**
    *Store rss feed xml content
    */
   private $xmlContent = "";
@@ -68,11 +61,6 @@ class FeatureContext extends DrupalContext {
    * Store a post title value
    */
   private $postTitle = '';
-
-  /**
-   *Store temporary variables as array, so that the values can be used in the next scenario
-   */
-  private $temp_vars = array();
 
   /**
    * Store the file name of a downloaded file
@@ -1198,7 +1186,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^the md5 hash should match "([^"]*)"$/
+   * @Then /^the md5 hash should match "(?P<md5hash>[^"]*)"$/
    */
   public function theMd5HashShouldMatch($md5hash) {
     if ($md5hash != $this->md5Hash) {
@@ -2649,8 +2637,8 @@ class FeatureContext extends DrupalContext {
     // Find the first link
     $a_first = $first_tr->find('css', 'td a');
     if (!empty($a_first)) {
-      // Store the link label to use afterwards
-      $this->temp_vars['project_name'] = $a_first->getText();
+      // Store the link label to use afterwards.
+      HackyDataRegistry::set('project name', $a_first->getText());
     }
     // Find all links inside a column
     $arr_a = $first_tr->findAll('css', 'td.' . $column_class . ' a');
@@ -2660,9 +2648,9 @@ class FeatureContext extends DrupalContext {
     $visited = false;
     foreach ($arr_a as $a) {
       if (in_array($link, array('Project', 'Summary')) || $link == $a->getText()) {
-        // Store issue name if it is a "Summary column" from "Project Issues" table
+        // Store issue name if it is a "Summary column" from "Project Issues" table.
         if ($link == 'Summary') {
-          $this->temp_vars['issue_name'] = $a->getText();
+          HackyDataRegistry::set('issue name', $a->getText());
         }
         // Visit the link to make sure it actually exists
         $this->getSession()->visit($a->getAttribute('href'));
@@ -2676,29 +2664,31 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Identify the page
+   * Identify the page.
+   *
    * @Given /^I should see "([^"]*)" page$/
    */
-  public function iShouldSeePage($page)
-  {
+  public function iShouldSeePage($page) {
+    $project_name = HackyDataRegistry::get('project name');
     switch ($page) {
-      case 'Project Issue';
-        $heading = 'Issues for' . (!empty($this->temp_vars['project_name']) ? ' ' . $this->temp_vars['project_name'] : '' );
+      case 'Project Issue':
+        $heading = 'Issues for' . ($project_name ? ' ' . $project_name : '');
         break;
-      case 'Advanced Search';
-        $heading = 'Search issues for' . (!empty($this->temp_vars['project_name']) ? ' ' . $this->temp_vars['project_name'] : '' );
+      case 'Advanced Search':
+        $heading = 'Search issues for' . ($project_name ? ' ' . $project_name : '');
         break;
-      case 'Create Issue';
+      case 'Create Issue':
         $heading = 'Create Issue';
         break;
-      case 'Project Edit';
-        $heading = (!empty($this->temp_vars['project_name']) ? $this->temp_vars['project_name'] : '' );
+      case 'Project Edit':
+        $heading = $project_name ? $project_name : '';
         break;
-      case 'Create Project Release';
+      case 'Create Project Release':
         $heading = 'Create Project release';
         break;
-      case 'Issue';
-        $heading = (!empty($this->temp_vars['issue_name']) ? $this->temp_vars['issue_name'] : '' );
+      case 'Issue':
+        $issue_name = HackyDataRegistry::get('issue name');
+        $heading = $issue_name ? $issue_name : '';
         break;
     }
     return array(
@@ -2729,19 +2719,19 @@ class FeatureContext extends DrupalContext {
       // Store the link label to use afterwards
       throw new Exception('Project link cannot be found');
     }
-    $this->temp_vars['project_name'] = $a_first->getText();
+    HackyDataRegistry::set('project name', $a_first->getText());
     return new Given('I fill in "' . $label . '" with "' . $a_first->getText() .'"');
   }
 
   /**
    * @Given /^I select Project Name from "([^"]*)"$/
    */
-  public function iSelectProjectNameFrom($label)
-  {
-    if (!empty($this->temp_vars['project_name'])) {
-      return new Given('I select "' . $this->temp_vars['project_name'] . '" from "' . $label .'"');
-    }else {
-      // Find project from Projects table
+  public function iSelectProjectNameFrom($label) {
+    if ($project_name = HackyDataRegistry::get('project name')) {
+      return new Given('I select "' . $project_name . '" from "' . $label .'"');
+    }
+    else {
+      // Find project from Projects table.
       $table_type = 'Projects';
       // Find the table element object
       $arr_table = $this->getTableElement($table_type);
@@ -3108,7 +3098,7 @@ class FeatureContext extends DrupalContext {
         $title_span = $block_inner->find('css', 'h3.portlet-header > span.portlet-title');
         // Store the block name to temp variable
         if (!empty($title_span)) {
-          $this->temp_vars['block_name'] = $title_span->getText();
+          HackyDataRegistry::set('block name', $title_span->getText());
         }
         // Click it
         $close_link->click();
@@ -3123,12 +3113,12 @@ class FeatureContext extends DrupalContext {
   /**
    * @Then /^I should not see the block$/
    */
-  public function iShouldNotSeeTheBlock()
-  {
-    if (empty($this->temp_vars['block_name'])) {
+  public function iShouldNotSeeTheBlock() {
+    $block_name = HackyDataRegistry::get('block name');
+    if (!$block_name) {
       throw new Exception('Block name is empty');
     }
-    $block_inner = $this->getBlockInnerContainer($this->temp_vars['block_name']);
+    $block_inner = $this->getBlockInnerContainer($block_name);
     if (!empty($block_inner)) {
       throw new Exception('The block exists on Dashboard');
     }
