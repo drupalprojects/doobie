@@ -93,6 +93,31 @@ class FeatureContext extends DrupalContext {
    */
 
   /**
+   * Helper function to fetch user passwords stored in behat.local.yml.
+   *
+   * @param string $type
+   *   The user type, e.g. drupal or git.
+   *
+   * @param string $name
+   *   The username to fetch the password for.
+   *
+   * @return string
+   *   The matching password or FALSE on error.
+   */
+  public function fetchPassword($type, $name) {
+    $property_name = $type . '_users';
+    try {
+      $property = $this->$property_name;
+      $password = $property[$name];
+      return $password;
+    } catch (Exception $e) {
+      throw new Exception("Non-existant user/password for $property_name:$name please check behat.local.yml.");
+    }
+  }
+
+
+
+  /**
    * Helper function to fetch previously generated random strings stored by randomString().
    *
    * @param string $name
@@ -296,10 +321,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^I am logged in as "([^"]*)"$/
    */
   public function iAmLoggedInAs($username) {
-    if (empty($this->drupal_users[$username])) {
-      throw new Exception('No configured password for user "' . $username . '".');
-    }
-    $password = $this->drupal_users[$username];
+    $password = $this->fetchPassword('drupal', $username);
     $this->iAmLoggedInAsWithThePassword($username, $password);
   }
 
@@ -376,7 +398,7 @@ class FeatureContext extends DrupalContext {
     $matches = array();
     preg_match('|add origin ssh://([^@]*)@|', $rawCommand, $matches);
     $username = $matches[1];
-    $password = $this->git_users[$username];
+    $password = $this->fetchPassword('git', $username);
     $rawCommand = str_replace('<br/>', '', $rawCommand);
     $rawCommand = str_replace('&gt;', '>', $rawCommand);
     $rawCommand = str_replace('&#13;', '', $rawCommand);
@@ -391,7 +413,7 @@ class FeatureContext extends DrupalContext {
     }
     HackyDataRegistry::set('git username', $username);
     // Pause for front end to catch up.
-    sleep(10);
+    sleep(15);
   }
 
   /**
@@ -3473,7 +3495,7 @@ class FeatureContext extends DrupalContext {
     }
     // Git push
     //$process = new Process('git push -u origin master');
-    $password = $this->git_users[$username];
+    $password = $this->fetchPassword('git', $username);
     $process = new Process("../bin/gitwrapper $password");
     $process->run();
     if (!$process->isSuccessful()) {
@@ -3665,8 +3687,8 @@ class FeatureContext extends DrupalContext {
     $loggedin_user = $this->whoami();
     // Remove spaces if any
     $loggedin_user = str_replace(" ", "", $loggedin_user);
-    if (isset($this->git_users[$loggedin_user])) {
-      $gitwrapper = '../bin/gitwrapper ' . $this->git_users[$loggedin_user] . ' ; ';
+    if ($this->fetchPassword('git', $loggedin_user)) {
+      $gitwrapper = '../bin/gitwrapper ' . $this->fetchPassword('git', $loggedin_user) . ' ; ';
     }else {
       $loggedin_user = "";
     }
