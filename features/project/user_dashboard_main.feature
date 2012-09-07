@@ -88,6 +88,7 @@ Feature:
     And I change the setting "Number of posts to show:" to "3" for the block "Your Posts" and save
     Then I should see at least "3" items in block "Your Posts"
 
+  @wip
   Scenario: Check Close icon of the block
     When I follow "Log in / Register"
     And I am logged in as "site user"

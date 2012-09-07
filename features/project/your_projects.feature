@@ -22,6 +22,7 @@ Feature: Your Project Tab
     And I create a new issue
     Then I should see the issue title
 
+  @wip
   Scenario: Check the links and count of records on the page
     And I am on "/project/user"
     Then I should see the following <links>
@@ -105,6 +106,7 @@ Feature: Your Project Tab
     When I click "Edit" from "Sandbox Projects" table
     Then I should see "Project Edit" page
 
+  @wip
   Scenario: Check Issue search
     And I am on "/project/user"
     When I fill in "Search for" with Project Name

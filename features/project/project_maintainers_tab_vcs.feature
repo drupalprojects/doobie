@@ -1,3 +1,4 @@
+@wip
 Feature: Verify Write to VCS permission
   In order to commit or push to the repository
   As a project maintainer
@@ -9,6 +10,7 @@ Feature: Verify Write to VCS permission
     When I create a "module"
     Then I should see the project title
 
+  @dependent
   Scenario: Add a maintainer: Valid maintainer name
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -19,7 +21,7 @@ Feature: Verify Write to VCS permission
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @gitrepo
+  @gitrepo @dependent
   Scenario: Git user does a push a commit to the repository
     Given I am logged in as "git user"
     And I am on the Version control tab
