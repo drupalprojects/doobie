@@ -91,7 +91,6 @@ class FeatureContext extends DrupalContext {
    * @defgroup helper functions
    * @{
    */
-  private $random = array();
 
   /**
    * Helper function to fetch previously generated random strings stored by randomString().
@@ -103,10 +102,7 @@ class FeatureContext extends DrupalContext {
    *   The stored string.
    */
   public function fetchRandomString($name) {
-    if (array_key_exists($name, $this->random)) {
-      return $this->random[$name];
-    }
-    return FALSE;
+    return HackyDataRegistry::get('random:' . $name);
   }
 
   /**
@@ -807,7 +803,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iFillInWithRandomText($label) {
     // A @Tranform would be more elegant.
-    $randomString = $this->randomString(10, $label);
+    $randomString = $this->randomString(10);
+    // Save this for later retrieval.
+    HackyDataRegistry::set('random:' . $label, $randomString);
     $step = "I fill in \"$label\" with \"$randomString\"";
     return new Then($step);
   }
