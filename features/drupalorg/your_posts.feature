@@ -59,6 +59,7 @@ Feature: Your Posts
     | 1           |
     | 2           |
 
+  @wip
   Scenario: Verify pagination links: Last page
     Given I am logged in as "git vetted user"
     And I follow "Your Posts"
