@@ -104,6 +104,7 @@ Feature: Overall Filter Search for Issues
     | feature request |
     | support request |
 
+  @wip
   Scenario: For verifying the pagination links: First page
     And I should see the following <links>
     | links |
