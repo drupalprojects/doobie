@@ -1,3 +1,4 @@
+@slow @known_git6failure
 Feature: Overall Filter Search for Issues
   In order to define the overall Filter search for Issues
   As an Anonymous user
