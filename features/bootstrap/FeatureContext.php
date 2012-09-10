@@ -167,10 +167,17 @@ class FeatureContext extends DrupalContext {
   public function iCloneTheRepo() {
     //mypath stores the last path visited in another iAmAt  step.
     $element = $this->getSession()->getPage();
-    $result = $element->find('css', '#content div.codeblock code');
-    if (!empty($result)) {
-      $this->repo = $result->getText();
+    if (empty($element)) {
+      throw new Exception("No page was found");
     }
+    if (strpos($this->getSession()->getCurrentUrl(), "git-instructions") === FALSE) {
+      throw new Exception("The page should be on the Version control tab in order to clone the repo");
+    }
+    $result = $element->find('css', '#content div.codeblock code');
+    if (empty($result)) {
+      throw new Exception("The page does not contain any codeblock");
+    }
+    $this->repo = $result->getText();
     $process = new Process($this->repo);
     $process->setTimeout(3600);
     $process->run();
@@ -347,8 +354,15 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeTheProjectTitle() {
     $page = $this->getSession()->getPage();
     $element = $page->find('css', 'h1#page-subtitle');
+    if (empty($element)) {
+      throw new Exception("No title was found on the page");
+    }
     // Get link to Version control tab
-    $versionControlTabPath = $page->findLink('Version control')->getAttribute('href');
+    $vcLink = $page->findLink('Version control');
+    if (empty($vcLink)) {
+      throw new Exception("Link to version control tab was not found on the page");
+    }
+    $versionControlTabPath = $vcLink->getAttribute('href');
     HackyDataRegistry::set('version control path', $versionControlTabPath);
     // Get link to Maintainers tab
     $maintainersTabLink = $page->findLink('Maintainers');
@@ -368,7 +382,11 @@ class FeatureContext extends DrupalContext {
    * @Given /^I am on the Version control tab$/
    */
   public function iAmOnTheVersionControlTab() {
-    $path = $this->locatePath(HackyDataRegistry::get('version control path'));
+    $path = trim(HackyDataRegistry::get('version control path'));
+    if (!$path || $path == "") {
+      throw new Exception("The path to Version control tab was not found");
+    }
+    $path = $this->locatePath($path);
     return new Given("I am at \"$path\"");
   }
 
@@ -3290,10 +3308,11 @@ class FeatureContext extends DrupalContext {
    * @When /^I am on the Maintainers tab$/
    */
   public function iAmOnTheMaintainersTab() {
-    $path = $this->locatePath(HackyDataRegistry::get('maintainers tab path'));
-    if (!$path) {
-      throw new Exception("Maintainers tab was not found");
+    $path = trim(HackyDataRegistry::get('maintainers tab path'));
+    if (!$path || $path == "") {
+      throw new Exception("The path to Maintainers tab was not found.");
     }
+    $path = $this->locatePath($path);
     return new Given("I am on \"$path\"");
   }
 
@@ -3460,16 +3479,7 @@ class FeatureContext extends DrupalContext {
    * @Then /^I should be able to push (?:a|one more) commit to the repository$/
    */
   public function iShouldBeAbleToPushACommitToTheRepository() {
-    $page = $this->getSession()->getPage();
-    $currUrl = $this->getSession()->getCurrentUrl();
-    // Get the git username from the code block
-    $codeBlock = $page->find('css', '.codeblock code');
-    $code = $codeBlock->getText();
-    $code = explode("@", $code);
-    $code = explode(" ", $code[0]);
-    $gitUsername = trim(end($code));
-    $gitUsername = str_replace("ssh://", "", $gitUsername);
-    // Get the project folder name
+    // Get the project folder name and make sure there is a clone
     $projectTitle = HackyDataRegistry::get('project_short_name');
     if (!$projectTitle) {
       $projectTitle = strtolower(HackyDataRegistry::get('project title'));
@@ -3477,9 +3487,24 @@ class FeatureContext extends DrupalContext {
     if (!$projectTitle) {
       throw new Exception("No project found to push");
     }
-    // Make sure the project directory exists before any step is taken
-    if (!is_dir($projectTitle)) {
-      throw new Exception("The folder '" . $projectTitle . "' does not exist");
+    if (!file_exists($projectTitle . "/" . $projectTitle . ".info")) {
+      throw new Exception("The folder '" . $projectTitle . "' does not exist. Please clone the repository");
+    }
+    $page = $this->getSession()->getPage();
+    $currUrl = $this->getSession()->getCurrentUrl();
+    // Get the git username from the code block
+    $codeBlock = $page->find('css', '.codeblock code');
+    $code = $codeBlock->getText();
+    $code = explode("@", $code);
+    $code = explode(" ", $code[0]);
+    $gitUsernameTemp = trim(end($code));
+    $gitUsername = str_replace("ssh://", "", $gitUsernameTemp);
+    if (!isset($this->git_users[$gitUsername])) {
+      $gitUsernameTemp = trim($code[sizeof($code) - 2]);
+      $gitUsername = str_replace("ssh://", "", $gitUsernameTemp);
+    }
+    if (!isset($this->git_users[$gitUsername])) {
+      throw new Exception("Git username was not found on the page");
     }
     // Move into the project folder
     chdir($projectTitle);
