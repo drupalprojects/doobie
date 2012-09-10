@@ -4,11 +4,14 @@ Feature: Verify Write to VCS permission
   As a project maintainer
   I should have the permission to Write to VCS
 
-  Scenario: Create a new project
+  @gitrepo
+  Scenario: Create a new project and initialize repo
     Given I am logged in as "git vetted user"
     And I am at "/node/add/project-project"
     When I create a "module"
-    Then I should see the project title
+    And I see the project title
+    And I am on the Version control tab
+    Then I initialize the repository
 
   @dependent
   Scenario: Add a maintainer: Valid maintainer name
@@ -25,5 +28,5 @@ Feature: Verify Write to VCS permission
   Scenario: Git user does a push a commit to the repository
     Given I am logged in as "git user"
     And I am on the Version control tab
-    And I initialize the repository
+    When I clone the repo
     Then I should be able to push a commit to the repository
