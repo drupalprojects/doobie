@@ -429,7 +429,7 @@ class FeatureContext extends DrupalContext {
 
     $element = $this->getSession()->getPage()->find('css', 'div.codeblock');
     if (empty($element)) {
-      throw new Exception("The page did not contian any code block");
+      throw new Exception("The page did not contain any code block");
     }
     $rawCommand = $element->getHTML();
     $matches = array();
