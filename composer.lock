@@ -80,8 +80,8 @@
         {
             "package": "drupal/drupal-extension",
             "version": "dev-master",
-            "source-reference": "5b11603dc3080f1ae3b790db92a92d94829eab3d",
-            "commit-date": "1346895873"
+            "source-reference": "d5b4babd01006b0e3308c02a71bf62daa13ba793",
+            "commit-date": "1347397058"
         },
         {
             "package": "fabpot/goutte",
@@ -232,12 +232,6 @@
             "version": "2.1.x-dev",
             "source-reference": "v2.1.1",
             "commit-date": "1347274422"
-        },
-        {
-            "package": "symfony/validator",
-            "version": "dev-master",
-            "alias-pretty-version": "2.2.x-dev",
-            "alias-version": "2.2.9999999.9999999-dev"
         },
         {
             "package": "symfony/validator",
