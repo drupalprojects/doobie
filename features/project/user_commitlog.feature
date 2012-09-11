@@ -11,16 +11,18 @@ Feature: To see the list of all the commits for a user
 
   @gitrepo
   Scenario: Git User creates a project
-    Given I am at "/node/add/project-project"
+    When I visit "/node/add/project-project"
     And I create a "module"
     And I see the project title
     And I follow "Version control"
-    When I initialize the repository
-    Then I should be able to push a commit to the repository
-    And I should be able to push one more commit to the repository
+    Then I initialize the repository
+    And I follow "Version control"
+    And I push "3" commits to the repository
 
   Scenario: Check for records
-    Then I should see at least "5" records
+    When I visit "/user"
+    And I follow "Your Commits"
+    Then I should see at least "3" records
     And I should see the following <texts>
     | texts              |
     | Commit             |
@@ -29,12 +31,11 @@ Feature: To see the list of all the commits for a user
 
   Scenario: Click link to user profile
     When I click on "user name" of a commit
-    Then I should see the heading "Personal information"
-    And I should see the following <texts>
+    Then I should see the following <texts>
     | texts           |
-    | Country         |
     | History         |
     | Git attribution |
+    | Member for      |
 
   Scenario: Click link to project title: Full project
     When I click on "project title" of a commit
