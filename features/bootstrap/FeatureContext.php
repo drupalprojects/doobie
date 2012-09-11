@@ -190,20 +190,47 @@ class FeatureContext extends DrupalContext {
    * @When /^I clone the repo$/
    */
   public function iCloneTheRepo() {
-    //mypath stores the last path visited in another iAmAt  step.
+    $password = "";
     $element = $this->getSession()->getPage();
+    $currUrl = $this->getSession()->getCurrentUrl();
     if (empty($element)) {
       throw new Exception("No page was found");
     }
+    // Make sure you are on the version control tab
     if (strpos($this->getSession()->getCurrentUrl(), "git-instructions") === FALSE) {
       throw new Exception("The page should be on the Version control tab in order to clone the repo");
     }
+    // Get the code block
     $result = $element->find('css', '#content div.codeblock code');
     if (empty($result)) {
       throw new Exception("The page does not contain any codeblock");
     }
     $this->repo = $result->getText();
-    $process = new Process($this->repo);
+    // Get user data only if a user is logged in. Even anonymous user can clone.
+    $user = $this->whoami();
+    if ($user != 'User account') {
+    	$userData = $this->getGitUserData($this->repo);
+    	$password = $userData['password'];
+    }
+    // Back to version control page
+    $this->getSession()->visit($currUrl);
+    $tempArr = explode(" ", $this->repo);
+    foreach ($tempArr as $key => $value) {
+      if (strpos($tempArr[$key], ".git") !== FALSE) {
+        $url = trim($tempArr[$key]);
+        break;
+      }
+    }
+    // Get the project folder name and make sure there is a clone
+    $project = strtolower(HackyDataRegistry::get('project_short_name'));
+    if (!$project || $project == "") {
+      $project = strtolower(HackyDataRegistry::get('project title'));
+    }
+    if (!$project || $project == "") {
+      throw new Exception("No project found to push");
+    }
+    $command = "./bin/gitwrapper $password $url $project";
+    $process = new Process($command);
     $process->setTimeout(3600);
     $process->run();
     if (!$process->isSuccessful()) {
@@ -392,6 +419,7 @@ class FeatureContext extends DrupalContext {
 
   /**
    * @Given /^I am on the Version control tab$/
+   * @When /^I visit the Version control tab$/
    */
   public function iAmOnTheVersionControlTab() {
     $path = trim(HackyDataRegistry::get('version control path'));
@@ -412,6 +440,9 @@ class FeatureContext extends DrupalContext {
     $this->checkExpectLibraryStatus();
 
     $element = $this->getSession()->getPage()->find('css', 'div.codeblock');
+    if (empty($element)) {
+      throw new Exception("The page did not contian any code block");
+    }
     $rawCommand = $element->getHTML();
     $matches = array();
     preg_match('|add origin ssh://([^@]*)@|', $rawCommand, $matches);
@@ -438,8 +469,8 @@ class FeatureContext extends DrupalContext {
    */
   public function cleanGitRepos(ScenarioEvent $event) {
     $this->deleteFolder(strtolower(HackyDataRegistry::get('project title')));
-    // If there is a promoted project, then shot name will be set
-    $this->deleteFolder(HackyDataRegistry::get('project_short_name'));
+    // If there is a promoted project, then short name will be set
+    $this->deleteFolder(strtolower(HackyDataRegistry::get('project_short_name')));
   }
 
   /**
@@ -3432,6 +3463,7 @@ class FeatureContext extends DrupalContext {
 
   /**
    * @Given /^I am on the project page$/
+   * @When /^I visit the project page$/
    */
   public function iAmOnTheProjectPage() {
     $path = $this->locatePath(HackyDataRegistry::get('project path'));
@@ -3446,7 +3478,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iCreateAFullProject() {
     $element = $this->getSession()->getPage();
-    $this->projectTitle = $this->randomString(16);
+    $this->projectTitle = strtolower($this->randomString(16));
     HackyDataRegistry::set('project title', $this->projectTitle);
 
     $element->fillField('Project title', $this->projectTitle);
@@ -3456,7 +3488,7 @@ class FeatureContext extends DrupalContext {
     $element->fillField('Description', $this->randomString(32));
     $chk = $element->findField("Sandbox");
     $chk->uncheck();
-    $this->projectShortName = $this->randomString(6);
+    $this->projectShortName = strtolower($this->randomString(6));
     HackyDataRegistry::set('project_short_name', $this->projectShortName);
     $element->fillField('Short project name', $this->projectShortName);
     $element->pressButton('Save');
@@ -3499,14 +3531,16 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldBeAbleToPushACommitToTheRepository() {
     // Get the project folder name and make sure there is a clone
-    $projectTitle = HackyDataRegistry::get('project_short_name');
+    $projectTitle = strtolower(HackyDataRegistry::get('project_short_name'));
     if (!$projectTitle) {
       $projectTitle = strtolower(HackyDataRegistry::get('project title'));
     }
     if (!$projectTitle) {
       throw new Exception("No project found to push");
     }
-    if (!file_exists($projectTitle . "/" . $projectTitle . ".info")) {
+    // Make sure the project directory exists before any step is taken
+    $cwd = getcwd();
+    if (!is_dir($cwd . '/' . $projectTitle)) {
       throw new Exception("The folder '" . $projectTitle . "' does not exist. Please clone the repository");
     }
     $page = $this->getSession()->getPage();
@@ -3514,17 +3548,12 @@ class FeatureContext extends DrupalContext {
     // Get the git username from the code block
     $codeBlock = $page->find('css', '.codeblock code');
     $code = $codeBlock->getText();
-    $code = explode("@", $code);
-    $code = explode(" ", $code[0]);
-    $gitUsernameTemp = trim(end($code));
-    $gitUsername = str_replace("ssh://", "", $gitUsernameTemp);
-    if (!isset($this->git_users[$gitUsername])) {
-      $gitUsernameTemp = trim($code[sizeof($code) - 2]);
-      $gitUsername = str_replace("ssh://", "", $gitUsernameTemp);
-    }
-    if (!isset($this->git_users[$gitUsername])) {
+    $userData = $userData = $this->getGitUserData($code);
+    if (!$userData) {
       throw new Exception("Git username was not found on the page");
     }
+    $gitUsername = $userData['username'];
+    $password = $userData['password'];
     // Move into the project folder
     chdir($projectTitle);
     // Set the git config user.email and user.name
@@ -3968,7 +3997,7 @@ class FeatureContext extends DrupalContext {
     // Array here [0] = 5
     $commits = (int) trim($temp[0]);
     if ($commits != $count) {
-      throw new Exception("The number of commits is not equal to '" . $count . "' but it is '" . $commits . "'");
+      throw new Exception("Found '" . $count . "' commit(s) instead of '" . $commits . "'");
     }
   }
 
@@ -4102,6 +4131,48 @@ class FeatureContext extends DrupalContext {
       // Confirm delete
       $page->pressButton("Delete");
       echo "\nDeleting " . $url;
+    }
+  }
+
+  /**
+   * Function to get the username and password from the git url
+   *
+   * @param string $repo
+   *   The repository URL
+   *
+   * @return array/false
+   *   Return an array containing username and password or return false
+   */
+  private function getGitUserData($repo) {
+    $gitUsername = "";
+    $password = "";
+	  $code = explode("@", $repo);
+	  $code = explode(" ", $code[0]);
+  	$gitUsernameTemp = trim(end($code));
+    $gitUsername = str_replace("ssh://", "", $gitUsernameTemp);
+	  if (!isset($this->git_users[$gitUsername])) {
+  	  $gitUsernameTemp = trim($code[sizeof($code) - 2]);
+      $gitUsername = str_replace("ssh://", "", $gitUsernameTemp);
+    }
+    if (!isset($this->git_users[$gitUsername])) {
+      return FALSE;
+    }
+    $password = $this->git_users[$gitUsername];
+	  return array('username' => $gitUsername, 'password' => $password);
+  }
+
+  /**
+   * @Given /^I push "([^"]*)" commit(?:|s) to the repository$/
+   * @Given /^I (?:|should be able to) push "([^"]*)" commit(?:|s) to the repository$/
+   */
+  public function iPushCommitsToTheRepository($count) {
+    if (!$count || $count == 0 || $count == "") {
+      throw new Exception("The number of commits required should be greater than zero");
+    }
+    for ($i = 0; $i < $count; $i++) {
+      $this->iShouldBeAbleToPushACommitToTheRepository();
+      // take some rest!
+      sleep(1);
     }
   }
 }
