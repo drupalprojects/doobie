@@ -2,10 +2,14 @@
 #exp_internal 1
 
 set pass [lindex $argv 0]
-#set user [lindex $argv 1]
-#set host [lindex $argv 2]
+set url [lindex $argv 1]
+set project [lindex $argv 2]
 
-spawn git push origin master
+if { $url == "" } {
+  spawn git push origin master;
+} else {
+  spawn git clone --recursive --branch master $url $project;
+}
 
 
 expect {
