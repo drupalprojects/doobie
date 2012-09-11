@@ -1,8 +1,8 @@
 
 Feature: Ensure that sandbox repository is not available once the project is promoted
-  In order to restrict using sandbox repository once it is promoted
+  In order to maintain a single canonical repository for a project with a memorable namespace
   As a project owner
-  I should be able to promote sandbox project and make sure it is not available
+  I should be able to promote sandbox project and it should not be available at its previous sandbox URL
 
   Scenario: Create a Sandbox project as git vetted user and promote
     Given I am logged in as "git vetted user"
