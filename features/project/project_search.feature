@@ -1,3 +1,4 @@
+@slow @known_git6failure
 Feature: Overall Filter Search for Issues
   In order to define the overall Filter search for Issues
   As an Anonymous user
@@ -22,7 +23,7 @@ Feature: Overall Filter Search for Issues
     And I press search to filter
     Then I should see at least "2" records
 
-  @javascript
+  @javascript @wip
   Scenario: When Searching for the Project title
     When I fill in "Project" with "Achie"
     And I select "Achievements" from the suggestion "Project"

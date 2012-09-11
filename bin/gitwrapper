@@ -11,10 +11,9 @@ if { $url == "" } {
   spawn git clone --recursive --branch master $url $project;
 }
 
-
 expect {
   "assword:" { 
-        send "$pass\n" 
+        send "$argv\n" 
         expect {
           "> " { }
           "$ " { }

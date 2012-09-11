@@ -1,4 +1,4 @@
-@javascript
+@javascript @wip
 Feature: View Community Spotlight
   In order to find contributors to Drupal Community
   As any user

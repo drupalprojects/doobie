@@ -3,14 +3,14 @@ Feature: Find Drupal services
   As any user
   I want to filter available providers by categories
 
-  Scenario: Browse to the Marketplace preview page
+  Scenario: Browse to the Marketplace page
     Given that I am at "/"
     When I click "Marketplace"
-    Then I should see the link "Marketplace preview"
+    Then I should see the link "Marketplace"
 
   Scenario Outline: See a paged list of service providers
     Given I am at "/drupal-services"
-    When I click "Marketplace preview"
+    When I click "Marketplace"
     Then I should see the link "next ›"
     And I should see the heading <category>
 
@@ -21,7 +21,7 @@ Feature: Find Drupal services
     | "Countries served" |
 
   Scenario: See a filtered list of service providers
-    Given I am at "/marketplace-preview"
+    Given I am at "/marketplace"
     When I click "Consulting"
     And I click "Government"
     Then I should see the link "Achieve Internet"

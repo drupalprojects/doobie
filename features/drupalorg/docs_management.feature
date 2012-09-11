@@ -88,6 +88,7 @@ Feature: Documents Management
     | Site users                 |
     | Themers                    |
     
+  @wip
   Scenario Outline: Search records by Level
     When I select "<levelss>" from "Level"
     And I press "Apply"

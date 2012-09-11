@@ -38,7 +38,7 @@ Feature: To view the list of Packaging whitelist URLs
     And I should not see the link "next"
     And I should not see the link "last"
 
-  @known_failure
+  @known_git6failure
   Scenario: Search the list
     Given I am on "/packaging-whitelist"
     When I fill in "Search Packaging Whitelists" with "ARC2"

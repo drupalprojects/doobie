@@ -16,6 +16,7 @@ Feature: Drupal case studies
     And wait "2" seconds
     And I should see "4"
 
+  @wip
   Scenario: To see the list of categories on the right sidebar
     Given I am on "/case-studies"
     Then I should see at least "7" links in the "right sidebar"
@@ -23,6 +24,7 @@ Feature: Drupal case studies
     And I should see the link "Technology"
     And I should see the heading "Browse by category"
 
+  @wip
   Scenario: Browse the community showcase tab and look for pagination links
     Given I am on "/case-studies"
     When I follow "Community showcase"
@@ -79,6 +81,29 @@ Feature: Drupal case studies
     And I should not see the link "next"
     And I should not see the link "last"
 
+  @wip
+  Scenario: To see the list of categories on the right sidebar in community showcase page
+    Given I am on "/case-studies/community"
+    Then I should see "46" links in the "right sidebar"
+    And I should see the link "All sectors" at the "top" in the "right sidebar"
+    And I should see the link "Youth" at the "bottom" in the "right sidebar"
+
+  Scenario Outline: Navigate into featured showcase categories
+    Given I am on "/case-studies"
+    When I follow "<category>"
+    And I should see "Categories:"
+    And I should not see "Page not found"
+    And I should see "<category>"
+
+    Examples:
+    | category      |
+    | Education     |
+    | Entertainment |
+    | Healthcare    |
+    | International |
+    | Journalism    |
+    | Publishing    |
+
   Scenario Outline: Navigate into community showcase categories
     Given I am on "/case-studies/community"
     When I follow "<category>"
@@ -94,10 +119,12 @@ Feature: Drupal case studies
     | Corporate |
     | Design    |
 
+  @wip
   Scenario: Navigate into an individual case study
     Given I am on "/case-studies/community"
     When I click on a case study image
     Then I should not see "Page not found"
+    And I should see "Categories"
     And I should see the following <texts>
     | texts                                |
     | Why Drupal was chosen:               |

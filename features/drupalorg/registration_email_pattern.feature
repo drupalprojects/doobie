@@ -1,4 +1,4 @@
-@javascript
+@javascript @known_git6failure
 Feature: Account registration should not allow user+something address patterns
   In order to learn about Drupal
   As any user
@@ -7,17 +7,16 @@ Feature: Account registration should not allow user+something address patterns
   Background:
     Given that I am on the homepage
     And I follow "Log in / Register"
-    And I wait for "2" seconds
 
   Scenario: Register to the site
     Then I should see the heading "User account"
     And I should see the following <links>
-    | links |
-    | Create new account |
-    | Log in |
+    | links                |
+    | Create new account   |
+    | Log in               |
     | Request new password |
     And I should see the following <texts>
-    | texts |
+    | texts    |
     | Username |
     | Password |
 
