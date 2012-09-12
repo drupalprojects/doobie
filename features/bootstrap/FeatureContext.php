@@ -3589,8 +3589,17 @@ class FeatureContext extends DrupalContext {
     $password = $this->fetchPassword('git', $gitUsername);
     $process = new Process("../bin/gitwrapper $password");
     $process->run();
-    if (!$process->isSuccessful()) {
-      throw new RuntimeException('Git push failed - ' . $process->getErrorOutput());
+    if($canCommit) {
+      if (!$process->isSuccessful()) {
+        throw new RuntimeException('Git push failed - ' . $process->getErrorOutput());
+      }
+    }
+    else {
+      // User should not be able to push. This will be successfull if he pushes
+      $output = $process->getOutput();
+      if (strpos($output, "You are required to accept the Git Access Agreement") === FALSE) {
+        throw new RuntimeException('User is able to push the commit to the repository');
+      }
     }
     // Move out of the project folder
     chdir("../");
@@ -4181,5 +4190,12 @@ class FeatureContext extends DrupalContext {
       // take some rest!
       sleep(1);
     }
+  }
+
+  /**
+   * @Then /^I should not be able to push a commit to the repository$/
+   */
+  public function iShouldNotBeAbleToPushACommitToTheRepository() {
+    $this->iShouldBeAbleToPushACommitToTheRepository(FALSE);
   }
 }
