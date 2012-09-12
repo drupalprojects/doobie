@@ -11,38 +11,37 @@ Feature: To view the project details
     Then I should see the heading "Download & Extend"
     And I should see the heading "Issues for Drupal core"
     And I should see the following <texts>
-    | texts |
-    | Posted by |
-    | Downloads |
+    | texts                |
+    | Posted by            |
+    | Downloads            |
     | Recommended releases |
     | Development releases |
     And I should see the following <links>
-    | links |
-    | View |
+    | links           |
+    | View            |
     | Version control |
     | Advanced search |
-    | total |
-    | Modules |
+    | total           |
+    | Modules         |
 
   Scenario: Project Git instructions
     Given I am on "/project/drupal"
     When I follow "Version control"
     Then I should see "This page gives the essential Git commands for working with this project's source files"
     And I should see the following <texts>
-    | texts |
+    | texts                |
     | Version to work from |
-    | One-Time Only |
-    | Routinely |
-    | Patching |
-    | http://git.drupal.org/project/drupal.git |
+    | One-Time Only        |
+    | Routinely            |
+    | Patching             |
     And I should see the following <links>
-    | links |
-    | Git instructions updates |
-    | Troubleshooting Git clone |
-    | Git deploy |
+    | links                          |
+    | Git instructions updates       |
+    | Troubleshooting Git clone      |
+    | Git deploy                     |
     | Versioned dependencies and Git |
-    | branching and tagging |
-    | Advanced patch workflow |
+    | branching and tagging          |
+    | Advanced patch workflow        |
 
   Scenario: Change the branch and check the content
     Given I am on "/project/drupal/git-instructions"
@@ -50,9 +49,8 @@ Feature: To view the project details
     And I press "Show"
     Then I should see the heading "Download & Extend"
     And I should see the following <texts>
-    | texts |
-    | 7.x |
-    | git clone --recursive --branch 7.x http://git.drupal.org/project/drupal.git |
+    | texts                           |
+    | 7.x                             |
     | Checking your repository status |
     | Switching to a different branch |
 
@@ -61,24 +59,24 @@ Feature: To view the project details
     When I follow "Repository viewer"
     Then I should not see "Page not found"
     And I should see the following <links>
-    | links |
+    | links              |
     | project/drupal.git |
-    | shortlog |
-    | log |
-    | commit |
-    | commitdiff |
-    | tree |
-    | snapshot |
-    | tags |
-    | heads |
+    | shortlog           |
+    | log                |
+    | commit             |
+    | commitdiff         |
+    | tree               |
+    | snapshot           |
+    | tags               |
+    | heads              |
     And I should see the following <texts>
-    | texts |
+    | texts       |
     | description |
-    | owner |
-    | drupal-git |
+    | owner       |
+    | drupal-git  |
     | last change |
-    | search: |
-    | summary |
+    | search:     |
+    | summary     |
 
   Scenario: View git messages
     Given I am on "/project/drupal"
@@ -86,10 +84,10 @@ Feature: To view the project details
     Then I should see the heading "Commits for Drupal core"
     And I should see at least "10" records
     And I should see the following <texts>
-    | texts |
-    | Commit |
-    | commits |
-    | Issue # |
+    | texts              |
+    | Commit             |
+    | commits            |
+    | Issue #            |
     | Subscribe with RSS |
     And I should see the link "next"
     And I should not see the link "first"
@@ -107,40 +105,40 @@ Feature: To view the project details
     When I follow "Download Drupal"
     Then I should see the heading "Maintainers for Drupal core"
     And I should see the following <links>
-    | links |
-    | webchick |
-    | catch |
-    | Dries |
-    | jhodgdon |
-    | David_Rothstein |
+    | links               |
+    | webchick            |
+    | catch               |
+    | Dries               |
+    | jhodgdon            |
+    | David_Rothstein     |
     | View all committers |
-    | View commits |
+    | View commits        |
 
   Scenario: Releases: all - Hidden releases exists
     Given I am on "/project/drupal"
     When I follow "View all releases"
     Then I should see the heading "Releases for Drupal core"
     And I should see the following <texts>
-    | texts |
-    | API version |
-    | Download |
-    | Size |
-    | md5 hash |
+    | texts                     |
+    | API version               |
+    | Download                  |
+    | Size                      |
+    | md5 hash                  |
     | Official release from tag |
-    | Release notes |
-    | Known issues |
+    | Release notes             |
+    | Known issues              |
 
   Scenario: Issue queue can be read
     Given I am on "/project/drupal"
     When I follow " open"
     Then I should see the heading "Issues for Drupal core"
     And I should see the following <texts>
-    | texts |
-    | Search for |
-    | Status |
-    | Summary |
-    | Priority |
-    | Replies |
-    | tasks |
+    | texts              |
+    | Search for         |
+    | Status             |
+    | Summary            |
+    | Priority           |
+    | Replies            |
+    | tasks              |
     | Subscribe with RSS |
     And I should see at least "25" records
