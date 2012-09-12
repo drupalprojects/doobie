@@ -1,0 +1,49 @@
+Existing tags
+*************
+
+Entire features or individual scenarios can be tagged as follows to assist in running tests:
+
+Tags to assist in selectively running tests
+===========================================
+
+@ci
+    Used to include a feature or scenario in the Drupal.org continuous integration system. Do NOT add this tag unless the feature/scenario in question has been proposed for inclusion in the issue queue and accepted.
+
+@dependent
+    Used to indicate a scenario that is dependent on data created previously in the same feature file. In a perfect world, scenarios like this would not exist, and the tag will help us isolate the scenarios if/when we come up with a better solution. Scenarios should *never* depend on data from a different feature file.
+
+@flakey
+    Currently used to mark tests which are pretty consistently failing on the first run and succeeding on all subsequent runs. Once #1782612: Tests failing on first run and succeeding on subsequent runs is resolved, use of this tag is deprecated.
+
+@javascript
+    Used when the feature being tested relies on CSS or javascript and must use a fully-featured browser for accurate testing. Note: Selenium must be running on the system executing tests or these scenarios will fail.
+
+@known_git6failure
+    Used when properly written tests fail against the D6 version of Drupal.org because that site is not behaving as expected.
+
+@known_git7failure
+    Used when properly written tests fail against the D7 version of Drupal.org because that site is not behaving as expected.
+
+@linux
+    Used to tag scenarios that depend on a properly-setup linux based system. Use of this tag needs to be re-evaluated. #1782628: Re-evaluate @linux tag
+@slow
+    Used for scenarios that are, well, slow. There is not, as yet, a definitive metric like, requires more than 10 seconds to complete.
+
+@wip
+    Used to tag a work-in-progress. These are typically excluded from a test run as they may fail or do not yet fully test the feature described.
+
+Tags to hook into the test process
+==================================
+
+Certain tags are used to hook into the testing process to trigger activity. For example, a scenario that creates a node might be tagged with @cleanData will attempt to delete a node or project created by one of its steps. See http://docs.behat.org/guides/3.hooks.html for a detailed discussion of how this works in behat.
+
+@cleanData
+    Can be used to delete a project or issue node created as part of testing.
+@gitrepo
+    Indicates a scenario that creates a git repository and used to invoke an @AfterScenario clean up routine.
+
+See http://docs.behat.org/guides/3.hooks.html for a detailed discussion.
+
+Introducing new tags
+********************
+Any new tags that are committed to the repository should be documented both here and in the project's TAGS.txt file. If in doubt about whether or how to introduce a new tag, open an issue at http://drupal.org/project/doobie
