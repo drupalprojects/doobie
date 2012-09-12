@@ -191,6 +191,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iCloneTheRepo() {
     $password = "";
+    $url = "";
     $element = $this->getSession()->getPage();
     $currUrl = $this->getSession()->getCurrentUrl();
     if (empty($element)) {
@@ -214,12 +215,16 @@ class FeatureContext extends DrupalContext {
     }
     // Back to version control page
     $this->getSession()->visit($currUrl);
+    sleep(1);
     $tempArr = explode(" ", $this->repo);
     foreach ($tempArr as $key => $value) {
       if (strpos($tempArr[$key], ".git") !== FALSE) {
         $url = trim($tempArr[$key]);
         break;
       }
+    }
+    if (!$url || trim($url) == "" ) {
+      throw new Exception("Could not find the url to the repository. Initialize the repository before cloning");
     }
     // Get the project folder name and make sure there is a clone
     $project = strtolower(HackyDataRegistry::get('project_short_name'));
@@ -235,6 +240,10 @@ class FeatureContext extends DrupalContext {
     $process->run();
     if (!$process->isSuccessful()) {
       throw new RuntimeException('The clone did not work. - ' . $process->getErrorOutput());
+    }
+    // If clone is successfull, then a directory must be created
+    if (!is_dir(getcwd() . "/" . $project)) {
+      throw new RuntimeException('The clone did not work' . $process->getOutput());
     }
   }
 
@@ -374,10 +383,11 @@ class FeatureContext extends DrupalContext {
       throw new PendingException('Only modules and themes have been implemented.');
     }
     $element = $this->getSession()->getPage();
-    $result = $element->hasField('Project title');
+    if (!$element->hasField('Project title')) {
+      throw new Exception("The field Project title was not found on the page");
+    }
     $this->projectTitle = $this->randomString(16);
     HackyDataRegistry::set('project title', $this->projectTitle);
-
     $element->fillField('Project title', $this->projectTitle);
     $element->fillField('Maintenance status', '13028'); /* Actively Maintained */
     $element->fillField('Development status', '9988'); /* Under Active Development */
@@ -441,7 +451,7 @@ class FeatureContext extends DrupalContext {
 
     $element = $this->getSession()->getPage()->find('css', 'div.codeblock');
     if (empty($element)) {
-      throw new Exception("The page did not contain any code block");
+      throw new Exception("Initialization of repository failed. The page did not contain any code block to run");
     }
     $rawCommand = $element->getHTML();
     $matches = array();
@@ -3478,6 +3488,11 @@ class FeatureContext extends DrupalContext {
    */
   public function iCreateAFullProject() {
     $element = $this->getSession()->getPage();
+    // First check if the user has permission to create full project
+    $chk = $element->findField("Sandbox");
+    if ($chk->hasAttribute("disabled")) {
+      throw new Exception("You do not have permissions to create a full project");
+    }
     $this->projectTitle = strtolower($this->randomString(16));
     HackyDataRegistry::set('project title', $this->projectTitle);
 
@@ -3486,7 +3501,6 @@ class FeatureContext extends DrupalContext {
     $element->fillField('Development status', '9988'); /* Under Active Development */
     $this->iSelectTheRadioButtonWithTheId('Modules', 'edit-project-type-14');
     $element->fillField('Description', $this->randomString(32));
-    $chk = $element->findField("Sandbox");
     $chk->uncheck();
     $this->projectShortName = strtolower($this->randomString(6));
     HackyDataRegistry::set('project_short_name', $this->projectShortName);
