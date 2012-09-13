@@ -59,10 +59,10 @@ Feature: Overall Filter Search for Issues
 
   Scenario: For Searching issues with all filters
     When I select the following <fields> with <values>
-    | fields | values   |
-    | Status | active   |
-    | Priority | normal |
-    | Category | Any    |
+    | fields   | values   |
+    | Status   | active   |
+    | Priority | normal   |
+    | Category | Any      |
     And I press "Search" in the "content" region
     Then I should see at least "3" records
     And I should see "active" under "Status"
