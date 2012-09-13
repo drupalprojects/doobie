@@ -21,7 +21,7 @@ Feature: Verify git access
     And I press "Update Git access agreement"
     Then I should see the text "You will not be able to use Git"
 
-  @gitrepo @dependent
+  @gitrepo @dependent @clean_data
   Scenario: Clone repo and push to repo as non-git user
     When I am on the project page
     And I follow "Version control"
