@@ -394,6 +394,7 @@ class FeatureContext extends DrupalContext {
     $this->iSelectTheRadioButtonWithTheId('Modules', 'edit-project-type-14');
     $element->fillField('Description', $this->randomString(1000));
     $element->pressButton('Save');
+    sleep(2);
     HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
   }
 
@@ -3347,8 +3348,9 @@ class FeatureContext extends DrupalContext {
     $page->fillField("Title:", $title);
     $page->fillField("Body:", "The body of the book page having more than ten words");
     HackyDataRegistry::set('book page title', $title);
-    HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
     $page->pressButton('Save');
+    sleep(2);
+    HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
   }
 
   /**
@@ -3505,8 +3507,9 @@ class FeatureContext extends DrupalContext {
     $this->projectShortName = strtolower($this->randomString(6));
     HackyDataRegistry::set('project_short_name', $this->projectShortName);
     $element->fillField('Short project name', $this->projectShortName);
-    HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
     $element->pressButton('Save');
+    sleep(2);
+    HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
   }
 
   /**
@@ -3525,8 +3528,9 @@ class FeatureContext extends DrupalContext {
     $element->fillField("Title:", $this->issueTitle);
     $element->fillField("Description:", $this->randomString(18));
     HackyDataRegistry::set('issue title', $this->issueTitle);
-    HackyDataRegistry::set('issue_url', $this->getSession()->getCurrentUrl());
     $element->pressButton("Save");
+    sleep(2);
+    HackyDataRegistry::set('issue_url', $this->getSession()->getCurrentUrl());
   }
 
   /**
@@ -4141,6 +4145,9 @@ class FeatureContext extends DrupalContext {
     if ($sandbox_url = HackyDataRegistry::get('sandbox_url')) {
       $arr_nodeurl[] = $sandbox_url;
     }
+    if ($project_path = HackyDataRegistry::get('project path')) {
+      $arr_nodeurl[] = $project_path;
+    }
     if (empty($arr_nodeurl)) {
       return;
     }
@@ -4151,7 +4158,15 @@ class FeatureContext extends DrupalContext {
     foreach ($arr_nodeurl as $url) {
       $session->visit($this->locatePath($url));
       sleep(1);
-      $session->visit($this->locatePath($session->getPage()->findLink('Edit')->getAttribute('href')));
+      $editLink = $session->getPage()->findLink('Edit');
+      if (empty($editLink)) {
+        continue;
+      }
+      if (!$editLink->hasAttribute("href")) {
+        continue;
+      }
+      $session->visit($this->locatePath($editLink->getAttribute('href')));
+      sleep(1);
       $page = $session->getPage();
       $page->fillField("Log message:", 'Deleted');
       $page->pressButton("Delete");
