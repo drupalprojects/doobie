@@ -11,7 +11,9 @@ Feature: Verify Write to VCS permission
     When I create a "module"
     And I see the project title
     And I am on the Version control tab
-    Then I initialize the repository
+    And I initialize the repository
+    And I follow "Version control"
+    Then I should see "Setting up repository for the first time"
 
   @dependent
   Scenario: Add a maintainer: Valid maintainer name
@@ -24,9 +26,12 @@ Feature: Verify Write to VCS permission
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @gitrepo @dependent
+  @gitrepo @dependent @clean_data
   Scenario: Git user does a push a commit to the repository
     Given I am logged in as "git user"
     And I am on the Version control tab
     When I clone the repo
-    Then I should be able to push a commit to the repository
+    And I push "2" commits to the repository
+    And I follow "Logged in as git user"
+    And I follow "Your Commits"
+    Then I should see the project link

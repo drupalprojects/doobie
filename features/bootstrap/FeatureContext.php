@@ -3340,6 +3340,7 @@ class FeatureContext extends DrupalContext {
     $page->fillField("Title:", $title);
     $page->fillField("Body:", "The body of the book page having more than ten words");
     HackyDataRegistry::set('book page title', $title);
+    HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
     $page->pressButton('Save');
   }
 
@@ -3497,6 +3498,7 @@ class FeatureContext extends DrupalContext {
     $this->projectShortName = strtolower($this->randomString(6));
     HackyDataRegistry::set('project_short_name', $this->projectShortName);
     $element->fillField('Short project name', $this->projectShortName);
+    HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
     $element->pressButton('Save');
   }
 
@@ -3516,6 +3518,7 @@ class FeatureContext extends DrupalContext {
     $element->fillField("Title:", $this->issueTitle);
     $element->fillField("Description:", $this->randomString(18));
     HackyDataRegistry::set('issue title', $this->issueTitle);
+    HackyDataRegistry::set('issue_url', $this->getSession()->getCurrentUrl());
     $element->pressButton("Save");
   }
 
@@ -3535,7 +3538,7 @@ class FeatureContext extends DrupalContext {
    *
    * @Then /^I should be able to push (?:a|one more) commit to the repository$/
    */
-  public function iShouldBeAbleToPushACommitToTheRepository() {
+  public function iShouldBeAbleToPushACommitToTheRepository($canCommit = TRUE) {
     // Get the project folder name and make sure there is a clone
     $projectTitle = strtolower(HackyDataRegistry::get('project_short_name'));
     if (!$projectTitle) {
@@ -4121,12 +4124,15 @@ class FeatureContext extends DrupalContext {
    */
   public function cleanData() {
     // Read stored project url and delete
-    $arr_nodeurl = array();    
+    $arr_nodeurl = array();
     if ($project_url = HackyDataRegistry::get('project_url')) {
       $arr_nodeurl[] = $project_url;
     }
     if ($issue_url = HackyDataRegistry::get('issue_url')) {
       $arr_nodeurl[] = $issue_url;
+    }
+    if ($sandbox_url = HackyDataRegistry::get('sandbox_url')) {
+      $arr_nodeurl[] = $sandbox_url;
     }
     if (empty($arr_nodeurl)) {
       return;
@@ -4145,7 +4151,7 @@ class FeatureContext extends DrupalContext {
       sleep(1);
       // Confirm delete
       $page->pressButton("Delete");
-      echo "\nDeleting " . $url;
+      echo "\nDeleting node: " . $url . "\n";
     }
   }
 
