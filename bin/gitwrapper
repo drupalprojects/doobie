@@ -14,7 +14,7 @@ if { $url == "" } {
 
 expect {
   "assword:" { 
-        send "$argv\n" 
+        send "$pass\n" 
         expect {
           "> " { }
           "$ " { }
