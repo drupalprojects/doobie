@@ -61,6 +61,7 @@ Feature: To see the list of all the commits for a user
     And I should see "Custom text:"
     And I should see "Commit"
 
+  @clean_data
   Scenario: Click link to repository
     When I click on "commit info" of a commit
     Then I should see the link "summary"

@@ -25,7 +25,7 @@ Feature: Verify projects and commits summary in user profile page
     Then I should see the project link
     And I should see "2" commits for the project
 
-  @gitrepo @dependent
+  @gitrepo @dependent @clean_data
   Scenario: Promote the sandbox project, commit and verify
     When I visit the project page
     And I promote the project
@@ -36,7 +36,7 @@ Feature: Verify projects and commits summary in user profile page
     Then I should see the project link
     And I should see "4" commits for the project
 
-  @gitrepo
+  @gitrepo @clean_data
   Scenario: Create a full project, commit and verify
     When I visit "/node/add/project-project"
     And I create a full project
