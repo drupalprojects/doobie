@@ -10,12 +10,12 @@ Feature: Overall Filter Search for Issues
     Then I should see the heading "Issues for all projects"
     And I should see "Download & Extend"
     And I should see the following <texts>
-    | texts |
+    | texts      |
     | Search for |
-    | Project |
-    | Status |
-    | Priority |
-    | Category |
+    | Project    |
+    | Status     |
+    | Priority   |
+    | Category   |
 
   Scenario: Searching for the issues with project name
     When I fill in "Search for" with "Achievements"
@@ -59,10 +59,10 @@ Feature: Overall Filter Search for Issues
 
   Scenario: For Searching issues with all filters
     When I select the following <fields> with <values>
-    | fields | values |
-    | Status | active |
+    | fields | values   |
+    | Status | active   |
     | Priority | normal |
-    | Category | Any |
+    | Category | Any    |
     And I press "Search" in the "content" region
     Then I should see at least "3" records
     And I should see "active" under "Status"
@@ -73,15 +73,14 @@ Feature: Overall Filter Search for Issues
     And I press "Search" in the "content" region
     Then I should see at least "4" records
     Examples:
-    | status |
-    | active |
-    | needs work |
-    | needs review |
-    | reviewed & tested by the community|
-    | patch (to be ported)|
-    | fixed |
-    | postponed |
-    | closed (fixed) |
+    | status               |
+    | active               |
+    | needs work           |
+    | needs review         |
+    | patch (to be ported) |
+    | fixed                |
+    | postponed            |
+    | closed (fixed)       |
 
   Scenario Outline: Search records by Priority
     When I select "<priority>" from "Priority"
@@ -90,41 +89,40 @@ Feature: Overall Filter Search for Issues
     Examples:
     | priority |
     | critical |
-    | major |
-    | normal |
-    | minor |
+    | major    |
+    | normal   |
+    | minor    |
 
   Scenario Outline: Search records by Category
     When I select "<category>" from "Category"
     And I press "Search" in the "content" region
     Then I should see at least "5" records
     Examples:
-    | category |
-    | bug report |
-    | task |
+    | category        |
+    | bug report      |
+    | task            |
     | feature request |
     | support request |
 
-  @wip
   Scenario: For verifying the pagination links: First page
     And I should see the following <links>
     | links |
-    | next |
-    | last |
-    | 1 |
-    | 2 |
+    | next  |
+    | last  |
+    | 2     |
+    | 3     |
     And I should not see the link "first"
 
   Scenario: For verifying the pagination links: Second page
     When I click on page "2"
     Then I should see the following <links>
-    | links |
-    | first |
+    | links    |
+    | first    |
     | previous |
-    | 1 |
-    | 3 |
-    | next |
-    | last |
+    | 1        |
+    | 3        |
+    | next     |
+    | last     |
 
   Scenario: For verifying the pagination links: Last page
     When I click on page "last"
