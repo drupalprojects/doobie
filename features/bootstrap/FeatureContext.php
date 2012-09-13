@@ -961,36 +961,35 @@ class FeatureContext extends DrupalContext {
    }
 
 
-   /**
-    * @Then /^I wait for the suggestion box to appear$/
-    */
+  /**
+   * @Then /^I wait for the suggestion box to appear$/
+   */
   public function iWaitForTheSuggestionBoxToAppear() {
     $seconds = 1;
     $this->iWaitForSeconds($seconds, "$('#edit-search-term-results').children().length > 0");
   }
 
   /**
-  * @Given /^(?:|I )wait (?:|for )"([^"]*)" second(?:|s)$/
-  */
+   * @Given /^(?:|I )wait (?:|for )"([^"]*)" second(?:|s)$/
+   */
   public function iWaitForSeconds($seconds, $condition = "") {
     $milliseconds = (int) ($seconds * 1000);
     $this->getSession()->wait($milliseconds, $condition);
   }
 
   /**
-  * @When /^I click on a case study image$/
-  */
+   * @When /^I click on a case study image$/
+   */
   public function iClickOnACaseStudyImage() {
     $page = $this->getSession()->getPage();
     $result = $page->find('css', '.view-content .col-first a');
     if (empty($result)) {
       throw new Exception("This page does not have any case study");
     }
-    $path = $this->locatePath($result->getAttribute("href"));
-    return new Given("I am at \"$path\"");
+    $result->click();
   }
 
- /**
+  /**
    * @Given /^I should see the link "(?P<link>[^"]*)" at the "(?P<position>[^"]*)" in the "(?P<region>[^"]*)"(?:| region)$/
    */
   public function iShouldSeeTheLinkAtTheInTheRightSidebar($link, $position, $region) {
