@@ -233,7 +233,7 @@ class FeatureContext extends DrupalContext {
     $element = $this->getSession()->getPage();
     $result = $element->hasContent($this->project);
     if ($result === FALSE) {
-      throw new Exception("The text " . $this->project . " was not found " . $session->getCurrentUrl());
+      throw new Exception("The text " . $this->project . " was not found " . $this->getSession()->getCurrentUrl());
     }
   }
 
@@ -245,7 +245,7 @@ class FeatureContext extends DrupalContext {
     $element->fillField('edit-text', $searchterm);
     $submit = $element->findById('edit-submit');
     if (empty($submit)) {
-      throw new Exception('No submit button at ' . $session->getCurrentUrl());
+      throw new Exception('No submit button at ' . $this->getSession()->getCurrentUrl());
     }
     $submit->click();
   }
@@ -258,7 +258,7 @@ class FeatureContext extends DrupalContext {
     $element->fillField('edit-search-theme-form-1', $searchterm);
     $submit = $element->findById('search-theme-form-submit');
     if (empty($submit)) {
-      throw new Exception('No submit button at ' . $session->getCurrentUrl());
+      throw new Exception('No submit button at ' . $this->getSession()->getCurrentUrl());
     }
     $submit->click();
   }
@@ -297,7 +297,7 @@ class FeatureContext extends DrupalContext {
       $element->fillField('Password', $passwd);
       $submit = $element->findButton('Log in');
       if (empty($submit)) {
-        throw new Exception('No submit button at ' . $session->getCurrentUrl());
+        throw new Exception('No submit button at ' . $this->getSession()->getCurrentUrl());
       }
       // Log in.
       $submit->click();
@@ -3706,7 +3706,7 @@ class FeatureContext extends DrupalContext {
       }else {
         // Eg: git clone --recursive --branch master http://git.drupal.org/sandbox/username/project_short_code.git
         $command .= ' http://' . $components['host'] . $components['path'];
-      }      
+      }
     }else {
       // Eg: logged in: git clone --recursive --branch master ssh://username@git6.devdrupal.org:2020/sandbox/username/project_short_code.git
       // anonymous: git clone --recursive --branch master ssh://git6.devdrupal.org:2020/sandbox/username/project_short_code.git
