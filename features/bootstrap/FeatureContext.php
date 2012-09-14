@@ -323,7 +323,9 @@ class FeatureContext extends DrupalContext {
     }
 
     $element = $this->getSession()->getPage();
-
+    if (empty($element)) {
+        throw new Exception('Page not found');
+    }
     if ($user != 'User account') {
       // Logout.
       $this->getSession()->visit($this->locatePath('/logout'));
@@ -3774,56 +3776,63 @@ class FeatureContext extends DrupalContext {
     if (empty($project_shortname)) {
       throw new Exception('The project cannot be found.');
     }
+    if (!is_dir($project_shortname)) {
+      $project_shortname = strtolower($project_shortname);
+    }
     return new Then('I should have a local copy of "' . $project_shortname . '"');
   }
 
   /**
-   * @Then /^I should not be able to clone the sandbox repo$/
+   * @Then /^I clone the sandbox repo$/
    */
-  public function IShouldNotBeAbleToCloneTheSandboxRepo() {
-    $gitwrapper = "";
+  public function iCloneTheSandboxRepo() {
+    $githost = 'git.drupal.org';
+    $gitwrapper = 'bin/gitwrapper';
+    $dir = HackyDataRegistry::get('project_short_name');
     // Fetch the stored sandbox url to generate the old git url for sandbox
+    // Eg: "http://git6site.devdrupal.org/sandbox/gitvetteduser/172444"
     $sandbox_url = HackyDataRegistry::get('sandbox_url');
-    // Eg: $sandbox_url = "http://git6site.devdrupal.org/sandbox/gitvetteduser/172444";
-    $components = parse_url($sandbox_url);
-    // Attach port if git6site
-    $is_drupal_org = ($components['host'] == 'drupal.org');
+    $components = parse_url($sandbox_url);    
     // Find logged in username
     $loggedin_user = $this->whoami();
-    // Remove spaces if any
-    $loggedin_user = str_replace(" ", "", $loggedin_user);
-    if ($this->fetchPassword('git', $loggedin_user)) {
-      $gitwrapper = '../bin/gitwrapper ' . $this->fetchPassword('git', $loggedin_user) . ' ; ';
+    if ($loggedin_user && $loggedin_user != 'User account') {
+      // Remove spaces if any
+      $loggedin_user = str_replace(" ", "", $loggedin_user);
+      $password = $this->fetchPassword('git', $loggedin_user);
     }else {
       $loggedin_user = "";
-    }
-    if (!$is_drupal_org) {
-      $components['host'] .= ':2020';
-    }
+      $password = "\"\"";
+    }    
     // Attach git extension
     $components['path'] .= '.git';
-    // Generate the git clone command
-    $command = 'git clone --recursive --branch master';
-    if ($is_drupal_org) {
-      if ($loggedin_user) {
-        // Eg: git clone --recursive --branch master username@git.drupal.org:sandbox/username/project_short_code.git
-        $command .=  ' ' . $loggedin_user . '@' . $components['host'] . ':' . substr($components['path'], 1, strlen($components['path']));
-      }else {
-        // Eg: git clone --recursive --branch master http://git.drupal.org/sandbox/username/project_short_code.git
-        $command .= ' http://' . $components['host'] . $components['path'];
-      }      
+    $endpoint = '';
+    if ($loggedin_user) {
+      // Eg: git clone --recursive --branch master username@git.drupal.org:sandbox/username/project_short_code.git
+      $endpoint .=  $loggedin_user . '@' . $githost . ':' . substr($components['path'], 1, strlen($components['path']));
     }else {
-      // Eg: logged in: git clone --recursive --branch master ssh://username@git6.devdrupal.org:2020/sandbox/username/project_short_code.git
-      // anonymous: git clone --recursive --branch master ssh://git6.devdrupal.org:2020/sandbox/username/project_short_code.git
-      $command .= ' ssh://' . ($loggedin_user ? $loggedin_user . '@' : '') . $components['host'] . $components['path'];
+      // Eg: git clone --recursive --branch master http://git.drupal.org/sandbox/username/project_short_code.git
+      $endpoint .= 'http://' . $components['host'] . $components['path'];
     }
-    $command .= ' ; ' . $gitwrapper;
+    // Generate the git clone command
+    $command = $gitwrapper . ' ' . $password . ' ' . $endpoint . ' ' . $dir;
     // Initialize the process
     $process = new Process($command);
     $process->setTimeout(3600);
     $process->run();
-    if ($process->isSuccessful()) {
-      throw new RuntimeException('The Sandbox project can be cloned');
+    $this->process_output = $process->getOutput();
+  }
+
+  /**
+   * @Then /^I should see the error "([^"]*)"$/
+   */
+  public function iShouldSeeTheError($error) {
+    if (empty($this->process_output)) {
+      throw new Exception("Process output is not found");
+    }
+    //fatal: remote error: Repository does not exist. Verify that your remote is correct./ Permission denied
+    // Look for the error in the output
+    if (false === strpos($this->process_output, $error)) {
+      throw new Exception("The error:\"" . $error . "\" is not happening");
     }
   }
 
