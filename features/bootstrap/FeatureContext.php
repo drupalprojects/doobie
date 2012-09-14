@@ -3331,19 +3331,18 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Create a book page and store the title
+   * Create a book page and store the title and URL
    *
    * @Given /^I create a book page$/
    */
   public function iCreateABookPage() {
     $page = $this->getSession()->getPage();
-    $title = $this->randomString(8);
-    $page->fillField("Title:", $title);
+    $this->documentTitle = $this->randomString(8);
+    $page->fillField("Title:", $this->documentTitle);
     $page->fillField("Body:", "The body of the book page having more than ten words");
-    HackyDataRegistry::set('book page title', $title);
+    HackyDataRegistry::set('book page title', $this->documentTitle);
     $page->pressButton('Save');
-    sleep(2);
-    HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
+    HackyDataRegistry::set('document url', $this->getSession()->getCurrentUrl());
   }
 
   /**
@@ -3905,13 +3904,22 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I (?:|should )see the issue title$/
+   * @Then /^I (?:|should )see the (?:issue|document) title$/
    */
-  public function iShouldSeeTheIssueTitle() {
+  public function iShouldSeeTheTitle() {
     $page = $this->getSession()->getPage();
     $element = $page->find('css', 'h1#page-subtitle');
-    if (empty($element) || strpos($element->getText(), $this->issueTitle) === FALSE) {
-      throw new Exception('Issue title not found where it was expected.');
+    $title = $type
+           = "";
+    if (isset($this->issueTitle)) {
+      $title = $this->issueTitle;
+      $type = 'Issue';
+    }elseif ($title = HackyDataRegistry::get('book page title')) {
+      $type = 'Document';
+    }
+    
+    if (empty($title) || empty($element) || strpos($element->getText(), $title) === FALSE) {
+      throw new Exception($type . ' title not found where it was expected.');
     }
   }
 
@@ -4122,7 +4130,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @AfterScenario @cleanData
+   * @AfterScenario @clean_data
    *
    * Delete test project/issue nodes
    */
@@ -4140,6 +4148,10 @@ class FeatureContext extends DrupalContext {
     }
     if ($project_path = HackyDataRegistry::get('project path')) {
       $arr_nodeurl[] = $project_path;
+    }
+    // Test Document/Book page
+    if ($document_url = HackyDataRegistry::get('document url')) {
+      $arr_nodeurl[] = $document_url;
     }
     if (empty($arr_nodeurl)) {
       return;
@@ -4217,5 +4229,227 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldNotBeAbleToPushACommitToTheRepository() {
     $this->iShouldBeAbleToPushACommitToTheRepository(FALSE);
+  }
+
+  /**
+   * @Given /^I am on the document page$/
+   */
+  public function iAmOnTheDocumentPage() {
+    $doc_url = HackyDataRegistry::get('document url');
+    if (empty($doc_url)) {
+      throw new Exception('There is no url for the document');
+    }   
+    $this->getSession()->visit($this->locatePath($doc_url));
+    sleep(2);
+    // Find and save metdata string
+    $updates = $this->getSession()->getPage()->find('css', 'div.node-content > p.updated > em');
+    if (empty($updates)) {
+      throw new Exception(ucwords($type) . ' cannot be found on the document');
+    }
+    $this->updates = $updates->getText();
+    return new Then("I should see the document title");
+  }
+
+  /**
+   * @When /^I edit the document$/
+   */
+  public function iEditTheDocument() {
+    sleep(2);
+    $page = $this->getSession()->getPage();
+    $body = $page->findField('Body:');
+    if (empty($body)) {
+      throw new Exception('The body field is not found in the page. Make sure you are on the document edit page');
+    }
+    // Attach some strings to document body
+    $text = $body->getText() . "\n" . chunk_split($this->randomString(50), 5, " ");
+    $body->setValue($text);
+    $page->fillField('Log message:', 'Updated document');
+    $page->pressButton('Save');
+  }
+
+  /**
+   * @Given /^I should not see "([^"]*") in editor usernames$/
+   * Creator user name should not be included with editors even if the document is edited by creator
+   * Editor usernames should not have duplicates
+   */
+  public function iShouldNotSeeInEditorUsernames($type) {
+    if ($type == 'creator usernames') {
+      $created_user = HackyDataRegistry::get('document creator');
+      if (empty($created_user)) {
+        throw new Exception('Created username cannot be found');
+      }
+      if (true === strpos($this->edited_users, $created_user)) {
+        throw new Exception('Editor usernames contains Document creator');
+      }
+    }
+    elseif ($type == 'repeated usernames') {
+      // Check for duplicates in editor usernames
+      // Find usernames between "Edited by " and ". You can edit"
+      $editors = substr($this->updates, strpos($this->updates, 'Edited by ') + 10,  (strlen($this->updates) - strpos($this->updates, '. You can edit')) * -1);
+      $arr_editors = explode(',', $editors);
+      if ($arr_editors != array_unique($arr_editors)) {
+        throw new Exception('Editor usernames has duplicate values');
+      }
+    }
+  }
+
+  /**
+   * Verify necessary data from Revisions tab
+   *
+   * last updated date
+   * @Then /^the "([^"]*)" should match the (?:latest|first|usernames in the) revision(?:|s)$/
+   *
+   * @param string $type
+   *   The type of value to be verified. Valid values "created by username, created date, last updated date, editor usernames"
+   * 
+   */
+  public function theShouldMatchTheRevision($type) {
+    switch ($type) {
+      // First 4 editors
+      case 'editor usernames':// old: latest four unique entries
+        if (!$this->edited_users = $this->readDataFromRevisions('edited_users')) {
+          throw new Exception('Edited usernames cannot be found');
+        }
+        $string = 'Edited by ' . $this->edited_users;
+        if (empty($this->edited_users) || false === strpos($this->updates, $string)) {
+          throw new Exception('Editor usernames don\'t match with the latest unique entries in revisions');
+        }
+        break;
+      // Last updated date: First row
+      case 'last updated date'://old: date for current
+        if (!$updated_date = $this->readDataFromRevisions('updated_date')) {
+          throw new Exception('Last updated date cannot be found');
+        }
+        $string = 'Last updated ' . $updated_date;
+        if (empty($updated_date) || false === strpos($this->updates, $string)) {
+          throw new Exception('Last updated date doesn\'t match with latest revision date');
+        }
+        break;
+      // The first entry made to reisions will be for creator
+      case 'created date'://old: last entry
+        if (!$created_date = $this->readDataFromRevisions('created_date')) {
+          throw new Exception('Created date cannot be found');
+        }
+        $string = 'on ' . $created_date;
+        if (empty($created_date) || false === strpos($this->updates, $string)) {
+          throw new Exception('Created date doesn\'t match with the last entry in revisions');
+        }
+        break;
+      case 'created by username':
+        if (!$created_user = $this->readDataFromRevisions('created_user')) {
+          throw new Exception('Created username cannot be found');
+        }
+        $string = 'Created by ' . $created_user;
+        if (empty($created_user) || false === strpos($this->updates, $string)) {
+          throw new Exception('Creator username doesn\'t match with the last entry in revisions');
+        }
+        break;
+    }
+  }
+  
+  /**
+   * Parse revision tab and read data
+   * @param string $type
+   *   type of data required from revisions
+   * @return string
+   *   date/usernames
+   * 
+   */
+  private function readDataFromRevisions($type) {
+    $session = $this->getSession();
+    $current_url = $session->getCurrentUrl();
+    // Visit revisions tab
+    $session->visit($this->locatePath($current_url . '/revisions'));
+    switch($type) {
+      case 'updated_date':
+        // Last updated date will be date showing in the first row of revisions table
+        $tables = $session->getPage()->findAll('css', 'form#diff-node-revisions > div > table');
+        if (empty($tables)) {
+          throw new Exception('Revisions table cannot be found.');
+        }
+        // Point to the last table
+        $table = end($tables);
+        $link = $table->find('css', 'tbody > tr > td > a');
+        if (empty($link)) {
+          throw new Exception('Updated date link cannot be found.');
+        }
+        $arr_date = explode(" ", $link->getText());
+        // Move back to previous page
+        $session->visit($this->locatePath($current_url));
+        // Convert date to the date format: 'F d, Y' (January 1, 2012)
+        return $this->formatSiteDate($arr_date[0]);
+        break;
+      case 'created_user':
+      case 'created_date':
+        if ($session->getPage()->hasLink('Go to last page')) {
+          $session->visit($this->locatePath($session->getPage()->findLink('Go to last page')->getAttribute('href')));
+          $go_back = $session->getCurrentUrl();
+        }
+        $tables = $session->getPage()->findAll('css', 'form#diff-node-revisions div table');
+        if (empty($tables)) {
+          throw new Exception('Revisions table cannot be found.');
+        }
+        // Point to the last table
+        $table = end($tables);
+        $trs = $table->findAll('css', 'tbody tr');
+        if (empty($trs)) {
+          throw new Exception('Revisions entries cannot be found.');
+        }
+        $tr = end($trs);
+        $links = $tr->find('css', 'td')->findAll('css', 'a');
+        if (empty($links)) {
+          throw new Exception('Created date/Username cannot be found.');
+        }
+        $created_date = $this->formatSiteDate(substr($links[0]->getText(), 0, 10));
+        $username = $links[1]->getText();
+        if ($type == 'created_user') {
+          $string = $username;
+        }
+        elseif ($type == 'created_date') {
+          $string = $created_date;
+        }
+        if (isset($go_back)) {
+          $session->visit($this->locatePath($go_back));
+        }
+        HackyDataRegistry::set('document creator', $username);
+        // Move back to the previous page
+        $session->visit($this->locatePath($current_url));
+        return $string;
+        break;
+      case 'edited_users':
+        $tables = $session->getPage()->findAll('css', 'form#diff-node-revisions div table');
+        // Point to the last table
+        $table = end($tables);
+        $trs = $table->findAll('css', 'tbody tr');
+        $arr_users = array();
+        $created_user = HackyDataRegistry::get('document creator');
+        foreach ($trs as $tr) {
+          $links = $tr->find('css', 'td')->findAll('css', 'a');
+          $username = $links[1]->getText();
+          // Exclude creator username and already included editors
+          if ($username != $created_user && !in_array($username, $arr_users)) {
+            $arr_users[] = $username;
+          } 
+          if (count($arr_users) == 4) {
+            break;
+          }
+        }
+        // Move back to the previous page
+        $session->visit($this->locatePath($current_url));
+        return implode(', ', $arr_users);
+        break;
+    }
+  }
+
+  /**
+   * Convert d/m/Y to the given date format
+   * @param string $date
+   *   date
+   * @param string $format
+   *   date format
+   */
+  private function formatSiteDate($date, $format = 'F d, Y') {
+    list($date, $month, $year) = explode('/', $date);
+    return date($format, strtotime("$year-$month-$date"));
   }
 }
