@@ -3736,7 +3736,7 @@ class FeatureContext extends DrupalContext {
   }
 
 	/**
-   * @Given /^(?:that I|I) created a sandbox project$/
+   * @Given /^(?:that I|I) create(?:|d) a sandbox project$/
    */
   public function iCreatedASandboxProject() {
     $session = $this->getSession();
