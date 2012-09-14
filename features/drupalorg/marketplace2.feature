@@ -46,10 +46,10 @@ Feature: Use Marketplace to find services
     When I expand the category "Sectors"
     Then I wait for "2" seconds
     Then I should see the following <subcategories> under "Sectors"
-    | subcategories |
-    | Travel        |
-    | Healthcare    |
-    | Music         |
+    | subcategories        |
+    | Travel & Hospitality |
+    | Healthcare           |
+    | Music                |
     Then I wait for "2" seconds
     When I collapse the category "Sectors"
     Then I wait for "2" seconds 
