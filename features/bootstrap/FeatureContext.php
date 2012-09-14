@@ -1192,11 +1192,13 @@ class FeatureContext extends DrupalContext {
   /**
    * @Given /^I select "([^"]*)" from the suggestion "([^"]*)"$/
    */
-  public function iSelectFromTheSuggestion($value, $locator)
-  {
+  public function iSelectFromTheSuggestion($value, $locator) {
     $element = $this->getSession()->getPage();
     $element->fillField($locator, $value);
     $this->project_value = $value;
+	//In order to close the autocomplete dropdown, otherwise button click does not work
+	sleep(3);
+	$this->getSession()->executeScript("$('#autocomplete').hide();");
   }
 
   /**
@@ -3792,7 +3794,7 @@ class FeatureContext extends DrupalContext {
     // Fetch the stored sandbox url to generate the old git url for sandbox
     // Eg: "http://git6site.devdrupal.org/sandbox/gitvetteduser/172444"
     $sandbox_url = HackyDataRegistry::get('sandbox_url');
-    $components = parse_url($sandbox_url);    
+    $components = parse_url($sandbox_url);
     // Find logged in username
     $loggedin_user = $this->whoami();
     if ($loggedin_user && $loggedin_user != 'User account') {
@@ -3802,7 +3804,7 @@ class FeatureContext extends DrupalContext {
     }else {
       $loggedin_user = "";
       $password = "\"\"";
-    }    
+    }
     // Attach git extension
     $components['path'] .= '.git';
     $endpoint = '';
@@ -3926,7 +3928,7 @@ class FeatureContext extends DrupalContext {
     }elseif ($title = HackyDataRegistry::get('book page title')) {
       $type = 'Document';
     }
-    
+
     if (empty($title) || empty($element) || strpos($element->getText(), $title) === FALSE) {
       throw new Exception($type . ' title not found where it was expected.');
     }
@@ -3959,10 +3961,9 @@ class FeatureContext extends DrupalContext {
   function getIssueTiteObj($page) {
     $temp = HackyDataRegistry::get('issue title');
     $result = $page->findLink($temp);
-    if (empty($result)) {
-      throw new Exception('Could not find the link with this title');
-    }
-		return $result;
+    if (!empty($result)) {
+     return $result;
+	}
   }
 
 	/**
@@ -4247,7 +4248,7 @@ class FeatureContext extends DrupalContext {
     $doc_url = HackyDataRegistry::get('document url');
     if (empty($doc_url)) {
       throw new Exception('There is no url for the document');
-    }   
+    }
     $this->getSession()->visit($this->locatePath($doc_url));
     sleep(2);
     // Find and save metdata string
@@ -4310,7 +4311,7 @@ class FeatureContext extends DrupalContext {
    *
    * @param string $type
    *   The type of value to be verified. Valid values "created by username, created date, last updated date, editor usernames"
-   * 
+   *
    */
   public function theShouldMatchTheRevision($type) {
     switch ($type) {
@@ -4355,14 +4356,14 @@ class FeatureContext extends DrupalContext {
         break;
     }
   }
-  
+
   /**
    * Parse revision tab and read data
    * @param string $type
    *   type of data required from revisions
    * @return string
    *   date/usernames
-   * 
+   *
    */
   private function readDataFromRevisions($type) {
     $session = $this->getSession();
@@ -4438,7 +4439,7 @@ class FeatureContext extends DrupalContext {
           // Exclude creator username and already included editors
           if ($username != $created_user && !in_array($username, $arr_users)) {
             $arr_users[] = $username;
-          } 
+          }
           if (count($arr_users) == 4) {
             break;
           }
@@ -4486,5 +4487,17 @@ class FeatureContext extends DrupalContext {
     }
     $tabLink->click();
     sleep(2);
+  }
+
+  /**
+   * Function to check for the issue link
+   * @Then /^I (?:|should )see the issue link$/
+   */
+  public function iShouldSeeTheIssueLink() {
+    $page = $this->getSession()->getPage();
+    $link = $this->getIssueTiteObj($page);
+	if (empty($link)) {
+      throw new Exception('Could Not find the link in the current page');
+    }
   }
 }
