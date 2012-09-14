@@ -4461,4 +4461,30 @@ class FeatureContext extends DrupalContext {
     list($date, $month, $year) = explode('/', $date);
     return date($format, strtotime("$year-$month-$date"));
   }
+
+  /**
+   * @Given /^I follow "([^"]*)" tab$/
+   */
+  public function iFollowTab($link) {
+    $tabLink = "";
+    $page = $this->getSession()->getPage();
+    // Get all the links from the tabs
+    $tabs = $page->findAll('css', '#tabs .tabs li a');
+    if (empty($tabs)) {
+      throw new Exception('The page does not have any tabs');
+    }
+    // Loop throught each link and find the one required
+    foreach($tabs as $tab) {
+      if (trim($tab->getText()) == $link) {
+        $tabLink = $tab;
+        break;
+      }
+    }
+    // Make sure you have the link
+    if (!$tabLink || $tabLink == "") {
+      throw new Exception('The tab "' . $link . '" was not found on the page');
+    }
+    $tabLink->click();
+    sleep(2);
+  }
 }
