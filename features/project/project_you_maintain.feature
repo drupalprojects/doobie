@@ -1,7 +1,7 @@
 Feature: To verify that a user has permission to promote a project or not
-  In order to create a full project
+  In order to make a project official 
   As a git vetted user
-  I should be able to promote the project
+  I should be able to promote a sandbox
 
   Scenario: Git user creates a project and tries to promote it
     Given I am logged in as "git user"
