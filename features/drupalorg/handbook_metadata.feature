@@ -67,7 +67,7 @@ Feature:  Verify handbook metadata is displayed correctly
     And the "created date" should match the first revision
 
   @clean_data
-  Scenario: Check edited usernames with the latest entries from revision tab, make sure it doesn't include creator username and duplicates
+  Scenario: Check edited usernames with the four latest entries from revision tab, make sure it doesn't include creator username or duplicates of the latest editors
     Given I am logged in as "admin test"
     And I am on the document page
     When I follow "Revisions"
