@@ -4513,4 +4513,107 @@ class FeatureContext extends DrupalContext {
       throw new Exception('Could Not find the link in the current page');
     }
   }
+
+  /**
+   * Custom step definition to click a link
+   *
+   * @When /^I click "([^"]*)" link$/
+   * @param string $link
+   *   Link title
+   */
+  public function iClickLink($link) {
+    sleep(2);
+    $page = $this->getSession()->getPage();
+    // Perform some operations specific to the link, after clicking the link
+    if (in_array($link, array('Make this your Homepage', 'Use Default Homepage'))) {
+      // Reset homepage setting value
+      if (!HackyDataRegistry::get('homepage setting')) {
+        $this->changeDeaultHomepageSetting('reset');
+      }
+      $element = $page->findLink($link);
+      if (empty($element)) {
+        throw new Exception('The link: "' . $link . '" was not found on the page');
+      }
+      $element->click();
+      // As the operation is done through ajax, wait till the link disappears from the dom or for 3 seconds
+      $this->iWaitForSeconds(3, "$('a:contains(\"" . $link . "\")').text() == \"\"");
+    }
+    // Drupal banner in the header
+    elseif($link == 'drupal banner') {
+      $element = $page->find('css', 'div#header-left-inner > div#site-name > a');
+      if (empty($element)) {
+        throw new Exception(ucfirst($link) . ' was not found on the page');
+      }
+      $element->click();
+    }
+  }
+
+  /**
+   * @When /^I click the drupal banner in the header$/
+   *
+   */
+  public function iClickTheDrupalBannerInTheHeader() {
+    return new When('I click "drupal banner" link');
+  }
+
+  /**
+   * Change home page setting value on user dashboard
+   *
+   * @Given /^I "([^"]*)" the default homepage setting$/
+   * @param string $action
+   *   reset:  Reset setting to "Make this your Homepage"
+   *   revert:  Revert setting to the original value
+   */
+  public function changeDeaultHomepageSetting($action) {
+    $page = $this->getSession()->getPage();
+    // Reset setting to 'Use Default Homepage'
+    if ($action == 'reset') {
+      $content = $page->findLink('Use Default Homepage');
+      if ($content) {
+        // Since Dashboard is already selected as homepage, save 'Use Default Homepage' for later use
+        HackyDataRegistry::set('homepage setting', 'Use Default Homepage');
+        $this->iClickLink("Use Default Homepage");
+      }
+      else {
+        HackyDataRegistry::set('homepage setting', 'Make this your Homepage');
+      }
+    }
+    // Revert setting to saved default setting
+    elseif($action == 'revert') {
+      $setting = HackyDataRegistry::get('homepage setting');
+      if (empty($setting)) {
+        return;
+      }
+      // Find setting link
+      $link = $page->find('css','form#drupalorg-set-home div a');
+      if (empty($link)) {
+        throw new Exception('Homepage setting link is not found. Revert failed');
+      }
+      // Compare current setting with saved default setting
+      if ($setting != $link->getText()) {
+        HackyDataRegistry::set('homepage setting', '');
+        // Use the click statement to make sure ajax request is complete
+        $this->iClickLink($link->getText());
+      }
+    }
+  }
+
+  /**
+   * Revert user dashboard home page setting to original value
+   *
+   * @afterScenario @revert_homepage_setting
+   * @return object When
+   */
+  public function revertHomepageSetting() {
+    $session = $this->getSession();
+    $page = $session->getPage();
+    // Visit dashboard page to find the setting link
+    $link = $page->findLink("Your Dashboard");
+    if (empty($link)) {
+      throw new Exception('"Your Dashboard" link is not found. Revert failed');
+    }
+    $session->visit($this->locatePath($link->getAttribute('href')));
+    // Revert the setting
+    $this->changeDeaultHomepageSetting('revert');
+  }
 }
