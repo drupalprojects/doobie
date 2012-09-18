@@ -1,3 +1,4 @@
+@anon
 Feature: Get a feed of Search issues
   In order to see the Search issues Feeds
   As a user
