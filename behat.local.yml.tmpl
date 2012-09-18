@@ -1,0 +1,33 @@
+# Local configuration.
+default:
+  context:
+    parameters:
+      drupal_users:
+        drupal:
+          'drupal'
+        site user:
+          '|SITEUSERPW|'
+        git user:
+          '|GITUSERPW|'
+        git vetted user:
+          '|GITVETTEDUSERPW|'
+        docs manager:
+          '|DOCSMANAGERPW|'
+        admin test:
+          '|ADMINTESTPW|'
+      #git usernames don't always match the drupal username
+      git_users:
+        gituser:
+          '|SITEUSERPW|'
+        gitvetteduser:
+          '|GITVETTEDUSERPW|'
+      post title: 'enter a node title here that has a link on the current page'
+
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url: '|BASE_URL|'
+
+    Drupal\DrupalExtension\Extension:
+      # Set this drush alias in your aliases.drushrc.php file to match
+      # the base_url set above. Leave off the preceding '@'.
+      drush_alias: '|DRUSHALIAS|'
