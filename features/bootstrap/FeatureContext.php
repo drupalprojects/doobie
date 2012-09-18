@@ -190,7 +190,7 @@ class FeatureContext extends DrupalContext {
    * @When /^I clone the repo$/
    */
   public function iCloneTheRepo() {
-    $password = "";
+    $password = "\"\"";
     $url = "";
     $element = $this->getSession()->getPage();
     $currUrl = $this->getSession()->getCurrentUrl();
@@ -208,14 +208,11 @@ class FeatureContext extends DrupalContext {
     }
     $this->repo = $result->getText();
     // Get user data only if a user is logged in. Even anonymous user can clone.
-    $user = $this->whoami();
-    if ($user != 'User account') {
+    if ($this->getLoggedinUsername() != "") {
     	$userData = $this->getGitUserData($this->repo);
     	$password = $userData['password'];
     }
-    // Back to version control page
-    $this->getSession()->visit($currUrl);
-    sleep(1);
+    // Get the git repo url from the code block
     $tempArr = explode(" ", $this->repo);
     foreach ($tempArr as $key => $value) {
       if (strpos($tempArr[$key], ".git") !== FALSE) {
@@ -239,7 +236,10 @@ class FeatureContext extends DrupalContext {
     $process->setTimeout(3600);
     $process->run();
     if (!$process->isSuccessful()) {
-      throw new RuntimeException('The clone did not work. - ' . $process->getErrorOutput());
+      throw new RuntimeException("The clone did not work" .
+      "\n Error: " . $process->getErrorOutput() .
+      "\n Output: " . $process->getOutput()
+      );
     }
     // If clone is successfull, then a directory must be created
     if (!is_dir(getcwd() . "/" . $project)) {
@@ -452,26 +452,35 @@ class FeatureContext extends DrupalContext {
     // Check for the `expect` library.
     $this->checkExpectLibraryStatus();
 
-    $element = $this->getSession()->getPage()->find('css', 'div.codeblock');
+    $element = $this->getSession()->getPage()->findAll('css', 'div.codeblock code');
     if (empty($element)) {
       throw new Exception("Initialization of repository failed. The page did not contain any code block to run");
     }
-    $rawCommand = $element->getHTML();
-    $matches = array();
-    preg_match('|add origin ssh://([^@]*)@|', $rawCommand, $matches);
-    $username = $matches[1];
-    $password = $this->fetchPassword('git', $username);
-    $rawCommand = str_replace('<br/>', '', $rawCommand);
-    $rawCommand = str_replace('&gt;', '>', $rawCommand);
-    $rawCommand = str_replace('&#13;', '', $rawCommand);
-    $rawCommand = str_replace('git push origin master', "../bin/gitwrapper $password", $rawCommand);
-    $command = preg_replace('/<code>(.*)?<\/code>/U', '\1 ; ', $rawCommand);
-    # var_dump($command);
-    $process = new Process($command);
+    $fullCommand = "";
+    foreach ($element as $code) {
+      $command = trim($code->getText());
+      // Get username and password
+      if (strpos($command, "add origin") !== FALSE) {
+        $gitUser = $this->getGitUserData($command);
+        if ($gitUser) {
+          $gitUsername = $gitUser['username'];
+          $gitPassword = $gitUser['password'];
+        }
+      }
+      elseif ($command == "git push origin master") {
+        $command = "../bin/gitwrapper $gitPassword";
+      }
+      $fullCommand .= $command . ' ; ';
+    }
+    $process = new Process($fullCommand);
     $process->setTimeout(10);
     $process->run();
-    if (!$process->isSuccessful()) {
-      throw new Exception('Initializing repository failed - Command: ' . $command . ' Error: ' . $process->getErrorOutput());
+    if (!$process->isSuccessful() || stripos($process->getOutput(), "error") !== FALSE) {
+      throw new Exception("Initializing repository failed" .
+      "\nCommand: " . $fullCommand .
+      "\nError: " . $process->getErrorOutput() .
+      "\nOutput: " . $process->getOutput()
+      );
     }
     // Pause for front end to catch up.
     sleep(10);
@@ -4202,6 +4211,10 @@ class FeatureContext extends DrupalContext {
    *   Return an array containing username and password or return false
    */
   private function getGitUserData($repo) {
+    // If user is not logged in, then return false
+    if (!$this->getLoggedinUsername()) {
+      return FALSE;
+    }
     $gitUsername = "";
     $password = "";
 	  $code = explode("@", $repo);
