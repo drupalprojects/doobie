@@ -1,3 +1,4 @@
+@anon
 Feature: Find Drupal services
   In order to find the right Drupal service provider for me
   As any user
