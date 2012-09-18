@@ -1278,6 +1278,48 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+  * @Then /^I should see assorted links under "([^"]*)"$/
+  */
+  public function shouldSeeAssortedLinksUnder($category) {
+    // find grid container
+    $page = $this->getSession()->getPage();
+    $grids = $page->findAll('css', 'div.grid-2');
+    $count = 0;
+    if (empty($grids)) {
+      throw new Exception('No categories found on the page.');  
+    }
+    // loop through the grid to identify appropriate DIV
+    foreach ( $grids as $grid) {
+      // check main category
+      if (is_object($h3 = $grid->find('css', 'h3')) &&  $h3->getText() == $category) {
+        // find sub-category links
+        $links = $grid->findAll('css', 'ul > li > a');
+        if (!empty($links)) {
+          //$visible = false;
+          foreach($links as $a) {
+            // if visible
+            if (!('display: none;' == $a->getParent()->getAttribute('style'))) {
+              $text = $a->getText();
+              if (empty($text) || in_array($text, array('Show more', 'Show fewer'))) {
+                continue;
+              }
+              // Check link text pattern: Eg: Development (49)               
+              if (!preg_match('#(.*) \((\d+)\)#', $text)) {
+                throw new Exception('Invalid pattern found for the link:' . $text);
+              }
+              $count++;
+            }
+          }
+        }
+        break;
+      }
+    }
+    if (!$count) {
+      throw new Exception('Subcategory links could not be found for: "' . $category . '"');
+    }
+  }
+
+  /**
   * @Then /^I should see the following <subcategories> under "([^"]*)"$/
   */
   public function iShouldSeeTheFollowingSubcategoriesUnder($category, TableNode $table)
