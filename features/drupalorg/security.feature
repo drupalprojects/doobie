@@ -1,3 +1,4 @@
+@anon
 Feature: To view list of security announcements
   In order to know the security announcements
   As a user
