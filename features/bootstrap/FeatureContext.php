@@ -1626,7 +1626,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastSymbol($count, $symbol) {
     $page = $this->getSession()->getPage();
-    $temp = $page->find("css", ".versioncontrol-diffstat .".$symbol);
+    $temp = $page->findAll("css", ".versioncontrol-diffstat .".$symbol);
     // If an image is committed, + or - does not appear, so check if its empty first.
     if (empty($temp)) {
       throw new Exception("The page does not have any '" . $symbol . "' symbols");
