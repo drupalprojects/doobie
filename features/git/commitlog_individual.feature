@@ -1,4 +1,4 @@
-@wip @data_creation
+@data_creation
 Feature: To view an individual commit
   In order to see the commit information of a particular commit
   As a user
