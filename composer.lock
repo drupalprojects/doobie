@@ -28,8 +28,8 @@
         {
             "package": "behat/mink-extension",
             "version": "dev-master",
-            "source-reference": "2a0913a19c145d7e0cb0aba592635dfceb8808a1",
-            "commit-date": "1347305071"
+            "source-reference": "5ed575335e6a74fd33f091dcd4d3802cd7d15cd0",
+            "commit-date": "1347962705"
         },
         {
             "package": "behat/mink-goutte-driver",
@@ -52,14 +52,14 @@
         {
             "package": "behat/mink-selenium2-driver",
             "version": "dev-master",
-            "source-reference": "11fd094d7b5809b265cd336316d7e4ce7e4f5fe6",
-            "commit-date": "1347022643"
+            "source-reference": "baaf9c08bfa4c88b7179b3856197258a63e1b17e",
+            "commit-date": "1347895517"
         },
         {
             "package": "behat/mink-zombie-driver",
             "version": "dev-master",
-            "source-reference": "610c484c2a736533e076c05ddaa6098f42906c60",
-            "commit-date": "1344599890"
+            "source-reference": "da126d693af53daab1c7dd41b0053686fcd5e484",
+            "commit-date": "1347616700"
         },
         {
             "package": "behat/sahi-client",
@@ -74,14 +74,14 @@
         {
             "package": "doctrine/common",
             "version": "2.3.x-dev",
-            "source-reference": "605b1b8b5a7bc8daf9111fb35483e5708e30de35",
-            "commit-date": "1346249247"
+            "source-reference": "24c761bf0f8337064b961a8fad85631a561d26c7",
+            "commit-date": "1347882477"
         },
         {
             "package": "drupal/drupal-extension",
             "version": "dev-master",
-            "source-reference": "c4670925604ae68f106934b73f924e61358f13df",
-            "commit-date": "1347405676"
+            "source-reference": "01ce19221d38c6543439fdc73e56d225db3a51ac",
+            "commit-date": "1347577844"
         },
         {
             "package": "fabpot/goutte",
@@ -128,13 +128,13 @@
         {
             "package": "symfony/config",
             "version": "2.1.x-dev",
-            "source-reference": "v2.1.0-RC2",
+            "source-reference": "v2.1.1",
             "commit-date": "1345643321"
         },
         {
             "package": "symfony/console",
             "version": "2.1.x-dev",
-            "source-reference": "v2.1.1",
+            "source-reference": "v2.1.0-RC2",
             "commit-date": "1345643321"
         },
         {
@@ -146,8 +146,8 @@
         {
             "package": "symfony/dependency-injection",
             "version": "2.1.x-dev",
-            "source-reference": "v2.1.1",
-            "commit-date": "1347274422"
+            "source-reference": "cb04ee0298826a086ab6fd007b2785191958df9b",
+            "commit-date": "1347914517"
         },
         {
             "package": "symfony/dom-crawler",
@@ -188,14 +188,14 @@
         {
             "package": "symfony/http-foundation",
             "version": "2.1.x-dev",
-            "source-reference": "v2.1.1",
-            "commit-date": "1346761482"
+            "source-reference": "23f68b488570def9ebe874a748410285f9a4acc9",
+            "commit-date": "1347984592"
         },
         {
             "package": "symfony/http-kernel",
             "version": "2.1.x-dev",
-            "source-reference": "584499e64026f41c4be938ed35d8f0a9a9eebd38",
-            "commit-date": "1347354770"
+            "source-reference": "52820d9f3b80e3b8d31aba53bb792ec25894e092",
+            "commit-date": "1347914517"
         },
         {
             "package": "symfony/locale",
@@ -206,7 +206,7 @@
         {
             "package": "symfony/options-resolver",
             "version": "2.1.x-dev",
-            "source-reference": "v2.1.0-RC2",
+            "source-reference": "v2.1.1",
             "commit-date": "1345643321"
         },
         {
@@ -236,8 +236,14 @@
         {
             "package": "symfony/validator",
             "version": "dev-master",
-            "source-reference": "392128ec57dfe9ba40d506ad77411a21fdda700d",
-            "commit-date": "1347274777"
+            "alias-pretty-version": "2.2.x-dev",
+            "alias-version": "2.2.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/validator",
+            "version": "dev-master",
+            "source-reference": "eba223c9ab238795adef7365ec21d750698370f4",
+            "commit-date": "1347975970"
         },
         {
             "package": "symfony/yaml",
