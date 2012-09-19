@@ -1,8 +1,8 @@
 @javascript
 Feature: Verify home page preference functionality
-  In order to have quick access to dashboard and its related links 
+  In order to have quick access to dashboard and its related links
   As an authenticated user
-  I need to be able to use my dashboard as home page
+  I need to be able to use my dashboard as my home page
 
   Background:
     Given I am logged in as "site user"
