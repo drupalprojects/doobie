@@ -11,6 +11,8 @@ default:
       goutte: ~
       selenium2: ~
     Drupal\DrupalExtension\Extension:
+      blackbox: ~
+      drush: ~
       basic_auth:
         username: drupal
         password: drupal
