@@ -31,4 +31,4 @@ default:
       # Set this drush alias in your aliases.drushrc.php file to match
       # the base_url set above. Leave off the preceding '@'.
       drush:
-	alias: 'myalias'
+        alias: 'myalias'
