@@ -7,6 +7,7 @@ Feature: Visitor views issue queue for a project
     Given I am on "/project/coder"
     When I click "Advanced search"
     Then I should see at least "50" records
+    And I should see "Last updated" sorted in "ascending" order
 
   Scenario: No issues exist
     Given I am logged in as "git user"
