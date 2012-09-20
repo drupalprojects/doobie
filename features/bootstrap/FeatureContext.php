@@ -4687,4 +4687,44 @@ class FeatureContext extends DrupalContext {
     // Wait to get the dom updated
     sleep(3);
   }
+
+   /**
+   * @Then /^the count of "([^"]*)" should be greater than zero$/
+   */
+	public function theCountOfShouldBeGreaterThanZero($gitActivity) {
+    $repTemp = "";
+    $total = 0;
+	  $page = $this->getSession()->getPage();
+    $result = $page->findAll('css', "#block-drupalorg-drupalorg_activity div.item-list ul li");
+    if (empty($result)) {
+      throw new Exception("Unable to find activity block");
+    }
+    foreach ($result as $commit) {
+      $text = trim($commit->getHtml());
+      $fullText = explode("</strong>", $text);
+      if (strpos($fullText[1], $gitActivity) !== FALSE) {
+        $resultCount = explode('>', $fullText[0]);
+        $repTemp =  str_replace(",", "", $resultCount[1]);
+        if(empty($repTemp)) {
+          throw new Exception("Could not find any records for this  '" . $gitActivity . "' activity");
+        }
+        $total = $total + (int) trim($repTemp);
+      }
+    }
+    if ($total <= 0) {
+      throw new Exception("The records for the activity '" . $gitActivity . "' cannot be less than zero");
+    }
+  }  
+
+  /**
+   * @Given /^I should see community member photo$/
+   */
+  public function iShouldSeeCommunityMemberPhoto() {
+    $page = $this->getSession()->getPage();
+	  $result = $page->find('css', '.view-drupalorg-community-spotlight .node-content img');
+    if (empty($result)) {
+      throw new Exception('No Photo Id exists for the user');
+    }
+    return $result;
+  }  
 }
