@@ -105,6 +105,7 @@ Feature: Your Project Tab
     When I click "Edit" from "Sandbox Projects" table
     Then I should see "Project Edit" page
 
+  @wip
   Scenario: Check Issue search
     And I am on "/project/user"
     When I fill in "Search for" with issue name
