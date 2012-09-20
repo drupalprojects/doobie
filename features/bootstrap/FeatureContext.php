@@ -838,8 +838,7 @@ class FeatureContext extends DrupalContext {
     $xmlString = trim($this->xmlContent);
     if ($xmlString) {
       if (strpos($xmlString, trim($text)) === FALSE) {
-        throw new Exception("The text '" . $text . "' was not found in the
-         xml feed");
+        throw new Exception("The text '" . $text . "' was not found in the xml feed");
       }
     }
     else {
@@ -2653,9 +2652,9 @@ class FeatureContext extends DrupalContext {
 
   /**
    * Check number of rows in a table - Add more cases if table/row class is different
-   * $tableType = "Projects"/"Sandbox Projects"/"Project Issues"
    *
    * @Given /^I should see at least "([^"]*)" record(?:|s) in "([^"]*)" table$/
+   * @param string $tableType : "Projects"/"Sandbox Projects"/"Project Issues"
    */
   public function iShouldSeeAtLeastRecordsInTable($count, $tableType)
   {
@@ -2838,12 +2837,12 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I fill in "([^"]*)" with Project Name$/
+   * @Given /^I fill in "([^"]*)" with issue name$/
    */
-  public function iFillInWithProjectName($label)
+  public function iFillInWithIssueName($label)
   {
     // Find project from Projects table
-    $table_type = 'Projects';
+    $table_type = 'Project Issues';
     // Find the table element object
     $arr_table = $this->getTableElement($table_type);
     if (empty($arr_table['element'])) {
@@ -2854,17 +2853,19 @@ class FeatureContext extends DrupalContext {
       throw new Exception('No records found');
     }
     // Find the first link
-    $a_first = $first_tr->find('css', 'td a');
+    $a_first = $first_tr->findAll('css', 'td a');
+    // $a_first[0] : Project link
+    // $a_first[1] : Issue link
     if (empty($a_first)) {
       // Store the link label to use afterwards
-      throw new Exception('Project link cannot be found');
+      throw new Exception('Project/Issue link cannot be found');
     }
-    HackyDataRegistry::set('project name', $a_first->getText());
-    return new Given('I fill in "' . $label . '" with "' . $a_first->getText() .'"');
+    HackyDataRegistry::set('project name', $a_first[0]->getText());
+    return new Given('I fill in "' . $label . '" with "' . $a_first[1]->getText() .'"');
   }
 
   /**
-   * @Given /^I select Project Name from "([^"]*)"$/
+   * @Given /^I select project name from "([^"]*)"$/
    */
   public function iSelectProjectNameFrom($label) {
     if ($project_name = HackyDataRegistry::get('project name')) {
@@ -2914,16 +2915,15 @@ class FeatureContext extends DrupalContext {
         break;
       case 'Project Issues':
         $arr_table['table_class'] = array(
-          'views-table sticky-enabled cols-10 project-issue',
-          'views-table sticky-enabled cols-10 project-issue sticky-table',
-          'views-table sticky-enabled cols-9 project-issue sticky-table',
+          'views-table sticky-enabled project-issue',
+          'views-table sticky-enabled project-issue sticky-table',
         );
         $arr_table['link_column'] = '1';
         $arr_table['link_exceptions'] = array();
         break;
     }
     if (empty($arr_table)) {
-      throw new Exception('Step definition is incomplete for: "' . $type . '"');
+      throw new Exception('Table details are not given for: "' . $type . '"');
     }
     // find the tables
     $tables = $this->getSession()->getPage()->findAll('css','#content-inner table');
@@ -2934,6 +2934,8 @@ class FeatureContext extends DrupalContext {
     foreach ($tables as $table) {
      // find the Table class
       $table_class = $table->getAttribute('class');
+      // Remove cols-10/cols-11 class if any
+      $table_class = preg_replace("/ cols-(\d*) /", " ", $table_class);
       // Consider only the required table
       if (in_array($table_class, $arr_table['table_class'])) {
         $arr_table['element'] = $table;

@@ -105,11 +105,10 @@ Feature: Your Project Tab
     When I click "Edit" from "Sandbox Projects" table
     Then I should see "Project Edit" page
 
-  @wip
   Scenario: Check Issue search
     And I am on "/project/user"
-    When I fill in "Search for" with Project Name
-    And I select Project Name from "Project"
+    When I fill in "Search for" with issue name
+    And I select project name from "Project"
     And I press "Search" in the "content" region
     Then I should see at least "1" record in "Project Issues" table
 
