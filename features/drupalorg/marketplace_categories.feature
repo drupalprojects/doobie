@@ -1,3 +1,4 @@
+@anon
 Feature: Use Marketplace to find services
   In order to find the right Drupal service provider for me
   As any user
@@ -28,24 +29,14 @@ Feature: Use Marketplace to find services
   @javascript
   Scenario: Check the subcategories under Main category
     Given I am on "/marketplace"
+    When I expand the category "Services"
+    And I expand the category "Sectors"
+    And I expand the category "Countries served"
     Then I should see the following <texts>
     | texts            |
     | Services         |
     | Sectors          |
     | Countries served |
-    Then I should see the following <subcategories> under "Services"
-    | subcategories |
-    | Development   |
-    | Theming       |
-    Then I should see the following <subcategories> under "Countries served"
-    | subcategories |
-    | United States |
-    | Canada        |
-    | Germany       |
-    When I expand the category "Sectors"
-    And I wait for "2" seconds
-    Then I should see the following <subcategories> under "Sectors"
-    | subcategories |
-    | Travel        |
-    | Healthcare    |
-    | Music         |
+    And I should see assorted links under "Services"
+    And I should see assorted links under "Sectors"
+    And I should see assorted links under "Countries served"

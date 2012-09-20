@@ -1,3 +1,4 @@
+@ci @anon
 Feature: Use Marketplace to find services
   In order to find the right Drupal service provider for me
   As any user
@@ -30,6 +31,9 @@ Feature: Use Marketplace to find services
   @javascript
   Scenario: Check the subcategories under Main category
     Given I am on "/marketplace"
+    When I expand the category "Services"
+    And I expand the category "Sectors"
+    And I expand the category "Countries served"
     Then I should see the following <texts>
     | texts            |
     | Services         |
@@ -54,3 +58,6 @@ Feature: Use Marketplace to find services
     Then I wait for "2" seconds
     When I collapse the category "Sectors"
     Then I wait for "2" seconds 
+    And I should see assorted links under "Services"
+    And I should see assorted links under "Sectors"
+    And I should see assorted links under "Countries served"

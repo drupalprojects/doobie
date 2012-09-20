@@ -1,4 +1,4 @@
-@javascript @known_git6failure
+@javascript @known_git6failure @anon
 Feature: Account registration should not allow user+something address patterns
   In order to learn about Drupal
   As any user

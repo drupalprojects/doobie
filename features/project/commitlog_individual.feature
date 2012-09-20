@@ -1,38 +1,49 @@
-@wip
 Feature: To view an individual commit
-  In order to see the commit information
+  In order to see the commit information of a particular commit
   As a user
-  I should got to the commit log page and click on any commit date
+  I should got to the individual commit details page
 
-  Scenario: View the commit information
-    Given I am on "/commitlog/commit/42703/1cfeb9aa07128d38d75ae2cc06587c6b97834e5b"
+  Scenario: View the commit information: Few information
+    Given I am on "/commitlog/commit/43232/ca9a5dca5fb6f4b34839a5bf21b44b163f060e78"
     Then I should see "Author date:"
-    And I should see "Custom text:"
+    And I should see "on master"
     And I should see "Commit"
     And I should see at least "1" files in the list
     And I should see at least "1" "plus" symbol
     And I should see the commit message
 
+  Scenario: View the commit information: More info
+    Given I am on "/commitlog/commit/43232/a2d746d3d26f64771108aab11b4d5a75f621db3b"
+    Then I should see "Author date:"
+    And I should see "on master"
+    And I should see "Commit"
+    And I should see "by sachin2dhoni"
+    And I should see the link "sachin2dhoni"
+    And I should see at least "4" files in the list
+    And I should see at least "6" "plus" symbol
+    And I should see at least "1" "minus" symbol
+    And I should see the commit message
+
   Scenario: Click link on commit information page
-    Given I am on "/commitlog/commit/42703/1cfeb9aa07128d38d75ae2cc06587c6b97834e5b"
-    When I follow "1cfeb9a"
+    Given I am on "/commitlog/commit/43232/65c565d3f47412b1d37a9e47afff66e0f7dc1b70"
+    When I follow "65c565d"
     Then I should see "summary"
     And I should see "committer"
 
   Scenario: Click link on user name
-    Given I am on "/commitlog/commit/42703/1cfeb9aa07128d38d75ae2cc06587c6b97834e5b"
-    When I follow "eliza411"
+    Given I am on "/commitlog/commit/43232/12766a6649db2ee24cffd3bcc0f48827956ddd12"
+    When I follow "ksbalajisundar"
     Then I should see the heading "Personal information"
     And I should see "Full name"
 
   Scenario: Click link on file name
-    Given I am on "/commitlog/commit/42703/1cfeb9aa07128d38d75ae2cc06587c6b97834e5b"
-    When I follow "/tb2y8x6u8phtfypa.info"
+    Given I am on "/commitlog/commit/43232/a5b40fb414ad9eef9dbc8e9f1360fb3d50bfdf8e"
+    When I follow "/bdd_sandbox_test_project_please_do_not_delete_this.info"
     Then I should see "blob"
     And I should see "For more information about this repository"
 
   Scenario: Check for unverified commit
-    Given I am on "/commitlog/commit/37412/d54c6ba4b3b04a1b05bda70dc85ad9135430e3c1"
-    Then I should not see the link "eliza411"
-    And I should see "Melissa Anderson"
-    And I should see the heading "Commit d54c6ba4b3b04a1b05bda70dc85ad9135430e3c1"
+    Given I am on "/commitlog/commit/43232/31963037a3856da31d5e24c15d7eded32553955d"
+    Then I should not see the link "ksbalajisundar"
+    And I should see "by K S Sundarrajan Iyengar"
+    And I should see the heading "Commit 31963037a3856da31d5e24c15d7eded32553955d"

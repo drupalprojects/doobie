@@ -1,3 +1,4 @@
+@javascript
 Feature:
   In order to test the functionalities of Drupal dashboard
   As an authenticated user
@@ -10,6 +11,7 @@ Feature:
   Scenario: Add a new block to the Dashboard
     And I follow "Your Dashboard"
     And I follow "Dashboard"
+    And there are no blocks on my dashboard
     And I follow "Add a block"
     Then I should see the following <blocklinks> in small boxes
     | blocklinks               |  
@@ -26,9 +28,8 @@ Feature:
   @known_git6failure
   Scenario Outline: Add block from project page
     And I am on "<page>" 
-    When I click "<blocklink>" 
-    Then show last response
-    Then I should see "<blocktitle>" 
+    When I click "<blocklink>"
+    Then I should see "<blocktitle>"
 
     Examples:
     | page                 | blocklink                                 | blocktitle               |
@@ -50,4 +51,3 @@ Feature:
   Scenario: User cannot add someone else's block
     When I visit "/user/33570/track"
     Then I should not see "Add Your Posts to dashboard"
- 

@@ -1,3 +1,4 @@
+@anon
 Feature: Look for an Ad on the forum page
   In order to know the sponsors
   As a user

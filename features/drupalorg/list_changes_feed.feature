@@ -1,4 +1,4 @@
-@wip
+@wip @anon
 Feature: Get a feed of change records
   In order to see the change record feeds
   As a user

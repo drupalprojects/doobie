@@ -1,4 +1,3 @@
-
 Feature: Ensure that sandbox repository is not available once the project is promoted
   In order to maintain a single canonical repository for a project with a memorable namespace
   As a project owner
@@ -24,17 +23,19 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     When I initialize the repository
     Then I should have a local copy of the project
 
+  @wip
   Scenario: Clone the repository as anonymous user
     Given I am on the Version control tab
     When I clone the repo
     Then I should have a local copy of the project
-  
-  @wip
+
   Scenario: Clone the sandbox repository as project owner
     Given I am logged in as "git vetted user"
-    Then I should not be able to clone the sandbox repo
+    When I clone the sandbox repo
+    Then I should see the error "fatal: remote error: Repository does not exist. Verify that your remote is correct"
 
-  @wip
+  @clean_data @wip
   Scenario: Clone the sandbox repository as anonymous user
-    Given I am on the homepage
-    Then I should not be able to clone the sandbox repo
+    I'm not logged in
+    When I clone the sandbox repo
+    Then I should see the error "fatal: remote error: Repository does not exist. Verify that your remote is correct"

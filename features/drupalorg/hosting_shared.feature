@@ -1,3 +1,4 @@
+@anon
 Feature: List of organizations providing hosting
   In order to see the list of Shared Hosting Providers for Drupal
   As a user

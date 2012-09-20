@@ -1,3 +1,4 @@
+@anon
 Feature: To test search on various pages
   In order to search for some content
   As a user

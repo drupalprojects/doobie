@@ -1,3 +1,4 @@
+@anon
 Feature: Get a feed of security announcements for contributed modules
   In order to see the security announcements feeds for contributed modules
   As a user

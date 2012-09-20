@@ -11,6 +11,11 @@ if { $url == "" } {
   spawn git clone --recursive --branch master $url $project;
 }
 
+if { $url == "" } {
+  spawn git push origin master;
+} else {
+  spawn git clone --recursive --branch master $url $project;
+}
 
 expect {
   "assword:" { 

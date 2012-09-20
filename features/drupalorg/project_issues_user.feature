@@ -1,12 +1,25 @@
 @wip
-Feature: Your Issues
-  In order to define the search for your own issues
-  As an Authenticated user
-  I wanted to look for search for your own issues
+Feature: View the issues created by a user
+  In order to view the issues created by me
+  As an authenticated user
+  I should see my issues list and filter them
 
   Background:
     Given I am logged in as "site user"
     And I follow "Your Issues"
+
+  Scenario: Verify that this is the your issues page
+    Then I should see the following <links>
+    | links |
+    | Create a new issue |
+    | Advanced search |
+    And I should see the following <texts>
+    | texts              |
+    | Search for         |
+    | Project            |
+    | Status             |
+    | Priority           |
+    | Category           |
 
   Scenario: Create test data for the following scenarios
     When I follow "Create a new issue"
@@ -15,60 +28,34 @@ Feature: Your Issues
     And I create a new issue
     Then I should see "has been created"
 
-  @dependent
-  Scenario: For navigating on the user specific issues.
-    Then I should see the following <links>
-    | links |
-    | Create a new issue |
-    | Advanced search |
-    And I should see the following <texts>
-    | texts |
-    | Search for |
-    | Project |
-    | Status |
-    | Priority |
-    | Category |
-
-  @dependent
-  Scenario: For searching for at least records.
-    When I press "Search" in the "content" region
-    Then I should see at least "1" records
-
   @javascript @dependent
-  Scenario: For Searching user specific issues.
+  Scenario: Search issue fill few fields
     When I fill in "Project" with "443"
     And I wait for the suggestion box to appear
     And I select "443 Session" from the suggestion "Project"
-    And I select the following <fields> with <values>
-    | fields | values |
-    | Status | fixed |
-    | Priority | normal |
     And I wait for "5" seconds
     And I press "Search" in the "content" region
-    Then I should see at least "1" records
+    Then I should see the issue link
     And I should not see "No issues match your criteria."
 
   @javascript @dependent
-  Scenario: For navigating through a specific project issue
-    When I select the following <fields> with <values>
-    | fields | values |
-    | Status | fixed |
-    | Priority | normal |
-    Then I should see at least "1" records
+  Scenario: Search issue fill all fields
+    When I fill in "Project" with "443"
+    And I wait for the suggestion box to appear
+    And I select "443 Session" from the suggestion "Project"
     And I wait for "4" seconds
-    And I follow an issue of the project
-    And I should see the heading "Issue Summary"
-    And I should see the heading "Comments"
-    And I should see the heading "Post new comment"
-
-  @dependent
-  Scenario: For searching the records with priority with status/priority
-    When I select the following <fields> with <values>
-    | fields | values |
-    | Status | active |
-    | Priority | normal |
+    And I select the following <fields> with <values>
+    | fields   | values    |
+    | Status   | active    |
+    | Priority | normal    |
+    | Category | task      |
     And I press "Search" in the "content" region
-    Then I should see at least "1" record
-    And I should see "active" under "Status"
-    And I should see "normal" under "Priority"
+    Then I should see the issue link
     And I should not see "No issues match your criteria."
+
+  @dependent @clean_data
+  Scenario: Navigate through the issue created previously
+    When I follow an issue of the project
+    Then I should see the heading "Issue Summary"
+    And I should see the heading "Comments"
+    And I should see the heading "Post new comment"	

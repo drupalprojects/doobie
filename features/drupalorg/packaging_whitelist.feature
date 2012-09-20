@@ -1,3 +1,4 @@
+@anon
 Feature: To view the list of Packaging whitelist URLs
   In order to see the list of Packaging whitelist URLs
   As a user

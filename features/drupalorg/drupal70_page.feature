@@ -1,6 +1,7 @@
+@anon
 Feature: To check the contents of Drupal 7.0 page
   In order to learn more about Drupal 7.0
-  As  a user
+  As a user
   I should view Drupal 7.0 page
 
   Scenario: Check for basic content on the page

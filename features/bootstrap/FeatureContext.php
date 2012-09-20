@@ -239,7 +239,14 @@ class FeatureContext extends DrupalContext {
     $process->setTimeout(3600);
     $process->run();
     if (!$process->isSuccessful()) {
-      throw new RuntimeException('The clone did not work. - ' . $process->getErrorOutput());
+      throw new RuntimeException("The clone did not work" .
+      "\n Error: " . $process->getErrorOutput() .
+      "\n Output: " . $process->getOutput()
+      );
+    }
+    // If clone is successfull, then a directory must be created
+    if (!is_dir(getcwd() . "/" . $project)) {
+      throw new RuntimeException('The clone did not work' . $process->getOutput());
     }
     // If clone is successfull, then a directory must be created
     if (!is_dir(getcwd() . "/" . $project)) {
@@ -323,7 +330,9 @@ class FeatureContext extends DrupalContext {
     }
 
     $element = $this->getSession()->getPage();
-
+    if (empty($element)) {
+        throw new Exception('Page not found');
+    }
     if ($user != 'User account') {
       // Logout.
       $this->getSession()->visit($this->locatePath('/logout'));
@@ -468,8 +477,12 @@ class FeatureContext extends DrupalContext {
     $process = new Process($command);
     $process->setTimeout(10);
     $process->run();
-    if (!$process->isSuccessful()) {
-      throw new Exception('Initializing repository failed - Command: ' . $command . ' Error: ' . $process->getErrorOutput());
+    if (!$process->isSuccessful() || stripos($process->getOutput(), "error") !== FALSE) {
+      throw new Exception("Initializing repository failed" .
+      "\nCommand: " . $fullCommand .
+      "\nError: " . $process->getErrorOutput() .
+      "\nOutput: " . $process->getOutput()
+      );
     }
     // Pause for front end to catch up.
     sleep(10);
@@ -827,8 +840,7 @@ class FeatureContext extends DrupalContext {
     $xmlString = trim($this->xmlContent);
     if ($xmlString) {
       if (strpos($xmlString, trim($text)) === FALSE) {
-        throw new Exception("The text '" . $text . "' was not found in the
-         xml feed");
+        throw new Exception("The text '" . $text . "' was not found in the xml feed");
       }
     }
     else {
@@ -1190,11 +1202,13 @@ class FeatureContext extends DrupalContext {
   /**
    * @Given /^I select "([^"]*)" from the suggestion "([^"]*)"$/
    */
-  public function iSelectFromTheSuggestion($value, $locator)
-  {
+  public function iSelectFromTheSuggestion($value, $locator) {
     $element = $this->getSession()->getPage();
     $element->fillField($locator, $value);
     $this->project_value = $value;
+	//In order to close the autocomplete dropdown, otherwise button click does not work
+	sleep(3);
+	$this->getSession()->executeScript("$('#autocomplete').hide();");
   }
 
   /**
@@ -1261,6 +1275,48 @@ class FeatureContext extends DrupalContext {
   public function theMd5HashShouldMatch($md5hash) {
     if ($md5hash != $this->md5Hash) {
       throw new Exception("The md5 hash does not match");
+    }
+  }
+
+  /**
+  * @Then /^I should see assorted links under "([^"]*)"$/
+  */
+  public function shouldSeeAssortedLinksUnder($category) {
+    // find grid container
+    $page = $this->getSession()->getPage();
+    $grids = $page->findAll('css', 'div.grid-2');
+    $count = 0;
+    if (empty($grids)) {
+      throw new Exception('No categories found on the page.');  
+    }
+    // loop through the grid to identify appropriate DIV
+    foreach ( $grids as $grid) {
+      // check main category
+      if (is_object($h3 = $grid->find('css', 'h3')) &&  $h3->getText() == $category) {
+        // find sub-category links
+        $links = $grid->findAll('css', 'ul > li > a');
+        if (!empty($links)) {
+          //$visible = false;
+          foreach($links as $a) {
+            // if visible
+            if (!('display: none;' == $a->getParent()->getAttribute('style'))) {
+              $text = $a->getText();
+              if (empty($text) || in_array($text, array('Show more', 'Show fewer'))) {
+                continue;
+              }
+              // Check link text pattern: Eg: Development (49)               
+              if (!preg_match('#(.*) \((\d+)\)#', $text)) {
+                throw new Exception('Invalid pattern found for the link:' . $text);
+              }
+              $count++;
+            }
+          }
+        }
+        break;
+      }
+    }
+    if (!$count) {
+      throw new Exception('Subcategory links could not be found for: "' . $category . '"');
     }
   }
 
@@ -1613,7 +1669,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastSymbol($count, $symbol) {
     $page = $this->getSession()->getPage();
-    $temp = $page->find("css", ".versioncontrol-diffstat .".$symbol);
+    $temp = $page->findAll("css", ".versioncontrol-diffstat .".$symbol);
     // If an image is committed, + or - does not appear, so check if its empty first.
     if (empty($temp)) {
       throw new Exception("The page does not have any '" . $symbol . "' symbols");
@@ -2598,9 +2654,9 @@ class FeatureContext extends DrupalContext {
 
   /**
    * Check number of rows in a table - Add more cases if table/row class is different
-   * $tableType = "Projects"/"Sandbox Projects"/"Project Issues"
    *
    * @Given /^I should see at least "([^"]*)" record(?:|s) in "([^"]*)" table$/
+   * @param string $tableType : "Projects"/"Sandbox Projects"/"Project Issues"
    */
   public function iShouldSeeAtLeastRecordsInTable($count, $tableType)
   {
@@ -2783,12 +2839,12 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I fill in "([^"]*)" with Project Name$/
+   * @Given /^I fill in "([^"]*)" with issue name$/
    */
-  public function iFillInWithProjectName($label)
+  public function iFillInWithIssueName($label)
   {
     // Find project from Projects table
-    $table_type = 'Projects';
+    $table_type = 'Project Issues';
     // Find the table element object
     $arr_table = $this->getTableElement($table_type);
     if (empty($arr_table['element'])) {
@@ -2799,17 +2855,19 @@ class FeatureContext extends DrupalContext {
       throw new Exception('No records found');
     }
     // Find the first link
-    $a_first = $first_tr->find('css', 'td a');
+    $a_first = $first_tr->findAll('css', 'td a');
+    // $a_first[0] : Project link
+    // $a_first[1] : Issue link
     if (empty($a_first)) {
       // Store the link label to use afterwards
-      throw new Exception('Project link cannot be found');
+      throw new Exception('Project/Issue link cannot be found');
     }
-    HackyDataRegistry::set('project name', $a_first->getText());
-    return new Given('I fill in "' . $label . '" with "' . $a_first->getText() .'"');
+    HackyDataRegistry::set('project name', $a_first[0]->getText());
+    return new Given('I fill in "' . $label . '" with "' . $a_first[1]->getText() .'"');
   }
 
   /**
-   * @Given /^I select Project Name from "([^"]*)"$/
+   * @Given /^I select project name from "([^"]*)"$/
    */
   public function iSelectProjectNameFrom($label) {
     if ($project_name = HackyDataRegistry::get('project name')) {
@@ -2859,16 +2917,15 @@ class FeatureContext extends DrupalContext {
         break;
       case 'Project Issues':
         $arr_table['table_class'] = array(
-          'views-table sticky-enabled cols-10 project-issue',
-          'views-table sticky-enabled cols-10 project-issue sticky-table',
-          'views-table sticky-enabled cols-9 project-issue sticky-table',
+          'views-table sticky-enabled project-issue',
+          'views-table sticky-enabled project-issue sticky-table',
         );
         $arr_table['link_column'] = '1';
         $arr_table['link_exceptions'] = array();
         break;
     }
     if (empty($arr_table)) {
-      throw new Exception('Step definition is incomplete for: "' . $type . '"');
+      throw new Exception('Table details are not given for: "' . $type . '"');
     }
     // find the tables
     $tables = $this->getSession()->getPage()->findAll('css','#content-inner table');
@@ -2879,6 +2936,8 @@ class FeatureContext extends DrupalContext {
     foreach ($tables as $table) {
      // find the Table class
       $table_class = $table->getAttribute('class');
+      // Remove cols-10/cols-11 class if any
+      $table_class = preg_replace("/ cols-(\d*) /", " ", $table_class);
       // Consider only the required table
       if (in_array($table_class, $arr_table['table_class'])) {
         $arr_table['element'] = $table;
@@ -3222,6 +3281,7 @@ class FeatureContext extends DrupalContext {
       $link = $ul_ele->findLink($blockLink);
       if (!empty($link)) {
         $link->click();
+        $this->iWaitForSeconds(5);
       }else {
         $message = true;
       }
@@ -3234,14 +3294,14 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see the block "([^"]*)" in column "([^"]*)"$/
+   * @Then /^I should see the block "([^"]*)" in column "([^"]*)"(?:a|)$/
    */
   public function iShouldSeeTheBlockInColumn($block, $column)
   {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     // Find blocks from the column
-    $blocks_h3 = $this->getSession()->getPage()->findAll('css', '#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
+    $blocks_h3 = $this->getSession()->getPage()->findAll('css', 'div#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
     if (!empty($blocks_h3)) {
       $found = false;
       foreach ($blocks_h3 as $header_span) {
@@ -3338,16 +3398,16 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Create a book page and store the title
+   * Create a book page and store the title and URL
    *
    * @Given /^I create a book page$/
    */
   public function iCreateABookPage() {
     $page = $this->getSession()->getPage();
-    $title = $this->randomString(8);
-    $page->fillField("Title:", $title);
+    $this->documentTitle = $this->randomString(8);
+    $page->fillField("Title:", $this->documentTitle);
     $page->fillField("Body:", "The body of the book page having more than ten words");
-    HackyDataRegistry::set('book page title', $title);
+    HackyDataRegistry::set('book page title', $this->documentTitle);
     $page->pressButton('Save');
     sleep(2);
     HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
@@ -3743,7 +3803,7 @@ class FeatureContext extends DrupalContext {
   }
 
 	/**
-   * @Given /^(?:that I|I) created a sandbox project$/
+   * @Given /^(?:that I|I) create(?:|d) a sandbox project$/
    */
   public function iCreatedASandboxProject() {
     $session = $this->getSession();
@@ -3782,31 +3842,32 @@ class FeatureContext extends DrupalContext {
     if (empty($project_shortname)) {
       throw new Exception('The project cannot be found.');
     }
+    if (!is_dir($project_shortname)) {
+      $project_shortname = strtolower($project_shortname);
+    }
     return new Then('I should have a local copy of "' . $project_shortname . '"');
   }
 
   /**
-   * @Then /^I should not be able to clone the sandbox repo$/
+   * @Then /^I clone the sandbox repo$/
    */
-  public function IShouldNotBeAbleToCloneTheSandboxRepo() {
-    $gitwrapper = "";
+  public function iCloneTheSandboxRepo() {
+    $githost = 'git.drupal.org';
+    $gitwrapper = 'bin/gitwrapper';
+    $dir = HackyDataRegistry::get('project_short_name');
     // Fetch the stored sandbox url to generate the old git url for sandbox
+    // Eg: "http://git6site.devdrupal.org/sandbox/gitvetteduser/172444"
     $sandbox_url = HackyDataRegistry::get('sandbox_url');
-    // Eg: $sandbox_url = "http://git6site.devdrupal.org/sandbox/gitvetteduser/172444";
     $components = parse_url($sandbox_url);
-    // Attach port if git6site
-    $is_drupal_org = ($components['host'] == 'drupal.org');
     // Find logged in username
     $loggedin_user = $this->whoami();
-    // Remove spaces if any
-    $loggedin_user = str_replace(" ", "", $loggedin_user);
-    if ($this->fetchPassword('git', $loggedin_user)) {
-      $gitwrapper = '../bin/gitwrapper ' . $this->fetchPassword('git', $loggedin_user) . ' ; ';
+    if ($loggedin_user && $loggedin_user != 'User account') {
+      // Remove spaces if any
+      $loggedin_user = str_replace(" ", "", $loggedin_user);
+      $password = $this->fetchPassword('git', $loggedin_user);
     }else {
       $loggedin_user = "";
-    }
-    if (!$is_drupal_org) {
-      $components['host'] .= ':2020';
+      $password = "\"\"";
     }
     // Attach git extension
     $components['path'] .= '.git';
@@ -3821,17 +3882,29 @@ class FeatureContext extends DrupalContext {
         $command .= ' http://' . $components['host'] . $components['path'];
       }
     }else {
-      // Eg: logged in: git clone --recursive --branch master ssh://username@git6.devdrupal.org:2020/sandbox/username/project_short_code.git
-      // anonymous: git clone --recursive --branch master ssh://git6.devdrupal.org:2020/sandbox/username/project_short_code.git
-      $command .= ' ssh://' . ($loggedin_user ? $loggedin_user . '@' : '') . $components['host'] . $components['path'];
+      // Eg: git clone --recursive --branch master http://git.drupal.org/sandbox/username/project_short_code.git
+      $endpoint .= 'http://' . $components['host'] . $components['path'];
     }
-    $command .= ' ; ' . $gitwrapper;
+    // Generate the git clone command
+    $command = $gitwrapper . ' ' . $password . ' ' . $endpoint . ' ' . $dir;
     // Initialize the process
     $process = new Process($command);
     $process->setTimeout(3600);
     $process->run();
-    if ($process->isSuccessful()) {
-      throw new RuntimeException('The Sandbox project can be cloned');
+    $this->process_output = $process->getOutput();
+  }
+
+  /**
+   * @Then /^I should see the error "([^"]*)"$/
+   */
+  public function iShouldSeeTheError($error) {
+    if (empty($this->process_output)) {
+      throw new Exception("Process output is not found");
+    }
+    //fatal: remote error: Repository does not exist. Verify that your remote is correct./ Permission denied
+    // Look for the error in the output
+    if (false === strpos($this->process_output, $error)) {
+      throw new Exception("The error:\"" . $error . "\" is not happening");
     }
   }
 
@@ -3912,13 +3985,22 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I (?:|should )see the issue title$/
+   * @Then /^I (?:|should )see the (?:issue|document) title$/
    */
-  public function iShouldSeeTheIssueTitle() {
+  public function iShouldSeeTheTitle() {
     $page = $this->getSession()->getPage();
     $element = $page->find('css', 'h1#page-subtitle');
-    if (empty($element) || strpos($element->getText(), $this->issueTitle) === FALSE) {
-      throw new Exception('Issue title not found where it was expected.');
+    $title = $type
+           = "";
+    if (isset($this->issueTitle)) {
+      $title = $this->issueTitle;
+      $type = 'Issue';
+    }elseif ($title = HackyDataRegistry::get('book page title')) {
+      $type = 'Document';
+    }
+
+    if (empty($title) || empty($element) || strpos($element->getText(), $title) === FALSE) {
+      throw new Exception($type . ' title not found where it was expected.');
     }
   }
 
@@ -3949,10 +4031,9 @@ class FeatureContext extends DrupalContext {
   function getIssueTiteObj($page) {
     $temp = HackyDataRegistry::get('issue title');
     $result = $page->findLink($temp);
-    if (empty($result)) {
-      throw new Exception('Could not find the link with this title');
-    }
-		return $result;
+    if (!empty($result)) {
+     return $result;
+	}
   }
 
 	/**
@@ -4148,6 +4229,10 @@ class FeatureContext extends DrupalContext {
     if ($project_path = HackyDataRegistry::get('project path')) {
       $arr_nodeurl[] = $project_path;
     }
+    // Test Document/Book page
+    if ($document_url = HackyDataRegistry::get('document url')) {
+      $arr_nodeurl[] = $document_url;
+    }
     if (empty($arr_nodeurl)) {
       return;
     }
@@ -4187,6 +4272,10 @@ class FeatureContext extends DrupalContext {
    *   Return an array containing username and password or return false
    */
   private function getGitUserData($repo) {
+    // If user is not logged in, then return false
+    if (!$this->getLoggedinUsername()) {
+      return FALSE;
+    }
     $gitUsername = "";
     $password = "";
 	  $code = explode("@", $repo);
@@ -4225,4 +4314,426 @@ class FeatureContext extends DrupalContext {
   public function iShouldNotBeAbleToPushACommitToTheRepository() {
     $this->iShouldBeAbleToPushACommitToTheRepository(FALSE);
   }
+
+  /**
+   * @Given /^I am on the document page$/
+   */
+  public function iAmOnTheDocumentPage() {
+    $doc_url = HackyDataRegistry::get('document url');
+    if (empty($doc_url)) {
+      throw new Exception('There is no url for the document');
+    }
+    $this->getSession()->visit($this->locatePath($doc_url));
+    sleep(2);
+    // Find and save metdata string
+    $updates = $this->getSession()->getPage()->find('css', 'div.node-content > p.updated > em');
+    if (empty($updates)) {
+      throw new Exception(ucwords($type) . ' cannot be found on the document');
+    }
+    $this->updates = $updates->getText();
+    return new Then("I should see the document title");
+  }
+
+  /**
+   * @When /^I edit the document$/
+   */
+  public function iEditTheDocument() {
+    sleep(2);
+    $page = $this->getSession()->getPage();
+    $body = $page->findField('Body:');
+    if (empty($body)) {
+      throw new Exception('The body field is not found in the page. Make sure you are on the document edit page');
+    }
+    // Attach some strings to document body
+    $text = $body->getText() . "\n" . chunk_split($this->randomString(50), 5, " ");
+    $body->setValue($text);
+    $page->fillField('Log message:', 'Updated document');
+    $page->pressButton('Save');
+  }
+
+  /**
+   * @Given /^I should not see "([^"]*") in editor usernames$/
+   * Creator user name should not be included with editors even if the document is edited by creator
+   * Editor usernames should not have duplicates
+   */
+  public function iShouldNotSeeInEditorUsernames($type) {
+    if ($type == 'creator usernames') {
+      $created_user = HackyDataRegistry::get('document creator');
+      if (empty($created_user)) {
+        throw new Exception('Created username cannot be found');
+      }
+      if (true === strpos($this->edited_users, $created_user)) {
+        throw new Exception('Editor usernames contains Document creator');
+      }
+    }
+    elseif ($type == 'repeated usernames') {
+      // Check for duplicates in editor usernames
+      // Find usernames between "Edited by " and ". You can edit"
+      $editors = substr($this->updates, strpos($this->updates, 'Edited by ') + 10,  (strlen($this->updates) - strpos($this->updates, '. You can edit')) * -1);
+      $arr_editors = explode(',', $editors);
+      if ($arr_editors != array_unique($arr_editors)) {
+        throw new Exception('Editor usernames has duplicate values');
+      }
+    }
+  }
+
+  /**
+   * Verify necessary data from Revisions tab
+   *
+   * last updated date
+   * @Then /^the "([^"]*)" should match the (?:latest|first|usernames in the) revision(?:|s)$/
+   *
+   * @param string $type
+   *   The type of value to be verified. Valid values "created by username, created date, last updated date, editor usernames"
+   *
+   */
+  public function theShouldMatchTheRevision($type) {
+    switch ($type) {
+      // First 4 editors
+      case 'editor usernames':// old: latest four unique entries
+        if (!$this->edited_users = $this->readDataFromRevisions('edited_users')) {
+          throw new Exception('Edited usernames cannot be found');
+        }
+        $string = 'Edited by ' . $this->edited_users;
+        if (empty($this->edited_users) || false === strpos($this->updates, $string)) {
+          throw new Exception('Editor usernames don\'t match with the latest unique entries in revisions');
+        }
+        break;
+      // Last updated date: First row
+      case 'last updated date'://old: date for current
+        if (!$updated_date = $this->readDataFromRevisions('updated_date')) {
+          throw new Exception('Last updated date cannot be found');
+        }
+        $string = 'Last updated ' . $updated_date;
+        if (empty($updated_date) || false === strpos($this->updates, $string)) {
+          throw new Exception('Last updated date doesn\'t match with latest revision date');
+        }
+        break;
+      // The first entry made to reisions will be for creator
+      case 'created date'://old: last entry
+        if (!$created_date = $this->readDataFromRevisions('created_date')) {
+          throw new Exception('Created date cannot be found');
+        }
+        $string = 'on ' . $created_date;
+        if (empty($created_date) || false === strpos($this->updates, $string)) {
+          throw new Exception('Created date doesn\'t match with the last entry in revisions');
+        }
+        break;
+      case 'created by username':
+        if (!$created_user = $this->readDataFromRevisions('created_user')) {
+          throw new Exception('Created username cannot be found');
+        }
+        $string = 'Created by ' . $created_user;
+        if (empty($created_user) || false === strpos($this->updates, $string)) {
+          throw new Exception('Creator username doesn\'t match with the last entry in revisions');
+        }
+        break;
+    }
+  }
+
+  /**
+   * Parse revision tab and read data
+   * @param string $type
+   *   type of data required from revisions
+   * @return string
+   *   date/usernames
+   *
+   */
+  private function readDataFromRevisions($type) {
+    $session = $this->getSession();
+    $current_url = $session->getCurrentUrl();
+    // Visit revisions tab
+    $session->visit($this->locatePath($current_url . '/revisions'));
+    switch($type) {
+      case 'updated_date':
+        // Last updated date will be date showing in the first row of revisions table
+        $tables = $session->getPage()->findAll('css', 'form#diff-node-revisions > div > table');
+        if (empty($tables)) {
+          throw new Exception('Revisions table cannot be found.');
+        }
+        // Point to the last table
+        $table = end($tables);
+        $link = $table->find('css', 'tbody > tr > td > a');
+        if (empty($link)) {
+          throw new Exception('Updated date link cannot be found.');
+        }
+        $arr_date = explode(" ", $link->getText());
+        // Move back to previous page
+        $session->visit($this->locatePath($current_url));
+        // Convert date to the date format: 'F d, Y' (January 1, 2012)
+        return $this->formatSiteDate($arr_date[0]);
+        break;
+      case 'created_user':
+      case 'created_date':
+        if ($session->getPage()->hasLink('Go to last page')) {
+          $session->visit($this->locatePath($session->getPage()->findLink('Go to last page')->getAttribute('href')));
+          $go_back = $session->getCurrentUrl();
+        }
+        $tables = $session->getPage()->findAll('css', 'form#diff-node-revisions div table');
+        if (empty($tables)) {
+          throw new Exception('Revisions table cannot be found.');
+        }
+        // Point to the last table
+        $table = end($tables);
+        $trs = $table->findAll('css', 'tbody tr');
+        if (empty($trs)) {
+          throw new Exception('Revisions entries cannot be found.');
+        }
+        $tr = end($trs);
+        $links = $tr->find('css', 'td')->findAll('css', 'a');
+        if (empty($links)) {
+          throw new Exception('Created date/Username cannot be found.');
+        }
+        $created_date = $this->formatSiteDate(substr($links[0]->getText(), 0, 10));
+        $username = $links[1]->getText();
+        if ($type == 'created_user') {
+          $string = $username;
+        }
+        elseif ($type == 'created_date') {
+          $string = $created_date;
+        }
+        if (isset($go_back)) {
+          $session->visit($this->locatePath($go_back));
+        }
+        HackyDataRegistry::set('document creator', $username);
+        // Move back to the previous page
+        $session->visit($this->locatePath($current_url));
+        return $string;
+        break;
+      case 'edited_users':
+        $tables = $session->getPage()->findAll('css', 'form#diff-node-revisions div table');
+        // Point to the last table
+        $table = end($tables);
+        $trs = $table->findAll('css', 'tbody tr');
+        $arr_users = array();
+        $created_user = HackyDataRegistry::get('document creator');
+        foreach ($trs as $tr) {
+          $links = $tr->find('css', 'td')->findAll('css', 'a');
+          $username = $links[1]->getText();
+          // Exclude creator username and already included editors
+          if ($username != $created_user && !in_array($username, $arr_users)) {
+            $arr_users[] = $username;
+          }
+          if (count($arr_users) == 4) {
+            break;
+          }
+        }
+        // Move back to the previous page
+        $session->visit($this->locatePath($current_url));
+        return implode(', ', $arr_users);
+        break;
+    }
+  }
+
+  /**
+   * Convert d/m/Y to the given date format
+   * @param string $date
+   *   date
+   * @param string $format
+   *   date format
+   */
+  private function formatSiteDate($date, $format = 'F d, Y') {
+    list($date, $month, $year) = explode('/', $date);
+    return date($format, strtotime("$year-$month-$date"));
+  }
+
+  /**
+   * @Given /^I follow "([^"]*)" tab$/
+   */
+  public function iFollowTab($link) {
+    $tabLink = "";
+    $page = $this->getSession()->getPage();
+    // Get all the links from the tabs
+    $tabs = $page->findAll('css', '#tabs .tabs li a');
+    if (empty($tabs)) {
+      throw new Exception('The page does not have any tabs');
+    }
+    // Loop throught each link and find the one required
+    foreach($tabs as $tab) {
+      if (trim($tab->getText()) == $link) {
+        $tabLink = $tab;
+        break;
+      }
+    }
+    // Make sure you have the link
+    if (!$tabLink || $tabLink == "") {
+      throw new Exception('The tab "' . $link . '" was not found on the page');
+    }
+    $tabLink->click();
+    sleep(2);
+  }
+
+  /**
+   * Function to check for the issue link
+   * @Then /^I (?:|should )see the issue link$/
+   */
+  public function iShouldSeeTheIssueLink() {
+    $page = $this->getSession()->getPage();
+    $link = $this->getIssueTiteObj($page);
+	if (empty($link)) {
+      throw new Exception('Could Not find the link in the current page');
+    }
+  }
+
+  /**
+   * Custom step definition to click a link
+   *
+   * @When /^I click "([^"]*)" link$/
+   * @param string $link
+   *   Link title
+   */
+  public function iClickLink($link) {
+    sleep(2);
+    $page = $this->getSession()->getPage();
+    // Perform some operations specific to the link, after clicking the link
+    if (in_array($link, array('Make this your Homepage', 'Use Default Homepage'))) {
+      // Reset homepage setting value
+      if (!HackyDataRegistry::get('homepage setting')) {
+        $this->changeDeaultHomepageSetting('reset');
+      }
+      $element = $page->findLink($link);
+      if (empty($element)) {
+        throw new Exception('The link: "' . $link . '" was not found on the page');
+      }
+      $element->click();
+      // As the operation is done through ajax, wait till the link disappears from the dom or for 3 seconds
+      $this->iWaitForSeconds(3, "$('a:contains(\"" . $link . "\")').text() == \"\"");
+    }
+    // Drupal banner in the header
+    elseif($link == 'drupal banner') {
+      $element = $page->find('css', 'div#header-left-inner > div#site-name > a');
+      if (empty($element)) {
+        throw new Exception(ucfirst($link) . ' was not found on the page');
+      }
+      $element->click();
+    }
+  }
+
+  /**
+   * @When /^I click the drupal banner in the header$/
+   *
+   */
+  public function iClickTheDrupalBannerInTheHeader() {
+    return new When('I click "drupal banner" link');
+  }
+
+  /**
+   * Change home page setting value on user dashboard
+   *
+   * @Given /^I "([^"]*)" the default homepage setting$/
+   * @param string $action
+   *   reset:  Reset setting to "Make this your Homepage"
+   *   revert:  Revert setting to the original value
+   */
+  public function changeDeaultHomepageSetting($action) {
+    $page = $this->getSession()->getPage();
+    // Reset setting to 'Use Default Homepage'
+    if ($action == 'reset') {
+      $content = $page->findLink('Use Default Homepage');
+      if ($content) {
+        // Since Dashboard is already selected as homepage, save 'Use Default Homepage' for later use
+        HackyDataRegistry::set('homepage setting', 'Use Default Homepage');
+        $this->iClickLink("Use Default Homepage");
+      }
+      else {
+        HackyDataRegistry::set('homepage setting', 'Make this your Homepage');
+      }
+    }
+    // Revert setting to saved default setting
+    elseif($action == 'revert') {
+      $setting = HackyDataRegistry::get('homepage setting');
+      if (empty($setting)) {
+        return;
+      }
+      // Find setting link
+      $link = $page->find('css','form#drupalorg-set-home div a');
+      if (empty($link)) {
+        throw new Exception('Homepage setting link is not found. Revert failed');
+      }
+      // Compare current setting with saved default setting
+      if ($setting != $link->getText()) {
+        HackyDataRegistry::set('homepage setting', '');
+        // Use the click statement to make sure ajax request is complete
+        $this->iClickLink($link->getText());
+      }
+    }
+  }
+
+  /**
+   * Revert user dashboard home page setting to original value
+   *
+   * @afterScenario @revert_homepage_setting
+   * @return object When
+   */
+  public function revertHomepageSetting() {
+    $session = $this->getSession();
+    $page = $session->getPage();
+    // Visit dashboard page to find the setting link
+    $link = $page->findLink("Your Dashboard");
+    if (empty($link)) {
+      throw new Exception('"Your Dashboard" link is not found. Revert failed');
+    }
+    $session->visit($this->locatePath($link->getAttribute('href')));
+    // Revert the setting
+    $this->changeDeaultHomepageSetting('revert');
+  }
+
+  /**
+   * Clear blocks from user dashboard
+   *
+   * @Given /^there are no blocks on my dashboard$/
+   *
+   */
+  public function removeDashboardBlocks() {
+    $close_links = $this->getSession()->getPage()->findAll('css', 'a.portlet-icon.portlet-close');
+    // Assume there are no blocks on dashboard
+    if (empty($close_links)) {
+      return;
+    }
+    foreach ($close_links as $link) {
+      $link->click();
+    }
+    // Wait to get the dom updated
+    sleep(3);
+  }
+
+   /**
+   * @Then /^the count of "([^"]*)" should be greater than zero$/
+   */
+	public function theCountOfShouldBeGreaterThanZero($gitActivity) {
+    $repTemp = "";
+    $total = 0;
+	  $page = $this->getSession()->getPage();
+    $result = $page->findAll('css', "#block-drupalorg-drupalorg_activity div.item-list ul li");
+    if (empty($result)) {
+      throw new Exception("Unable to find activity block");
+    }
+    foreach ($result as $commit) {
+      $text = trim($commit->getHtml());
+      $fullText = explode("</strong>", $text);
+      if (strpos($fullText[1], $gitActivity) !== FALSE) {
+        $resultCount = explode('>', $fullText[0]);
+        $repTemp =  str_replace(",", "", $resultCount[1]);
+        if(empty($repTemp)) {
+          throw new Exception("Could not find any records for this  '" . $gitActivity . "' activity");
+        }
+        $total = $total + (int) trim($repTemp);
+      }
+    }
+    if ($total <= 0) {
+      throw new Exception("The records for the activity '" . $gitActivity . "' cannot be less than zero");
+    }
+  }  
+
+  /**
+   * @Given /^I should see community member photo$/
+   */
+  public function iShouldSeeCommunityMemberPhoto() {
+    $page = $this->getSession()->getPage();
+	  $result = $page->find('css', '.view-drupalorg-community-spotlight .node-content img');
+    if (empty($result)) {
+      throw new Exception('No Photo Id exists for the user');
+    }
+    return $result;
+  }  
 }
