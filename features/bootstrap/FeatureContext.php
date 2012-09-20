@@ -3277,6 +3277,7 @@ class FeatureContext extends DrupalContext {
       $link = $ul_ele->findLink($blockLink);
       if (!empty($link)) {
         $link->click();
+        $this->iWaitForSeconds(5);
       }else {
         $message = true;
       }
@@ -3289,14 +3290,14 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see the block "([^"]*)" in column "([^"]*)"$/
+   * @Then /^I should see the block "([^"]*)" in column "([^"]*)"(?:a|)$/
    */
   public function iShouldSeeTheBlockInColumn($block, $column)
   {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     // Find blocks from the column
-    $blocks_h3 = $this->getSession()->getPage()->findAll('css', '#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
+    $blocks_h3 = $this->getSession()->getPage()->findAll('css', 'div#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
     if (!empty($blocks_h3)) {
       $found = false;
       foreach ($blocks_h3 as $header_span) {
@@ -4664,5 +4665,24 @@ class FeatureContext extends DrupalContext {
     $session->visit($this->locatePath($link->getAttribute('href')));
     // Revert the setting
     $this->changeDeaultHomepageSetting('revert');
+  }
+
+  /**
+   * Clear blocks from user dashboard
+   *
+   * @Given /^there are no blocks on my dashboard$/
+   *
+   */
+  public function removeDashboardBlocks() {
+    $close_links = $this->getSession()->getPage()->findAll('css', 'a.portlet-icon.portlet-close');
+    // Assume there are no blocks on dashboard
+    if (empty($close_links)) {
+      return;
+    }
+    foreach ($close_links as $link) {
+      $link->click();
+    }
+    // Wait to get the dom updated
+    sleep(3);
   }
 }
