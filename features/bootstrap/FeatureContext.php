@@ -4859,4 +4859,33 @@ class FeatureContext extends DrupalContext {
     HackyDataRegistry::set('sandbox git endpoint', $end_point);
     $this->getSession()->visit($this->locatePath($current_url));
   }
+
+  /**
+   * @When /^I clik on link "([^"]*)" under section "([^"]*)"$/
+   */
+  public function iClikOnLinkUnderSection($link, $section) {
+    $page = $this->getSession()->getPage();
+    // Verify that the section exists
+    $result = $page->find('xpath', '//form[@id="lists-subscribe-form"]//h2[text()="' . $section . '"]');
+    if (empty($result)) {
+      throw new Exception("The section '" . $section . "' was not found on the page");
+    }
+    // Get all the links with the link name
+    $links = $page->findAll('xpath', '//form[@id="lists-subscribe-form"]//p//a[text()="' . $link . '"]');
+    if (empty($links)) {
+      throw new Exception("The link '" . $link . "' was not found on the page");
+    }
+    $href = "";
+    foreach ($links as $anch) {
+      $href = $anch->getAttribute('href');
+      // Check if the links url contains the section name
+      if (strpos($href, strtolower($section)) !== FALSE) {
+        break;
+      }
+    }
+    if ($href == "") {
+      throw new Exception("The link '" . $link . "' was not found for the section '" . $section . "'");
+    }
+    $anch->click();
+  }
 }
