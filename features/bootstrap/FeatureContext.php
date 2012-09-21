@@ -1204,11 +1204,14 @@ class FeatureContext extends DrupalContext {
    */
   public function iSelectFromTheSuggestion($value, $locator) {
     $element = $this->getSession()->getPage();
+    if (strtolower($locator) == "key modules/theme/distribution used") {
+      $locator = "edit-field-module-0-nid-nid";
+    }
     $element->fillField($locator, $value);
     $this->project_value = $value;
-	//In order to close the autocomplete dropdown, otherwise button click does not work
-	sleep(3);
-	$this->getSession()->executeScript("$('#autocomplete').hide();");
+	  //In order to close the autocomplete dropdown, otherwise button click does not work
+	  sleep(3);
+	  $this->getSession()->executeScript("$('#autocomplete').hide();");
   }
 
   /**
@@ -4781,5 +4784,37 @@ class FeatureContext extends DrupalContext {
         throw new Exception("The committer '" . $committer . "' was not found for the project");
       }
     }
+  }
+
+  /**
+   * @Given /^I should not see the slideshow case studies in the view content$/
+   */
+  public function iShouldNotSeeTheSlideshowCaseStudiesInTheViewContent() {
+    $page = $this->getSession()->getPage();
+    // Get all the slide titles
+    $slides = $page->findAll('css', '#block-views-drupalorg_casestudies-block_3 ul li h2');
+    if (empty($slides)) {
+      throw new Exception("The page does not contain any slides");
+    }
+    // Check each title is present in the view content or not
+    foreach ($slides as $slide) {
+      $text = trim($slide->getText());
+      $case = $page->find('xpath', '//div[@id="content"]//h2[text()="' . $text . '"]');
+      if (!empty($case)) {
+        throw new Exception("The case study '" . $text . "' appears in the view content but is should not");
+      }
+    }
+  }
+
+  /**
+   * @When /^I follow the tag "([^"]*)"$/
+   */
+  public function iFollowTheTag($tag) {
+    $page = $this->getSession()->getPage();
+    $tagLink = $page->find('xpath', '//div[@id="content"]//div[@class="views-field-tid"]//a[text()="' . $tag . '"]');
+    if (empty($tagLink)) {
+      throw new Exception("The tag '" . $tag . "' was not found in the view content");
+    }
+    $tagLink->click();
   }
 }
