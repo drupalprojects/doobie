@@ -190,7 +190,8 @@ class FeatureContext extends DrupalContext {
    * @When /^I clone the repo$/
    */
   public function iCloneTheRepo() {
-    $password = "";
+    // Initialise the password as "" to consider anonymous user    
+    $password = "\"\"";
     $url = "";
     $element = $this->getSession()->getPage();
     $currUrl = $this->getSession()->getCurrentUrl();
@@ -3823,6 +3824,8 @@ class FeatureContext extends DrupalContext {
    * @When /^I promote the project$/
    */
   public function iPromoteTheProject() {
+    // Read sandbox code block and save for later use
+    $this->saveSandboxGitEndpoint();
     $page = $this->getSession()->getPage();
     $page->clickLink('Edit');
     $page = $this->getSession()->getPage();
@@ -3855,13 +3858,8 @@ class FeatureContext extends DrupalContext {
    * @Then /^I clone the sandbox repo$/
    */
   public function iCloneTheSandboxRepo() {
-    $githost = 'git.drupal.org';
-    $gitwrapper = 'bin/gitwrapper';
+    $gitwrapper = './bin/gitwrapper';
     $dir = HackyDataRegistry::get('project_short_name');
-    // Fetch the stored sandbox url to generate the old git url for sandbox
-    // Eg: "http://git6site.devdrupal.org/sandbox/gitvetteduser/172444"
-    $sandbox_url = HackyDataRegistry::get('sandbox_url');
-    $components = parse_url($sandbox_url);
     // Find logged in username
     $loggedin_user = $this->whoami();
     if ($loggedin_user && $loggedin_user != 'User account') {
@@ -3872,21 +3870,27 @@ class FeatureContext extends DrupalContext {
       $loggedin_user = "";
       $password = "\"\"";
     }
-    // Attach git extension
-    $components['path'] .= '.git';
-    // Generate the git clone command
-    $command = 'git clone --recursive --branch master';
-    if ($is_drupal_org) {
-      if ($loggedin_user) {
-        // Eg: git clone --recursive --branch master username@git.drupal.org:sandbox/username/project_short_code.git
-        $command .=  ' ' . $loggedin_user . '@' . $components['host'] . ':' . substr($components['path'], 1, strlen($components['path']));
-      }else {
-        // Eg: git clone --recursive --branch master http://git.drupal.org/sandbox/username/project_short_code.git
-        $command .= ' http://' . $components['host'] . $components['path'];
+    $endpoint = HackyDataRegistry::get('sandbox git endpoint');
+    if (empty($endpoint)) {
+      throw new Exception('Sandbox git end point is empty');
+    }
+    if (!$loggedin_user) {
+      $url = '';      
+      $components = parse_url($endpoint);
+      $components['scheme'] = 'http';
+      if (isset($components['host'])) {
+        $url .= $components['host'];
       }
-    }else {
-      // Eg: git clone --recursive --branch master http://git.drupal.org/sandbox/username/project_short_code.git
-      $endpoint .= 'http://' . $components['host'] . $components['path'];
+      if (isset($components['port'])) {
+        $url .= ':' . $components['port'];
+      }
+      if (isset($components['path'])) {
+        // Remove username from path
+        // if host is drupal.org. $components['path'] will have username too
+        $components['path'] = preg_replace(array("/(.+)@/", "/:sandbox/"), array("", "/sandbox"), $components['path']);
+        $url .= $components['path'];
+      }
+      $endpoint = $components['scheme'] . '://' . $url;
     }
     // Generate the git clone command
     $command = $gitwrapper . ' ' . $password . ' ' . $endpoint . ' ' . $dir;
@@ -3895,6 +3899,9 @@ class FeatureContext extends DrupalContext {
     $process->setTimeout(3600);
     $process->run();
     $this->process_output = $process->getOutput();
+    // Remove the directory if it exists
+    $process = new Process('rm -rf ' . $dir);
+    $process->run();
   }
 
   /**
@@ -3904,7 +3911,8 @@ class FeatureContext extends DrupalContext {
     if (empty($this->process_output)) {
       throw new Exception("Process output is not found");
     }
-    //fatal: remote error: Repository does not exist. Verify that your remote is correct./ Permission denied
+    $this->process_output;
+    //fatal: remote error: Repository does not exist. Verify that your remote is correct/ remote HEAD refers to nonexistent ref, unable to checkout
     // Look for the error in the output
     if (false === strpos($this->process_output, $error)) {
       throw new Exception("The error:\"" . $error . "\" is not happening");
@@ -4816,5 +4824,39 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The tag '" . $tag . "' was not found in the view content");
     }
     $tagLink->click();
+  }
+
+  /**
+   * Save Sandbox code block from revision tab
+   * 
+   */
+  private function saveSandboxGitEndpoint() {
+    $current_url = $this->getSession()->getCurrentUrl();
+    $link = $this->getSession()->getPage()->findLink('Version control');
+    // If no link found, do not harm promote project. so return
+    if (empty($link)) { 
+      $this->getSession()->visit($this->locatePath($current_url));
+      return;
+    }
+    $this->getSession()->visit($this->locatePath($link->getAttribute('href')));
+    // Get the code block
+    $element = $this->getSession()->getPage()->find('css', '#content div.codeblock');
+    if (empty($element)) {
+      $this->getSession()->visit($this->locatePath($current_url));
+      return;
+    }
+    $code = $element->getText();
+    // If sandbox repo is already initiated
+    // Eg: git clone --recursive --branch master ssh://gitvetteduser@git6.devdrupal.org:2020/sandbox/gitvetteduser/1788043.git
+    $end_point = '';    
+    if (preg_match('#git clone --recursive --branch (.+)\.git#', $code, $matches)) {
+      $arr_ep = explode(" ", $matches[1]);
+      $end_point = end($arr_ep) . ".git";
+    }
+    elseif (preg_match('#git remote add origin (.+)\.git#', $code, $matches)) {
+       $end_point = $matches[1] . ".git";
+    }
+    HackyDataRegistry::set('sandbox git endpoint', $end_point);
+    $this->getSession()->visit($this->locatePath($current_url));
   }
 }
