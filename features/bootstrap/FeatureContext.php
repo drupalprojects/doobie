@@ -4735,5 +4735,51 @@ class FeatureContext extends DrupalContext {
       throw new Exception('No Photo Id exists for the user');
     }
     return $result;
-  }  
+  }
+
+  /**
+   * @Then /^the <user> should have at least <count> commits$/
+   */
+  public function theUserShouldHaveAtLeastCountCommits(TableNode $table) {
+    $page = $this->getSession()->getPage();
+    $table = $table->getHash();
+    foreach ($table as $key => $value) {
+      $user = trim($value['user']);
+      $count = trim($value['count']);
+      // Get the anchor tag for the username in the maintainers block
+      $userLink = $page->find("xpath", "//div[@id=\"block-versioncontrol_project-project_maintainers\"]//a[text()=\"" . $user . "\"]");
+      if (empty($userLink)) {
+        throw new Exception("The user '" . $user . "' was not found in the maintainers block");
+      }
+      // a > div.vc-user
+      $parent = $userLink->getParent();
+      // Get the commit count
+      $commit = $parent->find('css', '.vc-commits');
+      if (empty($commit)) {
+        throw new Exception("The user '" . $user . "' does not have any commits");
+      }
+      $commit = trim($commit->getText());
+      // Possible formats: 1 commit,  7 commits
+      //$commit = (int) str_replace("s", "", str_replace(" commit", "", $commit));
+      $commit = (int) preg_replace("/ commit(?:s|)/", "", $commit);
+      if (!$commit || $commit < $count) {
+        throw new Exception("The commit count for user '" . $user . "' is less than '" . $count . "'");
+      }
+    }
+  }
+
+  /**
+   * @Then /^the project should have the following <committers>$/
+   */
+  public function theProjectShouldHaveTheFollowingCommitters(TableNode $table) {
+    $page = $this->getSession()->getPage();
+    $table = $table->getHash();
+    foreach ($table as $value) {
+      $committer = trim($value['committers']);
+      $committerLink = $page->find("xpath", "//div[@id=\"block-versioncontrol_project-project_maintainers\"]//a[text()=\"" . $committer . "\"]");
+      if (empty($committerLink)) {
+        throw new Exception("The committer '" . $committer . "' was not found for the project");
+      }
+    }
+  }
 }
