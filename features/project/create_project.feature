@@ -31,12 +31,12 @@ Feature: Create a project
     And I am on "/node/add/project-project"
     Then I should see that the Sandbox checkbox is "enabled"
   
-  @javascript
+  @javascript @wip
   Scenario: Check Project Short name can be set if Sandbox checkbox is unchecked
     Given I am logged in as "git vetted user"
     And I am on "/node/add/project-project"
-    When I check "Sandbox"
-    Then I should see "Short project name:"
+    When I uncheck the box "project[sandbox]"
+    Then I should see "Short project name"
 
   @javascript @cleanData
   Scenario: Create a Project
