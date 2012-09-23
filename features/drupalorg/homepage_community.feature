@@ -22,8 +22,8 @@ Feature: Drupal community
   Scenario: To search for right side links on the side bar
     Given I am on the homepage
     When I follow "Community"
-    Then I should see the heading "Recent Activity"
-    And I should see at least "10" links in the content region
+    Then I should see the heading "Recent activity"
+    And I should see at least "10" links in the "content" region
 
   @javascript @known_git6failure
   Scenario: Search for documentation
