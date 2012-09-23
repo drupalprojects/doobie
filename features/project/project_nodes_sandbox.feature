@@ -1,9 +1,9 @@
-@known_git6failure
 Feature: To verify an existing sandbox project data
   In order to verify that the sandbox project has proper data
   As any user
   I should be able to view some specific contents on the page and verify the links
 
+  @anon
   Scenario: View the project page
     Given I am on the homepage
     When I visit "/node/1765126"
@@ -25,6 +25,7 @@ Feature: To verify an existing sandbox project data
     | Subscribe via e-mail |
     And I should see the heading "Development"
 
+  @anon
   Scenario: Project Git instructions
     Given I am on "/node/1765126"
     When I follow "Version control"
@@ -64,6 +65,7 @@ Feature: To verify an existing sandbox project data
     | search:     |
     | summary     |
 
+  @anon @known_git6failure
   Scenario: View git messages
     Given I am on "/node/1765126"
     When I follow "View commits"
@@ -77,6 +79,7 @@ Feature: To verify an existing sandbox project data
     And I should not see the link "first"
     And I should not see the link "previous"
 
+  @anon @known_git6failure
   Scenario: Check commit numbers in maintainers block
     Given I am on the homepage
     When I visit "/node/1765126"
@@ -85,6 +88,7 @@ Feature: To verify an existing sandbox project data
     | ksbalajisundar | 5     |
     | sachin2dhoni   | 2     |
 
+  @anon @known_git6failure
   Scenario: Check users in maintainers block
     Given I am on the homepage
     When I visit "/node/1765126"
@@ -93,6 +97,7 @@ Feature: To verify an existing sandbox project data
     | ksbalajisundar |
     | sachin2dhoni   |
 
+  @anon
   Scenario: Releases should not exist
     Given I am on the homepage
     When I visit "/node/1765126"
@@ -108,12 +113,13 @@ Feature: To verify an existing sandbox project data
     | zip (                |
     But I should see the link "sandbox project"
 
+  @anon
   Scenario: Read issue queue
     Given I am on "/node/1765126"
     When I follow "open"
     Then I should see the following <texts>
     | texts          |
-    | Issues for      |
+    | Issues for     |
     | Search for     |
     | Status         |
     | Priority       |
