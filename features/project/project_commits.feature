@@ -7,6 +7,7 @@ Feature: View the commits for a project
     Given I am on "/node/1765126"
     And I follow "View commits"
 
+  @wip
   Scenario: Navigate to commits page
     Then I should see the heading "Commits for BDD Sandbox Test Project-Please do not delete this"
     And I should see at least "5" commits
