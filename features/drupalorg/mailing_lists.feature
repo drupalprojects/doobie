@@ -116,15 +116,3 @@ Feature: Mailing list archives
     And I press "Subscribe"
     Then I should see "You will receive confirmation emails for your subscriptions. Please read them carefully and follow the directions"
 
-  #@mink:symfony
-  #Scenario: Subscribe to mailing list: I should receive an email
-  #  Given I am on "/mailing-lists"
-  #  When I fill in "E-mail address" with "ks.sundarajan@capgemini.com"
-  #  And I check the box "support"
-  #  And I check the box "development"
-  #  And I press "Subscribe"
-  #  Then I should see "You will receive confirmation emails"
-  #  And I should get an email on "ks.sundarajan@capgemini.com" with:
-  #  """
-  #  Mailing list subscription confirmation notice for mailing list support
-  #  """
