@@ -25,7 +25,7 @@ Feature: Drupal community
     Then I should see the heading "Recent Activity"
     And I should see at least "10" links in the content region
 
-  @javascript
+  @javascript @known_git6failure
   Scenario: Search for documentation
     Given I am on the homepage
     When I follow "Community"
