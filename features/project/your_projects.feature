@@ -105,9 +105,10 @@ Feature: Your Project Tab
     When I click "Edit" from "Sandbox Projects" table
     Then I should see "Project Edit" page
 
-  @wip
+  @javascript @slow
   Scenario: Check Issue search
-    And I am on "/project/user"
+    And I visit "/cron.php"
+    And I visit "/project/user"
     When I fill in "Search for" with issue name
     And I select project name from "Project"
     And I press "Search" in the "content" region
