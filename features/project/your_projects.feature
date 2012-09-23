@@ -6,22 +6,19 @@ Feature: Your Project Tab
   Background:
     Given I am logged in as "git vetted user"
 
-  Scenario: Create test data: Sandbox project
-    And I am on "/node/add/project-project"
-    When I create a "theme"
-    Then I should see the project title
-
-  Scenario: Create test data: Full project
+ Scenario: Create test data: Full project
     And I am on "/node/add/project-project"
     When I create a full project
     Then I should see the project title
 
+  @dependent
   Scenario: Create test data: Project issue
     And I am on "/project/user"
     When I click "Create" from "Projects" table
     And I create a new issue
     Then I should see the issue title
 
+  @dependent
   Scenario: Check the links and count of records on the page
     And I am on "/project/user"
     Then I should see the following <links>
@@ -34,7 +31,6 @@ Feature: Your Project Tab
     | Profile             |
     | Add a new project   |
     And I should see at least "1" record in "Projects" table
-    And I should see at least "1" record in "Sandbox Projects" table
     And I should see at least "1" record in "Project Issues" table
 
   Scenario: Check the links in Project Table
@@ -74,38 +70,7 @@ Feature: Your Project Tab
     When I click "Add release" from "Projects" table
     Then I should see "Create Project Release" page
 
-  Scenario: Check the links from Sandbox Project Table
-    And I am on "/project/user"
-    Then I should see the following <links> in column "Issue links" in "Sandbox Projects" table
-    | links  |
-    | View   |
-    | Search |
-    | Create |
-    And I should see the following <links> in column "Project links" in "Sandbox Projects" table
-    | links |
-    | Edit  |
-
-  Scenario: Check View link from Issue Links column for Sandbox Project Table
-    And I am on "/project/user"
-    When I click "View" from "Sandbox Projects" table
-    Then I should see "Project Issue" page
-
-  Scenario: Check Search link from Issue Links column for Sandbox Project Table
-    And I am on "/project/user"
-    When I click "Search" from "Sandbox Projects" table
-    Then I should see "Advanced Search" page
-
-  Scenario: Check Create link from Issue Links column for Sandbox Project Table
-    And I am on "/project/user"
-    When I click "Create" from "Sandbox Projects" table
-    Then I should see "Create Issue" page
-
-  Scenario: Check Edit link from Project Links column for Sandbox Project Table
-    And I am on "/project/user"
-    When I click "Edit" from "Sandbox Projects" table
-    Then I should see "Project Edit" page
-
-  @javascript @slow
+  @javascript @slow @dependent
   Scenario: Check Issue search
     And I visit "/cron.php"
     And I visit "/project/user"
