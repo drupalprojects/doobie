@@ -31,5 +31,5 @@ Feature: Drupal community
     When I follow "Community"
     And I fill in "Search Documenation" with "drupal"
     And I wait for the suggestion box to appear
-    And I follow  "Learn Drupal: Global Training Days"
+    And I follow "Learn Drupal: Global Training Days"
     Then I should see the heading "Learn Drupal: Global Training Days"
