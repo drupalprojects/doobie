@@ -33,8 +33,8 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     When I clone the sandbox repo
     Then I should see the error "fatal: remote error: Repository does not exist. Verify that your remote is correct"
 
-  @clean_data
+  @clean_data @wip
   Scenario: Clone the sandbox repository as anonymous user
-    I'm not logged in
+    Given I am not logged in
     When I clone the sandbox repo
     Then I should see the error "remote HEAD refers to nonexistent ref, unable to checkout"
