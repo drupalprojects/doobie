@@ -116,7 +116,6 @@ Feature: Overall Filter Search for Issues
     | links |
     | next  |
     | last  |
-    | 1     |
     | 2     |
     And I should not see the link "first"
 
