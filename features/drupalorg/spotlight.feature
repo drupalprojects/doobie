@@ -1,4 +1,4 @@
-@javascript @wip @anon
+@javascript @anon
 Feature: View Community Spotlight
   In order to find contributors to Drupal Community
   As any user
@@ -29,7 +29,8 @@ Feature: View Community Spotlight
     | "+1 - Greg has been an" |
     | "g.d.o wouldn't be the same" |
     | "Profound respect for Greg's" |
-	
+
+  @known_git6failure	
   Scenario: Search and find Neil Drumm Community Spotlight
     Given I am on "/community-spotlight"
     When I search sitewide for "Neil Drumm"
