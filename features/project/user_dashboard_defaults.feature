@@ -9,7 +9,6 @@ Feature:
 
   Scenario: Click Restore to defaults and check the positions of Dashboard blocks
     When I follow "Your Dashboard"
-    And I follow "Dashboard"
     And I click "Add a block"
     And I click "Restore to defaults"
     # Intermittent failures unless we wait.
@@ -30,7 +29,6 @@ Feature:
 
   Scenario: Check the positions of Documentation Team Links and Project Issue Summary links
     When I follow "Your Dashboard"
-    And I follow "Dashboard"
     And I click "Add a block"
     Then I should see the following <blocklinks> in small boxes
     | blocklinks                |
