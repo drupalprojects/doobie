@@ -5,9 +5,8 @@ Feature: Drupal Create Issues
 
   Scenario: Create an issue from the main issues page
     Given I am logged in as "site user"
-    And I am on "/project/issues"
-    When I follow "Create a new issue"
-    And I select "Achievements" from "Project"
+    And I am on "/node/add/project-issue"
+    When I select "Achievements" from "Project"
     And I press "Next"
     And I select the following <fields> with <values>
     | fields    | values     |
