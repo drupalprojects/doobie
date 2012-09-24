@@ -1,4 +1,4 @@
-@wip @anon
+@anon
 Feature: Find About News
   In order to find the Latest news for me
   As any user
