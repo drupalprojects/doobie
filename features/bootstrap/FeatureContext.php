@@ -4221,7 +4221,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @AfterScenario @cleanData
+   * @AfterScenario @clean_data
    *
    * Delete test project/issue nodes
    */

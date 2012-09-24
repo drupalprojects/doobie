@@ -38,7 +38,7 @@ Feature: Create a project
     When I uncheck the box "project[sandbox]"
     Then I should see "Short project name"
 
-  @javascript @cleanData
+  @javascript @clean_data
   Scenario: Create a Project
     Given I am logged in as "git vetted user"
     And I am on "/node/add/project-project"
@@ -65,3 +65,4 @@ Feature: Create a project
     And I fill in "Testing create project" for "Log message:"
     And I press "Save"
     Then I check the project is created
+    
