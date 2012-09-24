@@ -13,15 +13,14 @@ Feature:
     And I follow "Your Dashboard"
     And I follow "Dashboard"
     Then I should see the following <links>
-    | links |
-    | Dashboard |
-    | Your Posts |
-    | Your Commits |
-    | Your Issues |
-    | Your Projects |
-    | Profile |
-    | Add a block |
-    | Make this your Homepage |
+    | links                   |
+    | Dashboard               |
+    | Your Posts              |
+    | Your Commits            |
+    | Your Issues             |
+    | Your Projects           |
+    | Profile                 |
+    | Add a block             |
 
   Scenario: Check Restore to default link
     When I follow "Log in / Register"
@@ -50,21 +49,21 @@ Feature:
     And follow "Your Dashboard"
     And I follow "Dashboard"
     Then I should see the below <blocks> in column "1"
-    | blocks |
-    | Drupal News |
+    | blocks        |
+    | Drupal News   |
     | Planet Drupal |
     And I should see the below <blocks> in column "2"
-    | blocks |
-    | Your Posts |
+    | blocks      |
+    | Your Posts  |
     | Your Issues |
     And I should see the below <blocks> in column "3"
-    | blocks |
+    | blocks                 |
     | Issues for Drupal core |
-    | Contributor Links |
+    | Contributor Links      |
     And I should not see the below <blocks> in column "1"
-    | blocks |
+    | blocks                 |
     | Issues for Drupal core |
-    | Contributor Links |
+    | Contributor Links      |
     And I should see the block "Drupal News" in column "1" just "above" the block "Planet Drupal"
     And I should see the block "Your Issues" in column "2" just "below" the block "Your Posts"
 
@@ -76,9 +75,9 @@ Feature:
     Then I should see the block "Your Posts" in column "2"
     And I should see at least "3" items in block "Your Posts"
     And I should see the following <icons> on the block "Your Posts"
-    | icons |
+    | icons    |
     | Settings |
-    | Close |
+    | Close    |
 
   Scenario: Check the Setting Icon and its action of the block Your Posts
     When I follow "Log in / Register"
