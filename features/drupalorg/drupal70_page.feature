@@ -23,7 +23,6 @@ Feature: To check the contents of Drupal 7.0 page
     | requirements information  |
     | API Documentation         |
 
-  @wip
   Scenario Outline: Check for language links
     Given I am on "/drupal-7.0"
     When I follow "<language>"
