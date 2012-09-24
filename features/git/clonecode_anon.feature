@@ -1,11 +1,13 @@
+@wip
 Feature: Visitor clones repositories
   In order to try out experimental code
   As a visitor to Drupal.org
   I want to clone a sandbox repo
 
   Scenario: Sandbox has a repo with code
-    Given I am at "/project/doobie/git-instructions"
-    When I clone the repo
+    Given I am at "/project/doobie"
+    When I click "Version control"
+    And I clone the repo
     Then I should have a local copy of "doobie"
   
   Scenario: Sandbox has a repo with no code    
