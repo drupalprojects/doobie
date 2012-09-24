@@ -1325,26 +1325,54 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-  * @Then /^I should see the following <subcategories> under "([^"]*)"$/
-  */
-  public function iShouldSeeTheFollowingSubcategoriesUnder($category, TableNode $table)
-  {
-    // find grid container
+   * @Then /^I should see the following <(?:subcategories|links)> under "([^"]*)"$/
+   */
+  public function iShouldSeeTheFollowingSubcategoriesUnder($category, TableNode $table) {
     $page = $this->getSession()->getPage();
-    $grids = $page->findAll('css', 'div.grid-2');
+    $temp_table = $table->getHash();
+    $temp_array = array_keys($temp_table[0]);
+    $resVal = $temp_array[0];
+    switch($resVal) {
+      //To get the grid headings and switch to the headings
+      case 'subcategories':
+        $grid_path = 'div.grid-2';
+        $index  = 'subcategories';
+        $h_tag = 'h3';
+        $grids = $page->findAll('css', $grid_path);
+        $type_text = "subcategor";
+        break;
+        //To find the appropriate heading
+      case 'links':
+        $index  = 'links';
+        $arr_path = array(
+          'h5' => 'div.narrow-box-list',
+          'h2' => 'div.grid-12 .drupal-modules-facets .grid-3',
+        );
+        $type_text = "link";
+        foreach ($arr_path as $h_tag => $path) {
+          $grids = $page->findAll('css', $path);
+          if (!empty($grids)) {
+            break;
+          }
+        }
+        break;
+      default:
+        throw new Exception('The option: "' . $resVal .'" doesn\'t exist' );
+        break;
+    }
+    // find grid container
     if (!empty($grids)) {
       $table = $table->getHash();
       $arr_subcats = array();
       $arr_visiblecats = array();
-      if(!empty($table)) {
-        foreach($table as $subcat) {
-          $arr_subcats[] = $subcat['subcategories'];
+      if(!empty($temp_table)) {
+        foreach($temp_table as $subcat) {
+          $arr_subcats[] = $subcat[$index];
         }
         // loop through the grid to identify appropriate DIV
-        foreach ( $grids as $grid) {
+        foreach ($grids as $grid) {
           // check main category
-          if (is_object($h3 = $grid->find('css', 'h3')) &&  $h3->getText() == $category) {
-            // find sub-category links
+          if (is_object($head_tag = $grid->find('css', $h_tag)) &&  $head_tag->getText() == $category) {
             $links = $grid->findAll('css', 'ul > li > a');
             if (!empty($links)) {
               //$visible = false;
@@ -1364,13 +1392,13 @@ class FeatureContext extends DrupalContext {
         //check presence of given subcategories in visible subcategories
         if (count($arr_np = array_diff($arr_subcats, $arr_visiblecats))) {
           $catcount = count($arr_np);
-          throw new Exception('The subcategor' . ($catcount == 1 ? 'y' : 'ies') . ': "' . ($np = implode('", "', $arr_np)).'" cannot be found.');
+          throw new Exception('The ' . $type_text . ((strlen($type_text) > 4) ? ($catcount == 1 ? 'y' : 'ies') : (($catcount == 1 ? '' : 's'))) . ': "' . ($np = implode('", "', $arr_np)).'" cannot be found.');
         }
       }else {
-      throw new Exception('Subcategories are not given.');
+        throw new Exception('"' . $resVal . '" are not given.');
       }
     }else {
-      throw new Exception('Subcategories are not given.');
+      throw new Exception('"' . $resVal . '" are not given.');
     }
   }
 
@@ -4708,11 +4736,10 @@ class FeatureContext extends DrupalContext {
     sleep(3);
   }
 
-   /**
+  /**
    * @Then /^the count of "([^"]*)" should be greater than zero$/
    */
 	public function theCountOfShouldBeGreaterThanZero($gitActivity) {
-    $repTemp = "";
     $total = 0;
 	  $page = $this->getSession()->getPage();
     $result = $page->findAll('css', "#block-drupalorg-drupalorg_activity div.item-list ul li");
@@ -4745,7 +4772,6 @@ class FeatureContext extends DrupalContext {
     if (empty($result)) {
       throw new Exception('No Photo Id exists for the user');
     }
-    return $result;
   }
 
   /**
@@ -4887,5 +4913,28 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The link '" . $link . "' was not found for the section '" . $section . "'");
     }
     $anch->click();
+  }
+
+  /**
+   * @Given /^I follow the result under "([^"]*)"$/
+   */
+  public function iFollowTheResultUnder($heading) {
+    $id = "";
+    switch($heading) {
+      case 'New Modules':
+        $id = '#block-drupalorg_order_facet-sort_created .item-list ul > li > a';
+        break;
+      case 'Module Index':
+        $id = '.drupal-modules-facets .grid-3.omega .item-list ul > li > a';
+        break;
+      default:
+        throw new Exception('The heading "' . ucfirst($heading) . '" was not found on the page');
+        break;
+    }
+    $links = $this->getSession()->getPage()->find("css", $id);
+    if (empty($links)) {
+      throw new Exception("No Results found to follow");
+    }
+    $this->getSession()->visit($this->locatePath($links->getAttribute('href')));
   }
 }
