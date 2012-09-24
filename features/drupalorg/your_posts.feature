@@ -36,7 +36,6 @@ Feature: Your Posts
     And I should see at least "1" new reply for the post
     And I should see updated for the post
 
-  @wip
   Scenario: Verify pagination links: First page
     Given I am logged in as "git vetted user"
     When I follow "Your Posts"
@@ -47,7 +46,6 @@ Feature: Your Posts
     | 2            |
     And I should not see the link "first"
 
-  @wip
   Scenario: Verify pagination links: Second page
     Given I am logged in as "git vetted user"
     And I follow "Your Posts"
@@ -59,7 +57,6 @@ Feature: Your Posts
     | 1           |
     | 2           |
 
-  @wip
   Scenario: Verify pagination links: Last page
     Given I am logged in as "git vetted user"
     And I follow "Your Posts"
