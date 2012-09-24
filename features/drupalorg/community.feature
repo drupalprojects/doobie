@@ -49,14 +49,11 @@ Feature: List of drupal communities
     Then I should see the issue link
     And I should see the heading "Recent activity"
 
-  @javascript
+  @javascript @known_git6failure
   Scenario: Search for documentation
     Given I am on the homepage
     When I follow "Community"
-    And I wait for "5" seconds
     And I fill in "drupal" for "Search Documentation:"
-    And I wait for "5" seconds
     And I wait for the suggestion box to appear
-    And I wait for "5" seconds
     And I follow "Learn Drupal: Global Training Days"
     Then I should see the heading "Learn Drupal: Global Training Days"
