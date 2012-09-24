@@ -4,28 +4,26 @@ Feature:
   As an authenticated user
   I should be able to add a block to the Dashboard
 
-  Background: 
+  Background:
     Given I am logged in as "site user"
 
-  @javascript
   Scenario: Add a new block to the Dashboard
     And I follow "Your Dashboard"
     And I follow "Dashboard"
     And there are no blocks on my dashboard
     And I follow "Add a block"
     Then I should see the following <blocklinks> in small boxes
-    | blocklinks               |  
-    | Drupal News              |
-    | Planet Drupal            |
-    | Your Posts               |
-    | Your Issues              |
-    | Project Issue Summary    |
-    | Contributor Links        |
-    | Documentation Team links |
+    | blocklinks                |
+    | Drupal News               |
+    | Planet Drupal             |
+    | Your Posts                |
+    | Your Issues               |
+    | Project Issue Summary     |
+    | Contributor Links         |
+    | Documentation Team links  |
     And I click the link "Contributor Links" to add
     And I should see the block "Contributor Links" in column "1"a
 
-  @known_git6failure
   Scenario Outline: Add block from project page
     And I am on "<page>" 
     When I click "<blocklink>"
@@ -41,7 +39,6 @@ Feature:
     | /project/issues/user | Add Your Issues to dashboard              | Issues for site user     |
     | /getting-involved    | Add Contributor Links to dashboard        | Contributor Links        |
 
-  @known_git6failure
   Scenario:Add from the user track page
     When I follow "Your Dashboard"
     And I click "Your Posts"
