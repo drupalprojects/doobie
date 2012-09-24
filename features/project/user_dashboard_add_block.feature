@@ -24,7 +24,6 @@ Feature:
     And I click the link "Contributor Links" to add
     And I should see the block "Contributor Links" in column "1"a
 
-  @known_git6failure
   Scenario Outline: Add block from project page
     And I am on "<page>" 
     When I click "<blocklink>"
@@ -40,7 +39,6 @@ Feature:
     | /project/issues/user | Add Your Issues to dashboard              | Issues for site user     |
     | /getting-involved    | Add Contributor Links to dashboard        | Contributor Links        |
 
-  @known_git6failure
   Scenario:Add from the user track page
     When I follow "Your Dashboard"
     And I click "Your Posts"
