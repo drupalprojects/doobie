@@ -1,4 +1,3 @@
-@wip
 Feature: To get administrative view of nodes by a user
   In order to manage content
   As an admin user
@@ -8,6 +7,7 @@ Feature: To get administrative view of nodes by a user
     Given I am logged in as "admin test"
     And I follow "Administer nodes"
 
+  @wip
   Scenario: View the list of items
     Then I should see at least "25" records
     And I should see the following <texts>
