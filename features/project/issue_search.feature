@@ -1,4 +1,4 @@
-@javascript @wip
+@javascript
 Feature: Search
   In order to find information related to a need I have
   As any user
@@ -14,6 +14,7 @@ Feature: Search
     And I should see "Bluemarine Twig"
     And I should not see "Bluefreedom"
 
+  @wip
   Scenario:Searching for a listed Entries
    Given I am on "/project/issues"
     When I fill in "projects" with "Userdashboard"
