@@ -82,21 +82,25 @@ Feature: To view and download a release package from the download table
     | This is not stable, and production sites should not run this code |
     And I should not see "Official release from tag: 7."
 
+  @wip
   Scenario: Download a release: Recommended - tar
     Given I am on "/project/drupal"
     When I download the "tar" file for version "7.15"
     Then the downloaded file name should be "drupal-7.15.tar.gz"
 
+  @wip
   Scenario: Download a release: Recommended - zip
     Given I am on "/project/drupal"
     When I download the "zip" file for version "6.26"
     Then the downloaded file name should be "drupal-6.26.zip"
 
+  @wip
   Scenario: Download a release: Recommended - tar
     Given I am on "/project/drupal"
     When I download the "tar" file for version "6.x-dev"
     Then the downloaded file name should be "drupal-6.x-dev.tar.gz"
 
+  @wip
   Scenario: Download a release: Development - zip
     Given I am on "/project/drupal"
     When I download the "zip" file for version "7.x-dev"
