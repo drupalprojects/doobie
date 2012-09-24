@@ -1,9 +1,9 @@
 Feature: Ways to get involved with drupal community
-  In order to participate in drupal communities
+  In order to participate in the Drupal community 
   As a user
-  I should know how to get involved with drupal community
+  I should find a guide to ways I can get involved
 
-  Scenario: To verify whether we are in getting involved page
+  Scenario: Navigate to the Getting Involved page
     Given I am on the homepage
     When I follow "Community"
     And I follow "Getting Involved"
@@ -12,14 +12,14 @@ Feature: Ways to get involved with drupal community
     And I should see the heading "Ways to Get Involved"
     And I should see "Drupal is an open source project built by a team of volunteers"
 
-  Scenario: To verify getting involove guide
+  Scenario: Getting involove guide
     Given I am on "/getting-involved"
     When I follow "Getting Involved Guide"
     Then I should see the heading "Getting Involved Guide"
     And I should see the text "Why get involved"
     And I should see the text "Ready to get involved"
 
-  Scenario: To know about community spot light
+  Scenario: Community spotlight
     Given I am on the homepage
     When I follow "Getting Involved"
     Then I should see the heading "Community Spotlight"
@@ -27,7 +27,7 @@ Feature: Ways to get involved with drupal community
     And I should see "Posted by"
     And I should see community member photo
 
-  Scenario: To check for right side block
+  Scenario: Right side block links
     Given I am on the homepage
     When I follow "Getting Involved"
     Then I should see "Ways to Get Involved"
@@ -45,7 +45,7 @@ Feature: Ways to get involved with drupal community
     | Documentation         |
     | Drupal Association    |
 
-  Scenario: To verify drupal org activity block records
+  Scenario: See drupal.org activity block
     Given I am on the homepage
     When I follow "Getting Involved"
     Then the count of "people with Git accounts" should be greater than zero
