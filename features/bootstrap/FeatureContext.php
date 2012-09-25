@@ -3886,6 +3886,8 @@ class FeatureContext extends DrupalContext {
    * @Then /^I clone the sandbox repo$/
    */
   public function iCloneTheSandboxRepo() {
+    // Check for the `expect` library.
+    $this->checkExpectLibraryStatus();
     $gitwrapper = './bin/gitwrapper';
     $dir = HackyDataRegistry::get('project_short_name');
     // Find logged in username
