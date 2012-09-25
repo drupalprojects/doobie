@@ -1762,13 +1762,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see the breadcrumb "([^"]*)"$/
-   */
-  public function iShouldSeeTheBreadcrumb($breadcrumb) {
-    throw new PendingException();
-  }
-
-  /**
    * @When /^I follow a post$/
    * Function to get the link from a table's first row
    */
