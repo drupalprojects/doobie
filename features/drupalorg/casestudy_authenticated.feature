@@ -13,10 +13,9 @@ Feature: View Drupal case studies as authenticated user
     And I should see the link "Add your case study"
     And I should see the link "Case Study guidelines"
 
-  @javascript
+  @javascript @wip
   Scenario: Add a new case study
     When I follow "Add your case study"
-    And I wait "3" seconds
     And I attach the file "koala.jpg" to "Primary screenshot:"
     And I select "Arts" from "Sectors"
     And I additionally select "Education" from "Sectors"
