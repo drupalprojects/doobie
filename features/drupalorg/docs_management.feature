@@ -7,6 +7,7 @@ Feature: Documents Management
    Given I am logged in as "docs manager" 
    And I am on "/documentation/manage"
   
+  @timeout
   Scenario: Search records by Comment count
     When I select "Is not equal to" from field "Comment count"
     And I enter "5" for field "Comment count"
