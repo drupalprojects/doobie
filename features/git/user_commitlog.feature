@@ -8,7 +8,7 @@ Feature: To see the list of all the commits for a user
     And I follow "Your Dashboard"
     And I follow "Your Commits"
 
-  @gitrepo
+  @gitrepo @flaky
   Scenario: Git User creates a project
     When I visit "/node/add/project-project"
     And I create a "module"
