@@ -37,6 +37,7 @@ Feature: View the commits for a project
     | Member for           |
     | Personal information |
 
+  @timeout
   Scenario: Click link to repository
     When I click on "commit info" of a commit
     Then I should see the link "summary"

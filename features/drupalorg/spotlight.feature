@@ -4,6 +4,7 @@ Feature: View Community Spotlight
   As any user
   I need to be able to check Spot light pages of Melissa and Greg and search for Neil Drumm using the header search box
 	
+  @timeout
   Scenario: Browse to the Community Spotlight page
     Given I am on the homepage
     When I follow "Community"
