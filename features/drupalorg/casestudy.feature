@@ -100,6 +100,7 @@ Feature: Drupal case studies
     | Entertainment |
     | Healthcare    |
 
+  @wip
   Scenario: Navigate into an individual case study
     Given I am on "/case-studies/community"
     When I click on a case study image
