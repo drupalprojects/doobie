@@ -13,7 +13,7 @@ Feature: Check the background color of the book page status
     And I create a book page
     Then I should see "has been created"
 
-  @javascript @flakey
+  @javascript @flaky
   Scenario Outline: Edit a book page and set status
     When I follow a random book page
     And I wait "1" second
