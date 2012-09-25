@@ -5037,4 +5037,85 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The 'Git developers' is less than '" . $count . "'");
     }
   }
+
+  /**
+   * @When /^I create a case study$/
+   */
+  public function iCreateACaseStudy() {
+    $page = $this->getSession()->getPage();
+    $this->caseStudyTitle = $this->randomString(8);
+    $page->fillField("Project name:", $this->caseStudyTitle);
+    $image = $page->findField("Primary screenshot");
+    if (!$image) {
+      throw new Exception("Image field is missing from the page");
+    }
+    $filepath = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'koala.jpg';
+    $image->attachFile($filepath);
+    $page->fillField("Why Drupal was chosen", $this->randomString(9));
+    $page->fillField("Completed Drupal site or project URL", "http://example.com");
+    $page->fillField("edit-field-module-0-nid-nid", "Views");
+    $page->fillField("Why these modules/theme/distribution were chosen", $this->randomString(10));
+    HackyDataRegistry::set('random:Project name', $this->caseStudyTitle);
+    $page->pressButton('Save');
+    sleep(2);
+  }
+
+  /**
+   * @Given /^I am on the case study page$/
+   * @When /^I visit the case study page$/
+   */
+  public function iAmOnTheCaseStudyPage() {
+    $path = HackyDataRegistry::get('project_url');
+    if (!$path) {
+      throw new Exception("Case study page not found");
+    }
+    $path = $this->locatePath($path);
+    return new Given("I am on \"$path\"");
+  }
+
+  /**
+   * @Then /^I (?:|should )see the case study page$/
+   */
+  public function iShouldSeeTheCaseStudyPage() {
+    // Wait for the page and the image in the page to load, otherwise, current url will be node/add/casestudy
+    sleep(5);
+    HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
+    return new Given("I should see \"has been created\"");
+  }
+
+  /**
+   * @Given /^I (?:select|check) "([^"]*)" radio button$/
+   */
+  public function iSelectRadioButton($radioLabel) {
+    $page = $this->getSession()->getPage();
+    // Get all the radio button fields
+    $temp = $page->findAll('xpath', '//input[@type="radio"]');
+    if (empty($temp)) {
+      throw new Exception("The page does not contain any radio buttons");
+    }
+    foreach ($temp as $radio) {
+      // input > label
+      $parent = $radio->getParent();
+      if (!empty($parent)) {
+        // Check if label matches
+        if (trim($parent->getText()) == $radioLabel) {
+          $page->fillField($radio->getAttribute('id'), $radio->getAttribute('value'));
+          return;
+        }
+      }
+    }
+    throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $field);
+  }
+
+  /**
+   * @Then /^I should not see the random "([^"]*)" text$/
+   */
+  public function iShouldNotSeeTheRandomText($label) {
+    $text = $this->fetchRandomString($label);
+    if (!$text) {
+      throw new Exception("No random text stored for $label.");
+    }
+    $step = "I should not see \"$text\"";
+    return new Then($step);
+  }
 }
