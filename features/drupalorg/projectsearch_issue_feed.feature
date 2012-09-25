@@ -4,6 +4,7 @@ Feature: Get a feed of Search issues
   As a user
   I should be able to see the rss feeds icon
 
+  @timeout
   Scenario:
     Given I am on "/project/issues/search/feed"
     When I click on the feed icon
