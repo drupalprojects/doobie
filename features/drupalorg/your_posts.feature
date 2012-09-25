@@ -17,7 +17,8 @@ Feature: Your Posts
   Scenario: To comment on a specific post
     Given I am logged in as "git user"
     And I am on the project page
-    And I follow "open"
+    When I follow "open"
+    Then I should see the issue link
     And I follow an issue of the project
     And I add a comment to the issue
     And I add one more comment to the issue
@@ -36,35 +37,7 @@ Feature: Your Posts
     And I should see at least "1" new reply for the post
     And I should see updated for the post
 
-  Scenario: Verify pagination links: First page
-    Given I am logged in as "git vetted user"
-    When I follow "Your Posts"
-    Then I should see the following <links>
-    | links        |
-    | next         |
-    | last         |
-    | 2            |
-    And I should not see the link "first"
-
-  Scenario: Verify pagination links: Second page
-    Given I am logged in as "git vetted user"
-    And I follow "Your Posts"
-    When I click on page "2"
-    Then I should see the following <links>
-    | links       |
-    | first       |
-    | previous    |
-    | 1           |
-    | 2           |
-
-  Scenario: Verify pagination links: Last page
-    Given I am logged in as "git vetted user"
-    And I follow "Your Posts"
-    When I click on page "last"
-    Then I should see the link "first"
-    And I should see the link "previous"
-    And I should not see the link "last"
-
+  @clean_data
   Scenario: Navigate to the specific post and check for the new post.
     Given I am logged in as "git vetted user"
     And I follow "Your Posts"
