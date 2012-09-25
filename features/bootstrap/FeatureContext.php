@@ -1538,34 +1538,35 @@ class FeatureContext extends DrupalContext {
    *   Counts the number of links exists.
    */
   public function iShouldSeeAtleastLinksUnderTab($count, $tab) {
-    $page = $this->getSession()->getPage();
     $tab = strtolower($tab);
     switch($tab) {
       case 'news':
         $id = '#fragment-1';
+        $selector = $id . ' a';
         break;
       case 'docs updates':
         $id = '#fragment-2';
+        $selector = $id . ' h6 a';
         break;
       case 'forum posts':
         $id = '#fragment-3';
+        $selector = $id . ' h6 a';
         break;
       case 'commits':
         $id = '#fragment-4';
+        $selector = $id . ' h6 a';
         break;
       default:
         throw new Exception('The tab "' . ucfirst($tab) . '" was not found on the page');
     }
-    $region = $page->find('region', 'bottom right');
+    $region = $this->getSession()->getPage()->find('region', 'bottom right');
     if (!$region) {
       throw new Exception('Region "bottom right" not found');
     }
-    $nodes = $region->findAll("css", $id . ' a');
-    if (sizeof($nodes) == $count) {
-      return TRUE;
+	  $nodes = $region->findAll("css", $selector);
+    if (sizeof($nodes) < $count) {
+      throw new Exception("The tab '" . ucfirst($tab) . "' has less than '" . $count . "' links");
     }
-    throw new Exception('Found ' . sizeof($nodes) . ' links instead of ' .
-      $count . ' links on the home bottom right');
   }
 
   /**
