@@ -28,7 +28,7 @@ Feature: Use Marketplace to find services
     When I click on page "last"
     Then I should see at least "1" record
     
-  @javascript
+  @javascript @wip
   Scenario: Check the subcategories under Main category
     Given I am on "/marketplace"
     When I expand the category "Services"
