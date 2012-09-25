@@ -59,6 +59,7 @@ Feature: List and search change records
     Then I should see "8.x"
     And I should not see "7.x"
 
+  @wip
   Scenario: Search by entering values for Change node created dropdown: Is greater than
     Given I am on "/list-changes/drupal"
     When I select "Is greater than" from field "Change node created"
