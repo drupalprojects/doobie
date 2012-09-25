@@ -2616,7 +2616,10 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see the below <blocks> in column "([^"]*)"$/
+   * @Then /^I should see the following <blocks> in column "([^"]*)"$/
+   *
+   * @param int $column
+   * @param TableNode object $table
    */
   public function iShouldSeeTheBelowBlocksInColumn($column, TableNode $table)
   {
@@ -2625,10 +2628,8 @@ class FeatureContext extends DrupalContext {
     if (empty($table)) {
       throw new Exception('Block list cannot be empty.');
     }
-    $table = $table->getHash();
-    $page = $this->getSession()->getPage();
     // Find block with header, for the column.
-    $blocks_h3 = $page->findAll('css', '#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
+    $blocks_h3 = $this->getSession()->getPage()->findAll('css', '#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
     if (empty($blocks_h3)) {
       throw new Exception('The column "' . $column . '" is empty.');
     }
@@ -2643,10 +2644,10 @@ class FeatureContext extends DrupalContext {
     if (empty($arr_boxes)) {
       throw new Exception('The column "' . $column . '" is empty.');
     }
-    foreach ($table as $item) {
+    foreach ($table->getHash() as $item) {
       // Check the box exists in column boxes
       if (!in_array($item['blocks'], $arr_boxes)) {
-        throw new Exception('The box: "' . $item['blocks'] . '" cannot be found in the column "'. $column.'".');
+        throw new Exception('The box "' . $item['blocks'] . '" cannot be found in the column "' . $column . '".');
         break;
       }
     }
@@ -2654,7 +2655,10 @@ class FeatureContext extends DrupalContext {
 
   /**
    * Check the existence of "Add links" for blocks
+   *
    * @Then /^I should see the following <blocklinks> in small boxes$/
+   *
+   * @param TableNode object $table
    */
   public function iShouldSeeTheFollowingBlocklinksInSmallBoxes(TableNode $table)
   {
@@ -2676,7 +2680,7 @@ class FeatureContext extends DrupalContext {
     }
     foreach ($table->getHash() as $t) {
       if (!in_array($t['blocklinks'], $arr_blocks)) {
-        throw new Exception('The link for the block: "' . $t['blocklinks'] .'" cannot be found.');
+        throw new Exception('The link for the block "' . $t['blocklinks'] . '" cannot be found.');
         break;
       }
     }
@@ -2997,35 +3001,28 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see at least "([^"]*)" blocks$/
+   * @Then /^I should see at least "([^"]*)" blocks(?: in column "([^"]*)"|)$/
+   *
+   * @param int $count
+   * @param null/int $column
    */
-  public function iShouldSeeAtLeastBlocks($count)
+  public function iShouldSeeAtLeastBlocks($count, $column = null)
   {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     // Find divs with the class 'homebox-portlet' inside #homebox div
-    $boxes = $this->getSession()->getPage()->findAll('css', '#homebox div.homebox-portlet');
+    $boxes = $this->getSession()->getPage()->findAll('css', ($column ? '#homebox div.homebox-column-wrapper-' . $column . ' div.homebox-portlet' :
+      '#homebox div.homebox-portlet'));
     if (empty($boxes) || count($boxes) < $count) {
-      throw new Exception('Dashboard has only less than ' . $count . ' block' . ($count > 1 ? 's' : ''));
-    }
-  }
-
-  /**
-   * @Then /^I should see at least "([^"]*)" blocks in column "([^"]*)"$/
-   */
-  public function iShouldSeeAtLeastBlocksInColumn($count, $column)
-  {
-    // Validate empty arguments
-    $this->validateBlankArgs(func_get_args());
-    // Find divs with the class 'homebox-portlet' inside #homebox div
-    $boxes = $this->getSession()->getPage()->findAll('css', '#homebox div.homebox-column-wrapper-' . $column . ' div.homebox-portlet');
-    if (empty($boxes) || count($boxes) < $count) {
-      throw new Exception('Column '. $column . ' has only less than ' . $count . ' block' . ($count > 1 ? 's' : ''));
+      throw new Exception(($column ? 'Column ' . $column : 'Dashboard') . ' has only less than ' . $count . ' block' . ($count > 1 ? 's' : ''));
     }
   }
 
   /**
    * @Then /^I should see at least "([^"]*)" items in block "([^"]*)"$/
+   *
+   * @param int $count
+   * @param string $block
    */
   public function iShouldSeeAtLeastItemsInBlock($count, $block)
   {
@@ -3035,10 +3032,10 @@ class FeatureContext extends DrupalContext {
     if (!empty($obj_block)) {
       $items = $obj_block->findAll('css', '.portlet-content > .item-list ul > li');
       if (empty($items) || count($items) < $count) {
-        throw new Exception('The block: '. $block . ' has only less than ' . $count . ' item' . ($count > 1 ? 's' : ''));
+        throw new Exception('The block: ' . $block . ' has only less than ' . $count . ' item' . ($count > 1 ? 's' : ''));
       }
     }else {
-      throw new Exception('The block: '. $block . ' couldn\'t be found on Dashboard.');
+      throw new Exception('The block: ' . $block . ' couldn\'t be found on Dashboard.');
     }
   }
 
@@ -3072,7 +3069,15 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Drag one block onto another one
+   * As Mink-extension API methods are not working as expected, currently this function throws error while running
+   *
    * @Then /^I drag the block "([^"]*)" onto "([^"]*)"$/
+   *
+   * @param string $origin
+   *   Block name
+   * @param string $destination
+   *   Block name
    */
   public function iDragTheBlockOnto($origin, $destination)
   {
@@ -3156,6 +3161,14 @@ class FeatureContext extends DrupalContext {
 
   /**
    * @Then /^I should see the block "([^"]*)" in column "([^"]*)" just "([^"]*)" the block "([^"]*)"$/
+   *
+   * @param string $blockToFind
+   *   Block name
+   * @param int $column
+   * @param string $position
+   *   "above" / "below"
+   * @param string $blockNearBy
+   *   Block name
    */
   public function iShouldSeeTheBlockInColumnJustTheBlock($blockToFind, $column, $position, $blockNearBy )
   {
@@ -3183,24 +3196,26 @@ class FeatureContext extends DrupalContext {
       }
       // Check for errors
       if (($count = count($arr_order)) < 2) {
-        throw new Exception('The box'.( $count==1 ? '' : 'es' ). ': "' .(implode('"," ', (!empty($arr_order) ? $arr_order : $arr_exporder))).'" cannot be found in column: "'. $column.'"');
+        throw new Exception('The box'.( $count == 1 ? '' : 'es' ) . ': "' . (implode('"," ', (!empty($arr_order) ? $arr_order : $arr_exporder))) . '" cannot be found in column: "' . $column . '"');
       }elseif($arr_order != $arr_exporder) {
-        throw new Exception('The block: "'. $blockToFind . '" couldn\'t be found "' .$position. '" the block "' . $blockNearBy . '" in Column "' . $column . '"') ;
+        throw new Exception('The block: "' . $blockToFind . '" couldn\'t be found "' . $position . '" the block "' . $blockNearBy . '" in Column "' . $column . '"') ;
       }
-      // fine
     }else {
-      throw new Exception('The column '. $column . ' is empty');
+      throw new Exception('The column "' . $column . '" is empty');
     }
   }
 
   /**
    * @Then /^I change the setting "([^"]*)" to "([^"]*)" for the block "([^"]*)" and save$/
+   *
+   * @param string $setting
+   * @param int $value
+   * @param string $block
    */
   public function iChangeTheSettingToForTheBlockAndSave($setting, $value, $block)
   {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
-    $page = $this->getSession()->getPage();
     $block_inner = $this->getBlockInnerContainer($block);
     if (!empty($block_inner)) {
       $setting_link = $block_inner->find('css', 'h3.portlet-header > a.portlet-icon.portlet-settings');
@@ -3217,24 +3232,26 @@ class FeatureContext extends DrupalContext {
             // Submit
             $setting_submit->press();
             $block_container_id = $block_inner->getParent()->getAttribute('id');
-            // Wait for the results
-            $this->getSession()->wait(1, "typeof($('#". $block_container_id ." > div.ahah-progress.ahah-progress-throbber').html()) == 'undefined'");
+            // Wait for the result until it is loaded through ajax
+            $this->getSession()->wait(1, "typeof($('#" . $block_container_id . " > div.ahah-progress.ahah-progress-throbber').html()) == 'undefined'");
           }else {
-            throw new Exception('The setting cannot be saved for the block: "'  . $block . '"');
+            throw new Exception('The setting cannot be saved for the block "' . $block . '"');
           }
         }else {
-          throw new Exception('The setting: "' . $setting . '" cannot be found for the block: "'  . $block . '"');
+          throw new Exception('The setting "' . $setting . '" cannot be found for the block: "' . $block . '"');
         }
       }else {
-        throw new Exception('No Setting Icon found for the block: "'  . $block . '"');
+        throw new Exception('No Setting Icon found for the block "' . $block . '"');
       }
     }else {
-      throw new Exception('The block: "'  . $block . '" cannot be found.');
+      throw new Exception('The block "' . $block . '" cannot be found.');
     }
   }
 
   /**
-   * @Then /^I close the block "([^"]*)" from dashboard$/
+   * @Then /^I close the block "([^"]*)"$/
+   *
+   * @param string $block
    */
   public function iCloseTheBlockFromDashboard($block)
   {
@@ -3242,29 +3259,6 @@ class FeatureContext extends DrupalContext {
     $this->validateBlankArgs(func_get_args());
     // Find the block inner div
     $block_inner = $this->getBlockInnerContainer($block);
-    if (!empty($block_inner)) {
-      // Find the close link
-      $close_link = $block_inner->find('css', 'h3.portlet-header > a.portlet-icon.portlet-close');
-      if (!empty($close_link)) {
-        // Click it
-        $close_link->click();
-      }else {
-        throw new Exception('Close Icon cannot be found for the block: "'  . $block . '"');
-      }
-    }else {
-      throw new Exception('The block: "'  . $block . '" cannot be found.');
-    }
-  }
-
-  /**
-   * @Then /^I close the block$/
-   */
-  public function iCloseTheBlock()
-  {
-    // Validate empty arguments
-    $this->validateBlankArgs(func_get_args());
-    // Find the block inner div
-    $block_inner = $this->getBlockInnerContainer();
     if (!empty($block_inner)) {
       // Find the close link
       $close_link = $block_inner->find('css', 'h3.portlet-header > a.portlet-icon.portlet-close');
@@ -3277,10 +3271,10 @@ class FeatureContext extends DrupalContext {
         // Click it
         $close_link->click();
       }else {
-        throw new Exception('Close Icon cannot be found');
+        throw new Exception('Close Icon cannot be found for the block "'  . $block . '"');
       }
     }else {
-      throw new Exception('The block cannot be found.');
+      throw new Exception('The block "'  . $block . '" cannot be found.');
     }
   }
 
@@ -3300,6 +3294,8 @@ class FeatureContext extends DrupalContext {
 
   /**
    * @When /^I click the link "([^"]*)" to add$/
+   *
+   * @param string $blockLink
    */
   public function iClickTheLinkToAdd($blockLink)
   {
@@ -3319,12 +3315,15 @@ class FeatureContext extends DrupalContext {
       $message = true;
     }
     if(isset($message)) {
-      throw new Exception('The link: "'  . $blockLink . '" cannot be found.');
+      throw new Exception('The link "' . $blockLink . '" cannot be found.');
     }
   }
 
   /**
    * @Then /^I should see the block "([^"]*)" in column "([^"]*)"(?:a|)$/
+   *
+   * @param string $block
+   * @param int $column
    */
   public function iShouldSeeTheBlockInColumn($block, $column)
   {
@@ -3342,15 +3341,18 @@ class FeatureContext extends DrupalContext {
         }
       }
       if(!$found) {
-        throw new Exception('The block: "' . $block .'" cannot be found');
+        throw new Exception('The block "' . $block . '" cannot be found');
       }
     }else {
-      throw new Exception('The column: '. $column . ' is empty');
+      throw new Exception('The column ' . $column . ' is empty');
     }
   }
 
   /**
    * @Given /^I should see the following <icons> on the block "([^"]*)"$/
+   *
+   * @param string $block
+   * @param TableNode object $table
    */
   public function iShouldSeeTheFollowingOnTheBlock($block, TableNode $table)
   {
@@ -3368,11 +3370,11 @@ class FeatureContext extends DrupalContext {
         if (!empty($arr_iconclasses[strtolower($icon['icons'])])) {
           $icon_link = $block_inner->find('css', 'h3.portlet-header > ' . $arr_iconclasses[strtolower($icon['icons'])]);
           if (empty($icon_link)) {
-            throw new Exception('The icon: "' .$icon['icons'] .'" cannot be found in the block');
+            throw new Exception('The icon "' . $icon['icons'] . '" cannot be found in the block');
             break;
           }
         }else {
-          throw new Exception('The icon: "' .$icon['icons'] .'" cannot be found in the block');
+          throw new Exception('The icon "' . $icon['icons'] . '" cannot be found in the block');
           break;
         }
       }
