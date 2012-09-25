@@ -53,7 +53,9 @@ Feature: List of drupal communities
   Scenario: Search for documentation
     Given I am on the homepage
     When I follow "Community"
-    And I fill in "drupal" for "Search Documentation:"
+    And I fill in "FAQ" for "Search Documentation:"
     And I wait for the suggestion box to appear
-    And I follow "Learn Drupal: Global Training Days"
-    Then I should see the heading "Learn Drupal: Global Training Days"
+    And I follow "Drupal FAQs"
+    Then I should see the heading "Drupal FAQs"
+    And I should see "General Drupal FAQ:"
+    And I should see the link "Drupal project Frequently Asked Questions (FAQ)"
