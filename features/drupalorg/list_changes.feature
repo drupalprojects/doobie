@@ -77,6 +77,7 @@ Feature: List and search change records
     Then I should see "01-Jul-2012"
     And I should not see "Invalid project or no changes found"
 
+  @wip
   Scenario Outline: Search by selecting for Impacts dropdown
     Given I am on "/list-changes/drupal"
     When I select "<value>" from "Impact"
