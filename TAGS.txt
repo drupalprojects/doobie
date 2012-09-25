@@ -26,6 +26,7 @@ Tags to assist in selectively running tests
 
 @linux
     Used to tag scenarios that depend on a properly-setup linux based system. Use of this tag needs to be re-evaluated. #1782628: Re-evaluate @linux tag
+
 @slow
     Used for scenarios that are, well, slow. There is not, as yet, a definitive metric like, requires more than 10 seconds to complete.
 
@@ -37,8 +38,9 @@ Tags to hook into the test process
 
 Certain tags are used to hook into the testing process to trigger activity. For example, a scenario that creates a node might be tagged with @cleanData will attempt to delete a node or project created by one of its steps. See http://docs.behat.org/guides/3.hooks.html for a detailed discussion of how this works in behat.
 
-@cleanData
+@clean_data
     Can be used to delete a project or issue node created as part of testing.
+
 @gitrepo
     Indicates a scenario that creates a git repository and used to invoke an @AfterScenario clean up routine.
 
