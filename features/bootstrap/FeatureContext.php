@@ -1538,34 +1538,35 @@ class FeatureContext extends DrupalContext {
    *   Counts the number of links exists.
    */
   public function iShouldSeeAtleastLinksUnderTab($count, $tab) {
-    $page = $this->getSession()->getPage();
     $tab = strtolower($tab);
     switch($tab) {
       case 'news':
         $id = '#fragment-1';
+        $selector = $id . ' a';
         break;
       case 'docs updates':
         $id = '#fragment-2';
+        $selector = $id . ' h6 a';
         break;
       case 'forum posts':
         $id = '#fragment-3';
+        $selector = $id . ' h6 a';
         break;
       case 'commits':
         $id = '#fragment-4';
+        $selector = $id . ' h6 a';
         break;
       default:
         throw new Exception('The tab "' . ucfirst($tab) . '" was not found on the page');
     }
-    $region = $page->find('region', 'bottom right');
+    $region = $this->getSession()->getPage()->find('region', 'bottom right');
     if (!$region) {
       throw new Exception('Region "bottom right" not found');
     }
-    $nodes = $region->findAll("css", $id . ' a');
-    if (sizeof($nodes) == $count) {
-      return TRUE;
+	  $nodes = $region->findAll("css", $selector);
+    if (sizeof($nodes) < $count) {
+      throw new Exception("The tab '" . ucfirst($tab) . "' has less than '" . $count . "' links");
     }
-    throw new Exception('Found ' . sizeof($nodes) . ' links instead of ' .
-      $count . ' links on the home bottom right');
   }
 
   /**
@@ -4938,5 +4939,102 @@ class FeatureContext extends DrupalContext {
       throw new Exception("No Results found to follow");
     }
     $this->getSession()->visit($this->locatePath($links->getAttribute('href')));
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" code commits$/
+   */
+  public function iShouldSeeAtLeastCodeCommits($count) {
+    // Get the 'Code commits' link
+    $temp = $this->getSession()->getPage()->findLink('Code commits');
+    if (empty($temp)) {
+      throw new Exception("The link 'Code commits' was not found on the page");
+    }
+    // Move to parent selector
+    // a > td > tr
+    $parent = $temp->getParent()->getParent();
+    $temp = $parent->find('css', 'td');
+    if (empty($temp)) {
+      throw new Exception("The page did not contain code commits");
+    }
+    // Extract the number and convert to integer
+    $commitCount = (int) trim(str_replace(",", "", trim($temp->getText())));
+    if ($commitCount < $count) {
+      throw new Exception("The 'Code commits' is less than '" . $count . "'");
+    }
+  }
+
+  /**
+   * @Then /^I should see the newest commits from commitlog$/
+   */
+  public function iShouldSeeTheNewestCommitsFromCommitlog() {
+    $page = $this->getSession()->getPage();
+    // Get links from the Commit tab
+    $temp = $page->findAll('css', '#fragment-4 h6 a');
+    if (empty($temp)) {
+      throw new Exception("The page did not contain the commit tab");
+    }
+    $commitTabLinks = array();
+    foreach ($temp as $link) {
+      $commitTabLinks[] = $link->getAttribute('href');
+    }
+    // Get links from the /commitlog screen
+    $this->getSession()->visit($this->locatePath('/commitlog'));
+    sleep(2);
+    $temp = $page->findAll('css', '.commit-global h3 a');
+    if (empty($temp)) {
+      throw new Exception("The page did not contain the commit information");
+    }
+    $commitLogLinks = array();
+    $count = 0;
+    foreach ($temp as $link) {
+      $href = $link->getAttribute('href');
+      if (strpos($href, "/commit/") !== FALSE) {
+        if ($count == sizeof($commitTabLinks)) {
+          break;
+        }
+        $commitLogLinks[] = $href;
+        $count++;
+      }
+    }
+    // Check if both the arrays are same
+    if ($commitTabLinks !== $commitLogLinks) {
+      throw new Exception("The commit tab does not contain the newest commits from commitlog");
+    }
+  }
+
+  /**
+   * @Given /^I follow a commit from the list$/
+   */
+  public function iFollowACommitFromTheList() {
+    // Get links from the Commit tab
+    $link = $this->getSession()->getPage()->find('css', '#fragment-4 h6 a');
+    if (empty($link)) {
+      throw new Exception("The commit tab did not contain any link");
+    }
+    $link->click();
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" git developers$/
+   */
+  public function iShouldSeeAtLeastGitDevelopers($count) {
+    // Get the 'Developers' link
+    $temp = $this->getSession()->getPage()->findLink('Developers');
+    if (empty($temp)) {
+      throw new Exception("The link 'Developers' was not found on the page");
+    }
+    // Move to parent selector
+    // a > td > tr
+    $parent = $temp->getParent()->getParent();
+    $temp = $parent->find('css', 'td');
+    if (empty($temp)) {
+      throw new Exception("The page did not contain code commits");
+    }
+    // Extract the number and convert to integer
+    $commitCount = (int) trim(str_replace(",", "", trim($temp->getText())));
+    if ($commitCount < $count) {
+      throw new Exception("The 'Git developers' is less than '" . $count . "'");
+    }
   }
 }
