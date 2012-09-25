@@ -6,7 +6,7 @@ Feature: See git activity on home page
   Background:
     Given I am on the homepage
 
-  @gitrepo @clean_data
+  @gitrepo @clean_data @timeout
   Scenario: Create sample data and verify the same
     Given I am logged in as "git vetted user"
     And I visit "/node/add/project-project"
