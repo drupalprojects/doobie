@@ -3,6 +3,7 @@ Feature: To view and download a release package from the download table
   As a user
   I should select a release from the download table
 
+  @wip
   Scenario: View the list of available releases
     Given that I am on the homepage
     When I follow "Get Started with Drupal"
