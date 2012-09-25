@@ -4,6 +4,7 @@ Feature: Drupal case studies
   As any user
   I want to look for a link on the home page that takes me there
 
+  @timeout
   Scenario: Verify case study page
     Given that I am on the homepage
     When I follow "Sites Made with Drupal"
