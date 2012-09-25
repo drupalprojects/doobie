@@ -1,53 +1,51 @@
-@javascript
 Feature: Selectively display case studies
   In order to choose which case studies appear where
   As a site administrator
   I need to be able to set their status
 
-  Scenario Outline: User cannot feature own case study
-    Given I am logged in as "<user>"
-    And I visit "case-studies"
-    And I click "Add your case study"
-    When I fill in "Project name" with random text
-    And I attach the file "koala.jpg" to "Primary screenshot" 
-    And I fill in "Why Drupal was chosen" with random text
-    And I fill in "http://example.com" for "Completed Drupal site or project URL"
-    And I fill in "Views" for "edit-field-module-0-nid-nid"
-    And I fill in "Why these modules/theme/distribution were chosen" with random text
+  @javascript
+  Scenario: Create a case study as a site user
+    Given I am logged in as "site user"
+    And I visit "/node/add/casestudy"
+    When I create a case study
+    And I see the case study page
+    And I visit "/case-studies/all"
+    Then I should see the random "Project name" text
+
+  @dependent
+  Scenario: Edit the case study created and status field should not be present
+    Given I am logged in as "site user"
+    And I visit the case study page
+    When I follow "Edit"
+    Then I should not see "Status:"
+    And I should not see "Choose \"Featured\" to promote case study to \"Featured showcase\" section."
+
+  @dependent
+  Scenario: Admin user can feature other people's case study
+    Given I am logged in as "admin test"
+    And I am on the case study page
+    When I follow "Edit"
+    And I check "Featured" radio button
     And I press "Save"
-    And I click "Edit"
-    Then I should not see "edit-field-status-value-Community"
-    And I should not see "edit-field-status-value-Featured"
-    And I should not see "edit-field-status-value-Hidden"
-    
-    Examples:
-    | user       |
-    | admin test |
-    | site user  |
- 
+    And I follow "Featured showcase"
+    Then I should see the random "Project name" text
 
-   Scenario: Admin user can feature other people's case study
-     Given I am logged in as "admin test"
-     When I visit "/node/1726722/edit"
-     And I check "Featured"
-     And I press "Save"
-     And I follow "Featured showcase"
-     Then I should see "Under.me"
-     
-   Scenario: Admin user can hide a case study
-     Given I am logged in as "admin test"
-     When I visit "/node/1726722/edit"
-     And I check "Hidden"
-     And I press "Save"
-     And I follow "Featured showcase"
-     Then I should not see "Under.me"
+  @dependent
+  Scenario: Admin user can hide a case study
+    Given I am logged in as "admin test"
+    And I am on the case study page
+    When I follow "Edit"
+    And I check "Hidden" radio button
+    And I press "Save"
+    And I follow "Featured showcase"
+    Then I should not see the random "Project name" text
 
-   @wip
-   Scenario: Admin user can put study on community showcase
-     Given I am logged in as "admin test"
-     When I visit "/node/1726722/edit"
-     And I check "edit-field-status-value-Community"
-     And I press "Save"
-     And I follow "Community showcase" 
-     Then I should see "Under.me"
-
+  @dependent @clean_data
+  Scenario: Admin user can put case study on community showcase
+    Given I am logged in as "admin test"
+    And I am on the case study page
+    When I follow "Edit"
+    And I check "Community" radio button
+    And I press "Save"
+    And I follow "Community showcase"
+    Then I should see the random "Project name" text
