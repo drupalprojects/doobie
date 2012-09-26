@@ -1018,6 +1018,9 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeAtLeastLinksInThe($count, $regionSelector = "right sidebar") {
     $page = $this->getSession()->getPage();
     $region = $page->find('region', $regionSelector);
+    if (empty($region)) {
+      throw new Exception("Right sidebar region was not found");
+    }
     $links = $region->findAll('css', '.item-list a');
     if (sizeof($links) < $count) {
       throw new Exception("The page has less than '" . $count . "' links in the region '" . $regionSelector . "'");
