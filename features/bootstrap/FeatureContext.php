@@ -3925,7 +3925,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Then /^I should see an error$/
    */
-  public function iShouldSeeAFatalError($error) {
+  public function iShouldSeeAFatalError() {
     if (empty($this->process_output)) {
       throw new Exception("Process output is not found");
     }
