@@ -10,7 +10,7 @@ Feature: To get administrative view of nodes by a user
   @slow
   Scenario: Create test data
     When I visit "/node/add/page"
-    And I create "3" page
+    And I create "3" pages
     Then I should see "has been created"
 
   @dependent
