@@ -1830,13 +1830,31 @@ class FeatureContext extends DrupalContext {
    * @When /^I check "([^"]*)" checkboxes to "([^"]*)"$/
    */
   public function iCheckCheckboxesTo($count, $context) {
-    $chkboxs = array();
+    // Wait for the page to load
+    sleep(4);
     $i = 1;
     $page = $this->getSession()->getPage();
-    // get all checkboxes
+    // Get all checkboxes
     $chks = $page->findAll("css", ".views-table .form-item input[type=checkbox]");
     if (empty($chks)) {
       throw new Exception("No checkboxes were found on the page");
+    }
+    // If more checkboxes are requested than available, then throw error
+    if (count($chks) < $count) {
+      throw new Exception("There are only '" . count($chks) . "' checkboxes, but requested '" . $count . "'");
+    }
+    // If only one checkboxis required, check the first one
+    if ($count == 1) {
+      $chks = $page->find('css', '.form-checkbox');
+      if (empty($chks)) {
+        throw new Exception("No checkboxes were found on the page");
+      }
+      $chks->click();
+      return;
+    }
+    // If all the checkboxes are requested, then use the Select.... dropdown
+    if ($count == count($chks)) {
+      return new Given("I select \"All (this page)\" from field \"Select...\"");
     }
     foreach ($chks as $chk) {
       // check only the requested no. of checkboxes
@@ -1865,6 +1883,9 @@ class FeatureContext extends DrupalContext {
       elseif($context == "delete") {
         $chk->click();
         $i++;
+      }
+      if ($i > $count) {
+        return;
       }
     }
     throw new Exception("No checkboxes were selected on the page");
@@ -5153,6 +5174,29 @@ class FeatureContext extends DrupalContext {
     $element->click();
     if ($element->isChecked()) {
       $element->uncheck();
+    }
+  }
+
+  /**
+   * @Given /^I create "([^"]*)" page(?:|s)$/
+   */
+  public function iCreatePages($count) {
+    for ($i = 0; $i < $count; $i++ ) {
+      // Visit the page again if more than 1 page is to be created
+      if ($i > 0) {
+        $this->getSession()->visit($this->locatePath("/node/add/page"));
+      }
+      $page = $this->getSession()->getPage();
+      if (empty($page)) {
+        throw new Exception("The current page is not valid");
+      }
+      $page->fillField("Title:", $this->randomString(10));
+      $page->pressButton('Save');
+      sleep(2);
+      // Store the url of the page if only 1 page is created
+      if ($count == 1) {
+        HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
+      }
     }
   }
 }
