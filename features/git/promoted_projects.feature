@@ -31,10 +31,10 @@ Feature: Ensure that sandbox repository is not available once the project is pro
   Scenario: Clone the sandbox repository as project owner
     Given I am logged in as "git vetted user"
     When I clone the sandbox repo
-    Then I should see the error "fatal: remote error: Repository does not exist. Verify that your remote is correct"
+    Then I should see an error
 
   @clean_data
   Scenario: Clone the sandbox repository as anonymous user
     Given I am not logged in
     When I clone the sandbox repo
-    Then I should see the error "remote HEAD refers to nonexistent ref, unable to checkout"
+    Then I should see an error
