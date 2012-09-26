@@ -190,7 +190,7 @@ class FeatureContext extends DrupalContext {
    * @When /^I clone the repo$/
    */
   public function iCloneTheRepo() {
-    // Initialise the password as "" to consider anonymous user    
+    // Initialise the password as "" to consider anonymous user
     $password = "\"\"";
     $url = "";
     $element = $this->getSession()->getPage();
@@ -947,39 +947,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-    * @When /^I press "([^"]*)" to filter$/
-    * TODO this should work generically to exclude the sitewide search
-    */
-  public function iPressToFilter($arg1) {
-    $element = $this->getSession()->getPage();
-    $submit = $element->findById('edit-submit-project-issue-all-projects');
-   /* if (empty($submit)) {
-      throw new Exception('No submit button at ' . $session->getCurrentUrl());
-    }*/
-    if(!($submit->click())) {
-      throw new Exception('No Click happened at ' . $this->getSession()->getCurrentUrl());
-    }
-   }
-
-  /**
-    * @When /^I press search to filter$/
-    */
-  public function iPressSearchToFilter()
-   {
-    $button = 'edit-submit-project-issue-all-projects';
-    $element = $this->getSession()->getPage();
-    $element->fillField('Project', $this->project_value);
-    //$submit = $element->findById('edit-submit-project-issue-all-projects');
-    $submit = $element->findButton($button);
-    if (empty($submit)) {
-      throw new Exception('No submit button at ' . $this->getSession()->getCurrentUrl());
-    }
-    $element->pressButton($button);
-
-   }
-
-
-  /**
    * @Then /^I wait for the suggestion box to appear$/
    */
   public function iWaitForTheSuggestionBoxToAppear() {
@@ -1295,7 +1262,7 @@ class FeatureContext extends DrupalContext {
     $grids = $page->findAll('css', 'div.grid-2');
     $count = 0;
     if (empty($grids)) {
-      throw new Exception('No categories found on the page.');  
+      throw new Exception('No categories found on the page.');
     }
     // loop through the grid to identify appropriate DIV
     foreach ( $grids as $grid) {
@@ -1312,7 +1279,7 @@ class FeatureContext extends DrupalContext {
               if (empty($text) || in_array($text, array('Show more', 'Show fewer'))) {
                 continue;
               }
-              // Check link text pattern: Eg: Development (49)               
+              // Check link text pattern: Eg: Development (49)
               if (!preg_match('#(.*) \((\d+)\)#', $text)) {
                 throw new Exception('Invalid pattern found for the link:' . $text);
               }
@@ -3905,7 +3872,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception('Sandbox git end point is empty');
     }
     if (!$loggedin_user) {
-      $url = '';      
+      $url = '';
       $components = parse_url($endpoint);
       $components['scheme'] = 'http';
       if (isset($components['host'])) {
@@ -4763,7 +4730,7 @@ class FeatureContext extends DrupalContext {
     if ($total <= 0) {
       throw new Exception("The records for the activity '" . $gitActivity . "' cannot be less than zero");
     }
-  }  
+  }
 
   /**
    * @Given /^I should see community member photo$/
@@ -4856,13 +4823,13 @@ class FeatureContext extends DrupalContext {
 
   /**
    * Save Sandbox code block from revision tab
-   * 
+   *
    */
   private function saveSandboxGitEndpoint() {
     $current_url = $this->getSession()->getCurrentUrl();
     $link = $this->getSession()->getPage()->findLink('Version control');
     // If no link found, do not harm promote project. so return
-    if (empty($link)) { 
+    if (empty($link)) {
       $this->getSession()->visit($this->locatePath($current_url));
       return;
     }
@@ -4876,7 +4843,7 @@ class FeatureContext extends DrupalContext {
     $code = $element->getText();
     // If sandbox repo is already initiated
     // Eg: git clone --recursive --branch master ssh://gitvetteduser@git6.devdrupal.org:2020/sandbox/gitvetteduser/1788043.git
-    $end_point = '';    
+    $end_point = '';
     if (preg_match('#git clone --recursive --branch (.+)\.git#', $code, $matches)) {
       $arr_ep = explode(" ", $matches[1]);
       $end_point = end($arr_ep) . ".git";

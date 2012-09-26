@@ -1,4 +1,4 @@
-@anon
+@slow @flakey
 Feature: Overall Filter Search for Issues
   In order to define the overall Filter search for Issues
   As an Anonymous user
@@ -24,7 +24,7 @@ Feature: Overall Filter Search for Issues
     Then I should see at least "2" records
 
   @javascript
-  Scenario: When Searching for the project title
+  Scenario: Searching for the project title
     When I fill in "Project" with "Achie"
     And I wait for the suggestion box to appear
     And I select "Achievements" from the suggestion "Project"
