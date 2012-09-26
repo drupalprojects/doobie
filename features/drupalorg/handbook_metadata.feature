@@ -66,7 +66,7 @@ Feature:  Verify handbook metadata is displayed correctly
     Then the "created by username" should match the first revision
     And the "created date" should match the first revision
 
-  @clean_data
+  @clean_data @timeout
   Scenario: Check edited usernames with the four latest entries from revision tab, make sure it doesn't include creator username or duplicates of the latest editors
     Given I am logged in as "admin test"
     And I am on the document page
