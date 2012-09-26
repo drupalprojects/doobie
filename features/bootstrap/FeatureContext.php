@@ -3954,17 +3954,15 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see the error "([^"]*)"$/
+   * @Then /^I should see an error$/
    */
-  public function iShouldSeeTheError($error) {
+  public function iShouldSeeAFatalError($error) {
     if (empty($this->process_output)) {
       throw new Exception("Process output is not found");
     }
-    $this->process_output;
-    //fatal: remote error: Repository does not exist. Verify that your remote is correct/ remote HEAD refers to nonexistent ref, unable to checkout
-    // Look for the error in the output
-    if (false === strpos($this->process_output, $error)) {
-      throw new Exception("The error:\"" . $error . "\" is not happening");
+    // Look for error in the output
+    if (!preg_match("/(?:fatal: |warning: )/", $this->process_output)) {
+      throw new Exception("The error did not happen as expected");
     }
   }
 
