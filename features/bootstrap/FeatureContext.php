@@ -983,6 +983,9 @@ class FeatureContext extends DrupalContext {
     $curr_url = $this->getSession()->getCurrentUrl();
     $message = "The page " . $curr_url . " did not contain the specified texts";
     $region = $page->find('region', $region);
+        if (empty($region)) {
+      throw new Exception("Right sidebar region was not found");
+    }
     $nodes = $region->findAll('css', '.item-list a');
     if (sizeof($nodes)) {
       // get all the categories
@@ -1721,6 +1724,9 @@ class FeatureContext extends DrupalContext {
     $buttonId = "";
     $page = $this->getSession()->getPage();
     $region = $page->find('region', $region);
+    if (empty($region)) {
+      throw new Exception($region . " region was not found");
+    }
     // Get all the buttons present within a form in that region.
     $inputs = $region->findAll('css', 'form input[type=submit]');
     foreach ($inputs as $input) {
@@ -2527,6 +2533,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheCopyrightStatementInTheRightSidebar() {
     $region = $this->getSession()->getPage()->find('region', 'right sidebar');
+    if (empty($region)) {
+      throw new Exception("Right sidebar region was not found");
+    }
     $block = $region->find('css', '#column-right-region > #block-drupalorg_handbook-license div.block-inner div.block-content');
     if (empty($block)) {
       throw new Exception('No blocks found in the right sidebar');
@@ -3416,6 +3425,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheAdvertismentInTheRightSidebar() {
     $region = $this->getSession()->getPage()->find('region', 'right sidebar');
+    if (empty($region)) {
+      throw new Exception("Right sidebar region was not found");
+    }
     $result = $region->find('css', '#column-right-region .block-inner .block-content #gam-holder-HostingForumBlock');
     if (empty($result)) {
       throw new Exception('No advertisement exists in the right sidebar');
