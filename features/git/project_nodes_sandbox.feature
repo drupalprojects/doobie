@@ -42,8 +42,8 @@ Feature: To verify an existing sandbox project data
     | Troubleshooting Git clone      |
     | branching and tagging          |
     | Advanced patch workflow        |
-
-  @wip
+   
+  @anon
   Scenario: Browse repository link
     Given I am on "/node/1765126"
     When I follow "Repository viewer"
