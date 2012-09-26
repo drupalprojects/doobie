@@ -2466,6 +2466,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheFollowingBlocksInTheRightSidebar(TableNode $table) {
     $region = $this->getSession()->getPage()->find('region', 'right sidebar');
+    if (empty($region)) {
+      throw new Exception('Right sidebar region was not found');
+    }
     $blocks = $region->findAll('css', '#column-right-region > div');
     if (empty($blocks)) {
       throw new Exception('No blocks found in the right sidebar');
