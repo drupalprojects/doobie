@@ -23,7 +23,7 @@ Feature: Drupal case studies
     And wait "2" seconds
     And I should see "3"
     And wait "2" seconds
-    And I should see "4"    
+    And I should see "4"
 
   Scenario: To see the list of categories on the right sidebar
     Given that I am on the homepage
@@ -52,8 +52,7 @@ Feature: Drupal case studies
 
   Scenario Outline: Navigate into featured showcase categories
     Given I am on "/case-studies"
-    When I follow "<category>"
-    Then I should see "Categories:"
+    When I follow "<category>" on the "right sidebar"
     And I should not see "Page not found"
     And I should see "Category: <category>"
     Examples:
@@ -92,8 +91,7 @@ Feature: Drupal case studies
   Scenario Outline: Navigate into community showcase categories
     Given I am on "/case-studies/community"
     When I follow "<category>"
-    Then I should see "Categories:"
-    And I should not see "Page not found"
+    Then I should not see "Page not found"
     And I should see at least "1" record
     Examples:
     | category      |
@@ -101,12 +99,10 @@ Feature: Drupal case studies
     | Entertainment |
     | Healthcare    |
 
-  @wip
   Scenario: Navigate into an individual case study
     Given I am on "/case-studies/community"
     When I click on a case study image
     Then I should not see "Page not found"
-    And I should see "Categories"
     And I should see the following <texts>
     | texts                                |
     | Why Drupal was chosen:               |

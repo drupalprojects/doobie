@@ -4821,11 +4821,17 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The page does not contain any slides");
     }
     // Check each title is present in the view content or not
+    $slideTexts = array();
     foreach ($slides as $slide) {
-      $text = trim($slide->getText());
-      $case = $page->find('xpath', '//div[@id="content"]//h2[text()="' . $text . '"]');
-      if (!empty($case)) {
-        throw new Exception("The case study '" . $text . "' appears in the view content but is should not");
+      $slideTexts[] = trim($slide->getText());
+    }
+    $cases = $page->findAll('css', '#content h2');
+    if (empty($cases)) {
+      throw new Exception("No case studies were found on the page");
+    }
+    foreach ($cases as $case) {
+      if (in_array(trim($case->getText()), $slideTexts)) {
+        throw new Exception("The case study '" . trim($case->getText()) . "' appears in the view content but it should not");
       }
     }
   }
@@ -5167,5 +5173,22 @@ class FeatureContext extends DrupalContext {
         HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
       }
     }
+  }
+
+  /**
+   * @When /^I (?:follow|click) "([^"]*)" on the "([^"]*)"$/
+   */
+  public function iFollowOnThe($link, $region) {
+    // Find the region requested
+    $regionObj = $this->getSession()->getPage()->find('region', $region);
+    if (empty($regionObj)) {
+      throw new Exception("The region '" . $region . "' is not configured");
+    }
+    // Find the link within the region
+    $linkObj = $regionObj->findLink($link);
+    if (empty($linkObj)) {
+      throw new Exception("The link '" . $link . "' was not found on the region '" . $region . "'");
+    }
+    $linkObj->click();
   }
 }
