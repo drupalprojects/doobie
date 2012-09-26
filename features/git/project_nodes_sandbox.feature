@@ -43,6 +43,7 @@ Feature: To verify an existing sandbox project data
     | branching and tagging          |
     | Advanced patch workflow        |
 
+  @wip
   Scenario: Browse repository link
     Given I am on "/node/1765126"
     When I follow "Repository viewer"

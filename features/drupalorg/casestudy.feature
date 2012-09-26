@@ -4,6 +4,7 @@ Feature: Drupal case studies
   As any user
   I want to look for a link on the home page that takes me there
 
+  @timeout
   Scenario: Verify case study page
     Given that I am on the homepage
     When I follow "Sites Made with Drupal"
@@ -100,6 +101,7 @@ Feature: Drupal case studies
     | Entertainment |
     | Healthcare    |
 
+  @wip
   Scenario: Navigate into an individual case study
     Given I am on "/case-studies/community"
     When I click on a case study image

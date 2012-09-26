@@ -342,7 +342,11 @@ class FeatureContext extends DrupalContext {
     // Go to the user page.
     $this->getSession()->visit($this->locatePath('/user'));
     // Get the page title.
-    $page_title = $element->findByID('page-title')->getText();
+    $title_element = $element->findByID('page-title');
+    if (empty($title_element)) {
+        throw new Exception ('No page title found at ' . $this->getSession()->getCurrentUrl());
+    }
+    $page_title = $title_element->getText();
 
     if ($page_title == 'User account') {
       // If I see this, I'm not logged in at all so log in.

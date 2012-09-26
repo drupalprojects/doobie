@@ -123,6 +123,7 @@ Feature: Documents Management
     And I press "Apply"
     Then I should see at least "0" records
   
+  @wip
   Scenario: Verify pagination links: First page
     And I should see the following <links>
     | links |

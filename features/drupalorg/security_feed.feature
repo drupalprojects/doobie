@@ -4,6 +4,7 @@ Feature: Get a feed of security announcements
   As a user
   I should be able to see the rss feeds icon
 
+  @timeout
   Scenario:
     Given that I am on the homepage
     When I follow "Security Info"
