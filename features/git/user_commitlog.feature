@@ -18,6 +18,7 @@ Feature: To see the list of all the commits for a user
     And I follow "Version control"
     And I push "3" commits to the repository
 
+  @dependent
   Scenario: Check for records
     When I visit "/user"
     And I follow "Your Commits"
@@ -28,6 +29,7 @@ Feature: To see the list of all the commits for a user
     | master             |
     | Subscribe with RSS |
 
+  @dependent
   Scenario: Click link to user profile
     When I click on "user name" of a commit
     Then I should see the following <texts>
@@ -36,12 +38,14 @@ Feature: To see the list of all the commits for a user
     | Git attribution |
     | Member for      |
 
+  @dependent
   Scenario: Click link to project title: Full project
     When I click on "project title" of a commit
     Then I should see "Posted by"
     And I should see the link "View"
     And I should see the heading "Development"
 
+  @dependent
   Scenario: Click link to sandbox project title: Sandbox project
     When I click on "sandbox project title" of a commit
     Then I should see "Posted by"
@@ -54,13 +58,14 @@ Feature: To see the list of all the commits for a user
     And I should see the link "View"
     And I should see the heading "Development"
 
+  @dependent
   Scenario: Click link to date
     When I click on "date" of a commit
     Then I should see "Author date:"
     And I should see "Custom text:"
     And I should see "Commit"
 
-  @clean_data
+  @clean_data @dependent
   Scenario: Click link to repository
     When I click on "commit info" of a commit
     Then I should see the link "summary"
