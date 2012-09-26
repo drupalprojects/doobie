@@ -16,7 +16,7 @@ Feature: Verify home page preference functionality
     And I should see the link "Use Default Homepage"
     And I should not see the link "Make this your Homepage"
 
-  @revert_homepage_setting
+#  @revert_homepage_setting
   Scenario: Select default home page and check homepage is reverted to default homepage
     When I click "Use Default Homepage" link
     And I click the drupal banner in the header
