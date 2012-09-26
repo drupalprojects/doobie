@@ -16,7 +16,8 @@ Feature: View Drupal case studies as authenticated user
   @javascript @wip
   Scenario: Add a new case study
     When I follow "Add your case study"
-    And I attach the file "koala.jpg" to "Primary screenshot"
+    And I wait "2" seconds
+    And I attach the file "koala.jpg" to "Primary screenshot:"
     And I select "Arts" from "Sectors"
     And I additionally select "Education" from "Sectors"
     And I additionally select "Community" from "Sectors"
