@@ -3590,6 +3590,9 @@ class FeatureContext extends DrupalContext {
     $element = $this->getSession()->getPage();
     // First check if the user has permission to create full project
     $chk = $element->findField("Sandbox");
+    if (empty($chk)) {
+      throw new Exception("No Sandbox checkbox was found");
+    } 
     if ($chk->hasAttribute("disabled")) {
       throw new Exception("You do not have permissions to create a full project");
     }
