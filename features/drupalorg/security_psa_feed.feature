@@ -9,7 +9,7 @@ Feature: Get a feed of Security public service announcements
     Given that I am on the homepage
     When I follow "Security Info"
     And I follow "Public service announcements"
-    And I should see "Subscribe with RSS"
+    And I see "Subscribe with RSS"
     And I click on the feed icon
     Then I should be on "/security/psa/rss.xml"
     And I should see the text "Security public service announcements" in the feed
