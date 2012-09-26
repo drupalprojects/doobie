@@ -3442,7 +3442,7 @@ class FeatureContext extends DrupalContext {
     HackyDataRegistry::set('book page title', $this->documentTitle);
     $page->pressButton('Save');
     sleep(2);
-    HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
+    HackyDataRegistry::set('document url', $this->getSession()->getCurrentUrl());
   }
 
   /**
