@@ -5140,4 +5140,19 @@ class FeatureContext extends DrupalContext {
     //To check for the breadcrumb link exists
     $this->checkBreadcrumb($breadcrumb, false);
   }
+
+  /**
+   * @When /^I uncheck sandbox$/
+   */
+  public function iUncheckSandbox() {
+    $element = $this->getSession()->getPage()->findField('project[sandbox]');
+    if (empty($element)) {
+      throw new Exception('The checkbox: "project[sandbox]" is not found on the page');
+    }
+    // Click the element to make sure click event executes
+    $element->click();
+    if ($element->isChecked()) {
+      $element->uncheck();
+    }
+  }
 }
