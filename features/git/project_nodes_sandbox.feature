@@ -66,7 +66,7 @@ Feature: To verify an existing sandbox project data
     | search:     |
     | summary     |
 
-  @anon @known_git6failure
+  @anon 
   Scenario: View git messages
     Given I am on "/node/1765126"
     When I follow "View commits"
@@ -80,7 +80,7 @@ Feature: To verify an existing sandbox project data
     And I should not see the link "first"
     And I should not see the link "previous"
 
-  @anon @known_git6failure
+  @anon 
   Scenario: Check commit numbers in maintainers block
     Given I am on the homepage
     When I visit "/node/1765126"
@@ -89,7 +89,7 @@ Feature: To verify an existing sandbox project data
     | ksbalajisundar | 5     |
     | sachin2dhoni   | 2     |
 
-  @anon @known_git6failure
+  @anon 
   Scenario: Check users in maintainers block
     Given I am on the homepage
     When I visit "/node/1765126"
@@ -129,7 +129,6 @@ Feature: To verify an existing sandbox project data
     And I should see the link "Login"
     And I should see the link "register"
 
-  @known_dofailure
   Scenario: Check whether you can post an issue
     Given I am logged in as "site user"
     And I visit "/project/issues/1765126"
