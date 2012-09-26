@@ -4634,7 +4634,7 @@ class FeatureContext extends DrupalContext {
     if (in_array($link, array('Make this your Homepage', 'Use Default Homepage'))) {
       // Reset homepage setting value
       if (!HackyDataRegistry::get('homepage setting')) {
-        $this->changeDeaultHomepageSetting('reset');
+        $this->changeDefaultHomepageSetting('reset');
       }
       $element = $page->findLink($link);
       if (empty($element)) {
@@ -4670,7 +4670,7 @@ class FeatureContext extends DrupalContext {
    *   reset:  Reset setting to "Make this your Homepage"
    *   revert:  Revert setting to the original value
    */
-  public function changeDeaultHomepageSetting($action) {
+  public function changeDefaultHomepageSetting($action) {
     $page = $this->getSession()->getPage();
     // Reset setting to 'Use Default Homepage'
     if ($action == 'reset') {
@@ -4720,7 +4720,7 @@ class FeatureContext extends DrupalContext {
     }
     $session->visit($this->locatePath($link->getAttribute('href')));
     // Revert the setting
-    $this->changeDeaultHomepageSetting('revert');
+    $this->changeDefaultHomepageSetting('revert');
   }
 
   /**
