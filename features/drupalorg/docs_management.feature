@@ -1,11 +1,13 @@
+@slow
 Feature: Documents Management
   In order to see the list of documents
   As an authenticated user
   I should be able to search and filter the list
 
   Background:
-   Given I am logged in as "docs manager" 
-   And I am on "/documentation/manage"
+   Given I am logged in as "docs manager"
+   And I am on the homepage
+   And I visit "/documentation/manage"
   
   @timeout
   Scenario: Search records by Comment count
@@ -89,9 +91,8 @@ Feature: Documents Management
     | Site users                 |
     | Themers                    |
     
-  @wip
   Scenario Outline: Search records by Level
-    When I select "<levelss>" from "Level"
+    When I select "<levels>" from "Level"
     And I press "Apply"
     Then I should see at least "2" records
     Examples:
