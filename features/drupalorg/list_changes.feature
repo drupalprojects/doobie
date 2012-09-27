@@ -39,7 +39,7 @@ Feature: List and search change records
     | texts |
     | 6.x   |
     | 7.x   |
-    | 8.x   |   
+    | 8.x   |
 
   Scenario: Search, filtering by 7.x branch
     Given I am on "/list-changes/drupal"
@@ -66,7 +66,7 @@ Feature: List and search change records
     And I enter "08-Jul-2012" for field "created date"
     And I press "Apply"
     Then I should not see "08-Jul-2012"
-    But I should see "17-Jul-2012"
+    And I should see at least "1" record
 
   Scenario: Search by entering values for Change node created dropdown: Is between
     Given I am on "/list-changes/drupal"
@@ -74,7 +74,7 @@ Feature: List and search change records
     And I enter "1-Jul-2012" for field "start date"
     And I enter "15-Jul-2012" for field "end date"
     And I press "Apply"
-    Then I should see "01-Jul-2012"
+    Then I should see at least "1" record
     And I should not see "Invalid project or no changes found"
 
   @wip
@@ -83,11 +83,7 @@ Feature: List and search change records
     When I select "<value>" from "Impact"
     And I press "Apply"
     Then I should see at least "10" records
-    And I should see the following <texts>
-    | texts |
-    | 7.x   |
-    | 8.x   |
-    But I should not see "Invalid project or no changes found"
+    And I should not see "Invalid project or no changes found"
     Examples:
     | value                                  |
     | Site builders, administrators, editors |
@@ -150,7 +146,7 @@ Feature: List and search change records
     Then I should see "Invalid project or no changes found"
     Examples:
     | fieldname             |
-    | Introduced in branch  |        
+    | Introduced in branch  |
     | Introduced in version |
     | Keywords              |
 
