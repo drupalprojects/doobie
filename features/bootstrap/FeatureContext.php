@@ -4632,10 +4632,13 @@ class FeatureContext extends DrupalContext {
    * @When /^I click "([^"]*)" link$/
    * @param string $link
    *   Link title
+   * @param boolean $show
+   *   Whether to show exception message
    */
-  public function iClickLink($link) {
+  public function iClickLink($link, $show = true) {
     sleep(2);
     $page = $this->getSession()->getPage();
+    $clicked = false;
     // Perform some operations specific to the link, after clicking the link
     if (in_array($link, array('Make this your Homepage', 'Use Default Homepage'))) {
       // Reset homepage setting value
@@ -4644,19 +4647,39 @@ class FeatureContext extends DrupalContext {
       }
       $element = $page->findLink($link);
       if (empty($element)) {
-        throw new Exception('The link: "' . $link . '" was not found on the page');
+        if ($show) {
+          throw new Exception('The link: "' . $link . '" was not found on the page');
+        }
+        else {
+          return;
+        }
       }
       $element->click();
       // As the operation is done through ajax, wait till the link disappears from the dom or for 3 seconds
       $this->iWaitForSeconds(3, "$('a:contains(\"" . $link . "\")').text() == \"\"");
+      $clicked = true;
     }
     // Drupal banner in the header
     elseif($link == 'drupal banner') {
       $element = $page->find('css', 'div#header-left-inner > div#site-name > a');
       if (empty($element)) {
-        throw new Exception(ucfirst($link) . ' was not found on the page');
+        if ($show) {
+          throw new Exception('"' . ucfirst($link) . '" was not found on the page');
+        }
+        else {
+          return;
+        }
       }
       $element->click();
+      $clicked = true;
+    }
+    if (!$clicked) {
+      if ($show) {
+        throw new Exception( '"' . ucfirst($link) . '" was not found on the page');
+      }
+      else {
+        return;
+      }
     }
   }
 
@@ -4694,18 +4717,20 @@ class FeatureContext extends DrupalContext {
     elseif($action == 'revert') {
       $setting = HackyDataRegistry::get('homepage setting');
       if (empty($setting)) {
+        echo "\n" . 'Homepage setting is empty. Revert failed';
         return;
       }
       // Find setting link
       $link = $page->find('css','form#drupalorg-set-home div a');
       if (empty($link)) {
-        throw new Exception('Homepage setting link is not found. Revert failed');
+        echo "\n" . 'Homepage setting link is not found. Revert failed';
+        return;
       }
       // Compare current setting with saved default setting
       if ($setting != $link->getText()) {
         HackyDataRegistry::set('homepage setting', '');
         // Use the click statement to make sure ajax request is complete
-        $this->iClickLink($link->getText());
+        $this->iClickLink($link->getText(), false);
       }
     }
   }
@@ -4722,7 +4747,8 @@ class FeatureContext extends DrupalContext {
     // Visit dashboard page to find the setting link
     $link = $page->findLink("Your Dashboard");
     if (empty($link)) {
-      throw new Exception('"Your Dashboard" link is not found. Revert failed');
+      echo "\n" . '"Your Dashboard" link is not found. Revert failed';
+      return;
     }
     $session->visit($this->locatePath($link->getAttribute('href')));
     // Revert the setting
@@ -5248,6 +5274,19 @@ class FeatureContext extends DrupalContext {
         sleep(3);
       }
       $this->iAddACommentToTheIssue();
+    }
+  }
+
+  /**
+   * Hold the execution till the page is completely loaded
+   *
+   * @Given /^I wait till the page loads$/
+   */
+  public function iWaitTillThePageLoads() {
+    $session = $this->getSession();
+    // If selenium is loaded, wait for the page to completely load
+    if ($session->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
+      $session->wait(1, "document.readyState == 'interactive' || document.readyState == 'complete'");
     }
   }
 }
