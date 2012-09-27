@@ -7,6 +7,7 @@ Feature:
   Background:
     Given I am logged in as "site user"
 
+  @flaky
   Scenario: Add a new block to the Dashboard
     And I follow "Your Dashboard"
     And I follow "Dashboard"
