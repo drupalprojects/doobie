@@ -1,4 +1,4 @@
-@anon
+@anon @specific_text
 Feature: List and search change records
   In order to see the list of change records
   As anonymous/guest user
@@ -59,7 +59,6 @@ Feature: List and search change records
     Then I should see "8.x"
     And I should not see "7.x"
 
-  @wip
   Scenario: Search by entering values for Change node created dropdown: Is greater than
     Given I am on "/list-changes/drupal"
     When I select "Is greater than" from field "Change node created"
@@ -77,7 +76,6 @@ Feature: List and search change records
     Then I should see at least "1" record
     And I should not see "Invalid project or no changes found"
 
-  @wip
   Scenario Outline: Search by selecting for Impacts dropdown
     Given I am on "/list-changes/drupal"
     When I select "<value>" from "Impact"
