@@ -21,8 +21,9 @@ default:
         page tools: "#page-tools"
         right sidebar: "#aside .region-sidebar-second"
         content top: "#content-top-region"
-        content: "#column-left"
+        content: "#content"
         content bottom: "#content-bottom-region"
         bottom right: "#front-bottom-right"
+
 imports:
   - behat.local.yml
