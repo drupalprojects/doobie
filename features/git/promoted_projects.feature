@@ -33,7 +33,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     When I clone the sandbox repo
     Then I should see an error
 
-  @clean_data @wip
+  @clean_data
   Scenario: Clone the sandbox repository as anonymous user
     Given I am not logged in
     When I clone the sandbox repo

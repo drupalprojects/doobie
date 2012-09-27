@@ -1,4 +1,3 @@
-@wip
 Feature: To get administrative view of comments by a user
   In order to manage comments
   As an admin user
