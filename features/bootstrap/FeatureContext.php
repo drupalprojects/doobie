@@ -641,6 +641,9 @@ class FeatureContext extends DrupalContext {
     elseif ($field == "maintainer user name") {
       $field = "edit-new-maintainer-user";
     }
+    elseif ($field == "search again") {
+      $field = "edit-query";
+    }
     return new Given("I fill in \"$field\" with \"$value\"");
   }
 
@@ -5209,5 +5212,25 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The link '" . $link . "' was not found on the region '" . $region . "'");
     }
     $linkObj->click();
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" record(?:|s) for each filter$/
+   */
+  public function iShouldSeeAtLeastRecordForEachFilter($count) {
+    // Get all the links under the block
+    $links = $this->getSession()->getPage()->findAll('css', '#block-drupalorg_search-meta_type ul li a');
+    if (empty($links)) {
+      throw new Exception("The page did not contain any filters");
+    }
+    // For every link, extract the number and compare
+    foreach ($links as $link) {
+      // text format - All (xx)
+      preg_match('#(.*) \((\d+)\)#', trim($link->getText()), $match);
+      // 0 = All (xx), 1 = All, , 2 = xx
+      if (!$match[2] || $match[2] < $count) {
+        throw new Exception("The filter '" . trim($match[1]) . "' has less than '" . $count . "' records");
+      }
+    }
   }
 }

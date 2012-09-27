@@ -1,10 +1,123 @@
-@known_git6failure
-Feature: Visitor searches site for Views
+@known_git6failure @anon
+Feature: Visitor searches site
   In order to see relevant search results and filters
   As a visitor to Drupal.org
-  I want to search for the term 'views'
- 
-  Scenario: Drupal.org has facet blocks on search results page
-    When I go to "/search/apachesolr_search/views"
-    Then I should see "or filter by…"
-    And I should see "or search for…"
+  I want to search for the term 'views' and use filters provided
+
+  Scenario: Search box in the header on every page drives to solr d.o search
+    Given I am on "/project/drupal"
+    When I search sitewide for "views"
+    Then I should be on "/search/apachesolr_multisitesearch/views"
+
+  Scenario: Search for the term and look for results
+    Given that I am on the homepage
+    When I search sitewide for "views"
+    Then I should see the heading "Search results"
+    And I should see the heading "Search again"
+    And I should see the following <texts>
+    | texts                               |
+    | or filter by                        |
+    | or search for                       |
+    | results containing the words: views |
+    | Posted by                           |
+    | Sort by:                            |
+    And I should see the following <links>
+    | links           |
+    | Views           |
+    | IRC Nicks       |
+    | Users           |
+    | Advanced Issues |
+    | next            |
+    | last            |
+    And I should see at least "25" records
+    And I should not see "Your search yielded no results"
+
+  Scenario: Page contains a sorting option at the top of results
+    Given I am on "/search/apachesolr_multisitesearch/views"
+    When I select "Title" from "Sort by"
+    Then I should see the heading "Search results"
+    And I should not see "Your search yielded no results"
+
+  Scenario: Page contains a search field in the right column
+    Given I am on "/search/apachesolr_multisitesearch/views"
+    When I enter "cck" for field "Search again"
+    And I press "Submit"
+    Then I should see at least "25" records
+    And I should see the link "CCK"
+    And I should see "results containing the words: cck"
+    And I should not see "Your search yielded no results"
+
+  @slow
+  Scenario Outline: Check links under "Or search for..."
+    Given I am on "/search/apachesolr_multisitesearch/views"
+    When I follow "<link>"
+    Then I should be on "<path>"
+    And I should not see "Page not found"
+    And I should not see "Access denied"
+    Examples:
+    | link            | path                      |
+    | IRC Nicks       | /search/drupalorg/views   |
+    | Users           | /search/user_search/views |
+    | Advanced Issues | /search/issues?text=views |
+
+  Scenario: Facet search on the right side bar
+    Given that I am on the homepage
+    When I search sitewide for "views"
+    Then I should see the following <links>
+    | links             |
+    | All (             |
+    | Modules (         |
+    | Themes (          |
+    | Documentation (   |
+    | Forums & Issues ( |
+    | Groups (          |
+    And I should see at least "10" records for each filter
+
+  @slow
+  Scenario Outline: Follow each facet filter and verify the same
+    Given I am on "/search/apachesolr_multisitesearch/views"
+    When I follow "<filter>"
+    Then I should see the heading "Search results"
+    And I should not see "Your search yielded no results"
+    And I should see at least "10" records
+    And I should see "results containing the words: views"
+    Examples:
+    | filter            |
+    | All (             |
+    | Modules (         |
+    | Themes (          |
+    | Documentation (   |
+    | Forums & Issues ( |
+    | Groups (          |
+
+  Scenario: Meta type modules has more filters
+    Given I am on "/search/apachesolr_multisitesearch/views?filters=ss_meta_type:module"
+    When I select "Event" from "Modules categories"
+    And I select "6.x" from "Filter by compatibility"
+    And I select "All projects" from "Status"
+    And I select "Date" from "Sort by"
+    Then I should see at least "25" records
+    And I should see the heading "Search results"
+    And I should see "results containing the words: views"
+
+  Scenario: Meta type themes has more filters
+    Given I am on "/search/apachesolr_multisitesearch/views?filters=ss_meta_type:theme"
+    When I select "7.x" from "Filter by compatibility"
+    And I select "Full projects" from "Status"
+    And I select "Author" from "Sort by"
+    Then I should see at least "25" records
+    And I should see the heading "Search results"
+    And I should see "results containing the words: views"
+
+  @javascript
+  Scenario: Filters exist in the search box in the header
+    Given I am on "/about"
+    When I follow "Refine your search"
+    Then I should see the following <texts>
+    | texts           |
+    | All             |
+    | Modules         |
+    | Themes          |
+    | Documentation   |
+    | Forums & Issues |
+    | Groups          |
