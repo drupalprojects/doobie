@@ -5233,4 +5233,21 @@ class FeatureContext extends DrupalContext {
       }
     }
   }
+
+  /**
+   * @Given /^I add "([^"]*)" comment(?:|s)$/
+   */
+  public function iAddComment($count) {
+    for ($i = 0; $i < $count; $i++) {
+      if ($i > 0) {
+        $link = $this->getSession()->getPage()->findLink("Add new comment");
+        if (empty($link)) {
+          throw new Exception("The link 'Add new comment' was not found on the page");
+        }
+        $link->click();
+        sleep(3);
+      }
+      $this->iAddACommentToTheIssue();
+    }
+  }
 }
