@@ -4,7 +4,7 @@ Feature: Get a feed of Security public service announcements
   As a user
   I should be able to see the rss feeds icon
 
-  @timeout
+  @timeout @flaky
   Scenario:
     Given that I am on the homepage
     When I follow "Security Info"
