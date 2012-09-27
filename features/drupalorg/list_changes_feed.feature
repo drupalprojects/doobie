@@ -4,6 +4,7 @@ Feature: Get a feed of change records
   As a user
   I should be able to see the rss feeds
 
+  @flaky
   Scenario:
     Given I am on "/project/drupal"
     When I follow "View change records"
