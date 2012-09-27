@@ -7,12 +7,15 @@ Feature:
   Background:
     Given I am logged in as "site user"
 
-  @flaky
+  @wip @flaky
   Scenario: Add a new block to the Dashboard
+    And I wait for "2" seconds
     And I follow "Your Dashboard"
+    And I wait for "2" seconds
     And I follow "Dashboard"
+    And I wait for "2" seconds
     And there are no blocks on my dashboard
-    And I follow "Add a block"
+    When I follow "Add a block"
     Then I should see the following <blocklinks> in small boxes
     | blocklinks                |
     | Drupal News               |
@@ -25,9 +28,10 @@ Feature:
     And I click the link "Contributor Links" to add
     And I should see the block "Contributor Links" in column "1"a
 
-  @flaky
+  @wip @flaky @known_git6failure
   Scenario Outline: Add block from project page
-    And I am on "<page>" 
+    And I am on "<page>"
+    And I wait for "2" seconds
     When I click "<blocklink>"
     Then I should see "<blocktitle>"
 
@@ -41,10 +45,13 @@ Feature:
     | /project/issues/user | Add Your Issues to dashboard              | Issues for site user     |
     | /getting-involved    | Add Contributor Links to dashboard        | Contributor Links        |
 
+  @wip @flaky @known_git6failure
   Scenario:Add from the user track page
-    When I follow "Your Dashboard"
+    And I wait for "2" seconds
+    And I follow "Your Dashboard"
+    And I wait for "2" seconds
     And I click "Your Posts"
-    And I click "Add Your Posts to dashboard"
+    When I click "Add Your Posts to dashboard"
     Then I should see "Track posts" 
 
   Scenario: User cannot add someone else's block
