@@ -1,4 +1,4 @@
-@javascript @wip
+@javascript
 Feature:
   In order to test the functionalities of Drupal dashboard
   As an authenticated user
@@ -24,6 +24,7 @@ Feature:
     And I click the link "Contributor Links" to add
     And I should see the block "Contributor Links" in column "1"a
 
+  @flaky
   Scenario Outline: Add block from project page
     And I am on "<page>" 
     When I click "<blocklink>"

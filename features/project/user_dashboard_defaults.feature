@@ -1,4 +1,4 @@
-@javascript
+@javascript @flaky
 Feature:
   In order to get immediate access to important information
   As an authenticated user
