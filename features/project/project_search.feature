@@ -1,4 +1,4 @@
-@slow @flakey @wip @anon
+@slow @anon
 Feature: Overall Filter Search for Issues
   In order to define the overall Filter search for Issues
   As an Anonymous user
@@ -23,7 +23,7 @@ Feature: Overall Filter Search for Issues
     And I press "Search" in the "content" region
     Then I should see at least "2" records
 
-  @javascript
+  @javascript @htaccess
   Scenario: Searching for the project title
     When I fill in "Project" with "Achie"
     And I wait for the suggestion box to appear
