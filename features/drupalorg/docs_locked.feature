@@ -1,3 +1,4 @@
+@wip
 Feature: Prevent users from editing certain pages
   In order to limit changes to certain important documentation pages
   As a site user
@@ -10,8 +11,10 @@ Feature: Prevent users from editing certain pages
     When I visit "/coding-standards"
     Then I should not see the link "Edit" 
 
-  @javascript
   Scenario: Site user tries to edit a page directly
-    When I visit "/node/318/edit"
+    When I go to "/node/318/edit"
     Then I should see "Access Denied"
+    And I should see "You are not authorized to access this page"
+    And I should not get a "200" HTTP response
+    But I should get a "403" HTTP response
 
