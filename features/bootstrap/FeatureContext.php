@@ -4641,7 +4641,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Custom step definition to click a link
+   * Custom step definition to click a link that follows specific actions
    *
    * @When /^I click "([^"]*)" link$/
    * @param string $link
@@ -4663,7 +4663,11 @@ class FeatureContext extends DrupalContext {
       $element = $page->findLink($link);
       if (!empty($element)) {
         $element->click();
+<<<<<<< HEAD
         // As the operation is done through ajax, wait until the link disappears from the dom or for 3 seconds
+=======
+        // As the operation is done through ajax, wait till the link disappears from the dom or for 3 seconds
+>>>>>>> 436c9fc... Issue #1685188 by Pradeep: Modified iClickLink() to throw exception for other links
         $this->iWaitForSeconds(1, "$('a:contains(\"" . $link . "\")').text() == \"\"");
         $clicked = true;
       }
@@ -4718,8 +4722,8 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     // Reset setting to 'Use Default Homepage'
     if ($action == 'reset') {
-      $content = $page->findLink('Use Default Homepage');
-      if ($content) {
+      $link = $page->findLink('Use Default Homepage');
+      if ($link) {
         // Since Dashboard is already selected as homepage, save 'Use Default Homepage' for later use
         HackyDataRegistry::set('homepage setting', 'Use Default Homepage');
         $this->iClickLink("Use Default Homepage");
@@ -4732,6 +4736,10 @@ class FeatureContext extends DrupalContext {
     elseif($action == 'revert') {
       $setting = HackyDataRegistry::get('homepage setting');
       if (empty($setting)) {
+<<<<<<< HEAD
+=======
+        // Assume that revert is not required
+>>>>>>> 436c9fc... Issue #1685188 by Pradeep: Modified iClickLink() to throw exception for other links
         return;
       }
       // Find setting link
