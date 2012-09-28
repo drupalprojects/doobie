@@ -64,6 +64,7 @@ Feature:
     When I change the setting "Number of posts to show:" to "3" for the block "Your Posts" and save
     Then I should see at least "3" items in block "Your Posts"
 
+  @wip @flaky
   Scenario: Check Close icon of the block
     When I close the block "Your Posts"
     Then I should not see the block
