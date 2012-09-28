@@ -1,9 +1,10 @@
-@data_creation
+@data_creation @ci
 Feature: To view an individual commit
   In order to see the commit information of a particular commit
   As a user
-  I should got to the individual commit details page
+  I should go to the individual commit details page
 
+  @smoke
   Scenario: View the commit information: Few information
     Given I am on "/commitlog/commit/43232/ca9a5dca5fb6f4b34839a5bf21b44b163f060e78"
     Then I should see "Author date:"

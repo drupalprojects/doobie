@@ -1,9 +1,10 @@
-Feature: To verify an existing sandbox project data
-  In order to verify that the sandbox project has proper data
+@ci
+Feature: Learn about details of a (sandbox) project
+  In order to learn about the various details and components associated with a project
   As any user
-  I should be able to view some specific contents on the page and verify the links
+  I should be able to visit the project page, follow various links, and find assorted information
 
-  @anon
+  @anon @smoke
   Scenario: View the project page
     Given I am on the homepage
     When I visit "/node/1765126"
@@ -25,7 +26,7 @@ Feature: To verify an existing sandbox project data
     | Subscribe via e-mail |
     And I should see the heading "Development"
 
-  @anon
+  @anon @smoke
   Scenario: Project Git instructions
     Given I am on "/node/1765126"
     When I follow "Version control"
@@ -42,7 +43,7 @@ Feature: To verify an existing sandbox project data
     | Troubleshooting Git clone      |
     | branching and tagging          |
     | Advanced patch workflow        |
-   
+
   @anon
   Scenario: Browse repository link
     Given I am on "/node/1765126"
@@ -66,7 +67,7 @@ Feature: To verify an existing sandbox project data
     | search:     |
     | summary     |
 
-  @anon 
+  @anon
   Scenario: View git messages
     Given I am on "/node/1765126"
     When I follow "View commits"
@@ -80,7 +81,7 @@ Feature: To verify an existing sandbox project data
     And I should not see the link "first"
     And I should not see the link "previous"
 
-  @anon 
+  @anon @smoke
   Scenario: Check commit numbers in maintainers block
     Given I am on the homepage
     When I visit "/node/1765126"
@@ -89,7 +90,7 @@ Feature: To verify an existing sandbox project data
     | ksbalajisundar | 5     |
     | sachin2dhoni   | 2     |
 
-  @anon 
+  @anon
   Scenario: Check users in maintainers block
     Given I am on the homepage
     When I visit "/node/1765126"
@@ -114,7 +115,7 @@ Feature: To verify an existing sandbox project data
     | zip (                |
     But I should see the link "sandbox project"
 
-  @anon
+  @anon @smoke
   Scenario: Read issue queue
     Given I am on "/node/1765126"
     When I follow "open"
@@ -129,6 +130,7 @@ Feature: To verify an existing sandbox project data
     And I should see the link "Login"
     And I should see the link "register"
 
+  @smoke
   Scenario: Check whether you can post an issue
     Given I am logged in as "site user"
     And I visit "/project/issues/1765126"

@@ -1,8 +1,10 @@
+@ci
 Feature: To see the list of all the commits
   In order to see the list of commits
   As a user
   I should got to the commit log page
 
+  @smoke
   Scenario: View the list of commits
     Given that I am on the homepage
     When I follow "Commits"
