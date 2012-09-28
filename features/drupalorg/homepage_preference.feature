@@ -1,4 +1,4 @@
-@javascript @wip
+@javascript
 Feature: Verify home page preference functionality
   In order to have quick access to dashboard and its related links
   As an authenticated user
@@ -10,6 +10,7 @@ Feature: Verify home page preference functionality
     And I follow "Your Dashboard"
     And I wait till the page loads
 
+  @wip
   Scenario: Select dashboard as homepage and check dashboard has become the homepage
     When I click "Make this your Homepage" link
     And I click the drupal banner in the header
@@ -19,7 +20,7 @@ Feature: Verify home page preference functionality
     And I should see the link "Use Default Homepage"
     And I should not see the link "Make this your Homepage"
 
-  @revert_homepage_setting @flaky
+  @revert_homepage_setting @flaky @wip
   Scenario: Select default home page and check homepage is reverted to default homepage
     When I click "Use Default Homepage" link
     And I click the drupal banner in the header

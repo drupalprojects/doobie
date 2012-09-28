@@ -4623,58 +4623,58 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Custom step definition to click a link
+   * Custom step definition to click a link that follows specific actions
    *
    * @When /^I click "([^"]*)" link$/
    * @param string $link
    *   Link title
-   * @param boolean $show
+   * @param boolean $throw
    *   Whether to show exception message
    */
-  public function iClickLink($link, $show = true) {
+  public function iClickLink($link, $throw = true) {
     sleep(2);
     $page = $this->getSession()->getPage();
     $clicked = false;
     // Perform some operations specific to the link, after clicking the link
+    //Homepage preference settings links
     if (in_array($link, array('Make this your Homepage', 'Use Default Homepage'))) {
       // Reset homepage setting value
       if (!HackyDataRegistry::get('homepage setting')) {
         $this->changeDefaultHomepageSetting('reset');
       }
       $element = $page->findLink($link);
-      if (empty($element)) {
-        if ($show) {
-          throw new Exception('The link: "' . $link . '" was not found on the page');
-        }
-        else {
-          return;
-        }
+      if (!empty($element)) {
+        $element->click();
+        // As the operation is done through ajax, wait till the link disappears from the dom or for 3 seconds
+        $this->iWaitForSeconds(1, "$('a:contains(\"" . $link . "\")').text() == \"\"");
+        $clicked = true;
       }
-      $element->click();
-      // As the operation is done through ajax, wait till the link disappears from the dom or for 3 seconds
-      $this->iWaitForSeconds(3, "$('a:contains(\"" . $link . "\")').text() == \"\"");
-      $clicked = true;
     }
     // Drupal banner in the header
     elseif($link == 'drupal banner') {
       $element = $page->find('css', 'div#header-left-inner > div#site-name > a');
-      if (empty($element)) {
-        if ($show) {
-          throw new Exception('"' . ucfirst($link) . '" was not found on the page');
-        }
-        else {
-          return;
-        }
+      if (!empty($element)) {
+        $element->click();
+        $clicked = true;
       }
-      $element->click();
-      $clicked = true;
+    }
+    // Other links fall here
+    else {
+      $element = $page->findLink($link);
+      if (!empty($element)) {
+        $element->click();
+        $clicked = true;
+      }
     }
     if (!$clicked) {
-      if ($show) {
-        throw new Exception( '"' . ucfirst($link) . '" was not found on the page');
+      $message = '"' . ucfirst($link) . '" link is not found on the page';
+      //Either throw exception or print it depending on the passed value.
+      //As this function is called from @revert_homepage_setting as well, throwing exception is controlled here
+      if ($throw) {
+        throw new Exception($message);
       }
       else {
-        return;
+        echo $message;
       }
     }
   }
@@ -4699,8 +4699,8 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     // Reset setting to 'Use Default Homepage'
     if ($action == 'reset') {
-      $content = $page->findLink('Use Default Homepage');
-      if ($content) {
+      $link = $page->findLink('Use Default Homepage');
+      if ($link) {
         // Since Dashboard is already selected as homepage, save 'Use Default Homepage' for later use
         HackyDataRegistry::set('homepage setting', 'Use Default Homepage');
         $this->iClickLink("Use Default Homepage");
@@ -4713,7 +4713,7 @@ class FeatureContext extends DrupalContext {
     elseif($action == 'revert') {
       $setting = HackyDataRegistry::get('homepage setting');
       if (empty($setting)) {
-        echo "\n" . 'Homepage setting is empty. Revert failed';
+        // Assume that revert is not required
         return;
       }
       // Find setting link
