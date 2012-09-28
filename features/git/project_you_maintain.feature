@@ -1,5 +1,6 @@
-Feature: To verify that a user has permission to promote a project or not
-  In order to make a project official 
+@ci
+Feature: Promote a project from a sandbox to a full project
+  In order to make a project official
   As a git vetted user
   I should be able to promote a sandbox
 
@@ -31,7 +32,7 @@ Feature: To verify that a user has permission to promote a project or not
     Then I should not see the link "Promote"
     And I should not see the link "Promote this project"
     And I should see that the project short name is readonly
-    
+
   @gitrepo @clean_data
   Scenario: Git vetted user initializes the repo and tries to promote project
     Given I am logged in as "git vetted user"

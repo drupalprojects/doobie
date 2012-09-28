@@ -1,3 +1,4 @@
+@ci
 Feature: See git activity on home page
   In order to see how active drupal development is
   As any user
@@ -6,7 +7,7 @@ Feature: See git activity on home page
   Background:
     Given I am on the homepage
 
-  @gitrepo @clean_data @timeout
+  @gitrepo @clean_data @timeout @smoke
   Scenario: Create sample data and verify the same
     Given I am logged in as "git vetted user"
     And I visit "/node/add/project-project"
