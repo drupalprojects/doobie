@@ -2750,7 +2750,12 @@ class FeatureContext extends DrupalContext {
     if (empty($arr_table['element'])) {
       throw new Exception('The table: "' . $tableType . '" cannot be found.');
     }
-    $first_tr = $arr_table['element']->find('css', 'tbody tr');
+    $projectTitle = HackyDataRegistry::get('project title');
+    $project_a = $arr_table['element']->findLink($projectTitle);
+    if (empty($project_a)) {
+      throw new Exception('The project "' . $projectTitle . '" is not found in "' . $tableType .'"');
+    }
+    $first_tr = $project_a->getParent()->getParent();
     if (empty($first_tr)) {
       throw new Exception('No records found.');
     }
@@ -2806,8 +2811,12 @@ class FeatureContext extends DrupalContext {
     if (empty($arr_table['element'])) {
       throw new Exception('The table: "' . $tableType . '" cannot be found.');
     }
-    // Find <TR>s
-    $first_tr = $arr_table['element']->find('css', 'tbody tr');
+    $projectTitle = HackyDataRegistry::get('project title');
+    $project_a = $arr_table['element']->findLink($projectTitle);
+    if (empty($project_a)) {
+      throw new Exception('The project "' . $projectTitle . '" is not found in "' . $tableType .'"');
+    }
+    $first_tr = $project_a->getParent()->getParent();
     if (empty($first_tr)) {
       throw new Exception('No records found');
     }
