@@ -4073,7 +4073,7 @@ class FeatureContext extends DrupalContext {
         return $emailField->getAttribute("value");
       }
     }
-    return FALSE;
+    throw new Exception("Unable to get current user's email address");
   }
 
   /**
@@ -4101,8 +4101,8 @@ class FeatureContext extends DrupalContext {
    * Function to set the git config user.name and user.email
    * @param string $gitUsername
    *   Git username to supply for user.name
-   * @return boolean True/False
-   *   Return True if success, false otherwise
+   * @return boolean True/Exception
+   *   Return True if success, exception otherwise
    */
   private function setGitConfig($gitUsername = "") {
     $email = $this->getMyEmail();
@@ -4110,18 +4110,18 @@ class FeatureContext extends DrupalContext {
       $process = new Process('git config user.email "' . $email . '"');
       $process->run();
       if (!$process->isSuccessful()) {
-        return FALSE;
+        throw new Exception("Unable to set user.email '" . $email . "' in git config");
       }
       if ($gitUsername == "") {
         $gitUsername = $this->whoami();
       }
       $process = new Process('git config user.name "' . $gitUsername . '"');
       $process->run();
-		  if ($process->isSuccessful()) {
-    	  return TRUE;
+		  if (!$process->isSuccessful()) {
+    	  throw new Exception("Unable to set user.name '" . $gitUsername . "' in git config");
       }
     }
-    return FALSE;
+    return TRUE;
   }
 
   /**
