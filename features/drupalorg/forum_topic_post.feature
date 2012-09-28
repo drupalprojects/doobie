@@ -1,3 +1,4 @@
+@forums
 Feature: Post a forum topic as a site user
   In order to discuss a topic
   As a site user

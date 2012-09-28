@@ -1,3 +1,4 @@
+@forums
 Feature: To check whether user can post a topic under newsletter subsite forums
   In order to check newsletter subset forum post access
   As a site user
