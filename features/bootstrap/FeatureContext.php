@@ -2554,15 +2554,11 @@ class FeatureContext extends DrupalContext {
    * @Given /^"([^"]*)" should not contain an input element$/
    */
   public function shouldNotContainAnImputElement($id) {
-    $element = $this->getSession()->getPage();
-    $div = $element->findById($id);
-
+    $div = $this->getSession()->getPage()->findById($id);
     if (!$div) {
       throw new Exception("The page does not have any div with the id '" . $id . "'");
     }
-
     $input = $div->find('css', 'input');
-
     if ($input) {
       throw new Exception("The element with the id '" . $id . "' contains an input element.");
     }

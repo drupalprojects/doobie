@@ -40,7 +40,9 @@ Feature: Promote a project from a sandbox to a full project
     And I follow "Version control"
     And I initialize the repository
     When I promote the project
+    And I see "has been promoted to a full project"
     And I follow "Edit"
     Then I should not see the link "Promote"
     And I should not see the link "Promote this project"
     And I should see that the project short name is readonly
+    And "edit-project-uri-wrapper" should not contain an input element
