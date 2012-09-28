@@ -187,35 +187,82 @@ class FeatureContext extends DrupalContext {
    */
 
   /**
-   * @When /^I clone the repo$/
+   * Clone a project repository
+   *
+   * @When /^I clone the(?:| "([^"]*)") repo$/
+   * @param string $repo
+   *   project
+   *     Read code block from version control tab and clone repo
+   *   promoted sandbox
+   *     Read git endpoint from saved variable and clone a promoted sandbox repo
    */
-  public function iCloneTheRepo() {
+  public function iCloneTheRepo($repo = "project") {
+    // Check for the `expect` library.
+    $this->checkExpectLibraryStatus();
     // Initialise the password as "" to consider anonymous user
     $password = "\"\"";
     $url = "";
-    $element = $this->getSession()->getPage();
-    $currUrl = $this->getSession()->getCurrentUrl();
-    if (empty($element)) {
-      throw new Exception("No page was found");
+    $user = $this->getLoggedinUsername();
+    switch ($repo) {
+      // Follow version control tab and read code block
+      case 'project':
+        $element = $this->getSession()->getPage();
+        $currUrl = $this->getSession()->getCurrentUrl();
+        if (empty($element)) {
+          throw new Exception("No page was found");
+        }
+        // Make sure you are on the version control tab
+        if (strpos($this->getSession()->getCurrentUrl(), "git-instructions") === FALSE) {
+          throw new Exception("The page should be on the Version control tab in order to clone the repo");
+        }
+        // Get the code block
+        $result = $element->find('css', '#content div.codeblock code');
+        if (empty($result)) {
+          throw new Exception("The page does not contain any codeblock");
+        }
+        $this->repo = $result->getText();
+        break;
+      //This is to clone a sandbox repo once it is promoted and this should not clone the repository
+      case 'promoted sandbox':
+        $this->repo = '';
+        $endpoint = HackyDataRegistry::get('sandbox git endpoint');
+        if (empty($endpoint)) {
+          throw new Exception('Sandbox git end point is empty');
+        }
+        // If anonymous user, adjust the end point to match http endpoint
+        if (!$user) {
+          $components = parse_url($endpoint);
+          $endpoint = '';
+          $components['scheme'] = 'http';
+          if (isset($components['host'])) {
+            $endpoint .= $components['host'];
+          }
+          if (isset($components['port'])) {
+            $endpoint .= ':' . $components['port'];
+          }
+          if (isset($components['path'])) {
+            // Remove username from path
+            // if host is drupal.org. $components['path'] will have username too
+            $components['path'] = preg_replace(array("/(.+)@/", "/:sandbox/"), array("", "/sandbox"), $components['path']);
+            $endpoint .= $components['path'];
+          }
+          $endpoint = $components['scheme'] . '://' . $endpoint;
+        }
+        $this->repo = $endpoint;
+        break;
+      default:
+        throw new Exception("Invalid repo is given");
+        break;
     }
-    // Make sure you are on the version control tab
-    if (strpos($this->getSession()->getCurrentUrl(), "git-instructions") === FALSE) {
-      throw new Exception("The page should be on the Version control tab in order to clone the repo");
-    }
-    // Get the code block
-    $result = $element->find('css', '#content div.codeblock code');
-    if (empty($result)) {
-      throw new Exception("The page does not contain any codeblock");
-    }
-    $this->repo = $result->getText();
     // Get user data only if a user is logged in. Even anonymous user can clone.
-    $user = $this->whoami();
-    if ($user != 'User account') {
+    if ($user) {
     	$userData = $this->getGitUserData($this->repo);
     	$password = $userData['password'];
     }
     // Back to version control page
-    $this->getSession()->visit($currUrl);
+    if ($repo != 'promoted sandbox') {
+      $this->getSession()->visit($currUrl);
+    }
     sleep(1);
     $tempArr = explode(" ", $this->repo);
     foreach ($tempArr as $key => $value) {
@@ -230,28 +277,37 @@ class FeatureContext extends DrupalContext {
     // Get the project folder name and make sure there is a clone
     $project = strtolower(HackyDataRegistry::get('project_short_name'));
     if (!$project || $project == "") {
-      $project = strtolower(HackyDataRegistry::get('project title'));
+      if (!$project = strtolower(HackyDataRegistry::get('project title'))) {
+        // Find project short name from git endpoint        
+        $arr_url = explode('/', $url);
+        $project = str_replace('.git', '', end($arr_url));
+      }
     }
-    if (!$project || $project == "") {
+    if(empty($project)) {
       throw new Exception("No project found to push");
     }
     $command = "./bin/gitwrapper $password $url $project";
     $process = new Process($command);
-    $process->setTimeout(3600);
+    $process->setTimeout(100000);
     $process->run();
+    // If sandbox, skip checking errors
+    if ($repo == 'promoted sandbox') {
+      // Save output for later use
+      $this->process_output = $process->getOutput();
+      $process = new Process('rm -rf ' . $project);
+      $process->run();
+      return;
+    }
+    // Continue with normal cloning
     if (!$process->isSuccessful()) {
-      throw new RuntimeException("The clone did not work" .
-      "\n Error: " . $process->getErrorOutput() .
-      "\n Output: " . $process->getOutput()
+      throw new RuntimeException("The clone did not work " .
+        "\n Error: 2" . $process->getErrorOutput() .
+        "\n Output: 3" . $process->getOutput()
       );
     }
     // If clone is successfull, then a directory must be created
     if (!is_dir(getcwd() . "/" . $project)) {
-      throw new RuntimeException('The clone did not work' . $process->getOutput());
-    }
-    // If clone is successfull, then a directory must be created
-    if (!is_dir(getcwd() . "/" . $project)) {
-      throw new RuntimeException('The clone did not work' . $process->getOutput());
+      throw new RuntimeException('The clone did not work ' . $process->getOutput());
     }
   }
 
@@ -449,7 +505,14 @@ class FeatureContext extends DrupalContext {
   public function iAmOnTheVersionControlTab() {
     $path = trim(HackyDataRegistry::get('version control path'));
     if (!$path || $path == "") {
-      throw new Exception("The path to Version control tab was not found");
+      // If directly coming from project page
+      $element = $this->getSession()->getPage()->findLink('Version control');
+      if (!empty($element)) {
+        $path = $element->getAttribute('href');
+      }
+      else {
+        throw new Exception("The path to Version control tab was not found");
+      }
     }
     $path = $this->locatePath($path);
     return new Given("I am at \"$path\"");
@@ -3897,58 +3960,6 @@ class FeatureContext extends DrupalContext {
       $project_shortname = strtolower($project_shortname);
     }
     return new Then('I should have a local copy of "' . $project_shortname . '"');
-  }
-
-  /**
-   * @Then /^I clone the sandbox repo$/
-   */
-  public function iCloneTheSandboxRepo() {
-    // Check for the `expect` library.
-    $this->checkExpectLibraryStatus();
-    $gitwrapper = './bin/gitwrapper';
-    $dir = HackyDataRegistry::get('project_short_name');
-    // Find logged in username
-    $loggedin_user = $this->whoami();
-    if ($loggedin_user && $loggedin_user != 'User account') {
-      // Remove spaces if any
-      $loggedin_user = str_replace(" ", "", $loggedin_user);
-      $password = $this->fetchPassword('git', $loggedin_user);
-    }else {
-      $loggedin_user = "";
-      $password = "\"\"";
-    }
-    $endpoint = HackyDataRegistry::get('sandbox git endpoint');
-    if (empty($endpoint)) {
-      throw new Exception('Sandbox git end point is empty');
-    }
-    if (!$loggedin_user) {
-      $url = '';
-      $components = parse_url($endpoint);
-      $components['scheme'] = 'http';
-      if (isset($components['host'])) {
-        $url .= $components['host'];
-      }
-      if (isset($components['port'])) {
-        $url .= ':' . $components['port'];
-      }
-      if (isset($components['path'])) {
-        // Remove username from path
-        // if host is drupal.org. $components['path'] will have username too
-        $components['path'] = preg_replace(array("/(.+)@/", "/:sandbox/"), array("", "/sandbox"), $components['path']);
-        $url .= $components['path'];
-      }
-      $endpoint = $components['scheme'] . '://' . $url;
-    }
-    // Generate the git clone command
-    $command = $gitwrapper . ' ' . $password . ' ' . $endpoint . ' ' . $dir;
-    // Initialize the process
-    $process = new Process($command);
-    $process->setTimeout(3600);
-    $process->run();
-    $this->process_output = $process->getOutput();
-    // Remove the directory if it exists
-    $process = new Process('rm -rf ' . $dir);
-    $process->run();
   }
 
   /**

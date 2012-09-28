@@ -25,20 +25,20 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     When I initialize the repository
     Then I should have a local copy of the project
 
-  @dependent
+  @dependent @wip
   Scenario: Clone the repository as anonymous user
     Given I am on the Version control tab
     When I clone the repo
     Then I should have a local copy of the project
 
-  @dependent
+  @dependent @wip
   Scenario: Clone the sandbox repository as project owner
     Given I am logged in as "git vetted user"
-    When I clone the sandbox repo
+    When I clone the "promoted sandbox" repo
     Then I should see an error
 
   @clean_data @wip
   Scenario: Clone the sandbox repository as anonymous user
     Given I am not logged in
-    When I clone the sandbox repo
+    When I clone the "promoted sandbox" repo
     Then I should see an error
