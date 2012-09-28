@@ -17,7 +17,7 @@ Feature: View Drupal case studies as authenticated user
   Scenario: Add a new case study
     When I follow "Add your case study"
     And I see "Describe the project"
-    And I attach the file "koala.jpg" to "Primary screenshot:"
+    And I attach the local file "koala.jpg" to "Primary screenshot:"
     And I select "Arts" from "Sectors"
     And I additionally select "Education" from "Sectors"
     And I additionally select "Community" from "Sectors"

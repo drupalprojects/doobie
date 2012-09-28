@@ -5285,4 +5285,22 @@ class FeatureContext extends DrupalContext {
       $session->wait(1, "document.readyState == 'interactive' || document.readyState == 'complete'");
     }
   }
+
+  /**
+   * Converts a local file path to an absolute one and points to 'files' folder
+   *
+   * @param $file
+   *   string The file to be attached. The file must be present in the 'files' folder
+   * @param $field
+   *   string The field to which the file is to be attached
+   *
+   * @Then /^(?:I )attach the local file "([^"]*)" to "([^"]*)"$/
+   */
+  public function attachLocalFile($file, $field) {
+    $filePath = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . $file;
+    if (!file_exists($filePath)) {
+      throw new Exception("The file '" . $file . "' could not be found in the 'files' folder");
+    }
+    return new Then('I attach the file "' . $filePath . '" to "' . $field . '"');
+  }
 }
