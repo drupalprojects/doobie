@@ -4188,7 +4188,6 @@ class FeatureContext extends DrupalContext {
     if (!empty($folderName)) {
       if (strpos($folderName, '/') === FALSE) {
         if (file_exists($folderName) && is_dir($folderName)) {
-          print "\nDeleting folder: $folderName \n";
           $process = new Process("rm -Rf $folderName");
           $process->setTimeout(10);
           $process->run();
@@ -4325,7 +4324,6 @@ class FeatureContext extends DrupalContext {
       sleep(1);
       // Confirm delete
       $page->pressButton("Delete");
-      echo "\nDeleting node: " . $url . "\n";
     }
   }
 
