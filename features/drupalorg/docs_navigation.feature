@@ -52,3 +52,23 @@ Feature:
     | About this page      |
     | Administration Guide |
     And I should see the copyright statement in the right sidebar
+
+  @wip
+  Scenario Outline: Check the links to guides
+  Given I am on "/documentation"
+  When I follow "<link>"
+  Then I should be on "<url>"
+  And I should see the heading "<link>"
+
+  Examples:
+  | link                     | url                              |
+  | Understanding Drupal     | /documentation/understand        |
+  | Installation Guide       | /documentation/install           |
+  | Administration Guide     | /documentation/administer        |
+  | Structure Guide          | /documentation/structure         |
+  | Site Building Guide      | /documentation/build             |
+  | Multilingual Guide       | /documentation/multilingual      |
+  | Theming Guide            | /documentation/theme             |
+  | Mobile Guide             | /documentation/mobile            |
+  | Developing for Drupal    | /documentation/develop           |
+   
