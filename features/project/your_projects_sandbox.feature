@@ -23,6 +23,7 @@ Feature: Your Project Tab
     And I am on "/project/user"
     And I should see at least "1" record in "Sandbox Projects" table
 
+  @dependent
   Scenario: Check the links from Sandbox Project Table
     And I am on "/project/user"
     Then I should see the following <links> in column "Issue links" in "Sandbox Projects" table
@@ -34,21 +35,25 @@ Feature: Your Project Tab
     | links |
     | Edit  |
 
+  @dependent
   Scenario: Check View link from Issue Links column for Sandbox Project Table
     And I am on "/project/user"
     When I click "View" from "Sandbox Projects" table
     Then I should see "Project Issue" page
 
+  @dependent
   Scenario: Check Search link from Issue Links column for Sandbox Project Table
     And I am on "/project/user"
     When I click "Search" from "Sandbox Projects" table
     Then I should see "Advanced Search" page
 
+  @dependent
   Scenario: Check Create link from Issue Links column for Sandbox Project Table
     And I am on "/project/user"
     When I click "Create" from "Sandbox Projects" table
     Then I should see "Create Issue" page
 
+  @dependent
   Scenario: Check Edit link from Project Links column for Sandbox Project Table
     And I am on "/project/user"
     When I click "Edit" from "Sandbox Projects" table

@@ -887,8 +887,10 @@ class FeatureContext extends DrupalContext {
     if (empty($result)) {
       throw new Exception("This page does not have a feed icon");
     }
+    sleep(5);
     $result->click();
     //use response headers to make sure we got the xml data and not html
+    sleep(5);
     $responseHeaders = $this->getSession()->getResponseHeaders();
     // Use goutedriver get content to get the complete xml data and store it
     //temporarily in a variable for use by function iShouldSeeTheTextInTheFeed()

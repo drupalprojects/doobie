@@ -33,7 +33,7 @@ Feature: Your Project Tab
     And I should see at least "1" record in "Projects" table
     And I should see at least "1" record in "Project Issues" table
 
-  @wip
+  @wip @dependent
   Scenario: Check the links in Project Table
     And I am on "/project/user"
     Then I should see the following <links> in column "Issue links" in "Projects" table
@@ -46,27 +46,31 @@ Feature: Your Project Tab
     | Edit        |
     | Add release |
 
+  @dependent
   Scenario: Check View link from Issue Links column for Projects
     And I am on "/project/user"
     When I click "View" from "Projects" table
     Then I should see "Project Issue" page
 
+  @dependent
   Scenario: Check Search link from Issue Links column for Projects
     And I am on "/project/user"
     When I click "Search" from "Projects" table
     Then I should see "Advanced Search" page
 
+  @dependent
   Scenario: Check Create link from Issue Links column for Projects
     And I am on "/project/user"
     When I click "Create" from "Projects" table
     And I should see "Create Issue" page
 
+  @dependent
   Scenario: Check Edit link from Project Links column for Projects
     And I am on "/project/user"
     When I click "Edit" from "Projects" table
     Then I should see "Project Edit" page
 
-  @wip
+  @wip @dependent
   Scenario: Check Add release link from Project Links column for Projects
     And I am on "/project/user"
     When I click "Add release" from "Projects" table
@@ -81,11 +85,13 @@ Feature: Your Project Tab
     And I press "Search" in the "content" region
     Then I should see at least "1" record in "Project Issues" table
 
+  @dependent
   Scenario: Check project link from in Project Issues table
     And I am on "/project/user"
     When I click "Project" from "Project Issues" table
     Then I should see "Project Issue" page
 
+  @dependent
   Scenario: Check Summary link from in Project Issues table
     And I am on "/project/user"
     When I click "Summary" from "Project Issues" table
