@@ -6,8 +6,11 @@ Feature:
 
   Background:
     Given I am logged in as "site user"
+    And I wait till the page is loaded
     And I follow "Your Dashboard"
+    And I wait till the page is loaded
     And I follow "Dashboard"
+    And I wait till the page is loaded
 
   Scenario: Check the links and labels on Dashboard
     Then I should see the following <links>
@@ -24,6 +27,7 @@ Feature:
     When I click "Add a block"
     And I click "Restore to defaults"
     And I press "Confirm"
+    And I wait till the page is loaded
     Then I should see at least "5" blocks
 
   Scenario: Check the count of blocks and their contents in columns

@@ -5296,7 +5296,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Hold the execution till the page is completely loaded
    *
-   * @Given /^I wait till the page loads$/
+   * @Given /^I wait till the page (?:loads|is loaded)$/
    */
   public function iWaitTillThePageLoads() {
     $session = $this->getSession();
