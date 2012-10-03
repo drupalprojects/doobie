@@ -9,6 +9,9 @@ Tags to assist in selectively running tests
 @ci
     Used to include a feature or scenario in the Drupal.org continuous integration system. Do NOT add this tag unless the feature/scenario in question has been proposed for inclusion in the issue queue and accepted.
 
+@smoke
+    Used to include a feature or scenario in the smoke tests run by Drupal.org's continuous integration system after every commit. Do NOT add this tag unless the feature/scenario in question has been proposed for inclusion in the issue queue and accepted.
+
 @dependent
     Used to indicate a scenario that is dependent on data created previously in the same feature file. In a perfect world, scenarios like this would not exist, and the tag will help us isolate the scenarios if/when we come up with a better solution. Scenarios should *never* depend on data from a different feature file.
 
