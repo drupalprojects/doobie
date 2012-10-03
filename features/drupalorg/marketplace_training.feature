@@ -1,4 +1,3 @@
-@wip
 Feature: Market place drupal training services
   In order to advertise the training sessions of my organization
   As an authenticated user
