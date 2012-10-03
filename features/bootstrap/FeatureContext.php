@@ -5320,4 +5320,25 @@ class FeatureContext extends DrupalContext {
     sleep(2);
     HackyDataRegistry::set('issue_url', $this->getSession()->getCurrentUrl());
   }
+
+  /**
+   * Checks, whether the results in the apache solr search results page contain results from Drupal.org or not
+   *
+   * @Given /^the results should not link to Drupal\.org$/
+   */
+  public function theResultsShouldNotLinkToDrupalOrg() {
+    $page = $this->getSession()->getPage();
+    // Get all the links from the results page
+    $links = $page->findAll("css", ".search-results dt.title a");
+    if (empty($links)) {
+      throw new Exception("The page did not contain any links");
+    }
+    foreach ($links as $link) {
+      $href = trim($link->getAttribute("href"));
+      // If the link contains link to "http://drupal.org", then throw exception
+      if (strpos($href, "http://drupal.org") !== FALSE) {
+        throw new Exception("Some results are linked to Drupal.org");
+      }
+    }
+  }
 }
