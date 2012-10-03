@@ -5307,7 +5307,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Converts a local file path to an absolute one and points to 'files' folder
+   * Attaches files/'file' to field with specified id|name|label|value. The file provided should just be the file name that is already present in 'files' folder
    *
    * @param $file
    *   string The file to be attached. The file must be present in the 'files' folder
