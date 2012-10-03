@@ -1875,7 +1875,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastCommitters($count) {
     $page = $this->getSession()->getPage();
-    // parse till anchor tag bcoz, there are empty <li>'s as well
+    // parse until anchor tag because there are empty <li>s as well
     $result = $page->findAll('css', "#block-versioncontrol_project-project_maintainers div.item-list ul li a");
     if (empty($result)) {
       throw new Exception("Unable to find the block of committers");
@@ -4630,33 +4630,57 @@ class FeatureContext extends DrupalContext {
    * @When /^I click "([^"]*)" link$/
    * @param string $link
    *   Link title
+   * @param boolean $throw
+   *   Whether to show exception message
    */
-  public function iClickLink($link) {
+  public function iClickLink($link, $throw = true) {
     sleep(2);
     $page = $this->getSession()->getPage();
+    $clicked = false;
     // Perform some operations specific to the link, after clicking the link
+    //Homepage preference settings links
     if (in_array($link, array('Make this your Homepage', 'Use Default Homepage'))) {
       // Reset homepage setting value
       if (!HackyDataRegistry::get('homepage setting')) {
         $this->changeDefaultHomepageSetting('reset');
       }
       $element = $page->findLink($link);
-      if (empty($element)) {
-        throw new Exception('The link: "' . $link . '" was not found on the page');
+      if (!empty($element)) {
+        $element->click();
+        // As the operation is done through ajax, wait until the link disappears from the dom or for 3 seconds
+        $this->iWaitForSeconds(1, "$('a:contains(\"" . $link . "\")').text() == \"\"");
+        $clicked = true;
       }
-      $element->click();
-      // As the operation is done through ajax, wait till the link disappears from the dom or for 3 seconds
-      $this->iWaitForSeconds(3, "$('a:contains(\"" . $link . "\")').text() == \"\"");
     }
     // Drupal banner in the header
     elseif($link == 'drupal banner') {
       $element = $page->find('css', 'div#header-left-inner > div#site-name > a');
-      if (empty($element)) {
-        throw new Exception(ucfirst($link) . ' was not found on the page');
+      if (!empty($element)) {
+        $element->click();
+        $clicked = true;
       }
-      $element->click();
+    }
+    // Other links fall here
+    else {
+      $element = $page->findLink($link);
+      if (!empty($element)) {
+        $element->click();
+        $clicked = true;
+      }
+    }
+    if (!$clicked) {
+      $message = '"' . ucfirst($link) . '" link is not found on the page';
+      //Either throw exception or print it depending on the passed value.
+      //As this function is called from @revert_homepage_setting as well, throwing exception is controlled here
+      if ($throw) {
+        throw new Exception($message);
+      }
+      else {
+        echo $message;
+      }
     }
   }
+
 
   /**
    * @When /^I click the drupal banner in the header$/
@@ -5250,11 +5274,11 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Hold the execution till the page is completely loaded
+   * Hold the execution until the page is completely loaded
    *
-   * @Given /^I wait till the page (?:loads|is loaded)$/
+   * @Given /^I wait until the page (?:loads|is loaded)$/
    */
-  public function iWaitTillThePageLoads() {
+  public function iWaitUntilThePageLoads() {
     $session = $this->getSession();
     // If selenium is loaded, wait for the page to completely load
     if ($session->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
