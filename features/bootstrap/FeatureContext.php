@@ -1940,7 +1940,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastCommitters($count) {
     $page = $this->getSession()->getPage();
-    // parse till anchor tag bcoz, there are empty <li>'s as well
+    // parse until anchor tag because there are empty <li>s as well
     $result = $page->findAll('css', "#block-versioncontrol_project-project_maintainers div.item-list ul li a");
     if (empty($result)) {
       throw new Exception("Unable to find the block of committers");
@@ -4665,7 +4665,7 @@ class FeatureContext extends DrupalContext {
       $element = $page->findLink($link);
       if (!empty($element)) {
         $element->click();
-        // As the operation is done through ajax, wait till the link disappears from the dom or for 3 seconds
+        // As the operation is done through ajax, wait until the link disappears from the dom or for 3 seconds
         $this->iWaitForSeconds(1, "$('a:contains(\"" . $link . "\")').text() == \"\"");
         $clicked = true;
       }
@@ -5294,11 +5294,11 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Hold the execution till the page is completely loaded
+   * Hold the execution until the page is completely loaded
    *
-   * @Given /^I wait till the page loads$/
+   * @Given /^I wait until the page (?:loads|is loaded)$/
    */
-  public function iWaitTillThePageLoads() {
+  public function iWaitUntilThePageLoads() {
     $session = $this->getSession();
     // If selenium is loaded, wait for the page to completely load
     if ($session->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
@@ -5322,5 +5322,24 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The file '" . $file . "' could not be found in the 'files' folder");
     }
     return new Then('I attach the file "' . $filePath . '" to "' . $field . '"');
+  }
+
+  /**
+   * Function to add a new organization for setting up the training session
+   * @Given /^I create a new organization$/
+   */
+  public function iCreateANewOrganization() {
+    $element = $this->getSession()->getPage();
+    $this->issueTitle = $this->randomString(12);
+		$element->fillField("Organization name:", $this->issueTitle);
+    $element->fillField("Website:", $this->randomString(18));
+    $element->fillField("Drupal contributions:", $this->randomString(18));
+    $chk = $element->findField("Request listing in the Training section");
+    $chk->check();
+    $this->iSelectTheRadioButtonWithTheId('Enterprise & Managed', 'edit-field-organization-hosting-categ-value-Enterprise-&-Managed');
+    HackyDataRegistry::set('issue title', $this->issueTitle);
+    $element->pressButton("Save");
+    sleep(2);
+    HackyDataRegistry::set('issue_url', $this->getSession()->getCurrentUrl());
   }
 }
