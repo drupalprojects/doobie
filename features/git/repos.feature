@@ -2,7 +2,7 @@
 Feature: Users create git repository
   In order to share and improve code
   As a git user
-  I need to initialize a git repo for my project 
+  I need to initialize a git repo for my project
 
   Background:
     Given I am logged in as "git user"
@@ -16,5 +16,5 @@ Feature: Users create git repository
     And I initialize the repository
     And I am on the Version control tab
     Then I should see "Routinely"
-    And I should see "Switching to a different branch" 
+    And I should see "Switching to a different branch"
 
