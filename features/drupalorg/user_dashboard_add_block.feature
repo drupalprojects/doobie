@@ -6,14 +6,14 @@ Feature:
 
   Background:
     Given I am logged in as "site user"
+    And I wait till the page is loaded
 
   @wip @flaky
   Scenario: Add a new block to the Dashboard
-    And I wait for "2" seconds
     And I follow "Your Dashboard"
-    And I wait for "2" seconds
+    And I wait till the page is loaded
     And I follow "Dashboard"
-    And I wait for "2" seconds
+    And I wait till the page is loaded
     And there are no blocks on my dashboard
     When I follow "Add a block"
     Then I should see the following <blocklinks> in small boxes
@@ -31,8 +31,9 @@ Feature:
   @wip @flaky @known_git6failure
   Scenario Outline: Add block from project page
     And I am on "<page>"
-    And I wait for "2" seconds
+    And I wait till the page is loaded
     When I click "<blocklink>"
+    And I wait till the page is loaded
     Then I should see "<blocktitle>"
 
     Examples:
@@ -47,11 +48,12 @@ Feature:
 
   @wip @flaky @known_git6failure
   Scenario:Add from the user track page
-    And I wait for "2" seconds
     And I follow "Your Dashboard"
-    And I wait for "2" seconds
+    And I wait till the page is loaded
     And I click "Your Posts"
+    And I wait till the page is loaded
     When I click "Add Your Posts to dashboard"
+    And I wait till the page is loaded
     Then I should see "Track posts" 
 
   Scenario: User cannot add someone else's block
