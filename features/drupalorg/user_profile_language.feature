@@ -1,3 +1,4 @@
+@user
 Feature: Update the language of a user in his profile
   In order to update my known languages
   As a site user

@@ -1,3 +1,4 @@
+@user
 Feature: To verify ssh keys of a user
   In order to add/edit/view ssh keys
   As an authenticated user

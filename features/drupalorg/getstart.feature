@@ -1,4 +1,4 @@
-@known_git6failure
+@get_started @known_git6failure
 Feature: Get started with drupal
   In order to learn drupal
   As a user

@@ -1,4 +1,4 @@
-@anon
+@security @anon
 Feature: To view list of Security public service announcements
   In order to know the Security public service announcements
   As a user

@@ -1,3 +1,4 @@
+@community
 Feature: List of drupal communities
   In order to participate in drupal communities
   As a user

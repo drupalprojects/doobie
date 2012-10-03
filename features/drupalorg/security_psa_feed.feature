@@ -1,4 +1,4 @@
-@anon
+@security @anon
 Feature: Get a feed of Security public service announcements
   In order to see the Security public service announcements feeds
   As a user

@@ -1,4 +1,4 @@
-@anon
+@user @anon
 Feature: Verify the DA membership block on a user profile
   In order to know the DA membership of a user
   As a user

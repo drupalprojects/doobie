@@ -1,4 +1,4 @@
-@anon
+@security @anon
 Feature: To view list of security announcements for contributed modules
   In order to know the security announcements for contributed modules
   As a user

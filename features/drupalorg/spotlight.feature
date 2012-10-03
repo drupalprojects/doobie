@@ -1,4 +1,4 @@
-@javascript @anon
+@community @javascript @anon
 Feature: View Community Spotlight
   In order to find contributors to Drupal Community
   As any user

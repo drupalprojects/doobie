@@ -1,4 +1,4 @@
-@anon
+@about @anon
 Feature: Find About Drupal
   In order to find the about Drupal
   As any user

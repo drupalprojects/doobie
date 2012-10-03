@@ -1,4 +1,4 @@
-@slow
+@docs @slow
 Feature: Documents Management
   In order to see the list of documents
   As an authenticated user

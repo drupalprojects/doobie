@@ -1,4 +1,4 @@
-@known_git6failure
+@downloads @known_git6failure
 Feature: List of downloadable drupal modules
   In order know popular/new drupal modules
   As a user

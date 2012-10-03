@@ -1,3 +1,4 @@
+@community
 Feature: Mailing list archives
   In order to discover the history of a mailing list discussion
   As a site visitor

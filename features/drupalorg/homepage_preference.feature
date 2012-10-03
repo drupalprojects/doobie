@@ -1,4 +1,4 @@
-@javascript
+@user @javascript
 Feature: Verify home page preference functionality
   In order to have quick access to dashboard and its related links
   As an authenticated user

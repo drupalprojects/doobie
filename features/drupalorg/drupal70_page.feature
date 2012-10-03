@@ -1,4 +1,4 @@
-@anon
+@other @anon
 Feature: To check the contents of Drupal 7.0 page
   In order to learn more about Drupal 7.0
   As a user

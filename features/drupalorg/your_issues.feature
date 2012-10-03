@@ -1,3 +1,4 @@
+@user
 Feature: View the issues created by a user
   In order to view the issues created by me
   As an authenticated user

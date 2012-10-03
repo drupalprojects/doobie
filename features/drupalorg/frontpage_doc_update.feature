@@ -1,3 +1,4 @@
+@front
 Feature: Verify document list update on homepage
   In order to see the newly created document on home page
   As a site user

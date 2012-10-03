@@ -1,3 +1,4 @@
+@admin
 Feature: To get administrative view of nodes by a user
   In order to manage content
   As an admin user

@@ -1,4 +1,4 @@
-@wip
+@docs @wip
 Feature: Prevent users from editing certain pages
   In order to limit changes to certain important documentation pages
   As a site user

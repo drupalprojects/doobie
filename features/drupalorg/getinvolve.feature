@@ -1,3 +1,4 @@
+@community
 Feature: Ways to get involved with drupal community
   In order to participate in the Drupal community 
   As a user

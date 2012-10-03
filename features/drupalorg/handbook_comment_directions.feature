@@ -1,3 +1,4 @@
+@docs
 Feature: Handbook comment directions
   In order to help keep documentation accurate
   As a community member
