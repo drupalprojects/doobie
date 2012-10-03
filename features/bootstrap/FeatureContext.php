@@ -5248,4 +5248,54 @@ class FeatureContext extends DrupalContext {
       $this->iAddACommentToTheIssue();
     }
   }
+
+  /**
+   * Hold the execution till the page is completely loaded
+   *
+   * @Given /^I wait till the page (?:loads|is loaded)$/
+   */
+  public function iWaitTillThePageLoads() {
+    $session = $this->getSession();
+    // If selenium is loaded, wait for the page to completely load
+    if ($session->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
+      $session->wait(1, "document.readyState == 'interactive' || document.readyState == 'complete'");
+    }
+  }
+
+  /**
+   * Attaches files/'file' to field with specified id|name|label|value. The file provided should just be the file name that is already present in 'files' folder
+   *
+   * @param $file
+   *   string The file to be attached. The file must be present in the 'files' folder
+   * @param $field
+   *   string The field to which the file is to be attached
+   *
+   * @Then /^(?:I )attach the local file "([^"]*)" to "([^"]*)"$/
+   */
+  public function attachLocalFile($file, $field) {
+    $filePath = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . $file;
+    if (!file_exists($filePath)) {
+      throw new Exception("The file '" . $file . "' could not be found in the 'files' folder");
+    }
+    return new Then('I attach the file "' . $filePath . '" to "' . $field . '"');
+  }
+
+  /**
+   * Function to add a new organization for setting up the training session
+   * @Given /^I create a new organization$/
+   */
+  public function iCreateANewOrganization() {
+    $element = $this->getSession()->getPage();
+    $this->issueTitle = $this->randomString(12);
+		$element->fillField("Organization name:", $this->issueTitle);
+    $element->fillField("Website:", $this->randomString(18));
+    $element->fillField("Drupal contributions:", $this->randomString(18));
+    $chk = $element->findField("Request listing in the Training section");
+    $chk->check();
+    $this->iSelectTheRadioButtonWithTheId('Enterprise & Managed', 'edit-field-organization-hosting-categ-value-Enterprise-&-Managed');
+    HackyDataRegistry::set('issue title', $this->issueTitle);
+    $element->pressButton("Save");
+    sleep(2);
+    HackyDataRegistry::set('issue_url', $this->getSession()->getCurrentUrl());
+  }
 }
