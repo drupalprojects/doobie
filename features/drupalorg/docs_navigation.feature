@@ -1,4 +1,4 @@
-@docs @anon
+@docs @anon @specific_text
 Feature: 
   In order to understand drupal.org and its community
   As any user
@@ -19,6 +19,7 @@ Feature:
     | Help maintain the Community Documentation |
     And I should see the copyright statement in the right sidebar
 
+  @wip
   Scenario: Check Installation Guide tab
     Given I am on "/documentation"
     When I follow "Installation Guide"
@@ -33,7 +34,7 @@ Feature:
     | blocks             |
     | Page status        |
     | About this page    |
-    | Installation guide |
+    | Installation Guide |
     And I should see the copyright statement in the right sidebar
 
   Scenario: Check Administration Guide tab
@@ -48,7 +49,7 @@ Feature:
     And I should see the heading "Community Documentation"
     And I should see the following <blocks> in the right sidebar
     | blocks               |
-    | Page status 	   |
+    | Page status 	       |
     | About this page      |
     | Administration Guide |
     And I should see the copyright statement in the right sidebar
@@ -70,5 +71,5 @@ Feature:
   | Multilingual Guide       | /documentation/multilingual      |
   | Theming Guide            | /documentation/theme             |
   | Mobile Guide             | /documentation/mobile            |
-  | Developing for Drupal    | /documentation/develop           |
+  | Develop for Drupal       | /documentation/develop           |
    
