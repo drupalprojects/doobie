@@ -5323,4 +5323,23 @@ class FeatureContext extends DrupalContext {
     }
     return new Then('I attach the file "' . $filePath . '" to "' . $field . '"');
   }
+
+  /**
+   * Function to add a new organization for setting up the training session
+   * @Given /^I create a new organization$/
+   */
+  public function iCreateANewOrganization() {
+    $element = $this->getSession()->getPage();
+    $this->issueTitle = $this->randomString(12);
+		$element->fillField("Organization name:", $this->issueTitle);
+    $element->fillField("Website:", $this->randomString(18));
+    $element->fillField("Drupal contributions:", $this->randomString(18));
+    $chk = $element->findField("Request listing in the Training section");
+    $chk->check();
+    $this->iSelectTheRadioButtonWithTheId('Enterprise & Managed', 'edit-field-organization-hosting-categ-value-Enterprise-&-Managed');
+    HackyDataRegistry::set('issue title', $this->issueTitle);
+    $element->pressButton("Save");
+    sleep(2);
+    HackyDataRegistry::set('issue_url', $this->getSession()->getCurrentUrl());
+  }
 }
