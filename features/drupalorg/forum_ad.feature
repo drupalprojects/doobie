@@ -1,8 +1,8 @@
-@forums @anon
-Feature: Look for an Ad on the forum page
-  In order to know the sponsors
-  As a user
-  I should look for an Ad on the forum page
+@community @forums @anon
+Feature: Display ads in the Hosting support forum
+  In order to get information about sponsors
+  As any user
+  I should see an Ad on the forum page
 
   Background:
     Given that I am on the homepage
