@@ -1,6 +1,6 @@
-@forums
-Feature: To check whether user can post a topic under newsletter subsite forums
-  In order to check newsletter subset forum post access
+@community @forums
+Feature: Regular users should not be able to post a topic in Newsletters subforum
+  In order to check Newsletters subforum post access
   As a site user
   I should try to add a new forum topic
 

@@ -1,4 +1,4 @@
-@forums
+@community @forums
 Feature:
   In order to restrict unauthorized users from uploading files while creating a Forum Topic
   As a site admin

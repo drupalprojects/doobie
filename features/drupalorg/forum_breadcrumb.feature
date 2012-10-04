@@ -1,8 +1,8 @@
-@forums
+@community @forums
 Feature: Forum breadcrumbs
   In order to effectively navigate within the forums
   As any user
-  I need to use breadcrumbs that place me in the support section forum topic
+  I need to see breadcrumbs that tell me which section of the forum I am in
 
   Scenario: User follows link in the Support forum without logging in
     Given that I am on the homepage
