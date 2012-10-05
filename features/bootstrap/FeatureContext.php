@@ -5363,4 +5363,61 @@ class FeatureContext extends DrupalContext {
       }
     }
   }
+
+  /**
+   * Compares modules from 'Most installed' block and usage stats page
+   *
+   * @Given /^I should see at least "([^"]*)" most installed modules$/
+   * 
+   * @param integer $count
+   *   The number of modules to check for
+   */
+  public function iShouldSeeAtLeastMostInstalledModules($count) {
+    // Get the links from the most installed block
+    $links = $this->getSession()->getPage()->findAll("css", "#block-drupalorg_order_facet-sort_most_installed ul li a");
+    if (empty($links)) {
+      throw new Exception("The most installed block did not contain any links");
+    }
+    $textsBlock = array();
+    foreach ($links as $link) {
+      // Get the module title and store it
+      $text = trim($link->getText());
+      // Exclude 'More Most installed' from the list and get the rest
+      if ($text != "More Most installed") {
+        $textsBlock[] = $text;
+      }
+      // Get only $count number of modules
+      if (sizeof($textsBlock) >= $count) {
+        break;
+      }
+    }
+    if (sizeof($textsBlock) < $count) {
+      throw new Exception("The most installed block has less than '" . $count . "' links");
+    }
+    // Go to usage stats page
+    $this->getSession()->visit($this->locatePath("/project/usage"));
+    // Wait for the page to load. Otherwise we will get timeout error here. project/usage page is long
+    sleep(7);
+    // Get the links from the table
+    $links = $this->getSession()->getPage()->findAll("css", "#project-usage-all-projects tbody tr td a");
+    if (empty($links)) {
+      throw new Exception("The most installed block did not contain any links");
+    }
+    $textsUsage = array();
+    foreach ($links as $link) {
+      // Store the module names
+      $text = trim($link->getText());
+      // Exclude 'Drupal core' from the list and get the rest
+      if ($text != "Drupal core") {
+        $textsUsage[] = $text;
+      }
+      // Get $count number of links
+      if (sizeof($textsUsage) >= $count) {
+        break;
+      }
+    }
+    if ($textsBlock !== $textsUsage) {
+      throw new Exception("The modules under 'Most installed' block did not match the most installed modules list");
+    }
+  }
 }
