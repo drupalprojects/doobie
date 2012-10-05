@@ -38,6 +38,7 @@ Feature: Market place Drupal services section
     When I follow "Working with Drupal service providers"
     Then I should see the heading "Working with Drupal service providers"
 
+  @retest-after-next-build
   Scenario: Add organization
     Given I am logged in as "site user"
     And I visit "/node/add/organization"
@@ -45,7 +46,7 @@ Feature: Market place Drupal services section
     When I create a new organization for "drupal services"
     Then I should see "has been created"
 
-  @dependent
+  @dependent @retest-after-next-build
   Scenario: View the created drupal services session
     Given I am logged in as "site user"
     And I follow "Your Dashboard"
@@ -56,7 +57,7 @@ Feature: Market place Drupal services section
     And I should see "Drupal.org webmasters"
     And I should see "Posted by site user"
 
-  @dependent @clean_data
+  @dependent @retest-after-next-build @clean_data
   Scenario: View the created training session
     Given I am logged in as "admin test"
     When I visit the organization page

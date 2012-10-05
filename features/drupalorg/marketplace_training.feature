@@ -57,7 +57,7 @@ Feature: Market place drupal training services
     When I create a new organization
     Then I should see "has been created"
 
-  @dependent @clean_data
+  @dependent @retest-after-next-build @clean_data
   Scenario: View the created training session
     Given I am logged in as "site user"
     And I follow "Your Dashboard"
