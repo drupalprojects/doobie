@@ -5,7 +5,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
 
   Scenario: Create a Sandbox project as git vetted user and promote
     Given I am logged in as "git vetted user"
-    And I am on "/node/add/project-project"
+    And I am on "/node/add/project"
     When I create a "theme"
     And I promote the project
     Then I should see the project title

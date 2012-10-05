@@ -7,7 +7,7 @@ Feature: Your Project Tab
     Given I am logged in as "git vetted user"
 
  Scenario: Create test data: Full project
-    And I am on "/node/add/project-project"
+    And I am on "/node/add/project"
     When I create a full project
     Then I should see the project title
 

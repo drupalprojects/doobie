@@ -9,7 +9,7 @@ Feature: Verify git access
 
   @gitrepo
   Scenario: Create a sandbox project and initialize repo
-    When I visit "/node/add/project-project"
+    When I visit "/node/add/project"
     And I create a "module"
     And I see the project title
     And I follow "Version control"

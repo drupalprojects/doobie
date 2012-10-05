@@ -10,7 +10,7 @@ Feature: See git activity on home page
   @gitrepo @clean_data @timeout @smoke
   Scenario: Create sample data and verify the same
     Given I am logged in as "git vetted user"
-    And I visit "/node/add/project-project"
+    And I visit "/node/add/project"
     And I create a "module"
     And I see the project title
     And I visit the Version control tab

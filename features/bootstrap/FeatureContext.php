@@ -3851,7 +3851,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iCreatedASandboxProject() {
     $session = $this->getSession();
-    $session->visit($this->locatePath('/node/add/project-project'));
+    $session->visit($this->locatePath('/node/add/project'));
     $page = $this->getSession()->getPage();
     $this->iCreateA('theme');
     HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());

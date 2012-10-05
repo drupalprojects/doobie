@@ -5,7 +5,7 @@ Feature: 'Maintain issues' permission check
 
   Scenario: Create a new project and an issue
     Given I am logged in as "git vetted user"
-    And I am at "/node/add/project-project"
+    And I am at "/node/add/project"
     When I create a "module"
     Then I should see the project title
     And I follow "open"

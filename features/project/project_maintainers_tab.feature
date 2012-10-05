@@ -7,7 +7,7 @@ Feature: Add additional maintainers with appropriate permissions
     Given I am logged in as "git vetted user"
 
   Scenario: Create a new project
-    Given I am at "/node/add/project-project"
+    Given I am at "/node/add/project"
     When I create a "module"
     Then I should see the project title
 

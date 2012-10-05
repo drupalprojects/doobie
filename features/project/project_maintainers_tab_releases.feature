@@ -5,7 +5,7 @@ Feature: 'Administer releases' permission check
 
   Scenario: Create a new project
     Given I am logged in as "git vetted user"
-    And I am at "/node/add/project-project"
+    And I am at "/node/add/project"
     When I create a full project
     Then I should see the project title
 

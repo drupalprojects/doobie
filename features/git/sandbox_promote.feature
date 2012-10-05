@@ -7,7 +7,7 @@ Feature: Users promote a sandbox project to a full project
     Given I am logged in as "git vetted user"
 
   Scenario: Git user creates and promotes a sandbox project to a full project
-    Given I am at "/node/add/project-project"
+    Given I am at "/node/add/project"
     When I create a "module"
     And I see the project title
     And I follow "Promote to full project"

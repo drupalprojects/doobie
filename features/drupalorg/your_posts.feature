@@ -5,7 +5,7 @@ Feature: Your Posts
 
   Scenario: Create test data for the following scenarios
     Given I am logged in as "git vetted user"
-    And I am at "/node/add/project-project"
+    And I am at "/node/add/project"
     When I create a "module"
     Then I should see the project title
     And I follow "open"

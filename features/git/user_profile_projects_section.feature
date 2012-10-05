@@ -9,7 +9,7 @@ Feature: Verify projects and commits summary in user profile page
 
   @gitrepo
   Scenario: Create a sandbox project and initialize repo
-    When I visit "/node/add/project-project"
+    When I visit "/node/add/project"
     And I create a "module"
     And I see the project title
     And I am on the Version control tab
@@ -39,7 +39,7 @@ Feature: Verify projects and commits summary in user profile page
 
   @gitrepo @clean_data
   Scenario: Create a full project, commit and verify
-    When I visit "/node/add/project-project"
+    When I visit "/node/add/project"
     And I create a full project
     And I follow "Version control"
     And I initialize the repository

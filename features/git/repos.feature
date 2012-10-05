@@ -9,7 +9,7 @@ Feature: Users create git repository
 
   @smoke
   Scenario: Git User creates a project
-    Given I am at "/node/add/project-project"
+    Given I am at "/node/add/project"
     When I create a "module"
     And I see the project title
     And I am on the Version control tab

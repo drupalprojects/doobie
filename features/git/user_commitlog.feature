@@ -11,7 +11,7 @@ Feature: To see the list of all the commits for a user
 
   @gitrepo @flaky
   Scenario: Git User creates a project
-    When I visit "/node/add/project-project"
+    When I visit "/node/add/project"
     And I create a "module"
     And I see the project title
     And I follow "Version control"

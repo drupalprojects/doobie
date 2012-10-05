@@ -5,7 +5,7 @@ Feature: Create a project
 
   Scenario: Access the form using path
     Given I am logged in as "git vetted user"
-    And I am on "/node/add/project-project"
+    And I am on "/node/add/project"
     Then I should see the heading "Create Project"
 
   Scenario: Access the form from menu
@@ -17,31 +17,31 @@ Feature: Create a project
 
   Scenario: Check Sandbox checkbox is readonly for git user
     Given I am logged in as "git user"
-    And I am on "/node/add/project-project"
+    And I am on "/node/add/project"
     Then the "Sandbox" checkbox should be checked
     And I should see that the Sandbox checkbox is "disabled"
 
   Scenario: Check Sandbox checkbox can be checked by git vetted user
     Given I am logged in as "git vetted user"
-    And I am on "/node/add/project-project"
+    And I am on "/node/add/project"
     Then I should see that the Sandbox checkbox is "enabled"
 
   Scenario: Check Sandbox checkbox can be checked by admin
     Given I am logged in as "admin test"
-    And I am on "/node/add/project-project"
+    And I am on "/node/add/project"
     Then I should see that the Sandbox checkbox is "enabled"
   
   @javascript
   Scenario: Check Project Short name can be set if Sandbox checkbox is unchecked
     Given I am logged in as "git vetted user"
-    And I am on "/node/add/project-project"
+    And I am on "/node/add/project"
     When I uncheck sandbox
     Then I should see "Short project name"
 
   @javascript @clean_data
   Scenario: Create a Project
     Given I am logged in as "git vetted user"
-    And I am on "/node/add/project-project"
+    And I am on "/node/add/project"
     When I select "Modules" from Project Type on Create Project page
     And I select the following <fields> with <values>
     | fields              | values                    |
