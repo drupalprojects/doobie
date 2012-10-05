@@ -16,6 +16,6 @@ Feature:
     Given I am logged in as "admin test"
     When I follow "Support"
     And I follow "Forums"
-    And I follow "Post new Forum topic"
+    And I follow "Add new Forum topic"
     Then I should see "File attachments"
     And I should see "Attach new file:"
