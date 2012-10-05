@@ -54,7 +54,7 @@ Feature: Market place drupal training services
     Given I am logged in as "site user"
     And I visit "/node/add/organization"
     And I see "Request improvements to vocabularies by"
-    When I create a new organization
+    When I create a new organization for "training"
     Then I should see "has been created"
 
   @dependent @clean_data

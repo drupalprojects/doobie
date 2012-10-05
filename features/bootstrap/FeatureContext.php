@@ -3647,6 +3647,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Given /^I am on the project page$/
    * @When /^I visit the project page$/
+   * @When /^I visit the organization page$/
    */
   public function iAmOnTheProjectPage() {
     $path = $this->locatePath(HackyDataRegistry::get('project path'));
@@ -5325,25 +5326,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Function to add a new organization for setting up the training session
-   * @Given /^I create a new organization$/
-   */
-  public function iCreateANewOrganization() {
-    $element = $this->getSession()->getPage();
-    $this->issueTitle = $this->randomString(12);
-		$element->fillField("Organization name:", $this->issueTitle);
-    $element->fillField("Website:", $this->randomString(18));
-    $element->fillField("Drupal contributions:", $this->randomString(18));
-    $chk = $element->findField("Request listing in the Training section");
-    $chk->check();
-    $this->iSelectTheRadioButtonWithTheId('Enterprise & Managed', 'edit-field-organization-hosting-categ-value-Enterprise-&-Managed');
-    HackyDataRegistry::set('issue title', $this->issueTitle);
-    $element->pressButton("Save");
-    sleep(2);
-    HackyDataRegistry::set('issue_url', $this->getSession()->getCurrentUrl());
-  }
-
-  /**
    * Checks, whether the results in the apache solr search results page contain results from Drupal.org or not
    *
    * @Given /^the results should not link to Drupal\.org$/
@@ -5418,6 +5400,82 @@ class FeatureContext extends DrupalContext {
     }
     if ($textsBlock !== $textsUsage) {
       throw new Exception("The modules under 'Most installed' block did not match the most installed modules list");
+    }
+  }
+
+  /**
+   * @When /^I follow (?:Featured providers|All providers) title post$/
+   */
+  public function iFollowFeaturedProvidersTitlePost() {
+    $result = $this->getSession()->getPage()->find('css', '.view-content .node-type-organization .node-title a');
+    if(empty($result)) {
+      throw new Exception("Title post is not found on the page");
+    }
+    $href = $result->getAttribute("href");
+    $this->getSession()->visit($href);    
+  }
+
+  /**
+   * @When /^I create a new organization(?: for "([^"]*)"|)$/
+   * @param string $context
+   * Whether to specify feauture/all providers title post
+   */
+  public function iCreateANewOrganizationFor($context) {
+    $element = $this->getSession()->getPage();
+    $this->issueTitle = $this->randomString(12);
+		$element->fillField("Organization name:", $this->issueTitle);
+    $element->fillField("Website:", $this->randomString(18));
+    $element->fillField("Drupal contributions:", $this->randomString(18));
+    if(!empty($context)) {
+      if($context == 'training') {
+        $chk = $element->findField("Request listing in the Training section");
+      }
+      else if($context == 'drupal services') {
+        $chk = $element->findField("Request listing in the Drupal services section");
+      }
+      if(isset($chk)) {
+        $chk->check();
+      }
+    }
+    $this->iSelectTheRadioButtonWithTheId('Enterprise & Managed', 'edit-field-organization-hosting-categ-value-Enterprise-&-Managed');
+    HackyDataRegistry::set('issue title', $this->issueTitle);
+    $element->pressButton("Save");
+    sleep(2);
+    HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
+  }
+
+  /**
+   * @Then /^I should see "([^"]*)" selected for "([^"]*)"$/
+   * @param string $option
+   * define the selected value of radio button
+   * @param string $field
+   * define the field name
+   */
+  public function iShouldSeeSelectedFor($option, $field) {
+    $temp = $this->getSession()->getPage()->findAll('css', '#column-left .group-moderation .form-item .form-radios .form-item input[type=radio]');
+    if(empty($temp)) {
+      throw new Exception("Radio buttons are not found on the page");
+    }
+    foreach($temp as $radio) {
+      $subHeading = $radio->getParent()->getText();
+      $listHeader = $radio->getParent()->getParent()->getParent()->getParent();
+      if(empty($listHeader)) {
+        throw new Exception("No fields exists in the page");
+      }
+      $mainHeading = $listHeader->getText();
+      $resultCount = explode(':', $mainHeading);
+      $repTemp = $resultCount[0];
+      if(empty($repTemp)) {
+        throw new Exception("Moderator field '" . $repTemp . "' is not found on the page");
+      }
+      if(($repTemp == $field) && ($subHeading == $option)) {
+        if((!$radio->getAttribute('checked'))){
+          throw new Exception("The moderator field '" . $repTemp . "' does not have the selected '" . $option . "' on the page");
+        }
+      }
+      else {
+        throw new Exception("The moderator field '" . $repTemp . "' with the selected '" . $option . "' does not exist");
+      }
     }
   }
 }
