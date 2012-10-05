@@ -5341,4 +5341,315 @@ class FeatureContext extends DrupalContext {
       }
     }
   }
+
+  /**
+   * Compares modules from 'Most installed' block and usage stats page
+   *
+   * @Given /^I should see at least "([^"]*)" most installed modules$/
+   * 
+   * @param integer $count
+   *   The number of modules to check for
+   */
+  public function iShouldSeeAtLeastMostInstalledModules($count) {
+    // Get the links from the most installed block
+    $links = $this->getSession()->getPage()->findAll("css", "#block-drupalorg_order_facet-sort_most_installed ul li a");
+    if (empty($links)) {
+      throw new Exception("The most installed block did not contain any links");
+    }
+    $textsBlock = array();
+    foreach ($links as $link) {
+      // Get the module title and store it
+      $text = trim($link->getText());
+      // Exclude 'More Most installed' from the list and get the rest
+      if ($text != "More Most installed") {
+        $textsBlock[] = $text;
+      }
+      // Get only $count number of modules
+      if (sizeof($textsBlock) >= $count) {
+        break;
+      }
+    }
+    if (sizeof($textsBlock) < $count) {
+      throw new Exception("The most installed block has less than '" . $count . "' links");
+    }
+    // Go to usage stats page
+    $this->getSession()->visit($this->locatePath("/project/usage"));
+    // Wait for the page to load. Otherwise we will get timeout error here. project/usage page is long
+    sleep(7);
+    // Get the links from the table
+    $links = $this->getSession()->getPage()->findAll("css", "#project-usage-all-projects tbody tr td a");
+    if (empty($links)) {
+      throw new Exception("The most installed block did not contain any links");
+    }
+    $textsUsage = array();
+    foreach ($links as $link) {
+      // Store the module names
+      $text = trim($link->getText());
+      // Exclude 'Drupal core' from the list and get the rest
+      if ($text != "Drupal core") {
+        $textsUsage[] = $text;
+      }
+      // Get $count number of links
+      if (sizeof($textsUsage) >= $count) {
+        break;
+      }
+    }
+    if ($textsBlock !== $textsUsage) {
+      throw new Exception("The modules under 'Most installed' block did not match the most installed modules list");
+    }
+  }
+
+  /**
+   * Function to navigate through featured or all providers list
+   * @When /^I follow (?:Featured providers|All providers) title post$/
+   */
+  public function iFollowFeaturedProvidersTitlePost() {
+    $result = $this->getSession()->getPage()->find('css', '.view-content .node-type-organization .node-title a');
+    if(empty($result)) {
+      throw new Exception("Title post is not found on the page");
+    }
+    $href = $result->getAttribute("href");
+    $this->getSession()->visit($href);    
+  }
+
+  /**
+   * @When /^I create a new organization(?: for "([^"]*)"|)$/
+   * @param string $context
+   * To specify feauture/all providers title post
+   */
+  public function iCreateANewOrganizationFor($context) {
+    $element = $this->getSession()->getPage();
+    $this->issueTitle = $this->randomString(12);
+		$element->fillField("Organization name:", $this->issueTitle);
+    $element->fillField("Website:", $this->randomString(18));
+    $element->fillField("Drupal contributions:", $this->randomString(18));
+    if(!empty($context)) {
+      if($context == 'training') {
+        $chk = $element->findField("Request listing in the Training section");
+      }
+      else if($context == 'drupal services') {
+        $chk = $element->findField("Request listing in the Drupal services section");
+      }
+      if(isset($chk)) {
+        $chk->check();
+      }
+    }
+    $this->iSelectTheRadioButtonWithTheId('Enterprise & Managed', 'edit-field-organization-hosting-categ-value-Enterprise-&-Managed');
+    HackyDataRegistry::set('issue title', $this->issueTitle);
+    $element->pressButton("Save");
+    sleep(2);
+    HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
+  }
+
+  /**
+   * @Then /^I should see "([^"]*)" selected for "([^"]*)"$/
+   * @param string $option
+   * define the selected value of radio button
+   * @param string $field
+   * In order to define the field name
+   */
+  public function iShouldSeeSelectedFor($option, $field) {
+    $temp = $this->getSession()->getPage()->findAll('css', '#column-left .group-moderation .form-item .form-radios .form-item input[type=radio]');
+    if(empty($temp)) {
+      throw new Exception("Radio buttons are not found on the page");
+    }
+    foreach($temp as $radio) {
+      $subHeading = $radio->getParent()->getText();
+      $listHeader = $radio->getParent()->getParent()->getParent()->getParent();
+      if(empty($listHeader)) {
+        throw new Exception("No fields exists in the page");
+      }
+      $mainHeading = $listHeader->getText();
+      $resultCount = explode(':', $mainHeading);
+      $repTemp = $resultCount[0];
+      if(empty($repTemp)) {
+        throw new Exception("Moderator field '" . $repTemp . "' is not found on the page");
+      }
+      if(($repTemp == $field) && ($subHeading == $option)) {
+        if((!$radio->getAttribute('checked'))){
+          throw new Exception("The moderator field '" . $repTemp . "' does not have the selected '" . $option . "' on the page");
+        }
+      }
+      else {
+        throw new Exception("The moderator field '" . $repTemp . "' with the selected '" . $option . "' does not exist");
+      }
+    }
+  }
+
+  /**
+   * Find given type in specific region on the homepage
+   *
+   * @Then /^I should see the "([^"]*)" "([^"]*)" in "([^"]*)" area$/
+   *
+   * @param string $type
+   *   text/link/option/count/tab/power drupal
+   * @param string $content
+   *   text/link
+   * @param string $region
+   *   region on homepage
+   * @param boolean $find
+   *   should see/should not see
+   * @param boolean $count_param
+   *   count
+   */
+  public function iShouldSeeInArea($type = 'text', $content, $region, $find = true, $count_param = null) {
+    //Region to region div id mapping
+    $arr_region = array(
+      'left header' => 'header-left',
+      'right header' => 'header-right',
+      'top header' => 'nav-header',
+      'bottom header' => 'nav-masthead',
+      'top left content' => 'front-top-left',
+      'top middle content' => 'front-top-middle',
+      'top right content' => 'front-top-right',
+      'bottom right content' => 'front-bottom-right',
+      'middle content' => 'front-middle',
+      'footer' => 'footer'
+    );
+    $region_l = strtolower($region);
+    // Consider only the sections defined above
+    if (!isset($arr_region[$region_l])) {
+      throw new Exception('The region "' . $region . '" is not implemented.' );
+    }
+    $page = $this->getSession()->getPage();
+    // Find region div
+    $obj_region = $page->find('xpath', '//div[@id="' . $arr_region[$region] . '"]');
+    if (empty($obj_region)) {
+      throw new Exception('The region "' . $region . '" is not found on homepage' );
+    }
+    switch ($type) {
+      // Normal text(includes link labels as well)
+      case 'text':
+        if (false === strpos($obj_region->getText(), $content)) {
+          if ($find) {
+            throw new Exception('The text "' . $content . '" is not found in "' . $region . '" area on homepage');
+          }
+        }
+        else {
+          if (!$find) {
+            throw new Exception('The text "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
+          }
+        }
+        break;
+      // Hyperlinks
+      case 'link':
+        $a_ele = $obj_region->findLink($content);
+        if (empty($a_ele)) {
+          if ($find) {
+            throw new Exception('The link "' . $content . '" is not found in "' . $region . '" area on homepage');
+          }
+        }else {
+          if (!$find) {
+            throw new Exception('The link "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
+          }
+        }
+        break;
+      // Radio buttons. 
+      case 'option':
+        $radio_ele = $page->findAll('xpath', '//input[@type="radio"]');
+        if (empty($radio_ele)) {
+          throw new Exception('The option "' . $content . '" is not found in "' . $region . '" area on homepage');
+        }
+        $found = false;
+        foreach ($radio_ele as $radio) {
+          if ($content == $radio->getParent()->getText()) {
+            $found = true;
+            if (!$find) {
+              throw new Exception('The option "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
+            }
+            break;
+          }
+        }
+        if (!$found && $find) {
+          throw new Exception('The option "' . $content . '" is not found in "' . $region . '" area on homepage');
+        }
+        break;
+      // Tabs (bottom header/bottom content)
+      case 'tab':
+        $a_ele = $obj_region->findAll('xpath', '//ul/li/a');
+        if (empty($a_ele)) {
+          throw new Exception('The tab "' . $content . '" is not found in "' . $region . '" area on homepage');
+        }
+        $found = false;
+        foreach ( $a_ele as $a) {
+          if ($content == $a->getText()) {
+            $found = true;
+            if (!$find) {
+              throw new Exception('The tab "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
+            }
+            break;
+          }
+        }
+        if (!$found && $find) {
+           throw new Exception('The tab "' . $content . '" is not found in "' . $region . '" area on homepage');
+        }
+        break;
+      // Right content count for different links
+      case 'count':
+        $td_ele = $obj_region->find('xpath', '//table[@class="front-current-activity"]//tr//td//a[text()="' . $content . '"]');
+        if (empty($td_ele)) {
+          throw new Exception('"' . $content . '" is not found in "' . $region . '" area on homepage');
+        }
+        $count_ele = $td_ele->getParent()->getParent()->find('css', 'td');
+        if(empty($count_ele)) {
+          throw new Exception('Count for "' . $content . '" is not found in "' . $region . '" area on homepage');
+        }
+        $count = (int) str_replace(',','', $count_ele->getText());
+        if (empty($count)) {
+          throw new Exception('"' . $content . '" count is not found');
+        }
+        if ($count < $count_param) {
+          throw new Exception('"' . $content . '" count is less than "' . $count_param . '"');
+        }
+        break;
+      // people/country/language count
+      case 'power drupal':
+        $div_ele = $obj_region->find('css', 'div#front-drupal-stats');
+        if (empty($div_ele)) {
+          throw new Exception('"power Drupal" Container div is not found');
+        }
+        $count_param = str_replace(',', '', $count_param);
+        $text = str_replace(',', '', $div_ele->getText());
+        preg_match("/\d+ $content/i", $text, $match);
+        if (empty($match[0]) || (!empty($match[0]) && ((int) (str_replace(' ' . $text, '', $match[0]))) < $count_param)) {
+          throw new Exception('"' . $content . '" count in "power Drupal" is less than ' . $count_param);
+        }
+        break;
+      default:
+        throw new Exception('The type "' . $type . '" is not implemented.' );
+        break;
+    }
+  }
+
+  /**
+   * @Then /^I should not see the "([^"]*)" "([^"]*)" in "([^"]*)" area$/
+   */
+  public function iShouldNotSeeInArea($type, $content, $region) {
+    $this->iShouldSeeInArea($type, $content, $region, false );
+  }
+
+  /**
+   * @Then /^I should see at least "([^"]*)" "([^"]*)" in power Drupal text$/
+   */
+  public function iShouldSeeAtLeastPeopleInPowerDrupalText($count, $type) {
+    $this->iShouldSeeInArea('power drupal', $type, 'middle content', true, $count);
+  }
+
+  /**
+   * @Given /^I should see the following <(?:links|tabs|options)> in "([^"]*)" area$/
+   */
+  public function iShouldSeeTheFollowingLinksInArea($region, TableNode $table) {
+    foreach ($table->getHash() as $content) {
+      $keys = array_keys($content);
+      $key = str_replace('s', '', $keys[0]);
+      $this->iShouldSeeInArea($key, $content[$keys[0]], $region, true);
+    }
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" "([^"]*)" in top right content area$/
+   */
+  public function iShouldSeeAtLeastInArea($count, $type) {
+    $this->iShouldSeeInArea('count', $type, 'top right content', true, $count );
+  }
 }

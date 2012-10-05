@@ -1,16 +1,16 @@
-@specific_text
+@specific_text @wip
 Feature: Verify home page header
   In order to have access to different sections of drupal.org
   As any user
   I need to be able to view navigations links and site search field
 
-  @anon @flaky @wip
+  @anon
   Scenario: Check home page header text
     Given I am on the homepage
     Then I should see the "text" "Come for the software, stay for the community" in "left header" area
     And I should see the "text" "Drupal is an open source content management platform powering millions of websites and applications." in "left header" area
 
-  @anon @known_git6failure @flaky @wip
+  @anon @known_git6failure
   Scenario Outline: Check home page header text doesn't appear on other pages
     Given I am on "<page>"
     Then I should not see the "text" "Come for the software, stay for the community" in "left header" area
@@ -40,7 +40,7 @@ Feature: Verify home page header
     | Forums & Issues |
     | Groups          |
 
-  @anon @known_git6failure @flaky @wip
+  @anon @known_git6failure
   Scenario Outline: Check header navigation links in header area
     Given I am on "<page>"
     And I should see the following <links> in "top header" area
@@ -63,7 +63,7 @@ Feature: Verify home page header
     | /download       |
     | /about          |
 
-  @anon @known_git6failure @flaky @wip
+  @anon @known_git6failure
   Scenario Outline: Check bottom header tabs anonymously
     Given I am on "<page>"
     Then I should see the following <tabs> in "bottom header" area
@@ -81,7 +81,7 @@ Feature: Verify home page header
     | /download       |
     | /about          |
 
-  @known_git6failure @retest_after_next_build @flaky @wip
+  @known_git6failure
   Scenario Outline: Check bottom header tabs as authenticated user
     Given I am logged in as "site user"
     And I am on "<page>"
