@@ -3431,7 +3431,7 @@ class FeatureContext extends DrupalContext {
     if (empty($region)) {
       throw new Exception("Right sidebar region was not found");
     }
-    $result = $region->find('css', '#column-right-region .block-inner .block-content #gam-holder-HostingForumBlock');
+    $result = $region->find('css', '.block-google-admanager');
     if (empty($result)) {
       throw new Exception('No advertisement exists in the right sidebar');
     }
