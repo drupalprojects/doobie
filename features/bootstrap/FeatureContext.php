@@ -5404,6 +5404,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Function to navigate through featured or all providers list
    * @When /^I follow (?:Featured providers|All providers) title post$/
    */
   public function iFollowFeaturedProvidersTitlePost() {
@@ -5418,7 +5419,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @When /^I create a new organization(?: for "([^"]*)"|)$/
    * @param string $context
-   * Whether to specify feauture/all providers title post
+   * To specify feauture/all providers title post
    */
   public function iCreateANewOrganizationFor($context) {
     $element = $this->getSession()->getPage();
@@ -5449,7 +5450,7 @@ class FeatureContext extends DrupalContext {
    * @param string $option
    * define the selected value of radio button
    * @param string $field
-   * define the field name
+   * In order to define the field name
    */
   public function iShouldSeeSelectedFor($option, $field) {
     $temp = $this->getSession()->getPage()->findAll('css', '#column-left .group-moderation .form-item .form-radios .form-item input[type=radio]');
