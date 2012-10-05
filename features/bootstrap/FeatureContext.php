@@ -5479,4 +5479,181 @@ class FeatureContext extends DrupalContext {
       }
     }
   }
+
+  /**
+   * Find given type in specific region on the homepage
+   *
+   * @Then /^I should see the "([^"]*)" "([^"]*)" in "([^"]*)" area$/
+   *
+   * @param string $type
+   *   text/link/option/count/tab/power drupal
+   * @param string $content
+   *   text/link
+   * @param string $region
+   *   region on homepage
+   * @param boolean $find
+   *   should see/should not see
+   * @param boolean $count_param
+   *   count
+   */
+  public function iShouldSeeInArea($type = 'text', $content, $region, $find = true, $count_param = null) {
+    //Region to region div id mapping
+    $arr_region = array(
+      'left header' => 'header-left',
+      'right header' => 'header-right',
+      'top header' => 'nav-header',
+      'bottom header' => 'nav-masthead',
+      'top left content' => 'front-top-left',
+      'top middle content' => 'front-top-middle',
+      'top right content' => 'front-top-right',
+      'bottom right content' => 'front-bottom-right',
+      'middle content' => 'front-middle',
+      'footer' => 'footer'
+    );
+    $region_l = strtolower($region);
+    // Consider only the sections defined above
+    if (!isset($arr_region[$region_l])) {
+      throw new Exception('The region "' . $region . '" is not implemented.' );
+    }
+    $page = $this->getSession()->getPage();
+    // Find region div
+    $obj_region = $page->find('xpath', '//div[@id="' . $arr_region[$region] . '"]');
+    if (empty($obj_region)) {
+      throw new Exception('The region "' . $region . '" is not found on homepage' );
+    }
+    switch ($type) {
+      // Normal text(includes link labels as well)
+      case 'text':
+        if (false === strpos($obj_region->getText(), $content)) {
+          if ($find) {
+            throw new Exception('The text "' . $content . '" is not found in "' . $region . '" area on homepage');
+          }
+        }
+        else {
+          if (!$find) {
+            throw new Exception('The text "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
+          }
+        }
+        break;
+      // Hyperlinks
+      case 'link':
+        $a_ele = $obj_region->findLink($content);
+        if (empty($a_ele)) {
+          if ($find) {
+            throw new Exception('The link "' . $content . '" is not found in "' . $region . '" area on homepage');
+          }
+        }else {
+          if (!$find) {
+            throw new Exception('The link "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
+          }
+        }
+        break;
+      // Radio buttons. 
+      case 'option':
+        $radio_ele = $page->findAll('xpath', '//input[@type="radio"]');
+        if (empty($radio_ele)) {
+          throw new Exception('The option "' . $content . '" is not found in "' . $region . '" area on homepage');
+        }
+        $found = false;
+        foreach ($radio_ele as $radio) {
+          if ($content == $radio->getParent()->getText()) {
+            $found = true;
+            if (!$find) {
+              throw new Exception('The option "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
+            }
+            break;
+          }
+        }
+        if (!$found && $find) {
+          throw new Exception('The option "' . $content . '" is not found in "' . $region . '" area on homepage');
+        }
+        break;
+      // Tabs (bottom header/bottom content)
+      case 'tab':
+        $a_ele = $obj_region->findAll('xpath', '//ul/li/a');
+        if (empty($a_ele)) {
+          throw new Exception('The tab "' . $content . '" is not found in "' . $region . '" area on homepage');
+        }
+        $found = false;
+        foreach ( $a_ele as $a) {
+          if ($content == $a->getText()) {
+            $found = true;
+            if (!$find) {
+              throw new Exception('The tab "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
+            }
+            break;
+          }
+        }
+        if (!$found && $find) {
+           throw new Exception('The tab "' . $content . '" is not found in "' . $region . '" area on homepage');
+        }
+        break;
+      // Right content count for different links
+      case 'count':
+        $td_ele = $obj_region->find('xpath', '//table[@class="front-current-activity"]//tr//td//a[text()="' . $content . '"]');
+        if (empty($td_ele)) {
+          throw new Exception('"' . $content . '" is not found in "' . $region . '" area on homepage');
+        }
+        $count_ele = $td_ele->getParent()->getParent()->find('css', 'td');
+        if(empty($count_ele)) {
+          throw new Exception('Count for "' . $content . '" is not found in "' . $region . '" area on homepage');
+        }
+        $count = (int) str_replace(',','', $count_ele->getText());
+        if (empty($count)) {
+          throw new Exception('"' . $content . '" count is not found');
+        }
+        if ($count < $count_param) {
+          throw new Exception('"' . $content . '" count is less than "' . $count_param . '"');
+        }
+        break;
+      // people/country/language count
+      case 'power drupal':
+        $div_ele = $obj_region->find('css', 'div#front-drupal-stats');
+        if (empty($div_ele)) {
+          throw new Exception('"power Drupal" Container div is not found');
+        }
+        $count_param = str_replace(',', '', $count_param);
+        $text = str_replace(',', '', $div_ele->getText());
+        preg_match("/\d+ $content/i", $text, $match);
+        if (empty($match[0]) || (!empty($match[0]) && ((int) (str_replace(' ' . $text, '', $match[0]))) < $count_param)) {
+          throw new Exception('"' . $content . '" count in "power Drupal" is less than ' . $count_param);
+        }
+        break;
+      default:
+        throw new Exception('The type "' . $type . '" is not implemented.' );
+        break;
+    }
+  }
+
+  /**
+   * @Then /^I should not see the "([^"]*)" "([^"]*)" in "([^"]*)" area$/
+   */
+  public function iShouldNotSeeInArea($type, $content, $region) {
+    $this->iShouldSeeInArea($type, $content, $region, false );
+  }
+
+  /**
+   * @Then /^I should see at least "([^"]*)" "([^"]*)" in power Drupal text$/
+   */
+  public function iShouldSeeAtLeastPeopleInPowerDrupalText($count, $type) {
+    $this->iShouldSeeInArea('power drupal', $type, 'middle content', true, $count);
+  }
+
+  /**
+   * @Given /^I should see the following <(?:links|tabs|options)> in "([^"]*)" area$/
+   */
+  public function iShouldSeeTheFollowingLinksInArea($region, TableNode $table) {
+    foreach ($table->getHash() as $content) {
+      $keys = array_keys($content);
+      $key = str_replace('s', '', $keys[0]);
+      $this->iShouldSeeInArea($key, $content[$keys[0]], $region, true);
+    }
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" "([^"]*)" in top right content area$/
+   */
+  public function iShouldSeeAtLeastInArea($count, $type) {
+    $this->iShouldSeeInArea('count', $type, 'top right content', true, $count );
+  }
 }
