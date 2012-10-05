@@ -11,12 +11,12 @@ Feature: Market place drupal training services
     Then I should see "Drupal training services"
     And I should see "For upcoming Trainings check"
 
-  @known_git6failure @anon
+  @anon
   Scenario: View right sidebar navigation
     Given I am on the homepage
     When I visit "/training"
     Then I should see "Browse by country"
-    And I should see at least "10" links in the "right sidebar"
+    And I should see at least "3" links in the "right sidebar"
     And I should not see the link "Add your listing"
 
   @anon
@@ -28,21 +28,21 @@ Feature: Market place drupal training services
     And I should see the following <texts>
     | texts                         |
     | User group meeting            |
-    | Drupalcon                     |
+    | DrupalCon                     |
     | Drupalcamp or Regional Summit |
     | Training (free or commercial) |
 
-  @anon 
+  @anon
   Scenario: Global training days that are currently running on the site
     Given I am on "/training"
     When I follow "Global Training Days 2012"
     Then I should see the heading "Learn Drupal: Global Training Days"
     And I should see "Global Training dates"
-    And I should see "We had another great Global Training Day"
+    And I should see "Drupal Global Training Days is an initiative"
 
-  @anon
   Scenario: Marketplace guidelines list
-    Given I am on "/training"
+    Given I am logged in as "site user"
+    And I am on "/training"
     When I follow "Marketplace guidelines"
     Then I should see the heading "Marketplace guidelines"
     And I should see the heading "Drupal Services"
