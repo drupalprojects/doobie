@@ -18,7 +18,7 @@ Feature: Market place Drupal services section
     When I follow "All providers"
     Then I should see "All providers section lists"
 
-  @anon
+  @anon @known_git6failure
   Scenario: Following through featured providers post
     Given I am on "/drupal-services"
     And I follow "Featured providers"
@@ -38,7 +38,6 @@ Feature: Market place Drupal services section
     When I follow "Working with Drupal service providers"
     Then I should see the heading "Working with Drupal service providers"
 
-  @retest-after-next-build
   Scenario: Add organization
     Given I am logged in as "site user"
     And I visit "/node/add/organization"
@@ -46,7 +45,7 @@ Feature: Market place Drupal services section
     When I create a new organization for "drupal services"
     Then I should see "has been created"
 
-  @dependent @retest-after-next-build
+  @dependent
   Scenario: View the created drupal services session
     Given I am logged in as "site user"
     And I follow "Your Dashboard"
@@ -57,7 +56,7 @@ Feature: Market place Drupal services section
     And I should see "Drupal.org webmasters"
     And I should see "Posted by site user"
 
-  @dependent @retest-after-next-build @clean_data
+  @dependent @clean_data
   Scenario: View the created training session
     Given I am logged in as "admin test"
     When I visit the organization page
