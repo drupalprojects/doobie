@@ -50,7 +50,7 @@ Feature: Market place drupal training services
     And I should see the heading "Training"
     And I should see the heading "Hosting"
 
-   Scenario: Add organization
+  Scenario: Add organization
     Given I am logged in as "site user"
     And I visit "/node/add/organization"
     And I see "Request improvements to vocabularies by"
