@@ -1,4 +1,3 @@
-@wip
 Feature: Verify home page content
   In order to have an overview about Drupal.org and its applications
   As any user
