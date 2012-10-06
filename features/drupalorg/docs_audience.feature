@@ -1,4 +1,4 @@
-@crud @javascript
+@docs @javascript
 Feature: Provides audience information for documentation on About this page
   In order to make sure that the documentation is specific to different skillsets
   As a document manager
