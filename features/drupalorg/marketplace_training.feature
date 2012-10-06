@@ -40,7 +40,6 @@ Feature: Market place drupal training services
     And I should see "Global Training dates"
     And I should see "Drupal Global Training Days is an initiative"
 
-  @retest-after-next-build
   Scenario: Marketplace guidelines list
     Given I am logged in as "site user"
     And I am on "/training"
@@ -51,15 +50,14 @@ Feature: Market place drupal training services
     And I should see the heading "Training"
     And I should see the heading "Hosting"
 
-  @retest-after-next-build
-   Scenario: Add organization
+  Scenario: Add organization
     Given I am logged in as "site user"
     And I visit "/node/add/organization"
     And I see "Request improvements to vocabularies by"
     When I create a new organization for "training"
     Then I should see "has been created"
 
-  @dependent @retest-after-next-build @clean_data
+  @dependent @clean_data
   Scenario: View the created training session
     Given I am logged in as "site user"
     And I follow "Your Dashboard"
