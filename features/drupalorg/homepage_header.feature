@@ -1,4 +1,4 @@
-@wip
+@specific_text
 Feature: Verify home page header
   In order to have access to different sections of drupal.org
   As any user
