@@ -1,5 +1,5 @@
 @community @forums
-Feature: Post a forum topic as a site user
+Feature: Create new forum topic as a regular site user
   In order to discuss a topic
   As a site user
   I should be able to post a new forum topic
@@ -9,14 +9,14 @@ Feature: Post a forum topic as a site user
     And I follow "Support"
     And I follow "Forums"
 
-  Scenario: Add a new forum topic: Empty field validation
+  Scenario: Add a new forum topic with empty required fields
     When I follow "Post new Forum topic"
     And I press "Save"
     Then I should see "Subject field is required"
     And I should see "Forums field is required"
     And the field "Body" should be outlined in red
 
-  Scenario: Add a new forum topic: Save topic
+  Scenario: Add a new forum topic correctly
     When I follow "Post new Forum topic"
     And I fill in "Subject:" with random text
     And I select the following <fields> with <values>
