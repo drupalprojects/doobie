@@ -10,7 +10,7 @@ Feature: Regular users should not be able to post a topic in Newsletters subforu
     And I follow "Forums"
     And I follow "Newsletters"
 
-  Scenario: Try to add from a subset forum
+  Scenario: Try to add new forum topic from Drupal newsletter subforum
     When I follow "Drupal newsletter"
     And I follow "Add new Forum topic"
     Then I should see the heading "Drupal newsletter"

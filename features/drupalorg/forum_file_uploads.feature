@@ -4,7 +4,7 @@ Feature:
   As a site admin
   I need to know that file upload is only permitted to users with Administer content.
 
-  Scenario: Check File Attachments is not available for site user
+  Scenario: Check File Attachments is not available for regular site user
     Given I am logged in as "site user"
     When I follow "Support"
     And I follow "Forums"

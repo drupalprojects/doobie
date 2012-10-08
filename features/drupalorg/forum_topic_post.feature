@@ -1,5 +1,5 @@
 @community @forums
-Feature: Post a forum topic as a site user
+Feature: Create new forum topic as a regular site user
   In order to discuss a topic
   As a site user
   I should be able to post a new forum topic
