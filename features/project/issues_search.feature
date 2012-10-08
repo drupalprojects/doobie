@@ -1,4 +1,4 @@
-@slow @anon
+@slow @anon @known_git7failure
 Feature: Overall Filter Search for Issues
   In order to define the overall Filter search for Issues
   As an Anonymous user
