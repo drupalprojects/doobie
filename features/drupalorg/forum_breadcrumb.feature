@@ -10,13 +10,13 @@ Feature: Forum breadcrumbs
     And I follow "Forum"
     And I follow "Post installation"
     Then I should see the breadcrumb "Support"
-    And I should see "Login to post new content in the forum."
+    And I should see "Log in to post new content in the forum."
 
   Scenario: Logged in user follows link in Support forum
     Given I am logged in as "site user"
     When I visit "/forum/18"
     And I follow "Before you start"
-    Then I should see "Post new forum topic"
+    Then I should see "Add new forum topic"
     And I should see the breadcrumb "Support"
     And I should not see the breadcrumb "Before you start"
 

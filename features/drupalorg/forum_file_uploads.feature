@@ -8,7 +8,7 @@ Feature:
     Given I am logged in as "site user"
     When I follow "Support"
     And I follow "Forums"
-    And I follow "Post new Forum topic"
+    And I follow "Add new Forum topic"
     Then I should not see "File attachments"
     And I should not see "Attach new file:"
 

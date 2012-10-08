@@ -10,14 +10,14 @@ Feature: Post a forum topic as a site user
     And I follow "Forums"
 
   Scenario: Add a new forum topic: Empty field validation
-    When I follow "Post new Forum topic"
+    When I follow "Add new Forum topic"
     And I press "Save"
     Then I should see "Subject field is required"
     And I should see "Forums field is required"
     And the field "Body" should be outlined in red
 
   Scenario: Add a new forum topic: Save topic
-    When I follow "Post new Forum topic"
+    When I follow "Add new Forum topic"
     And I fill in "Subject:" with random text
     And I select the following <fields> with <values>
     | fields         | values                       |
