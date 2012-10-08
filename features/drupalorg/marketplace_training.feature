@@ -1,4 +1,4 @@
-Feature: Market place drupal training services
+Feature: Training section of the Marketplace
   In order to advertise the training sessions of my organization
   As an authenticated user
   I should be able to create the organization
@@ -20,7 +20,7 @@ Feature: Market place drupal training services
     And I should not see the link "Add your listing"
 
   @anon
-  Scenario: View events section
+  Scenario: Follow Events section link
     Given I am on "/training"
     When I follow "Events section"
     Then I should see the heading "Upcoming events"
@@ -32,15 +32,15 @@ Feature: Market place drupal training services
     | Drupalcamp or Regional Summit |
     | Training (free or commercial) |
 
-  @anon
-  Scenario: Global training days that are currently running on the site
+  @anon @specific_text
+  Scenario: Follow Global training days link
     Given I am on "/training"
     When I follow "Global Training Days 2012"
     Then I should see the heading "Learn Drupal: Global Training Days"
     And I should see "Global Training dates"
     And I should see "Drupal Global Training Days is an initiative"
 
-  Scenario: Marketplace guidelines list
+  Scenario: Follow Marketplace guidelines link
     Given I am logged in as "site user"
     And I am on "/training"
     When I follow "Marketplace guidelines"
