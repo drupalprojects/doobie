@@ -5,7 +5,7 @@
  * and we need a way to pass relevant data (like generated node id)
  * from one scenario to the next.  This class provides a simple
  * registry to pass data. This should be used only when absolutely
- * necessary as scenarios should be independent as often as possible.  
+ * necessary as scenarios should be independent as often as possible.
  */
 abstract class HackyDataRegistry {
   public static $data = array();
@@ -228,7 +228,11 @@ class FeatureContext extends DrupalContext {
     // Get the project folder name and make sure there is a clone
     $project = strtolower(HackyDataRegistry::get('project_short_name'));
     if (!$project || $project == "") {
-      $project = strtolower(HackyDataRegistry::get('project title'));
+      if (!$project = strtolower(HackyDataRegistry::get('project title'))) {
+        // Find project short name from git endpoint
+        $arr_url = explode('/', $url);
+        $project = str_replace('.git', '', end($arr_url));
+      }
     }
     if (!$project || $project == "") {
       throw new Exception("No project found to push");
@@ -3593,7 +3597,7 @@ class FeatureContext extends DrupalContext {
     $chk = $element->findField("Sandbox");
     if (empty($chk)) {
       throw new Exception("No Sandbox checkbox was found");
-    } 
+    }
     if ($chk->hasAttribute("disabled")) {
       throw new Exception("You do not have permissions to create a full project");
     }
@@ -5346,7 +5350,7 @@ class FeatureContext extends DrupalContext {
    * Compares modules from 'Most installed' block and usage stats page
    *
    * @Given /^I should see at least "([^"]*)" most installed modules$/
-   * 
+   *
    * @param integer $count
    *   The number of modules to check for
    */
@@ -5409,7 +5413,8 @@ class FeatureContext extends DrupalContext {
       throw new Exception("Title post is not found on the page");
     }
     $href = $result->getAttribute("href");
-    $this->getSession()->visit($href);    
+    $this->getSession()->visit($href);
+    sleep(5);
   }
 
   /**
@@ -5446,34 +5451,32 @@ class FeatureContext extends DrupalContext {
    * @param string $option
    * define the selected value of radio button
    * @param string $field
-   * In order to define the field name
+   * define the field name
    */
   public function iShouldSeeSelectedFor($option, $field) {
-    $temp = $this->getSession()->getPage()->findAll('css', '#column-left .group-moderation .form-item .form-radios .form-item input[type=radio]');
-    if(empty($temp)) {
+    $result = $this->getSession()->getPage()->findAll('css', '.group-moderation .form-item label');
+    if (empty($result)) {
       throw new Exception("Radio buttons are not found on the page");
     }
-    foreach($temp as $radio) {
-      $subHeading = $radio->getParent()->getText();
-      $listHeader = $radio->getParent()->getParent()->getParent()->getParent();
-      if(empty($listHeader)) {
-        throw new Exception("No fields exists in the page");
-      }
-      $mainHeading = $listHeader->getText();
-      $resultCount = explode(':', $mainHeading);
+    foreach ($result as $row) {
+      $listHeader = $row->getText();
+      $resultCount = explode(':', $listHeader);
       $repTemp = $resultCount[0];
       if(empty($repTemp)) {
-        throw new Exception("Moderator field '" . $repTemp . "' is not found on the page");
+        throw new Exception("Moderator field '" . $field . "' is not found on the page");
       }
-      if(($repTemp == $field) && ($subHeading == $option)) {
-        if((!$radio->getAttribute('checked'))){
-          throw new Exception("The moderator field '" . $repTemp . "' does not have the selected '" . $option . "' on the page");
+      if (strpos($repTemp, $field) !== FALSE) {
+        $optionLable = $row->getParent();
+        $optionField =  $optionLable->findField($option);
+        if(empty($optionField)) {
+          throw new Exception("Moderator field '" . $option . "' option is not found on the page");
+        }
+        if(($optionField->isChecked())){
+          return;
         }
       }
-      else {
-        throw new Exception("The moderator field '" . $repTemp . "' with the selected '" . $option . "' does not exist");
-      }
     }
+    throw new Exception("The moderator field '" . $field . "' with appropriate selected '" . $option . "' option does not exists on the page");
   }
 
   /**
@@ -5544,7 +5547,7 @@ class FeatureContext extends DrupalContext {
           }
         }
         break;
-      // Radio buttons. 
+      // Radio buttons.
       case 'option':
         $radio_ele = $page->findAll('xpath', '//input[@type="radio"]');
         if (empty($radio_ele)) {
