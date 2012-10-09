@@ -1,8 +1,8 @@
 @community
-Feature: Ways to get involved with drupal community
+Feature: Ways to get involved with the Drupal community
   In order to participate in the Drupal community 
-  As a user
-  I should find a guide to ways I can get involved
+  As any user
+  I should find out how to get involved
 
   Scenario: Navigate to the Getting Involved page
     Given I am on the homepage
@@ -13,14 +13,14 @@ Feature: Ways to get involved with drupal community
     And I should see the heading "Ways to Get Involved"
     And I should see "Drupal is an open source project built by a team of volunteers"
 
-  Scenario: Getting involove guide
+  Scenario: Open Getting involved guide
     Given I am on "/getting-involved"
     When I follow "Getting Involved Guide"
     Then I should see the heading "Getting Involved Guide"
     And I should see the text "Why get involved"
     And I should see the text "Ready to get involved"
 
-  Scenario: Community spotlight
+  Scenario: View Community spotlight
     Given I am on the homepage
     When I follow "Getting Involved"
     Then I should see the heading "Community Spotlight"
@@ -28,7 +28,7 @@ Feature: Ways to get involved with drupal community
     And I should see "Posted by"
     And I should see community member photo
 
-  Scenario: Right side block links
+  Scenario: View Ways to get involved block
     Given I am on the homepage
     When I follow "Getting Involved"
     Then I should see "Ways to Get Involved"
@@ -46,7 +46,7 @@ Feature: Ways to get involved with drupal community
     | Documentation         |
     | Drupal Association    |
 
-  Scenario: See drupal.org activity block
+  Scenario: View Drupal.org activity block
     Given I am on the homepage
     When I follow "Getting Involved"
     Then the count of "people with Git accounts" should be greater than zero
