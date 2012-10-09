@@ -1,8 +1,8 @@
 @community @javascript @anon
-Feature: View Community Spotlight
+Feature: Community Spotlight pages
   In order to find contributors to Drupal Community
   As any user
-  I need to be able to check Spot light pages of Melissa and Greg and search for Neil Drumm using the header search box
+  I need to be able to check Spotlight pages of Melissa and Greg and search for Neil Drumm using the header search box
 	
   @timeout
   Scenario: Browse to the Community Spotlight page
