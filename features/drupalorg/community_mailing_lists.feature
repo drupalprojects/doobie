@@ -1,7 +1,8 @@
-Feature: Mailing list archives
-  In order to discover the history of a mailing list discussion
+@community @anon
+Feature: Mailing lists subscription and archives
+  In order to participate in mailing list discussions
   As a site visitor
-  I need to be able to access mailing list archives and subscribe to the same
+  I need to be able to access mailing list archives and subscribe to the lists
 
   Scenario: Check the mailing list page
     Given I am on the homepage
@@ -55,7 +56,7 @@ Feature: Mailing list archives
     | Translations | translations    |
     | Consulting   | consulting      |
 
-  Scenario Outline: Follow view archive for restricted memebers section
+  Scenario Outline: Follow view archive for members only section
     Given I am on "/mailing-lists"
     When I clik on link "view archive" under section "<section>"
     Then I should see "<section heading> Private Archives Authentication"

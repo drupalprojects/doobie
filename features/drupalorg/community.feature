@@ -1,9 +1,10 @@
-Feature: List of drupal communities
-  In order to participate in drupal communities
-  As a user
-  I should see the communites that are available on the site
+@community
+Feature: Landing page of Community section of the site
+  In order to find out about Drupal community
+  As any user
+  I should go to community page
 
-  Scenario: Verify that we are on the communtity page
+  Scenario: View community page
     Given I am on the homepage
     When I follow "Community"
     Then I should see the heading "Where is the Drupal Community?"
@@ -19,7 +20,7 @@ Feature: List of drupal communities
     | Mailing Lists         |
     | Drupal Association    |
 
-  Scenario: Create test issue to check recent activity
+  Scenario: Create test issue to check Recent activity block
     Given I am logged in as "site user"
     And I visit "/node/1765126"
     When I follow "open"
@@ -28,13 +29,13 @@ Feature: List of drupal communities
     Then I should see "has been created"
 
   @dependent @clean_data
-  Scenario: Look for the issue created in recent activity block
+  Scenario: Look for the issue created in Recent activity block
     Given I am on the homepage
     When I follow "Community"
     Then I should see the issue link
     And I should see the heading "Recent activity"
 
-  Scenario: Create one more test issue to check recent activity
+  Scenario: Create one more test issue to check Recent activity block
     Given I am logged in as "site user"
     And I visit "/node/1765126"
     When I follow "open"
@@ -43,19 +44,22 @@ Feature: List of drupal communities
     Then I should see "has been created"
 
   @dependent @clean_data
-  Scenario: Look for the issue created in recent activity block
+  Scenario: Look for the issue created in Recent activity block
     Given I am on the homepage
     When I follow "Community"
     Then I should see the issue link
     And I should see the heading "Recent activity"
 
-  @javascript @known_git6failure
-  Scenario: Search for documentation
-    Given I am on the homepage
-    When I follow "Community"
-    And I fill in "FAQ" for "Search Documentation:"
-    And I wait for the suggestion box to appear
-    And I follow "Drupal FAQs"
-    Then I should see the heading "Drupal FAQs"
-    And I should see "General Drupal FAQ:"
-    And I should see the link "Drupal project Frequently Asked Questions (FAQ)"
+  Scenario: View more recent posts
+    Given I am on "/community"
+    When I follow "More recent activity"
+    Then I should be on "/tracker"
+    And I should see the heading "Recent posts"
+    And I should see the following <texts>
+    | texts        |
+    | Type         |
+    | Post         |
+    | Author       |
+    | Replies      |
+    | Last updated |
+	| ago          |
