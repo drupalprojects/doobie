@@ -1,4 +1,3 @@
-@wip
 Feature: Market place Drupal services section
   In order to advertise the drupal services section of my organization
   As an authenticated user
@@ -18,7 +17,7 @@ Feature: Market place Drupal services section
     When I follow "All providers"
     Then I should see "All providers section lists"
 
-  @anon @known_git6failure
+  @anon 
   Scenario: Featured providers services list
     Given I am on "/drupal-services"
     And I follow "Featured providers"
