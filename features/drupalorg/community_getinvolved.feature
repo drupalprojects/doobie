@@ -53,3 +53,4 @@ Feature: Ways to get involved with drupal community
     And the count of "users on drupal.org" should be greater than zero
     And the count of "sites running Drupal" should be greater than zero
     And the count of "comments and issue followups" should be greater than zero
+    And I should see "Drupal.org Activity"
