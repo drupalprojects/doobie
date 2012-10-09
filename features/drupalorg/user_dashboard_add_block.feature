@@ -1,4 +1,4 @@
-@user @javascript
+@user @javascript @known_git6failure
 Feature:
   In order to create a efficient, personalized workspace 
   As an authenticated user
