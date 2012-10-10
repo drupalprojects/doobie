@@ -1,8 +1,8 @@
-@ci
-Feature: See git activity on home page
+@front @ci
+Feature: See git activity on the front page
   In order to see how active drupal development is
   As any user
-  I should be able to see commit data on the home page
+  I should be able to see commit data on the Drupal.org front page
 
   Background:
     Given I am on the homepage
