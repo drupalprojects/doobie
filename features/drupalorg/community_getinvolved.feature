@@ -1,6 +1,6 @@
 @community
 Feature: Ways to get involved with the Drupal community
-  In order to participate in the Drupal community 
+  In order to participate in the Drupal community
   As any user
   I should find out how to get involved
 
@@ -55,3 +55,9 @@ Feature: Ways to get involved with the Drupal community
     And the count of "sites running Drupal" should be greater than zero
     And the count of "comments and issue followups" should be greater than zero
     And I should see "Drupal.org Activity"
+
+  Scenario: View community spotlight
+    Given I am on "/getting-involved"
+    When I follow "View more community spotlights"
+    Then I should be on "/community-spotlight"
+    And I should see the heading "Community Spotlight"
