@@ -4946,9 +4946,9 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @When /^I clik on link "([^"]*)" under section "([^"]*)"$/
+   * @When /^I click on link "([^"]*)" under section "([^"]*)"$/
    */
-  public function iClikOnLinkUnderSection($link, $section) {
+  public function iClickOnLinkUnderSection($link, $section) {
     $page = $this->getSession()->getPage();
     // Verify that the section exists
     $result = $page->find('xpath', '//form[@id="lists-subscribe-form"]//h2[text()="' . $section . '"]');
