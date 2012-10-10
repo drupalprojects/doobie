@@ -5653,4 +5653,120 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeAtLeastInArea($count, $type) {
     $this->iShouldSeeInArea('count', $type, 'top right content', true, $count );
   }
+
+  /**
+   * Checks if the solr search results page is sorted by 'most installed' or not
+   *
+   * @Given /^I should see the results sorted by most installed modules$/
+   */
+  public function iShouldSeeTheResultsSortedByMostInstalledModules() {
+    $links = $this->getSession()->getPage()->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
+    if (empty($links)) {
+      throw new Exception("The page did not contain any links");
+    }
+    $linksArr = array();
+    foreach ($links as $link) {
+      $linksArr[] = trim($link->getText());
+    }
+    // Go to usage stats page
+    $this->getSession()->visit($this->locatePath("/project/usage"));
+    // Wait for the page to load. Otherwise we will get timeout error here. project/usage page is long
+    sleep(6);
+    // Get the links for the first result
+    $link = $this->getSession()->getPage()->findLink($linksArr[0]);
+    if (empty($link)) {
+      throw new Exception("The module '" . $linksArr[0] . "' was not found on the statistics page");
+    }
+    // a > td > tr
+    $link = $link->getParent()->getParent()->find("css", ".project-usage-numbers");
+    if (empty($link)) {
+      throw new Exception("Could not find module install count on the statistics page");
+    }
+    $resultFirst = (int) str_replace(",", "", trim($link->getText()));
+
+    // Get the links for the last result
+    $link = $this->getSession()->getPage()->findLink($linksArr[sizeof($linksArr) - 1]);
+    if (empty($link)) {
+      throw new Exception("The module '" . end($linksArr) . "' was not found on the statistics page");
+    }
+    // a > td > tr
+    $link = $link->getParent()->getParent()->find("css", ".project-usage-numbers");
+    if (empty($link)) {
+      throw new Exception("Could not find module install count on the statistics page");
+    }
+    $resultLast = (int) str_replace(",", "", trim($link->getText()));
+
+    if ($resultLast > $resultFirst) {
+      throw new Exception("The results are not sorted by most installed modules");
+    }
+  }
+
+  /**
+   * Checks if the solr search results page is sorted by 'last build' or not
+   *
+   * @Given /^I should see the results sorted by last build of the project$/
+   */
+  public function iShouldSeeTheResultsSortedByLastBuildOfTheProject() {
+    // Get all the results links
+    $links = $this->getSession()->getPage()->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
+    if (empty($links)) {
+      throw new Exception("The page did not contain any links");
+    }
+    $linksArr = array();
+    foreach ($links as $link) {
+      $linksArr[] = trim($link->getAttribute("href"));
+    }
+    // Go to first result page
+    $this->getSession()->visit($this->locatePath($linksArr[0]));
+    // Wait for the page to load. Otherwise we will get timeout error here
+    sleep(3);
+    // Go to releases page
+    $temp = $this->getSession()->getPage()->findLink("View all releases");
+    if (empty($temp)) {
+      throw new Exception("The page did not contain any releases");
+    }
+    $temp->click();
+    // Wait for the page to load. Otherwise we will get timeout error here
+    sleep(3);
+    // Get the posted date of the first item visible on the screen
+    $date = $this->getSession()->getPage()->find("css", ".node .submitted em");
+    if (empty($date)) {
+      throw new Exception("The page did not contain posted date or any releases");
+    }
+    // Convert to timestamp
+    $timeStampFirst = strtotime($date->getText());
+
+    // Go to last result page
+    $this->getSession()->visit($this->locatePath(end($linksArr)));
+    // Wait for the page to load. Otherwise we will get timeout error here
+    sleep(3);
+    // Go to releases page
+    $temp = $this->getSession()->getPage()->findLink("View all releases");
+    if (empty($temp)) {
+      throw new Exception("The page did not contain any releases");
+    }
+    $temp->click();
+    // Wait for the page to load. Otherwise we will get timeout error here
+    sleep(3);
+    // Get the posted date of the first item visible on the screen
+    $date = $this->getSession()->getPage()->find("css", ".node .submitted em");
+    if (empty($date)) {
+      throw new Exception("The page did not contain posted date");
+    }
+    // Convert to timestamp
+    $timeStampLast = strtotime($date->getText());
+
+    if ($timeStampLast > $timeStampFirst) {
+      throw new Exception("The results are not sorted by last build of project");
+    }
+  }
+
+  /**
+   * Checks if the solr search results page is sorted by 'last release' or not
+   *
+   * @Given /^I should see the results sorted by latest release of the project$/
+   */
+  public function iShouldSeeTheResultsSortedByLatestReleaseOfTheProject() {
+    throw new PendingException();
+  }
 }
