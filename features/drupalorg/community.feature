@@ -50,13 +50,15 @@ Feature: Landing page of Community section of the site
     Then I should see the issue link
     And I should see the heading "Recent activity"
 
-  @javascript @known_git6failure
-  Scenario: Search for documentation
-    Given I am on the homepage
-    When I follow "Community"
-    And I fill in "FAQ" for "Search Documentation:"
-    And I wait for the suggestion box to appear
-    And I follow "Drupal FAQs"
-    Then I should see the heading "Drupal FAQs"
-    And I should see "General Drupal FAQ:"
-    And I should see the link "Drupal project Frequently Asked Questions (FAQ)"
+  Scenario: View most Recent Activities
+    Given I am on "/community"
+    When I follow "More recent activity"
+    Then I should be on "/tracker"
+    And I should see the heading "Recent posts"
+    And I should see the following <texts>
+    | texts        |
+    | Type         |
+    | Post         |
+    | Author       |
+    | Replies      |
+    | Last updated |
