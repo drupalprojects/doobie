@@ -1,7 +1,8 @@
-Feature: Verify home page content
-  In order to have an overview about Drupal.org and its applications
+@front
+Feature: Drupal.org frontpage
+  In order to have an overview about Drupal.org and Drupal project
   As any user
-  I need to be able to view useful links and statistics in different regions of homepage
+  I should go to Drupal.org frontpage
 
   Background:
     Given I am on the homepage
