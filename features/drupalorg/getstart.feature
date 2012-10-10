@@ -1,23 +1,28 @@
 @get_started @known_git6failure
-Feature: Get started with drupal
-  In order to learn drupal
-  As a user
-  I should know how to get started with the site
+Feature: Get started with Drupal
+  In order to use Drupal
+  As any user
+  I should know how to get started
 
-  Scenario: To verify download & extend page
+  Scenario: View Get started page
     Given I am on the homepage
     When I follow "Get Started"
     Then I should see "Get Started with Drupal"
+	And I should see "Download hundreds of"
     And I should see the heading "Most popular modules"
     And I should see the heading "Most popular themes"
     And I should see the heading "Translations"
+	And I should see the heading "Most popular guides"
+	And I should see the heading "Drupal books"
     And I should see the following <links>
     | links                |
     | Drupal core          |
     | web hosting provider |
     | distributions        |
+	| our forums           |
+	| IRC channels         |
 
-  Scenario: To Identity the links under most installed modules
+  Scenario: View the links under Most popular modules
     Given I am on the homepage
     When I follow "Get Started"
     Then I should see the following <links> under "Most popular modules"
@@ -26,14 +31,15 @@ Feature: Get started with drupal
     | Token    |
     | Pathauto |
 
-  Scenario: To check for all modules
+  Scenario: Follow All modules link
     Given I am on "/start"
     When I follow "All modules"
     Then I should see "Modules categories"
     And I should see "Search Modules:"
     And I should see the text "Extend and customize Drupal functionality with contributed modules."
+	And I should see "Posted by"
 
-  Scenario: To identity the links under most installed themes
+  Scenario: View the links under Most popular themes
     Given I am on the homepage
     When I follow "Get Started"
     Then I should see the following <links> under "Most popular themes"
@@ -43,14 +49,15 @@ Feature: Get started with drupal
     | AdaptiveTheme |
     | Fusion        |
 
-  Scenario: To check for more installed modules
+  Scenario: Follow All themes link
     Given I am on "/start"
     When I follow "All themes"
     Then I should see "Themes match your search"
     And I should see "Search Themes:"
     And I should see "Themes allow you to change the look and feel of your Drupal site."
+	And I should see "Posted by"
 
-  Scenario: To identity transalations
+  Scenario: View the links under Translations
     Given I am on the homepage
     When I follow "Get Started"
     Then I should see the following <links> under "Translations"
@@ -60,8 +67,8 @@ Feature: Get started with drupal
     | Hungarian |
     | Dutch     |
 
-  Scenario: To check for more installed modules
+  Scenario: Follow All translations link
     Given I am on "/start"
     When I follow "All translations"
-    And I should see "Drupal translations"
-    And I should see "Translation news"
+    Then I should see "Drupal translations"
+    And I should see "Pick a language"
