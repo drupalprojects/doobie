@@ -1001,7 +1001,8 @@ class FeatureContext extends DrupalContext {
       'row' => '.view div.views-row',
       'row li' => '.view li.views-row',
       'sitewide search' => 'dl.search-results dt',
-      'emails table' => '#multiple-email-manage table tbody tr'
+      'emails table' => '#multiple-email-manage table tbody tr',
+      'profiles' => '#profile div.profile'
     );
     foreach ($classes as $type => $class) {
       $result = $page->findAll('css', $class);
@@ -5505,7 +5506,9 @@ class FeatureContext extends DrupalContext {
       'top right content' => 'front-top-right',
       'bottom right content' => 'front-bottom-right',
       'middle content' => 'front-middle',
-      'footer' => 'footer'
+      'footer' => 'footer',
+      'content' => 'column-left',
+      'right sidebar' => 'column-right'
     );
     $region_l = strtolower($region);
     // Consider only the sections defined above
@@ -5518,16 +5521,23 @@ class FeatureContext extends DrupalContext {
     if (empty($obj_region)) {
       throw new Exception('The region "' . $region . '" is not found on homepage' );
     }
+    $is_region = ($region == "content" || $region == "right sidebar");
     switch ($type) {
       // Normal text(includes link labels as well)
       case 'text':
         if (false === strpos($obj_region->getText(), $content)) {
           if ($find) {
+            if ($is_region) {
+              throw new Exception('The text "' . $content . '" was not found in the "' . $region . '" region of the page');
+            }
             throw new Exception('The text "' . $content . '" is not found in "' . $region . '" area on homepage');
           }
         }
         else {
           if (!$find) {
+            if ($is_region) {
+              throw new Exception('The text "' . $content . '" was found in the "' . $region . '" region of the page, but it should not be');
+            }
             throw new Exception('The text "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
           }
         }
@@ -5537,10 +5547,16 @@ class FeatureContext extends DrupalContext {
         $a_ele = $obj_region->findLink($content);
         if (empty($a_ele)) {
           if ($find) {
+            if ($is_region) {
+              throw new Exception('The link "' . $content . '" was not found in the "' . $region . '" region of the page');
+            }
             throw new Exception('The link "' . $content . '" is not found in "' . $region . '" area on homepage');
           }
         }else {
           if (!$find) {
+            if ($is_region) {
+              throw new Exception('The link "' . $content . '" was found in the "' . $region . '" region of the page, but it should not be');
+            }
             throw new Exception('The link "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
           }
         }
@@ -5768,5 +5784,83 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheResultsSortedByLatestReleaseOfTheProject() {
     throw new PendingException();
+  }
+
+  /**
+   * Checks if $count number of memebers were found on the page or not
+   *
+   * @param $count
+   *   integer The minimum number of memebers expected on the page
+   *
+   * @Given /^I should see at least "([^"]*)" members$/
+   */
+  public function iShouldSeeAtLeastMembers($count) {
+    $results = $this->getViewDisplayRows($this->getSession()->getPage());
+    if (empty($results)) {
+      throw new Exception("The page did not contain any members");
+    }
+    if (sizeof($results) < $count) {
+      throw new Exception("The page has less than '" . $count . "' members");
+    }
+  }
+
+  /**
+   * Checks if the specified link was found on the specified region of the page or not
+   *
+   * @param $link
+   *   string The link to look for on the page
+   * @param $region
+   *   string The page region in which the link should be looked for
+   * @param $find (optional)
+   *   boolean When the $link should be present or not
+   *
+   * @Given /^I should see the link "([^"]*)" in the "([^"]*)" region$/
+   */
+  public function iShouldSeeTheLinkInTheRegion($link, $region, $find = TRUE) {
+    $this->iShouldSeeInArea('link', $link, $region, $find);
+  }
+
+  /**
+   * Checks if the specified link was found on the specified region of the page or not
+   *
+   * @param $link
+   *   string The link to look for on the page
+   * @param $region
+   *   string The page region in which the link should be looked for
+   *
+   * @Given /^I should not see the link "([^"]*)" in the "([^"]*)" region$/
+   */
+  public function iShouldNotSeeTheLinkInTheRegion($link, $region) {
+    $this->iShouldSeeTheLinkInTheRegion($link, $region, FALSE);
+  }
+
+  /**
+   * Checks if the specified text was found on the specified region of the page or not
+   *
+   * @param $text
+   *   string The text to look for on the page
+   * @param $region
+   *   string The page region in which the text should be looked for
+   * @param $find (optional)
+   *   boolean When the $text should be present or not
+   *
+   * @Given /^I should see the text "([^"]*)" in the "([^"]*)" region$/
+   */
+  public function iShouldSeeTheTextInTheRegion($text, $region, $find = TRUE) {
+    $this->iShouldSeeInArea('text', $text, $region, $find);
+  }
+
+  /**
+   * Checks if the specified text was found on the specified region of the page or not
+   *
+   * @param $text
+   *   string The text to look for on the page
+   * @param $region
+   *   string The page region in which the text should be looked for
+   *
+   * @Given /^I should not see the text "([^"]*)" in the "([^"]*)" region$/
+   */
+  public function iShouldNotSeeTheTextInTheRegion($text, $region) {
+    $this->iShouldSeeTheTextInTheRegion($text, $region, FALSE);
   }
 }
