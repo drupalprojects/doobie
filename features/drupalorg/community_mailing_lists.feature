@@ -32,7 +32,7 @@ Feature: Mailing lists subscription and archives
 
   Scenario Outline: Follow view archive and verify the page
     Given I am on "/mailing-lists"
-    When I clik on link "view archive" under section "<section>"
+    When I click on link "view archive" under section "<section>"
     Then I should see the following <texts>
     | texts                                        |
     | You can get more information about this list |
@@ -58,7 +58,7 @@ Feature: Mailing lists subscription and archives
 
   Scenario Outline: Follow view archive for members only section
     Given I am on "/mailing-lists"
-    When I clik on link "view archive" under section "<section>"
+    When I click on link "view archive" under section "<section>"
     Then I should see "<section heading> Private Archives Authentication"
     And I should see "Email address:"
     And I should see "Password:"
@@ -69,7 +69,7 @@ Feature: Mailing lists subscription and archives
 
   Scenario Outline: Follow mailman page and verify the page
     Given I am on "/mailing-lists"
-    When I clik on link "mailman page" under section "<section>"
+    When I click on link "mailman page" under section "<section>"
     Then I should see the following <texts>
     | texts          |
     | A list for     |
