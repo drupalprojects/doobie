@@ -50,7 +50,7 @@ Feature: Landing page of Community section of the site
     Then I should see the issue link
     And I should see the heading "Recent activity"
 
-  Scenario: View most Recent Activities
+  Scenario: View more recent posts
     Given I am on "/community"
     When I follow "More recent activity"
     Then I should be on "/tracker"
@@ -62,3 +62,4 @@ Feature: Landing page of Community section of the site
     | Author       |
     | Replies      |
     | Last updated |
+	| ago          |
