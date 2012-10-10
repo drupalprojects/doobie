@@ -2606,7 +2606,7 @@ class FeatureContext extends DrupalContext {
     if (empty($block)) {
       throw new Exception('No blocks found in the right sidebar');
     }
-    $copyright = 'Drupal&rsquo;s online documentation is &copy; 2000-2012 by the individual contributors and can be used in accordance with the';
+    $copyright = 'online documentation is &Acirc;&copy; 2000-2012 by the individual contributors and can be used in accordance with the';
     $contents = htmlentities(trim($block->getText()));
     if (!strstr($contents, $copyright)) {
       throw new Exception('Copyright statement cannot be found in the right sidebar');
