@@ -940,7 +940,8 @@ class FeatureContext extends DrupalContext {
       'row' => '.view div.views-row',
       'row li' => '.view li.views-row',
       'sitewide search' => 'dl.search-results dt',
-      'emails table' => '#multiple-email-manage table tbody tr'
+      'emails table' => '#multiple-email-manage table tbody tr',
+      'profiles' => '#profile div.profile'
     );
     foreach ($classes as $type => $class) {
       $result = $page->findAll('css', $class);
@@ -5507,7 +5508,9 @@ class FeatureContext extends DrupalContext {
       'top right content' => 'front-top-right',
       'bottom right content' => 'front-bottom-right',
       'middle content' => 'front-middle',
-      'footer' => 'footer'
+      'footer' => 'footer',
+      'content' => 'column-left',
+      'right sidebar' => 'column-right'
     );
     $region_l = strtolower($region);
     // Consider only the sections defined above
@@ -5520,16 +5523,23 @@ class FeatureContext extends DrupalContext {
     if (empty($obj_region)) {
       throw new Exception('The region "' . $region . '" is not found on homepage' );
     }
+    $is_region = ($region == "content" || $region == "right sidebar");
     switch ($type) {
       // Normal text(includes link labels as well)
       case 'text':
         if (false === strpos($obj_region->getText(), $content)) {
           if ($find) {
+            if ($is_region) {
+              throw new Exception('The text "' . $content . '" was not found in the "' . $region . '" region of the page');
+            }
             throw new Exception('The text "' . $content . '" is not found in "' . $region . '" area on homepage');
           }
         }
         else {
           if (!$find) {
+            if ($is_region) {
+              throw new Exception('The text "' . $content . '" was found in the "' . $region . '" region of the page, but it should not be');
+            }
             throw new Exception('The text "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
           }
         }
@@ -5539,10 +5549,16 @@ class FeatureContext extends DrupalContext {
         $a_ele = $obj_region->findLink($content);
         if (empty($a_ele)) {
           if ($find) {
+            if ($is_region) {
+              throw new Exception('The link "' . $content . '" was not found in the "' . $region . '" region of the page');
+            }
             throw new Exception('The link "' . $content . '" is not found in "' . $region . '" area on homepage');
           }
         }else {
           if (!$find) {
+            if ($is_region) {
+              throw new Exception('The link "' . $content . '" was found in the "' . $region . '" region of the page, but it should not be');
+            }
             throw new Exception('The link "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
           }
         }
@@ -5654,5 +5670,199 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastInArea($count, $type) {
     $this->iShouldSeeInArea('count', $type, 'top right content', true, $count );
+  }
+
+  /**
+   * Checks if the solr search results page is sorted by 'most installed' or not
+   *
+   * @Given /^I should see the results sorted by most installed modules$/
+   */
+  public function iShouldSeeTheResultsSortedByMostInstalledModules() {
+    $links = $this->getSession()->getPage()->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
+    if (empty($links)) {
+      throw new Exception("The page did not contain any links");
+    }
+    $linksArr = array();
+    foreach ($links as $link) {
+      $linksArr[] = trim($link->getText());
+    }
+    // Go to usage stats page
+    $this->getSession()->visit($this->locatePath("/project/usage"));
+    // Wait for the page to load. Otherwise we will get timeout error here. project/usage page is long
+    sleep(6);
+    // Get the links for the first result
+    $link = $this->getSession()->getPage()->findLink($linksArr[0]);
+    if (empty($link)) {
+      throw new Exception("The module '" . $linksArr[0] . "' was not found on the statistics page");
+    }
+    // a > td > tr
+    $link = $link->getParent()->getParent()->find("css", ".project-usage-numbers");
+    if (empty($link)) {
+      throw new Exception("Could not find module install count on the statistics page");
+    }
+    $resultFirst = (int) str_replace(",", "", trim($link->getText()));
+
+    // Get the links for the last result
+    $link = $this->getSession()->getPage()->findLink($linksArr[sizeof($linksArr) - 1]);
+    if (empty($link)) {
+      throw new Exception("The module '" . end($linksArr) . "' was not found on the statistics page");
+    }
+    // a > td > tr
+    $link = $link->getParent()->getParent()->find("css", ".project-usage-numbers");
+    if (empty($link)) {
+      throw new Exception("Could not find module install count on the statistics page");
+    }
+    $resultLast = (int) str_replace(",", "", trim($link->getText()));
+
+    if ($resultLast > $resultFirst) {
+      throw new Exception("The results are not sorted by most installed modules");
+    }
+  }
+
+  /**
+   * Checks if the solr search results page is sorted by 'last build' or not
+   *
+   * @Given /^I should see the results sorted by last build of the project$/
+   */
+  public function iShouldSeeTheResultsSortedByLastBuildOfTheProject() {
+    // Get all the results links
+    $links = $this->getSession()->getPage()->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
+    if (empty($links)) {
+      throw new Exception("The page did not contain any links");
+    }
+    $linksArr = array();
+    foreach ($links as $link) {
+      $linksArr[] = trim($link->getAttribute("href"));
+    }
+    // Go to first result page
+    $this->getSession()->visit($this->locatePath($linksArr[0]));
+    // Wait for the page to load. Otherwise we will get timeout error here
+    sleep(3);
+    // Go to releases page
+    $temp = $this->getSession()->getPage()->findLink("View all releases");
+    if (empty($temp)) {
+      throw new Exception("The page did not contain any releases");
+    }
+    $temp->click();
+    // Wait for the page to load. Otherwise we will get timeout error here
+    sleep(3);
+    // Get the posted date of the first item visible on the screen
+    $date = $this->getSession()->getPage()->find("css", ".node .submitted em");
+    if (empty($date)) {
+      throw new Exception("The page did not contain posted date or any releases");
+    }
+    // Convert to timestamp
+    $timeStampFirst = strtotime($date->getText());
+
+    // Go to last result page
+    $this->getSession()->visit($this->locatePath(end($linksArr)));
+    // Wait for the page to load. Otherwise we will get timeout error here
+    sleep(3);
+    // Go to releases page
+    $temp = $this->getSession()->getPage()->findLink("View all releases");
+    if (empty($temp)) {
+      throw new Exception("The page did not contain any releases");
+    }
+    $temp->click();
+    // Wait for the page to load. Otherwise we will get timeout error here
+    sleep(3);
+    // Get the posted date of the first item visible on the screen
+    $date = $this->getSession()->getPage()->find("css", ".node .submitted em");
+    if (empty($date)) {
+      throw new Exception("The page did not contain posted date");
+    }
+    // Convert to timestamp
+    $timeStampLast = strtotime($date->getText());
+
+    if ($timeStampLast > $timeStampFirst) {
+      throw new Exception("The results are not sorted by last build of project");
+    }
+  }
+
+  /**
+   * Checks if the solr search results page is sorted by 'last release' or not
+   *
+   * @Given /^I should see the results sorted by latest release of the project$/
+   */
+  public function iShouldSeeTheResultsSortedByLatestReleaseOfTheProject() {
+    throw new PendingException();
+  }
+
+  /**
+   * Checks if $count number of memebers were found on the page or not
+   *
+   * @param $count
+   *   integer The minimum number of memebers expected on the page
+   *
+   * @Given /^I should see at least "([^"]*)" members$/
+   */
+  public function iShouldSeeAtLeastMembers($count) {
+    $results = $this->getViewDisplayRows($this->getSession()->getPage());
+    if (empty($results)) {
+      throw new Exception("The page did not contain any members");
+    }
+    if (sizeof($results) < $count) {
+      throw new Exception("The page has less than '" . $count . "' members");
+    }
+  }
+
+  /**
+   * Checks if the specified link was found on the specified region of the page or not
+   *
+   * @param $link
+   *   string The link to look for on the page
+   * @param $region
+   *   string The page region in which the link should be looked for
+   * @param $find (optional)
+   *   boolean When the $link should be present or not
+   *
+   * @Given /^I should see the link "([^"]*)" in the "([^"]*)" region$/
+   */
+  public function iShouldSeeTheLinkInTheRegion($link, $region, $find = TRUE) {
+    $this->iShouldSeeInArea('link', $link, $region, $find);
+  }
+
+  /**
+   * Checks if the specified link was found on the specified region of the page or not
+   *
+   * @param $link
+   *   string The link to look for on the page
+   * @param $region
+   *   string The page region in which the link should be looked for
+   *
+   * @Given /^I should not see the link "([^"]*)" in the "([^"]*)" region$/
+   */
+  public function iShouldNotSeeTheLinkInTheRegion($link, $region) {
+    $this->iShouldSeeTheLinkInTheRegion($link, $region, FALSE);
+  }
+
+  /**
+   * Checks if the specified text was found on the specified region of the page or not
+   *
+   * @param $text
+   *   string The text to look for on the page
+   * @param $region
+   *   string The page region in which the text should be looked for
+   * @param $find (optional)
+   *   boolean When the $text should be present or not
+   *
+   * @Given /^I should see the text "([^"]*)" in the "([^"]*)" region$/
+   */
+  public function iShouldSeeTheTextInTheRegion($text, $region, $find = TRUE) {
+    $this->iShouldSeeInArea('text', $text, $region, $find);
+  }
+
+  /**
+   * Checks if the specified text was found on the specified region of the page or not
+   *
+   * @param $text
+   *   string The text to look for on the page
+   * @param $region
+   *   string The page region in which the text should be looked for
+   *
+   * @Given /^I should not see the text "([^"]*)" in the "([^"]*)" region$/
+   */
+  public function iShouldNotSeeTheTextInTheRegion($text, $region) {
+    $this->iShouldSeeTheTextInTheRegion($text, $region, FALSE);
   }
 }
