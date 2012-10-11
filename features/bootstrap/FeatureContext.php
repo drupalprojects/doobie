@@ -4054,7 +4054,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I (?:|should )see the (?:issue|document) title$/
+   * @Then /^I (?:|should )see the (?:issue|document|community spotlight) title$/
    */
   public function iShouldSeeTheTitle() {
     $page = $this->getSession()->getPage();
@@ -4064,12 +4064,15 @@ class FeatureContext extends DrupalContext {
     if (isset($this->issueTitle)) {
       $title = $this->issueTitle;
       $type = 'Issue';
-    }elseif ($title = HackyDataRegistry::get('book page title')) {
+    }
+    elseif ($title = HackyDataRegistry::get('book page title')) {
       $type = 'Document';
     }
-
+    elseif ($title = HackyDataRegistry::get('random:Spotlight subject')) {
+      $type = 'Community spotlight';
+    }
     if (empty($title) || empty($element) || strpos($element->getText(), $title) === FALSE) {
-      throw new Exception($type . ' title not found where it was expected.');
+      throw new Exception($type . ' title is not found where it was expected.');
     }
   }
 
@@ -4296,6 +4299,9 @@ class FeatureContext extends DrupalContext {
     }
     if ($project_path = HackyDataRegistry::get('project path')) {
       $arr_nodeurl[] = $project_path;
+    }
+    if ($spotlight_url = HackyDataRegistry::get('spotlight url')) {
+      $arr_nodeurl[] = $spotlight_url;
     }
     // Test Document/Book page
     if ($document_url = HackyDataRegistry::get('document url')) {
@@ -5862,5 +5868,52 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldNotSeeTheTextInTheRegion($text, $region) {
     $this->iShouldSeeTheTextInTheRegion($text, $region, FALSE);
+  }
+
+  /**
+   * Creates a community spotlight page and store subject and url
+   *
+   * @When /^I create a community spotlight$/
+   */
+  public function iCreateACommunitySpotlight() {
+    $page = $this->getSession()->getPage();
+    $subject = $this->randomString(8);
+    $page->fillField("title", $subject);
+    // 13854 = 'Community Spotlight'
+    $page->fillField("taxonomy[1]", "13854");
+    $page->fillField("body", $this->randomString(200));
+    HackyDataRegistry::set('random:Spotlight subject', $subject);
+    $page->pressButton('Save');
+    // Let the page load
+    sleep(3);
+    // Store node url
+    HackyDataRegistry::set('spotlight url', $this->getSession()->getCurrentUrl());
+  }
+
+  /**
+   * Loads already saved community spotlight page
+   *
+   * @Given /^I am on the community spotlight page$/
+   */
+  public function iAmOnTheCommunitySpotlightPage() {
+    // Get saved community spotlight URL
+    if (!($url = HackyDataRegistry::get('spotlight url'))) {
+      throw new Exception('Community spotlight URL is empty');
+    }
+    $this->getSession()->visit($this->locatePath($url));
+  }
+
+  /**
+   * Checks whether the community spotlight link is present
+   *
+   * @Then /^I should see the community spotlight link$/
+   */
+  public function iShouldSeeTheCommunitySpotlightLink() {
+    if (!($subject = HackyDataRegistry::get('random:Spotlight subject'))) {
+      throw new Exception('Community spotlight subject is empty');
+    }
+    // Let the page load
+    sleep(3);
+    return new Then('I should see the link "' . $subject . '"');
   }
 }
