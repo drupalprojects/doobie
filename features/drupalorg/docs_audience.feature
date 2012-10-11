@@ -1,5 +1,5 @@
 @docs @javascript
-Feature: Provides audience information for documentation on About this page
+Feature: Provides audience information for documentation in About this page block
   In order to make sure that the documentation is specific to different skillsets
   As a document manager
   I want to specify the audience for a documentation page
@@ -8,19 +8,19 @@ Feature: Provides audience information for documentation on About this page
    Given I am logged in as "docs manager" 
    And I am on "/documentation/administer"
 
-  Scenario: Change the audience on a documentation page to Developers and coders
+  Scenario: Change the audience on a documentation page to Programmers
     When I follow "Edit"
-    And I select "Developers and coders" from "Audience"
+    And I select "Programmers" from "Audience"
     And I fill in "Log message" with random text
     And I press "Save"
-    Then I should see "Developers and coders"
+    Then I should see "Programmers"
 
-  Scenario: Change the audience on a documentation page to Documentation contributors
+  Scenario: Change the audience on a documentation page to Contributors
     When I follow "Edit"
-    And I select "Documentation contributors" from "Audience"
+    And I select "Contributors" from "Audience"
     And I fill in "Log message" with random text
     And I press "Save"
-    Then I should see "Documentation contributors"
+    Then I should see "Contributors"
 
   Scenario: Change the audience on a documentation page to Site builders
     When I follow "Edit"
@@ -36,12 +36,12 @@ Feature: Provides audience information for documentation on About this page
     And I press "Save"
     Then I should see "Site users"
 
-  Scenario: Change the audience on a documentation page to Themers
+  Scenario: Change the audience on a documentation page to Designers/themers
     When I follow "Edit"
-    And I select "Themers" from "Audience"
+    And I select "Designers/themers" from "Audience"
     And I fill in "Log message" with random text
     And I press "Save"
-    Then I should see "Themers"
+    Then I should see "Designers/themers"
 
   Scenario: Change the audience on a documentation page to Site administrators
     When I follow "Edit"
