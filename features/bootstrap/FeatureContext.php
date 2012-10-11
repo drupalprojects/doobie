@@ -4052,7 +4052,9 @@ class FeatureContext extends DrupalContext {
     }elseif ($title = HackyDataRegistry::get('book page title')) {
       $type = 'Document';
     }
-
+    elseif ($title = HackyDataRegistry::get('random:Forum subject')) {
+      $type = 'Forum';
+    }
     if (empty($title) || empty($element) || strpos($element->getText(), $title) === FALSE) {
       throw new Exception($type . ' title not found where it was expected.');
     }
@@ -4281,6 +4283,9 @@ class FeatureContext extends DrupalContext {
     }
     if ($project_path = HackyDataRegistry::get('project path')) {
       $arr_nodeurl[] = $project_path;
+    }
+    if ($spotlight_url = HackyDataRegistry::get('forum url')) {
+      $arr_nodeurl[] = $spotlight_url;
     }
     // Test Document/Book page
     if ($document_url = HackyDataRegistry::get('document url')) {
@@ -5864,5 +5869,50 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldNotSeeTheTextInTheRegion($text, $region) {
     $this->iShouldSeeTheTextInTheRegion($text, $region, FALSE);
+  }
+
+  /**
+   * Creates a forum and store subject and url
+   *
+   * @When /^I create a forum$/
+   */
+  public function iCreateAForum() {
+    $page = $this->getSession()->getPage();
+    $subject = $this->randomString(8);
+    $page->fillField("title", $subject);
+    $page->fillField("body", $this->randomString(200));
+    HackyDataRegistry::set('random:Forum subject', $subject);
+    $page->pressButton('Save');
+    // Let the page load
+    sleep(3);
+    // Store node url
+    HackyDataRegistry::set('forum url', $this->getSession()->getCurrentUrl());
+  }
+
+  /**
+   * Loads already saved community spotlight page
+   *
+   * @Given /^I am on the (?:community spotlight|forum) page$/
+   */
+  public function iAmOnTheForumPage() {
+    // Get saved community forum URL
+    if (!($url = HackyDataRegistry::get('forum url'))) {
+      throw new Exception('Forum URL is empty');
+    }
+    $this->getSession()->visit($this->locatePath($url));
+  }
+
+  /**
+   * Checks whether the forum link is present
+   *
+   * @Then /^I should see the (?:community spotlight|forum) link$/
+   */
+  public function iShouldSeeTheForumLink() {
+    if (!($subject = HackyDataRegistry::get('random:Forum subject'))) {
+      throw new Exception('Forum subject is empty');
+    }
+    // Let the page load
+    sleep(3);
+    return new Then('I should see the link "' . $subject . '"');
   }
 }
