@@ -8,19 +8,19 @@ Feature: Get started with Drupal
     Given I am on the homepage
     When I follow "Get Started"
     Then I should see "Get Started with Drupal"
-	  And I should see "Download hundreds of"
+    And I should see "Download hundreds of"
     And I should see the heading "Most popular modules"
     And I should see the heading "Most popular themes"
     And I should see the heading "Translations"
-	  And I should see the heading "Most popular guides"
-	  And I should see the heading "Drupal books"
+    And I should see the heading "Most popular guides"
+    And I should see the heading "Drupal books"
     And I should see the following <links>
     | links                |
     | Drupal core          |
     | web hosting provider |
     | distributions        |
-	  | our forums           |
-	  | IRC channels         |
+    | our forums           |
+    | IRC channels         |
 
   Scenario: View the links under Most popular modules
     Given I am on the homepage
@@ -37,7 +37,7 @@ Feature: Get started with Drupal
     Then I should see "Modules categories"
     And I should see "Search Modules:"
     And I should see the text "Extend and customize Drupal functionality with contributed modules."
-	  And I should see "Posted by"
+    And I should see "Posted by"
 
   Scenario: View the links under Most popular themes
     Given I am on the homepage
@@ -55,7 +55,7 @@ Feature: Get started with Drupal
     Then I should see "Themes match your search"
     And I should see "Search Themes:"
     And I should see "Themes allow you to change the look and feel of your Drupal site."
-	  And I should see "Posted by"
+    And I should see "Posted by"
 
   Scenario: View the links under Translations
     Given I am on the homepage
