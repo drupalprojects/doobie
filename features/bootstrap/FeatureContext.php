@@ -4068,8 +4068,8 @@ class FeatureContext extends DrupalContext {
     elseif ($title = HackyDataRegistry::get('book page title')) {
       $type = 'Document';
     }
-    elseif ($title = HackyDataRegistry::get('random:Spotlight subject')) {
-      $type = 'Community spotlight';
+    elseif ($title = HackyDataRegistry::get('random:Forum subject')) {
+      $type = 'Forum';
     }
     if (empty($title) || empty($element) || strpos($element->getText(), $title) === FALSE) {
       throw new Exception($type . ' title is not found where it was expected.');
@@ -4300,7 +4300,7 @@ class FeatureContext extends DrupalContext {
     if ($project_path = HackyDataRegistry::get('project path')) {
       $arr_nodeurl[] = $project_path;
     }
-    if ($spotlight_url = HackyDataRegistry::get('spotlight url')) {
+    if ($spotlight_url = HackyDataRegistry::get('forum url')) {
       $arr_nodeurl[] = $spotlight_url;
     }
     // Test Document/Book page
@@ -5871,46 +5871,44 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Creates a community spotlight page and store subject and url
+   * Creates a forum and store subject and url
    *
-   * @When /^I create a community spotlight$/
+   * @When /^I create a forum$/
    */
-  public function iCreateACommunitySpotlight() {
+  public function iCreateAForum() {
     $page = $this->getSession()->getPage();
     $subject = $this->randomString(8);
     $page->fillField("title", $subject);
-    // 13854 = 'Community Spotlight'
-    $page->fillField("taxonomy[1]", "13854");
     $page->fillField("body", $this->randomString(200));
-    HackyDataRegistry::set('random:Spotlight subject', $subject);
+    HackyDataRegistry::set('random:Forum subject', $subject);
     $page->pressButton('Save');
     // Let the page load
     sleep(3);
     // Store node url
-    HackyDataRegistry::set('spotlight url', $this->getSession()->getCurrentUrl());
+    HackyDataRegistry::set('forum url', $this->getSession()->getCurrentUrl());
   }
 
   /**
    * Loads already saved community spotlight page
    *
-   * @Given /^I am on the community spotlight page$/
+   * @Given /^I am on the (?:community spotlight|forum) page$/
    */
-  public function iAmOnTheCommunitySpotlightPage() {
-    // Get saved community spotlight URL
-    if (!($url = HackyDataRegistry::get('spotlight url'))) {
-      throw new Exception('Community spotlight URL is empty');
+  public function iAmOnTheForumPage() {
+    // Get saved community forum URL
+    if (!($url = HackyDataRegistry::get('forum url'))) {
+      throw new Exception('Forum URL is empty');
     }
     $this->getSession()->visit($this->locatePath($url));
   }
 
   /**
-   * Checks whether the community spotlight link is present
+   * Checks whether the forum link is present
    *
-   * @Then /^I should see the community spotlight link$/
+   * @Then /^I should see the (?:community spotlight|forum) link$/
    */
-  public function iShouldSeeTheCommunitySpotlightLink() {
-    if (!($subject = HackyDataRegistry::get('random:Spotlight subject'))) {
-      throw new Exception('Community spotlight subject is empty');
+  public function iShouldSeeTheForumLink() {
+    if (!($subject = HackyDataRegistry::get('random:Forum subject'))) {
+      throw new Exception('Forum subject is empty');
     }
     // Let the page load
     sleep(3);

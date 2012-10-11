@@ -7,8 +7,9 @@ Feature: Community Spotlight
   Scenario: Create community spotlight as site user
     Given I am logged in as "site user"
     And I am on "/forum"
+    And I follow "Community Spotlight"
     And I follow "Post new Forum topic"
-    When I create a community spotlight
+    When I create a forum
     Then I should see the community spotlight title
     And I should see "has been created"
 
