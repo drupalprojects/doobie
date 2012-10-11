@@ -1,8 +1,8 @@
 @docs @slow
-Feature: Documents Management
-  In order to see the list of documents
+Feature: Documentation Management
+  In order to manage Drupal.org Documentation
   As an authenticated user
-  I should be able to search and filter the list
+  I should be able to search and filter the list of documentation pages
 
   Background:
    Given I am logged in as "docs manager"

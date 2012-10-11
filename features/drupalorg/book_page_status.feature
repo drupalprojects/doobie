@@ -1,3 +1,4 @@
+@docs
 Feature: Check the background color of the book page status
   In order to quickly communicate the status of a book page to site visitors
   As someone editing a page
