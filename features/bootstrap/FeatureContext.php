@@ -6307,4 +6307,23 @@ class FeatureContext extends DrupalContext {
     }
     $this->iShouldSeeInArea('link', $forumTitle, "right sidebar");
   }
+
+  /**
+   * Checks, that form field with specified id|name|label|value has the <values>
+   *
+   * @param $field
+   *    string The dropdown field selector
+   * @param $table
+   *    array The list of values to verify
+   *
+   * @Then /^I should see the following <values> in the dropdown "([^"]*)"$/
+   */
+  public function iShouldSeeTheFollowingValuesInTheDropdown($field, TableNode $table) {
+    if (empty($table)) {
+      throw new Exception("No values were provided");
+    }
+    foreach ($table->getHash() as $value) {
+      $this->iShouldSeeInTheDropdown($value['values'], $field);
+    }
+  }
 }
