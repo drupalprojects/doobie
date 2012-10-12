@@ -2596,25 +2596,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I should see the copyright statement in the right sidebar$/
-   */
-  public function iShouldSeeTheCopyrightStatementInTheRightSidebar() {
-    $region = $this->getSession()->getPage()->find('region', 'right sidebar');
-    if (empty($region)) {
-      throw new Exception("Right sidebar region was not found");
-    }
-    $block = $region->find('css', '#column-right-region > #block-drupalorg_handbook-license div.block-inner div.block-content');
-    if (empty($block)) {
-      throw new Exception('No blocks found in the right sidebar');
-    }
-    $copyright = 'online documentation is &Acirc;&copy; 2000-2012 by the individual contributors and can be used in accordance with the';
-    $contents = htmlentities(trim($block->getText()));
-    if (!strstr($contents, $copyright)) {
-      throw new Exception('Copyright statement cannot be found in the right sidebar');
-    }
-  }
-
-  /**
    * @Given /^"([^"]*)" should not contain an input element$/
    */
   public function shouldNotContainAnImputElement($id) {
