@@ -6286,4 +6286,35 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The release is in published mode");
     }
   }
+
+  /**
+   * @Then /^I should see latest forum topic in the rightside block$/
+   */
+  public function iShouldSeeLatestForumTopicInTheRightsideBlock() {
+    sleep(2);
+    $forumTitle = HackyDataRegistry::get('random:Forum subject');
+    if(empty($forumTitle)) {
+      throw new Exception('No Forum title exists in this page');
+    }
+    $this->iShouldSeeInArea('link', $forumTitle, "right sidebar");
+  }
+
+  /**
+   * Checks, that form field with specified id|name|label|value has the <values>
+   *
+   * @param $field
+   *    string The dropdown field selector
+   * @param $table
+   *    array The list of values to verify
+   *
+   * @Then /^I should see the following <values> in the dropdown "([^"]*)"$/
+   */
+  public function iShouldSeeTheFollowingValuesInTheDropdown($field, TableNode $table) {
+    if (empty($table)) {
+      throw new Exception("No values were provided");
+    }
+    foreach ($table->getHash() as $value) {
+      $this->iShouldSeeInTheDropdown($value['values'], $field);
+    }
+  }
 }
