@@ -1,4 +1,4 @@
-@wip @front
+@front
 Feature: Frontpage news section
   In order to get the latest news updates
   As any user
