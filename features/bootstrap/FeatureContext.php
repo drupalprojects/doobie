@@ -2544,39 +2544,47 @@ class FeatureContext extends DrupalContext {
     }
   }
 
-  /**
+  /** Find the given list of blocks in the right sidebar region
+   *
    * @Given /^I should see the following <blocks> in the right sidebar$/
+   *
+   * @param $table
+   *   Array list of block titles that should appear on the page.
    */
+
   public function iShouldSeeTheFollowingBlocksInTheRightSidebar(TableNode $table) {
+    if (empty($table)) {
+      throw new Exception('No blocks specified');
+    }
+    $blocks = $table->getHash();
+    foreach ($blocks as $values) {
+      $this->iShouldSeeBlockInTheRightSidebar($values['blocks']);
+    }
+  }
+
+  /**
+   * Find the block in the right side bar region
+   *
+   * @Then /^I should see "([^"]*)" block in the right sidebar$/
+   *
+   * @param string $title
+   *   String The title of the block.
+   */
+  public function iShouldSeeBlockInTheRightSidebar($title) {
     $region = $this->getSession()->getPage()->find('region', 'right sidebar');
     if (empty($region)) {
       throw new Exception('Right sidebar region was not found');
     }
-    $blocks = $region->findAll('css', '#column-right-region > div');
-    if (empty($blocks)) {
-      throw new Exception('No blocks found in the right sidebar');
+    $h2 = $region->findAll('css', '.block h2');
+    if (empty($h2)) {
+      throw new Exception("No blocks were found in the right sidebar region");
     }
-    $arr_headings = array();
-    foreach ($blocks as $block) {
-       $h2 = $block->find('css', 'h2');
-       if (!empty($h2)) {
-         $arr_headings[] = $h2->getText();
-       }else {
-         $link = $block->find('css', 'a');
-         if (!empty($link)) {
-           $arr_headings[] = $link->getText();
-         }
-       }
-    }
-    if (empty($table)) {
-      throw new Exception('No blocks specified');
-    }
-    // Loop through table and check tab is present.
-    foreach ($table->getHash() as $t) {
-      if (!in_array($t['blocks'], $arr_headings)) {
-        throw new Exception('The block: "' . $t['blocks'] . '" cannot be found in the right sidebar' );
+    foreach ($h2 as $text) {
+      if (trim($text->getText()) == $title) {
+        return;
       }
     }
+    throw new Exception("The block '" . $title . "' was not found in the right sidebar region");
   }
 
   /**
@@ -3488,7 +3496,8 @@ class FeatureContext extends DrupalContext {
     if (empty($region)) {
       throw new Exception("Right sidebar region was not found");
     }
-    $result = $region->find('css', '#column-right-region .block-inner .block-content #gam-holder-HostingForumBlock');
+    sleep(5);
+    $result = $region->find('css', '#column-right-region .block-inner .block-content');
     if (empty($result)) {
       throw new Exception('No advertisement exists in the right sidebar');
     }
@@ -5887,10 +5896,10 @@ class FeatureContext extends DrupalContext {
   public function iCreateAForum() {
     $page = $this->getSession()->getPage();
     $subject = $this->randomString(8);
-    $page->fillField("title", $subject);
+    $page->fillField("Subject:", $subject);
     HackyDataRegistry::set('random:Forum subject', $subject);
     $body = str_repeat($this->randomString(30) . " ", 10);
-    $page->fillField("body", $body);
+    $page->fillField("Body:", $body);
     HackyDataRegistry::set('random:Forum body', $body);
     $page->pressButton('Save');
     // Let the page load
@@ -6081,7 +6090,7 @@ class FeatureContext extends DrupalContext {
     $branch .= " (" . $branch . "-dev)";
     return new Given("I select \"$branch\" from \"$field\"");
   }
- 
+
   /**
    * Create a new git tag for the project
    *
@@ -6093,7 +6102,7 @@ class FeatureContext extends DrupalContext {
   public function iCreateANewTagForVersion($version) {
     $validTags = array();
     // Perform initial operations
-    $data = $this->performPreBranchTagOperation();    
+    $data = $this->performPreBranchTagOperation();
     // Get the list of tags in the current repo
     $process = new Process("git tag -l");
     $process->run();
@@ -6273,7 +6282,7 @@ class FeatureContext extends DrupalContext {
       }
     }
   }
-  
+
   /**
    * Check whether the current project is in published more or not
    *
@@ -6285,5 +6294,17 @@ class FeatureContext extends DrupalContext {
     if (empty($result)) {
       throw new Exception("The release is in published mode");
     }
+  }
+
+  /**
+   * @Then /^I should see latest forum topic in the rightside block$/
+   */
+  public function iShouldSeeLatestForumTopicInTheRightsideBlock() {
+    sleep(2);
+    $forumTitle = HackyDataRegistry::get('random:Forum subject');
+    if(empty($forumTitle)) {
+      throw new Exception('No Forum title exists in this page');
+    }
+    $this->iShouldSeeInArea('link', $forumTitle, "right sidebar");
   }
 }
