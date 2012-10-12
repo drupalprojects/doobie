@@ -10,7 +10,7 @@ Feature: Maintain the project
     When I enter "git vetted user" for field "Maintainer user name"
     And I press "Update"
     Then I should see the link "git vetted user"
-
+    
   Scenario: Add site user as another maintainer
     Given I am logged in as "admin test"
     And I visit "/node/1791620/maintainers"
@@ -135,4 +135,4 @@ Feature: Maintain the project
     When I follow "delete" for the maintainer "git vetted user"
     And I press "Delete"
     Then I should see "Removed"
-    And I should see "as a maintainer" 
+    And I should see "as a maintainer"

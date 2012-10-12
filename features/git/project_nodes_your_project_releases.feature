@@ -8,9 +8,10 @@ Feature: Manage releases
     Given I am logged in as "admin test"
     And I visit "/node/1791620/maintainers"
     When I enter "git vetted user" for field "Maintainer user name"
-    And I press "Update"    Then I should see "added and permissions updated"
+    And I press "Update"
+    Then I should see "added and permissions updated"
 
-  @dependent
+  @dependent:
   Scenario: Assign permissions to git vetted user
     Given I am logged in as "admin test"
     And I visit "/node/1791620/maintainers"
@@ -37,7 +38,7 @@ Feature: Manage releases
 
   @dependent
   Scenario: Create a new branch
-    Given I am logged in as "git vetted user"
+  Given I am logged in as "git vetted user"
     And I visit "/project/test_releases"
     And I see the project title
     And I am on the Version control tab
@@ -92,7 +93,7 @@ Feature: Manage releases
     And I should see "There are no published releases for this project"
 
   @dependent
-  Scenario: Remove git vetted user
+    Scenario: Remove git vetted user
     Given I am logged in as "admin test"
     And I visit "/node/1791620/maintainers"
     When I follow "delete" for the maintainer "git vetted user"
