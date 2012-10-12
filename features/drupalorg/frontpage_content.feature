@@ -14,13 +14,26 @@ Feature: Drupal.org frontpage
     And I should see the "link" "Drupal Distributions" in "top left content" area
     And I should see the "text" "Distributions are a collection of pre-configured themes and modules" in "top left content" area
 
-  @anon
+  @anon @known_git6failure @wip
+  Scenario Outline: Check the links in top left content area work
+    When I follow "<link>"
+    Then I should see the heading "<title>"
+
+    Examples:
+    | link                      | title                   |
+    | Get Started with Drupal   | Get Started with Drupal |
+    | Drupal Distributions      | Download & Extend       |
+    | Learn about Distributions | Distributions           |
+
+  @anon @known_git6failure @wip
   Scenario: Check top middle content area on homepage
     Then I should see the "link" "Sites Made with Drupal" in "top middle content" area
+    And I should see the image of a drupal site in top middle content area
     And I should see the "text" "Drupal is used by some of the biggest sites on the Web, like" in "top middle content" area
 
-  @anon @known_git6failure
+  @anon @known_git6failure @wip @javascript
   Scenario: Check top right content area for links and counts
+    And I wait until the page is loaded
     And I should see the following <links> in "top right content" area
     | links               |
     | Develop with Drupal |
@@ -39,6 +52,7 @@ Feature: Drupal.org frontpage
     And I should see at least "10000" "Developers" in top right content area
     And I should see at least "1000" "Code commits" in top right content area
     And I should see at least "4000" "Issue comments" in top right content area
+    And I should see an advertisement in top right content area
 
   @anon
   Scenario: Check people, country and language statistics in power Drupal text
@@ -54,15 +68,3 @@ Feature: Drupal.org frontpage
     | Docs Updates  |
     | Forum Posts   |
     | Commits       |
-
-  @anon
-  Scenario: Check footer links and text
-    And I should see the following <links> in "footer" area
-    | links                 |
-    | Drupal News           |
-    | Community             |
-    | Get Started           |
-    | Download & Extend     |
-    | About                 |
-    | registered trademark  |
-    And I should see the "text" "Drupal is a registered trademark of Dries Buytaert" in "footer" area

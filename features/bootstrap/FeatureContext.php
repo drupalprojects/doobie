@@ -5496,7 +5496,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Find given type in specific region on the homepage
    *
-   * @Then /^I should see the "([^"]*)" "([^"]*)" in "([^"]*)" area$/
+   * @Then /^I (?:should |)see the "([^"]*)" "([^"]*)" in "([^"]*)" area$/
    *
    * @param string $type
    *   text/link/option/count/tab/power drupal
@@ -5530,9 +5530,8 @@ class FeatureContext extends DrupalContext {
     if (!isset($arr_region[$region_l])) {
       throw new Exception('The region "' . $region . '" is not implemented.' );
     }
-    $page = $this->getSession()->getPage();
     // Find region div
-    $obj_region = $page->find('xpath', '//div[@id="' . $arr_region[$region] . '"]');
+    $obj_region = $this->getSession()->getPage()->find('xpath', '//div[@id="' . $arr_region[$region] . '"]');
     if (empty($obj_region)) {
       throw new Exception('The region "' . $region . '" is not found on homepage' );
     }
@@ -5578,7 +5577,7 @@ class FeatureContext extends DrupalContext {
         break;
       // Radio buttons.
       case 'option':
-        $radio_ele = $page->findAll('xpath', '//input[@type="radio"]');
+        $radio_ele = $obj_region->findAll('xpath', '//input[@type="radio"]');
         if (empty($radio_ele)) {
           throw new Exception('The option "' . $content . '" is not found in "' . $region . '" area on homepage');
         }
@@ -5647,6 +5646,49 @@ class FeatureContext extends DrupalContext {
           throw new Exception('"' . $content . '" count in "power Drupal" is less than ' . $count_param);
         }
         break;
+      // Images
+      case 'image':
+        switch ($content) {
+          // Site made with drupal image
+          case 'site made with drupal':
+            $img_ele = $obj_region->find('xpath', '//div[@class="things-we-made-wrapper"]//a//img');
+            if (empty($img_ele)) {
+              throw new Exception('"' . ucfirst($content) . '" image is not found in "' . $region . '" area on homepage');
+            }
+            break;
+          // Advertisement image - can be an iframe/image with links/links
+          case 'advertisement':          
+            $iframe_ele = $obj_region->find('css', 'div#google_ads_div_Redesign_home_ad_container iframe');
+            if (!empty($iframe_ele)) {
+              $this->getSession()->switchToIFrame($iframe_ele->getAttribute('name'));
+              $a = $this->getSession()->getPage()->findAll('css', 'a');
+              if (empty($a)) {
+                $this->getSession()->switchToIFrame();
+                throw new Exception('"' . ucfirst($content) . '" is not found in "' . $region . '" area on homepage');
+              }
+              $this->getSession()->switchToIFrame();
+            }else {
+              $iframe_ele = $obj_region->findAll('css', 'div#google_ads_div_Redesign_home_ad_container a');
+              if (empty($iframe_ele)) {
+                throw new Exception('"' . ucfirst($content) . '" is not found in "' . $region . '" area on homepage');
+              }
+            }
+            break;
+          // Drupal banner - as it is a background image, check hyperlink
+          case 'drupal banner':
+            $a_ele = $obj_region->findLink("Drupal");
+            if (empty($a_ele)) {
+              throw new Exception('Drupal banner is not found in "' . $region . '" area on homepage');
+            }
+            elseif ('/' != $a_ele->getAttribute('href')) {
+              throw new Exception('Drupal banner in "' . $region . '" area is not linked to homepage');
+            }
+            break;
+          default:
+            throw new Exception('"' . ucfirst($content) . '" is not found in "' . $region . '" area on homepage');
+            break;
+        }
+        break;
       default:
         throw new Exception('The type "' . $type . '" is not implemented.' );
         break;
@@ -5655,20 +5697,41 @@ class FeatureContext extends DrupalContext {
 
   /**
    * @Then /^I should not see the "([^"]*)" "([^"]*)" in "([^"]*)" area$/
+   *
+   * @param string $type
+   *   text/link/option/count/tab/power drupal
+   * @param string $content
+   *   text/link
+   * @param string $region
+   *   region on homepage
    */
   public function iShouldNotSeeInArea($type, $content, $region) {
     $this->iShouldSeeInArea($type, $content, $region, false );
   }
 
   /**
+   * people/countries/languages count appears in ...power drupal text on the homepage
+   *
    * @Then /^I should see at least "([^"]*)" "([^"]*)" in power Drupal text$/
+   *
+   * @param string $type
+   *   people/countries/languages
+   * @param boolean $count
+   *   count
    */
   public function iShouldSeeAtLeastPeopleInPowerDrupalText($count, $type) {
     $this->iShouldSeeInArea('power drupal', $type, 'middle content', true, $count);
   }
 
   /**
+   * Checks links in a homepage area
+   *
    * @Given /^I should see the following <(?:links|tabs|options)> in "([^"]*)" area$/
+   *
+   * @param string $region
+   *   region on homepage
+   * @param object $table
+   *   TableNode
    */
   public function iShouldSeeTheFollowingLinksInArea($region, TableNode $table) {
     foreach ($table->getHash() as $content) {
@@ -5679,7 +5742,14 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Checks count of links in top right content area on homepage 
+   *
    * @Given /^I should see at least "([^"]*)" "([^"]*)" in top right content area$/
+   *
+   * @param int $count
+   *   count
+   * @param string $type
+   *   Modules/Code Commits etc.
    */
   public function iShouldSeeAtLeastInArea($count, $type) {
     $this->iShouldSeeInArea('count', $type, 'top right content', true, $count );
@@ -6316,5 +6386,32 @@ class FeatureContext extends DrupalContext {
     foreach ($table->getHash() as $value) {
       $this->iShouldSeeInTheDropdown($value['values'], $field);
     }
+  }
+
+  /**
+   * Checks the small screenshot a drupal site is present in top middle content area
+   *
+   * @Given /^I should see the image of a drupal site in top middle content area$/
+   */
+
+  public function iShouldSeeTheImageOfADrupalSiteInArea() {
+    $this->iShouldSeeInArea('image', "site made with drupal", 'top middle content');
+  }
+
+  /**
+   * Checks an advertisement is present in top right content area
+   *
+   * @Given /^I should see an advertisement in top right content area$/
+   */
+  public function iShouldSeeAnAdvertisementInTopRightContentArea() {
+    $this->iShouldSeeInArea('image', "advertisement", 'top right content');
+  }
+  
+  /**
+   * Checks drupal banner in the header
+   * @Then /^I should see that drupal banner is linked to the home page$/
+   */
+  public function iShouldSeeThatDrupalBannerIsLinkedToTheHomePage() {
+    $this->iShouldSeeInArea('image', "drupal banner", 'left header');
   }
 }
