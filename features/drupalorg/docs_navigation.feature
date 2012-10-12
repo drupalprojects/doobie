@@ -14,9 +14,9 @@ Feature:
     | Administration Guide  |
     And I should see that the tab "Community Docs Home" is highlighted
     And I should see the heading "Community Documentation"
-	And I should see "The Drupal.org online Community Documentation"
+	  And I should see "The Drupal.org online Community Documentation"
     And I should see the following <blocks> in the right sidebar
-    | blocks |
+    | blocks                                    |
     | Help maintain the Community Documentation |
     And I should see the copyright statement in the right sidebar
 
