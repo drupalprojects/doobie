@@ -1,8 +1,8 @@
 @docs @wip
 Feature: About this page block on documentation pages
-  In order to make sure that the documentation is specific to different skillsets
+  In order to make sure that the documentation contents are displayed correctly
   As a document manager
-  I want to specify the audience for a documentation page
+  I want to fill various field in the form and save the same
 
   Background:
    Given I am logged in as "docs manager"
