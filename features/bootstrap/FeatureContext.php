@@ -5871,16 +5871,18 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Creates a forum and store subject and url
+   * Creates a forum and store subject, body and url
    *
-   * @When /^I create a forum$/
+   * @When /^I create a forum(?:| topic)$/
    */
   public function iCreateAForum() {
     $page = $this->getSession()->getPage();
     $subject = $this->randomString(8);
     $page->fillField("title", $subject);
-    $page->fillField("body", $this->randomString(200));
     HackyDataRegistry::set('random:Forum subject', $subject);
+    $body = str_repeat($this->randomString(30) . " ", 10);
+    $page->fillField("body", $body);
+    HackyDataRegistry::set('random:Forum body', $body);
     $page->pressButton('Save');
     // Let the page load
     sleep(3);
@@ -5891,7 +5893,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Loads already saved community spotlight page
    *
-   * @Given /^I am on the (?:community spotlight|forum) page$/
+   * @Given /^I am on the (?:community spotlight|forum topic) page$/
    */
   public function iAmOnTheForumPage() {
     // Get saved community forum URL
@@ -5904,7 +5906,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Checks whether the forum link is present
    *
-   * @Then /^I should see the (?:community spotlight|forum) link$/
+   * @Then /^I should see the (?:community spotlight|forum topic) link$/
    */
   public function iShouldSeeTheForumLink() {
     if (!($subject = HackyDataRegistry::get('random:Forum subject'))) {
@@ -5922,6 +5924,49 @@ class FeatureContext extends DrupalContext {
     $result = $this->getSession()->getPage()->find('css', '#content-inner .grid-3 .narrow-box-list img');
     if (empty($result)) {
       throw new Exception('No Drupal book image under drupal books');
+    }
+  }
+
+  /**
+   * @Given /^I should see the introductory text$/
+   */
+  public function iShouldSeeTheIntroductoryText() {
+    // Get the anchor tag from the first new
+    $result = $this->getSession()->getPage()->find("css", "#fragment-1 p a");
+    if (empty($result)) {
+      throw new Exception('The news section did not contain introductory text');
+    }
+    // Move one level up to get the p tag. a > p
+    $intro = $result->getParent()->getText();
+    if (trim($intro) == "") {
+      throw new Exception('The news section did not contain introductory text');
+    }
+    // Remove read more from the intro
+    $intro = trim(str_replace("Read more", "", $intro));
+    // Get the full body from post and check if the intro is part of it or not
+    if (strpos(HackyDataRegistry::get('random:Forum body'), $intro) === FALSE) {
+      throw new Exception('The news section did not contain introductory text');
+    }
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" more news links$/
+   */
+  public function iShouldSeeAtLeastMoreNewsLinks($count) {
+    $links = 0;
+    // Get the anchor tags
+    $result = $this->getSession()->getPage()->findAll("css", "#fragment-1 p a");
+    if (empty($result)) {
+      throw new Exception('The news section did not contain any links');
+    }
+    foreach ($result as $link) {
+      // Discard Read more and more news links
+      if (trim($link->getText()) != "Read more" && trim($link->getText()) != "More news…") {
+        $links++;
+      }
+    }
+    if ($links < $count) {
+      throw new Exception("The news section contains less than '" . $count . "' news links");
     }
   }
 }
