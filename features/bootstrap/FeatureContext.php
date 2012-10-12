@@ -252,6 +252,7 @@ class FeatureContext extends DrupalContext {
         throw new Exception("Invalid repo is given");
         break;
     }
+    HackyDataRegistry::set('git repo', $this->repo);
     // Get user data only if a user is logged in. Even anonymous user can clone.
     if ($user) {
     	$userData = $this->getGitUserData($this->repo);
@@ -284,9 +285,9 @@ class FeatureContext extends DrupalContext {
     if(empty($project)) {
       throw new Exception("No project found to push");
     }
-    $command = "./bin/gitwrapper $password $url $project";
+    $command = "./bin/gitwrapper clone $password $url $project";
     $process = new Process($command);
-    $process->setTimeout(100000);
+    //$process->setTimeout(100000);
     $process->run();
     // If sandbox, skip checking errors
     if ($repo == 'promoted sandbox') {
@@ -475,6 +476,12 @@ class FeatureContext extends DrupalContext {
     if (empty($element)) {
       throw new Exception("No title was found on the page");
     }
+    if (!HackyDataRegistry::get('sandbox_url')) {
+      $this->projectTitle = $element->getText();
+      // If clone is called after visitin url instead of creating project
+      HackyDataRegistry::set('project_short_name', basename($this->getSession()->getCurrentUrl()));
+      HackyDataRegistry::set('project title', $this->projectTitle);
+    }
     // Get link to Version control tab
     $vcLink = $page->findLink('Version control');
     if (empty($vcLink)) {
@@ -537,7 +544,7 @@ class FeatureContext extends DrupalContext {
     $rawCommand = str_replace('<br/>', '', $rawCommand);
     $rawCommand = str_replace('&gt;', '>', $rawCommand);
     $rawCommand = str_replace('&#13;', '', $rawCommand);
-    $rawCommand = str_replace('git push origin master', "../bin/gitwrapper $password", $rawCommand);
+    $rawCommand = str_replace('git push origin master', "../bin/gitwrapper init $password", $rawCommand);
     $command = preg_replace('/<code>(.*)?<\/code>/U', '\1 ; ', $rawCommand);
     # var_dump($command);
     $process = new Process($command);
@@ -545,7 +552,7 @@ class FeatureContext extends DrupalContext {
     $process->run();
     if (!$process->isSuccessful() || stripos($process->getOutput(), "error") !== FALSE) {
       throw new Exception("Initializing repository failed" .
-      "\nCommand: " . $fullCommand .
+      "\nCommand: " . $command .
       "\nError: " . $process->getErrorOutput() .
       "\nOutput: " . $process->getOutput()
       );
@@ -2537,39 +2544,47 @@ class FeatureContext extends DrupalContext {
     }
   }
 
-  /**
+  /** Find the given list of blocks in the right sidebar region
+   *
    * @Given /^I should see the following <blocks> in the right sidebar$/
+   *
+   * @param $table
+   *   Array list of block titles that should appear on the page.
    */
+
   public function iShouldSeeTheFollowingBlocksInTheRightSidebar(TableNode $table) {
+    if (empty($table)) {
+      throw new Exception('No blocks specified');
+    }
+    $blocks = $table->getHash();
+    foreach ($blocks as $values) {
+      $this->iShouldSeeBlockInTheRightSidebar($values['blocks']);
+    }
+  }
+
+  /**
+   * Find the block in the right side bar region
+   *
+   * @Then /^I should see "([^"]*)" block in the right sidebar$/
+   *
+   * @param string $title
+   *   String The title of the block.
+   */
+  public function iShouldSeeBlockInTheRightSidebar($title) {
     $region = $this->getSession()->getPage()->find('region', 'right sidebar');
     if (empty($region)) {
       throw new Exception('Right sidebar region was not found');
     }
-    $blocks = $region->findAll('css', '#column-right-region > div');
-    if (empty($blocks)) {
-      throw new Exception('No blocks found in the right sidebar');
+    $h2 = $region->findAll('css', '.block h2');
+    if (empty($h2)) {
+      throw new Exception("No blocks were found in the right sidebar region");
     }
-    $arr_headings = array();
-    foreach ($blocks as $block) {
-       $h2 = $block->find('css', 'h2');
-       if (!empty($h2)) {
-         $arr_headings[] = $h2->getText();
-       }else {
-         $link = $block->find('css', 'a');
-         if (!empty($link)) {
-           $arr_headings[] = $link->getText();
-         }
-       }
-    }
-    if (empty($table)) {
-      throw new Exception('No blocks specified');
-    }
-    // Loop through table and check tab is present.
-    foreach ($table->getHash() as $t) {
-      if (!in_array($t['blocks'], $arr_headings)) {
-        throw new Exception('The block: "' . $t['blocks'] . '" cannot be found in the right sidebar' );
+    foreach ($h2 as $text) {
+      if (trim($text->getText()) == $title) {
+        return;
       }
     }
+    throw new Exception("The block '" . $title . "' was not found in the right sidebar region");
   }
 
   /**
@@ -2592,25 +2607,6 @@ class FeatureContext extends DrupalContext {
     ");
     if (!$flag) {
       throw new Exception("The background of the status is not '" . $color . "' on the page " . $this->getSession()->getCurrentUrl());
-    }
-  }
-
-  /**
-   * @Given /^I should see the copyright statement in the right sidebar$/
-   */
-  public function iShouldSeeTheCopyrightStatementInTheRightSidebar() {
-    $region = $this->getSession()->getPage()->find('region', 'right sidebar');
-    if (empty($region)) {
-      throw new Exception("Right sidebar region was not found");
-    }
-    $block = $region->find('css', '#column-right-region > #block-drupalorg_handbook-license div.block-inner div.block-content');
-    if (empty($block)) {
-      throw new Exception('No blocks found in the right sidebar');
-    }
-    $copyright = 'online documentation is &Acirc;&copy; 2000-2012 by the individual contributors and can be used in accordance with the';
-    $contents = htmlentities(trim($block->getText()));
-    if (!strstr($contents, $copyright)) {
-      throw new Exception('Copyright statement cannot be found in the right sidebar');
     }
   }
 
@@ -3500,7 +3496,8 @@ class FeatureContext extends DrupalContext {
     if (empty($region)) {
       throw new Exception("Right sidebar region was not found");
     }
-    $result = $region->find('css', '#column-right-region .block-inner .block-content #gam-holder-HostingForumBlock');
+    sleep(5);
+    $result = $region->find('css', '#column-right-region .block-inner .block-content');
     if (empty($result)) {
       throw new Exception('No advertisement exists in the right sidebar');
     }
@@ -3757,11 +3754,12 @@ class FeatureContext extends DrupalContext {
     // Come back to the current page
     $this->getSession()->visit($currUrl);
     // Edit the info file present in the folder
-    $fh = fopen($projectTitle . ".info", "a");
-    fwrite($fh, "Test data for BDD");
+    $file = $projectTitle . ".info";
+    $fh = fopen($file, "a");
+    fwrite($fh, "\nTest data for BDD - " . date('d F Y G:i:s'));
     fclose($fh);
     // Git add
-    $process = new Process('git add ' . $projectTitle . '.info');
+    $process = new Process('git add ' . $file);
     $process->run();
     if (!$process->isSuccessful()) {
       throw new RuntimeException('Git add failed - ' . $process->getErrorOutput());
@@ -3774,7 +3772,7 @@ class FeatureContext extends DrupalContext {
     }
     // Git push
     $password = $this->fetchPassword('git', $gitUsername);
-    $process = new Process("../bin/gitwrapper $password");
+    $process = new Process("../bin/gitwrapper push $password");
     $process->run();
     if($canCommit) {
       if (!$process->isSuccessful()) {
@@ -4288,24 +4286,33 @@ class FeatureContext extends DrupalContext {
   public function cleanData() {
     // Read stored project url and delete
     $arr_nodeurl = array();
+    // Newly created project
     if ($project_url = HackyDataRegistry::get('project_url')) {
       $arr_nodeurl[] = $project_url;
     }
+    // Issue of a project
     if ($issue_url = HackyDataRegistry::get('issue_url')) {
       $arr_nodeurl[] = $issue_url;
     }
+    // Sandbox project
     if ($sandbox_url = HackyDataRegistry::get('sandbox_url')) {
       $arr_nodeurl[] = $sandbox_url;
     }
+    // Sandbox project/organization
     if ($project_path = HackyDataRegistry::get('project path')) {
       $arr_nodeurl[] = $project_path;
     }
+    // Forum node
     if ($spotlight_url = HackyDataRegistry::get('forum url')) {
       $arr_nodeurl[] = $spotlight_url;
     }
     // Test Document/Book page
     if ($document_url = HackyDataRegistry::get('document url')) {
       $arr_nodeurl[] = $document_url;
+    }
+    // Project release
+    if ($release_url = HackyDataRegistry::get('release_url')) {
+      $arr_nodeurl[] = $release_url;
     }
     if (empty($arr_nodeurl)) {
       return;
@@ -4315,23 +4322,34 @@ class FeatureContext extends DrupalContext {
     $this->iAmLoggedInAs('admin test');
     $session = $this->getSession();
     foreach ($arr_nodeurl as $url) {
-      $session->visit($this->locatePath($url));
-      sleep(1);
-      $editLink = $session->getPage()->findLink('Edit');
-      if (empty($editLink)) {
-        continue;
+      $this->deleteNode($url);
+    }
+  }
+
+  /**
+   * Function to delete the node
+   *
+   * @param $path
+   *   string The url of the node to be deleted
+   */
+  private function deleteNode($path) {
+    // Log in as admin to perform node deletion
+    $this->iAmLoggedInAs('admin test');
+    $session = $this->getSession();
+    $session->visit($this->locatePath($path));
+    sleep(1);
+    $editLink = $session->getPage()->findLink('Edit');
+    if (!empty($editLink)) {
+      if ($editLink->hasAttribute("href")) {
+        $session->visit($this->locatePath($editLink->getAttribute('href')));
+        sleep(1);
+        $page = $session->getPage();
+        $page->fillField("Log message:", "Deleted during cleanup");
+        $page->pressButton("Delete");
+        sleep(1);
+        // Confirm delete
+        $page->pressButton("Delete");
       }
-      if (!$editLink->hasAttribute("href")) {
-        continue;
-      }
-      $session->visit($this->locatePath($editLink->getAttribute('href')));
-      sleep(1);
-      $page = $session->getPage();
-      $page->fillField("Log message:", 'Deleted');
-      $page->pressButton("Delete");
-      sleep(1);
-      // Confirm delete
-      $page->pressButton("Delete");
     }
   }
 
@@ -5487,7 +5505,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Find given type in specific region on the homepage
    *
-   * @Then /^I should see the "([^"]*)" "([^"]*)" in "([^"]*)" area$/
+   * @Then /^I (?:should |)see the "([^"]*)" "([^"]*)" in "([^"]*)" area$/
    *
    * @param string $type
    *   text/link/option/count/tab/power drupal
@@ -5521,9 +5539,8 @@ class FeatureContext extends DrupalContext {
     if (!isset($arr_region[$region_l])) {
       throw new Exception('The region "' . $region . '" is not implemented.' );
     }
-    $page = $this->getSession()->getPage();
     // Find region div
-    $obj_region = $page->find('xpath', '//div[@id="' . $arr_region[$region] . '"]');
+    $obj_region = $this->getSession()->getPage()->find('xpath', '//div[@id="' . $arr_region[$region] . '"]');
     if (empty($obj_region)) {
       throw new Exception('The region "' . $region . '" is not found on homepage' );
     }
@@ -5569,7 +5586,7 @@ class FeatureContext extends DrupalContext {
         break;
       // Radio buttons.
       case 'option':
-        $radio_ele = $page->findAll('xpath', '//input[@type="radio"]');
+        $radio_ele = $obj_region->findAll('xpath', '//input[@type="radio"]');
         if (empty($radio_ele)) {
           throw new Exception('The option "' . $content . '" is not found in "' . $region . '" area on homepage');
         }
@@ -5638,6 +5655,49 @@ class FeatureContext extends DrupalContext {
           throw new Exception('"' . $content . '" count in "power Drupal" is less than ' . $count_param);
         }
         break;
+      // Images
+      case 'image':
+        switch ($content) {
+          // Site made with drupal image
+          case 'site made with drupal':
+            $img_ele = $obj_region->find('xpath', '//div[@class="things-we-made-wrapper"]//a//img');
+            if (empty($img_ele)) {
+              throw new Exception('"' . ucfirst($content) . '" image is not found in "' . $region . '" area on homepage');
+            }
+            break;
+          // Advertisement image - can be an iframe/image with links/links
+          case 'advertisement':          
+            $iframe_ele = $obj_region->find('css', 'div#google_ads_div_Redesign_home_ad_container iframe');
+            if (!empty($iframe_ele)) {
+              $this->getSession()->switchToIFrame($iframe_ele->getAttribute('name'));
+              $a = $this->getSession()->getPage()->findAll('css', 'a');
+              if (empty($a)) {
+                $this->getSession()->switchToIFrame();
+                throw new Exception('"' . ucfirst($content) . '" is not found in "' . $region . '" area on homepage');
+              }
+              $this->getSession()->switchToIFrame();
+            }else {
+              $iframe_ele = $obj_region->findAll('css', 'div#google_ads_div_Redesign_home_ad_container a');
+              if (empty($iframe_ele)) {
+                throw new Exception('"' . ucfirst($content) . '" is not found in "' . $region . '" area on homepage');
+              }
+            }
+            break;
+          // Drupal banner - as it is a background image, check hyperlink
+          case 'drupal banner':
+            $a_ele = $obj_region->findLink("Drupal");
+            if (empty($a_ele)) {
+              throw new Exception('Drupal banner is not found in "' . $region . '" area on homepage');
+            }
+            elseif ('/' != $a_ele->getAttribute('href')) {
+              throw new Exception('Drupal banner in "' . $region . '" area is not linked to homepage');
+            }
+            break;
+          default:
+            throw new Exception('"' . ucfirst($content) . '" is not found in "' . $region . '" area on homepage');
+            break;
+        }
+        break;
       default:
         throw new Exception('The type "' . $type . '" is not implemented.' );
         break;
@@ -5646,20 +5706,41 @@ class FeatureContext extends DrupalContext {
 
   /**
    * @Then /^I should not see the "([^"]*)" "([^"]*)" in "([^"]*)" area$/
+   *
+   * @param string $type
+   *   text/link/option/count/tab/power drupal
+   * @param string $content
+   *   text/link
+   * @param string $region
+   *   region on homepage
    */
   public function iShouldNotSeeInArea($type, $content, $region) {
     $this->iShouldSeeInArea($type, $content, $region, false );
   }
 
   /**
+   * people/countries/languages count appears in ...power drupal text on the homepage
+   *
    * @Then /^I should see at least "([^"]*)" "([^"]*)" in power Drupal text$/
+   *
+   * @param string $type
+   *   people/countries/languages
+   * @param boolean $count
+   *   count
    */
   public function iShouldSeeAtLeastPeopleInPowerDrupalText($count, $type) {
     $this->iShouldSeeInArea('power drupal', $type, 'middle content', true, $count);
   }
 
   /**
+   * Checks links in a homepage area
+   *
    * @Given /^I should see the following <(?:links|tabs|options)> in "([^"]*)" area$/
+   *
+   * @param string $region
+   *   region on homepage
+   * @param object $table
+   *   TableNode
    */
   public function iShouldSeeTheFollowingLinksInArea($region, TableNode $table) {
     foreach ($table->getHash() as $content) {
@@ -5670,7 +5751,14 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Checks count of links in top right content area on homepage 
+   *
    * @Given /^I should see at least "([^"]*)" "([^"]*)" in top right content area$/
+   *
+   * @param int $count
+   *   count
+   * @param string $type
+   *   Modules/Code Commits etc.
    */
   public function iShouldSeeAtLeastInArea($count, $type) {
     $this->iShouldSeeInArea('count', $type, 'top right content', true, $count );
@@ -5871,16 +5959,18 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Creates a forum and store subject and url
+   * Creates a forum and store subject, body and url
    *
-   * @When /^I create a forum$/
+   * @When /^I create a forum(?:| topic)$/
    */
   public function iCreateAForum() {
     $page = $this->getSession()->getPage();
     $subject = $this->randomString(8);
-    $page->fillField("title", $subject);
-    $page->fillField("body", $this->randomString(200));
+    $page->fillField("Subject:", $subject);
     HackyDataRegistry::set('random:Forum subject', $subject);
+    $body = str_repeat($this->randomString(30) . " ", 10);
+    $page->fillField("Body:", $body);
+    HackyDataRegistry::set('random:Forum body', $body);
     $page->pressButton('Save');
     // Let the page load
     sleep(3);
@@ -5891,7 +5981,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Loads already saved community spotlight page
    *
-   * @Given /^I am on the (?:community spotlight|forum) page$/
+   * @Given /^I am on the (?:community spotlight|forum topic) page$/
    */
   public function iAmOnTheForumPage() {
     // Get saved community forum URL
@@ -5904,7 +5994,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Checks whether the forum link is present
    *
-   * @Then /^I should see the (?:community spotlight|forum) link$/
+   * @Then /^I should see the (?:community spotlight|forum topic) link$/
    */
   public function iShouldSeeTheForumLink() {
     if (!($subject = HackyDataRegistry::get('random:Forum subject'))) {
@@ -5923,5 +6013,414 @@ class FeatureContext extends DrupalContext {
     if (empty($result)) {
       throw new Exception('No Drupal book image under drupal books');
     }
+  }
+
+  /**
+   * @Given /^I should see the introductory text$/
+   */
+  public function iShouldSeeTheIntroductoryText() {
+    // Get the anchor tag from the first new
+    $result = $this->getSession()->getPage()->find("css", "#fragment-1 p a");
+    if (empty($result)) {
+      throw new Exception('The news section did not contain introductory text');
+    }
+    // Move one level up to get the p tag. a > p
+    $intro = $result->getParent()->getText();
+    if (trim($intro) == "") {
+      throw new Exception('The news section did not contain introductory text');
+    }
+    // Remove read more from the intro
+    $intro = trim(str_replace("Read more", "", $intro));
+    // Get the full body from post and check if the intro is part of it or not
+    if (strpos(HackyDataRegistry::get('random:Forum body'), $intro) === FALSE) {
+      throw new Exception('The news section did not contain introductory text');
+    }
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" more news links$/
+   */
+  public function iShouldSeeAtLeastMoreNewsLinks($count) {
+    $links = 0;
+    // Get the anchor tags
+    $result = $this->getSession()->getPage()->findAll("css", "#fragment-1 p a");
+    if (empty($result)) {
+      throw new Exception('The news section did not contain any links');
+    }
+    foreach ($result as $link) {
+      // Discard Read more and more news links
+      if (trim($link->getText()) != "Read more" && trim($link->getText()) != "More news") {
+        $links++;
+      }
+    }
+    if ($links < $count) {
+      throw new Exception("The news section contains less than '" . $count . "' news links");
+    }
+  }
+
+  /**
+   * Create a new git branch for the project
+   *
+   * @param $version
+   *   string The version for which a branch to be created like 5.x, 6.x, 7.x etc
+   *
+   * @When /^I create a new branch for "([^"]*)" version$/
+   */
+  public function iCreateANewBranchForVersion($version) {
+    $validBranches = array();
+    // Perform initial operations
+    $data = $this->performPreBranchTagOperation();
+    // Get the list of branches in the current repo
+    $process = new Process("git branch -a");
+    $process->run();
+    // Each branch will be printed in one line, so split them
+    $temp = explode("\n", $process->getOutput());
+    foreach ($temp as $b) {
+      // Consider only those branches that have the provided version (Eg. 6.x-1.x)
+      if (strpos($b, "remotes/origin/" . $version)) {
+        // The array should have only the minor version numbers and no characters
+        $validBranches[] = str_replace(".x", "", str_replace("remotes/origin/" . $version . "-", "", $b));
+      }
+    }
+    if (sizeof($validBranches)) {
+      // Sort them in ascending order
+      sort($validBranches);
+      // Get the last branch and increment by 1
+      $branch = $version . "-" . ((int) intval(end($validBranches)) + 1) . ".x";
+    }
+    else {
+      // No branches are present, then create 1.x branch
+      $branch = $version . "-1.x";
+    }
+    // Create a new branch
+    $command = "git checkout -b " . $branch;
+    $process = new Process($command);
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new Exception("Unable to create the branch - '" . $branch . "' Checkout failed -\n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
+    }
+    elseif (strpos($process->getOutput(), "fatal") !== FALSE || strpos($process->getErrorOutput(), "fatal") !== FALSE) {
+      throw new Exception("Unable to create the branch - '" . $branch . "' Checkout failed -\n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
+    }
+    // Update a file
+    $file = "test_releases.info";
+    $fh = fopen($file, "a");
+    fwrite($fh, "\nTest data for BDD - " . date('d F Y G:i:s'));
+    fclose($fh);
+    // Git add and commit
+    $command = 'git add ' . $file . '; git commit -m "by ' . $data['username'] . ': From the step definition"';
+    $process = new Process($command);
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new Exception('Git add/commit failed during branch creation - ' . $process->getErrorOutput());
+    }
+    // Push the changes to create a new branch
+    $password = $data['password'];
+    $command = "../bin/gitwrapper branch $password $branch";
+    $process = new Process($command);
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new Exception("Unable to create the branch '" . $branch . "' \n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
+    }
+    // Move back one folder after completion
+    chdir("../");
+    // Save branch created for later use
+    HackyDataRegistry::set('git branch', $branch);
+  }
+
+  /**
+   * To view the branch version in the provided dropdown
+   *
+   * @param $field
+   *   string The field in which the branch is supposed to be present
+   *
+   * @Then /^I should see the branch in the dropdown "([^"]*)"$/
+   */
+  public function iShouldSeeTheBranchInTheDropdown($field) {
+    $branch = HackyDataRegistry::get('git branch');
+    if (!$branch) {
+      throw new Exception("No branch was created for the project");
+    }
+    return new Given("I should see \"$branch\" in the dropdown \"$field\"");
+  }
+
+  /**
+   * Select the branch from the given dropdown
+   *
+   * @param $field
+   *   string The field in which the branch to be selected
+   *
+   * @Given /^I select a branch from "([^"]*)"$/
+   */
+  public function iSelectABranchFrom($field) {
+    $branch = HackyDataRegistry::get('git branch');
+    if (!$branch) {
+      throw new Exception("Cannot select the branch. No branch was created for the project");
+    }
+    $branch .= " (" . $branch . "-dev)";
+    return new Given("I select \"$branch\" from \"$field\"");
+  }
+
+  /**
+   * Create a new git tag for the project
+   *
+   * @param $version
+   *   string The version for which a tag to be created like 5.x, 6.x, 7.x etc
+   *
+   * @When /^I create a new tag for "([^"]*)" version$/
+   */
+  public function iCreateANewTagForVersion($version) {
+    $validTags = array();
+    // Perform initial operations
+    $data = $this->performPreBranchTagOperation();
+    // Get the list of tags in the current repo
+    $process = new Process("git tag -l");
+    $process->run();
+    // Each tag will be printed in one line, so split them
+    $temp = explode("\n", $process->getOutput());
+    foreach ($temp as $b) {
+      // Remove the version from the tag
+      $validTags[] = str_replace($version . "-", "", $b);
+    }
+    if (sizeof($validTags)) {
+      // Sort them in ascending order
+      sort($validTags);
+      // Get the last tag and increment by 1
+      $tag = $version . "-" . ((int) intval(end($validTags)) + 1) . ".0";
+    }
+    else {
+      // No tags are present, then create 1.0 tag
+      $tag = $version . "-1.0";
+    }
+    $command = "git tag " . $tag;
+    $process = new Process($command);
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new Exception("Unable to create the tag. '" . $tag . "' \n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
+    }
+    elseif (strpos($process->getOutput(), "fatal:") !== FALSE) {
+      throw new Exception("Unable to create the tag - '" . $tag . "' Checkout failed -\n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
+    }
+    $password = $data['password'];
+    $command = "../bin/gitwrapper tag $password $tag";
+    $process = new Process($command);
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new Exception("Unable to create the tag '" . $tag . "' \n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
+    }
+    // Move back one folder after completion
+    chdir("../");
+    // Save tag created for later use
+    HackyDataRegistry::set('git tag', $tag);
+  }
+
+  /**
+   * Function to perform some operations before creating a branch/tag
+   *
+   * @return $userData
+   *  Array Contains username and password for use in git operations
+   */
+  private function performPreBranchTagOperation() {
+    $currUrl = $this->getSession()->getCurrentUrl();
+    // Get the project folder name and make sure there is a clone
+    $projectTitle = strtolower(HackyDataRegistry::get('project_short_name'));
+    if (!$projectTitle) {
+      $projectTitle = strtolower(HackyDataRegistry::get('project title'));
+    }
+    if (!$projectTitle) {
+      throw new Exception("No project found to create a branch");
+    }
+    // Make sure the project directory exists before any step is taken
+    $cwd = getcwd();
+    if (!is_dir($cwd . '/' . $projectTitle)) {
+      throw new Exception("The folder '" . $projectTitle . "' does not exist. Please clone the repository");
+    }
+    // Move into the project folder
+    chdir($projectTitle);
+    $userData = $this->getGitUserData($this->repo);
+    if (!$userData) {
+      throw new Exception("Git username was not found on the page");
+    }
+    $gitUsername = $userData['username'];
+    // Set the git config user.email and user.name
+    if (!$this->setGitConfig($gitUsername)) {
+      throw new Exception("Unable to set the git config value");
+    }
+    // Come back to version control page
+    $this->getSession()->visit($currUrl);
+    sleep(2);
+    return $userData;
+  }
+
+  /**
+   * To view the tag version in the provided dropdown
+   *
+   * @param $field
+   *   string The field in which the tag is supposed to be present
+   *
+   * @Then /^I should see the tag in the dropdown "([^"]*)"$/
+   */
+  public function iShouldSeeTheTagInTheDropdown($field) {
+    $tag = HackyDataRegistry::get('git tag');
+    if (!$tag) {
+      throw new Exception("No tag was created for the project");
+    }
+    return new Given("I should see \"$tag\" in the dropdown \"$field\"");
+  }
+
+  /**
+   * Select the tag from the given dropdown
+   *
+   * @param $field
+   *   string The field in which the tag be selected
+   *
+   * @Given /^I select a tag from "([^"]*)"$/
+   */
+  public function iSelectATagFrom($field) {
+    $tag = HackyDataRegistry::get('git tag');
+    if (!$tag) {
+      throw new Exception("Cannot select the tag. No tag was created for the project");
+    }
+    return new Given("I select \"$tag\" from \"$field\"");
+  }
+
+  /**
+   * @AfterScenario @git_branch
+   */
+  public function cleanGitBranch(ScenarioEvent $event) {
+    $branch = HackyDataRegistry::get('git branch');
+    if ($branch) {
+      $this->cleanGitTagBranch("branch", $branch);
+      // Remove clone residue
+      $this->cleanGitRepos($event);
+    }
+  }
+
+  /**
+   * @AfterScenario @git_tag
+   */
+  public function cleanGitTag(ScenarioEvent $event) {
+    $tag = HackyDataRegistry::get('git tag');
+    if ($tag) {
+      $this->cleanGitTagBranch("tag", $tag);
+      // Remove clone residue
+      $this->cleanGitRepos($event);
+    }
+  }
+
+  /**
+   * Function to delete the branch/tag created for a project
+   *
+   * @param $type
+   *   string Specify what to delete, valid values are 'branch' and 'tag'
+   * @param $value
+   *   string The value of the type eg. 6.x-1.x or 7.x-2.0
+   *
+   */
+  private function cleanGitTagBranch($type, $value) {
+    if ($type != "branch" && $type != "tag") {
+      return;
+    }
+    // Get the project folder name and make sure there is a clone
+    $projectTitle = strtolower(HackyDataRegistry::get('project_short_name'));
+    if (!$projectTitle) {
+      $projectTitle = strtolower(HackyDataRegistry::get('project title'));
+    }
+    if (!$projectTitle) {
+      return;
+    }
+    if ($type && $value) {
+      $this->deleteNode(HackyDataRegistry::get('release_url'));
+      $this->iAmLoggedInAs('git vetted user');
+      if (is_dir($projectTitle)) {
+        chdir($projectTitle);
+        $command = "git " . $type . " -d " . $value;
+    		$process = new Process($command);
+		    $process->run();
+		    sleep(1);
+		    $userData = $this->getGitUserData(HackyDataRegistry::get('git repo'));
+        if (!$userData) {
+          return;
+        }
+        $gitUsername = $userData['username'];
+        $password = $userData['password'];
+		    $command = "../bin/gitwrapper ". $type . "_delete $password $value";
+    		$process = new Process($command);
+    		$process->run();
+    		// Move back one folder after completion
+        chdir("../");
+      }
+    }
+  }
+
+  /**
+   * Check whether the current project is in published more or not
+   *
+   * @Given /^the release should not be published$/
+   */
+  public function theReleaseShouldNotBePublished() {
+    HackyDataRegistry::set('release_url', $this->getSession()->getCurrentUrl());
+    $result = $this->getSession()->getPage()->find("css", "#content-inner .node-unpublished");
+    if (empty($result)) {
+      throw new Exception("The release is in published mode");
+    }
+  }
+
+  /**
+   * @Then /^I should see latest forum topic in the rightside block$/
+   */
+  public function iShouldSeeLatestForumTopicInTheRightsideBlock() {
+    sleep(2);
+    $forumTitle = HackyDataRegistry::get('random:Forum subject');
+    if(empty($forumTitle)) {
+      throw new Exception('No Forum title exists in this page');
+    }
+    $this->iShouldSeeInArea('link', $forumTitle, "right sidebar");
+  }
+
+  /**
+   * Checks, that form field with specified id|name|label|value has the <values>
+   *
+   * @param $field
+   *    string The dropdown field selector
+   * @param $table
+   *    array The list of values to verify
+   *
+   * @Then /^I should see the following <values> in the dropdown "([^"]*)"$/
+   */
+  public function iShouldSeeTheFollowingValuesInTheDropdown($field, TableNode $table) {
+    if (empty($table)) {
+      throw new Exception("No values were provided");
+    }
+    foreach ($table->getHash() as $value) {
+      $this->iShouldSeeInTheDropdown($value['values'], $field);
+    }
+  }
+
+  /**
+   * Checks the small screenshot a drupal site is present in top middle content area
+   *
+   * @Given /^I should see the image of a drupal site in top middle content area$/
+   */
+
+  public function iShouldSeeTheImageOfADrupalSiteInArea() {
+    $this->iShouldSeeInArea('image', "site made with drupal", 'top middle content');
+  }
+
+  /**
+   * Checks an advertisement is present in top right content area
+   *
+   * @Given /^I should see an advertisement in top right content area$/
+   */
+  public function iShouldSeeAnAdvertisementInTopRightContentArea() {
+    $this->iShouldSeeInArea('image', "advertisement", 'top right content');
+  }
+  
+  /**
+   * Checks drupal banner in the header
+   * @Then /^I should see that drupal banner is linked to the home page$/
+   */
+  public function iShouldSeeThatDrupalBannerIsLinkedToTheHomePage() {
+    $this->iShouldSeeInArea('image', "drupal banner", 'left header');
   }
 }

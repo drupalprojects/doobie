@@ -35,12 +35,10 @@ Feature: To see the list of all the commits
   Scenario: Click link to user profile
     Given I am on "/commitlog"
     When I click on "user name" of a commit
-    Then I should see the heading "Personal information"
-    And I should see the following <texts>
-    | texts     |
-    | Full name |
-    | Country   |
-    | History   |
+    Then I should see the following <texts>
+    | texts      |
+    | Member for |
+    | History    |
 
   Scenario: Click link to repository
     Given I am on "/commitlog"
