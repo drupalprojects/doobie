@@ -11,24 +11,24 @@ Feature: About this page block on documentation pages
   Scenario: Dropdown values
     When I follow "Edit"
     Then I should see the following <values> in the dropdown "Drupal version:"
-    | values              |
-    | - None -             |
-    | Drupal 4.5.x or older   |
-    | Drupal 4.6.x       |
-    | Drupal 4.7.x |
-    | Drupal 5.x    |
-    | Drupal 6.x         |
-    | Drupal 7.x         |
-    | Drupal 8.x         |
+    | values                |
+    | - None -              |
+    | Drupal 4.5.x or older |
+    | Drupal 4.6.x          |
+    | Drupal 4.7.x          |
+    | Drupal 5.x            |
+    | Drupal 6.x            |
+    | Drupal 7.x            |
+    | Drupal 8.x            |
     And I should see the following <values> in the dropdown "Level:"
-    | values              |
-    | - None -             |
-    | Beginner   |
+    | values       |
+    | - None -     |
+    | Beginner     |
     | Intermediate |
-    | Advanced         |
+    | Advanced     |
     And I should see the following <values> in the dropdown "Audience:"
     | values              |
-    | - None -             |
+    | - None -            |
     | Contributors        |
     | Designers/themers   |
     | Programmers         |
@@ -36,16 +36,16 @@ Feature: About this page block on documentation pages
     | Site builders       |
     | Site users          |
     And I should see the following <values> in the dropdown "Page status:"
-    | values              |
-    | - None selected -             |
-    | No known problems        |
-    | Incomplete   |
-    | Insecure code         |
+    | values                  |
+    | - None selected -       |
+    | No known problems       |
+    | Incomplete              |
+    | Insecure code           |
     | Needs copy/style review |
-    | Needs dividing       |
-    | Needs technical review          |
-    | Needs updating |
-    | Deprecated |
+    | Needs dividing          |
+    | Needs technical review  |
+    | Needs updating          |
+    | Deprecated              |
 
   Scenario: Change the drupal version
     When I follow "Edit"
