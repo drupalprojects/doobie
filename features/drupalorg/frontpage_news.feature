@@ -31,7 +31,7 @@ Feature: Frontpage news section
     And I should see the introductory text
     And I should see at least "3" more news links
 
-  @anon @dependent
+  @anon @dependent @clean_data
   Scenario: Frontpage News tab: More news
     Given I am on the homepage
     When I follow "More news"
