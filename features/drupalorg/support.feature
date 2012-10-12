@@ -1,4 +1,4 @@
-@wip @support @anon
+@support @anon
 Feature: Drupal support
   In order to get the help from drupal community
   As a user
