@@ -21,7 +21,6 @@ Feature:
     And I should see the text "online documentation is" in the "right sidebar" region
     And I should see the text "by the individual contributors and can be used in accordance with the Creative Commons License, Attribution-ShareAlike" in the "right sidebar" region
 
-  @wip
   Scenario: Check Installation Guide tab
     Given I am on "/documentation"
     When I follow "Installation Guide"
@@ -58,7 +57,6 @@ Feature:
     And I should see the text "online documentation is" in the "right sidebar" region
     And I should see the text "by the individual contributors and can be used in accordance with the Creative Commons License, Attribution-ShareAlike" in the "right sidebar" region
 
-  @wip
   Scenario Outline: Check the links to guides
   Given I am on "/documentation"
   When I follow "<link>"
@@ -76,4 +74,4 @@ Feature:
   | Theming Guide            | /documentation/theme             |
   | Mobile Guide             | /documentation/mobile            |
   | Develop for Drupal       | /documentation/develop           |
-   
+  
