@@ -5,7 +5,7 @@
  * and we need a way to pass relevant data (like generated node id)
  * from one scenario to the next.  This class provides a simple
  * registry to pass data. This should be used only when absolutely
- * necessary as scenarios should be independent as often as possible.  
+ * necessary as scenarios should be independent as often as possible.
  */
 abstract class HackyDataRegistry {
   public static $data = array();
@@ -277,7 +277,7 @@ class FeatureContext extends DrupalContext {
     $project = strtolower(HackyDataRegistry::get('project_short_name'));
     if (!$project || $project == "") {
       if (!$project = strtolower(HackyDataRegistry::get('project title'))) {
-        // Find project short name from git endpoint        
+        // Find project short name from git endpoint
         $arr_url = explode('/', $url);
         $project = str_replace('.git', '', end($arr_url));
       }
@@ -300,13 +300,13 @@ class FeatureContext extends DrupalContext {
     // Continue with normal cloning
     if (!$process->isSuccessful()) {
       throw new RuntimeException("The clone did not work " .
-        "\n Error: " . $process->getErrorOutput() .
-        "\n Output: " . $process->getOutput()
+        "\n Error: 2" . $process->getErrorOutput() .
+        "\n Output: 3" . $process->getOutput()
       );
     }
     // If clone is successfull, then a directory must be created
     if (!is_dir(getcwd() . "/" . $project)) {
-      throw new RuntimeException("Error while cloning the repository \n" . $process->getOutput());
+      throw new RuntimeException('The clone did not work ' . $process->getOutput());
     }
   }
 
@@ -1008,7 +1008,8 @@ class FeatureContext extends DrupalContext {
       'row' => '.view div.views-row',
       'row li' => '.view li.views-row',
       'sitewide search' => 'dl.search-results dt',
-      'emails table' => '#multiple-email-manage table tbody tr'
+      'emails table' => '#multiple-email-manage table tbody tr',
+      'profiles' => '#profile div.profile'
     );
     foreach ($classes as $type => $class) {
       $result = $page->findAll('css', $class);
@@ -2602,25 +2603,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I should see the copyright statement in the right sidebar$/
-   */
-  public function iShouldSeeTheCopyrightStatementInTheRightSidebar() {
-    $region = $this->getSession()->getPage()->find('region', 'right sidebar');
-    if (empty($region)) {
-      throw new Exception("Right sidebar region was not found");
-    }
-    $block = $region->find('css', '#column-right-region > #block-drupalorg_handbook-license div.block-inner div.block-content');
-    if (empty($block)) {
-      throw new Exception('No blocks found in the right sidebar');
-    }
-    $copyright = 'online documentation is &Acirc;&copy; 2000-2012 by the individual contributors and can be used in accordance with the';
-    $contents = htmlentities(trim($block->getText()));
-    if (!strstr($contents, $copyright)) {
-      throw new Exception('Copyright statement cannot be found in the right sidebar');
-    }
-  }
-
-  /**
    * @Given /^"([^"]*)" should not contain an input element$/
    */
   public function shouldNotContainAnImputElement($id) {
@@ -3671,7 +3653,7 @@ class FeatureContext extends DrupalContext {
     $chk = $element->findField("Sandbox");
     if (empty($chk)) {
       throw new Exception("No Sandbox checkbox was found");
-    } 
+    }
     if ($chk->hasAttribute("disabled")) {
       throw new Exception("You do not have permissions to create a full project");
     }
@@ -4061,7 +4043,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I (?:|should )see the (?:issue|document) title$/
+   * @Then /^I (?:|should )see the (?:issue|document|community spotlight) title$/
    */
   public function iShouldSeeTheTitle() {
     $page = $this->getSession()->getPage();
@@ -4071,12 +4053,15 @@ class FeatureContext extends DrupalContext {
     if (isset($this->issueTitle)) {
       $title = $this->issueTitle;
       $type = 'Issue';
-    }elseif ($title = HackyDataRegistry::get('book page title')) {
+    }
+    elseif ($title = HackyDataRegistry::get('book page title')) {
       $type = 'Document';
     }
-
+    elseif ($title = HackyDataRegistry::get('random:Forum subject')) {
+      $type = 'Forum';
+    }
     if (empty($title) || empty($element) || strpos($element->getText(), $title) === FALSE) {
-      throw new Exception($type . ' title not found where it was expected.');
+      throw new Exception($type . ' title is not found where it was expected.');
     }
   }
 
@@ -4292,17 +4277,25 @@ class FeatureContext extends DrupalContext {
   public function cleanData() {
     // Read stored project url and delete
     $arr_nodeurl = array();
+    // Newly created project
     if ($project_url = HackyDataRegistry::get('project_url')) {
       $arr_nodeurl[] = $project_url;
     }
+    // Issue of a project
     if ($issue_url = HackyDataRegistry::get('issue_url')) {
       $arr_nodeurl[] = $issue_url;
     }
+    // Sandbox project
     if ($sandbox_url = HackyDataRegistry::get('sandbox_url')) {
       $arr_nodeurl[] = $sandbox_url;
     }
+    // Sandbox project/organization
     if ($project_path = HackyDataRegistry::get('project path')) {
       $arr_nodeurl[] = $project_path;
+    }
+    // Forum node
+    if ($spotlight_url = HackyDataRegistry::get('forum url')) {
+      $arr_nodeurl[] = $spotlight_url;
     }
     // Test Document/Book page
     if ($document_url = HackyDataRegistry::get('document url')) {
@@ -4321,6 +4314,33 @@ class FeatureContext extends DrupalContext {
     $session = $this->getSession();
     foreach ($arr_nodeurl as $url) {
       $this->deleteNode($url);
+    }
+  }
+
+  /**
+   * Function to delete the node
+   *
+   * @param $path
+   *   string The url of the node to be deleted
+   */
+  private function deleteNode($path) {
+    // Log in as admin to perform node deletion
+    $this->iAmLoggedInAs('admin test');
+    $session = $this->getSession();
+    $session->visit($this->locatePath($path));
+    sleep(1);
+    $editLink = $session->getPage()->findLink('Edit');
+    if (!empty($editLink)) {
+      if ($editLink->hasAttribute("href")) {
+        $session->visit($this->locatePath($editLink->getAttribute('href')));
+        sleep(1);
+        $page = $session->getPage();
+        $page->fillField("Log message:", "Deleted during cleanup");
+        $page->pressButton("Delete");
+        sleep(1);
+        // Confirm delete
+        $page->pressButton("Delete");
+      }
     }
   }
 
@@ -4942,9 +4962,9 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @When /^I clik on link "([^"]*)" under section "([^"]*)"$/
+   * @When /^I click on link "([^"]*)" under section "([^"]*)"$/
    */
-  public function iClikOnLinkUnderSection($link, $section) {
+  public function iClickOnLinkUnderSection($link, $section) {
     $page = $this->getSession()->getPage();
     // Verify that the section exists
     $result = $page->find('xpath', '//form[@id="lists-subscribe-form"]//h2[text()="' . $section . '"]');
@@ -5344,7 +5364,7 @@ class FeatureContext extends DrupalContext {
    * Compares modules from 'Most installed' block and usage stats page
    *
    * @Given /^I should see at least "([^"]*)" most installed modules$/
-   * 
+   *
    * @param integer $count
    *   The number of modules to check for
    */
@@ -5407,7 +5427,8 @@ class FeatureContext extends DrupalContext {
       throw new Exception("Title post is not found on the page");
     }
     $href = $result->getAttribute("href");
-    $this->getSession()->visit($href);    
+    $this->getSession()->visit($href);
+    sleep(5);
   }
 
   /**
@@ -5444,34 +5465,32 @@ class FeatureContext extends DrupalContext {
    * @param string $option
    * define the selected value of radio button
    * @param string $field
-   * In order to define the field name
+   * define the field name
    */
   public function iShouldSeeSelectedFor($option, $field) {
-    $temp = $this->getSession()->getPage()->findAll('css', '#column-left .group-moderation .form-item .form-radios .form-item input[type=radio]');
-    if(empty($temp)) {
+    $result = $this->getSession()->getPage()->findAll('css', '.group-moderation .form-item label');
+    if (empty($result)) {
       throw new Exception("Radio buttons are not found on the page");
     }
-    foreach($temp as $radio) {
-      $subHeading = $radio->getParent()->getText();
-      $listHeader = $radio->getParent()->getParent()->getParent()->getParent();
-      if(empty($listHeader)) {
-        throw new Exception("No fields exists in the page");
-      }
-      $mainHeading = $listHeader->getText();
-      $resultCount = explode(':', $mainHeading);
+    foreach ($result as $row) {
+      $listHeader = $row->getText();
+      $resultCount = explode(':', $listHeader);
       $repTemp = $resultCount[0];
       if(empty($repTemp)) {
-        throw new Exception("Moderator field '" . $repTemp . "' is not found on the page");
+        throw new Exception("Moderator field '" . $field . "' is not found on the page");
       }
-      if(($repTemp == $field) && ($subHeading == $option)) {
-        if((!$radio->getAttribute('checked'))){
-          throw new Exception("The moderator field '" . $repTemp . "' does not have the selected '" . $option . "' on the page");
+      if (strpos($repTemp, $field) !== FALSE) {
+        $optionLable = $row->getParent();
+        $optionField =  $optionLable->findField($option);
+        if(empty($optionField)) {
+          throw new Exception("Moderator field '" . $option . "' option is not found on the page");
+        }
+        if(($optionField->isChecked())){
+          return;
         }
       }
-      else {
-        throw new Exception("The moderator field '" . $repTemp . "' with the selected '" . $option . "' does not exist");
-      }
     }
+    throw new Exception("The moderator field '" . $field . "' with appropriate selected '" . $option . "' option does not exists on the page");
   }
 
   /**
@@ -5664,6 +5683,300 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastInArea($count, $type) {
     $this->iShouldSeeInArea('count', $type, 'top right content', true, $count );
+  }
+
+  /**
+   * Checks if the solr search results page is sorted by 'most installed' or not
+   *
+   * @Given /^I should see the results sorted by most installed modules$/
+   */
+  public function iShouldSeeTheResultsSortedByMostInstalledModules() {
+    $links = $this->getSession()->getPage()->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
+    if (empty($links)) {
+      throw new Exception("The page did not contain any links");
+    }
+    $linksArr = array();
+    foreach ($links as $link) {
+      $linksArr[] = trim($link->getText());
+    }
+    // Go to usage stats page
+    $this->getSession()->visit($this->locatePath("/project/usage"));
+    // Wait for the page to load. Otherwise we will get timeout error here. project/usage page is long
+    sleep(6);
+    // Get the links for the first result
+    $link = $this->getSession()->getPage()->findLink($linksArr[0]);
+    if (empty($link)) {
+      throw new Exception("The module '" . $linksArr[0] . "' was not found on the statistics page");
+    }
+    // a > td > tr
+    $link = $link->getParent()->getParent()->find("css", ".project-usage-numbers");
+    if (empty($link)) {
+      throw new Exception("Could not find module install count on the statistics page");
+    }
+    $resultFirst = (int) str_replace(",", "", trim($link->getText()));
+
+    // Get the links for the last result
+    $link = $this->getSession()->getPage()->findLink($linksArr[sizeof($linksArr) - 1]);
+    if (empty($link)) {
+      throw new Exception("The module '" . end($linksArr) . "' was not found on the statistics page");
+    }
+    // a > td > tr
+    $link = $link->getParent()->getParent()->find("css", ".project-usage-numbers");
+    if (empty($link)) {
+      throw new Exception("Could not find module install count on the statistics page");
+    }
+    $resultLast = (int) str_replace(",", "", trim($link->getText()));
+
+    if ($resultLast > $resultFirst) {
+      throw new Exception("The results are not sorted by most installed modules");
+    }
+  }
+
+  /**
+   * Checks if the solr search results page is sorted by 'last build' or not
+   *
+   * @Given /^I should see the results sorted by last build of the project$/
+   */
+  public function iShouldSeeTheResultsSortedByLastBuildOfTheProject() {
+    // Get all the results links
+    $links = $this->getSession()->getPage()->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
+    if (empty($links)) {
+      throw new Exception("The page did not contain any links");
+    }
+    $linksArr = array();
+    foreach ($links as $link) {
+      $linksArr[] = trim($link->getAttribute("href"));
+    }
+    // Go to first result page
+    $this->getSession()->visit($this->locatePath($linksArr[0]));
+    // Wait for the page to load. Otherwise we will get timeout error here
+    sleep(3);
+    // Go to releases page
+    $temp = $this->getSession()->getPage()->findLink("View all releases");
+    if (empty($temp)) {
+      throw new Exception("The page did not contain any releases");
+    }
+    $temp->click();
+    // Wait for the page to load. Otherwise we will get timeout error here
+    sleep(3);
+    // Get the posted date of the first item visible on the screen
+    $date = $this->getSession()->getPage()->find("css", ".node .submitted em");
+    if (empty($date)) {
+      throw new Exception("The page did not contain posted date or any releases");
+    }
+    // Convert to timestamp
+    $timeStampFirst = strtotime($date->getText());
+
+    // Go to last result page
+    $this->getSession()->visit($this->locatePath(end($linksArr)));
+    // Wait for the page to load. Otherwise we will get timeout error here
+    sleep(3);
+    // Go to releases page
+    $temp = $this->getSession()->getPage()->findLink("View all releases");
+    if (empty($temp)) {
+      throw new Exception("The page did not contain any releases");
+    }
+    $temp->click();
+    // Wait for the page to load. Otherwise we will get timeout error here
+    sleep(3);
+    // Get the posted date of the first item visible on the screen
+    $date = $this->getSession()->getPage()->find("css", ".node .submitted em");
+    if (empty($date)) {
+      throw new Exception("The page did not contain posted date");
+    }
+    // Convert to timestamp
+    $timeStampLast = strtotime($date->getText());
+
+    if ($timeStampLast > $timeStampFirst) {
+      throw new Exception("The results are not sorted by last build of project");
+    }
+  }
+
+  /**
+   * Checks if the solr search results page is sorted by 'last release' or not
+   *
+   * @Given /^I should see the results sorted by latest release of the project$/
+   */
+  public function iShouldSeeTheResultsSortedByLatestReleaseOfTheProject() {
+    throw new PendingException();
+  }
+
+  /**
+   * Checks if $count number of memebers were found on the page or not
+   *
+   * @param $count
+   *   integer The minimum number of memebers expected on the page
+   *
+   * @Given /^I should see at least "([^"]*)" members$/
+   */
+  public function iShouldSeeAtLeastMembers($count) {
+    $results = $this->getViewDisplayRows($this->getSession()->getPage());
+    if (empty($results)) {
+      throw new Exception("The page did not contain any members");
+    }
+    if (sizeof($results) < $count) {
+      throw new Exception("The page has less than '" . $count . "' members");
+    }
+  }
+
+  /**
+   * Checks if the specified link was found on the specified region of the page or not
+   *
+   * @param $link
+   *   string The link to look for on the page
+   * @param $region
+   *   string The page region in which the link should be looked for
+   * @param $find (optional)
+   *   boolean When the $link should be present or not
+   *
+   * @Given /^I should see the link "([^"]*)" in the "([^"]*)" region$/
+   */
+  public function iShouldSeeTheLinkInTheRegion($link, $region, $find = TRUE) {
+    $this->iShouldSeeInArea('link', $link, $region, $find);
+  }
+
+  /**
+   * Checks if the specified link was found on the specified region of the page or not
+   *
+   * @param $link
+   *   string The link to look for on the page
+   * @param $region
+   *   string The page region in which the link should be looked for
+   *
+   * @Given /^I should not see the link "([^"]*)" in the "([^"]*)" region$/
+   */
+  public function iShouldNotSeeTheLinkInTheRegion($link, $region) {
+    $this->iShouldSeeTheLinkInTheRegion($link, $region, FALSE);
+  }
+
+  /**
+   * Checks if the specified text was found on the specified region of the page or not
+   *
+   * @param $text
+   *   string The text to look for on the page
+   * @param $region
+   *   string The page region in which the text should be looked for
+   * @param $find (optional)
+   *   boolean When the $text should be present or not
+   *
+   * @Given /^I should see the text "([^"]*)" in the "([^"]*)" region$/
+   */
+  public function iShouldSeeTheTextInTheRegion($text, $region, $find = TRUE) {
+    $this->iShouldSeeInArea('text', $text, $region, $find);
+  }
+
+  /**
+   * Checks if the specified text was found on the specified region of the page or not
+   *
+   * @param $text
+   *   string The text to look for on the page
+   * @param $region
+   *   string The page region in which the text should be looked for
+   *
+   * @Given /^I should not see the text "([^"]*)" in the "([^"]*)" region$/
+   */
+  public function iShouldNotSeeTheTextInTheRegion($text, $region) {
+    $this->iShouldSeeTheTextInTheRegion($text, $region, FALSE);
+  }
+
+  /**
+   * Creates a forum and store subject, body and url
+   *
+   * @When /^I create a forum(?:| topic)$/
+   */
+  public function iCreateAForum() {
+    $page = $this->getSession()->getPage();
+    $subject = $this->randomString(8);
+    $page->fillField("title", $subject);
+    HackyDataRegistry::set('random:Forum subject', $subject);
+    $body = str_repeat($this->randomString(30) . " ", 10);
+    $page->fillField("body", $body);
+    HackyDataRegistry::set('random:Forum body', $body);
+    $page->pressButton('Save');
+    // Let the page load
+    sleep(3);
+    // Store node url
+    HackyDataRegistry::set('forum url', $this->getSession()->getCurrentUrl());
+  }
+
+  /**
+   * Loads already saved community spotlight page
+   *
+   * @Given /^I am on the (?:community spotlight|forum topic) page$/
+   */
+  public function iAmOnTheForumPage() {
+    // Get saved community forum URL
+    if (!($url = HackyDataRegistry::get('forum url'))) {
+      throw new Exception('Forum URL is empty');
+    }
+    $this->getSession()->visit($this->locatePath($url));
+  }
+
+  /**
+   * Checks whether the forum link is present
+   *
+   * @Then /^I should see the (?:community spotlight|forum topic) link$/
+   */
+  public function iShouldSeeTheForumLink() {
+    if (!($subject = HackyDataRegistry::get('random:Forum subject'))) {
+      throw new Exception('Forum subject is empty');
+    }
+    // Let the page load
+    sleep(3);
+    return new Then('I should see the link "' . $subject . '"');
+  }
+
+  /**
+   * @Then /^I should see book image under Drupal books$/
+   */
+  public function iShouldSeeBookImageUnderDrupalBooks() {
+    $result = $this->getSession()->getPage()->find('css', '#content-inner .grid-3 .narrow-box-list img');
+    if (empty($result)) {
+      throw new Exception('No Drupal book image under drupal books');
+    }
+  }
+
+  /**
+   * @Given /^I should see the introductory text$/
+   */
+  public function iShouldSeeTheIntroductoryText() {
+    // Get the anchor tag from the first new
+    $result = $this->getSession()->getPage()->find("css", "#fragment-1 p a");
+    if (empty($result)) {
+      throw new Exception('The news section did not contain introductory text');
+    }
+    // Move one level up to get the p tag. a > p
+    $intro = $result->getParent()->getText();
+    if (trim($intro) == "") {
+      throw new Exception('The news section did not contain introductory text');
+    }
+    // Remove read more from the intro
+    $intro = trim(str_replace("Read more", "", $intro));
+    // Get the full body from post and check if the intro is part of it or not
+    if (strpos(HackyDataRegistry::get('random:Forum body'), $intro) === FALSE) {
+      throw new Exception('The news section did not contain introductory text');
+    }
+  }
+
+  /**
+   * @Given /^I should see at least "([^"]*)" more news links$/
+   */
+  public function iShouldSeeAtLeastMoreNewsLinks($count) {
+    $links = 0;
+    // Get the anchor tags
+    $result = $this->getSession()->getPage()->findAll("css", "#fragment-1 p a");
+    if (empty($result)) {
+      throw new Exception('The news section did not contain any links');
+    }
+    foreach ($result as $link) {
+      // Discard Read more and more news links
+      if (trim($link->getText()) != "Read more" && trim($link->getText()) != "More news") {
+        $links++;
+      }
+    }
+    if ($links < $count) {
+      throw new Exception("The news section contains less than '" . $count . "' news links");
+    }
   }
 
   /**
@@ -5973,209 +6286,4 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The release is in published mode");
     }
   }
-
-  /**
-   * Function to delete the node
-   *
-   * @param $path
-   *   string The url of the node to be deleted
-   */
-  private function deleteNode($path) {
-    // Log in as admin to perform node deletion
-    $this->iAmLoggedInAs('admin test');
-    $session = $this->getSession();
-    $session->visit($this->locatePath($path));
-    sleep(1);
-    $editLink = $session->getPage()->findLink('Edit');
-    if (!empty($editLink)) {
-      if ($editLink->hasAttribute("href")) {
-        $session->visit($this->locatePath($editLink->getAttribute('href')));
-        sleep(1);
-        $page = $session->getPage();
-        $page->fillField("Log message:", "Deleted during cleanup");
-        $page->pressButton("Delete");
-        sleep(1);
-        // Confirm delete
-        $page->pressButton("Delete");
-      }
-    }
-  }
-
-  /**
-   * Checks if the solr search results page is sorted by 'most installed' or not
-   *
-   * @Given /^I should see the results sorted by most installed modules$/
-   */
-  public function iShouldSeeTheResultsSortedByMostInstalledModules() {
-    $page = $this->getSession()->getPage();
-    $links = $page->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
-    if (empty($links)) {
-      throw new Exception("The page did not contain any links");
-    }
-    $linksArr = array();
-    foreach ($links as $link) {
-      $linksArr[] = trim($link->getText());
-    }
-    // Go to usage stats page
-    $this->getSession()->visit($this->locatePath("/project/usage"));
-    // Wait for the page to load. Otherwise we will get timeout error here. project/usage page is long
-    sleep(6);
-    // Get the links for the first result
-    $link = $this->getSession()->getPage()->findLink($linksArr[0]);
-    if (empty($link)) {
-      throw new Exception("The module '" . $linksArr[0] . "' was not found on the statistics page");
-    }
-    // a > td > tr
-    $link = $link->getParent()->getParent()->find("css", ".project-usage-numbers");
-    if (empty($link)) {
-      throw new Exception("Could not find module install count on the statistics page");
-    }
-    $resultFirst = (int) str_replace(",", "", trim($link->getText()));
-
-    // Get the links for the last result
-    $link = $this->getSession()->getPage()->findLink($linksArr[sizeof($linksArr) - 1]);
-    if (empty($link)) {
-      throw new Exception("The module '" . $linksArr[sizeof($linksArr) - 1] . "' was not found on the statistics page");
-    }
-    // a > td > tr
-    $link = $link->getParent()->getParent()->find("css", ".project-usage-numbers");
-    if (empty($link)) {
-      throw new Exception("Could not find module install count on the statistics page");
-    }
-    $resultLast = (int) str_replace(",", "", trim($link->getText()));
-
-    if ($resultLast > $resultFirst) {
-      throw new Exception("The results are not sorted by most installed modules");
-    }
-  }
-
-  /**
-   * Checks if the solr search results page is sorted by 'last build' or not
-   *
-   * @Given /^I should see the results sorted by last build of the project$/
-   */
-  public function iShouldSeeTheResultsSortedByLastBuildOfTheProject() {
-    // Get all the results links
-    $links = $this->getSession()->getPage()->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
-    if (empty($links)) {
-      throw new Exception("The page did not contain any links");
-    }
-    $linksArr = array();
-    foreach ($links as $link) {
-      $linksArr[] = trim($link->getAttribute("href"));
-    }
-    // Go to first result page
-    $this->getSession()->visit($this->locatePath($linksArr[0]));
-    // Wait for the page to load. Otherwise we will get timeout error here
-    sleep(3);
-    // Go to releases page
-    $temp = $this->getSession()->getPage()->findLink("View all releases");
-    if (empty($temp)) {
-      throw new Exception("The page did not contain any releases");
-    }
-    $temp->click();
-    // Wait for the page to load. Otherwise we will get timeout error here
-    sleep(3);
-    // Get the posted date of the first item visible on the screen
-    $date = $this->getSession()->getPage()->find("css", ".node .submitted em");
-    if (empty($date)) {
-      throw new Exception("The page did not contain posted date or any releases");
-    }
-    // Convert to timestamp
-    $timeStampFirst = strtotime($date->getText());
-    
-    // Go to last result page
-    $this->getSession()->visit($this->locatePath($linksArr[sizeof($linksArr) - 1]));
-    // Wait for the page to load. Otherwise we will get timeout error here
-    sleep(3);
-    // Go to releases page
-    $temp = $this->getSession()->getPage()->findLink("View all releases");
-    if (empty($temp)) {
-      throw new Exception("The page did not contain any releases");
-    }
-    $temp->click();
-    // Wait for the page to load. Otherwise we will get timeout error here
-    sleep(3);
-    // Get the posted date of the first item visible on the screen
-    $date = $this->getSession()->getPage()->find("css", ".node .submitted em");
-    if (empty($date)) {
-      throw new Exception("The page did not contain posted date");
-    }
-    // Convert to timestamp
-    $timeStampLast = strtotime($date->getText());
-
-    if ($timeStampLast > $timeStampFirst) {
-      throw new Exception("The results are not sorted by last build of project");
-    }
-  }
-
-  /**
-   * Checks if the solr search results page is sorted by 'last release' or not
-   *
-   * @Given /^I should see the results sorted by latest release of the project$/
-   */
-  public function iShouldSeeTheResultsSortedByLatestReleaseOfTheProject() {
-    throw new PendingException();
-  }
-
-  /**
-   * Checks if the specified link was found on the specified region of the page or not
-   *
-   * @param $link
-   *   string The link to look for on the page
-   * @param $region
-   *   string The page region in which the link should be looked for
-   * @param $find (optional)
-   *   boolean When the $link should be present or not
-   *
-   * @Given /^I should see the link "([^"]*)" in the "([^"]*)" region$/
-   */
-  public function iShouldSeeTheLinkInTheRegion($link, $region, $find = TRUE) {
-    $this->iShouldSeeInArea('link', $link, $region, $find);
-  }
-
-  /**
-   * Checks if the specified link was found on the specified region of the page or not
-   *
-   * @param $link
-   *   string The link to look for on the page
-   * @param $region
-   *   string The page region in which the link should be looked for
-   *
-   * @Given /^I should not see the link "([^"]*)" in the "([^"]*)" region$/
-   */
-  public function iShouldNotSeeTheLinkInTheRegion($link, $region) {
-    $this->iShouldSeeTheLinkInTheRegion($link, $region, FALSE);
-  }
-
-  /**
-   * Checks if the specified text was found on the specified region of the page or not
-   *
-   * @param $text
-   *   string The text to look for on the page
-   * @param $region
-   *   string The page region in which the text should be looked for
-   * @param $find (optional)
-   *   boolean When the $text should be present or not
-   *
-   * @Given /^I should see the text "([^"]*)" in the "([^"]*)" region$/
-   */
-  public function iShouldSeeTheTextInTheRegion($text, $region, $find = TRUE) {
-    $this->iShouldSeeInArea('text', $text, $region, $find);
-  }
-
-  /**
-   * Checks if the specified text was found on the specified region of the page or not
-   *
-   * @param $text
-   *   string The text to look for on the page
-   * @param $region
-   *   string The page region in which the text should be looked for
-   *
-   * @Given /^I should not see the text "([^"]*)" in the "([^"]*)" region$/
-   */
-  public function iShouldNotSeeTheTextInTheRegion($text, $region) {
-    $this->iShouldSeeTheTextInTheRegion($text, $region, FALSE);
-  }
-
 }
