@@ -5,7 +5,7 @@
  * and we need a way to pass relevant data (like generated node id)
  * from one scenario to the next.  This class provides a simple
  * registry to pass data. This should be used only when absolutely
- * necessary as scenarios should be independent as often as possible.
+ * necessary as scenarios should be independent as often as possible.  
  */
 abstract class HackyDataRegistry {
   public static $data = array();
@@ -205,7 +205,7 @@ class FeatureContext extends DrupalContext {
     if (empty($result)) {
       throw new Exception("The page does not contain any codeblock");
     }
-    $this->repo = $result->getText();
+    HackyDataRegistry::set('git repo', $this->repo);
     // Get user data only if a user is logged in. Even anonymous user can clone.
     $user = $this->whoami();
     if ($user != 'User account') {
@@ -229,7 +229,7 @@ class FeatureContext extends DrupalContext {
     $project = strtolower(HackyDataRegistry::get('project_short_name'));
     if (!$project || $project == "") {
       if (!$project = strtolower(HackyDataRegistry::get('project title'))) {
-        // Find project short name from git endpoint
+        // Find project short name from git endpoint        
         $arr_url = explode('/', $url);
         $project = str_replace('.git', '', end($arr_url));
       }
@@ -237,23 +237,19 @@ class FeatureContext extends DrupalContext {
     if (!$project || $project == "") {
       throw new Exception("No project found to push");
     }
-    $command = "./bin/gitwrapper $password $url $project";
+    $command = "./bin/gitwrapper clone $password $url $project";
     $process = new Process($command);
     $process->setTimeout(3600);
     $process->run();
     if (!$process->isSuccessful()) {
-      throw new RuntimeException("The clone did not work" .
-      "\n Error: " . $process->getErrorOutput() .
-      "\n Output: " . $process->getOutput()
+      throw new RuntimeException("The clone did not work " .
+        "\n Error: " . $process->getErrorOutput() .
+        "\n Output: " . $process->getOutput()
       );
     }
     // If clone is successfull, then a directory must be created
     if (!is_dir(getcwd() . "/" . $project)) {
-      throw new RuntimeException('The clone did not work' . $process->getOutput());
-    }
-    // If clone is successfull, then a directory must be created
-    if (!is_dir(getcwd() . "/" . $project)) {
-      throw new RuntimeException('The clone did not work' . $process->getOutput());
+      throw new RuntimeException("Error while cloning the repository \n" . $process->getOutput());
     }
   }
 
@@ -423,6 +419,12 @@ class FeatureContext extends DrupalContext {
     if (empty($element)) {
       throw new Exception("No title was found on the page");
     }
+    if (!HackyDataRegistry::get('sandbox_url')) {
+      $this->projectTitle = $element->getText();
+      // If clone is called after visitin url instead of creating project
+      HackyDataRegistry::set('project_short_name', basename($this->getSession()->getCurrentUrl()));
+      HackyDataRegistry::set('project title', $this->projectTitle);
+    }
     // Get link to Version control tab
     $vcLink = $page->findLink('Version control');
     if (empty($vcLink)) {
@@ -478,7 +480,7 @@ class FeatureContext extends DrupalContext {
     $rawCommand = str_replace('<br/>', '', $rawCommand);
     $rawCommand = str_replace('&gt;', '>', $rawCommand);
     $rawCommand = str_replace('&#13;', '', $rawCommand);
-    $rawCommand = str_replace('git push origin master', "../bin/gitwrapper $password", $rawCommand);
+    $rawCommand = str_replace('git push origin master', "../bin/gitwrapper init $password", $rawCommand);
     $command = preg_replace('/<code>(.*)?<\/code>/U', '\1 ; ', $rawCommand);
     # var_dump($command);
     $process = new Process($command);
@@ -486,7 +488,7 @@ class FeatureContext extends DrupalContext {
     $process->run();
     if (!$process->isSuccessful() || stripos($process->getOutput(), "error") !== FALSE) {
       throw new Exception("Initializing repository failed" .
-      "\nCommand: " . $fullCommand .
+      "\nCommand: " . $command .
       "\nError: " . $process->getErrorOutput() .
       "\nOutput: " . $process->getOutput()
       );
@@ -940,8 +942,7 @@ class FeatureContext extends DrupalContext {
       'row' => '.view div.views-row',
       'row li' => '.view li.views-row',
       'sitewide search' => 'dl.search-results dt',
-      'emails table' => '#multiple-email-manage table tbody tr',
-      'profiles' => '#profile div.profile'
+      'emails table' => '#multiple-email-manage table tbody tr'
     );
     foreach ($classes as $type => $class) {
       $result = $page->findAll('css', $class);
@@ -2546,7 +2547,7 @@ class FeatureContext extends DrupalContext {
     if (empty($block)) {
       throw new Exception('No blocks found in the right sidebar');
     }
-    $copyright = 'Drupal&rsquo;s online documentation is &copy; 2000-2012 by the individual contributors and can be used in accordance with the';
+    $copyright = 'online documentation is &Acirc;&copy; 2000-2012 by the individual contributors and can be used in accordance with the';
     $contents = htmlentities(trim($block->getText()));
     if (!strstr($contents, $copyright)) {
       throw new Exception('Copyright statement cannot be found in the right sidebar');
@@ -3598,7 +3599,7 @@ class FeatureContext extends DrupalContext {
     $chk = $element->findField("Sandbox");
     if (empty($chk)) {
       throw new Exception("No Sandbox checkbox was found");
-    }
+    } 
     if ($chk->hasAttribute("disabled")) {
       throw new Exception("You do not have permissions to create a full project");
     }
@@ -3690,11 +3691,12 @@ class FeatureContext extends DrupalContext {
     // Come back to the current page
     $this->getSession()->visit($currUrl);
     // Edit the info file present in the folder
-    $fh = fopen($projectTitle . ".info", "a");
-    fwrite($fh, "Test data for BDD");
+    $file = $projectTitle . ".info";
+    $fh = fopen($file, "a");
+    fwrite($fh, "\nTest data for BDD - " . date('d F Y G:i:s'));
     fclose($fh);
     // Git add
-    $process = new Process('git add ' . $projectTitle . '.info');
+    $process = new Process('git add ' . $file);
     $process->run();
     if (!$process->isSuccessful()) {
       throw new RuntimeException('Git add failed - ' . $process->getErrorOutput());
@@ -3707,7 +3709,7 @@ class FeatureContext extends DrupalContext {
     }
     // Git push
     $password = $this->fetchPassword('git', $gitUsername);
-    $process = new Process("../bin/gitwrapper $password");
+    $process = new Process("../bin/gitwrapper push $password");
     $process->run();
     if($canCommit) {
       if (!$process->isSuccessful()) {
@@ -4052,9 +4054,7 @@ class FeatureContext extends DrupalContext {
     }elseif ($title = HackyDataRegistry::get('book page title')) {
       $type = 'Document';
     }
-    elseif ($title = HackyDataRegistry::get('random:Forum subject')) {
-      $type = 'Forum';
-    }
+
     if (empty($title) || empty($element) || strpos($element->getText(), $title) === FALSE) {
       throw new Exception($type . ' title not found where it was expected.');
     }
@@ -4284,12 +4284,13 @@ class FeatureContext extends DrupalContext {
     if ($project_path = HackyDataRegistry::get('project path')) {
       $arr_nodeurl[] = $project_path;
     }
-    if ($spotlight_url = HackyDataRegistry::get('forum url')) {
-      $arr_nodeurl[] = $spotlight_url;
-    }
     // Test Document/Book page
     if ($document_url = HackyDataRegistry::get('document url')) {
       $arr_nodeurl[] = $document_url;
+    }
+    // Project release
+    if ($release_url = HackyDataRegistry::get('release_url')) {
+      $arr_nodeurl[] = $release_url;
     }
     if (empty($arr_nodeurl)) {
       return;
@@ -4299,23 +4300,7 @@ class FeatureContext extends DrupalContext {
     $this->iAmLoggedInAs('admin test');
     $session = $this->getSession();
     foreach ($arr_nodeurl as $url) {
-      $session->visit($this->locatePath($url));
-      sleep(1);
-      $editLink = $session->getPage()->findLink('Edit');
-      if (empty($editLink)) {
-        continue;
-      }
-      if (!$editLink->hasAttribute("href")) {
-        continue;
-      }
-      $session->visit($this->locatePath($editLink->getAttribute('href')));
-      sleep(1);
-      $page = $session->getPage();
-      $page->fillField("Log message:", 'Deleted');
-      $page->pressButton("Delete");
-      sleep(1);
-      // Confirm delete
-      $page->pressButton("Delete");
+      $this->deleteNode($url);
     }
   }
 
@@ -5356,7 +5341,7 @@ class FeatureContext extends DrupalContext {
    * Compares modules from 'Most installed' block and usage stats page
    *
    * @Given /^I should see at least "([^"]*)" most installed modules$/
-   *
+   * 
    * @param integer $count
    *   The number of modules to check for
    */
@@ -5419,8 +5404,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception("Title post is not found on the page");
     }
     $href = $result->getAttribute("href");
-    $this->getSession()->visit($href);
-    sleep(5);
+    $this->getSession()->visit($href);    
   }
 
   /**
@@ -5457,32 +5441,34 @@ class FeatureContext extends DrupalContext {
    * @param string $option
    * define the selected value of radio button
    * @param string $field
-   * define the field name
+   * In order to define the field name
    */
   public function iShouldSeeSelectedFor($option, $field) {
-    $result = $this->getSession()->getPage()->findAll('css', '.group-moderation .form-item label');
-    if (empty($result)) {
+    $temp = $this->getSession()->getPage()->findAll('css', '#column-left .group-moderation .form-item .form-radios .form-item input[type=radio]');
+    if(empty($temp)) {
       throw new Exception("Radio buttons are not found on the page");
     }
-    foreach ($result as $row) {
-      $listHeader = $row->getText();
-      $resultCount = explode(':', $listHeader);
+    foreach($temp as $radio) {
+      $subHeading = $radio->getParent()->getText();
+      $listHeader = $radio->getParent()->getParent()->getParent()->getParent();
+      if(empty($listHeader)) {
+        throw new Exception("No fields exists in the page");
+      }
+      $mainHeading = $listHeader->getText();
+      $resultCount = explode(':', $mainHeading);
       $repTemp = $resultCount[0];
       if(empty($repTemp)) {
-        throw new Exception("Moderator field '" . $field . "' is not found on the page");
+        throw new Exception("Moderator field '" . $repTemp . "' is not found on the page");
       }
-      if (strpos($repTemp, $field) !== FALSE) {
-        $optionLable = $row->getParent();
-        $optionField =  $optionLable->findField($option);
-        if(empty($optionField)) {
-          throw new Exception("Moderator field '" . $option . "' option is not found on the page");
+      if(($repTemp == $field) && ($subHeading == $option)) {
+        if((!$radio->getAttribute('checked'))){
+          throw new Exception("The moderator field '" . $repTemp . "' does not have the selected '" . $option . "' on the page");
         }
-        if(($optionField->isChecked())){
-          return;
-        }
+      }
+      else {
+        throw new Exception("The moderator field '" . $repTemp . "' with the selected '" . $option . "' does not exist");
       }
     }
-    throw new Exception("The moderator field '" . $field . "' with appropriate selected '" . $option . "' option does not exists on the page");
   }
 
   /**
@@ -5678,12 +5664,348 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Create a new git branch for the project
+   *
+   * @param $version
+   *   string The version for which a branch to be created like 5.x, 6.x, 7.x etc
+   *
+   * @When /^I create a new branch for "([^"]*)" version$/
+   */
+  public function iCreateANewBranchForVersion($version) {
+    $validBranches = array();
+    // Perform initial operations
+    $data = $this->performPreBranchTagOperation();
+    // Get the list of branches in the current repo
+    $process = new Process("git branch -a");
+    $process->run();
+    // Each branch will be printed in one line, so split them
+    $temp = explode("\n", $process->getOutput());
+    foreach ($temp as $b) {
+      // Consider only those branches that have the provided version (Eg. 6.x-1.x)
+      if (strpos($b, "remotes/origin/" . $version)) {
+        // The array should have only the minor version numbers and no characters
+        $validBranches[] = str_replace(".x", "", str_replace("remotes/origin/" . $version . "-", "", $b));
+      }
+    }
+    if (sizeof($validBranches)) {
+      // Sort them in ascending order
+      sort($validBranches);
+      // Get the last branch and increment by 1
+      $branch = $version . "-" . ((int) intval(end($validBranches)) + 1) . ".x";
+    }
+    else {
+      // No branches are present, then create 1.x branch
+      $branch = $version . "-1.x";
+    }
+    // Create a new branch
+    $command = "git checkout -b " . $branch;
+    $process = new Process($command);
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new Exception("Unable to create the branch - '" . $branch . "' Checkout failed -\n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
+    }
+    elseif (strpos($process->getOutput(), "fatal") !== FALSE || strpos($process->getErrorOutput(), "fatal") !== FALSE) {
+      throw new Exception("Unable to create the branch - '" . $branch . "' Checkout failed -\n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
+    }
+    // Update a file
+    $file = "test_releases.info";
+    $fh = fopen($file, "a");
+    fwrite($fh, "\nTest data for BDD - " . date('d F Y G:i:s'));
+    fclose($fh);
+    // Git add and commit
+    $command = 'git add ' . $file . '; git commit -m "by ' . $data['username'] . ': From the step definition"';
+    $process = new Process($command);
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new Exception('Git add/commit failed during branch creation - ' . $process->getErrorOutput());
+    }
+    // Push the changes to create a new branch
+    $password = $data['password'];
+    $command = "../bin/gitwrapper branch $password $branch";
+    $process = new Process($command);
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new Exception("Unable to create the branch '" . $branch . "' \n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
+    }
+    // Move back one folder after completion
+    chdir("../");
+    // Save branch created for later use
+    HackyDataRegistry::set('git branch', $branch);
+  }
+
+  /**
+   * To view the branch version in the provided dropdown
+   *
+   * @param $field
+   *   string The field in which the branch is supposed to be present
+   *
+   * @Then /^I should see the branch in the dropdown "([^"]*)"$/
+   */
+  public function iShouldSeeTheBranchInTheDropdown($field) {
+    $branch = HackyDataRegistry::get('git branch');
+    if (!$branch) {
+      throw new Exception("No branch was created for the project");
+    }
+    return new Given("I should see \"$branch\" in the dropdown \"$field\"");
+  }
+
+  /**
+   * Select the branch from the given dropdown
+   *
+   * @param $field
+   *   string The field in which the branch to be selected
+   *
+   * @Given /^I select a branch from "([^"]*)"$/
+   */
+  public function iSelectABranchFrom($field) {
+    $branch = HackyDataRegistry::get('git branch');
+    if (!$branch) {
+      throw new Exception("Cannot select the branch. No branch was created for the project");
+    }
+    $branch .= " (" . $branch . "-dev)";
+    return new Given("I select \"$branch\" from \"$field\"");
+  }
+ 
+  /**
+   * Create a new git tag for the project
+   *
+   * @param $version
+   *   string The version for which a tag to be created like 5.x, 6.x, 7.x etc
+   *
+   * @When /^I create a new tag for "([^"]*)" version$/
+   */
+  public function iCreateANewTagForVersion($version) {
+    $validTags = array();
+    // Perform initial operations
+    $data = $this->performPreBranchTagOperation();    
+    // Get the list of tags in the current repo
+    $process = new Process("git tag -l");
+    $process->run();
+    // Each tag will be printed in one line, so split them
+    $temp = explode("\n", $process->getOutput());
+    foreach ($temp as $b) {
+      // Remove the version from the tag
+      $validTags[] = str_replace($version . "-", "", $b);
+    }
+    if (sizeof($validTags)) {
+      // Sort them in ascending order
+      sort($validTags);
+      // Get the last tag and increment by 1
+      $tag = $version . "-" . ((int) intval(end($validTags)) + 1) . ".0";
+    }
+    else {
+      // No tags are present, then create 1.0 tag
+      $tag = $version . "-1.0";
+    }
+    $command = "git tag " . $tag;
+    $process = new Process($command);
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new Exception("Unable to create the tag. '" . $tag . "' \n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
+    }
+    elseif (strpos($process->getOutput(), "fatal:") !== FALSE) {
+      throw new Exception("Unable to create the tag - '" . $tag . "' Checkout failed -\n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
+    }
+    $password = $data['password'];
+    $command = "../bin/gitwrapper tag $password $tag";
+    $process = new Process($command);
+    $process->run();
+    if (!$process->isSuccessful()) {
+      throw new Exception("Unable to create the tag '" . $tag . "' \n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
+    }
+    // Move back one folder after completion
+    chdir("../");
+    // Save tag created for later use
+    HackyDataRegistry::set('git tag', $tag);
+  }
+
+  /**
+   * Function to perform some operations before creating a branch/tag
+   *
+   * @return $userData
+   *  Array Contains username and password for use in git operations
+   */
+  private function performPreBranchTagOperation() {
+    $currUrl = $this->getSession()->getCurrentUrl();
+    // Get the project folder name and make sure there is a clone
+    $projectTitle = strtolower(HackyDataRegistry::get('project_short_name'));
+    if (!$projectTitle) {
+      $projectTitle = strtolower(HackyDataRegistry::get('project title'));
+    }
+    if (!$projectTitle) {
+      throw new Exception("No project found to create a branch");
+    }
+    // Make sure the project directory exists before any step is taken
+    $cwd = getcwd();
+    if (!is_dir($cwd . '/' . $projectTitle)) {
+      throw new Exception("The folder '" . $projectTitle . "' does not exist. Please clone the repository");
+    }
+    // Move into the project folder
+    chdir($projectTitle);
+    $userData = $this->getGitUserData($this->repo);
+    if (!$userData) {
+      throw new Exception("Git username was not found on the page");
+    }
+    $gitUsername = $userData['username'];
+    // Set the git config user.email and user.name
+    if (!$this->setGitConfig($gitUsername)) {
+      throw new Exception("Unable to set the git config value");
+    }
+    // Come back to version control page
+    $this->getSession()->visit($currUrl);
+    sleep(2);
+    return $userData;
+  }
+
+  /**
+   * To view the tag version in the provided dropdown
+   *
+   * @param $field
+   *   string The field in which the tag is supposed to be present
+   *
+   * @Then /^I should see the tag in the dropdown "([^"]*)"$/
+   */
+  public function iShouldSeeTheTagInTheDropdown($field) {
+    $tag = HackyDataRegistry::get('git tag');
+    if (!$tag) {
+      throw new Exception("No tag was created for the project");
+    }
+    return new Given("I should see \"$tag\" in the dropdown \"$field\"");
+  }
+
+  /**
+   * Select the tag from the given dropdown
+   *
+   * @param $field
+   *   string The field in which the tag be selected
+   *
+   * @Given /^I select a tag from "([^"]*)"$/
+   */
+  public function iSelectATagFrom($field) {
+    $tag = HackyDataRegistry::get('git tag');
+    if (!$tag) {
+      throw new Exception("Cannot select the tag. No tag was created for the project");
+    }
+    return new Given("I select \"$tag\" from \"$field\"");
+  }
+
+  /**
+   * @AfterScenario @git_branch
+   */
+  public function cleanGitBranch(ScenarioEvent $event) {
+    $branch = HackyDataRegistry::get('git branch');
+    if ($branch) {
+      $this->cleanGitTagBranch("branch", $branch);
+      // Remove clone residue
+      $this->cleanGitRepos($event);
+    }
+  }
+
+  /**
+   * @AfterScenario @git_tag
+   */
+  public function cleanGitTag(ScenarioEvent $event) {
+    $tag = HackyDataRegistry::get('git tag');
+    if ($tag) {
+      $this->cleanGitTagBranch("tag", $tag);
+      // Remove clone residue
+      $this->cleanGitRepos($event);
+    }
+  }
+
+  /**
+   * Function to delete the branch/tag created for a project
+   *
+   * @param $type
+   *   string Specify what to delete, valid values are 'branch' and 'tag'
+   * @param $value
+   *   string The value of the type eg. 6.x-1.x or 7.x-2.0
+   *
+   */
+  private function cleanGitTagBranch($type, $value) {
+    if ($type != "branch" && $type != "tag") {
+      return;
+    }
+    // Get the project folder name and make sure there is a clone
+    $projectTitle = strtolower(HackyDataRegistry::get('project_short_name'));
+    if (!$projectTitle) {
+      $projectTitle = strtolower(HackyDataRegistry::get('project title'));
+    }
+    if (!$projectTitle) {
+      return;
+    }
+    if ($type && $value) {
+      $this->deleteNode(HackyDataRegistry::get('release_url'));
+      $this->iAmLoggedInAs('git vetted user');
+      if (is_dir($projectTitle)) {
+        chdir($projectTitle);
+        $command = "git " . $type . " -d " . $value;
+    		$process = new Process($command);
+		    $process->run();
+		    sleep(1);
+		    $userData = $this->getGitUserData(HackyDataRegistry::get('git repo'));
+        if (!$userData) {
+          return;
+        }
+        $gitUsername = $userData['username'];
+        $password = $userData['password'];
+		    $command = "../bin/gitwrapper ". $type . "_delete $password $value";
+    		$process = new Process($command);
+    		$process->run();
+    		// Move back one folder after completion
+        chdir("../");
+      }
+    }
+  }
+  
+  /**
+   * Check whether the current project is in published more or not
+   *
+   * @Given /^the release should not be published$/
+   */
+  public function theReleaseShouldNotBePublished() {
+    HackyDataRegistry::set('release_url', $this->getSession()->getCurrentUrl());
+    $result = $this->getSession()->getPage()->find("css", "#content-inner .node-unpublished");
+    if (empty($result)) {
+      throw new Exception("The release is in published mode");
+    }
+  }
+
+  /**
+   * Function to delete the node
+   *
+   * @param $path
+   *   string The url of the node to be deleted
+   */
+  private function deleteNode($path) {
+    // Log in as admin to perform node deletion
+    $this->iAmLoggedInAs('admin test');
+    $session = $this->getSession();
+    $session->visit($this->locatePath($path));
+    sleep(1);
+    $editLink = $session->getPage()->findLink('Edit');
+    if (!empty($editLink)) {
+      if ($editLink->hasAttribute("href")) {
+        $session->visit($this->locatePath($editLink->getAttribute('href')));
+        sleep(1);
+        $page = $session->getPage();
+        $page->fillField("Log message:", "Deleted during cleanup");
+        $page->pressButton("Delete");
+        sleep(1);
+        // Confirm delete
+        $page->pressButton("Delete");
+      }
+    }
+  }
+
+  /**
    * Checks if the solr search results page is sorted by 'most installed' or not
    *
    * @Given /^I should see the results sorted by most installed modules$/
    */
   public function iShouldSeeTheResultsSortedByMostInstalledModules() {
-    $links = $this->getSession()->getPage()->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
+    $page = $this->getSession()->getPage();
+    $links = $page->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
     if (empty($links)) {
       throw new Exception("The page did not contain any links");
     }
@@ -5710,7 +6032,7 @@ class FeatureContext extends DrupalContext {
     // Get the links for the last result
     $link = $this->getSession()->getPage()->findLink($linksArr[sizeof($linksArr) - 1]);
     if (empty($link)) {
-      throw new Exception("The module '" . end($linksArr) . "' was not found on the statistics page");
+      throw new Exception("The module '" . $linksArr[sizeof($linksArr) - 1] . "' was not found on the statistics page");
     }
     // a > td > tr
     $link = $link->getParent()->getParent()->find("css", ".project-usage-numbers");
@@ -5758,9 +6080,9 @@ class FeatureContext extends DrupalContext {
     }
     // Convert to timestamp
     $timeStampFirst = strtotime($date->getText());
-
+    
     // Go to last result page
-    $this->getSession()->visit($this->locatePath(end($linksArr)));
+    $this->getSession()->visit($this->locatePath($linksArr[sizeof($linksArr) - 1]));
     // Wait for the page to load. Otherwise we will get timeout error here
     sleep(3);
     // Go to releases page
@@ -5791,24 +6113,6 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheResultsSortedByLatestReleaseOfTheProject() {
     throw new PendingException();
-  }
-
-  /**
-   * Checks if $count number of memebers were found on the page or not
-   *
-   * @param $count
-   *   integer The minimum number of memebers expected on the page
-   *
-   * @Given /^I should see at least "([^"]*)" members$/
-   */
-  public function iShouldSeeAtLeastMembers($count) {
-    $results = $this->getViewDisplayRows($this->getSession()->getPage());
-    if (empty($results)) {
-      throw new Exception("The page did not contain any members");
-    }
-    if (sizeof($results) < $count) {
-      throw new Exception("The page has less than '" . $count . "' members");
-    }
   }
 
   /**

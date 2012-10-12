@@ -1,15 +1,22 @@
 #!/usr/bin/expect
 #exp_internal 1
 
-set pass [lindex $argv 0]
-set url [lindex $argv 1]
-set project [lindex $argv 2]
+set context [lindex $argv 0]
+set pass [lindex $argv 1]
+set url [lindex $argv 2]
+set project [lindex $argv 3]
 
-if { $url == "" } {
+if { $context == "init" || $context == "push"} {
   spawn git push origin master;
-} else {
+} elseif { $context == "clone" } {
   spawn git clone --recursive --branch master $url $project;
-}
+} elseif { $context == "branch" } {
+  spawn git push -u origin $url
+} elseif { $context == "tag" } {
+  spawn git push origin $url
+} elseif { $context == "branch_delete" || $context == "tag_delete" } {
+  spawn git push origin :$url
+} else { send_user "Git operation failed. No context was provided.\n" }
 
 expect {
   "assword:" {
