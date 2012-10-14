@@ -10,7 +10,7 @@ Feature:
     And I follow "Forums"
     And I follow "Add new Forum topic"
     Then I should not see "File attachments"
-    And I should not see "Attach new file"
+    And I should not see "Add a new file"
 
   Scenario: Check File Attachments is available for admin
     Given I am logged in as "admin test"
@@ -18,4 +18,4 @@ Feature:
     And I follow "Forums"
     And I follow "Add new Forum topic"
     Then I should see "File attachments"
-    And I should see "Attach new file"
+    And I should see "Add a new file"
