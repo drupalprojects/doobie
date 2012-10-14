@@ -1,4 +1,4 @@
-@community @wip
+@community 
 Feature: Community Spotlight
   In order to exhibit the skills and capacities to the Drupal Community
   As a contributer

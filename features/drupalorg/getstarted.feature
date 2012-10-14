@@ -91,6 +91,7 @@ Feature: Get started with Drupal
     | Downloads            |
     | Recommended releases |
     | Development releases |
+    And I should see the link "7."
 
   @anon
   Scenario: Follow Find distribution
