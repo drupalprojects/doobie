@@ -1,4 +1,4 @@
-@front @wip
+@front @forums
 Feature: Forum posts on front page
   In order to know the latest forum posts
   As any user
