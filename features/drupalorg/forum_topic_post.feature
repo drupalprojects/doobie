@@ -18,10 +18,10 @@ Feature: Create new forum topic as a regular site user
 
   Scenario: Add a new forum topic: Save topic
     When I follow "Add new Forum topic"
-    And I fill in "Subject:" with random text
+    And I fill in "Subject" with random text
     And I select the following <fields> with <values>
     | fields         | values                       |
-    | Forums:        | --Deprecated - Documentation |
+    | Forums         | --Deprecated - Documentation |
     | Drupal version | Drupal 5.x                   |
     | Drupal version | Drupal 6.x                   |
     And I fill in "Body" with random text
