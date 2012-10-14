@@ -1,4 +1,4 @@
-@community @wip @anon
+@community @anon
 Feature: Search members in drupal community
   In order to find members of the community
   As any user
@@ -16,7 +16,7 @@ Feature: Search members in drupal community
     When I press "Search" in the "right sidebar" region
     Then I should see "Please enter some keywords"
     And I should see the heading "Search"
-    And I should see "Enter your keywords:"
+    And I should see "Enter your keywords"
     And I should not see "Your search yielded no results"
 
   Scenario: Search for member: Invalid user
@@ -26,11 +26,11 @@ Feature: Search members in drupal community
     Then I should see "Your search yielded no results"
     And I should not see "Please enter some keywords"
     And I should see the heading "Users"
-    And I should see "Enter your keywords:"
+    And I should see "Enter your keywords"
 
   Scenario: Search for member: Valid user
     Given I am on "/profile"
-    When I fill in "site user" for "Username:"
+    When I fill in "site user" for "Username"
     And I press "Search" in the "right sidebar" region
     Then I should see at least "1" record
     And I should see "results containing the words: site user"
