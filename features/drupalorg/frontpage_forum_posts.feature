@@ -8,7 +8,7 @@ Feature: Forum posts on front page
     Given I am logged in as "site user"
     And I visit "/forum"
     And I follow "News and announcements"
-    And I follow "Post new Forum topic"
+    And I follow "Add new Forum topic"
     When I create a forum topic
     Then I should see "has been created"
 
