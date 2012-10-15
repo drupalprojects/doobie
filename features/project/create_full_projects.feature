@@ -4,9 +4,11 @@ Feature: Create projects
   As a contributor
   I need to create a project
 
+  Background: 
+  Given I am logged in as "git vetted user"
+  And I am on "/node/add"
+
   Scenario: Create a module
-    Given I am logged in as "git vetted user"
-    And I am on "/node/add/"
     When I follow "Module project"
     And I fill in "Name" with random text
     And I select "Actively maintained" from "Maintenance status"
@@ -18,8 +20,6 @@ Feature: Create projects
     Then I should see the random "Name" text
 
   Scenario Outline: Create other projects
-    Given I am logged in as "git vetted user"
-    And I am on "/node/add/"
     When I follow "<project>"
     And I fill in "Name" with random text
     And I select "Actively maintained" from "Maintenance status" 
