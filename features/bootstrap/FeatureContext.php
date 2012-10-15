@@ -2172,6 +2172,9 @@ class FeatureContext extends DrupalContext {
 
     // 'add more' button.
     $add_more = $page->findById($addmore_id);
+    if (empty($addmore)) {
+      throw new Exception('The id used to upload a file, '. $addmore_id . ', was not found');
+    }
     $upload = 0;
     $ds = '/';
     if ($total_files > 0) {
