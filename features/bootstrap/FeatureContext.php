@@ -5887,7 +5887,7 @@ class FeatureContext extends DrupalContext {
     $page->fillField("title", $subject);
     HackyDataRegistry::set('random:Forum subject', $subject);
     $body = str_repeat($this->randomString(30) . " ", 10);
-    $page->fillField("body", $body);
+    $page->fillField("Body", $body);
     HackyDataRegistry::set('random:Forum body', $body);
     $page->pressButton('Save');
     // Let the page load
