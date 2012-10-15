@@ -13,4 +13,4 @@ Feature: Participate in community IRC
   	And I should see "For IRC experts"
     And I should see "Essential Channels to Join"
     And I should see "Topical Channels"
-    And I should  be on "/irc"
+    And I should be on "/irc"
