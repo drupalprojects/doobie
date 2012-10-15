@@ -15,9 +15,10 @@ Feature:
     And I should see that the tab "Community Docs Home" is highlighted
     And I should see the heading "Community Documentation"
     And I should see the following <blocks> in the right sidebar
-    | blocks |
+    | blocks                                    |
     | Help maintain the Community Documentation |
-    And I should see the copyright statement in the right sidebar
+    And I should see the text "online documentation is" in the "right sidebar" region
+    And I should see the text "by the individual contributors and can be used in accordance with the Creative Commons License, Attribution-ShareAlike" in the "right sidebar" region
 
   @wip
   Scenario: Check Installation Guide tab
@@ -35,7 +36,8 @@ Feature:
     | Page status        |
     | About this page    |
     | Installation Guide |
-    And I should see the copyright statement in the right sidebar
+    And I should see the text "online documentation is" in the "right sidebar" region
+    And I should see the text "by the individual contributors and can be used in accordance with the Creative Commons License, Attribution-ShareAlike" in the "right sidebar" region
 
   Scenario: Check Administration Guide tab
     Given I am on "Documentation"
@@ -52,7 +54,8 @@ Feature:
     | Page status 	       |
     | About this page      |
     | Administration Guide |
-    And I should see the copyright statement in the right sidebar
+    And I should see the text "online documentation is" in the "right sidebar" region
+    And I should see the text "by the individual contributors and can be used in accordance with the Creative Commons License, Attribution-ShareAlike" in the "right sidebar" region
 
   @wip
   Scenario Outline: Check the links to guides
@@ -71,5 +74,4 @@ Feature:
   | Multilingual Guide       | /documentation/multilingual      |
   | Theming Guide            | /documentation/theme             |
   | Mobile Guide             | /documentation/mobile            |
-  | Develop for Drupal       | /documentation/develop           |
-   
+  | Develop for Drupal       | /documentation/develop           | 

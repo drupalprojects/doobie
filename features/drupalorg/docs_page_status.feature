@@ -1,5 +1,5 @@
-@docs
-Feature: Check the background color of the book page status
+@docs @wip
+Feature: Page status block on documentation pages
   In order to quickly communicate the status of a book page to site visitors
   As someone editing a page
   I need to change the status

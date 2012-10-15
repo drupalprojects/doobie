@@ -1,3 +1,4 @@
+@docs
 Feature: Use the "report to moderator" to file a documentation issue
   In order to report a problem with documentation to the page moderator
   As a site user 
