@@ -2084,7 +2084,7 @@ class FeatureContext extends DrupalContext {
     // get all the texts under the dropdown field
     $options = $dropDown->getText();
     if (strpos($value, $options) !== FALSE) {
-      throw new Exception('The dropdown "' . $field . '" has the option "' . $value . '", but it should not be.');
+      throw new Exception('The dropdown "' . $field . '" has the option "' . $value . '", but it should not.');
     }
   }
 
