@@ -1,6 +1,6 @@
-@anon
-Feature: Find About Drupal
-  In order to find the about Drupal
+@about @anon
+Feature: About Drupal section
+  In order to find out about Drupal
   As any user
   I want to find information on an About page
 
@@ -25,7 +25,7 @@ Feature: Find About Drupal
     | system requirements        |
     | We take security seriously |
 
-  Scenario: Browse to the About page
+  Scenario: Browse to About the Drupal project page
     Given I am on "/about"
     When I follow "About the Drupal project ›"
     Then I should see the heading "About the Drupal project"
