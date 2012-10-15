@@ -1,3 +1,4 @@
+@project @maintainers
 Feature: To check maintainers permissions
   In order to delegate project maintenance
   As a project owner

@@ -1,3 +1,4 @@
+@project @maintainers
 Feature: 'Edit project' permission check
   In order to provide information about a project
   As a project maintainer
