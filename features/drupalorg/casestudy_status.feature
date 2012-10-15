@@ -1,4 +1,4 @@
-@flaky
+@casestudies @flaky
 Feature: Selectively display case studies
   In order to choose which case studies appear where
   As a site administrator

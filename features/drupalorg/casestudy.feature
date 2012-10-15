@@ -1,4 +1,4 @@
-@anon
+@casestudies @anon
 Feature: Drupal case studies
   In order to see the Drupal case studies
   As any user
