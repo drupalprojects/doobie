@@ -20,7 +20,8 @@ Feature: Create projects
 
   Scenario Outline: Create other projects
     When I follow "<project>"
-    Then I should not see "Sandbox project" in the dropdown "Project type"
+    Then I should not see "Full project" in the dropdown "Project type"
+    And I should not see "Project short name"
  
     Examples:
     | project              |
