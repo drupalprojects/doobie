@@ -1,3 +1,4 @@
+@project @maintainers
 Feature: Add additional maintainers with appropriate permissions
   In order to get help maintaining my project
   As a project owner

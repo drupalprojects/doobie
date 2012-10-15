@@ -1,3 +1,4 @@
+@project @maintainers
 Feature: 'Administer releases' permission check
   In order to get help maintaining my project releases
   As a project owner

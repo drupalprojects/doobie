@@ -1,3 +1,4 @@
+@projet @maintainers
 Feature: 'Maintain issues' permission check
   In order to get help maintaining my project issues
   As a project owner
