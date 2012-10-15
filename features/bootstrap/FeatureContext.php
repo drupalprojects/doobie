@@ -889,7 +889,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iFillInWithRandomText($label) {
     // A @Tranform would be more elegant.
-    $randomString = $this->randomString(10);
+    $randomString = strtolower($this->randomString(10));
     // Save this for later retrieval.
     HackyDataRegistry::set('random:' . $label, $randomString);
     $step = "I fill in \"$label\" with \"$randomString\"";
