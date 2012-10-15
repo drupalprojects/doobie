@@ -23,7 +23,7 @@ default:
         content top: "#content-top-region"
         content: "#content"
         content bottom: "#content-bottom-region"
-        bottom right: "#front-bottom-right"
+        bottom right: "#community-updates"
 
 imports:
   - behat.local.yml

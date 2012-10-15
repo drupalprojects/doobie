@@ -1526,19 +1526,19 @@ class FeatureContext extends DrupalContext {
     $tab = strtolower($tab);
     switch($tab) {
       case 'news':
-        $id = '#fragment-1';
+        $id = '#tab-news';
         $selector = $id . ' a';
         break;
       case 'docs updates':
-        $id = '#fragment-2';
+        $id = '#tab-docs';
         $selector = $id . ' h6 a';
         break;
       case 'forum posts':
-        $id = '#fragment-3';
+        $id = '#tab-forum';
         $selector = $id . ' h6 a';
         break;
       case 'commits':
-        $id = '#fragment-4';
+        $id = '#tab-commits';
         $selector = $id . ' h6 a';
         break;
       default:
