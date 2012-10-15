@@ -1,4 +1,4 @@
-@community @wip
+@community 
 Feature: Community Spotlight
   In order to exhibit the skills and capacities to the Drupal Community
   As a contributer
@@ -14,7 +14,7 @@ Feature: Community Spotlight
     And I should see "has been created"
 
   @javascript @dependent @flaky
-  Scenario: Admin promote the community spotlight
+  Scenario: Admin promotes the community spotlight
     Given I am logged in as "admin test"
     And I am on the community spotlight page
     And I follow "Edit"
