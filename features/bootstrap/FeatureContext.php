@@ -185,35 +185,83 @@ class FeatureContext extends DrupalContext {
    */
 
   /**
-   * @When /^I clone the repo$/
+   * Clone a project repository
+   *
+   * @When /^I clone the(?:| "([^"]*)") repo$/
+   * @param string $repo
+   *   project
+   *     Read code block from version control tab and clone repo
+   *   promoted sandbox
+   *     Read git endpoint from saved variable and clone a promoted sandbox repo
    */
-  public function iCloneTheRepo() {
+  public function iCloneTheRepo($repo = "project") {
+    // Check for the `expect` library.
+    $this->checkExpectLibraryStatus();
     // Initialise the password as "" to consider anonymous user
     $password = "\"\"";
     $url = "";
-    $element = $this->getSession()->getPage();
-    $currUrl = $this->getSession()->getCurrentUrl();
-    if (empty($element)) {
-      throw new Exception("No page was found");
-    }
-    // Make sure you are on the version control tab
-    if (strpos($this->getSession()->getCurrentUrl(), "git-instructions") === FALSE) {
-      throw new Exception("The page should be on the Version control tab in order to clone the repo");
-    }
-    // Get the code block
-    $result = $element->find('css', '#content div.codeblock code');
-    if (empty($result)) {
-      throw new Exception("The page does not contain any codeblock");
+    $user = $this->getLoggedinUsername();
+    switch ($repo) {
+      // Follow version control tab and read code block
+      case 'project':
+        $element = $this->getSession()->getPage();
+        $currUrl = $this->getSession()->getCurrentUrl();
+        if (empty($element)) {
+          throw new Exception("No page was found");
+        }
+        // Make sure you are on the version control tab
+        if (strpos($this->getSession()->getCurrentUrl(), "git-instructions") === FALSE) {
+          throw new Exception("The page should be on the Version control tab in order to clone the repo");
+        }
+        // Get the code block
+        $result = $element->find('css', '#content div.codeblock code');
+        if (empty($result)) {
+          throw new Exception("The page does not contain any codeblock");
+        }
+        $this->repo = $result->getText();
+        break;
+      //This is to clone a sandbox repo once it is promoted and this should not clone the repository
+      case 'promoted sandbox':
+        $this->repo = '';
+        $endpoint = HackyDataRegistry::get('sandbox git endpoint');
+        if (empty($endpoint)) {
+          throw new Exception('Sandbox git end point is empty');
+        }
+        // If anonymous user, adjust the end point to match http endpoint
+        if (!$user) {
+          $components = parse_url($endpoint);
+          $endpoint = '';
+          $components['scheme'] = 'http';
+          if (isset($components['host'])) {
+            $endpoint .= $components['host'];
+          }
+          if (isset($components['port'])) {
+            $endpoint .= ':' . $components['port'];
+          }
+          if (isset($components['path'])) {
+            // Remove username from path
+            // if host is drupal.org. $components['path'] will have username too
+            $components['path'] = preg_replace(array("/(.+)@/", "/:sandbox/"), array("", "/sandbox"), $components['path']);
+            $endpoint .= $components['path'];
+          }
+          $endpoint = $components['scheme'] . '://' . $endpoint;
+        }
+        $this->repo = $endpoint;
+        break;
+      default:
+        throw new Exception("Invalid repo is given");
+        break;
     }
     HackyDataRegistry::set('git repo', $this->repo);
     // Get user data only if a user is logged in. Even anonymous user can clone.
-    $user = $this->whoami();
-    if ($user != 'User account') {
+    if ($user) {
     	$userData = $this->getGitUserData($this->repo);
     	$password = $userData['password'];
     }
     // Back to version control page
-    $this->getSession()->visit($currUrl);
+    if ($repo != 'promoted sandbox') {
+      $this->getSession()->visit($currUrl);
+    }
     sleep(1);
     $tempArr = explode(" ", $this->repo);
     foreach ($tempArr as $key => $value) {
@@ -234,13 +282,22 @@ class FeatureContext extends DrupalContext {
         $project = str_replace('.git', '', end($arr_url));
       }
     }
-    if (!$project || $project == "") {
+    if(empty($project)) {
       throw new Exception("No project found to push");
     }
     $command = "./bin/gitwrapper clone $password $url $project";
     $process = new Process($command);
     $process->setTimeout(3600);
     $process->run();
+    // If sandbox, skip checking errors
+    if ($repo == 'promoted sandbox') {
+      // Save output for later use
+      $this->process_output = $process->getOutput();
+      $process = new Process('rm -rf ' . $project);
+      $process->run();
+      return;
+    }
+    // Continue with normal cloning
     if (!$process->isSuccessful()) {
       throw new RuntimeException("The clone did not work " .
         "\n Error: 2" . $process->getErrorOutput() .
@@ -453,7 +510,14 @@ class FeatureContext extends DrupalContext {
   public function iAmOnTheVersionControlTab() {
     $path = trim(HackyDataRegistry::get('version control path'));
     if (!$path || $path == "") {
-      throw new Exception("The path to Version control tab was not found");
+      // If directly coming from project page
+      $element = $this->getSession()->getPage()->findLink('Version control');
+      if (!empty($element)) {
+        $path = $element->getAttribute('href');
+      }
+      else {
+        throw new Exception("The path to Version control tab was not found");
+      }
     }
     $path = $this->locatePath($path);
     return new Given("I am at \"$path\"");
@@ -828,8 +892,10 @@ class FeatureContext extends DrupalContext {
     if (empty($result)) {
       throw new Exception("This page does not have a feed icon");
     }
+    sleep(5);
     $result->click();
     //use response headers to make sure we got the xml data and not html
+    sleep(5);
     $responseHeaders = $this->getSession()->getResponseHeaders();
     // Use goutedriver get content to get the complete xml data and store it
     //temporarily in a variable for use by function iShouldSeeTheTextInTheFeed()
@@ -2481,39 +2547,47 @@ class FeatureContext extends DrupalContext {
     }
   }
 
-  /**
+  /** Find the given list of blocks in the right sidebar region
+   *
    * @Given /^I should see the following <blocks> in the right sidebar$/
+   *
+   * @param $table
+   *   Array list of block titles that should appear on the page.
    */
+
   public function iShouldSeeTheFollowingBlocksInTheRightSidebar(TableNode $table) {
+    if (empty($table)) {
+      throw new Exception('No blocks specified');
+    }
+    $blocks = $table->getHash();
+    foreach ($blocks as $values) {
+      $this->iShouldSeeBlockInTheRightSidebar($values['blocks']);
+    }
+  }
+
+  /**
+   * Find the block in the right side bar region
+   *
+   * @Then /^I should see "([^"]*)" block in the right sidebar$/
+   *
+   * @param string $title
+   *   String The title of the block.
+   */
+  public function iShouldSeeBlockInTheRightSidebar($title) {
     $region = $this->getSession()->getPage()->find('region', 'right sidebar');
     if (empty($region)) {
       throw new Exception('Right sidebar region was not found');
     }
-    $blocks = $region->findAll('css', '#column-right-region > div');
-    if (empty($blocks)) {
-      throw new Exception('No blocks found in the right sidebar');
+    $h2 = $region->findAll('css', '.block h2');
+    if (empty($h2)) {
+      throw new Exception("No blocks were found in the right sidebar region");
     }
-    $arr_headings = array();
-    foreach ($blocks as $block) {
-       $h2 = $block->find('css', 'h2');
-       if (!empty($h2)) {
-         $arr_headings[] = $h2->getText();
-       }else {
-         $link = $block->find('css', 'a');
-         if (!empty($link)) {
-           $arr_headings[] = $link->getText();
-         }
-       }
-    }
-    if (empty($table)) {
-      throw new Exception('No blocks specified');
-    }
-    // Loop through table and check tab is present.
-    foreach ($table->getHash() as $t) {
-      if (!in_array($t['blocks'], $arr_headings)) {
-        throw new Exception('The block: "' . $t['blocks'] . '" cannot be found in the right sidebar' );
+    foreach ($h2 as $text) {
+      if (trim($text->getText()) == $title) {
+        return;
       }
     }
+    throw new Exception("The block '" . $title . "' was not found in the right sidebar region");
   }
 
   /**
@@ -2743,7 +2817,12 @@ class FeatureContext extends DrupalContext {
     if (empty($arr_table['element'])) {
       throw new Exception('The table: "' . $tableType . '" cannot be found.');
     }
-    $first_tr = $arr_table['element']->find('css', 'tbody tr');
+    $projectTitle = HackyDataRegistry::get('project title');
+    $project_a = $arr_table['element']->findLink($projectTitle);
+    if (empty($project_a)) {
+      throw new Exception('The project "' . $projectTitle . '" is not found in "' . $tableType .'"');
+    }
+    $first_tr = $project_a->getParent()->getParent();
     if (empty($first_tr)) {
       throw new Exception('No records found.');
     }
@@ -4066,7 +4145,7 @@ class FeatureContext extends DrupalContext {
         return $emailField->getAttribute("value");
       }
     }
-    return FALSE;
+    throw new Exception("Unable to get current user's email address");
   }
 
   /**
@@ -4094,8 +4173,8 @@ class FeatureContext extends DrupalContext {
    * Function to set the git config user.name and user.email
    * @param string $gitUsername
    *   Git username to supply for user.name
-   * @return boolean True/False
-   *   Return True if success, false otherwise
+   * @return boolean True/Exception
+   *   Return True if success, exception otherwise
    */
   private function setGitConfig($gitUsername = "") {
     $email = $this->getMyEmail();
@@ -4103,18 +4182,18 @@ class FeatureContext extends DrupalContext {
       $process = new Process('git config user.email "' . $email . '"');
       $process->run();
       if (!$process->isSuccessful()) {
-        return FALSE;
+        throw new Exception("Unable to set user.email '" . $email . "' in git config");
       }
       if ($gitUsername == "") {
         $gitUsername = $this->whoami();
       }
       $process = new Process('git config user.name "' . $gitUsername . '"');
       $process->run();
-		  if ($process->isSuccessful()) {
-    	  return TRUE;
+		  if (!$process->isSuccessful()) {
+    	  throw new Exception("Unable to set user.name '" . $gitUsername . "' in git config");
       }
     }
-    return FALSE;
+    return TRUE;
   }
 
   /**
@@ -6152,7 +6231,7 @@ class FeatureContext extends DrupalContext {
     $branch .= " (" . $branch . "-dev)";
     return new Given("I select \"$branch\" from \"$field\"");
   }
- 
+
   /**
    * Create a new git tag for the project
    *
@@ -6164,7 +6243,7 @@ class FeatureContext extends DrupalContext {
   public function iCreateANewTagForVersion($version) {
     $validTags = array();
     // Perform initial operations
-    $data = $this->performPreBranchTagOperation();    
+    $data = $this->performPreBranchTagOperation();
     // Get the list of tags in the current repo
     $process = new Process("git tag -l");
     $process->run();
@@ -6344,7 +6423,7 @@ class FeatureContext extends DrupalContext {
       }
     }
   }
-  
+
   /**
    * Check whether the current project is in published more or not
    *
