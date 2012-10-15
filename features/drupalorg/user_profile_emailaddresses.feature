@@ -1,3 +1,4 @@
+@user
 Feature: To view email addressess of a user
   In order to manage my email addresses
   As a site user

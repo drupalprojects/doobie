@@ -1,4 +1,4 @@
-@javascript @anon
+@user @javascript @anon
 Feature: Account registration should not allow user+something address patterns
   In order to learn about Drupal
   As any user

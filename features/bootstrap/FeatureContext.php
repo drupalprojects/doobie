@@ -4663,11 +4663,7 @@ class FeatureContext extends DrupalContext {
       $element = $page->findLink($link);
       if (!empty($element)) {
         $element->click();
-<<<<<<< HEAD
         // As the operation is done through ajax, wait until the link disappears from the dom or for 3 seconds
-=======
-        // As the operation is done through ajax, wait till the link disappears from the dom or for 3 seconds
->>>>>>> 436c9fc... Issue #1685188 by Pradeep: Modified iClickLink() to throw exception for other links
         $this->iWaitForSeconds(1, "$('a:contains(\"" . $link . "\")').text() == \"\"");
         $clicked = true;
       }
@@ -4736,10 +4732,7 @@ class FeatureContext extends DrupalContext {
     elseif($action == 'revert') {
       $setting = HackyDataRegistry::get('homepage setting');
       if (empty($setting)) {
-<<<<<<< HEAD
-=======
         // Assume that revert is not required
->>>>>>> 436c9fc... Issue #1685188 by Pradeep: Modified iClickLink() to throw exception for other links
         return;
       }
       // Find setting link

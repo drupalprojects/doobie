@@ -1,3 +1,4 @@
+@user
 Feature: Your Posts
   In order to keep track of responses to issues I've posted
   As an authenticated user

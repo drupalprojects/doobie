@@ -1,3 +1,4 @@
+@user
 Feature: To verify that mentors can be added/viewed/removed by a user
   In order to give credit to the community members who have significantly influenced my contributions to Drupal
   As a community member
