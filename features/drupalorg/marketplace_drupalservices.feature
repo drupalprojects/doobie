@@ -44,7 +44,7 @@ Feature: Market place Drupal services section
     When I create a new organization for "drupal services"
     Then I should see "has been created"
 
-  @dependent 
+  @dependent
   Scenario: View the created drupal services session
     Given I am logged in as "site user"
     And I follow "Your Posts"

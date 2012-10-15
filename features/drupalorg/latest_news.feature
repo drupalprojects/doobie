@@ -1,4 +1,4 @@
-@anon
+@planet @anon
 Feature: Find News
   In order to stay up-to-date on what's happinging in Drupal 
   As any user
