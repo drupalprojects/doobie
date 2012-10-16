@@ -45,4 +45,4 @@ Feature: To view list of Security public service announcements
     And I should see the heading "Description"
     And I should see the heading "Solution"
     And I should see the heading "Reported by"
-    And I should see "Posted by Drupal Security Team"
+    And I should see "Submitted by Drupal Security Team"
