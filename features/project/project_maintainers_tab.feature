@@ -16,7 +16,6 @@ Feature: Add additional maintainers with appropriate permissions
   @dependent @known_git7failure
   Scenario: Verify it is the maintainers tab
     When I am on the Maintainers tab
-    Then I should see the heading "Development"
     And I should see the following <texts>
     | texts                  |
     | User                   |
