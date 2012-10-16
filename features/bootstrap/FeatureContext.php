@@ -1610,9 +1610,9 @@ class FeatureContext extends DrupalContext {
       default:
         throw new Exception('The tab "' . ucfirst($tab) . '" was not found on the page');
     }
-    $region = $this->getSession()->getPage()->find('region', 'bottom right');
+    $region = $this->getSession()->getPage()->find('region', 'bottom right content');
     if (!$region) {
-      throw new Exception('Region "bottom right" not found');
+      throw new Exception('Region "bottom right content" not found');
     }
 	  $nodes = $region->findAll("css", $selector);
     if (sizeof($nodes) < $count) {

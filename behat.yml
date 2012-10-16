@@ -19,9 +19,7 @@ default:
       # Blue Cheese regions
       region_map:
         right sidebar: "#column-right-region"
-        content top: "#content-top-region"
         content: "#column-left"
-        bottom right: "#front-bottom-right"
         # Header regions
         left header: "#header-left"
         top header: "#nav-header"
