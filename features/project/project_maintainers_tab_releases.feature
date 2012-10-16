@@ -1,15 +1,17 @@
-@project @maintainers
+@project @maintainers @wip
 Feature: 'Administer releases' permission check
   In order to get help maintaining my project releases
   As a project owner
   I need to be able to add people to my project with appropriate permissions
 
+  @known_git7failure
   Scenario: Create a new project
     Given I am logged in as "git vetted user"
-    And I am at "/node/add/project"
-    When I create a full project
+    And I am at "/node/add/project-distribution"
+    When I create a "full" project with releases
     Then I should see the project title
 
+  @dependent
   Scenario: Add a maintainer: Valid maintainer name
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -17,6 +19,7 @@ Feature: 'Administer releases' permission check
     And I press "Update"
     Then I should see "added and permissions updated"
 
+  @dependent
   Scenario: Assign Administer releases permission to a maintainer
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -24,13 +27,20 @@ Feature: 'Administer releases' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
+  @dependent
   Scenario: Login as maintainer and check if you can see the add new release link
     Given I am logged in as "git user"
     When I am on the project page
     And I follow "Administer releases"
-    Then I should see "Supported versions"
-    And I should see "For each term in the Core compatibility vocabulary"
+    Then I should see the following <texts>
+    | texts                                              |
+    | Current Release                                    |
+    | Supported                                          |
+    | Show snapshot release                              |
+    | Major version                                      |
+    | For each term in the Core compatibility vocabulary |
 
+  @dependent
   Scenario: Unassign Administer releases permission from a maintainer
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -38,6 +48,7 @@ Feature: 'Administer releases' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
+  @dependent
   Scenario: Login as maintainer and check if you have access to add new release link
     Given I am logged in as "git user"
     When I am on the project page

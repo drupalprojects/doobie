@@ -469,6 +469,10 @@ class FeatureContext extends DrupalContext {
     if (isset($options["Taxonomy upgrade extras"])) {
       $element->fillField('Taxonomy upgrade extras', $options["Taxonomy upgrade extras"]);
     }
+    if ($element->hasField("Has project releases")) {
+      // By default do not include releases
+      $element->uncheckField("Has project releases");
+    }
     // Has project releases
     if (isset($options["Has project releases"])) {
       if ((!$chk = $element->findField("Has project releases"))) {
@@ -513,6 +517,8 @@ class FeatureContext extends DrupalContext {
     if (empty($element)) {
       throw new Exception("No title was found on the page");
     }
+    // Get the path of the current project
+    HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
     if (!HackyDataRegistry::get('sandbox_url')) {
       $this->projectTitle = $element->getText();
       // If clone is called after visitin url instead of creating project
@@ -532,9 +538,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception("Link to version control tab was not found on the page");
     }
     $versionControlTabPath = $vcLink->getAttribute('href');
-    HackyDataRegistry::set('version control path', $versionControlTabPath);
-    // Get the path of the current project
-    HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
+    HackyDataRegistry::set('version control path', $versionControlTabPath);    
     if (empty($element) || strpos($element->getText(), $this->projectTitle) === FALSE) {
       throw new Exception('Project title not found where it was expected.');
     }
@@ -3692,33 +3696,10 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @When /^I create a full project$/
+   * @When /^I create a "([^"]*)" project with releases$/
    */
-  public function iCreateAFullProject() {
-    $element = $this->getSession()->getPage();
-    // First check if the user has permission to create full project
-    $chk = $element->findField("Sandbox");
-    if (empty($chk)) {
-      throw new Exception("No Sandbox checkbox was found");
-    }
-    if ($chk->hasAttribute("disabled")) {
-      throw new Exception("You do not have permissions to create a full project");
-    }
-    $this->projectTitle = strtolower($this->randomString(16));
-    HackyDataRegistry::set('project title', $this->projectTitle);
-
-    $element->fillField('Project title', $this->projectTitle);
-    $element->fillField('Maintenance status', '13028'); /* Actively Maintained */
-    $element->fillField('Development status', '9988'); /* Under Active Development */
-    $this->iSelectTheRadioButtonWithTheId('Modules', 'edit-project-type-14');
-    $element->fillField('Description', $this->randomString(32));
-    $chk->uncheck();
-    $this->projectShortName = strtolower($this->randomString(6));
-    HackyDataRegistry::set('project_short_name', $this->projectShortName);
-    $element->fillField('Short project name', $this->projectShortName);
-    $element->pressButton('Save');
-    sleep(2);
-    HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
+  public function iCreateAProjectWithReleases($type) {
+    $this->iCreateAProject($type, array('Has project releases' => 1));
   }
 
   /**
