@@ -11,7 +11,7 @@ Feature: Add additional maintainers with appropriate permissions
   Scenario: Create a new project
     And I am at "/node/add/project-distribution"
     When I create a "sandbox" project
-    Then I should see the project title
+    Then I should see project data 
 
   @dependent @known_git7failure
   Scenario: Verify it is the maintainers tab

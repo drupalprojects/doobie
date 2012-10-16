@@ -9,7 +9,7 @@ Feature: 'Administer releases' permission check
     Given I am logged in as "git vetted user"
     And I am at "/node/add/project-distribution"
     When I create a "full" project with releases
-    Then I should see the project title
+    Then I should see project data
 
   @dependent
   Scenario: Add a maintainer: Valid maintainer name

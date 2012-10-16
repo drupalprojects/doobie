@@ -9,7 +9,7 @@ Feature: 'Edit project' permission check
     Given I am logged in as "git vetted user"
     And I am at "/node/add/project-core"
     When I create a "sandbox" project
-    Then I should see the project title
+    Then I should see project data
 
   @depenent
   Scenario: Add a maintainer: Valid maintainer name
