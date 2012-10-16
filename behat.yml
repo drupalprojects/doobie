@@ -18,12 +18,21 @@ default:
         password: drupal
       # Blue Cheese regions
       region_map:
-        page tools: "#page-tools"
         right sidebar: "#aside .region-sidebar-second"
-        content top: "#content-top-region"
         content: "#content"
-        content bottom: "#content-bottom-region"
-        bottom right: "#community-updates"
+        # Header regions
+        left header: "#header-left"
+        top header: "#nav-header"
+        right header: "#header-right"
+        bottom header: "#nav-masthead"
+        # frontpage content regions
+        top left content: "#choose-drupal"
+        top middle content: "#sites-with-drupal"
+        top right content: "#develop-with-drupal"
+        bottom right content: "#community-updates"
+        middle content: "#front-drupal-stats"
+        # Footer region
+        footer: "#footer"
 
 imports:
   - behat.local.yml
