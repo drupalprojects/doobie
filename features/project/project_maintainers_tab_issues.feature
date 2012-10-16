@@ -8,7 +8,7 @@ Feature: 'Maintain issues' permission check
   Scenario: Create a new project and an issue
     Given I am logged in as "git vetted user"
     And I am at "/node/add/project-distribution"
-    When I create a "full" project
+    When I create a "sandbox" project
     Then I should see the project title
     And I follow "open"
     And I follow "Create a new issue"
@@ -46,7 +46,7 @@ Feature: 'Maintain issues' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent @known_git7failure
+  @dependent @known_git7failure @clean_data
   Scenario: Login as maintainer and check if you can assign an issue to maintainer
     Given I am logged in as "git user"
     And I am on the project page

@@ -48,7 +48,7 @@ Feature: 'Administer releases' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent
+  @dependent @clean_data
   Scenario: Login as maintainer and check if you have access to add new release link
     Given I am logged in as "git user"
     When I am on the project page

@@ -98,7 +98,7 @@ Feature: Add additional maintainers with appropriate permissions
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent @known_git7failure
+  @dependent @known_git7failure @clean_data
   Scenario: Check if owner can create an issue
     Given I am on the Maintainers tab
     When I follow "total"

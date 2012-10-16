@@ -43,7 +43,7 @@ Feature: 'Edit project' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @depenent
+  @depenent @clean_data
   Scenario: Login as maintainer and check if you can edit the project
     Given I am logged in as "git user"
     And I am on the project page
