@@ -58,7 +58,7 @@ Feature: Landing page of Community section of the site
     And I should see the following <texts>
     | texts        |
     | Type         |
-    | Post         |
+    | Title        |
     | Author       |
     | Replies      |
     | Last updated |
