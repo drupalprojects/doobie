@@ -1,4 +1,4 @@
-@project @maintainers
+@project @maintainers @wip
 Feature: Add additional maintainers with appropriate permissions
   In order to get help maintaining my project
   As a project owner
@@ -7,11 +7,13 @@ Feature: Add additional maintainers with appropriate permissions
   Background:
     Given I am logged in as "git vetted user"
 
+  @known_git7failure
   Scenario: Create a new project
-    Given I am at "/node/add/project"
-    When I create a "module"
+    And I am at "/node/add/project-distribution"
+    When I create a "sandbox" project
     Then I should see the project title
 
+  @dependent @known_git7failure
   Scenario: Verify it is the maintainers tab
     When I am on the Maintainers tab
     Then I should see the heading "Development"
@@ -32,12 +34,14 @@ Feature: Add additional maintainers with appropriate permissions
     | Maintainers     |
     | git vetted user |
 
+  @dependent
   Scenario: Add a maintainer: Invalid maintainer name
     Given I am on the Maintainers tab
     When I enter "git user test user name" for field "Maintainer user name"
     And I press "Update"
     Then I should see "is not a valid user on this site"
 
+  @dependent
   Scenario: Add a maintainer: Valid maintainer name
     Given I am on the Maintainers tab
     When I enter "git user" for field "Maintainer user name"
@@ -46,12 +50,14 @@ Feature: Add additional maintainers with appropriate permissions
     And I should see "added and permissions updated"
     And I should see the link "git user"
 
+  @dependent
   Scenario: Add a maintainer: Existing maintainer name
     Given I am on the Maintainers tab
     When I enter "git user" for field "Maintainer user name"
     And I press "Update"
     Then I should see "is already a maintainer of this project"
 
+  @dependent
   Scenario: Delete a maintainer
     Given I am on the Maintainers tab
     When I follow "delete" for the maintainer "git user"
@@ -59,6 +65,7 @@ Feature: Add additional maintainers with appropriate permissions
     Then I should see "Removed"
     And I should see "as a maintainer"
 
+  @dependent
   Scenario: Add a maintainer: Valid maintainer name
     Given I am on the Maintainers tab
     When I enter "git user" for field "Maintainer user name"
@@ -67,6 +74,7 @@ Feature: Add additional maintainers with appropriate permissions
     And I should see "added and permissions updated"
     And I should see the link "git user"
 
+  @dependent @known_git7failure
   Scenario: Assign permissions to a maintainer
     Given I am on the Maintainers tab
     When I assign the following <permissions> to the maintainer "git user"
@@ -78,6 +86,7 @@ Feature: Add additional maintainers with appropriate permissions
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
+  @dependent @known_git7failure
   Scenario: Remove permissions from a maintainer
     Given I am on the Maintainers tab
     When I unassign the following <permissions> from the maintainer "git user"
@@ -89,6 +98,7 @@ Feature: Add additional maintainers with appropriate permissions
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
+  @dependent @known_git7failure
   Scenario: Check if owner can create an issue
     Given I am on the Maintainers tab
     When I follow "total"
