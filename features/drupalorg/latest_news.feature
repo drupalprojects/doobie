@@ -9,7 +9,7 @@ Feature: Find News
 
   Scenario: Browse to the news listing page
     When I visit "/"
-    And I see at least "6" links under the "News" tab
+    And I see at least "5" links under the "News" tab
     And I follow "More news…"
     Then I should see the heading "Drupal News"
     And I should see "Read more"
