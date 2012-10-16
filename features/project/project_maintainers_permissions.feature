@@ -6,7 +6,7 @@ Feature: To check maintainers permissions
 
   @wip
   Scenario: Check maintainers permissions
-    Given I am logged in as "git vetted user"
+    Given I am logged in as "admin test"
     And I am at "/node/1765126/maintainers"
     When I follow "Maintainers"
     Then I should see the <users> with the following <permissions>
