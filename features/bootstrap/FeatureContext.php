@@ -3643,8 +3643,12 @@ class FeatureContext extends DrupalContext {
     $user = explode("/", $href);
     // 0 => "", 1 => "user", 2 => <uid>
     $uid  = $user[2];
+    $tempPerm = $permission;
+    if ($tempPerm == "Edit project") {
+      $tempPerm = "Update project";
+    }
     // Convert permission to lowercase
-    $tempPerm = strtolower($permission);
+    $tempPerm = strtolower($tempPerm);
     // Convert spaces into hyphens (-)
     $tempPerm = str_replace(" ", "-", $tempPerm);
     // Get the checkbox id using the above uid and permission
@@ -3658,13 +3662,13 @@ class FeatureContext extends DrupalContext {
     if ($assign) {
       // If a checkbox with the above id exists and it is not checked, then 'check' it
       if (!$chkbx->isChecked()) {
-        $chkbx->check();
+        $page->checkField($chkbxId);
       }
     }
     else {
       // If a checkbox with the above id exists and it is checked, then 'uncheck' it
       if ($chkbx->isChecked()) {
-        $chkbx->uncheck();
+        $page->uncheckField($chkbxId);
       }
     }
   }
