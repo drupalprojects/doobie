@@ -9,7 +9,7 @@ Feature: Search members in drupal community
     When I follow "Member Directory"
     Then I should see the text "Search Users" in the "right sidebar" region
     And I should see the text "Find Groups Near You" in the "right sidebar" region
-    And I should see the text "Username:" in the "right sidebar" region
+    And I should see the text "Username" in the "right sidebar" region
 
   Scenario: Search for member: Blank
     Given I am on "/profile"
@@ -39,7 +39,7 @@ Feature: Search members in drupal community
 
   Scenario: Search for members: Valid user
     Given I am on "/profile"
-    When I fill in "peter" for "Username:"
+    When I fill in "peter" for "Username"
     And I press "Search" in the "right sidebar" region
     Then I should see at least "15" records
     And I should see the link "next"
