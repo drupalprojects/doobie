@@ -445,26 +445,63 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @When /^I create a "([^"]*)"$/
+   * @When /^I create a "([^"]*)" project$/
    */
-  public function iCreateA($type) {
-    if ($type != 'module' && $type != 'theme') {
-      throw new PendingException('Only modules and themes have been implemented.');
+  public function iCreateAProject($type, $options = array()) {
+    // @TODO - Needs more testing with different project content type
+    if ($type != 'full' && $type != 'sandbox') {
+      throw new PendingException('Only full project and sandbox projects can be created.');
     }
     $element = $this->getSession()->getPage();
-    if (!$element->hasField('Project title')) {
-      throw new Exception("The field Project title was not found on the page");
+    if (!$element->hasField('Name')) {
+      throw new Exception("The field Name was not found on the page");
     }
     $this->projectTitle = $this->randomString(16);
     HackyDataRegistry::set('project title', $this->projectTitle);
-    $element->fillField('Project title', $this->projectTitle);
-    $element->fillField('Maintenance status', '13028'); /* Actively Maintained */
-    $element->fillField('Development status', '9988'); /* Under Active Development */
-    $this->iSelectTheRadioButtonWithTheId('Modules', 'edit-project-type-14');
-    $element->fillField('Description', $this->randomString(1000));
+    $element->fillField('Name', $this->projectTitle);
+    $element->selectFieldOption('Maintenance status', 'Actively maintained'); //Actively maintained
+    $element->selectFieldOption('Project type', $type);
+    $element->selectFieldOption('Development status', 'Under active development'); //Under active development
+    $element->fillField('Short name', strtolower($this->projectTitle));
+    if ($element->findField("Projects")) {
+      $element->selectFieldOption('Projects', "Administration");
+    }
+    if (isset($options["Taxonomy upgrade extras"])) {
+      $element->fillField('Taxonomy upgrade extras', $options["Taxonomy upgrade extras"]);
+    }
+    // Has project releases
+    if (isset($options["Has project releases"])) {
+      if ((!$chk = $element->findField("Has project releases"))) {
+        throw new Exception("The field 'Has project releases' was not found on the page");
+      }
+      if ($options["Has project releases"] == 1) {
+        $element->checkField("Has project releases");
+      }
+      elseif ($options["Has project releases"] == 0) {
+        $element->uncheckField("Has project releases");
+      }
+    }
+    // Enable issue tracker
+    if (isset($options["Enable issue tracker"])) {
+      if ((!$chk = $element->findField("Enable issue tracker"))) {
+        throw new Exception("The field 'Enable issue tracker' was not found on the page");
+      }
+      if ($options["Enable issue tracker"] == 1) {
+        $element->checkField("Enable issue tracker");
+      }
+      elseif ($options["Enable issue tracker"] == 0) {
+        $element->uncheckField("Enable issue tracker");
+      }
+    }
+    $element->fillField("Description", str_repeat($this->randomString(20) . " ", 3));
     $element->pressButton('Save');
     sleep(2);
-    HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
+    if ($type == "full") {
+      HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
+    }
+    elseif ($type == "sandbox") {
+      HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
+    }
   }
 
   /**
@@ -472,7 +509,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheProjectTitle() {
     $page = $this->getSession()->getPage();
-    $element = $page->find('css', 'h1#page-subtitle');
+    $element = $page->find('css', 'h1#page-title');
     if (empty($element)) {
       throw new Exception("No title was found on the page");
     }
@@ -482,13 +519,6 @@ class FeatureContext extends DrupalContext {
       HackyDataRegistry::set('project_short_name', basename($this->getSession()->getCurrentUrl()));
       HackyDataRegistry::set('project title', $this->projectTitle);
     }
-    // Get link to Version control tab
-    $vcLink = $page->findLink('Version control');
-    if (empty($vcLink)) {
-      throw new Exception("Link to version control tab was not found on the page");
-    }
-    $versionControlTabPath = $vcLink->getAttribute('href');
-    HackyDataRegistry::set('version control path', $versionControlTabPath);
     // Get link to Maintainers tab
     $maintainersTabLink = $page->findLink('Maintainers');
     // For anonymous users this link is not accessible
@@ -496,6 +526,13 @@ class FeatureContext extends DrupalContext {
       $maintainersTabPath = $maintainersTabLink->getAttribute('href');
       HackyDataRegistry::set('maintainers tab path', $maintainersTabPath);
     }
+    // Get link to Version control tab
+    $vcLink = $page->findLink('Version control');
+    if (empty($vcLink)) {
+      throw new Exception("Link to version control tab was not found on the page");
+    }
+    $versionControlTabPath = $vcLink->getAttribute('href');
+    HackyDataRegistry::set('version control path', $versionControlTabPath);
     // Get the path of the current project
     HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
     if (empty($element) || strpos($element->getText(), $this->projectTitle) === FALSE) {
