@@ -391,7 +391,7 @@ class FeatureContext extends DrupalContext {
     }
     if ($user != 'User account') {
       // Logout.
-      $this->getSession()->visit($this->locatePath('/logout'));
+      $this->getSession()->visit($this->locatePath('/user/logout'));
     }
 
     // Go to the user page.
@@ -4419,7 +4419,7 @@ class FeatureContext extends DrupalContext {
         $session->visit($this->locatePath($editLink->getAttribute('href')));
         sleep(1);
         $page = $session->getPage();
-        $page->fillField("Log message:", "Deleted during cleanup");
+        $page->fillField("Revision log message", "Deleted during cleanup");
         $page->pressButton("Delete");
         sleep(1);
         // Confirm delete
