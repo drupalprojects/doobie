@@ -23,7 +23,7 @@ Feature: To view list of security announcements for contributed modules
     | Public service announcements |
     | Read more                    | 
     | Drupal Security Team         |
-    And I should not see "SA-CORE" |
+    And I should not see "SA-CORE" 
 
   Scenario: View paginated items: First page
     Given I am on "/security/contrib"
