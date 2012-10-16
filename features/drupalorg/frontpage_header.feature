@@ -4,6 +4,29 @@ Feature: Verify home page header
   As any user
   I need to be able to view navigations links and site search field
 
+  @anon @known_git6failure @flaky
+  Scenario Outline: View header navigation links in header area
+    Given I am on "<page>"
+    And I should see the following <links> in "top header" area
+    | links             |
+    | Get Started       |
+    | Community         |
+    | Documentation     |
+    | Support           |
+    | Download & Extend |
+    | Marketplace       |
+    | About             |
+
+    Examples:
+    | page            |
+    | /               |
+    | /start          |
+    | /community      |
+    | /documentation  |
+    | /support        |
+    | /download       |
+    | /about          |
+
   @anon @flaky @wip
   Scenario: View home page header banner link and texts
     Given I am on the homepage
@@ -58,29 +81,6 @@ Feature: Verify home page header
 
     Examples:
     | page            |
-    | /start          |
-    | /community      |
-    | /documentation  |
-    | /support        |
-    | /download       |
-    | /about          |
-
-  @anon @known_git6failure @flaky
-  Scenario Outline: View header navigation links in header area
-    Given I am on "<page>"
-    And I should see the following <links> in "top header" area
-    | links             |
-    | Get Started       |
-    | Community         |
-    | Documentation     |
-    | Support           |
-    | Download & Extend |
-    | Marketplace       |
-    | About             |
-
-    Examples:
-    | page            |
-    | /               |
     | /start          |
     | /community      |
     | /documentation  |

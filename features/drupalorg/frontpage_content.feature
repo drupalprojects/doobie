@@ -14,6 +14,12 @@ Feature: Drupal.org frontpage
     And I should see the "link" "Drupal Distributions" in "top left content" area
     And I should see the "text" "Distributions are a collection of pre-configured themes and modules" in "top left content" area
 
+  @anon
+  Scenario: View power Drupal text with people, country and language statistics in it
+    Then I should see at least "682000" "people" in power Drupal text
+    And I should see at least "200" "countries" in power Drupal text
+    And I should see at least "150" "languages" in power Drupal text
+
   @anon @known_git6failure @wip
   Scenario Outline: Visit the links in top left content area
     When I follow "<link>"
@@ -53,12 +59,6 @@ Feature: Drupal.org frontpage
     And I should see at least "1000" "Code commits" in top right content area
     And I should see at least "4000" "Issue comments" in top right content area
     And I should see an advertisement in top right content area
-
-  @anon
-  Scenario: View power Drupal text with people, country and language statistics in it
-    Then I should see at least "682000" "people" in power Drupal text
-    And I should see at least "200" "countries" in power Drupal text
-    And I should see at least "150" "languages" in power Drupal text
 
   @anon
   Scenario: View tabs in bottom right content area
