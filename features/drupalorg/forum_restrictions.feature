@@ -18,7 +18,7 @@ Feature: Regular users should not be able to post a topic in Newsletters subforu
     And I should not see "Please do NOT post test pages. Drupal.org is a production site"
 
   Scenario: Try to add new forum topic from Newsletters forum page
-    When I follow "Post new Forum topic"
+    When I follow "Add new Forum topic"
     Then I should not see "Drupal newsletter" in the dropdown "Forums:"
     And I should not see "Security advisories for Drupal core" in the dropdown "Forums:"
     And I should see "Please do NOT post test pages. Drupal.org is a production site"
