@@ -45,7 +45,7 @@ Feature: Manage releases
     And I clone the repo
     When I create a new branch for "6.x" version
     And I reload the page
-    Then I should see the branch in the dropdown "Version to work from:"
+    Then I should see the branch in the dropdown "Version to work from"
 
   @dependent @git_branch 
   Scenario: Create a release for the above branch
@@ -70,7 +70,7 @@ Feature: Manage releases
     When I create a new tag for "7.x" version
     And I visit "/project/test_releases"
     And I follow "Add new release"
-    Then I should see the tag in the dropdown "Git release tag or branch:"
+    Then I should see the tag in the dropdown "Git release tag or branch"
 
   @dependent @git_tag @flaky
   Scenario: Create a release for the above tag

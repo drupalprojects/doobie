@@ -6076,6 +6076,7 @@ class FeatureContext extends DrupalContext {
     // Get the list of branches in the current repo
     $process = new Process("git branch -a");
     $process->run();
+    sleep(1);
     // Each branch will be printed in one line, so split them
     $temp = explode("\n", $process->getOutput());
     foreach ($temp as $b) {
@@ -6099,6 +6100,7 @@ class FeatureContext extends DrupalContext {
     $command = "git checkout -b " . $branch;
     $process = new Process($command);
     $process->run();
+    sleep(2);
     if (!$process->isSuccessful()) {
       throw new Exception("Unable to create the branch - '" . $branch . "' Checkout failed -\n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
     }
@@ -6114,6 +6116,7 @@ class FeatureContext extends DrupalContext {
     $command = 'git add ' . $file . '; git commit -m "by ' . $data['username'] . ': From the step definition"';
     $process = new Process($command);
     $process->run();
+    sleep(2);
     if (!$process->isSuccessful()) {
       throw new Exception('Git add/commit failed during branch creation - ' . $process->getErrorOutput());
     }
@@ -6122,6 +6125,7 @@ class FeatureContext extends DrupalContext {
     $command = "../bin/gitwrapper branch $password $branch";
     $process = new Process($command);
     $process->run();
+    sleep(2);
     if (!$process->isSuccessful()) {
       throw new Exception("Unable to create the branch '" . $branch . "' \n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
     }
@@ -6179,6 +6183,7 @@ class FeatureContext extends DrupalContext {
     // Get the list of tags in the current repo
     $process = new Process("git tag -l");
     $process->run();
+    sleep(1);
     // Each tag will be printed in one line, so split them
     $temp = explode("\n", $process->getOutput());
     foreach ($temp as $b) {
@@ -6198,6 +6203,7 @@ class FeatureContext extends DrupalContext {
     $command = "git tag " . $tag;
     $process = new Process($command);
     $process->run();
+    sleep(2);
     if (!$process->isSuccessful()) {
       throw new Exception("Unable to create the tag. '" . $tag . "' \n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
     }
@@ -6208,6 +6214,7 @@ class FeatureContext extends DrupalContext {
     $command = "../bin/gitwrapper tag $password $tag";
     $process = new Process($command);
     $process->run();
+    sleep(2);
     if (!$process->isSuccessful()) {
       throw new Exception("Unable to create the tag '" . $tag . "' \n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
     }
