@@ -5506,7 +5506,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Find given type in specific region on the homepage
+   * Find given type in specific region on the page
    *
    * @Then /^I (?:should |)see the "([^"]*)" "([^"]*)" in "([^"]*)" area$/
    *
@@ -5522,120 +5522,88 @@ class FeatureContext extends DrupalContext {
    *   count
    */
   public function iShouldSeeInArea($type = 'text', $content, $region, $find = true, $count_param = null) {
-    //Region to region div id mapping
-    $arr_region = array(
-      'left header' => 'header-left',
-      'right header' => 'header-right',
-      'top header' => 'nav-header',
-      'bottom header' => 'nav-masthead',
-      'top left content' => 'front-top-left',
-      'top middle content' => 'front-top-middle',
-      'top right content' => 'front-top-right',
-      'bottom right content' => 'front-bottom-right',
-      'middle content' => 'front-middle',
-      'footer' => 'footer',
-      'content' => 'column-left',
-      'right sidebar' => 'column-right'
-    );
-    $region_l = strtolower($region);
-    // Consider only the sections defined above
-    if (!isset($arr_region[$region_l])) {
-      throw new Exception('The region "' . $region . '" is not implemented.' );
+    // Find the region
+    $region_ele = $this->getSession()->getPage()->find('region', $region);
+    if (empty($region_ele)) {
+      throw new Exception('The region "' . $region . '" is not found at ' . $this->getSession()->getCurrentUrl() );
     }
-    // Find region div
-    $obj_region = $this->getSession()->getPage()->find('xpath', '//div[@id="' . $arr_region[$region] . '"]');
-    if (empty($obj_region)) {
-      throw new Exception('The region "' . $region . '" is not found on homepage' );
-    }
-    $is_region = ($region == "content" || $region == "right sidebar");
     switch ($type) {
       // Normal text(includes link labels as well)
       case 'text':
-        if (false === strpos($obj_region->getText(), $content)) {
+        if (false === strpos($region_ele->getText(), $content)) {
           if ($find) {
-            if ($is_region) {
-              throw new Exception('The text "' . $content . '" was not found in the "' . $region . '" region of the page');
-            }
-            throw new Exception('The text "' . $content . '" is not found in "' . $region . '" area on homepage');
+            throw new Exception('The text "' . $content . '" was not found in the "' . $region . '" region of the page');
           }
         }
         else {
           if (!$find) {
-            if ($is_region) {
-              throw new Exception('The text "' . $content . '" was found in the "' . $region . '" region of the page, but it should not be');
-            }
-            throw new Exception('The text "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
+            throw new Exception('The text "' . $content . '" was found in the "' . $region . '" region of the page, but it should not be');
           }
         }
         break;
       // Hyperlinks
       case 'link':
-        $a_ele = $obj_region->findLink($content);
+        $a_ele = $region_ele->findLink($content);
         if (empty($a_ele)) {
           if ($find) {
-            if ($is_region) {
-              throw new Exception('The link "' . $content . '" was not found in the "' . $region . '" region of the page');
-            }
-            throw new Exception('The link "' . $content . '" is not found in "' . $region . '" area on homepage');
+            throw new Exception('The link "' . $content . '" was not found in the "' . $region . '" region of the page');
           }
-        }else {
+        }
+        else {
           if (!$find) {
-            if ($is_region) {
-              throw new Exception('The link "' . $content . '" was found in the "' . $region . '" region of the page, but it should not be');
-            }
-            throw new Exception('The link "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
+            throw new Exception('The link "' . $content . '" was found in the "' . $region . '" region of the page, but it should not be');
           }
         }
         break;
       // Radio buttons.
       case 'option':
-        $radio_ele = $obj_region->findAll('xpath', '//input[@type="radio"]');
+        $radio_ele = $region_ele->findAll('xpath', '//input[@type="radio"]');
         if (empty($radio_ele)) {
-          throw new Exception('The option "' . $content . '" is not found in "' . $region . '" area on homepage');
+          throw new Exception('The option "' . $content . '" is not found in the "' . $region . '" region of the page');
         }
         $found = false;
         foreach ($radio_ele as $radio) {
           if ($content == $radio->getParent()->getText()) {
             $found = true;
             if (!$find) {
-              throw new Exception('The option "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
+              throw new Exception('The option "' . $content . '" is found in the "' . $region . '" region of the page but it should not be');
             }
             break;
           }
         }
         if (!$found && $find) {
-          throw new Exception('The option "' . $content . '" is not found in "' . $region . '" area on homepage');
+          throw new Exception('The option "' . $content . '" is not found in the "' . $region . '" region of the page');
         }
         break;
       // Tabs (bottom header/bottom content)
       case 'tab':
-        $a_ele = $obj_region->findAll('xpath', '//ul/li/a');
+        $a_ele = $region_ele->findAll('xpath', '//ul/li/a');
         if (empty($a_ele)) {
-          throw new Exception('The tab "' . $content . '" is not found in "' . $region . '" area on homepage');
+          throw new Exception('The tab "' . $content . '" is not found in the "' . $region . '" region of the page');
         }
         $found = false;
         foreach ( $a_ele as $a) {
           if ($content == $a->getText()) {
             $found = true;
             if (!$find) {
-              throw new Exception('The tab "' . $content . '" is found in "' . $region . '" area on homepage but it should not be');
+              throw new Exception('The tab "' . $content . '" is found in the "' . $region . '" region of the page but it should not be');
             }
             break;
           }
         }
         if (!$found && $find) {
-           throw new Exception('The tab "' . $content . '" is not found in "' . $region . '" area on homepage');
+           throw new Exception('The tab "' . $content . '" is not found in the "' . $region . '" region of the page');
         }
         break;
       // Right content count for different links
       case 'count':
-        $td_ele = $obj_region->find('xpath', '//table[@class="front-current-activity"]//tr//td//a[text()="' . $content . '"]');
+        $td_ele = $region_ele->find('xpath', '//table[@class="front-current-activity"]//tr//td//a[text()="' . $content . '"]');
         if (empty($td_ele)) {
-          throw new Exception('"' . $content . '" is not found in "' . $region . '" area on homepage');
+          throw new Exception('"' . $content . '" is not found in the "' . $region . '" region of the page');
         }
         $count_ele = $td_ele->getParent()->getParent()->find('css', 'td');
         if(empty($count_ele)) {
-          throw new Exception('Count for "' . $content . '" is not found in "' . $region . '" area on homepage');
+          throw new Exception('Count for "' . $content . '" is not found in the "' . $region . '" region of the page');
         }
         $count = (int) str_replace(',','', $count_ele->getText());
         if (empty($count)) {
@@ -5647,9 +5615,9 @@ class FeatureContext extends DrupalContext {
         break;
       // people/country/language count
       case 'power drupal':
-        $div_ele = $obj_region->find('css', 'div#front-drupal-stats');
+        $div_ele = $region_ele->find('css', 'div#front-drupal-stats');
         if (empty($div_ele)) {
-          throw new Exception('"power Drupal" Container div is not found');
+          throw new Exception('"power Drupal" container div is not found');
         }
         $count_param = str_replace(',', '', $count_param);
         $text = str_replace(',', '', $div_ele->getText());
@@ -5663,41 +5631,42 @@ class FeatureContext extends DrupalContext {
         switch ($content) {
           // Site made with drupal image
           case 'site made with drupal':
-            $img_ele = $obj_region->find('xpath', '//div[@class="things-we-made-wrapper"]//a//img');
+            $img_ele = $region_ele->find('xpath', '//div[@class="things-we-made-wrapper"]//a//img');
             if (empty($img_ele)) {
-              throw new Exception('"' . ucfirst($content) . '" image is not found in "' . $region . '" area on homepage');
+              throw new Exception('"' . ucfirst($content) . '" image is not found in the "' . $region . '" region of the page');
             }
             break;
           // Advertisement image - can be an iframe/image with links/links
           case 'advertisement':          
-            $iframe_ele = $obj_region->find('css', 'div#google_ads_div_Redesign_home_ad_container iframe');
+            $iframe_ele = $region_ele->find('css', 'div#google_ads_div_Redesign_home_ad_container iframe');
             if (!empty($iframe_ele)) {
               $this->getSession()->switchToIFrame($iframe_ele->getAttribute('name'));
               $a = $this->getSession()->getPage()->findAll('css', 'a');
               if (empty($a)) {
                 $this->getSession()->switchToIFrame();
-                throw new Exception('"' . ucfirst($content) . '" is not found in "' . $region . '" area on homepage');
+                throw new Exception('"' . ucfirst($content) . '" is not found in the "' . $region . '" region of the page');
               }
               $this->getSession()->switchToIFrame();
-            }else {
-              $iframe_ele = $obj_region->findAll('css', 'div#google_ads_div_Redesign_home_ad_container a');
+            }
+            else {
+              $iframe_ele = $region_ele->findAll('css', 'div#google_ads_div_Redesign_home_ad_container a');
               if (empty($iframe_ele)) {
-                throw new Exception('"' . ucfirst($content) . '" is not found in "' . $region . '" area on homepage');
+                throw new Exception('"' . ucfirst($content) . '" is not found in the "' . $region . '" region of the page');
               }
             }
             break;
           // Drupal banner - as it is a background image, check hyperlink
           case 'drupal banner':
-            $a_ele = $obj_region->findLink("Drupal");
+            $a_ele = $region_ele->findLink("Drupal");
             if (empty($a_ele)) {
-              throw new Exception('Drupal banner is not found in "' . $region . '" area on homepage');
+              throw new Exception('Drupal banner is not found in the "' . $region . '" region of the page');
             }
             elseif ('/' != $a_ele->getAttribute('href')) {
               throw new Exception('Drupal banner in "' . $region . '" area is not linked to homepage');
             }
             break;
           default:
-            throw new Exception('"' . ucfirst($content) . '" is not found in "' . $region . '" area on homepage');
+            throw new Exception('"' . ucfirst($content) . '" is not found in the "' . $region . '" region of the page');
             break;
         }
         break;
