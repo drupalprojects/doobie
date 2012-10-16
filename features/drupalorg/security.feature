@@ -12,20 +12,20 @@ Feature: To view list of security announcements
     And I should see the heading "Security announcements"
     And I should see the heading "Contacting the Security team"
     And I should see the following <texts>
-    | texts |
-    | Drupal core |
-    | Categories: |
-    | Writing secure code |
+    | texts                 |
+    | Drupal core           |
+    | Categories            |
+    | Writing secure code   |
     | There are many useful |
     And I should see the following <links>
-    | links |
-    | Contributed projects |
+    | links                        |
+    | Contributed projects         |
     | Public service announcements |
-    | Read more |
-    | Drupal Security Team |
-    | next |
-    | last |
-    | 2 |
+    | Read more                    |
+    | Drupal Security Team         |
+    | next                         |
+    | last                         |
+    | 2                            |
     And I should not see the link "previous"
     And I should not see the link "first"
     
@@ -50,14 +50,14 @@ Feature: To view list of security announcements
     Given I am on the homepage
     When I follow "Security Info"
     Then I should see the following <texts>
-    | texts |
-    | Advisory ID: |
-    | Project: |
-    | Version: |
-    | Date: |
-    | Security risk: |
+    | texts             |
+    | Advisory ID:      |
+    | Project:          |
+    | Version:          |
+    | Date:             |
+    | Security risk:    |
     | Exploitable from: |
-    | Vulnerability: |
+    | Vulnerability:    |
   
   Scenario: Read more
     Given I am on "/security"

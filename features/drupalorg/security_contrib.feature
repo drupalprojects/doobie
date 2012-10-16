@@ -13,25 +13,25 @@ Feature: To view list of security announcements for contributed modules
     And I should see the heading "Security announcements"
     And I should see the heading "Contacting the Security team"
     And I should see the following <texts>
-    | texts |
-    | SA-CONTRIB |
-    | Categories: |
+    | texts                                                                         |
+    | SA-CONTRIB                                                                    |
+    | Categories                                                                    |
     | Security advisories for third-party projects that are not part of Drupal core |
     And I should see the following <links>
-    | links |
-    | Drupal core |
+    | links                        |
+    | Drupal core                  |
     | Public service announcements |
-    | Read more |
-    | Drupal Security Team |
-    And I should not see "SA-CORE"
+    | Read more                    | 
+    | Drupal Security Team         |
+    And I should not see "SA-CORE" |
 
   Scenario: View paginated items: First page
     Given I am on "/security/contrib"
     Then I should see the following <links>
     | links |
-    | next |
-    | last |
-    | 2 |
+    | next  |
+    | last  |
+    | 2     |
     And I should not see the link "previous"
     And I should not see the link "first"
     And I should see the heading "Security advisories"
@@ -40,11 +40,11 @@ Feature: To view list of security announcements for contributed modules
     Given I am on "/security/contrib"
     When I click on page "2"
     Then I should see the following <links>
-    | links |
-    | first |
+    | links    |
+    | first    |
     | previous |
-    | next |
-    | last |
+    | next     |
+    | last     |
     And I should see the heading "Security advisories"
 
   Scenario: View paginated items: Last page
@@ -60,14 +60,14 @@ Feature: To view list of security announcements for contributed modules
     Given I am on "/security"
     When I follow "Contributed projects"
     Then I should see the following <texts>
-    | texts |
-    | Advisory ID: |
-    | Project: |
-    | Version: |
-    | Date: |
-    | Security risk: |
-    | Exploitable from: |
-    | Vulnerability: |
+    | texts            |
+    | Advisory ID      |
+    | Project          |
+    | Version          |
+    | Date             |
+    | Security risk    |
+    | Exploitable from |
+    | Vulnerability    |
 
   Scenario: Check Read more link is working or not
     Given I am on "/security/contrib"

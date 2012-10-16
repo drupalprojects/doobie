@@ -13,30 +13,30 @@ Feature: To view list of Security public service announcements
     And I should see the heading "Security announcements"
     And I should see the heading "Contacting the Security team"
     And I should see the following <texts>
-    | texts |
-    | DRUPAL-PSA |
-    | Categories: |
+    | texts                                                                  |
+    | DRUPAL-PSA                                                             |
+    | Categories                                                             |
     | Security-related announcements, such as information on best practices. |
-    | Posted by |
+    | Posted by                                                              |
     And I should see the following <links>
-    | links |
-    | Drupal core |
+    | links                |
+    | Drupal core          |
     | Contributed projects |
-    | Read more |
+    | Read more            |
     | Drupal Security Team |
 
   Scenario: Check for various parameters
     Given I am on "/security/psa"
     When I follow "Public service announcements"
     Then I should see the following <texts>
-    | texts |
-    | Advisory ID: |
-    | Project: |
-    | Version: |
-    | Date: |
-    | Security risk: |
+    | texts             |
+    | Advisory ID:      |
+    | Project:          |
+    | Version:          |
+    | Date:             |
+    | Security risk:    |
     | Exploitable from: |
-    | Vulnerability: |
+    | Vulnerability:    |
 
   Scenario: Check Read more link is working or not
     Given I am on "/security/psa"
