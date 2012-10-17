@@ -1614,6 +1614,14 @@ class FeatureContext extends DrupalContext {
     if (!$region) {
       throw new Exception('Region "bottom right content" not found');
     }
+    $temp = $region->findById(str_replace("#", "", $id));
+    if (empty($temp)) {
+      throw new Exception("The page does not have the required CSS id '" . $id . "'");
+    }
+	  $nodes = $region->findAll("css", $selector);
+    if (empty($nodes)) {
+      throw new Exception("The tab '" . ucfirst($tab) . "' did not contain any links on the page");
+    }
 	  $nodes = $region->findAll("css", $selector);
     if (sizeof($nodes) < $count) {
       throw new Exception("The tab '" . ucfirst($tab) . "' has less than '" . $count . "' links");
