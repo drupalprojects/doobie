@@ -8,7 +8,6 @@ Feature: Visitor searches site and sorts the results
     Given I am on "/search/site/views?f[0]=ss_meta_type%3Amodule"
 
   Scenario: Search and sort by most installed
-    Then show last response 
     When I select "Most installed" from "Sort by"
     Then I should see the results sorted by most installed modules
     And I should see the heading "Search results"
