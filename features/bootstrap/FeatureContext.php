@@ -1835,7 +1835,7 @@ class FeatureContext extends DrupalContext {
    * @return object
    *   Given class object.
    */
-  public function iPressInTheRegion($button, $region) {
+  public function iPressInTheRegion($button, $regionSelector) {
     $buttonId = "";
     $page = $this->getSession()->getPage();
     $region = $page->find('region', $region);
@@ -1844,6 +1844,9 @@ class FeatureContext extends DrupalContext {
     }
     // Get all the buttons present within a form in that region.
     $inputs = $region->findAll('css', 'form input[type=submit]');
+    if (empty($inputs)) {
+      throw new Exception("The page did not contain any submit buttons");
+    }
     foreach ($inputs as $input) {
       // Just to make sure we press the right button.
       if ($input->getAttribute("value") == $button) {
@@ -1854,7 +1857,7 @@ class FeatureContext extends DrupalContext {
     if ($buttonId) {
       return new Given("I press \"$buttonId\"");
     }
-    return new Exception("No '" . $button . "' was found in the region '" . $region . "'");
+    return new Exception("No '" . $button . "' was found in the region '" . $regionSelector . "'");
   }
 
   /**
