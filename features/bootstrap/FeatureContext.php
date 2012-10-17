@@ -5745,7 +5745,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the results sorted by most installed modules$/
    */
   public function iShouldSeeTheResultsSortedByMostInstalledModules() {
-    $links = $this->getSession()->getPage()->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
+    $links = $this->getSession()->getPage()->findAll("css", "dl dt.title a");
     if (empty($links)) {
       throw new Exception("The page did not contain any links");
     }
@@ -5756,7 +5756,7 @@ class FeatureContext extends DrupalContext {
     // Go to usage stats page
     $this->getSession()->visit($this->locatePath("/project/usage"));
     // Wait for the page to load. Otherwise we will get timeout error here. project/usage page is long
-    sleep(6);
+    sleep(10);
     // Get the links for the first result
     $link = $this->getSession()->getPage()->findLink($linksArr[0]);
     if (empty($link)) {
@@ -5793,7 +5793,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheResultsSortedByLastBuildOfTheProject() {
     // Get all the results links
-    $links = $this->getSession()->getPage()->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
+    $links = $this->getSession()->getPage()->findAll("css", "dl dt.title a");
     if (empty($links)) {
       throw new Exception("The page did not contain any links");
     }
