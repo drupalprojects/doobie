@@ -167,14 +167,6 @@ class FeatureContext extends DrupalContext {
    */
 
   /**
-   * @Given /^(?:that I|I) am (?:on|at) the homepage$/
-   */
-  public function thatIAmOnTheHomepage() {
-    // Use the Mink Extenstion step definition.
-    return new Given("I am on homepage");
-  }
-
-  /**
    * @} End of defgroup "mink extensions"
    */
 
@@ -538,7 +530,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception("Link to version control tab was not found on the page");
     }
     $versionControlTabPath = $vcLink->getAttribute('href');
-    HackyDataRegistry::set('version control path', $versionControlTabPath);    
+    HackyDataRegistry::set('version control path', $versionControlTabPath);
     if (empty($element) || strpos($element->getText(), $this->projectTitle) === FALSE) {
       throw new Exception('Project title not found where it was expected.');
     }
@@ -5738,7 +5730,7 @@ class FeatureContext extends DrupalContext {
             }
             break;
           // Advertisement image - can be an iframe/image with links/links
-          case 'advertisement':          
+          case 'advertisement':
             $iframe_ele = $region_ele->find('css', 'div#google_ads_div_Redesign_home_ad_container iframe');
             if (!empty($iframe_ele)) {
               $this->getSession()->switchToIFrame($iframe_ele->getAttribute('name'));
@@ -5824,7 +5816,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Checks count of links in top right content area on homepage 
+   * Checks count of links in top right content area on homepage
    *
    * @Given /^I should see at least "([^"]*)" "([^"]*)" in top right content area$/
    *
@@ -6488,7 +6480,7 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeAnAdvertisementInTopRightContentArea() {
     $this->iShouldSeeInArea('image', "advertisement", 'top right content');
   }
-  
+
   /**
    * Checks drupal banner in the header
    * @Then /^I should see that drupal banner is linked to the home page$/
