@@ -1816,7 +1816,7 @@ class FeatureContext extends DrupalContext {
     if ($buttonId) {
       return new Given("I press \"$buttonId\"");
     }
-    return new Exception("No '" . $button . "' was found in the region '" . $regionSelector . "'");
+    throw new Exception("The button '" . $button . "' was not found in the region '" . $regionSelector . "'");
   }
 
   /**
