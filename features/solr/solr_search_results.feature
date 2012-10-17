@@ -91,23 +91,23 @@ Feature: Visitor searches site
     | Groups (          |
 
   Scenario: Meta type modules has more filters
-    Given I am on "/search/site/views?filters=ss_meta_type:module"
+    Given I am on "/search/site/views?f[0]=ss_meta_type%3Amodule"
     When I select "Event" from "Modules categories"
     And I select "6.x" from "Filter by compatibility"
     And I select "All projects" from "Status"
     And I select "Date" from "Sort by"
-    Then I should see at least "25" records
+    Then I should see "results containing the words: views"
+    And I should see at least "25" records
     And I should see the heading "Search results"
-    And I should see "results containing the words: views"
 
   Scenario: Meta type themes has more filters
-    Given I am on "/search/site/views?filters=ss_meta_type:theme"
+    Given I am on "/search/site/views?f[0]=ss_meta_type%3Atheme"
     When I select "7.x" from "Filter by compatibility"
     And I select "Full projects" from "Status"
     And I select "Author" from "Sort by"
-    Then I should see at least "25" records
+    Then I should see "results containing the words: views"
+    And I should see at least "25" records
     And I should see the heading "Search results"
-    And I should see "results containing the words: views"
 
   @javascript
   Scenario: Filters exist in the search box in the header
