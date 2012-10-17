@@ -10,7 +10,7 @@ Feature: Add additional maintainers with appropriate permissions
   Scenario: Create a new project
     Given I am at "/node/add/project-project"
     When I create a "module"
-    Then I should see the project title
+    Then I should see project data
 
   Scenario: Verify it is the maintainers tab
     When I am on the Maintainers tab

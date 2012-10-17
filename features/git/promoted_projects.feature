@@ -8,7 +8,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     And I am on "/node/add/project-project"
     When I create a "theme"
     And I promote the project
-    Then I should see the project title
+    Then I should see project data
 
   @dependent
   Scenario: Check Releases tab is available and project short name is readonly

@@ -9,7 +9,7 @@ Feature: Verify Write to VCS permission
     Given I am logged in as "git vetted user"
     And I am at "/node/add/project-project"
     When I create a "module"
-    And I see the project title
+    And I see project data
     And I am on the Version control tab
     And I initialize the repository
     And I follow "Version control"

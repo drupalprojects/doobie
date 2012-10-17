@@ -12,7 +12,7 @@ Feature: See git activity on the front page
     Given I am logged in as "git vetted user"
     And I visit "/node/add/project-project"
     And I create a "module"
-    And I see the project title
+    And I see project data
     And I visit the Version control tab
     And I initialize the repository
     And I follow "Version control"

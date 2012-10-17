@@ -40,7 +40,7 @@ Feature: Manage releases
   Scenario: Create a new branch
   Given I am logged in as "git vetted user"
     And I visit "/project/test_releases"
-    And I see the project title
+    And I see project data
     And I am on the Version control tab
     And I clone the repo
     When I create a new branch for "6.x" version
@@ -64,7 +64,7 @@ Feature: Manage releases
   Scenario: Create a new tag
     Given I am logged in as "git vetted user"
     And I visit "/project/test_releases"
-    And I see the project title
+    And I see project data
     And I am on the Version control tab
     And I clone the repo
     When I create a new tag for "7.x" version

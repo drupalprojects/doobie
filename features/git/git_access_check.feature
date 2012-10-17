@@ -11,7 +11,7 @@ Feature: Verify git access
   Scenario: Create a sandbox project and initialize repo
     When I visit "/node/add/project-project"
     And I create a "module"
-    And I see the project title
+    And I see project data
     And I follow "Version control"
     Then I initialize the repository
 

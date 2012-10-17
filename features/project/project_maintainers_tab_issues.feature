@@ -8,7 +8,7 @@ Feature: 'Maintain issues' permission check
     Given I am logged in as "git vetted user"
     And I am at "/node/add/project-project"
     When I create a "module"
-    Then I should see the project title
+    Then I should see project data
     And I follow "open"
     And I follow "Create a new issue"
     And I create a new issue

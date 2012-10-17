@@ -13,7 +13,7 @@ Feature: To see the list of all the commits for a user
   Scenario: Git User creates a project
     When I visit "/node/add/project-project"
     And I create a "module"
-    And I see the project title
+    And I see project data
     And I follow "Version control"
     Then I initialize the repository
     And I follow "Version control"

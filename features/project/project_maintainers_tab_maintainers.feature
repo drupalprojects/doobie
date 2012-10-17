@@ -7,7 +7,7 @@ Feature: 'Administer maintainers' permission check
     Given I am logged in as "git vetted user"
     And I am at "/node/add/project-project"
     When I create a "module"
-    Then I should see the project title
+    Then I should see project data
 
   Scenario: Add a maintainer: Valid maintainer name
     Given I am logged in as "git vetted user"

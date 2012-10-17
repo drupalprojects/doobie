@@ -9,7 +9,7 @@ Feature: Your Project Tab
   Scenario: Create test data: Sandbox project
     And I am on "/node/add/project-project"
     When I create a sandbox project 
-    Then I should see the project title
+    Then I should see project data
 
   @dependent
   Scenario: Create test data: Sandbox project issue

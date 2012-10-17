@@ -468,9 +468,9 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I (?:|should )see the project title$/
+   * @Then /^I (?:|should )see project data$/
    */
-  public function iShouldSeeTheProjectTitle() {
+  public function iShouldSeeProjectData() {
     $page = $this->getSession()->getPage();
     $element = $page->find('css', 'h1#page-subtitle');
     if (empty($element)) {
@@ -478,7 +478,7 @@ class FeatureContext extends DrupalContext {
     }
     if (!HackyDataRegistry::get('sandbox_url')) {
       $this->projectTitle = $element->getText();
-      // If clone is called after visitin url instead of creating project
+      // If clone is called after visiting url instead of creating project
       HackyDataRegistry::set('project_short_name', basename($this->getSession()->getCurrentUrl()));
       HackyDataRegistry::set('project title', $this->projectTitle);
     }
