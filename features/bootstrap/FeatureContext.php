@@ -167,14 +167,6 @@ class FeatureContext extends DrupalContext {
    */
 
   /**
-   * @Given /^(?:that I|I) am (?:on|at) the homepage$/
-   */
-  public function thatIAmOnTheHomepage() {
-    // Use the Mink Extenstion step definition.
-    return new Given("I am on homepage");
-  }
-
-  /**
    * @} End of defgroup "mink extensions"
    */
 
