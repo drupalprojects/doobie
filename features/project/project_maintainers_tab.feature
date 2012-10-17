@@ -14,8 +14,7 @@ Feature: Add additional maintainers with appropriate permissions
 
   Scenario: Verify it is the maintainers tab
     When I am on the Maintainers tab
-    Then I should see the heading "Development"
-    And I should see the following <texts>
+    Then I should see the following <texts>
     | texts                  |
     | User                   |
     | Write to VCS           |
