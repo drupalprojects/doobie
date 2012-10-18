@@ -2,31 +2,31 @@
 Feature: Visitor searches site and sorts the results
   In order to see relevant search results
   As a visitor to Drupal.org
-  I want to search for few terms and sort the results
+  I want to sort search results by relevant terms
 
   Background:
-    Given I am on "/search/apachesolr_multisitesearch/views?filters=ss_meta_type%3Amodule"
+    Given I am on "/search/site/views?f[0]=ss_meta_type%3Amodule"
 
   Scenario: Sort by Title
     When I select "Title" from "Sort by"
-    And I see the results sorted by alphabetical order of project title
+    And I see the results sorted in alphabetical order by project title
     And I click on page "2"
     And I see "results containing the words: views"
-    Then I should see the results sorted by alphabetical order of project title
+    Then I should see the results sorted in alphabetical order by project title
 
   Scenario: Sort by Author
     When I select "Author" from "Sort by"
-    And I see the results sorted by alphabetical order of project author
+    And I see the results sorted in alphabetical order by project author
     And I click on page "3"
     And I see "results containing the words: views"
-    Then I should see the results sorted by alphabetical order of project author
+    Then I should see the results sorted in alphabetical order by project author
 
   Scenario: Sort by Date
     When I select "Date" from "Sort by"
-    And I see the results sorted by project posted date
+    And I see the results sorted by the project posted date
     And I click on page "3"
     And I see "results containing the words: views"
-    Then I should see the results sorted by project posted date
+    Then I should see the results sorted by the project posted date
 
   @slow
   Scenario: Sort by most installed

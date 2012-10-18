@@ -6473,9 +6473,9 @@ class FeatureContext extends DrupalContext {
   /**
    * Checks if the solr search results page is sorted by 'project title' or not
    *
-   * @Given /^I (?:should |)see the results sorted by alphabetical order of project title$/
+   * @Given /^I (?:should |)see the results sorted in alphabetical order by project title$/
    */
-  public function iShouldSeeTheResultsSortedByAlphabeticalOrderOfProjectTitle() {
+  public function iShouldSeeTheResultsSortedInAlphabeticalOrderByProjectTitle() {
     // Get all the results links
     $links = $this->getSession()->getPage()->findAll("css", "dl dt.title a");
     if (empty($links)) {
@@ -6491,9 +6491,9 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I (?:should |)see the results sorted by alphabetical order of project author$/
+   * @Given /^I (?:should |)see the results sorted in alphabetical order by project author$/
    */
-  public function iShouldSeeTheResultsSortedByAlphabeticalOrderOfProjectAuthor() {
+  public function iShouldSeeTheResultsSortedInAlphabeticalOrderByProjectAuthor() {
     // Get all the results links
     $links = $this->getSession()->getPage()->findAll("css", "dl dd p.submitted a");
     if (empty($links)) {
@@ -6509,9 +6509,9 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I (?:should |)see the results sorted by project posted date$/
+   * @Given /^I (?:should |)see the results sorted by the project posted date$/
    */
-  public function iShouldSeeTheResultsSortedByProjectPostedDate() {
+  public function iShouldSeeTheResultsSortedByTheProjectPostedDate() {
     // Get all the results links
     $dates = $this->getSession()->getPage()->findAll("css", "dl dd p.submitted em");
     if (empty($dates)) {
