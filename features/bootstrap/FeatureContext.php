@@ -6451,4 +6451,107 @@ class FeatureContext extends DrupalContext {
       print '<li class="failed">View: <a href="' . $this->environment['baseurl'] . '/html/' . urlencode($filename) . '">failure snapshot</a> <a href="' . $url . '"></a></li>';
     }
   }
+
+  /**
+   * Click on the first result link on the search results page
+   *
+   * @Given /^I follow the first search result$/
+   */
+  public function iFollowTheFirstSearchResult() {
+    $result = $this->getSession()->getPage()->find("css", "dl.search-results dt a");
+    if (empty($result)) {
+      throw new Exception("The page does not contain any results");
+    }
+    $result->click();
+    // Wait for the page to load.
+    sleep(2);
+  }
+
+  /**
+   * Checks if the solr search results page is sorted by 'project title' or not
+   *
+   * @Given /^I (?:should |)see the results sorted by alphabetical order of project title$/
+   */
+  public function iShouldSeeTheResultsSortedByAlphabeticalOrderOfProjectTitle() {
+    // Get all the results links
+    $links = $this->getSession()->getPage()->findAll("css", "dl dt.title a");
+    if (empty($links)) {
+      throw new Exception("The page did not contain any links for project title");
+    }
+    $linksArr = array();
+    foreach ($links as $link) {
+      $linksArr[] = trim($link->getText());
+    }
+    if(!$this->checkSortByAlphabets($linksArr)) {
+      throw new Exception("The results are not sorted by alphabetical order of project title");
+    }
+  }
+
+  /**
+   * @Given /^I (?:should |)see the results sorted by alphabetical order of project author$/
+   */
+  public function iShouldSeeTheResultsSortedByAlphabeticalOrderOfProjectAuthor() {
+    // Get all the results links
+    $links = $this->getSession()->getPage()->findAll("css", "dl dd p.submitted a");
+    if (empty($links)) {
+      throw new Exception("The page did not contain any links for project author");
+    }
+    $linksArr = array();
+    foreach ($links as $link) {
+      $linksArr[] = trim($link->getText());
+    }
+    if(!$this->checkSortByAlphabets($linksArr)) {
+      throw new Exception("The results are not sorted by alphabetical order of project author");
+    }
+  }
+
+  /**
+   * @Given /^I (?:should |)see the results sorted by project posted date$/
+   */
+  public function iShouldSeeTheResultsSortedByProjectPostedDate() {
+    // Get all the results links
+    $dates = $this->getSession()->getPage()->findAll("css", "dl dd p.submitted em");
+    if (empty($dates)) {
+      throw new Exception("The page did not contain project posted date");
+    }
+    $datesArr = array();
+    foreach ($dates as $date) {
+      $datesArr[] = (int) strtotime(str_replace(" at ", ",", trim($date->getText())));
+    }
+    $origArr = $datesArr;
+    // As this is date, sort it numerically and in descending order
+    rsort($datesArr, SORT_NUMERIC);
+    // Now compare original array and sorted array
+    for ($i = 0; $i < sizeof($datesArr); $i++) {
+      if ($origArr[$i] != $datesArr[$i]) {
+        throw new Exception("The results are not sorted by project posted date");
+      }
+    }
+  }
+
+  /**
+   * Function to sort the given array alphabetically
+   *
+   * @param $items
+   *    array An array of strings
+   * @return TRUE/FALSE
+   *    boolean Return true if all the items in array matches after comparing, false otherwise
+   */
+  private function checkSortByAlphabets($items) {
+    $origArr = $items;
+    $b = "";
+    // Sort alphabetically and do not maintain index association
+    usort($items,
+      function($items, $b){
+        return strcasecmp($items, $b);
+      }
+    );
+    // Now compare original array and sorted array
+    for ($i = 0; $i < sizeof($items); $i++) {
+      if ($origArr[$i] != $items[$i]) {
+        return FALSE;
+      }
+    }
+    return TRUE;
+  }
 }
