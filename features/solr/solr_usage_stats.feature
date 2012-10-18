@@ -10,14 +10,11 @@ Feature: Visitor searches site and sorts the results
   Scenario: Search and sort by most installed
     When I select "Most installed" from "Sort by"
     Then I should see the results sorted by most installed modules
-    And I should see the heading "Search results"
   
   Scenario: Search and sort by last build
     When I select "Last build" from "Sort by"
-    And I should see the results sorted by last build of the project
-    Then I should see the heading "Search results"
+    Then I should see the results sorted by last build of the project
   
   Scenario: Search and sort by last release
     When I select "Last release" from "Sort by"
     Then I should see the results sorted by latest release of the project
-    And I should see the heading "Search results"

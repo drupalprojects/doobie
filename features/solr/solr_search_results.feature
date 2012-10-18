@@ -12,7 +12,6 @@ Feature: Visitor searches site
   Scenario: Search for the term and look for results
     Given that I am on the homepage
     When I search sitewide for "views"
-    Then I should see the heading "Search results"
     And I should see the heading "Search again"
     And I should see the following <texts>
     | texts                               |
@@ -35,7 +34,6 @@ Feature: Visitor searches site
   Scenario: Page contains a sorting option at the top of results
     Given I am on "/search/site/views"
     When I select "Title" from "Sort by"
-    Then I should see the heading "Search results"
     And I should not see "Your search yielded no results"
 
   Scenario: Page contains a search field in the right column
@@ -77,7 +75,6 @@ Feature: Visitor searches site
   Scenario Outline: Follow each facet filter and verify the same
     Given I am on "/search/site/views"
     When I follow "<filter>"
-    Then I should see the heading "Search results"
     And I should not see "Your search yielded no results"
     And I should see at least "10" records
     And I should see "results containing the words: views"
@@ -98,7 +95,6 @@ Feature: Visitor searches site
     And I select "Date" from "Sort by"
     Then I should see "results containing the words: views"
     And I should see at least "25" records
-    And I should see the heading "Search results"
 
   Scenario: Meta type themes has more filters
     Given I am on "/search/site/views?f[0]=ss_meta_type%3Atheme"
@@ -107,7 +103,6 @@ Feature: Visitor searches site
     And I select "Author" from "Sort by"
     Then I should see "results containing the words: views"
     And I should see at least "25" records
-    And I should see the heading "Search results"
 
   @javascript
   Scenario: Filters exist in the search box in the header

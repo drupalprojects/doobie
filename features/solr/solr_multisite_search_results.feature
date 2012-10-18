@@ -8,7 +8,6 @@ Feature: Visitor searches content and gets results from multiple sites
     Given I am on "/search/site/views"
     When I follow "Groups ("
     Then I should see at least "10" records
-    And I should see the heading "Search results"
     And the results should not link to Drupal.org
 
   @javascript
