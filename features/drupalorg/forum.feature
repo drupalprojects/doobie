@@ -9,14 +9,14 @@ Feature: Create new forum topic as a regular site user
     When I follow "Support"
     And I follow "Forums"
     Then I should be on "/forum"
-    And I should see the link "Post new Forum topic"
+    And I should see the link "Add new Forum topic"
     And I should see "New forum topics" block in the right sidebar
     And I should see at least "5" links in the "right sidebar" region
 
   Scenario: Add a new forum topic with empty required fields
     Given I am logged in as "site user"
     And I visit "/forum"
-    When I follow "Post new Forum topic"
+    When I follow "Add new Forum topic"
     And I press "Save"
     Then I should see "Subject field is required"
     And I should see "Forums field is required"
@@ -27,7 +27,7 @@ Feature: Create new forum topic as a regular site user
     Given I am logged in as "site user"
     And I visit "/forum"
     And I follow "Post installation"
-    And I follow "Post new Forum topic"
+    And I follow "Add new Forum topic"
     When I create a forum topic
     And I see "has been created"
     And I follow "Post installation"
