@@ -4387,6 +4387,8 @@ class FeatureContext extends DrupalContext {
     // Forum node
     if ($spotlight_url = HackyDataRegistry::get('forum url')) {
       $arr_nodeurl[] = $spotlight_url;
+    } else {
+      throw new Exception ($spotlight_url . ' not set');
     }
     // Test Document/Book page
     if ($document_url = HackyDataRegistry::get('document url')) {
@@ -6035,7 +6037,7 @@ class FeatureContext extends DrupalContext {
   public function iCreateAForum() {
     $page = $this->getSession()->getPage();
     $subject = $this->randomString(8);
-    $page->fillField("title", $subject);
+    $page->fillField("Subject", $subject);
     HackyDataRegistry::set('random:Forum subject', $subject);
     $body = str_repeat($this->randomString(30) . " ", 10);
     $page->fillField("Body", $body);
