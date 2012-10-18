@@ -30,6 +30,7 @@ use Behat\Behat\Context\Step\Given;
 use Behat\Behat\Context\Step\When;
 use Behat\Behat\Context\Step\Then;
 use Behat\Behat\Event\ScenarioEvent;
+use Behat\Behat\Event\StepEvent;
 
 use Behat\Mink\Exception\ElementNotFoundException;
 
@@ -81,7 +82,10 @@ class FeatureContext extends DrupalContext {
       $this->git_users = $parameters['git_users'];
     }
     if (isset($parameters['post title'])) {
-      $this->postTitle= $parameters['post title'];
+      $this->postTitle = $parameters['post title'];
+    }
+    if (isset($parameters['environment'])) {
+      $this->environment = $parameters['environment'];
     }
   }
 
@@ -6487,5 +6491,21 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeThatDrupalBannerIsLinkedToTheHomePage() {
     $this->iShouldSeeInArea('image', "drupal banner", 'left header');
+  }
+
+  /** 
+   * Save site output to be viewed later when run in a continuous integration environment
+   * The web root and a directory writable by the behat user must be configured in behat.local.yml
+   * @AfterStep 
+   */
+  public function generateFailedStepScreenshot(StepEvent $event) {
+    if ($event->hasException() && isset($this->environment['webpath'])) {
+      $html = $this->getSession()->getPage()->getContent(); //Here is the HTML of your failed step
+      $url = $this->getSession()->getCurrentUrl();
+      $filename = date('c') . '-' . $this->randomString(4) . '.html';
+      $filepath = $this->environment['webpath'] . '/html/' . $filename;
+      file_put_contents($filepath, $html);
+      print '<li class="failed">View: <a href="' . $this->environment['baseurl'] . '/html/' . urlencode($filename) . '">failure snapshot</a> <a href="' . $url . '"></a></li>';
+    }
   }
 }
