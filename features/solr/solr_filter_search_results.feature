@@ -5,7 +5,7 @@ Feature: Visitor searches site and filters the results using various options
   I want to search for few terms and filter the results
 
   Background:
-    Given I am on "/search/apachesolr_multisitesearch/views?filters=ss_meta_type%3Amodule"
+    Given I am on "/search/site/views?filters=ss_meta_type%3Amodule"
 
   Scenario Outline: Filter by Modules categories
     When I select "<module>" from "Modules categories"
