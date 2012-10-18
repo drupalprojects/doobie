@@ -22,6 +22,10 @@ default:
         gitvetteduser:
           '|GITVETTEDUSERPW|'
       post title: 'enter a node title here that has a link on the current page'
+      #only enable the below if you are configuring in a CI enviroment
+      #environment:
+      #  webpath: '|FULLPATHTOOUTPUTDIR|'
+      #  baseurl: '|FULLURLTOOUTPUTDIR|'
 
   extensions:
     Behat\MinkExtension\Extension:
