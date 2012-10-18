@@ -6434,6 +6434,7 @@ class FeatureContext extends DrupalContext {
     }
     $docUrl = $docUrl . "/edit";
     return new Given("I go to \"$docUrl\"");
+  }
 
   /** 
    * Save site output to be viewed later when run in a continuous integration environment
