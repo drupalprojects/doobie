@@ -254,11 +254,6 @@ class FeatureContext extends DrupalContext {
     	$userData = $this->getGitUserData($this->repo);
     	$password = $userData['password'];
     }
-    // Back to version control page
-    if ($repo != 'promoted sandbox') {
-      $this->getSession()->visit($currUrl);
-    }
-    sleep(1);
     $tempArr = explode(" ", $this->repo);
     foreach ($tempArr as $key => $value) {
       if (strpos($tempArr[$key], ".git") !== FALSE) {
@@ -295,14 +290,17 @@ class FeatureContext extends DrupalContext {
     }
     // Continue with normal cloning
     if (!$process->isSuccessful()) {
-      throw new RuntimeException("The clone did not work " .
-        "\n Error: 2" . $process->getErrorOutput() .
-        "\n Output: 3" . $process->getOutput()
+      throw new RuntimeException("The clone did not work - " .
+        "\n Error: " . $process->getErrorOutput() .
+        "\n Output: " . $process->getOutput()
       );
     }
     // If clone is successfull, then a directory must be created
     if (!is_dir(getcwd() . "/" . $project)) {
-      throw new RuntimeException('The clone did not work ' . $process->getOutput());
+      throw new RuntimeException("The clone did not work - " .
+        "\n Error: " . $process->getErrorOutput() .
+        "\n Output: " . $process->getOutput()
+      );
     }
   }
 
@@ -568,34 +566,39 @@ class FeatureContext extends DrupalContext {
   public function iInitializeTheRepository() {
     // Check for the `expect` library.
     $this->checkExpectLibraryStatus();
-
-    $element = $this->getSession()->getPage()->find('css', 'div.codeblock');
+    $element = $this->getSession()->getPage()->findAll('css', 'div.codeblock code');
     if (empty($element)) {
       throw new Exception("Initialization of repository failed. The page did not contain any code block to run");
     }
-    $rawCommand = $element->getHTML();
-    $matches = array();
-    preg_match('|add origin ssh://([^@]*)@|', $rawCommand, $matches);
-    $username = $matches[1];
-    $password = $this->fetchPassword('git', $username);
-    $rawCommand = str_replace('<br/>', '', $rawCommand);
-    $rawCommand = str_replace('&gt;', '>', $rawCommand);
-    $rawCommand = str_replace('&#13;', '', $rawCommand);
-    $rawCommand = str_replace('git push origin master', "../bin/gitwrapper init $password", $rawCommand);
-    $command = preg_replace('/<code>(.*)?<\/code>/U', '\1 ; ', $rawCommand);
-    # var_dump($command);
-    $process = new Process($command);
+    $fullCommand = "";
+    foreach ($element as $code) {
+      $command = trim($code->getText());
+      // Get username and password
+      if (strpos($command, "add origin") !== FALSE) {
+        $gitUser = $this->getGitUserData($command);
+        if ($gitUser) {
+          $gitUsername = $gitUser['username'];
+          $gitPassword = $gitUser['password'];
+        }
+      }
+      elseif ($command == "git push origin master") {
+        $command = "../bin/gitwrapper init $gitPassword";
+      }
+      $fullCommand .= $command . ' ; ';
+    }
+    if (!$fullCommand) {
+      throw new Exception("No command was provided to execute");
+    }
+    $process = new Process($fullCommand);
     $process->setTimeout(10);
     $process->run();
     if (!$process->isSuccessful() || stripos($process->getOutput(), "error") !== FALSE) {
-      throw new Exception("Initializing repository failed" .
-      "\nCommand: " . $command .
+      throw new Exception("Initializing repository failed - " .
+      "\nCommand: " . $fullCommand .
       "\nError: " . $process->getErrorOutput() .
       "\nOutput: " . $process->getOutput()
       );
     }
-    // Pause for front end to catch up.
-    sleep(10);
   }
 
   /**
