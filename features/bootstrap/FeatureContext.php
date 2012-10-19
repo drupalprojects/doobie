@@ -4390,7 +4390,8 @@ class FeatureContext extends DrupalContext {
     // Forum node
     if ($spotlight_url = HackyDataRegistry::get('forum url')) {
       $arr_nodeurl[] = $spotlight_url;
-    } else {
+    }
+    else {
       throw new Exception ($spotlight_url . ' not set');
     }
     // Test Document/Book page
@@ -4431,9 +4432,6 @@ class FeatureContext extends DrupalContext {
         $session->visit($this->locatePath($editLink->getAttribute('href')));
         sleep(1);
         $page = $session->getPage();
-        // Enter log message
-        $page->findLink('Revision information')->click();
-        $page->fillField("Revision log message", "Deleted during cleanup");
         $page->pressButton("Delete");
         sleep(1);
         // Confirm delete
