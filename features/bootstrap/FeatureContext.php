@@ -2231,94 +2231,79 @@ class FeatureContext extends DrupalContext {
     }
     throw new Exception('Full project link cannot be found');
    }
-    /**
+
+  /**
    * Multiple File Upload
+   *
+   * @param string $type
+   *   file attachments/primary screenshot/additional screenshots
+   * @param object $files
+   *   TableNode
    */
   private function uploadMultipleFiles($type, TableNode $files) {
+    $type = strtolower($type);
     // Multiple file upload:
     // update the below 'switch' if this function needs to be reused
     switch ($type) {
       // for Create Project image upload
-      case 'project image':
-        $addmore_id = 'edit-field-project-images-field-project-images-add-more';
+      case 'file attachments':
         // upload field id
-        $filefield_id 	= 'edit-field-project-images-{index}-upload';
+        $filefield_id 	= 'edit-upload-und-{index}-upload';
         // upload button id
-        $uploadbutton_id 	= 'edit-field-project-images-{index}-filefield-upload';
-        // upload response id
-        $responsebox_id	= 'edit-field-project-images-{index}-data-description';
-        // upload set wrapper
-        $wrapperbox_id 	= 'edit-field-project-images-{index}-ahah-wrapper';
+        $uploadbutton_id 	= 'edit-upload-und-{index}-upload-button';
         // parameters to be filled in after upload finishes
         $arr_postupload_params = array(
           // in description
-          'description' => 'edit-field-project-images-{index}-data-description',
-          // al tag
-          'alt text' => 'edit-field-project-images-{index}-data-alt',
+          'description' => 'edit-upload-und-{index}-description',
         );
         break;
-      // for Create Case Study image upload
-      case 'case study image':
-        $addmore_id = 'edit-field-images-field-images-add-more';
+      // Primary screenshot image. Eg: Case study image
+      case 'primary screenshot':
         // upload field id
-        $filefield_id 	= 'edit-field-images-{index}-upload';
+        $filefield_id 	= 'edit-field-mainimage-und-{index}-upload';
         // upload button id
-        $uploadbutton_id 	= 'edit-field-images-{index}-filefield-upload';
+        $uploadbutton_id 	= 'edit-field-mainimage-und-{index}-upload-button';
         // upload response id
-        $responsebox_id	= 'edit-field-images-{index}-data-description';
-        // upload set wrapper
-        $wrapperbox_id 	= 'edit-field-images-{index}-ahah-wrapper';
+        $responsebox_id	= 'edit-field-mainimage-und-{index}-alt';
         // parameters to be filled in after upload finishes
         $arr_postupload_params = array(
-          // in description
-          'description' => 'edit-field-images-{index}-data-description',
-          // al tag
-          'alt text' => 'edit-field-images-{index}-data-alt',
-          // title
-          'title' => 'edit-field-images-{index}-data-title',
+          // alt tag
+          'alternate text' => 'edit-field-mainimage-und-{index}-alt'
+        );
+        break;
+      // Additional  screenshot image. Eg: Case study image
+      case 'additional screenshots':
+        // upload field id
+        $filefield_id 	= 'edit-field-images-und-{index}-upload';
+        // upload button id
+        $uploadbutton_id 	= 'edit-field-images-und-{index}-upload-button';
+        // parameters to be filled in after upload finishes
+        $arr_postupload_params = array(
+          // alt tag
+          'alternate text' => 'edit-field-images-und-{index}-alt',
+          'title' => 'edit-field-images-und-{index}-title'
         );
         break;
       default:
-        throw new Exception('Type of files to be uploaded is not specified/correct. Eg: \'I upload the following "project image" <files>\'');
+        throw new Exception('Type of files to be uploaded is not specified/correct. Eg: \'I upload the following <files> for "File attachments"\'');
         break;
     }
-    $session = $this->getSession();
-    $page = $session->getPage();
     $files = $files->getHash();
-    $total_files = count($files);
-
-    // 'add more' button.
-    $add_more = $page->findById($addmore_id);
-    if (empty($addmore)) {
-      throw new Exception('The id used to upload a file, '. $addmore_id . ', was not found');
+    if (empty($files)) {
+      throw new Exception('Files to be uploaded are not specified');
     }
+    $total_files = count($files);
     $upload = 0;
-    $ds = '/';
     if ($total_files > 0) {
-      // Wait.
-      // @TODO why?
-      $this->iWaitForSeconds(2);
-
       // Loop through files and upload.
       for ($i = 0; $i < $total_files; $i++) {
-        // find newly inserted file and attach local file
+        // Find newly inserted file and attach local file
         $file_id = str_replace('{index}', $i, $filefield_id);
         $file = $this->getSession()->getPage()->findById($file_id);
-        //add more items
-        if (!is_object($file)) {
-          $this->iWaitForSeconds(2);
-          $wrapper_id = str_replace('{index}', $i, $wrapperbox_id);
-          $add_more->click();
-          $this->iWaitForSeconds(10, "typeof($('#". $wrapper_id ."').html()) != 'undefined'");
-          $this->iWaitForSeconds(2);
-          $file = $this->getSession()->getPage()->findById($file_id);
-        }
         if (empty($file)) {
           throw new Exception('The file: "' . $files[$i]['files'] . '" cannot be attached.');
         }
-        // Attach again.
         $filepath = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . $files[$i]['files'];
-
         if (!file_exists($filepath)) {
           throw new Exception('The file: "' . $files[$i]['files'] . '" cannot be found.');
         }
@@ -2330,10 +2315,17 @@ class FeatureContext extends DrupalContext {
           throw new Exception('The file: "' . $files[$i]['files'] . '" cannot be uploaded.');
         }
         $submit->click();
-        // wait for upload to finish: will wait until the upload completes OR 300 seconds
-        $box_id = str_replace('{index}', $i, $responsebox_id);
-        $this->iWaitForSeconds(300, "typeof($('#". $box_id . "').val()) != 'undefined'");
-
+        // Confirm upload completion by checking the presence of a field in the response
+        if (isset($responsebox_id)) {
+          // ID if the field the response will contain
+          $fieldid_tocheck = str_replace('{index}', $i, $responsebox_id);
+        }
+        else {
+          // ID of the next file field.
+          $fieldid_tocheck = str_replace('{index}', $i+1, $filefield_id);
+        }        
+        // wait for upload to finish: will wait until the upload completes OR 300 seconds        
+        $this->iWaitForSeconds(10, "typeof(jQuery('#". $fieldid_tocheck . "').val()) != 'undefined'");
         // process post upload parameters
         if (!empty($arr_postupload_params)) {
           foreach ($arr_postupload_params as $param => $field_id) {
@@ -2353,30 +2345,25 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I upload the following "([^"]*)" <files>$/
-   */
-  public function iUploadTheFollowingFiles($type, TableNode $files)
-  {
-    $this->uploadMultipleFiles($type, $files);
+  * @When /^I upload the following <files> for "([^"]*)"$/
+  *
+  * @param string $type
+  *   file attachments/primary screenshot/additional screenshots
+  * @param object $files
+  *   TableNode
+  */
+  public function iUploadTheFollowingFilesFor($type, TableNode $files) {
+   $this->uploadMultipleFiles($type, $files);
   }
 
   /**
-   * @Given /^I check the project is created$/
+   * @Then /^I (?:should |)see (?:that |)the project was created$/
    */
   public function iCheckTheProjectIsCreated()
   {
     $success = false;
-    $lis = $this->getSession()->getPage()->findAll('css', 'div.messages.messages-status.clear-block.messages-multiple > ul > li');
-    if (!empty($lis)) {
-      foreach ($lis as $li) {
-        $msg = $li->getText();
-        if (preg_match("/has been created/", $msg)) {
-          $success = true;
-          break;
-        }
-      }
-    }
-    if (!$success) {
+    $div_ele = $this->getSession()->getPage()->find('css', 'div#content');
+    if (empty($div_ele) || (!empty($div_ele) && !preg_match("/has been created/", $div_ele->getText()))) {
       throw new Exception("Project Creation failed");
     }
     // Store project url for later use
@@ -4432,7 +4419,8 @@ class FeatureContext extends DrupalContext {
         // Log message
         $log_ele = $page->find('css', '#edit-log');
         if (!empty($log_ele)) {
-          $log_ele->setValue('Deleted test node');
+           // Throws error with selenium
+          //$log_ele->setValue('Deleted test node');
         }
         $page->pressButton("Delete");
         sleep(1);
