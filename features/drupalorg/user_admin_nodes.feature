@@ -80,7 +80,7 @@ Feature: To get administrative view of nodes by a user
     Then none the checkboxes are selected
 
   @dependent
-  Scenario: Unpublish posts: Dont select
+  Scenario: Unpublish posts: Don't select
     When I press "Unpublish"
     Then I should see "No row selected. Please select one or more rows"
     And I should not see "Performed Unpublish on node"
@@ -93,7 +93,7 @@ Feature: To get administrative view of nodes by a user
     Then I should not see "Performed Unpublish on node"
 
   @dependent
-  Scenario: Delete node: Dont select
+  Scenario: Delete node: Don't select
     When I press "Delete node"
     Then I should see "No row selected. Please select one or more rows"
     And I should not see "This action cannot be undone"

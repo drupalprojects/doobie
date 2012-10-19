@@ -84,7 +84,7 @@ Feature: To get administrative view of comments by a user
     Then none the checkboxes are selected
 
   @dependent
-  Scenario: Unpublish comment: Dont select
+  Scenario: Unpublish comment: Don't select
     When I press "Unpublish comment"
     Then I should see "No row selected. Please select one or more rows"
     And I should not see "Performed Unpublish comment on comment"
@@ -97,7 +97,7 @@ Feature: To get administrative view of comments by a user
     Then I should not see "Performed Unpublish comment on comment"
 
   @dependent
-  Scenario: Delete commen: Dont select
+  Scenario: Delete comment: Don't select
     When I press "Delete comment"
     Then I should see "No row selected. Please select one or more rows"
     And I should not see "This action cannot be undone"

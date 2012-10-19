@@ -1,6 +1,6 @@
 @planet @anon
 Feature: Find News
-  In order to stay up-to-date on what's happinging in Drupal
+  In order to stay up-to-date on what's happening in Drupal
   As any user
   I want to read the latest news
 

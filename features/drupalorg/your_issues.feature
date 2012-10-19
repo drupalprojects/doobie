@@ -10,9 +10,9 @@ Feature: View the issues created by a user
 
   Scenario: View links and texts on the page
     Then I should see the following <links>
-    | links |
-    | Create a new issue |
-    | Advanced search |
+    | links               |
+    | Create a new issue  |
+    | Advanced search     |
     And I should see the following <texts>
     | texts              |
     | Search for         |
