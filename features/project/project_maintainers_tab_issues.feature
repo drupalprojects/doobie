@@ -31,7 +31,7 @@ Feature: 'Maintain issues' permission check
     Then I should see "Maintainer permissions updated"
 
   @dependent @known_git7failure
-  Scenario: Login as maintainer and see creator username in Assigned drop down : git user can assign an issue to maintainer
+  Scenario: Log in as maintainer and see creator username in Assigned drop down : git user can assign an issue to maintainer
     Given I am logged in as "git user"
     And I am on the project page
     And I follow "open"
@@ -47,7 +47,7 @@ Feature: 'Maintain issues' permission check
     Then I should see "Maintainer permissions updated"
 
   @dependent @known_git7failure @clean_data
-  Scenario: Login as maintainer and see creator username in Assigned drop down : git user can assign an issue to maintainer
+  Scenario: Log in as maintainer and see creator username in Assigned drop down : git user can assign an issue to maintainer
     Given I am logged in as "git user"
     And I am on the project page
     And I follow "open"
