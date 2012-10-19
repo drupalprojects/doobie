@@ -4429,6 +4429,11 @@ class FeatureContext extends DrupalContext {
         $session->visit($this->locatePath($editLink->getAttribute('href')));
         sleep(1);
         $page = $session->getPage();
+        // Log message
+        $log_ele = $page->find('css', '#edit-log');
+        if (!empty($log_ele)) {
+          $log_ele->setValue('Deleted test node');
+        }
         $page->pressButton("Delete");
         sleep(1);
         // Confirm delete
