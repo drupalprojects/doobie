@@ -5,7 +5,7 @@ Feature: Get a feed of security announcements
   I should be able to see the rss feeds icon
 
   @timeout @flaky
-  Scenario: 
+  Scenario: Visit the feed and view the contents
     Given I am on "/project/drupalorg_whitelist"
     When I follow "list of existing whitelist entries"
     And I should see "Subscribe with RSS"

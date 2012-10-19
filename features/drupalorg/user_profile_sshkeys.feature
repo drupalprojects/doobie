@@ -17,7 +17,7 @@ Feature: To verify ssh keys of a user
     | Fingerprint |
     | Operations  |
 
-  Scenario: Check for Add a public key link
+  Scenario: Visit Add a public key link and view page contents
     When I follow "Add a public key"
     Then I should see the heading "Add a SSH key"
     And I should see the following <texts>

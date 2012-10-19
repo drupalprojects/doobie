@@ -8,11 +8,11 @@ Feature: View the issues created by a user
     Given I am logged in as "site user"
     And I follow "Your Issues"
 
-  Scenario: Verify that this is the your issues page
+  Scenario: View links and texts on the page
     Then I should see the following <links>
-    | links |
-    | Create a new issue |
-    | Advanced search |
+    | links               |
+    | Create a new issue  |
+    | Advanced search     |
     And I should see the following <texts>
     | texts              |
     | Search for         |

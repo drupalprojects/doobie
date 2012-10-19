@@ -8,7 +8,7 @@ Feature: View Drupal case studies as authenticated user
     Given I am logged in as "site user"
     And I visit "/case-studies"
 
-  Scenario: Verify this page
+  Scenario: View the texts and links on the page
     Then I should see the heading "Drupal Case Studies"
     And I should see the heading "Browse by category"
     And I should see the link "Add your case study"

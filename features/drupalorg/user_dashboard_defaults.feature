@@ -7,7 +7,7 @@ Feature:
   Background:
     Given I am logged in as "site user"
 
-  Scenario: Click Restore to defaults and check the positions of Dashboard blocks
+  Scenario: Click Restore to defaults and view dashboard blocks
     When I follow "Your Dashboard"
     And I click "Add a block"
     And I click "Restore to defaults"
@@ -27,7 +27,7 @@ Feature:
     | Issues for Drupal core |
     | Contributor Links      |
 
-  Scenario: Check the positions of Documentation Team Links and Project Issue Summary links
+  Scenario: View Documentation Team Links and Project Issue Summary links in Add a block section
     When I follow "Your Dashboard"
     And I click "Add a block"
     Then I should see the following <blocklinks> in small boxes

@@ -3,8 +3,8 @@ Feature: To view list of security announcements
   In order to know the security announcements
   As a user
   I should go to security advisories page
-  
-  Scenario:
+
+  Scenario: Visit Security Info page and view texts and links
     Given that I am on the homepage
     When I follow "Security Info"
     Then I should see the heading "Security advisories"
@@ -28,7 +28,7 @@ Feature: To view list of security announcements
     | 2                            |
     And I should not see the link "previous"
     And I should not see the link "first"
-    
+
   Scenario: View paginated items: Second page
     Given I am on "/security"
     When I click on page "2"
@@ -36,7 +36,7 @@ Feature: To view list of security announcements
     And I should see the link "previous"
     And I should see the link "last"
     And I should see the heading "Security advisories"
-  
+
   Scenario: View paginated items: Last page
     Given I am on "/security?page=2"
     When I click on page "last"
@@ -44,9 +44,9 @@ Feature: To view list of security announcements
     And I should see the link "previous"
     And I should not see the link "last"
     And I should not see the link "next"
-    And I should see the heading "Security advisories"  
-  
-  Scenario: Check for various parameters
+    And I should see the heading "Security advisories"
+
+  Scenario: View various parameters on Security Info page
     Given I am on the homepage
     When I follow "Security Info"
     Then I should see the following <texts>
@@ -58,7 +58,7 @@ Feature: To view list of security announcements
     | Security risk:    |
     | Exploitable from: |
     | Vulnerability:    |
-  
+
   Scenario: Read more
     Given I am on "/security"
     When I follow "Read more"

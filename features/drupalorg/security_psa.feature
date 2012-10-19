@@ -25,7 +25,7 @@ Feature: To view list of Security public service announcements
     | Read more            |
     | Drupal Security Team |
 
-  Scenario: Check for various parameters
+  Scenario: Visit Public service announcements page and view various parameters
     Given I am on "/security/psa"
     When I follow "Public service announcements"
     Then I should see the following <texts>
@@ -38,7 +38,7 @@ Feature: To view list of Security public service announcements
     | Exploitable from: |
     | Vulnerability:    |
 
-  Scenario: Check Read more link is working or not
+  Scenario: Visit Read more and view the contents
     Given I am on "/security/psa"
     When I follow "Read more"
     Then I should not see "Page not found"

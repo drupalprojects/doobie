@@ -4,7 +4,7 @@ Feature:
   As a site admin
   I need to know that file upload is only permitted to users with Administer content.
 
-  Scenario: Check File Attachments is not available for regular site user
+  Scenario: File Attachments is not available for regular site user
     Given I am logged in as "site user"
     When I follow "Support"
     And I follow "Forums"
@@ -12,7 +12,7 @@ Feature:
     Then I should not see "File attachments"
     And I should not see "Add a new file"
 
-  Scenario: Check File Attachments is available for admin
+  Scenario: File Attachments is available for admin
     Given I am logged in as "admin test"
     When I follow "Support"
     And I follow "Forums"

@@ -21,9 +21,9 @@ Feature: To view list of security announcements for contributed modules
     | links                        |
     | Drupal core                  |
     | Public service announcements |
-    | Read more                    | 
+    | Read more                    |
     | Drupal Security Team         |
-    And I should not see "SA-CORE" 
+    And I should not see "SA-CORE"
 
   Scenario: View paginated items: First page
     Given I am on "/security/contrib"
@@ -56,7 +56,7 @@ Feature: To view list of security announcements for contributed modules
     And I should not see the link "next"
     And I should see the heading "Security advisories"
 
-  Scenario: Check for various parameters
+  Scenario: Visit Contributed projects page and view various parameters
     Given I am on "/security"
     When I follow "Contributed projects"
     Then I should see the following <texts>

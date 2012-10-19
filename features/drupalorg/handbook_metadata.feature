@@ -53,14 +53,14 @@ Feature:  Verify handbook metadata is displayed correctly
     And I follow "edit this page"
     When I edit the document
     Then I should see "has been updated"
-  
-  Scenario: Check the last updated date
+
+  Scenario: Follow revisions tab and compare last updated date
     Given I am logged in as "admin test"
     And I am on the document page
     When I follow "Revisions"
     Then the "last updated date" should match the latest revision
 
-  Scenario: Check created user and created time
+  Scenario: Follow revisions tab and view created user and created time
     Given I am logged in as "admin test"
     And I am on the document page
     When I follow "Revisions"
@@ -68,7 +68,7 @@ Feature:  Verify handbook metadata is displayed correctly
     And the "created date" should match the first revision
 
   @clean_data @timeout
-  Scenario: Check edited usernames with the four latest entries from revision tab, make sure it doesn't include creator username or duplicates of the latest editors
+  Scenario: Edited usernames will be the latest four entries from revision tab and it doesn't include creator username or duplicates of the latest editors
     Given I am logged in as "admin test"
     And I am on the document page
     When I follow "Revisions"

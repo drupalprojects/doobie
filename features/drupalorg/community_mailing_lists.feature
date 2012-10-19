@@ -4,7 +4,7 @@ Feature: Mailing lists subscription and archives
   As a site visitor
   I need to be able to access mailing list archives and subscribe to the lists
 
-  Scenario: Check the mailing list page
+  Scenario: Visit mailing list page and view texts and links
     Given I am on the homepage
     And I follow "Community"
     And I follow "Mailing Lists"
@@ -30,7 +30,7 @@ Feature: Mailing lists subscription and archives
     | up                       |
     | Log in to edit this page |
 
-  Scenario Outline: Follow view archive and verify the page
+  Scenario Outline: Follow view archive and view texts and links
     Given I am on "/mailing-lists"
     When I click on link "view archive" under section "<section>"
     Then I should see the following <texts>
@@ -67,7 +67,7 @@ Feature: Mailing lists subscription and archives
     | Webmasters     | webmasters      |
     | Infrastructure | infrastructure  |
 
-  Scenario Outline: Follow mailman page and verify the page
+  Scenario Outline: Follow mailman page and view the texts
     Given I am on "/mailing-lists"
     When I click on link "mailman page" under section "<section>"
     Then I should see the following <texts>

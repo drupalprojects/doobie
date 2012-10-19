@@ -5,7 +5,7 @@ Feature: Get a feed of security announcements
   I should be able to see the rss feeds icon
 
   @timeout @flaky
-  Scenario:
+  Scenario: Visit the feed and view the contents
     Given that I am on the homepage
     When I follow "Security Info"
     Then I should see "Subscribe with RSS"

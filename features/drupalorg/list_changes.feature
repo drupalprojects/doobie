@@ -156,7 +156,7 @@ Feature: List and search change records
     And I press "Apply"
     Then I should see "Invalid project or no changes found"
 
-  Scenario: Check whether the results are sorted: Notice created
+  Scenario: Sort by Notice created
     Given I am on "/list-changes/drupal"
     When I click the table heading "Notice created"
     Then I should see "Notice created" sorted in "ascending" order
