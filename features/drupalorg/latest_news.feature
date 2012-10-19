@@ -1,6 +1,6 @@
 @planet @anon
 Feature: Find News
-  In order to stay up-to-date on what's happinging in Drupal 
+  In order to stay up-to-date on what's happinging in Drupal
   As any user
   I want to read the latest news
 
@@ -14,7 +14,7 @@ Feature: Find News
     Then I should see the heading "Drupal News"
     And I should see "Read more"
 
-  Scenario: Check for the Links in News page
+  Scenario: View the links in News page
     Then I should see the following <links>
     | links                  |
     | Drupal News            |
@@ -47,7 +47,7 @@ Feature: Find News
     | Created    |
     | Last reply |
 
-  Scenario: For verifying the pagination links: First page
+  Scenario: View the pagination links: First page
     Then I should see the following <links>
     | links |
     | next  |
@@ -56,7 +56,7 @@ Feature: Find News
     | 2     |
     And I should not see the link "previous"
 
-  Scenario: For verifying the pagination links: Second page
+  Scenario: View the pagination links: Second page
     When I click on page "2"
     Then I should see the following <links>
     | links    |
@@ -67,7 +67,7 @@ Feature: Find News
     | next     |
     | last     |
 
-  Scenario: For verifying the pagination links: Last page
+  Scenario: View the pagination links: Last page
     When I click on page "last"
     Then I should see the link "first"
     And I should see the link "previous"

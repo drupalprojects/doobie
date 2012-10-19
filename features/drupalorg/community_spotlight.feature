@@ -1,4 +1,4 @@
-@community 
+@community
 Feature: Community Spotlight
   In order to exhibit the skills and capacities to the Drupal Community
   As a contributer
@@ -27,14 +27,14 @@ Feature: Community Spotlight
     And I should see "has been updated"
 
   @anon @dependent @flaky
-  Scenario: Check display on getting involved page
+  Scenario: Visit getting involved page and view heading and community spotlight link
     Given I am on "/community"
     When I follow "Getting Involved"
     Then I should see the heading "Community Spotlight"
     And I should see the community spotlight link
 
   @anon @dependent @flaky
-  Scenario: Check display on community spotlight page
+  Scenario: Visit community spotlight page and view the records
     Given I am on "/community"
     When I follow "Getting Involved"
     And I follow "View more community spotlights"

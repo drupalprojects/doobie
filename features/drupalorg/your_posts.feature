@@ -15,7 +15,7 @@ Feature: Your Posts
     And I add a comment to the issue
     And I add one more comment to the issue
 
-  Scenario: To comment on a specific post
+  Scenario: Comment on a specific post
     Given I am logged in as "git user"
     And I am on the project page
     When I follow "open"
@@ -24,7 +24,7 @@ Feature: Your Posts
     And I add a comment to the issue
     And I add one more comment to the issue
 
-  Scenario: To navigate to your posts page
+  Scenario: Navigate to your posts page
     Given I am logged in as "git vetted user"
     When I follow "Your Posts"
     Then I should see the following <texts>

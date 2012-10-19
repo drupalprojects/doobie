@@ -44,13 +44,13 @@ Feature: To get administrative view of comments by a user
     And I should not see "Access denied"
 
   @dependent
-  Scenario: Check for Edit link
+  Scenario: Visit edit page and view texts
     When I follow "edit" for a post
     Then I should see "Subject:"
     And I should see "Comment:"
 
   @dependent
-  Scenario: Check for Delete link
+  Scenario: Visit Delete link
     When I follow "delete"
     Then I should see "Are you sure you want to delete the comment"
     And I should see "Any replies to this comment will be lost. This action cannot be undone"
@@ -97,7 +97,7 @@ Feature: To get administrative view of comments by a user
     Then I should not see "Performed Unpublish comment on comment"
 
   @dependent
-  Scenario: Check for Delete: Dont select
+  Scenario: Delete commen: Dont select
     When I press "Delete comment"
     Then I should see "No row selected. Please select one or more rows"
     And I should not see "This action cannot be undone"

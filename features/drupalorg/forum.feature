@@ -23,7 +23,7 @@ Feature: Create new forum topic as a regular site user
     And the field "Body" should be outlined in red
 
   @javascript @dependent @flaky @clean_data
-  Scenario: Add a new forum topic and verify the latest topic in the right side block
+  Scenario: Add a new forum topic and see the latest topic in the right side block
     Given I am logged in as "site user"
     And I visit "/forum"
     And I follow "Post installation"

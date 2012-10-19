@@ -1,10 +1,10 @@
 @docs @anon @specific_text
-Feature: 
+Feature:
   In order to understand drupal.org and its community
   As any user
   I need to access community documentation guides
 
-  Scenario: Check Community Documentation tab
+  Scenario: Visit community documentation tab and view other tabs, heading, texts and blocks
     Given I am on the homepage
     When I follow "Documentation"
     Then I should see the following <tabs>
@@ -21,7 +21,7 @@ Feature:
     And I should see the text "online documentation is" in the "right sidebar" region
     And I should see the text "by the individual contributors and can be used in accordance with the Creative Commons License, Attribution-ShareAlike" in the "right sidebar" region
 
-  Scenario: Check Installation Guide tab
+  Scenario: Visit installation guide tab and view other tabs, heading, texts and blocks
     Given I am on "/documentation"
     When I follow "Installation Guide"
     Then I should see the following <tabs>
@@ -39,7 +39,7 @@ Feature:
     And I should see the text "online documentation is" in the "right sidebar" region
     And I should see the text "by the individual contributors and can be used in accordance with the Creative Commons License, Attribution-ShareAlike" in the "right sidebar" region
 
-  Scenario: Check Administration Guide tab
+  Scenario: Visit administration guide tab and view other tabs, heading, texts and blocks
     Given I am on "Documentation"
     When I follow "Administration Guide"
     Then I should see the following <tabs>
@@ -57,7 +57,7 @@ Feature:
     And I should see the text "online documentation is" in the "right sidebar" region
     And I should see the text "by the individual contributors and can be used in accordance with the Creative Commons License, Attribution-ShareAlike" in the "right sidebar" region
 
-  Scenario Outline: Check the links to guides
+  Scenario Outline: Visit documentation links and view corresponding headings
   Given I am on "/documentation"
   When I follow "<link>"
   Then I should be on "<url>"
@@ -74,4 +74,4 @@ Feature:
   | Theming Guide            | /documentation/theme             |
   | Mobile Guide             | /documentation/mobile            |
   | Develop for Drupal       | /documentation/develop           |
-  
+

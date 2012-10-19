@@ -56,7 +56,7 @@ Feature: To view list of security announcements for contributed modules
     And I should not see the link "next"
     And I should see the heading "Security advisories"
 
-  Scenario: Check for various parameters
+  Scenario: Visit Contributed projects page and view various parameters
     Given I am on "/security"
     When I follow "Contributed projects"
     Then I should see the following <texts>
@@ -69,7 +69,7 @@ Feature: To view list of security announcements for contributed modules
     | Exploitable from: |
     | Vulnerability: |
 
-  Scenario: Check Read more link is working or not
+  Scenario: Follow Read more link and view contents
     Given I am on "/security/contrib"
     When I follow "Read more"
     Then I should not see "Page not found"

@@ -4,7 +4,7 @@ Feature: To check the contents of Drupal 7.0 page
   As a user
   I should view Drupal 7.0 page
 
-  Scenario: Check for basic content on the page
+  Scenario: Visits the page and view the links and texts
     Given I am on "/drupal-7.0"
     Then I should see the heading "Friendly and powerful: Drupal 7"
     And I should see the heading "Take a tour"
@@ -23,7 +23,7 @@ Feature: To check the contents of Drupal 7.0 page
     | requirements information  |
     | API Documentation         |
 
-  Scenario Outline: Check for language links
+  Scenario Outline: Visit language links and view translated texts
     Given I am on "/drupal-7.0"
     When I follow "<language>"
     Then I should see "This announcement is available in"

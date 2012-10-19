@@ -40,13 +40,13 @@ Feature: To get administrative view of nodes by a user
     And I should not see "Access denied"
 
   @dependent
-  Scenario: Check for Edit link
+  Scenario: Visit Edit link and view the contents
     When I follow "edit" for a post
     Then I should see "Log message"
     And I should see "Create new revision"
 
   @dependent
-  Scenario: Check for Delete link
+  Scenario: Vsit Delete link
     When I follow "delete"
     Then I should see "Are you sure you want to delete"
     And I should see "This action cannot be undone"
@@ -93,7 +93,7 @@ Feature: To get administrative view of nodes by a user
     Then I should not see "Performed Unpublish on node"
 
   @dependent
-  Scenario: Check for Delete: Dont select
+  Scenario: Delete node: Dont select
     When I press "Delete node"
     Then I should see "No row selected. Please select one or more rows"
     And I should not see "This action cannot be undone"
@@ -113,7 +113,7 @@ Feature: To get administrative view of nodes by a user
     And I press "Confirm"
     And I wait "5" seconds
     Then I should see "The update has been performed"
-  
+
   @javascript @slow @dependent
   Scenario: Delete posts: Confirm
     When I check "2" checkboxes to "delete"

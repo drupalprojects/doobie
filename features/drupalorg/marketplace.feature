@@ -29,7 +29,7 @@ Feature: Use Marketplace to find services
     And I should see at least "1" record
 
   @javascript
-  Scenario: Check the subcategories under Main category
+  Scenario: Expand main category and view subcategories
     Given I am on "/marketplace"
     When I expand the category "Services"
     And I expand the category "Sectors"
@@ -42,4 +42,3 @@ Feature: Use Marketplace to find services
     And I should see assorted links under "Services"
     And I should see assorted links under "Sectors"
     And I should see assorted links under "Countries served"
-    

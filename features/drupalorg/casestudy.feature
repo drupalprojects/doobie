@@ -5,7 +5,7 @@ Feature: Drupal case studies
   I want to look for a link on the home page that takes me there
 
   @timeout
-  Scenario: Verify case study page
+  Scenario: View case study page
     Given that I am on the homepage
     When I follow "Sites Made with Drupal"
     Then I should see the heading "Drupal Case Studies"
@@ -25,7 +25,7 @@ Feature: Drupal case studies
     And wait "2" seconds
     And I should see "4"
 
-  Scenario: To see the list of categories on the right sidebar
+  Scenario: View the list of categories on the right sidebar
     Given that I am on the homepage
     When I follow "Sites Made with Drupal"
     Then I should see at least "5" links in the "right sidebar"
@@ -33,7 +33,7 @@ Feature: Drupal case studies
     And I should see the link "Technology"
     And I should see the heading "Browse by category"
 
-  Scenario: Browse the community showcase tab and look for pagination links
+  Scenario: Browse the community showcase tab and view pagination links
     Given I am on "/case-studies"
     When I follow "Community showcase"
     Then I should see at least "5" records
@@ -61,7 +61,7 @@ Feature: Drupal case studies
     | Entertainment |
     | Healthcare    |
 
-  Scenario: To see the list of categories on the right sidebar in community showcase page
+  Scenario: View the list of categories on the right sidebar in community showcase page
     Given that I am on the homepage
     When I follow "Sites Made with Drupal"
     And I follow "Community showcase"

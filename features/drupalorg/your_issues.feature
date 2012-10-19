@@ -8,7 +8,7 @@ Feature: View the issues created by a user
     Given I am logged in as "site user"
     And I follow "Your Issues"
 
-  Scenario: Verify that this is the your issues page
+  Scenario: View links and texts on the page
     Then I should see the following <links>
     | links |
     | Create a new issue |
@@ -58,4 +58,4 @@ Feature: View the issues created by a user
     When I follow an issue of the project
     Then I should see the heading "Issue Summary"
     And I should see the heading "Comments"
-    And I should see the heading "Post new comment"	
+    And I should see the heading "Post new comment"

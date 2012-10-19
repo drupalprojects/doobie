@@ -5,7 +5,7 @@ Feature: Get a feed of change records
   I should be able to see the rss feeds
 
   @flaky
-  Scenario:
+  Scenario: Visit the feed and view the contents
     Given I am on "/project/drupal"
     When I follow "View change records"
     Then I should see the heading "Change records for Drupal core"

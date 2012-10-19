@@ -11,7 +11,7 @@ Feature: Verify home page preference functionality
     And I wait until the page loads
 
   @wip
-  Scenario: Select dashboard as homepage and check dashboard has become the homepage
+  Scenario: Select dashboard as homepage and visit homepage by clicking drupal banner
     When I click "Make this your Homepage" link
     And I click the drupal banner in the header
     And I wait until the page loads
@@ -21,7 +21,7 @@ Feature: Verify home page preference functionality
     And I should not see the link "Make this your Homepage"
 
   @revert_homepage_setting @flaky @wip
-  Scenario: Select default home page and check homepage is reverted to default homepage
+  Scenario: Select default home page and and visit homepage by clicking drupal banner
     When I click "Use Default Homepage" link
     And I click the drupal banner in the header
     And I wait until the page loads
