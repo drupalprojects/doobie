@@ -5,7 +5,7 @@ Feature: To check maintainers permissions
   I should make sure that proper permissions have been assigned to the maintainers
 
   @wip
-  Scenario: Check maintainers permissions
+  Scenario: Follow Maintainers page and view maintainer's permissions
     Given I am logged in as "git vetted user"
     And I am at "/node/1765126/maintainers"
     When I follow "Maintainers"

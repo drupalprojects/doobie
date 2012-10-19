@@ -24,7 +24,7 @@ Feature: 'Administer releases' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  Scenario: Login as maintainer and check if you can see the add new release link
+  Scenario: Login as maintainer and view add new release link
     Given I am logged in as "git user"
     When I am on the project page
     And I follow "Administer releases"
@@ -38,7 +38,7 @@ Feature: 'Administer releases' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  Scenario: Login as maintainer and check if you have access to add new release link
+  Scenario: Login as maintainer and see that add new release link is accessible
     Given I am logged in as "git user"
     When I am on the project page
     Then I should not see the link "Add new release"

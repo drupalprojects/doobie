@@ -12,7 +12,7 @@ Feature: Add additional maintainers with appropriate permissions
     When I create a "module"
     Then I should see project data
 
-  Scenario: Verify it is the maintainers tab
+  Scenario: View texts and links on maintainers tab
     When I am on the Maintainers tab
     Then I should see the following <texts>
     | texts                  |
@@ -88,7 +88,7 @@ Feature: Add additional maintainers with appropriate permissions
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  Scenario: Check if owner can create an issue
+  Scenario: Create a new issue is available for owner
     Given I am on the Maintainers tab
     When I follow "total"
     Then I should see the link "Create a new issue"

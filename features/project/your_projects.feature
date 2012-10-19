@@ -19,7 +19,7 @@ Feature: Your Project Tab
     Then I should see the issue title
 
   @dependent
-  Scenario: Check the links and count of records on the page
+  Scenario: View the links and count of records on the page
     And I am on "/project/user"
     Then I should see the following <links>
     | links               |
@@ -34,7 +34,7 @@ Feature: Your Project Tab
     And I should see at least "1" record in "Project Issues" table
 
   @dependent
-  Scenario: Check the links in Project Table
+  Scenario: View the links in Project Table
     And I am on "/project/user"
     Then I should see the following <links> in column "Issue links" in "Projects" table
     | links   |
@@ -47,37 +47,37 @@ Feature: Your Project Tab
     | Add release |
 
   @dependent
-  Scenario: Check View link from Issue Links column for Projects
+  Scenario: Visit link from Issue Links column for Projects
     And I am on "/project/user"
     When I click "View" from "Projects" table
     Then I should see "Project Issue" page
 
   @dependent
-  Scenario: Check Search link from Issue Links column for Projects
+  Scenario: Visit Search link from Issue Links column for Projects
     And I am on "/project/user"
     When I click "Search" from "Projects" table
     Then I should see "Advanced Search" page
 
   @dependent
-  Scenario: Check Create link from Issue Links column for Projects
+  Scenario: Visit Create link from Issue Links column for Projects
     And I am on "/project/user"
     When I click "Create" from "Projects" table
     And I should see "Create Issue" page
 
   @dependent
-  Scenario: Check Edit link from Project Links column for Projects
+  Scenario: Visit Edit link from Project Links column for Projects
     And I am on "/project/user"
     When I click "Edit" from "Projects" table
     Then I should see "Project Edit" page
 
   @dependent
-  Scenario: Check Add release link from Project Links column for Projects
+  Scenario: Visit Add release link from Project Links column for Projects
     And I am on "/project/user"
     When I click "Add release" from "Projects" table
     Then I should see "Create Project Release" page
 
   @javascript @slow @dependent
-  Scenario: Check Issue search
+  Scenario: Search for issue
     And I visit "/cron.php"
     And I visit "/project/user"
     When I fill in "Search for" with issue name
@@ -86,19 +86,19 @@ Feature: Your Project Tab
     Then I should see at least "1" record in "Project Issues" table
 
   @dependent
-  Scenario: Check project link from in Project Issues table
+  Scenario: Visit project link from in Project Issues table
     And I am on "/project/user"
     When I click "Project" from "Project Issues" table
     Then I should see "Project Issue" page
 
   @dependent
-  Scenario: Check Summary link from in Project Issues table
+  Scenario: Visit Summary link from in Project Issues table
     And I am on "/project/user"
     When I click "Summary" from "Project Issues" table
     Then I should see "Issue" page
 
   @clean_data
-  Scenario: Check the feed icon
+  Scenario: Visit the feed link and view the contents
     And I am on "/project/user"
     When I click on the feed icon
     Then I should see at least "1" feed item
