@@ -1,9 +1,9 @@
-Feature: 
+Feature:
   In order to understand drupal.org and its community
   As any user
   I need to be able to go through Community Documentations
 
-  Scenario: Check Community Documentation tab
+  Scenario: Follow Community Documentation tab and view other tabs, texts and blocks
     Given I am on the homepage
     When I follow "Documentation"
     Then I should see the following <tabs>
@@ -18,7 +18,7 @@ Feature:
     | Help maintain the Community Documentation |
     And I should see the copyright statement in the right sidebar
 
-  Scenario: Check Installation Guide tab
+  Scenario: Follow Installation Guide tab and view other tabs, texts and blocks
     Given I am on "/documentation"
     When I follow "Installation Guide"
     Then I should see the following <tabs>
@@ -35,7 +35,7 @@ Feature:
     | Installation guide |
     And I should see the copyright statement in the right sidebar
 
-  Scenario: Check Administration Guide tab
+  Scenario: Follow Administration Guide tab and view other tabs, texts and blocks
     Given I am on "Documentation"
     When I follow "Administration Guide"
     Then I should see the following <tabs>

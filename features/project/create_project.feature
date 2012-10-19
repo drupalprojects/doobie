@@ -15,24 +15,24 @@ Feature: Create a project
     And I follow "Add a new project"
     Then I should see the heading "Create Project"
 
-  Scenario: Check Sandbox checkbox is readonly for git user
+  Scenario: Sandbox checkbox is readonly for git user
     Given I am logged in as "git user"
     And I am on "/node/add/project"
     Then the "Sandbox" checkbox should be checked
     And I should see that the Sandbox checkbox is "disabled"
 
-  Scenario: Check Sandbox checkbox can be checked by git vetted user
+  Scenario: Sandbox checkbox can be checked by git vetted user
     Given I am logged in as "git vetted user"
     And I am on "/node/add/project"
     Then I should see that the Sandbox checkbox is "enabled"
 
-  Scenario: Check Sandbox checkbox can be checked by admin
+  Scenario: Sandbox checkbox can be checked by admin
     Given I am logged in as "admin test"
     And I am on "/node/add/project"
     Then I should see that the Sandbox checkbox is "enabled"
-  
+
   @javascript
-  Scenario: Check Project Short name can be set if Sandbox checkbox is unchecked
+  Scenario: Project Short name can be set if Sandbox checkbox is unchecked
     Given I am logged in as "git vetted user"
     And I am on "/node/add/project"
     When I uncheck sandbox

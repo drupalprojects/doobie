@@ -3,7 +3,7 @@ Feature: Your Project Tab
   As a project maintainer
   I should be able to view the issues associated with the Projects, created by the user.
 
-  Scenario: Check the feed icon on Your Projects page
+  Scenario: Visit the feed link on Your Projects page and view the contents
     Given I am logged in as "git vetted user"
     And I follow "Your Dashboard"
     And I follow "Your Projects"

@@ -29,7 +29,7 @@ Feature: To view and download a release package from the download table
     | 7.x-dev |
     | 6.x-dev |
 
-  Scenario: To navigate into a release: Recommended
+  Scenario: Navigate into a release: Recommended
     Given I am on "/project/drupal"
     When I follow "7."
     Then I should see "drupal 7."
@@ -42,7 +42,7 @@ Feature: To view and download a release package from the download table
     | Official release from tag: 7. |
     And I should not see "Development snapshot from branch: 7"
 
-  Scenario: To navigate into a release: Development
+  Scenario: Navigate into a release: Development
     Given I am on "/project/drupal"
     When I follow "6.x-dev"
     Then I should see "Drupal 6.x-dev"
@@ -56,7 +56,7 @@ Feature: To view and download a release package from the download table
     | Release notes                         |
     And I should not see "Official release from tag: 6."
 
-  Scenario: To see the notes of a release: Recommended
+  Scenario: See the notes of a release: Recommended
     Given I am on "/project/drupal"
     When I follow "Notes" for version "6.26"
     Then I should see "drupal 6.26"
@@ -70,7 +70,7 @@ Feature: To view and download a release package from the download table
     | Release notes                   |
     And I should not see "Development snapshot from branch: 6.x"
 
-  Scenario: To see the notes of a release: Development
+  Scenario: See the notes of a release: Development
     Given I am on "/project/drupal"
     When I follow "Notes" for version "7.x-dev"
     Then I should see "drupal 7.x"

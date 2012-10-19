@@ -28,7 +28,7 @@ Feature: 'Administer maintainers' permission check
     Then I should see "Maintainer permissions updated"
 
   @dependent
-  Scenario: Login as maintainer and check if you can add a maintainer
+  Scenario: Login as maintainer and see that if you can add a maintainer
     Given I am logged in as "git user"
     And I am on the Maintainers tab
     When I enter "site user" for field "Maintainer user name"
@@ -44,7 +44,7 @@ Feature: 'Administer maintainers' permission check
     Then I should see "Maintainer permissions updated"
 
   @dependent @clean_data
-  Scenario: Login as maintainer and check if you have access to maintainers tab
+  Scenario: Login as maintainer and see that maintainers tab is accessible
     Given I am logged in as "git user"
     When I am on the Maintainers tab
     Then I should not see the link "Maintainers"

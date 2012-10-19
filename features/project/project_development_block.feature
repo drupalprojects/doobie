@@ -7,7 +7,7 @@ Feature: Project Development Block
   Background:
     Given I am on "/project/views"
 
-  Scenario: Check for Development Block Links
+  Scenario: View links in Development block
     Then I should see the heading "Development"
     And I should see the following <links>
     | links                   |

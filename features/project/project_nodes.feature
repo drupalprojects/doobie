@@ -4,7 +4,7 @@ Feature: To view the project details
   I should be able to see some specific contents on the page
 
   @known_git6failure
-  Scenario: Visting the project page
+  Scenario: Visit the project page
     Given that I am on the homepage
     When I follow "Download & Extend"
     And I follow "Download Drupal"
@@ -43,7 +43,7 @@ Feature: To view the project details
     | branching and tagging          |
     | Advanced patch workflow        |
 
-  Scenario: Change the branch and check the content
+  Scenario: Change the branch and view the content
     Given I am on "/project/drupal/git-instructions"
     When I select "7.x" from "Version to work from"
     And I press "Show"
@@ -94,7 +94,7 @@ Feature: To view the project details
     And I should not see the link "previous"
 
   @known_git6failure
-  Scenario: Check commit numbers: Maintainers block
+  Scenario: View committers and commit numbers: Maintainers block
     Given I am on "/download"
     When I follow "Download Drupal"
     Then I should see the heading "Maintainers for Drupal core"
@@ -102,7 +102,7 @@ Feature: To view the project details
     And I should see at least "11716" commits
 
   @known_git6failure
-  Scenario: Check users: Maintainers block
+  Scenario: View users: Maintainers block
     Given I am on "/download"
     When I follow "Download Drupal"
     Then I should see the heading "Maintainers for Drupal core"

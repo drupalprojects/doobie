@@ -8,7 +8,7 @@ Feature: Your Project Tab
 
   Scenario: Create test data: Sandbox project
     And I am on "/node/add/project"
-    When I create a sandbox project 
+    When I create a sandbox project
     Then I should see project data
 
   @dependent
@@ -19,11 +19,11 @@ Feature: Your Project Tab
     Then I should see the issue title
 
   @dependent
-  Scenario: Check the links and count of records on the page
+  Scenario: View the records in Sandbox Projects table
     And I am on "/project/user"
-    And I should see at least "1" record in "Sandbox Projects" table
+    Then I should see at least "1" record in "Sandbox Projects" table
 
-  Scenario: Check the links from Sandbox Project Table
+  Scenario: View the links in Sandbox Project Table
     And I am on "/project/user"
     Then I should see the following <links> in column "Issue links" in "Sandbox Projects" table
     | links  |
@@ -34,22 +34,22 @@ Feature: Your Project Tab
     | links |
     | Edit  |
 
-  Scenario: Check View link from Issue Links column for Sandbox Project Table
+  Scenario: Visit View link from Issue Links column for Sandbox Project Table
     And I am on "/project/user"
     When I click "View" from "Sandbox Projects" table
     Then I should see "Project Issue" page
 
-  Scenario: Check Search link from Issue Links column for Sandbox Project Table
+  Scenario: Visit Search link from Issue Links column for Sandbox Project Table
     And I am on "/project/user"
     When I click "Search" from "Sandbox Projects" table
     Then I should see "Advanced Search" page
 
-  Scenario: Check Create link from Issue Links column for Sandbox Project Table
+  Scenario: Visit Create link from Issue Links column for Sandbox Project Table
     And I am on "/project/user"
     When I click "Create" from "Sandbox Projects" table
     Then I should see "Create Issue" page
 
-  Scenario: Check Edit link from Project Links column for Sandbox Project Table
+  Scenario: Visit Edit link from Project Links column for Sandbox Project Table
     And I am on "/project/user"
     When I click "Edit" from "Sandbox Projects" table
     Then I should see "Project Edit" page
