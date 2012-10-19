@@ -82,7 +82,7 @@ Feature: Learn about details of a (sandbox) project
     And I should not see the link "previous"
 
   @anon @smoke
-  Scenario: Check commit numbers in maintainers block
+  Scenario: View commit numbers against the user in maintainers block
     Given I am on the homepage
     When I visit "/node/1765126"
     Then the <user> should have at least <count> commits
@@ -91,7 +91,7 @@ Feature: Learn about details of a (sandbox) project
     | sachin2dhoni   | 2     |
 
   @anon
-  Scenario: Check users in maintainers block
+  Scenario: View users in maintainers block
     Given I am on the homepage
     When I visit "/node/1765126"
     Then the project should have the following <committers>
@@ -131,7 +131,7 @@ Feature: Learn about details of a (sandbox) project
     And I should see the link "register"
 
   @smoke
-  Scenario: Check whether you can post an issue
+  Scenario: Visit create a new issue page to post an issue
     Given I am logged in as "site user"
     And I visit "/project/issues/1765126"
     When I follow "Create a new issue"

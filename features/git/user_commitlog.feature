@@ -20,7 +20,7 @@ Feature: To see the list of all the commits for a user
     And I push "3" commits to the repository
 
   @dependent
-  Scenario: Check for records
+  Scenario: Visit your commits page and view the contents
     When I visit "/user"
     And I follow "Your Commits"
     Then I should see at least "3" records

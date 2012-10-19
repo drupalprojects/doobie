@@ -11,7 +11,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     Then I should see project data
 
   @dependent
-  Scenario: Check Releases tab is available and project short name is readonly
+  Scenario: Visit project page and see that releases tab is available and project short name is readonly
     Given I am logged in as "git vetted user"
     And I am on the project page
     When I follow "Edit"

@@ -51,7 +51,7 @@ Feature: To see the list of all the commits
     | commit    |
     | tree      |
 
-  Scenario: Check that project title is displayed first
+  Scenario: View project title as the first part of the heading
     Given that I am on the homepage
     When I follow "Commits"
     And I follow "More commit messages..."
