@@ -18,7 +18,7 @@ Feature: Verify projects and commits summary in user profile page
     Then I should see "Setting up repository for the first time"
 
   @gitrepo @dependent
-  Scenario: Commit to the above sandbox project and verify the same
+  Scenario: Commit to the above sandbox project and view the commits
     When I visit the Version control tab
     And I clone the repo
     And I push "2" commits to the repository
@@ -27,7 +27,7 @@ Feature: Verify projects and commits summary in user profile page
     And I should see "2" commits for the project
 
   @gitrepo @dependent @clean_data
-  Scenario: Promote the sandbox project, commit and verify
+  Scenario: Promote the sandbox project, commit and and view the commits
     When I visit the project page
     And I promote the project
     And I follow "Version control"
@@ -38,7 +38,7 @@ Feature: Verify projects and commits summary in user profile page
     And I should see "4" commits for the project
 
   @gitrepo @clean_data
-  Scenario: Create a full project, commit and verify
+  Scenario: Create a full project, commit and and view the commits
     When I visit "/node/add/project"
     And I create a full project
     And I follow "Version control"

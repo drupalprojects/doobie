@@ -44,7 +44,7 @@ Feature: To view an individual commit
     Then I should see "blob"
     And I should see "For more information about this repository"
 
-  Scenario: Check for unverified commit
+  Scenario: View unverified commit
     Given I am on "/commitlog/commit/43232/31963037a3856da31d5e24c15d7eded32553955d"
     Then I should not see the link "ksbalajisundar"
     And I should see "by K S Sundarrajan Iyengar"

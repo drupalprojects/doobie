@@ -8,7 +8,7 @@ Feature: See git activity on home page
     Given I am on the homepage
 
   @gitrepo @clean_data @timeout @smoke
-  Scenario: Create sample data and verify the same
+  Scenario: Create sample data, push commits and view the commits on the homepage
     Given I am logged in as "git vetted user"
     And I visit "/node/add/project"
     And I create a "module"
