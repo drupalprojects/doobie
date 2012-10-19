@@ -1804,7 +1804,7 @@ class FeatureContext extends DrupalContext {
   public function iPressInTheRegion($button, $regionSelector) {
     $buttonId = "";
     $page = $this->getSession()->getPage();
-    $region = $page->find('region', $region);
+    $region = $page->find('region', $regionSelector);
     if (empty($region)) {
       throw new Exception($region . " region was not found");
     }
@@ -5946,6 +5946,7 @@ class FeatureContext extends DrupalContext {
    * @When /^I create a forum(?:| topic)$/
    */
   public function iCreateAForum() {
+    sleep(3);
     $page = $this->getSession()->getPage();
     $subject = $this->randomString(8);
     $page->fillField("Subject:", $subject);
@@ -6359,7 +6360,7 @@ class FeatureContext extends DrupalContext {
    * @Then /^I should see latest forum topic in the rightside block$/
    */
   public function iShouldSeeLatestForumTopicInTheRightsideBlock() {
-    sleep(2);
+    sleep(6);
     $forumTitle = HackyDataRegistry::get('random:Forum subject');
     if(empty($forumTitle)) {
       throw new Exception('No Forum title exists in this page');
