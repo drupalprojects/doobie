@@ -24,7 +24,7 @@ Feature: 'Edit project' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  Scenario: Login as maintainer and edit the project
+  Scenario: Log in as maintainer and edit the project
     Given I am logged in as "git user"
     And I am on the project page
     And I follow "Edit"
@@ -38,7 +38,7 @@ Feature: 'Edit project' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  Scenario: Login as maintainer and look for edit link
+  Scenario: Log in as maintainer and look for edit link
     Given I am logged in as "git user"
     And I am on the project page
     Then I should not see the link "Edit"
