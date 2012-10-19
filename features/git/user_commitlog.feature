@@ -2,7 +2,7 @@
 Feature: To see the list of all the commits for a user
   In order to see the list of commits for a user
   As an authenticated user
-  I should login and see my commits log
+  I should log in and see my commits log
 
   Background:
     Given I am logged in as "git user"
