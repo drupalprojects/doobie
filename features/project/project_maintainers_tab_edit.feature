@@ -11,7 +11,7 @@ Feature: 'Edit project' permission check
     When I create a "sandbox" project
     Then I should see project data
 
-  @depenent
+  @dependent
   Scenario: Add a maintainer: Valid maintainer name
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -19,7 +19,7 @@ Feature: 'Edit project' permission check
     And I press "Update"
     Then I should see "added and permissions updated"
 
-  @depenent
+  @dependent
   Scenario: Assign Edit project permission to a maintainer
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -27,7 +27,7 @@ Feature: 'Edit project' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @depenent
+  @dependent
   Scenario: Log in as maintainer and edit the project
     Given I am logged in as "git user"
     And I am on the project page
@@ -35,7 +35,7 @@ Feature: 'Edit project' permission check
     And I press "Save"
     Then I should see "has been updated"
 
-  @depenent
+  @dependent
   Scenario: Unassign Edit project permission from a maintainer
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -43,7 +43,7 @@ Feature: 'Edit project' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @depenent @clean_data
+  @dependent @clean_data
   Scenario: Log in as maintainer and look for edit link
     Given I am logged in as "git user"
     And I am on the project page
