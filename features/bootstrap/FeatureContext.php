@@ -4391,9 +4391,6 @@ class FeatureContext extends DrupalContext {
     if ($spotlight_url = HackyDataRegistry::get('forum url')) {
       $arr_nodeurl[] = $spotlight_url;
     }
-    else {
-      throw new Exception ($spotlight_url . ' not set');
-    }
     // Test Document/Book page
     if ($document_url = HackyDataRegistry::get('document url')) {
       $arr_nodeurl[] = $document_url;
