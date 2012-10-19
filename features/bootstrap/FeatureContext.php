@@ -4431,6 +4431,8 @@ class FeatureContext extends DrupalContext {
         $session->visit($this->locatePath($editLink->getAttribute('href')));
         sleep(1);
         $page = $session->getPage();
+        // Enter log message
+        $page->findLink('Revision information')->click();
         $page->fillField("Revision log message", "Deleted during cleanup");
         $page->pressButton("Delete");
         sleep(1);
