@@ -34,14 +34,14 @@ Feature: Visitor searches site and sorts the results
     Then I should see "results containing the words: views"
     And I should see the results sorted by most installed modules
 
-  @slow
-  Scenario: Sort by last build
-    When I select "Last build" from "Sort by"
-    Then I should see "results containing the words: views"
-    And I should see the results sorted by last build of the project
-
   #@slow
-  #Scenario: Sort by last release
-  #  When I select "Last release" from "Sort by"
+  #Scenario: Sort by last build
+  #  When I select "Last build" from "Sort by"
   #  Then I should see "results containing the words: views"
-  #  And I should see the results sorted by latest release of the project
+  #  And I should see the results sorted by last build of the project
+
+  @slow
+  Scenario: Sort by last release
+    When I select "Last release" from "Sort by"
+    Then I should see "results containing the words: views"
+    And I should see the results sorted by latest release of the project

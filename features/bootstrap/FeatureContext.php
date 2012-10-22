@@ -5799,10 +5799,19 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the results sorted by last build of the project$/
    */
   public function iShouldSeeTheResultsSortedByLastBuildOfTheProject() {
+    throw new PendingException();
+  }
+
+  /**
+   * Checks if the solr search results page is sorted by 'last release' or not
+   *
+   * @Given /^I should see the results sorted by latest release of the project$/
+   */
+  public function iShouldSeeTheResultsSortedByLatestReleaseOfTheProject() {
     // Get all the results links
     $links = $this->getSession()->getPage()->findAll("css", "dl dt.title a");
     if (empty($links)) {
-      throw new Exception("The page did not contain any links");
+      throw new Exception("The page did not contain search results");
     }
     $linksArr = array();
     foreach ($links as $link) {
@@ -5811,7 +5820,7 @@ class FeatureContext extends DrupalContext {
     // Go to first result page
     $this->getSession()->visit($this->locatePath($linksArr[0]));
     // Wait for the page to load. Otherwise we will get timeout error here
-    sleep(3);
+    $this->iWaitUntilThePageLoads();
     // Go to releases page
     $temp = $this->getSession()->getPage()->findLink("View all releases");
     if (empty($temp)) {
@@ -5819,7 +5828,7 @@ class FeatureContext extends DrupalContext {
     }
     $temp->click();
     // Wait for the page to load. Otherwise we will get timeout error here
-    sleep(3);
+    $this->iWaitUntilThePageLoads();
     // Get the posted date of the first item visible on the screen
     $date = $this->getSession()->getPage()->find("css", ".node .submitted em");
     if (empty($date)) {
@@ -5831,7 +5840,7 @@ class FeatureContext extends DrupalContext {
     // Go to last result page
     $this->getSession()->visit($this->locatePath(end($linksArr)));
     // Wait for the page to load. Otherwise we will get timeout error here
-    sleep(3);
+    $this->iWaitUntilThePageLoads();
     // Go to releases page
     $temp = $this->getSession()->getPage()->findLink("View all releases");
     if (empty($temp)) {
@@ -5839,7 +5848,7 @@ class FeatureContext extends DrupalContext {
     }
     $temp->click();
     // Wait for the page to load. Otherwise we will get timeout error here
-    sleep(3);
+    $this->iWaitUntilThePageLoads();
     // Get the posted date of the first item visible on the screen
     $date = $this->getSession()->getPage()->find("css", ".node .submitted em");
     if (empty($date)) {
@@ -5849,17 +5858,8 @@ class FeatureContext extends DrupalContext {
     $timeStampLast = strtotime($date->getText());
 
     if ($timeStampLast > $timeStampFirst) {
-      throw new Exception("The results are not sorted by last build of project");
+      throw new Exception("The results are not sorted by last release of project");
     }
-  }
-
-  /**
-   * Checks if the solr search results page is sorted by 'last release' or not
-   *
-   * @Given /^I should see the results sorted by latest release of the project$/
-   */
-  public function iShouldSeeTheResultsSortedByLatestReleaseOfTheProject() {
-    throw new PendingException();
   }
 
   /**
