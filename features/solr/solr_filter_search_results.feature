@@ -5,7 +5,9 @@ Feature: Visitor searches site and filters the results using various options
   I want to search for few terms and filter the results
 
   Background:
-    Given I am on "/search/site/views?f[0]=ss_meta_type%3Amodule"
+    Given I am on "/search"
+    And I search sitewide for "views"
+    And I follow "Modules ("
 
   Scenario Outline: Filter by Modules categories
     When I select "<module>" from "Modules categories"
