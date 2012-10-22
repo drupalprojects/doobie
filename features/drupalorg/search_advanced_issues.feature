@@ -23,7 +23,7 @@ Feature: Visitor searches issues and gets results from drupal site
     | Category     |
     | Issue tags   |
 
-  # See http://drupal.org/node/1816610
+  # See http://drupal.org/node/1816612
   Scenario: Search for drupal issues
     Given I am on the homepage
     # Given I am on "/site/search"
