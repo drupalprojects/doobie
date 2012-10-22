@@ -31,6 +31,7 @@ Feature: Visitor searches site
     And I should see at least "25" records
     And I should not see "Your search yielded no results"
 
+  @javascript
   Scenario: Page contains a sorting option at the top of results
     Given I am on "/search/site/views"
     When I select "Title" from "Sort by"
@@ -87,6 +88,7 @@ Feature: Visitor searches site
     | Forums & Issues ( |
     | Groups (          |
 
+  @javascript
   Scenario: Meta type modules has more filters
     Given I am on "/search/site/views?f[0]=ss_meta_type%3Amodule"
     When I select "Event" from "Modules categories"
@@ -96,6 +98,7 @@ Feature: Visitor searches site
     Then I should see "results containing the words: views"
     And I should see at least "25" records
 
+  @javascript
   Scenario: Meta type themes has more filters
     Given I am on "/search/site/views?f[0]=ss_meta_type%3Atheme"
     When I select "7.x" from "Filter by compatibility"
