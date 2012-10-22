@@ -23,9 +23,12 @@ Feature: Visitor searches issues and gets results from drupal site
     | Category     |
     | Issue tags   |
 
+  # See http://drupal.org/node/1816610
   Scenario: Search for drupal issues
-    Given I am on "/search/apachesolr_multisitesearch"
-    When I fill in "Enter your keywords" with "homepage banner"
+    Given I am on the homepage
+    # Given I am on "/site/search"
+    And I search sitewide for "homepage banner"
+    # When I fill in "Enter your keywords" with "homepage banner"
     And I press "Search" in the "content" region
     And I see "results containing the words: homepage banner"
     And I follow "Advanced Issues"
