@@ -6504,4 +6504,19 @@ class FeatureContext extends DrupalContext {
       print '<li class="failed">View: <a href="' . $this->environment['baseurl'] . '/html/' . urlencode($filename) . '">failure snapshot</a> <a href="' . $url . '"></a></li>';
     }
   }
+
+  /**
+   * Click on the first result link on the search results page
+   *
+   * @Given /^I follow the first search result$/
+   */
+  public function iFollowTheFirstSearchResult() {
+    $result = $this->getSession()->getPage()->find("css", "dl.search-results dt a");
+    if (empty($result)) {
+      throw new Exception("The page does not contain any results");
+    }
+    $result->click();
+    // Wait for the page to load.
+    sleep(2);
+  }
 }
