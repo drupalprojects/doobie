@@ -3611,7 +3611,7 @@ class FeatureContext extends DrupalContext {
     // The pattern of 'href' - /user/<uid>
     $user = explode("/", $href);
     // 0 => "", 1 => "user", 2 => <uid>
-    $uid  = $user[2];
+    $uid  = end($user);
     // Convert permission to lowercase
     $tempPerm = strtolower($permission);
     // Convert spaces into hyphens (-)
