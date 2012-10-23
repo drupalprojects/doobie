@@ -5,7 +5,9 @@ Feature: Visitor searches site and sorts the results
   I want to sort search results by relevant terms
 
   Background:
-    Given I am on "/search/site/views?f[0]=ss_meta_type%3Amodule"
+    Given I am on "/search"
+    And I search sitewide for "views"
+    And I follow "Modules ("
 
   Scenario: Sort by Title
     When I select "Title" from "Sort by"
