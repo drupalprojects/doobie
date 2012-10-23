@@ -33,7 +33,7 @@ Feature: Your Project Tab
     And I should see at least "1" record in "Projects" table
     And I should see at least "1" record in "Project Issues" table
 
-  @wip
+  @wip @dependent
   Scenario: View the links in Project Table
     And I am on "/project/user"
     Then I should see the following <links> in column "Issue links" in "Projects" table
@@ -46,27 +46,31 @@ Feature: Your Project Tab
     | Edit        |
     | Add release |
 
+  @dependent
   Scenario: Visit link from Issue Links column for Projects
     And I am on "/project/user"
     When I click "View" from "Projects" table
     Then I should see "Project Issue" page
 
+  @dependent
   Scenario: Visit Search link from Issue Links column for Projects
     And I am on "/project/user"
     When I click "Search" from "Projects" table
     Then I should see "Advanced Search" page
 
+  @dependent
   Scenario: Visit Create link from Issue Links column for Projects
     And I am on "/project/user"
     When I click "Create" from "Projects" table
     And I should see "Create Issue" page
 
+  @dependent
   Scenario: Visit Edit link from Project Links column for Projects
     And I am on "/project/user"
     When I click "Edit" from "Projects" table
     Then I should see "Project Edit" page
 
-  @wip
+  @wip @dependent
   Scenario: Visit Add release link from Project Links column for Projects
     And I am on "/project/user"
     When I click "Add release" from "Projects" table
@@ -81,17 +85,19 @@ Feature: Your Project Tab
     And I press "Search" in the "content" region
     Then I should see at least "1" record in "Project Issues" table
 
+  @dependent
   Scenario: Visit project link from in Project Issues table
     And I am on "/project/user"
     When I click "Project" from "Project Issues" table
     Then I should see "Project Issue" page
 
+  @dependent
   Scenario: Visit Summary link from in Project Issues table
     And I am on "/project/user"
     When I click "Summary" from "Project Issues" table
     Then I should see "Issue" page
 
-  @clean_data
+  @clean_data @dependent
   Scenario: Visit the feed link and view the contents
     And I am on "/project/user"
     When I click on the feed icon

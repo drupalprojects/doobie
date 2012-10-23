@@ -34,22 +34,27 @@ Feature: Your Project Tab
     | links |
     | Edit  |
 
+  @dependent
   Scenario: Visit View link from Issue Links column for Sandbox Project Table
     And I am on "/project/user"
     When I click "View" from "Sandbox Projects" table
     Then I should see "Project Issue" page
 
+  @dependent
   Scenario: Visit Search link from Issue Links column for Sandbox Project Table
     And I am on "/project/user"
     When I click "Search" from "Sandbox Projects" table
     Then I should see "Advanced Search" page
 
+  @dependent
   Scenario: Visit Create link from Issue Links column for Sandbox Project Table
     And I am on "/project/user"
     When I click "Create" from "Sandbox Projects" table
     Then I should see "Create Issue" page
 
+  @dependent
   Scenario: Visit Edit link from Project Links column for Sandbox Project Table
     And I am on "/project/user"
     When I click "Edit" from "Sandbox Projects" table
     Then I should see "Project Edit" page
+    
