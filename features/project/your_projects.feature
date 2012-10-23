@@ -97,7 +97,7 @@ Feature: Your Project Tab
     When I click "Summary" from "Project Issues" table
     Then I should see "Issue" page
 
-  @clean_data
+  @clean_data @dependent
   Scenario: Visit the feed link and view the contents
     And I am on "/project/user"
     When I click on the feed icon

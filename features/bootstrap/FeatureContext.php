@@ -886,20 +886,19 @@ class FeatureContext extends DrupalContext {
    * Works only with Goutte as ResponseHeaders are not supported by Selenium
    */
   public function iClickOnTheFeedIcon() {
+    sleep(5);
     $page = $this->getSession()->getPage();
     $result = $page->find('css', '.feed-icon');
     if (empty($result)) {
       throw new Exception("This page does not have a feed icon");
     }
-    sleep(5);
     $result->click();
-    //use response headers to make sure we got the xml data and not html
+    // Use response headers to make sure we got the xml data and not html
     sleep(5);
     $responseHeaders = $this->getSession()->getResponseHeaders();
     // Use goutedriver get content to get the complete xml data and store it
-    //temporarily in a variable for use by function iShouldSeeTheTextInTheFeed()
-    $this->xmlContent =
-     $this->getSession()->getDriver()->getClient()->getResponse()->getContent();
+    // temporarily in a variable for use by function iShouldSeeTheTextInTheFeed()
+    $this->xmlContent = $this->getSession()->getDriver()->getClient()->getResponse()->getContent();
     if (strpos($responseHeaders['Content-Type'], "application/rss+xml") === FALSE) {
       if (strpos($this->xmlContent, "<?xml version=") === FALSE && strpos($this->xmlContent, "<rss version=") === FALSE) {
         throw new Exception("This page '" . $this->getSession()->getCurrentUrl() . "' does not provide xml data");
