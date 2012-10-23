@@ -5845,7 +5845,7 @@ class FeatureContext extends DrupalContext {
     // Go to usage stats page
     $this->getSession()->visit($this->locatePath("/project/usage"));
     // Wait for the page to load. Otherwise we will get timeout error here. project/usage page is long
-    sleep(6);
+    $this->iWaitUntilThePageLoads();
     // Get the links for the first result
     $link = $this->getSession()->getPage()->findLink($linksArr[0]);
     if (empty($link)) {
@@ -5881,10 +5881,19 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the results sorted by last build of the project$/
    */
   public function iShouldSeeTheResultsSortedByLastBuildOfTheProject() {
+    throw new PendingException();
+  }
+
+  /**
+   * Checks if the solr search results page is sorted by 'last release' or not
+   *
+   * @Given /^I should see the results sorted by latest release of the project$/
+   */
+  public function iShouldSeeTheResultsSortedByLatestReleaseOfTheProject() {
     // Get all the results links
-    $links = $this->getSession()->getPage()->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
+    $links = $this->getSession()->getPage()->findAll("css", "dl dt.title a");
     if (empty($links)) {
-      throw new Exception("The page did not contain any links");
+      throw new Exception("The page did not contain search results");
     }
     $linksArr = array();
     foreach ($links as $link) {
@@ -5893,7 +5902,7 @@ class FeatureContext extends DrupalContext {
     // Go to first result page
     $this->getSession()->visit($this->locatePath($linksArr[0]));
     // Wait for the page to load. Otherwise we will get timeout error here
-    sleep(3);
+    $this->iWaitUntilThePageLoads();
     // Go to releases page
     $temp = $this->getSession()->getPage()->findLink("View all releases");
     if (empty($temp)) {
@@ -5901,7 +5910,7 @@ class FeatureContext extends DrupalContext {
     }
     $temp->click();
     // Wait for the page to load. Otherwise we will get timeout error here
-    sleep(3);
+    $this->iWaitUntilThePageLoads();
     // Get the posted date of the first item visible on the screen
     $date = $this->getSession()->getPage()->find("css", ".node .submitted em");
     if (empty($date)) {
@@ -5913,7 +5922,7 @@ class FeatureContext extends DrupalContext {
     // Go to last result page
     $this->getSession()->visit($this->locatePath(end($linksArr)));
     // Wait for the page to load. Otherwise we will get timeout error here
-    sleep(3);
+    $this->iWaitUntilThePageLoads();
     // Go to releases page
     $temp = $this->getSession()->getPage()->findLink("View all releases");
     if (empty($temp)) {
@@ -5921,7 +5930,7 @@ class FeatureContext extends DrupalContext {
     }
     $temp->click();
     // Wait for the page to load. Otherwise we will get timeout error here
-    sleep(3);
+    $this->iWaitUntilThePageLoads();
     // Get the posted date of the first item visible on the screen
     $date = $this->getSession()->getPage()->find("css", ".node .submitted em");
     if (empty($date)) {
@@ -5931,17 +5940,8 @@ class FeatureContext extends DrupalContext {
     $timeStampLast = strtotime($date->getText());
 
     if ($timeStampLast > $timeStampFirst) {
-      throw new Exception("The results are not sorted by last build of project");
+      throw new Exception("The results are not sorted by last release of project");
     }
-  }
-
-  /**
-   * Checks if the solr search results page is sorted by 'last release' or not
-   *
-   * @Given /^I should see the results sorted by latest release of the project$/
-   */
-  public function iShouldSeeTheResultsSortedByLatestReleaseOfTheProject() {
-    throw new PendingException();
   }
 
   /**
@@ -6518,5 +6518,93 @@ class FeatureContext extends DrupalContext {
     $result->click();
     // Wait for the page to load.
     sleep(2);
+  }
+
+  /**
+   * Checks if the solr search results page is sorted by 'project title' or not
+   *
+   * @Given /^I (?:should |)see the results sorted in alphabetical order by project title$/
+   */
+  public function iShouldSeeTheResultsSortedInAlphabeticalOrderByProjectTitle() {
+    // Get all the results links
+    $links = $this->getSession()->getPage()->findAll("css", "dl dt.title a");
+    if (empty($links)) {
+      throw new Exception("The page did not contain any links for project title");
+    }
+    $linksArr = array();
+    foreach ($links as $link) {
+      $linksArr[] = trim($link->getText());
+    }
+    if(!$this->checkSortByAlphabets($linksArr)) {
+      throw new Exception("The results are not sorted by alphabetical order of project title");
+    }
+  }
+
+  /**
+   * @Given /^I (?:should |)see the results sorted in alphabetical order by project author$/
+   */
+  public function iShouldSeeTheResultsSortedInAlphabeticalOrderByProjectAuthor() {
+    // Get all the results links
+    $links = $this->getSession()->getPage()->findAll("css", "dl dd p.submitted a");
+    if (empty($links)) {
+      throw new Exception("The page did not contain any links for project author");
+    }
+    $linksArr = array();
+    foreach ($links as $link) {
+      $linksArr[] = trim($link->getText());
+    }
+    if(!$this->checkSortByAlphabets($linksArr)) {
+      throw new Exception("The results are not sorted by alphabetical order of project author");
+    }
+  }
+
+  /**
+   * @Given /^I (?:should |)see the results sorted by the project posted date$/
+   */
+  public function iShouldSeeTheResultsSortedByTheProjectPostedDate() {
+    // Get all the results links
+    $dates = $this->getSession()->getPage()->findAll("css", "dl dd p.submitted em");
+    if (empty($dates)) {
+      throw new Exception("The page did not contain project posted date");
+    }
+    $datesArr = array();
+    foreach ($dates as $date) {
+      $datesArr[] = (int) strtotime(str_replace(" at ", ",", trim($date->getText())));
+    }
+    $origArr = $datesArr;
+    // As this is date, sort it numerically and in descending order
+    rsort($datesArr, SORT_NUMERIC);
+    // Now compare original array and sorted array
+    for ($i = 0; $i < sizeof($datesArr); $i++) {
+      if ($origArr[$i] != $datesArr[$i]) {
+        throw new Exception("The results are not sorted by project posted date");
+      }
+    }
+  }
+
+  /**
+   * Function to sort the given array alphabetically
+   *
+   * @param $items
+   *    array An array of strings
+   * @return TRUE/FALSE
+   *    boolean Return true if all the items in array matches after comparing, false otherwise
+   */
+  private function checkSortByAlphabets($items) {
+    $origArr = $items;
+    $b = "";
+    // Sort alphabetically and do not maintain index association
+    usort($items,
+      function($items, $b){
+        return strcasecmp($items, $b);
+      }
+    );
+    // Now compare original array and sorted array
+    for ($i = 0; $i < sizeof($items); $i++) {
+      if ($origArr[$i] != $items[$i]) {
+        return FALSE;
+      }
+    }
+    return TRUE;
   }
 }
