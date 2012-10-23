@@ -4416,11 +4416,17 @@ class FeatureContext extends DrupalContext {
         $session->visit($this->locatePath($editLink->getAttribute('href')));
         sleep(1);
         $page = $session->getPage();
-        // Log message
-        $log_ele = $page->find('css', '#edit-log');
-        if (!empty($log_ele)) {
-           // Throws error with selenium
-          //$log_ele->setValue('Deleted test node');
+        if ($session->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
+          $page->findLink('Revision information')->click();
+          $page->fillField("Revision log message", "Deleted during cleanup");
+        }
+        else {
+          // Log message
+          $log_ele = $page->find('css', '#edit-log');
+          if (!empty($log_ele)) {
+             // Throws error with selenium
+            $log_ele->setValue('Deleted test node');
+          }
         }
         $page->pressButton("Delete");
         sleep(1);
