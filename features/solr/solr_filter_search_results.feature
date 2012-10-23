@@ -8,6 +8,7 @@ Feature: Visitor searches site and filters the results using various options
     Given I am on "/search"
     And I search sitewide for "views"
     And I follow "Modules ("
+    And I wait until the page loads
 
   Scenario Outline: Filter by Modules categories
     When I select "<module>" from "Modules categories"
@@ -29,7 +30,7 @@ Feature: Visitor searches site and filters the results using various options
     And I see "results containing the words: views"
     And I follow the first search result
     And I follow "View all releases"
-    And I wait "2" seconds
+    And I wait until the page loads
     And I select "<version>" from "API version"
     And I press "Apply"
     Then I should see the link "<version>"
@@ -48,7 +49,7 @@ Feature: Visitor searches site and filters the results using various options
     Then I should see "<text1>"
     And I should not see "<text2>"
     Examples:
-    | status                | text1                                                                              | text2                                                                              |
-    | Only sandbox projects | This is a sandbox project, which contains experimental code for developer use only | Recommended releases                                                               |
-    | All projects          | View all releases                                                                  | This is a sandbox project, which contains experimental code for developer use only |
-    | Full projects         | Recommended releases                                                               | This is a sandbox project, which contains experimental code for developer use only |
+    | status                | text1                                                       | text2                                                       |
+    | Only sandbox projects | This is a sandbox project, which contains experimental code | Recommended releases                                        |
+    | All projects          | View all releases                                           | This is a sandbox project, which contains experimental code |
+    | Full projects         | Recommended releases                                        | This is a sandbox project, which contains experimental code |
