@@ -20,9 +20,7 @@ Feature: Create new forum topic as a regular site user
     And I press "Save"
     Then I should see "Subject field is required"
     And I should see "Forums field is required"
-    And the field "Body" should be outlined in red
 
-  @flaky @clean_data
   Scenario: Add a new forum topic and see the latest topic in the right side block
     Given I am logged in as "site user"
     And I visit "/forum"
