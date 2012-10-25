@@ -1,4 +1,4 @@
-@wip @community @forums
+@community @forums
 Feature: Create new forum topic as a regular site user
   In order to discuss a topic
   As a site user
