@@ -3342,6 +3342,7 @@ class FeatureContext extends DrupalContext {
           if (!empty($setting_submit)) {
             // Submit
             $setting_submit->press();
+            sleep(1);
             $block_container_id = $block_inner->getParent()->getAttribute('id');
             // Wait for the result until it is loaded through ajax
             $this->getSession()->wait(1, "typeof($('#" . $block_container_id . " > div.ahah-progress.ahah-progress-throbber').html()) == 'undefined'");
