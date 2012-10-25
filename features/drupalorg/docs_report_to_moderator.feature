@@ -22,6 +22,7 @@ Feature: Use the "report to moderator" to file a documentation issue
     And press "Save"
     Then I should see "has been created"
 
+  @anon
   Scenario: Anonymous users should not be able to report a documentation issue
     Given I am not logged in
     When I am on "documentation/multilingual"

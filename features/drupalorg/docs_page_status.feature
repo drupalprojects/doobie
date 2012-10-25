@@ -1,5 +1,5 @@
 @docs @wip
-Feature: Page status block on documentation pages
+Feature: Status of the documentation pages
   In order to quickly communicate the status of a book page to site visitors
   As someone editing a page
   I need to change the status

@@ -1,5 +1,5 @@
 @docs
-Feature:  Verify handbook metadata is displayed correctly
+Feature:  Documentation pages metadata
   In order to know the document creation/editing information
   As a community member
   I should be able to see the meta information displayed on the page in proper format

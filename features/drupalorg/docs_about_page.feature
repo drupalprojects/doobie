@@ -1,8 +1,8 @@
 @docs @wip
-Feature: About this page block on documentation pages
-  In order to make sure that the documentation contents are displayed correctly
+Feature: "About this page" information on documentation pages
+  In order to provide information about the documentation page
   As a document manager
-  I want to fill various field in the form and save the same
+  I should be able to fill various fields in the form and save it
 
   Background:
    Given I am logged in as "docs manager"

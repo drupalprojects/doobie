@@ -1,5 +1,5 @@
 @docs
-Feature: Handbook comment directions
+Feature: Commenting on Documentation pages
   In order to help keep documentation accurate
   As a community member
   I need to be able to leave comments on handbook pages
