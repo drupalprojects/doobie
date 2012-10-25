@@ -5,9 +5,10 @@ Feature: Drupal.org frontpage footer
   I should be able to see footer links
 
   @anon
-  Scenario: View links and text in the footer
-    Given I am on the homepage
-    Then I should see the following <links> in "footer" area
+  Scenario Outline: View links and text in the footer
+    Given I am on "<page>"
+	Then I should see the "text" "Drupal is a registered trademark of Dries Buytaert" in "footer" area
+    And I should see the following <links> in "footer" area
     | links                 |
     | Drupal News           |
     | Community             |
@@ -15,4 +16,13 @@ Feature: Drupal.org frontpage footer
     | Download & Extend     |
     | About                 |
     | registered trademark  |
-    And I should see the "text" "Drupal is a registered trademark of Dries Buytaert" in "footer" area
+
+    Examples:
+    | page            |
+    | /               |
+    | /start          |
+    | /community      |
+    | /documentation  |
+    | /support        |
+    | /download       |
+    | /about          |
