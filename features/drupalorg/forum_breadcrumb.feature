@@ -1,4 +1,4 @@
-@wip @community @forums
+@community @forums
 Feature: Forum breadcrumbs
   In order to effectively navigate within the forums
   As any user

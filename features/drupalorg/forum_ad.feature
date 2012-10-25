@@ -1,4 +1,4 @@
-@wip @community @forums @anon
+@community @forums @anon
 Feature: Display ads in the Hosting support and Paid services forum
   In order to get information about sponsors
   As any user
