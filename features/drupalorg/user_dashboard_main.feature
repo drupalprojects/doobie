@@ -69,7 +69,6 @@ Feature:
     And I should see the block "Drupal News" in column "1" just "above" the block "Planet Drupal"
     And I should see the block "Your Issues" in column "2" just "below" the block "Your Posts"
 
-  @wip
   Scenario: Create test data for Your Posts
     And I am on "/node/add/project-issue/test_releases"
     And I create a new issue
