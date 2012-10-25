@@ -2,7 +2,7 @@
 Feature: Search members in drupal community
   In order to find members of the community
   As any user
-  I should be able to search for members in the member directroy
+  I should be able to search for members in the member directory
 
   Scenario: View search block in the right sidebar region
     Given I am on "/community"
