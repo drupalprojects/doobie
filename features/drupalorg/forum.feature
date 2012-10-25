@@ -21,6 +21,7 @@ Feature: Create new forum topic as a regular site user
     Then I should see "Subject field is required"
     And I should see "Forums field is required"
 
+  @api
   Scenario: Add a new forum topic and see the latest topic in the right side block
     Given I am logged in as "site user"
     And I visit "/forum"
@@ -28,5 +29,6 @@ Feature: Create new forum topic as a regular site user
     And I follow "Add new Forum topic"
     When I create a forum topic
     And I see "has been created"
+    And the cache has been cleared
     And I follow "Post installation"
     Then I should see latest forum topic in the rightside block
