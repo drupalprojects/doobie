@@ -90,7 +90,7 @@ Feature:
     And I follow "Dashboard"
     And I wait until the page is loaded
     Then I should see the block "Your Posts" in column "2"
-    And I should see at least "3" items in block "Your Posts"
+    And I should see at least "2" items in block "Your Posts"
     And I should see the following <icons> on the block "Your Posts"
     | icons    |
     | Settings |
