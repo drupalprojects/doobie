@@ -2558,7 +2558,7 @@ class FeatureContext extends DrupalContext {
    */
   public function thePageStatusShouldBe($status) {
     $page = $this->getSession()->getPage();
-    $currStatus = $page->find("css", "#block-drupalorg_handbook-meta-sidebar .page-status");
+    $currStatus = $page->find("css", "#block-drupalorg-handbook-meta-sidebar .page-status");
     if (empty($currStatus)) {
       throw new Exception("The status of the page is not '" . $status . "'");
     }
