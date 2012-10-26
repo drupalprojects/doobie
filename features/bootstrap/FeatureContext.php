@@ -3549,12 +3549,15 @@ class FeatureContext extends DrupalContext {
    *
    * @Given /^I create a book page$/
    */
-  public function iCreateABookPage() {
+  public function iCreateABookPage($options = array()) {
     $page = $this->getSession()->getPage();
     $this->documentTitle = $this->randomString(8);
-    $page->fillField("Title:", $this->documentTitle);
-    $page->fillField("Body:", "The body of the book page having more than ten words");
+    $page->fillField("Title", $this->documentTitle);
+    $page->fillField("Body", str_repeat($this->randomString(20) . " ", 10));
     HackyDataRegistry::set('book page title', $this->documentTitle);
+    if (isset($options['input_format'])) {
+      $page->selectFieldOption("Text format", $options['input_format']);
+    }
     $page->pressButton('Save');
     sleep(2);
     HackyDataRegistry::set('document url', $this->getSession()->getCurrentUrl());
@@ -3564,10 +3567,10 @@ class FeatureContext extends DrupalContext {
    * Use the title stored in the above function and follow the link
    *
    * @When /^I follow a random book page$/
+   * @When /^I follow the book page$/
    */
   public function iFollowARandomBookPage() {
-    $title = HackyDataRegistry::get('book page title');
-    if ($title == "") {
+    if (($title = trim(HackyDataRegistry::get('book page title'))) == "") {
       throw new Exception("Book page was not found");
     }
     return new Given("I follow \"$title\"");
@@ -6630,5 +6633,31 @@ class FeatureContext extends DrupalContext {
       }
     }
     throw new Exception("Unable to set the revision log message");
+  }
+
+  /**
+   * Create a book page with input format set to Full HTML
+   *
+   * @Given /^I create a book page with full html$/
+   */
+  public function iCreateABookPageWithFullHtml() {
+    $this->iCreateABookPage(array('input_format' => 'Full HTML'));
+  }
+
+  /**
+   * Navigate directly to the node edit page
+   *
+   * @When /^I go to the document edit page$/
+   * @When /^I visit the document edit page$/
+   */
+  public function iGoToTheDocumentEditPage() {
+    if (trim(HackyDataRegistry::get('book page title')) == "") {
+      throw new Exception("Book page was not found");
+    }
+    if (($docUrl = trim(HackyDataRegistry::get('document url'))) == "") {
+      throw new Exception("Book page was not found");
+    }
+    $docUrl = $docUrl . "/edit";
+    return new Given("I go to \"$docUrl\"");
   }
 }
