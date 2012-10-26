@@ -932,7 +932,7 @@ class FeatureContext extends DrupalContext {
     $result = $page->find('css', '.feed-icon');
     if (empty($result)) {
       throw new Exception("This page does not have a feed icon");
-    }    
+    }
     $result->click();
     // Use response headers to make sure we got the xml data and not html
     sleep(5);
@@ -2322,8 +2322,8 @@ class FeatureContext extends DrupalContext {
         else {
           // ID of the next file field.
           $fieldid_tocheck = str_replace('{index}', $i+1, $filefield_id);
-        }        
-        // wait for upload to finish: will wait until the upload completes OR 300 seconds        
+        }
+        // wait for upload to finish: will wait until the upload completes OR 300 seconds
         $this->iWaitForSeconds(10, "typeof(jQuery('#". $fieldid_tocheck . "').val()) != 'undefined'");
         // process post upload parameters
         if (!empty($arr_postupload_params)) {
@@ -4490,11 +4490,11 @@ class FeatureContext extends DrupalContext {
       throw new Exception('There is no url for the document');
     }
     $this->getSession()->visit($this->locatePath($doc_url));
-    sleep(2);
+    sleep(10);
     // Find and save metdata string
-    $updates = $this->getSession()->getPage()->find('css', 'div.node-content > p.updated > em');
+    $updates = $this->getSession()->getPage()->find('css', 'div.content > p.updated > em');
     if (empty($updates)) {
-      throw new Exception(ucwords($type) . ' cannot be found on the document');
+      throw new Exception(' Document metadata cannot be found on the document');
     }
     $this->updates = $updates->getText();
     return new Then("I should see the document title");
@@ -4506,14 +4506,15 @@ class FeatureContext extends DrupalContext {
   public function iEditTheDocument() {
     sleep(2);
     $page = $this->getSession()->getPage();
-    $body = $page->findField('Body:');
+    $body = $page->findField('Body');
     if (empty($body)) {
-      throw new Exception('The body field is not found in the page. Make sure you are on the document edit page');
+      throw new Exception('The body field is not found on the page. Make sure you are on the document edit page');
     }
     // Attach some strings to document body
     $text = $body->getText() . "\n" . chunk_split($this->randomString(50), 5, " ");
     $body->setValue($text);
-    $page->fillField('Log message:', 'Updated document');
+    // Log message
+    $this->iFillInRevisionLogMessageWithText('Updated document');
     $page->pressButton('Save');
   }
 
@@ -4623,7 +4624,7 @@ class FeatureContext extends DrupalContext {
         if (empty($link)) {
           throw new Exception('Updated date link cannot be found.');
         }
-        $arr_date = explode(" ", $link->getText());
+        $arr_date = explode(" -", $link->getText());
         // Move back to previous page
         $session->visit($this->locatePath($current_url));
         // Convert date to the date format: 'F d, Y' (January 1, 2012)
@@ -4650,9 +4651,14 @@ class FeatureContext extends DrupalContext {
         if (empty($links)) {
           throw new Exception('Created date/Username cannot be found.');
         }
-        $created_date = $this->formatSiteDate(substr($links[0]->getText(), 0, 10));
-        $username = $links[1]->getText();
+        $arr_date = explode(" -", $links[0]->getText());
+        $created_date = $this->formatSiteDate($arr_date[0]);
+
         if ($type == 'created_user') {
+          $username = $links[1]->getText();
+          if (!isset($links[1])) {
+            throw new Exception('Username link is not found in revisions.');
+          }
           $string = $username;
         }
         elseif ($type == 'created_date') {
@@ -4661,7 +4667,9 @@ class FeatureContext extends DrupalContext {
         if (isset($go_back)) {
           $session->visit($this->locatePath($go_back));
         }
-        HackyDataRegistry::set('document creator', $username);
+        if (isset($username)) {
+          HackyDataRegistry::set('document creator', $username);
+        }
         // Move back to the previous page
         $session->visit($this->locatePath($current_url));
         return $string;
@@ -4692,15 +4700,21 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Convert d/m/Y to the given date format
+   * Convert date to the given date format
    * @param string $date
    *   date
    * @param string $format
    *   date format
    */
   private function formatSiteDate($date, $format = 'F d, Y') {
-    list($date, $month, $year) = explode('/', $date);
-    return date($format, strtotime("$year-$month-$date"));
+    if (preg_match("/(.*)\/(.*)\/(.*)/", $date )) {
+      list($date, $month, $year) = explode('/', $date);
+      return date($format, strtotime("$year-$month-$date"));
+    }
+    else {
+      return date($format, strtotime($date));
+    }
+    return null;
   }
 
   /**
@@ -6487,10 +6501,10 @@ class FeatureContext extends DrupalContext {
     $this->iShouldSeeInArea('image', "drupal banner", 'left header');
   }
 
-  /** 
+  /**
    * Save site output to be viewed later when run in a continuous integration environment
    * The web root and a directory writable by the behat user must be configured in behat.local.yml
-   * @AfterStep 
+   * @AfterStep
    */
   public function generateFailedStepScreenshot(StepEvent $event) {
     if ($event->hasException() && isset($this->environment['webpath'])) {
