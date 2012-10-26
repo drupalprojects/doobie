@@ -10,7 +10,7 @@ Feature: About this page block on documentation pages
 
   Scenario: Dropdown values
     When I follow "Edit"
-    Then I should see the following <values> in the dropdown "Drupal version:"
+    Then I should see the following <values> in the dropdown "Drupal version"
     | values                |
     | - None -              |
     | Drupal 4.5.x or older |
@@ -20,13 +20,13 @@ Feature: About this page block on documentation pages
     | Drupal 6.x            |
     | Drupal 7.x            |
     | Drupal 8.x            |
-    And I should see the following <values> in the dropdown "Level:"
+    And I should see the following <values> in the dropdown "Level"
     | values       |
     | - None -     |
     | Beginner     |
     | Intermediate |
     | Advanced     |
-    And I should see the following <values> in the dropdown "Audience:"
+    And I should see the following <values> in the dropdown "Audience"
     | values              |
     | - None -            |
     | Contributors        |
@@ -35,9 +35,9 @@ Feature: About this page block on documentation pages
     | Site administrators |
     | Site builders       |
     | Site users          |
-    And I should see the following <values> in the dropdown "Page status:"
+    And I should see the following <values> in the dropdown "Page status"
     | values                  |
-    | - None selected -       |
+    | - None -       |
     | No known problems       |
     | Incomplete              |
     | Insecure code           |
@@ -50,35 +50,35 @@ Feature: About this page block on documentation pages
   Scenario: Change the drupal version
     When I follow "Edit"
     And I select "Drupal 6.x" from "Drupal version"
-    And I fill in "Log message" with random text
+    And I fill in revision log message with random text
     And I press "Save"
     Then I should see "Drupal 6.x"
 
   Scenario: Change the level
     When I follow "Edit"
     And I select "Beginner" from "Level"
-    And I fill in "Log message" with random text
+    And I fill in revision log message with random text
     And I press "Save"
     Then I should see "Beginner"
 
   Scenario: Change the audience
     When I follow "Edit"
     And I select "Programmers" from "Audience"
-    And I fill in "Log message" with random text
+    And I fill in revision log message with random text
     And I press "Save"
     Then I should see "Programmers"
 
   Scenario: Change the page status
     When I follow "Edit"
     And I select "Needs updating" from "Page status"
-    And I fill in "Log message" with random text
+    And I fill in revision log message with random text
     And I press "Save"
     Then I should see "Needs updating"
 
   Scenario: Add keyword
     When I follow "Edit"
     And I fill in "Keywords" with random text
-    And I fill in "Log message" with random text
+    And I fill in revision log message with random text
     And I press "Save"
     Then I should see the random "Keywords" text
 
@@ -88,8 +88,8 @@ Feature: About this page block on documentation pages
     And I select "- None -" from "Level"
     And I select "Site administrators" from "Audience"
     And I fill in "" for "Keywords"
-    And I select "- None selected -" from "Page status"
-    And I fill in "Log message" with random text
+    And I select "- None -" from "Page status"
+    And I fill in revision log message with random text
     And I press "Save"
     Then I should see "has been updated"
     And I should see "Site administrators"

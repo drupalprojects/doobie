@@ -4415,19 +4415,8 @@ class FeatureContext extends DrupalContext {
       if ($editLink->hasAttribute("href")) {
         $session->visit($this->locatePath($editLink->getAttribute('href')));
         sleep(1);
+        $this->iFillInRevisionLogMessageWithText("Deleting during cleanup");
         $page = $session->getPage();
-        if ($session->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
-          $page->findLink('Revision information')->click();
-          $page->fillField("Revision log message", "Deleted during cleanup");
-        }
-        else {
-          // Log message
-          $log_ele = $page->find('css', '#edit-log');
-          if (!empty($log_ele)) {
-             // Throws error with selenium
-            $log_ele->setValue('Deleted test node');
-          }
-        }
         $page->pressButton("Delete");
         sleep(1);
         // Confirm delete
@@ -6612,5 +6601,34 @@ class FeatureContext extends DrupalContext {
       }
     }
     return TRUE;
+  }
+
+  /**
+   * @Given /^I fill in revision log message with random text$/
+   * @Given /^I fill in revision log message with "([^"]*)"$/
+   */
+  public function iFillInRevisionLogMessageWithText($text = "") {
+    $page = $this->getSession()->getPage();
+    if (!trim($text)) {
+      $text = $this->randomString(15);
+    }
+    if (!trim($text)) {
+      throw new Exception("No text was provided to fill in the revision log message");
+    }
+    // If javascript is used, then we have to click Revision information link and then fill field
+    if ($this->getSession()->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
+      $page->findLink('Revision information')->click();
+      $page->fillField("Revision log message", $text);
+      return;
+    }
+    else {
+      // If goute is used, then fill the field edit-log directly
+      $log_ele = $page->find('css', '#edit-log');
+      if (!empty($log_ele)) {
+        $log_ele->setValue($text);
+        return;
+      }
+    }
+    throw new Exception("Unable to set the revision log message");
   }
 }
