@@ -16,7 +16,7 @@ Feature: Handbook comment directions
 
   Scenario: Submit a comment
     When I follow "Add new comment"
-    And I fill in "Subject:" with random text
-    And I fill in "Comment:" with random text
+    And I fill in "Subject" with random text
+    And I fill in "Comment" with random text
     And I press "Save"
-    Then I should see the random "Comment:" text
+    Then I should see the random "Comment" text
