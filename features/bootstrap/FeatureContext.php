@@ -2640,7 +2640,8 @@ class FeatureContext extends DrupalContext {
     $colorCode = array('red' => '#EBCCCC', 'green' => '#D4EFCC', 'yellow' => '#FFE69F');
     // Get the background color of an element using javascript and then compare with above array.
     $this->getSession()->executeScript("
-      var currColorCode = $('.page-status').css('background-color');
+      var temp = document.getElementsByClassName('page-status');
+      var currColorCode = temp[0].style.backgroundColor;
       if (currColorCode == '".$colorCode[$color]."') {
         var flag = ".($flag = TRUE).";
       }

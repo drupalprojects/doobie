@@ -17,11 +17,11 @@ Feature: Page status block on documentation pages
   @javascript @flaky
   Scenario Outline: Edit a book page and set status
     When I follow a random book page
-    And I wait "1" second
+    And I wait until the page loads
     And I follow "Edit"
-    And I wait "1" second
-    And I select "<status>" from "Page status:"
-    And I fill in "Log message:" with random text
+    And I wait until the page loads
+    And I select "<status>" from "Page status"
+    And I fill in revision log message with random text
     And I press "Save"
     Then I should see "has been updated"
     And the page status should be "<status>"
