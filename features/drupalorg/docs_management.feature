@@ -110,8 +110,8 @@ Feature: Documentation Management
     | Published      | Yes                    |
     | Page status    | No known problems      |
     | Drupal version | Drupal 6.x             |
-    | Audience type  | Developers and coders  |
-    | Level          | Intermediate |
+    | Audience type  | Programmers            |
+    | Level          | Intermediate           |
     And I press "Apply"
     Then I should see at least "1" record
 
