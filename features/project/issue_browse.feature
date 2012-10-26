@@ -1,3 +1,4 @@
+@issues
 Feature: Visitor views issue queue for a project
   In order to evaluate a project
   As a visitor to a project issue queue
