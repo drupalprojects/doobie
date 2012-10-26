@@ -6633,6 +6633,7 @@ class FeatureContext extends DrupalContext {
     if (!trim($text)) {
       throw new Exception("No text was provided to fill in the revision log message");
     }
+    HackyDataRegistry::set('random:Revision log message', trim($text));
     // If javascript is used, then we have to click Revision information link and then fill field
     if ($this->getSession()->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
       $page->findLink('Revision information')->click();

@@ -1,4 +1,4 @@
-@docs
+@docs @wip
 Feature: Log message required for documentation edits
   In order to promote communication and collaboration in the community
   As a site user
@@ -13,16 +13,16 @@ Feature: Log message required for documentation edits
   Scenario: Edit a documentation: Leave blank
     When I follow "Edit"
     And I press "Save"
-    Then I should see "Log message field is required"
-    And the field "Log message" should be outlined in red
+    Then I should see "Revision log message field is required"
+    And the field "Revision log message" should be outlined in red
     And I should not see "has been updated"
 
   Scenario: Edit a documentation: Fill field
     When I follow "Edit"
-    And I fill in "Log message" with random text
+    And I fill in revision log message with random text
     And I press "Save"
     And I see "has been updated"
     And I follow "Revisions"
-    Then I should see the random "Log message" text
-    And I should see "The revisions let you track differences between multiple versions of a post"
+    Then I should see the random "Revision log message" text
+    And I should see "Revisions allow you to track differences between multiple versions of your content"
     And I should not see "Log message field is required"
