@@ -5298,7 +5298,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastRecordForEachFilter($count) {
     // Get all the links under the block
-    $links = $this->getSession()->getPage()->findAll('css', '#block-drupalorg_search-meta_type ul li a');
+    $links = $this->getSession()->getPage()->findAll('css', '.block-facetapi li a');
     if (empty($links)) {
       throw new Exception("The page did not contain any filters");
     }
@@ -5308,7 +5308,7 @@ class FeatureContext extends DrupalContext {
       preg_match('#(.*) \((\d+)\)#', trim($link->getText()), $match);
       // 0 = All (xx), 1 = All, , 2 = xx
       if (!$match[2] || $match[2] < $count) {
-        throw new Exception("The filter '" . trim($match[1]) . "' has less than '" . $count . "' records");
+        throw new Exception("The filter '" . trim($match[1]) . "' has fewer than '" . $count . "' records");
       }
     }
   }
