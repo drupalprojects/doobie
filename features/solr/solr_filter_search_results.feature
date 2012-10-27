@@ -15,7 +15,6 @@ Feature: Visitor searches site and filters the results using various options
     And I see "results containing the words: views"
     And I follow the first search result
     Then I should see the link "<module>"
-    And I should see the link "Views"
     And I should see "Project Information"
     Examples:
     | module         |
