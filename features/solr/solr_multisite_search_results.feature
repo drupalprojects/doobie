@@ -10,11 +10,10 @@ Feature: Visitor searches content and gets results from multiple sites
 
   Scenario: Search multisites
     When I follow "Groups ("
-    Then I should see at least "10" records
+    Then I should see at least "25" records
     And the results should not link to Drupal.org
 
   Scenario: Follow a result
     When I follow "Groups ("
     And I follow the first search result
-    Then I should see "views"
     And I should see the link "Go to Drupal.org"
