@@ -48,7 +48,6 @@ Feature: Visitor searches site and filters the results using various options
     Then I should see "<text1>"
     And I should not see "<text2>"
     Examples:
-    | status                | text1                                                       | text2                                                       |
-    | Only sandbox projects | This is a sandbox project, which contains experimental code | Recommended releases                                        |
-    | All projects          | View all releases                                           | This is a sandbox project, which contains experimental code |
-    | Full projects         | Recommended releases                                        | This is a sandbox project, which contains experimental code |
+    | status                | text1                                                       | text2                |
+    | Only sandbox projects | This is a sandbox project, which contains experimental code | Recommended releases |
+    | Full projects         | View all releases                                           | This is a sandbox    |
