@@ -17,4 +17,4 @@ Feature: Visitor views issue queue for a project
     And I click "0 total"
     Then I should see "No issues match your criteria."
 
-    
+

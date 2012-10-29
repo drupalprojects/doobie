@@ -457,7 +457,7 @@ class FeatureContext extends DrupalContext {
     $field = $this->getSession()->getPage()->findField('Project type');
 		if ($type == 'full') {
       if (empty($field)) {
-        throw new Exception("The field Name was not found on the page");  
+        throw new Exception("The field Name was not found on the page");
       }
 		  $element->selectFieldOption('Project type', $type);
 		}
