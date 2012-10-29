@@ -1,4 +1,4 @@
-@docs @slow @javascript @wip
+@docs @slow @javascript
 Feature: Documentation Management
   In order to manage Drupal.org Documentation
   As an authenticated user
@@ -81,12 +81,12 @@ Feature: Documentation Management
     Then I should see at least "2" records
     Examples:
     | audience                   |
-    | Developers and coders      |
-    | Documentation contributors |
+    | Contributors               |
+    | Designers/themers          |
+    | Programmers                |
     | Site administrators        |
     | Site builders              |
     | Site users                 |
-    | Themers                    |
 
   Scenario Outline: Search records by Level
     When I select "<levels>" from "Level"
@@ -110,7 +110,7 @@ Feature: Documentation Management
     | Published      | Yes                    |
     | Page status    | No known problems      |
     | Drupal version | Drupal 6.x             |
-    | Audience type  | Developers and coders  |
+    | Audience type  | Programmers            |
     | Level          | Intermediate           |
     And I press "Apply"
     Then I should see at least "1" record
