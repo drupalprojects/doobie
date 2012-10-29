@@ -2319,7 +2319,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I check the project is created$/
+   * @Then /^I (?:should |)see (?:that |)the project was created$/
    */
   public function iCheckTheProjectIsCreated()
   {
@@ -3939,7 +3939,7 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     $this->iCreateA('theme');
     HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
-    return new Given('I check the project is created');
+    return new Given('I see that the project was created');
 
   }
 
