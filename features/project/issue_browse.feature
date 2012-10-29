@@ -1,4 +1,4 @@
-@issues
+@issues @known_git7failure @wip
 Feature: Visitor views issue queue for a project
   In order to evaluate a project
   As a visitor to a project issue queue
@@ -10,6 +10,7 @@ Feature: Visitor views issue queue for a project
     Then I should see at least "50" records
     And I should see "Last updated" sorted in "ascending" order
 
+  @clean_data
   Scenario: No issues exist
     Given I am logged in as "git user"
     And I create a sandbox project

@@ -454,7 +454,18 @@ class FeatureContext extends DrupalContext {
     HackyDataRegistry::set('project title', $this->projectTitle);
     $element->fillField('Name', $this->projectTitle);
     $element->selectFieldOption('Maintenance status', 'Actively maintained'); //Actively maintained
-    $element->selectFieldOption('Project type', $type);
+    $field = $this->getSession()->getPage()->findField('Project type');
+		if ($type == 'full') {
+      if (empty($field)) {
+        throw new Exception("The field Name was not found on the page");  
+      }
+		  $element->selectFieldOption('Project type', $type);
+		}
+    else if($type == 'sandbox') {
+      if (!empty($field)) {
+        $element->selectFieldOption('Project type', $type);
+      }
+    }
     $element->selectFieldOption('Development status', 'Under active development'); //Under active development
     $element->fillField('Short name', strtolower($this->projectTitle));
     if ($element->findField("Projects")) {
@@ -3943,11 +3954,11 @@ class FeatureContext extends DrupalContext {
    */
   public function iCreatedASandboxProject() {
     $session = $this->getSession();
-    $session->visit($this->locatePath('/node/add/project'));
+    $session->visit($this->locatePath('/node/add/project-module'));
     $page = $this->getSession()->getPage();
-    $this->iCreateA('theme');
+    $this->iCreateAProject('sandbox');
     HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
-    return new Given('I check the project is created');
+    return new Given('I see that the project was created');
 
   }
 
