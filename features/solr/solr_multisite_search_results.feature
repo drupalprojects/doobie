@@ -16,4 +16,4 @@ Feature: Visitor searches content and gets results from multiple sites
   Scenario: Follow a result
     When I follow "Groups ("
     And I follow the first search result
-    And I should see the link "Go to Drupal.org"
+    Then I should see the link "Go to Drupal.org"
