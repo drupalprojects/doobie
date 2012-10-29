@@ -5,7 +5,7 @@ Feature: Drupal.org frontpage footer
   I should be able to see footer links
 
   @anon
-  Scenario: Check footer links and text
+  Scenario: View footer links and text
     Given I am on the homepage
     Then I should see the following <links> in "footer" area
     | links                 |

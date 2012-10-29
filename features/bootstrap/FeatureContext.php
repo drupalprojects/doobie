@@ -5722,7 +5722,7 @@ class FeatureContext extends DrupalContext {
           throw new Exception('Count for "' . $content . '" is not found in the "' . $region . '" region of the page');
         }
         $count = (int) str_replace(',','', $count_ele->getText());
-        if (empty($count)) {
+        if (trim($count) == "") {
           throw new Exception('"' . $content . '" count is not found');
         }
         if ($count < $count_param) {
