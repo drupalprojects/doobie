@@ -31,12 +31,13 @@ Feature: Visitor searches site and sorts the results
     And I see "results containing the words: views"
     Then I should see the results sorted by the project posted date
 
-  @slow
+  # See https://drupal.org/node/1824900
+  @slow @known_failure
   Scenario: Sort by most installed
     When I select "Most installed" from "Sort by"
     Then I should see "results containing the words: views"
     And I should see the results sorted by most installed modules
-  
+
   #@slow
   #Scenario: Sort by last build
   #  When I select "Last build" from "Sort by"
