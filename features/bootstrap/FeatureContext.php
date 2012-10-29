@@ -1257,6 +1257,9 @@ class FeatureContext extends DrupalContext {
     if (strtolower($locator) == "key modules/theme/distribution used") {
       $locator = "edit-field-module-0-nid-nid";
     }
+    elseif (strtolower($locator) == "maintainer user name") {
+      $locator = "edit-new-maintainer-user";
+    }
     $element->fillField($locator, $value);
     $this->project_value = $value;
 	  //In order to close the autocomplete dropdown, otherwise button click does not work

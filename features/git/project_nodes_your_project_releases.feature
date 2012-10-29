@@ -9,10 +9,12 @@ Feature: Manage releases
     And I visit "/node/1791620/maintainers"
     And I wait until the page loads
     When I enter "git vetted user" for field "Maintainer user name"
+    And I select "git vetted user" from the suggestion "Maintainer user name"
     And I press "Update"
+    And I wait until the page loads
     Then I should see "added and permissions updated"
 
-  @dependent:
+  @dependent
   Scenario: Assign permissions to git vetted user
     Given I am logged in as "admin test"
     And I visit "/node/1791620/maintainers"
