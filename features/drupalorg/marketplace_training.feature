@@ -49,20 +49,3 @@ Feature: Training section of the Marketplace
     And I should see the heading "Featured providers"
     And I should see the heading "Training"
     And I should see the heading "Hosting"
-
-  Scenario: Add organization
-    Given I am logged in as "site user"
-    And I visit "/node/add/organization"
-    And I see "Request improvements to vocabularies by"
-    When I create a new organization for "training"
-    Then I should see "has been created"
-
-  @dependent @clean_data
-  Scenario: View the created training session
-    Given I am logged in as "site user"
-    And I follow "Your Dashboard"
-    When I follow an issue of the project
-    Then I should see "to the Training section"
-    And I should see "has been posted"
-    And I should see "Drupal.org webmasters"
-    And I should see "Posted by site user"

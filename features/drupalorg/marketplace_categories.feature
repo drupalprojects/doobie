@@ -1,31 +1,9 @@
 @marketplace @anon
-Feature: Use Marketplace to find services
+Feature: Find Drupal service provider in the Marketplace
   In order to find the right Drupal service provider for me
   As any user
-  I want to filter available providers by categories
-
-  Scenario: Browse to the Marketplace page
-    Given I am on the homepage
-    When I follow "Marketplace"
-    Then I should see the heading "Marketplace"
-    And I should see the link "Marketplace"
-
-  Scenario: See a paged list of service providers
-    Given I am on "/drupal-services"
-    When I follow "Marketplace"
-    Then I should see at least "10" records
-    And I click on page "2"
-    And I should see at least "10" records
-    And I should see the following <links>
-    | links     |
-    | first     |
-    | next      |
-    | previous  |
-    | last      |
-    And I should see at least "10" records
-    When I click on page "last"
-    Then I should see at least "1" record
-
+  I should be able to see the list of service providers and filter it
+  
   @javascript
   Scenario: Expand main category and view subcategories
     Given I am on "/marketplace"
