@@ -12,13 +12,13 @@ Feature: Drupal hosting providers
 	And I should see the heading "Hosting Types"
     And I should see the following <texts>
     | texts |
-	| The following hosting companies are great choices                     |
+    | The following hosting companies are great choices                     |
     | This section lists organizations that provide Drupal hosting services |
-	| Forums                                                                |
+    | Forums                                                                |
     And I should see the following <tabs>
     | tabs |
     | Services |
-	| Hosting  |
+    | Hosting  |
     | Training |
     And I should see that the tab "Hosting" is highlighted
 
@@ -31,9 +31,9 @@ Feature: Drupal hosting providers
     Given I am on "/hosting"
     When I follow "Enterprise & Managed"
     Then I should see the heading "Enterprise & Managed Hosting"
-	And I should see the heading "Hosting Types"
-	And I should see "The following hosting companies are great choices"
-	And I should see the link "Add your listing"
+    And I should see the heading "Hosting Types"
+    And I should see "The following hosting companies are great choices"
+    And I should see the link "Add your listing"
     And I should see the heading "Other great hosts that support Drupal"
     And I should see at least "6" records
 
