@@ -1,21 +1,19 @@
+@marketplace
 Feature: Training section of the Marketplace
-  In order to advertise the training sessions of my organization
-  As an authenticated user
-  I should be able to create the organization
+  In order to find companies which provider Drupal training
+  As any user
+  I should be able to browse Training section
 
   @anon
   Scenario: View training page
     Given I am on the homepage
     When I follow "Marketplace"
     And I follow "Training"
-    Then I should see "Drupal training services"
+    Then I should see the heading "Marketplace"
+	And I should be on "/training"
+	And I should see "Drupal training services"
     And I should see "For upcoming Trainings check"
-
-  @anon
-  Scenario: View right sidebar navigation
-    Given I am on the homepage
-    When I visit "/training"
-    Then I should see "Browse by country"
+    And I should see "Browse by country"
     And I should see at least "3" links in the "right sidebar"
     And I should not see the link "Add your listing"
 
