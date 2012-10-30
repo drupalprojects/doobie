@@ -1377,7 +1377,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see the following <(?:subcategories|links)> under "([^"]*)"$/
+   * @Then /^I should see the following <subcategories> under "([^"]*)"$/
    */
   public function iShouldSeeTheFollowingSubcategoriesUnder($category, TableNode $table) {
     $page = $this->getSession()->getPage();
@@ -1392,21 +1392,6 @@ class FeatureContext extends DrupalContext {
         $h_tag = 'h3';
         $grids = $page->findAll('css', $grid_path);
         $type_text = "subcategor";
-        break;
-        //To find the appropriate heading
-      case 'links':
-        $index  = 'links';
-        $arr_path = array(
-          'h5' => 'div.narrow-box-list',
-          'h2' => 'div.grid-12 .drupal-modules-facets .grid-3',
-        );
-        $type_text = "link";
-        foreach ($arr_path as $h_tag => $path) {
-          $grids = $page->findAll('css', $path);
-          if (!empty($grids)) {
-            break;
-          }
-        }
         break;
       default:
         throw new Exception('The option: "' . $resVal .'" doesn\'t exist' );
@@ -6560,5 +6545,48 @@ class FeatureContext extends DrupalContext {
       }
     }
     return TRUE;
+  }
+
+  /**
+   * @Then /^I should see the following <links> under "([^"]*)"$/
+   */
+  public function iShouldSeeTheFollowingLinksUnder($section, TableNode $table) {
+    // List possible headings, here we are looking for section headings
+    $headings = array("h1", "h2", "h2", "h4", "h5", "h6");
+    $hTag = "";
+    foreach ($headings as $heading) {
+      $hTag = $this->getSession()->getPage()->find("xpath", '//div[@id="content-inner"]//' . $heading . '[text()="' . $section . '"]');
+      if (!empty($hTag)) {
+        break;
+      }
+    }
+    if (!$hTag) {
+      throw new Exception("The section '" . $section . "' was not found on the page");
+    }
+    // h > div
+    $parent = $hTag->getParent();
+    // Get all the links under this section - Assuming all links are under ul li :)
+    $links = $parent->findAll("css", "ul li a");
+    if (empty($links)) {
+      throw new Exception("The section '" . $section . "' does not contain any links");
+    }
+    $table = $table->getHash();
+    foreach ($table as $key => $value) {
+      $link = $table[$key]['links'];
+      $result = $parent->findLink($link);
+      if (empty($result)) {
+        throw new Exception("The link '" . $link . "' was not found in the section '" . $section . "'");
+      }
+    }
+  }
+
+  /**
+   * @Given /^the current url should (?:match|be) "([^"]*)"$/
+   */
+  public function theCurrentUrlShouldMatch($url) {
+    $currUrl = $this->getSession()->getCurrentUrl();
+    if (strpos($currUrl, $url) === FALSE) {
+      throw new Exception("The current url does not match '" . $url . "'");
+    }
   }
 }
