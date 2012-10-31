@@ -1,4 +1,4 @@
-@marketplace
+@marketplace @wip
 Feature: Adding company to the Marketplace
   In order to advertise the drupal services of my organization
   As an authenticated user
@@ -8,8 +8,8 @@ Feature: Adding company to the Marketplace
     Given I am logged in as "site user"
     And I visit "/node/add/organization"
     And I see "Request improvements to vocabularies by"
-	  And I see "People with your organization name"
-	  And I see "Marketplace guidelines"
+    And I see "People with your organization name"
+    And I see "Marketplace guidelines"
     When I press "Save"
     Then I should see "Organization name field is required."
     And I should see "URL field is required."
@@ -43,8 +43,8 @@ Feature: Adding company to the Marketplace
     Given I am logged in as "site user"
     When I visit the organization page
     And I follow "Edit"
-	  Then I should see "Request improvements to vocabularies"
-	  And I should see "Organization name"
+    Then I should see "Request improvements to vocabularies"
+    And I should see "Organization name"
     And I should not see the following <texts>
     | texts             |
     | Services listing: |
