@@ -11,13 +11,14 @@ Feature: Prevent users from editing certain pages
     And I create a book page with full html
     Then I should see "has been created"
 
+  @dependent
   Scenario: Site user tries to find the Edit link on the above book page
     Given I am logged in as "site user"
     When I visit "/documentation/install"
     And I follow the book page
     Then I should not see the link "Edit"
 
-  @clean_data
+  @dependent @clean_data
   Scenario: Site user tries to edit a page directly
     Given I am logged in as "site user"
     When I go to the document edit page

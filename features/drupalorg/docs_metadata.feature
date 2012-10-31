@@ -12,6 +12,7 @@ Feature:  Documentation pages metadata
     When I create a book page
     Then I should see "has been created"
 
+  @dependent
   Scenario: Edit the document as Git User
     Given I am logged in as "git user"
     And I am on the document page
@@ -19,6 +20,7 @@ Feature:  Documentation pages metadata
     When I edit the document
     Then I should see "has been updated"
 
+  @dependent
   Scenario: Edit the document as Git Vetted User
     Given I am logged in as "git vetted user"
     And I am on the document page
@@ -26,6 +28,7 @@ Feature:  Documentation pages metadata
     When I edit the document
     Then I should see "has been updated"
 
+  @dependent
   Scenario: Edit the document as docs manager
     Given I am logged in as "docs manager"
     And I am on the document page
@@ -33,6 +36,7 @@ Feature:  Documentation pages metadata
     When I edit the document
     Then I should see "has been updated"
 
+  @dependent
   Scenario: Edit the document as Document Creator
     Given I am logged in as "site user"
     And I am on the document page
@@ -40,6 +44,7 @@ Feature:  Documentation pages metadata
     When I edit the document
     Then I should see "has been updated"
 
+  @dependent
   Scenario: Edit the document again as Git User
     Given I am logged in as "git user"
     And I am on the document page
@@ -47,19 +52,22 @@ Feature:  Documentation pages metadata
     When I edit the document
     Then I should see "has been updated"
 
+  @dependent
   Scenario: Edit the document as admin test user
     Given I am logged in as "admin test"
     And I am on the document page
     And I follow "edit this page"
     When I edit the document
     Then I should see "has been updated"
-  
+
+  @dependent
   Scenario: Follow revisions tab and compare last updated date
     Given I am logged in as "admin test"
     And I am on the document page
     When I follow "Revisions"
     Then the "last updated date" should match the latest revision
 
+  @dependent
   Scenario: Follow revisions tab and view created user and created time
     Given I am logged in as "admin test"
     And I am on the document page
@@ -67,7 +75,7 @@ Feature:  Documentation pages metadata
     Then the "created by username" should match the first revision
     And the "created date" should match the first revision
 
-  @clean_data @timeout
+  @dependent @clean_data @timeout
   Scenario: Edited usernames will be the latest four entries from revision tab and it doesn't include creator username or duplicates of the latest editors
     Given I am logged in as "admin test"
     And I am on the document page
