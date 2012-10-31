@@ -1,4 +1,4 @@
-@downloads @anon @wip
+@downloads @anon
 Feature: Find Drupal themes
   In order to make my site visually distinct from other sites
   As a site builder
