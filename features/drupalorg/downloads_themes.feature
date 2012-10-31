@@ -6,34 +6,34 @@ Feature: Find Drupal themes
   
   Scenario: Find out about Themes
     Given I am on "/download"
-    And I follow "About Themes & Subthemes"
-	Then I should see the heading "About theming"
-	And I should see "You can do more with a theme"
+    When I follow "About Themes & Subthemes"
+    Then I should see the heading "About theming"
+    And I should see "You can do more with a theme"
 	
   Scenario: View Most Installed Themes
     Given I am on "/download"
-    And I follow "Most Installed Themes"
+    When I follow "Most Installed Themes"
     Then I should see "Themes match your search"
     And I should see "Themes allow you to change the look and feel of your Drupal site"
     And I should see "Posted by"
   
   Scenario: View New Themes
     Given I am on "/download"
-    And I follow "New Themes"
+    When I follow "New Themes"
     Then I should see "Themes match your search"
     And I should see "Themes allow you to change the look and feel of your Drupal site"
     And I should see "Posted by"
   
   Scenario: View Most Active Themes
     Given I am on "/download"
-    And I follow "Most Active Themes"
+    When I follow "Most Active Themes"
     Then I should see "Themes match your search"
     And I should see "Themes allow you to change the look and feel of your Drupal site"
     And I should see "Posted by"
 
   Scenario: Visit Themes page
     Given I am on "/download"
-    And I follow "Themes"
+    When I follow "Themes"
     Then I should be on "/project/themes"
     And I should see the following <tabs>
     | tabs                   |
@@ -46,6 +46,6 @@ Feature: Find Drupal themes
     And I should see "Themes match your search"
     And I should see "Themes allow you to change the look and feel of your Drupal site"
     And I should see "Posted by"
-	And I should see the heading "Drupal Themes"
-	And I should see "Theme guide"
-	And I should see "More advanced themes are table-less"
+    And I should see the heading "Drupal Themes"
+    And I should see "Theme guide"
+    And I should see "More advanced themes are table-less"
