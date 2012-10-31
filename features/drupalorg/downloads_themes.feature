@@ -10,30 +10,24 @@ Feature: Find Drupal themes
     Then I should see the heading "About theming"
     And I should see "You can do more with a theme"
 	
-  Scenario: View Most Installed Themes
+  Scenario Outline: Visit links under Themes
     Given I am on "/download"
-    When I follow "Most Installed Themes"
-    Then I should see "Themes match your search"
-    And I should see "Themes allow you to change the look and feel of your Drupal site"
-    And I should see "Posted by"
-  
-  Scenario: View New Themes
-    Given I am on "/download"
-    When I follow "New Themes"
-    Then I should see "Themes match your search"
-    And I should see "Themes allow you to change the look and feel of your Drupal site"
-    And I should see "Posted by"
-  
-  Scenario: View Most Active Themes
-    Given I am on "/download"
-    When I follow "Most Active Themes"
+    When I follow "<link>"
     Then I should see "Themes match your search"
     And I should see "Themes allow you to change the look and feel of your Drupal site"
     And I should see "Posted by"
 
+    Examples:
+    | link                     |
+    | Most Installed Themes    |
+    | New Themes               |
+    | Most Active Themes       |
+
+  @javascript
   Scenario: Visit Themes page
     Given I am on "/download"
     When I follow "Themes"
+    And I wait until the page loads
     Then I should be on "/project/themes"
     And I should see the following <tabs>
     | tabs                   |
