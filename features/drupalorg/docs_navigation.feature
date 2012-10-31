@@ -14,7 +14,7 @@ Feature:
     | Administration Guide  |
     And I should see that the tab "Community Docs Home" is highlighted
     And I should see the heading "Community Documentation"
-	  And I should see "The Drupal.org online Community Documentation"
+    And I should see "The Drupal.org online Community Documentation"
     And I should see the following <blocks> in the right sidebar
     | blocks                                    |
     | Help maintain the Community Documentation |
@@ -58,19 +58,20 @@ Feature:
     And I should see the text "by the individual contributors and can be used in accordance with the Creative Commons License, Attribution-ShareAlike" in the "right sidebar" region
 
   Scenario Outline: Visit documentation links and view corresponding headings
-  Given I am on "/documentation"
-  When I follow "<link>"
-  Then I should be on "<url>"
-  And I should see the heading "<link>"
+    Given I am on "/documentation"
+    When I follow "<link>"
+    Then I should be on "<url>"
+    And I should see the heading "<link>"
 
-  Examples:
-  | link                            | url                              |
-  | Understanding Drupal            | /documentation/understand        |
-  | Installation Guide              | /documentation/install           |
-  | Administration & Security Guide | /documentation/administer        |
-  | Structure Guide                 | /documentation/structure         |
-  | Site Building Guide             | /documentation/build             |
-  | Multilingual Guide              | /documentation/multilingual      |
-  | Theming Guide                   | /documentation/theme             |
-  | Mobile Guide                    | /documentation/mobile            |
-  | Develop for Drupal              | /documentation/develop           |
+    Examples:
+    | link                            | url                              |
+    | Understanding Drupal            | /documentation/understand        |
+    | Installation Guide              | /documentation/install           |
+    | Administration & Security Guide | /documentation/administer        |
+    | Structure Guide                 | /documentation/structure         |
+    | Site Building Guide             | /documentation/build             |
+    | Multilingual Guide              | /documentation/multilingual      |
+    | Theming Guide                   | /documentation/theme             |
+    | Mobile Guide                    | /documentation/mobile            |
+    | Develop for Drupal              | /documentation/develop           |
+
