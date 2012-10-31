@@ -4420,7 +4420,7 @@ class FeatureContext extends DrupalContext {
     // Find and save metdata string
     $updates = $this->getSession()->getPage()->find('css', 'div.node-content > p.updated > em');
     if (empty($updates)) {
-      throw new Exception(ucwords($type) . ' cannot be found on the document');
+      throw new Exception('Node updated date cannot be found on the document');
     }
     $this->updates = $updates->getText();
     return new Then("I should see the document title");
