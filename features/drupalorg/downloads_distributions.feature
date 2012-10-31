@@ -1,4 +1,4 @@
-@downloads @anon @wip
+@downloads @anon
 Feature: Find Drupal distributions
   In order to avoid re-inventing the wheel
   As a site builder
