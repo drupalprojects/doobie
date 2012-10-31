@@ -1,5 +1,5 @@
 @front
-Feature: Verify document list update on homepage
+Feature: Access document list updates from homepage
   In order to see the newly created document on home page
   As a site user
   I should create a book page document
@@ -16,21 +16,24 @@ Feature: Verify document list update on homepage
     And I follow "Drupal Homepage"
     And I follow "Docs Updates"
     Then I should see the random "Title" text
-    And I should see "Posted by site user"
+    And I should see "Submitted by site user"
 
-  @dependent @anon
+  @dependent @anon @javascript @flaky
   Scenario: Links under Docs Updates tab
     Given I am on the homepage
     When I follow "Docs Updates"
+    And I wait until the page is loaded
     Then I should see at least "5" links under the "Docs Updates" tab
     And I should see the random "Title" text
-    And I should see "Posted by site user"
+    And I should see "Submitted by site user"
     And I should see the link "More documentation"
 
-  @anon
+  @anon @javascript
   Scenario: More documentation
     Given I am on the homepage
+    And I wait until the page is loaded
     And I follow "Docs Updates"
+    And I wait until the page is loaded
     When I follow "More documentation"
     Then I should see the heading "Community Documentation"
     And I should see the link "Understanding Drupal"
