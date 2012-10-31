@@ -1,62 +1,60 @@
-@downloads @known_git6failure @anon @wip
-Feature: List of downloadable drupal modules
-  In order know popular/new drupal modules
-  As a user
-  I should be able to see the summary of modules and filter them
+@downloads @known_git6failure @anon
+Feature: Download and Extend Drupal
+  In order to download and extend Drupal
+  As a sitebuilder
+  I should be able to see download page and visit various links present
 
-  @slow @timeout
-  Scenario: Most installed modules block
+  Scenario: View Download & Extend page
     Given I am on the homepage
-    When I follow "Download and Extend Drupal"
-    Then I should see the heading "Drupal Modules"
-    And I should see the following <links> under "Most installed"
-    | links    |
-    | Views    |
-    | Token    |
-    | Pathauto |
-    And I should see at least "4" most installed modules
+    When I follow "Download & Extend"
+    Then I should be on "/download"
+    And I should see the following <tabs>
+    | tabs                   |
+    | Download & Extend Home |
+    | Drupal Core            |
+    | Distributions          |
+    | Modules                |
+    | Themes                 |
+    And I should see that the tab "Download & Extend Home" is highlighted
+    And I should see "Download Drupal core files, and extend your site"
+    And I should see the following <texts>
+    | texts             |
+    | Download & Extend |
+    | Core              |
+    | Distributions     |
+    | Themes            |
+    | Translations      |
+    | Drupal Modules    |
+    | Most installed    |
+    | Module Categories |
+    | New Modules       |
+    | Module Index      |
+    And I should see the following <links> under "Translations"
+    | links     |
+    | Catalan   |
+    | French    |
+    | Hungarian |
+    | Dutch     |
+    And I should see "Show only modules for Drupal version"	
 
-  Scenario: More most installed modules
-    Given I am on the homepage
-    When I follow "Download and Extend Drupal"
-    And I follow "More Most installed"
-    Then I should see "Modules categories"
-    And I should see "Search Modules:"
-    And I should see the text "Extend and customize Drupal functionality with contributed modules."
+  Scenario Outline: Visit links on Download & Extend page
+    Given I am on "/download"
+    When I follow "<link>"
+    Then I should be on "<url>"
 
-  Scenario: Module categories block
-    Given I am on the homepage
-    When I follow "Download and Extend Drupal"
-    Then I should see the heading "Drupal Modules"
-    And I should see the following <links> under "Module Categories"
-    | links          |
-    | Administration |
-    | Community      |
-    | Event          |
-    | Media          |
-
-  Scenario: More categories
-    Given I am on the homepage
-    When I follow "Download and Extend Drupal"
-    And I follow "All Categories"
-    Then I should see the heading "Modules categories"
-    And I should see the heading "Administration"
-    And I should see the heading "User Management"
-
-  Scenario: Search for new modules
-    Given I am on the homepage
-    When I follow "Download and Extend Drupal"
-    And I select "7.x" from "Show only modules for Drupal version:"
-    And I press "Search" in the "content" region
-    And I follow the result under "New Modules"
-    And I follow "View all releases"
-    Then I should see the link "7.x"
-
-  Scenario: Search for module index
-    Given I am on the homepage
-    And I follow "Download and Extend Drupal"
-    When I select "8.x" from "Show only modules for Drupal version:"
-    And I press "Search" in the "content" region
-    And I follow the result under "Module Index"
-    And I follow "View all releases"
-    Then I should see the link "8.x"
+    Examples:
+    | link                            | url                    |
+    | Download Drupal 7               | /project/drupal        |
+    | Download Drupal 6               | /project/drupal        |
+    | Other Releases                  | /node/3060/release     |
+    | More Information                | /project/drupal        |
+    | Search for More Distributions   | /project/distributions |
+    | Search for More Themes          | /project/themes        |
+  
+  Scenario: View all translations
+    Given I am on "/download"
+    When I follow "All Translations"
+    Then I should see the heading "Translate"
+    And I should see the heading "Drupal translations"
+    And I should see "Install Drupal localized with translation"
+    And the current url should be "localize.drupal.org"
