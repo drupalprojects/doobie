@@ -18,7 +18,7 @@ Feature: Find modules to extend Drupal
   Scenario: View more most installed modules
     Given I am on "/download"
     When I follow "More Most installed"
-	  Then I should see "Modules match your search"
+    Then I should see "Modules match your search"
     And I should see "Modules categories"
     And I should see "Search Modules:"
     And I should see the text "Extend and customize Drupal functionality with contributed modules."
@@ -37,36 +37,36 @@ Feature: Find modules to extend Drupal
     Given I am on "/download"
     When I follow "All Categories"
     Then I should see the heading "Modules categories"
-	  And I should see "Filter by compatibility"
+    And I should see "Filter by compatibility"
     And I should see the heading "Administration"
     And I should see the heading "User Management"
 
   Scenario: View more new modules
     Given I am on "/download"
-	  And I follow "More New Modules"
-	  Then I should see "Modules match your search"
-	  And I should see "Posted by"
+    And I follow "More New Modules"
+    Then I should see "Modules match your search"
+    And I should see "Posted by"
 
   Scenario: View full modules index
     Given I am on "/download"
-	  And I follow "View full index"
-	  Then I should be on "/project/modules/index"
-	  And I should see the heading "Modules index"
-	  And I should see "Views"
-	  And I should see "Link"	
+    And I follow "View full index"
+    Then I should be on "/project/modules/index"
+    And I should see the heading "Modules index"
+    And I should see "Views"
+    And I should see "Link"	
 
   Scenario: Visit Modules page
     Given I am on "/download"
-	  And I follow "Modules"
-	  Then I should be on "/project/modules"
-	  And I should see the following <tabs>
+    And I follow "Modules"
+    Then I should be on "/project/modules"
+    And I should see the following <tabs>
     | tabs                   |
     | Download & Extend Home |
     | Drupal Core            |
     | Distributions          |
-	  | Modules                |
+    | Modules                |
     | Themes                 |
     And I should see that the tab "Modules" is highlighted
-	  And I should see "Modules match your search"
-	  And I should see "Extend and customize Drupal functionality with contributed modules"
-	  And I should see "Posted by"
+    And I should see "Modules match your search"
+    And I should see "Extend and customize Drupal functionality with contributed modules"
+    And I should see "Posted by"
