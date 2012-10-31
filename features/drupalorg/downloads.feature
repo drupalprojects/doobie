@@ -56,8 +56,8 @@ Feature: Download and Extend Drupal
 	
   Scenario: View all translations
     Given I am on "/download"
-	  And I follow "All Translations"
-	  Then I should see the heading "Translate"
-	  And I should see the heading "Drupal translations"
-	  And I should see "Install Drupal localized with translation"
-	  And the current url should be "localize.drupal.org"
+    And I follow "All Translations"
+    Then I should see the heading "Translate"
+    And I should see the heading "Drupal translations"
+    And I should see "Install Drupal localized with translation"
+    And the current url should be "localize.drupal.org"
