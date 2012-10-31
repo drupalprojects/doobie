@@ -1,8 +1,8 @@
 @casestudies
-Feature: View Drupal case studies as authenticated user
-  In order to add a Drupal case studies
+Feature: Adding new case study
+  In order to share the story of the site I built with Drupal
   As an authenticated user
-  I want to look for a link on the case studies page and add one
+  I should be able to create new case study
 
   Background:
     Given I am logged in as "site user"
@@ -24,18 +24,33 @@ Feature: View Drupal case studies as authenticated user
     And I additionally select "Community" from "Sectors"
     And I fill in "Project name" with random text
     And I fill in the following:
-    | Why Drupal was chosen                            | Test case study seven test data                |
-    | Brief overview                                   | Test case study seven test data brief overview |
-    | Completed Drupal site or project URL             | google.com                                     |
-    | Why these modules/theme/distribution were chosen | Test case study seven test data                |
+    | Why Drupal was chosen                            | Test data one test case study                  |
+    | Brief overview                                   | Test data two brief overview test case study   |
+    | Completed Drupal site or project URL             | example.com                                    |
+    | Why these modules/theme/distribution were chosen | Test data three test case study                |
     And I enter "Features" for field "Key modules/theme/distribution used"
     And I select "Features" from the suggestion "Key modules/theme/distribution used"
     And I press "Save"
     Then I should see "has been created"
+    And I should see that the tab "Community showcase" is highlighted
+    And I should see the following <texts>
+    | texts           |
+    | Test data one   |
+    | Test data two   |
+    | Test data three |
+    And I should see the following <links>
+    | links       |
+    | Arts        |
+    | Education   |
+    | Community   |
+    | Features    |
+    | example.com |
+    | site user   |
 
-  Scenario: Case study guidelines link
+  Scenario: View case study guidelines
     When I follow "Case Study guidelines"
     Then I should see the heading "Case Study guidelines"
+    And I should see "How to write a case study"
     And I should see the following <links>
     | links                  |
     | View                   |
@@ -44,7 +59,7 @@ Feature: View Drupal case studies as authenticated user
     | Drupal Case Studies    |
     | Getting Involved Guide |
 
-  Scenario: Case study - All
+  Scenario: View Add case study link in Community showcase
     When I visit "/case-studies/all"
     Then I should see the heading "Drupal Case Studies"
     And I should see the heading "Browse by category"

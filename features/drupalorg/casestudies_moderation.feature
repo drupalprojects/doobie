@@ -1,8 +1,8 @@
 @casestudies @flaky
-Feature: Selectively display case studies
-  In order to choose which case studies appear where
+Feature: Case studies moderation
+  In order to moderate case studies
   As a site administrator
-  I need to be able to set their status
+  I need to be able to edit any case study and change their status
 
   @javascript
   Scenario: Create a case study as a site user
@@ -40,6 +40,8 @@ Feature: Selectively display case studies
     And I press "Save"
     And I follow "Featured showcase"
     Then I should not see the random "Project name" text
+    And I visit "/case-studies/hidden"
+    Then I should see the random "Project name" text
 
   @dependent @clean_data
   Scenario: Admin user can put case study on community showcase
