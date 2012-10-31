@@ -10,7 +10,7 @@ Feature: Moderate Marketplace listing
     And I see "Request improvements to vocabularies by"
     When I create a new organization for "drupal services"
     Then I should see "has been created"
-	
+
   @dependent @clean_data
   Scenario: Edit organization page as an admin
     Given I am logged in as "admin test"

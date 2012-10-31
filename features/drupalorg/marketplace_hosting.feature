@@ -11,12 +11,12 @@ Feature: Drupal hosting providers
     And I should see the heading "Shared Hosting Providers"
     And I should see the heading "Hosting Types"
     And I should see the following <texts>
-    | texts |
+    | texts                                                                 |
     | The following hosting companies are great choices                     |
     | This section lists organizations that provide Drupal hosting services |
     | Forums                                                                |
     And I should see the following <tabs>
-    | tabs |
+    | tabs     |
     | Services |
     | Hosting  |
     | Training |
