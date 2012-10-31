@@ -80,13 +80,13 @@ Feature: Documentation Management
     And I press "Apply"
     Then I should see at least "2" records
     Examples:
-    | audience                   |
-    | Developers and coders      |
-    | Documentation contributors |
-    | Site administrators        |
-    | Site builders              |
-    | Site users                 |
-    | Themers                    |
+    | audience            |
+    | Contributors        |
+    | Designers/themers   |
+    | Programmers         |
+    | Site administrators |
+    | Site builders       |
+    | Site users          |
 
   Scenario Outline: Search records by Level
     When I select "<levels>" from "Level"
@@ -110,8 +110,8 @@ Feature: Documentation Management
     | Published      | Yes                    |
     | Page status    | No known problems      |
     | Drupal version | Drupal 6.x             |
-    | Audience type  | Developers and coders  |
-    | Level          | Intermediate |
+    | Audience type  | Programmers            |
+    | Level          | Intermediate           |
     And I press "Apply"
     Then I should see at least "1" record
 
