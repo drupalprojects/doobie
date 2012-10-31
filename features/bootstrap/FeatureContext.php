@@ -2534,10 +2534,10 @@ class FeatureContext extends DrupalContext {
     }
     $tablink = $ul->findLink($tab);
     if (empty($tablink)) {
-      throw new Exception('The tab: "' . $tab . '" cannot be found' );
+      throw new Exception('The tab "' . $tab . '" cannot be found' );
     }
-    if ('active active' != $tablink->getAttribute('class')) {
-      throw new Exception('The tab: "' . $tab . '" is not highlighted' );
+    if (strpos($tablink->getAttribute('class'), 'active') === FALSE) {
+      throw new Exception('The tab "' . $tab . '" is not highlighted' );
     }
   }
 
