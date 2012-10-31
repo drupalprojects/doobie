@@ -1,5 +1,5 @@
 @front
-Feature: Verify document list update on homepage
+Feature: Access document list updates from homepage
   In order to see the newly created document on home page
   As a site user
   I should create a book page document
