@@ -43,13 +43,13 @@ Feature: Find modules to extend Drupal
 
   Scenario: View more new modules
     Given I am on "/download"
-    And I follow "More New Modules"
+    When I follow "More New Modules"
     Then I should see "Modules match your search"
     And I should see "Posted by"
 
   Scenario: View full modules index
     Given I am on "/download"
-    And I follow "View full index"
+    When I follow "View full index"
     Then I should be on "/project/modules/index"
     And I should see the heading "Modules index"
     And I should see "Views"
@@ -57,7 +57,7 @@ Feature: Find modules to extend Drupal
 
   Scenario: Visit Modules page
     Given I am on "/download"
-    And I follow "Modules"
+    When I follow "Modules"
     Then I should be on "/project/modules"
     And I should see the following <tabs>
     | tabs                   |
