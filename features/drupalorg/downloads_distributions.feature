@@ -11,30 +11,24 @@ Feature: Find Drupal distributions
     And I should see "What are distributions?"
     And I should be on "/documentation/build/distributions"
 
-  Scenario: View Most Installed Distributions
+  Scenario Outline: View links under Distributions
     Given I am on "/download"
-    When I follow "Most Installed Distributions"
+    When I follow "<link>"
     Then I should see "Distributions match your search"
     And I should see "Distributions provide site features and functions for a specific type"
     And I should see "Posted by"
 
-  Scenario: View New Distributions
-    Given I am on "/download"
-    When I follow "New Distributions"
-    Then I should see "Distributions match your search"
-    And I should see "Distributions provide site features and functions for a specific type"
-    And I should see "Posted by"
+    Examples:
+    | link                         |
+    | Most Installed Distributions |
+    | New Distributions            |
+    | Most Active Distribitions    |
 
-  Scenario: View Most Active Distributions
-    Given I am on "/download"
-    When I follow "Most Active Distributions"
-    Then I should see "Distributions match your search"
-    And I should see "Distributions provide site features and functions for a specific type"
-    And I should see "Posted by"
-
+  @javascript
   Scenario: Visit Distributions page
     Given I am on "/download"
     When I follow "Distributions"
+    And I wait until the page loads
     Then I should be on "/project/distributions"
     And I should see the following <tabs>
     | tabs                   |
