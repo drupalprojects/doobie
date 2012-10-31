@@ -1,4 +1,4 @@
-@downloads @known_git6failure @anon @wip
+@downloads @known_git6failure @anon
 Feature: Download and Extend Drupal
   In order to download and extend Drupal
   As a sitebuilder
@@ -29,8 +29,14 @@ Feature: Download and Extend Drupal
     | Module Categories |
     | New Modules       |
     | Module Index      |
+    And I should see the following <links> under "Translations"
+    | links     |
+    | Catalan   |
+    | French    |
+    | Hungarian |
+    | Dutch     |
     And I should see "Show only modules for Drupal version"	
-  
+
   Scenario Outline: Visit links on Download & Extend page
     Given I am on "/download"
     When I follow "<link>"
@@ -45,18 +51,9 @@ Feature: Download and Extend Drupal
     | Search for More Distributions   | /project/distributions |
     | Search for More Themes          | /project/themes        |
   
-  Scenario: View the links under Translations
-    Given I am on "/download"
-    Then I should see the following <links> under "Translations"
-    | links     |
-    | Catalan   |
-    | French    |
-    | Hungarian |
-    | Dutch     |
-	
   Scenario: View all translations
     Given I am on "/download"
-    And I follow "All Translations"
+    When I follow "All Translations"
     Then I should see the heading "Translate"
     And I should see the heading "Drupal translations"
     And I should see "Install Drupal localized with translation"
