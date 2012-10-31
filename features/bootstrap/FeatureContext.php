@@ -5466,8 +5466,10 @@ class FeatureContext extends DrupalContext {
     $this->iSelectTheRadioButtonWithTheId('Enterprise & Managed', 'edit-field-organization-hosting-categ-value-Enterprise-&-Managed');
     HackyDataRegistry::set('issue title', $this->issueTitle);
     $element->pressButton("Save");
-    sleep(2);
+    sleep(7);
+    $this->getSession()->getCurrentUrl();
     HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
+    sleep(2);
   }
 
   /**
