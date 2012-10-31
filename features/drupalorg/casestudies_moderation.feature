@@ -20,6 +20,9 @@ Feature: Case studies moderation
     When I follow "Edit"
     Then I should not see "Status:"
     And I should not see "Choose \"Featured\" to promote case study to \"Featured showcase\" section."
+    And I should see "Project name:"
+    And I should see "Brief overview:"
+    And I should see "Community contributions:"
 
   @dependent
   Scenario: Admin user can feature other people's case study
