@@ -8,12 +8,18 @@ Feature: Find modules to extend Drupal
   Scenario: View most installed modules
     Given I am on the homepage
     When I follow "Download and Extend"
+    Then I should see at least "4" most installed modules
+
+  Scenario: View links under new modules and module index
+    Given I am on the homepage
+    When I follow "Download and Extend"
     Then I should see the following <links> under "Most installed"
     | links    |
     | Views    |
     | Token    |
     | Pathauto |
-    And I should see at least "4" most installed modules
+    And I should see at least "4" links under "New Modules"
+    And I should see at least "4" links under "Module Index"
 
   Scenario: View more most installed modules
     Given I am on "/download"
