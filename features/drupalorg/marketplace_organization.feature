@@ -30,6 +30,7 @@ Feature: Adding company to the Marketplace
     Then I should see the issue link
     And I should see the following <texts>
     | texts                 |
+    | has been posted       |
     | Review                |
     | Marketplace listing   |
     | Drupal.org webmasters |
