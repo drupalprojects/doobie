@@ -1260,9 +1260,9 @@ class FeatureContext extends DrupalContext {
       $element->fillField($locator, $value);
     }
     $this->project_value = $value;
-	  //Close the autocomplete dropdown, otherwise button click does not work
-	  sleep(2);
-	  $this->getSession()->executeScript("$('#autocomplete').hide();");
+    //Close the autocomplete dropdown, otherwise button click does not work
+    sleep(2);
+    $this->getSession()->executeScript("$('#autocomplete').hide();");
   }
 
   /**
