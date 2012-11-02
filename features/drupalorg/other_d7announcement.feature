@@ -1,10 +1,10 @@
 @other @anon
-Feature: To check the contents of Drupal 7.0 page
-  In order to learn more about Drupal 7.0
-  As a user
-  I should view Drupal 7.0 page
+Feature: View Drupal 7 announcement page
+  In order to learn more about Drupal 7
+  As any user
+  I should be able to view Drupal 7 announcement page
 
-  Scenario: Visits the page and view the links and texts
+  Scenario: Visit the page and view the links and texts
     Given I am on "/drupal-7.0"
     Then I should see the heading "Friendly and powerful: Drupal 7"
     And I should see the heading "Take a tour"
