@@ -30,13 +30,11 @@ Feature: Training section of the Marketplace
     | Drupalcamp or Regional Summit |
     | Training (free or commercial) |
 
-  @anon @specific_text
+  @anon
   Scenario: Follow Global training days link
     Given I am on "/training"
-    When I follow "Global Training Days 2012"
-    Then I should see the heading "Learn Drupal: Global Training Days"
-    And I should see "Global Training dates"
-    And I should see "Drupal Global Training Days is an initiative"
+    When I follow "Global Training Days"
+    Then I should be on "/learn-drupal"
 
   Scenario: Follow Marketplace guidelines link
     Given I am logged in as "site user"
