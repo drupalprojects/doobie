@@ -23,6 +23,7 @@ Feature: Featured Drupal case studies
     And I should see at least "10" links in the "right sidebar"
     And I should see the link "Education"
     And I should see the link "Technology"
+    And I should see at least "8" records
 
   @javascript
   Scenario: View the image slideshow
@@ -42,6 +43,7 @@ Feature: Featured Drupal case studies
     When I follow "<category>" on the "right sidebar"
     And I should not see "Page not found"
     And I should see "Categories:"
+    And I should see at least "1" record
     And I should see "Category: <category>"
     Examples:
     | category      |
