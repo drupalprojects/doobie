@@ -6719,4 +6719,18 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The current url does not match '" . $url . "'");
     }
   }
+
+  /**
+   * @Then /^I should see at least "([^"]*)" link(?:|s) under "([^"]*)"$/
+   */
+  public function iShouldSeeAtLeastLinksUnder($count, $section) {
+    $parent = $this->getSectionParentDiv($section);
+    $links = $parent->findAll("css", "ul li a");
+    if (empty($links)) {
+      throw new Exception("The section '" . $section . "' does not contain any links");
+    }
+    if (sizeof($links) < $count) {
+      throw new Exception("The section '" . $section . "' has less than '" . $count . "' links");
+    }
+  }
 }
