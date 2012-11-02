@@ -5091,7 +5091,7 @@ class FeatureContext extends DrupalContext {
     $id = "";
     switch($heading) {
       case 'New Modules':
-        $id = '#block-drupalorg_order_facet-sort_created .item-list ul > li > a';
+        $id = '#block-drupalorg_order_facet-ds_created .item-list ul > li > a';
         break;
       case 'Module Index':
         $id = '.drupal-modules-facets .grid-3.omega .item-list ul > li > a';
