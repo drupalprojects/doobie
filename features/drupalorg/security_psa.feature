@@ -1,48 +1,57 @@
 @security @anon
-Feature: To view list of Security public service announcements
+Feature: Security public service announcements
   In order to know the Security public service announcements
-  As a user
-  I should go to Security public service announcements page
+  As any user
+  I should be able to view the list of such announcements
 
   Scenario: View the Security public service announcements
     Given that I am on the homepage
     When I follow "Security Info"
     Then I should see the heading "Security advisories"
     And I follow "Public service announcements"
+    And I should be on "/security/psa"
     And I should see at least "5" records
     And I should see the heading "Security announcements"
     And I should see the heading "Contacting the Security team"
+    And I should see the following <tabs>
+    | tabs                         |
+    | Drupal core                  |
+    | Contributed projects         |
+    | Public service announcements |
+    And I should see that the tab "Public service announcements" is highlighted
     And I should see the following <texts>
-    | texts |
-    | DRUPAL-PSA |
-    | Categories: |
-    | Security-related announcements, such as information on best practices. |
-    | Posted by |
+    | texts                                                                 |
+    | DRUPAL-PSA                                                            |
+    | Posted by                                                             |
+    | Categories:                                                           |
+    | Security-related announcements, such as information on best practices |
+    | all security announcements are posted to                              |
+    | In order to report a security issue                                   |
     And I should see the following <links>
-    | links |
-    | Drupal core |
-    | Contributed projects |
-    | Read more |
+    | links                |
+    | Read more            |
     | Drupal Security Team |
 
-  Scenario: Visit Public service announcements page and view various parameters
+  Scenario: View various parameters on Public service announcements
     Given I am on "/security/psa"
     When I follow "Public service announcements"
     Then I should see the following <texts>
-    | texts |
-    | Advisory ID: |
-    | Project: |
-    | Version: |
-    | Date: |
-    | Security risk: |
+    | texts             |
+    | Advisory ID:      |
+    | Project:          |
+    | Version:          |
+    | Date:             |
+    | Security risk:    |
     | Exploitable from: |
-    | Vulnerability: |
+    | Vulnerability:    |
 
-  Scenario: Visit Read more and view the contents
+  Scenario: View individual announcement
     Given I am on "/security/psa"
     When I follow "Read more"
     Then I should not see "Page not found"
+    And I should not see the link "Add new comment"
+    And I should see "Posted by Drupal Security Team"
     And I should see the heading "Description"
     And I should see the heading "Solution"
     And I should see the heading "Reported by"
-    And I should see "Posted by Drupal Security Team"
+    And I should see "Categories:"
