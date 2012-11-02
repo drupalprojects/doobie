@@ -1253,17 +1253,15 @@ class FeatureContext extends DrupalContext {
    * @Given /^I select "([^"]*)" from the suggestion "([^"]*)"$/
    */
   public function iSelectFromTheSuggestion($value, $locator) {
+    sleep(2);
     $element = $this->getSession()->getPage();
     if (strtolower($locator) == "key modules/theme/distribution used") {
       $locator = "edit-field-module-0-nid-nid";
+      $element->fillField($locator, $value);
     }
-    elseif (strtolower($locator) == "maintainer user name") {
-      $locator = "edit-new-maintainer-user";
-    }
-    $element->fillField($locator, $value);
     $this->project_value = $value;
-	  //In order to close the autocomplete dropdown, otherwise button click does not work
-	  sleep(3);
+	  //Close the autocomplete dropdown, otherwise button click does not work
+	  sleep(2);
 	  $this->getSession()->executeScript("$('#autocomplete').hide();");
   }
 
@@ -6077,19 +6075,6 @@ class FeatureContext extends DrupalContext {
     elseif (strpos($process->getOutput(), "fatal") !== FALSE || strpos($process->getErrorOutput(), "fatal") !== FALSE) {
       throw new Exception("Unable to create the branch - '" . $branch . "' Checkout failed -\n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
     }
-    // Update a file
-    $file = "test_releases.info";
-    $fh = fopen($file, "a");
-    fwrite($fh, "\nTest data for BDD - " . date('d F Y G:i:s'));
-    fclose($fh);
-    // Git add and commit
-    $command = 'git add ' . $file . '; git commit -m "by ' . $data['username'] . ': From the step definition"';
-    $process = new Process($command);
-    $process->run();
-    sleep(2);
-    if (!$process->isSuccessful()) {
-      throw new Exception('Git add/commit failed during branch creation - ' . $process->getErrorOutput());
-    }
     // Push the changes to create a new branch
     $password = $data['password'];
     $command = "../bin/gitwrapper branch $password $branch";
@@ -6227,8 +6212,8 @@ class FeatureContext extends DrupalContext {
       throw new Exception("Unable to set the git config value");
     }
     // Come back to version control page
-    $this->getSession()->visit($currUrl);
-    sleep(2);
+    //$this->getSession()->visit($currUrl);
+    //sleep(2);
     return $userData;
   }
 
