@@ -6398,6 +6398,7 @@ class FeatureContext extends DrupalContext {
   
   /**
    * Checks drupal banner in the header
+   *
    * @Then /^I should see that drupal banner is linked to the home page$/
    */
   public function iShouldSeeThatDrupalBannerIsLinkedToTheHomePage() {
@@ -6482,6 +6483,8 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Checks if the solr search results page is sorted in alphabetical order by project author or not
+   *
    * @Given /^I (?:should |)see the results sorted in alphabetical order by project author$/
    */
   public function iShouldSeeTheResultsSortedInAlphabeticalOrderByProjectAuthor() {
@@ -6500,6 +6503,8 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Checks if the solr search results page is sorted by project posted date or not
+   *
    * @Given /^I (?:should |)see the results sorted by the project posted date$/
    */
   public function iShouldSeeTheResultsSortedByTheProjectPostedDate() {
@@ -6550,6 +6555,13 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Checks whether the section has the given links under it or not
+   *
+   * @param $section
+   *   string The section in which the links to be checked
+   * @param $table
+   *   array The list of links to be checked in the section
+   *
    * @Then /^I should see the following <links> under "([^"]*)"$/
    */
   public function iShouldSeeTheFollowingLinksUnder($section, TableNode $table) {
@@ -6570,6 +6582,11 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Checks whether the given url is same or part of the current url of the page
+   *
+   * @param $url
+   *   string The url to be matched
+   *
    * @Given /^the current url should (?:match|be) "([^"]*)"$/
    */
   public function theCurrentUrlShouldMatch($url) {
@@ -6580,6 +6597,13 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Checks for $count number of links under the given section
+   *
+   * @param $count
+   *   integer The number of links expected
+   * @param $section
+   *   string The section in which the links are expected
+   *
    * @Then /^I should see at least "([^"]*)" link(?:|s) under "([^"]*)"$/
    */
   public function iShouldSeeAtLeastLinksUnder($count, $section) {
@@ -6593,6 +6617,14 @@ class FeatureContext extends DrupalContext {
     }
   }
 
+  /**
+   * Function to get the parent div object of the given heading element
+   *
+   * @param $section
+   *    string The heading of the section
+   * @return div object
+   *    object The parent element object of the given section
+  */
   private function getSectionParentDiv($section) {
     // List possible headings, here we are looking for section headings
     $headings = array("h1", "h2", "h2", "h4", "h5", "h6");
