@@ -8,7 +8,7 @@ Feature: Drupal hosting providers
     Given that I am on the homepage
     When I follow "Marketplace"
     And I follow "Hosting"
-    And I should see the heading "Shared Hosting Providers"
+    Then I should see the heading "Shared Hosting Providers"
     And I should see the heading "Hosting Types"
     And I should see the following <texts>
     | texts                                                                 |
