@@ -1255,8 +1255,10 @@ class FeatureContext extends DrupalContext {
   public function iSelectFromTheSuggestion($value, $locator) {
     sleep(2);
     $element = $this->getSession()->getPage();
-    if (strtolower($locator) == "key modules/theme/distribution used") {
-      $locator = "edit-field-module-0-nid-nid";
+    if (strtolower($locator) != "maintainer user name") {
+      if (strtolower($locator) == "key modules/theme/distribution used") {
+        $locator = "edit-field-module-0-nid-nid";
+      }
       $element->fillField($locator, $value);
     }
     $this->project_value = $value;

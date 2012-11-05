@@ -1,4 +1,4 @@
-@casestudies
+@casestudies @wip
 Feature: Adding new case study
   In order to share the story of the site I built with Drupal
   As an authenticated user
@@ -14,11 +14,25 @@ Feature: Adding new case study
     And I should see the link "Add your case study"
     And I should see the link "Case Study guidelines"
 
+  Scenario: Add a new case study: Required field validation
+    When I follow "Add your case study"
+    And I press "Save"
+    Then I should see the following <texts>
+    | texts                                                              |
+    | Project name field is required                                     |
+    | Why Drupal was chosen field is required                            |
+    | URL field is required                                              |
+    | Why these modules/theme/distribution were chosen field is required |
+    | Primary screenshot field is required                               |
+    And the field "Project name" should be outlined in red
+    And the field "Why Drupal was chosen" should be outlined in red
+    And I should not see "has been created"
+
   @javascript @wip
   Scenario: Add a new case study
     When I follow "Add your case study"
     And I see "Describe the project"
-    And I attach the local file "koala.jpg" to "Primary screenshot:"
+    And I attach the local file "koala.jpg" to "Primary screenshot"
     And I select "Arts" from "Sectors"
     And I additionally select "Education" from "Sectors"
     And I additionally select "Community" from "Sectors"
@@ -39,13 +53,38 @@ Feature: Adding new case study
     | Test data two   |
     | Test data three |
     And I should see the following <links>
-    | links       |
-    | Arts        |
-    | Education   |
-    | Community   |
-    | Features    |
-    | example.com |
-    | site user   |
+    | links           |
+    | Arts            |
+    | Education       |
+    | Community       |
+    | Features        |
+    | example.com     |
+    | site user       |
+    | Add new comment |
+
+  Scenario: User can edit his own case study
+    When I follow "Community showcase"
+    And I click on a case study image
+    And I follow "Edit"
+    Then I should not see "Access denied"
+    And I should see the following <texts>
+    | texts                 |
+    | Project name          |
+    | Primary screenshot    |
+    | Sectors               |
+    | Why Drupal was chosen |
+    | Brief overview        |
+
+  Scenario: User can comment on case study
+    When I click on a case study image
+    And I follow "Add new comment"
+    And I fill in "Subject" with random text
+    And I fill in "Comment" with random text
+    And I press "Save"
+    Then I should see the random "Subject" text
+    And I should see the random "Comment" text
+    And I should see "Posted by site user"
+    And I should see the link "Add new comment"
 
   Scenario: View case study guidelines
     When I follow "Case Study guidelines"
