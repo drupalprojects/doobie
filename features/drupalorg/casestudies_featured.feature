@@ -41,7 +41,7 @@ Feature: Featured Drupal case studies
   Scenario Outline: Navigate into featured showcase categories
     Given I am on "/case-studies"
     When I follow "<category>" on the "right sidebar"
-    And I should not see "Page not found"
+    Then I should not see "Page not found"
     And I should see "Categories:"
     And I should see at least "1" record
     And I should see "Category: <category>"
