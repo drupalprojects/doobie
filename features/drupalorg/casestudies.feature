@@ -62,7 +62,7 @@ Feature: Adding new case study
     | site user       |
     | Add new comment |
 
-  Scenario: User can edit his own case study
+  Scenario: Edit own case study
     When I follow "Community showcase"
     And I click on a case study image
     And I follow "Edit"
@@ -75,7 +75,7 @@ Feature: Adding new case study
     | Why Drupal was chosen |
     | Brief overview        |
 
-  Scenario: User can comment on case study
+  Scenario: Comment on a case study
     When I click on a case study image
     And I follow "Add new comment"
     And I fill in "Subject" with random text
