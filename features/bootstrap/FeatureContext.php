@@ -5637,7 +5637,7 @@ class FeatureContext extends DrupalContext {
             }
             break;
           // Advertisement image - can be an iframe/image with links/links
-          case 'advertisement':          
+          case 'advertisement':
             $iframe_ele = $region_ele->find('css', 'div#google_ads_div_Redesign_home_ad_container iframe');
             if (!empty($iframe_ele)) {
               $this->getSession()->switchToIFrame($iframe_ele->getAttribute('name'));
@@ -5723,7 +5723,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Checks count of links in top right content area on homepage 
+   * Checks count of links in top right content area on homepage
    *
    * @Given /^I should see at least "([^"]*)" "([^"]*)" in top right content area$/
    *
@@ -6382,7 +6382,7 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeAnAdvertisementInTopRightContentArea() {
     $this->iShouldSeeInArea('image', "advertisement", 'top right content');
   }
-  
+
   /**
    * Checks drupal banner in the header
    *
@@ -6418,10 +6418,10 @@ class FeatureContext extends DrupalContext {
     return new Given("I go to \"$docUrl\"");
   }
 
-  /** 
+  /**
    * Save site output to be viewed later when run in a continuous integration environment
    * The web root and a directory writable by the behat user must be configured in behat.local.yml
-   * @AfterStep 
+   * @AfterStep
    */
   public function generateFailedStepScreenshot(StepEvent $event) {
     if ($event->hasException() && isset($this->environment['webpath'])) {
@@ -6614,7 +6614,7 @@ class FeatureContext extends DrupalContext {
   */
   private function getSectionParentDiv($section) {
     // List possible headings, here we are looking for section headings
-    $headings = array("h1", "h2", "h2", "h4", "h5", "h6");
+    $headings = array("h1", "h2", "h2", "h4", "h5", "h6", "dt");
     $hTag = "";
     foreach ($headings as $heading) {
       $hTag = $this->getSession()->getPage()->find("xpath", '//div[@id="content-inner"]//' . $heading . '[text()="' . $section . '"]');
@@ -6627,5 +6627,34 @@ class FeatureContext extends DrupalContext {
     }
     // h > div
     return $hTag->getParent();
+  }
+
+  /**
+   * @Then /^I should see "([^"]*)" under "([^"]*)" heading$/
+   */
+   public function iShouldSeeUnderHeading($link, $section) {
+    $parent = $this->getSectionParentDiv($section);
+    // Get all the links under this section - Assuming all links are under dl dd :)
+    $links = $parent->find("css", "dl dd a");
+    if (empty($links)) {
+      throw new Exception("The section '" . $section . "' does not contain any links");
+    }
+    $resultLink = $parent->findLink($link);
+    if (empty($resultLink)) {
+      throw new Exception("The link '" . $link . "' was not found in the section '" . $section . "'");
+    }
+  }
+
+  /**
+   * @When /^I follow training organization post$/
+   */
+  public function iFollowTrainingOrganizationPost() {
+    $result = $this->getSession()->getPage()->find('css', '.view-content .views-field-title a');
+    if(empty($result)) {
+      throw new Exception("Title post is not found on the page");
+    }
+    $href = $result->getAttribute("href");
+    $this->getSession()->visit($href);
+    sleep(5);
   }
 }
