@@ -21,10 +21,7 @@ Feature: Drupal hosting providers
     | Hosting  |
     | Training |
     And I should see that the tab "Hosting" is highlighted
-
-  Scenario: View other hosts
-    Given I am on "/hosting"
-    Then I should see the heading "Other great hosts that support Drupal"
+    And I should see the heading "Other great hosts that support Drupal"
     And I should see at least "5" records
 
   Scenario: View Enterprise and Managed hosting providers
