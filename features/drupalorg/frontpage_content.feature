@@ -73,7 +73,7 @@ Feature: Drupal.org frontpage
   @anon
   Scenario: Find modules for Drupal
     When I follow "Modules"
-	Then I should see "Modules match your search"
+    Then I should see "Modules match your search"
 
   @anon
   Scenario: Find themes for Drupal

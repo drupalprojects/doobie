@@ -7,7 +7,7 @@ Feature: Drupal.org frontpage footer
   @anon
   Scenario Outline: View links and text in the footer
     Given I am on "<page>"
-	Then I should see the "text" "Drupal is a registered trademark of Dries Buytaert" in "footer" area
+    Then I should see the "text" "Drupal is a registered trademark of Dries Buytaert" in "footer" area
     And I should see the following <links> in "footer" area
     | links                 |
     | Drupal News           |
