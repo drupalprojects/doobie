@@ -1,12 +1,13 @@
-@other
+@other @wip
 Feature: Drupal.org contact form
-  In order to contact Drupal.org maintainers
-  As an authenticated user
-  I should be able to access site's contact form
+  In order to prevent spammers frm flooding maintainers 
+  As a site visitor
+  I should required to log in with a valid account to use the contact form
 
   @anon
   Scenario: Anonymous users views the page
-    Given I am on "/contact"
+    Given I am not logged in 
+    When I visit "/contact"
     Then I should see the heading "Contact"
     And I should see "You have to log in to contact us"
     And I should not see "You can leave us a message using"
