@@ -6,7 +6,7 @@ Feature: Mailing lists subscription and archives
 
   Scenario: Visit mailing list page and view texts and links
     Given I am on the homepage
-    And I follow "Community"
+    When I follow "Community"
     And I follow "Mailing Lists"
     Then I should see the heading "Mailing lists"
     And I should see the following <texts>
