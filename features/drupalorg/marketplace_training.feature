@@ -81,7 +81,7 @@ Feature: Training section of the Marketplace
     | Druler         | /node/1791714              | Druler         |
 
   @anon
-  Scenario: Visit marketplace links and view corresponding headings
+  Scenario: Navigating through specific country and check for the links exists
     Given I am on "/training"
     And I should see "Browse by country"
     And I follow "Australia"
