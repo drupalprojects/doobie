@@ -4319,8 +4319,11 @@ class FeatureContext extends DrupalContext {
       return;
     }
     $arr_nodeurl = array_unique($arr_nodeurl);
-    // Log in as admin to perform node deletion
-    $this->iAmLoggedInAs('admin test');
+    // If currently logged in user is already admin, then no need to re-login.
+    if (HackyDataRegistry::get('username') != "admin test") {
+      //Log in as admin to perform node deletion
+      $this->iAmLoggedInAs('admin test');
+    }
     $session = $this->getSession();
     foreach ($arr_nodeurl as $url) {
       $this->deleteNode($url);
