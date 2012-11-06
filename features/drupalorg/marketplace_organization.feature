@@ -44,7 +44,7 @@ Feature: Adding company to the Marketplace
     And I should see the heading "Comments"
     And I should see the heading "Post new comment"
 
-  @dependent @flaky
+  @dependent
   Scenario: Edit own organization page
     Given I am logged in as "site user"
     When I visit the organization page
@@ -58,7 +58,7 @@ Feature: Adding company to the Marketplace
     | Training listing: |
     | Hosting level:    |
 
-  @dependent @flaky @clean_data
+  @dependent @clean_data
   Scenario: User can't edit organization pages or see the issues - that are not created by him
     Given I am logged in as "git user"
     When I visit the organization page
