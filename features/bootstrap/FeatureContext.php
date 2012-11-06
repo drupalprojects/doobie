@@ -5453,8 +5453,11 @@ class FeatureContext extends DrupalContext {
     $element = $this->getSession()->getPage();
     $this->issueTitle = $this->randomString(12);
 		$element->fillField("Organization name:", $this->issueTitle);
+    HackyDataRegistry::set('random:Organization name', $this->issueTitle);
     $element->fillField("Website:", $this->randomString(18));
-    $element->fillField("Drupal contributions:", $this->randomString(18));
+    $drupal_contributions = $this->randomString(18);
+    $element->fillField("Drupal contributions:", $drupal_contributions);
+    HackyDataRegistry::set('random:Drupal contributions', $drupal_contributions);
     if(!empty($context)) {
       if($context == 'training') {
         $chk = $element->findField("Request listing in the Training section");

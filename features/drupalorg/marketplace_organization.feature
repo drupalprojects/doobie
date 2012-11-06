@@ -6,7 +6,8 @@ Feature: Adding company to the Marketplace
 
   Scenario: Organisation cannot be created without filling req fields
     Given I am logged in as "site user"
-    And I visit "/node/add/organization"
+    And I follow "Marketplace"
+    And I follow "Add your listing"
     And I see "Request improvements to vocabularies by"
     And I see "People with your organization name"
     And I see "Marketplace guidelines"
@@ -17,9 +18,13 @@ Feature: Adding company to the Marketplace
 
   Scenario: Add organization and request promotion to Services section
     Given I am logged in as "site user"
-    And I visit "/node/add/organization"
+    And I visit "/drupal-services"
+    And I follow "Add your listing"
     When I create a new organization for "drupal services"
     Then I should see "has been created"
+    And I should see the random "Organization name" text
+    And I should see the random "Drupal contributions" text
+    And I should see "Posted by site user"
 
   @dependent @flaky
   Scenario: View an issue request for services section
@@ -39,7 +44,7 @@ Feature: Adding company to the Marketplace
     And I should see the heading "Comments"
     And I should see the heading "Post new comment"
 
-  @dependent
+  @dependent @flaky
   Scenario: Edit own organization page
     Given I am logged in as "site user"
     When I visit the organization page
@@ -53,7 +58,7 @@ Feature: Adding company to the Marketplace
     | Training listing: |
     | Hosting level:    |
 
-  @dependent @clean_data
+  @dependent @flaky @clean_data
   Scenario: User can't edit organization pages or see the issues - that are not created by him
     Given I am logged in as "git user"
     When I visit the organization page
@@ -66,10 +71,14 @@ Feature: Adding company to the Marketplace
 
   Scenario: Add organization and request promotion to Training section
     Given I am logged in as "site user"
-    And I visit "/node/add/organization"
+    And I visit "/training"
+    And I follow "Add your listing"
     And I see "Request improvements to vocabularies by"
     When I create a new organization for "training"
     Then I should see "has been created"
+    And I should see the random "Organization name" text
+    And I should see the random "Drupal contributions" text
+    And I should see "Posted by site user"
 
   @dependent @flaky
   Scenario: View an issue request for training section
