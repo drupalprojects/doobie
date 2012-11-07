@@ -6833,7 +6833,7 @@ class FeatureContext extends DrupalContext {
    *
    * @param int $count
    *
-   * @Given /^I should see at least "([^"]*)" WebAd(?:s)$/
+   * @Given /^I should see at least "([^"]*)" WebAd(?:s|)$/
    */
   public function iShouldSeeAtLeastAds($count) {
     // Find wrapper div for ads: class=gam-holder
