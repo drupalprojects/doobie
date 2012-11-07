@@ -15,7 +15,7 @@ Tags to assist in selectively running tests
 @dependent
     Used to indicate a scenario that is dependent on data created previously in the same feature file. In a perfect world, scenarios like this would not exist, and the tag will help us isolate the scenarios if/when we come up with a better solution. Scenarios should *never* depend on data from a different feature file.
 
-@flakey
+@flaky
     Currently used to mark tests which are pretty consistently failing on the first run and succeeding on all subsequent runs. Once #1782612: Tests failing on first run and succeeding on subsequent runs is resolved, use of this tag is deprecated.
 
 @javascript
@@ -36,6 +36,54 @@ Tags to assist in selectively running tests
 @wip
     Used to tag a work-in-progress. These are typically excluded from a test run as they may fail or do not yet fully test the feature described.
 
+@anon
+    Used for scenarios/features that don't require user authentication to run the test.
+
+@htaccess
+    Denotes tests that currently cause re-authentication due to htaccss and require manual user input. bddtest.drupal.org is whitelisted to allow these tests to pass when run from that host.
+
+@specific_text
+    Denotes tests that are looking at text that is more likely to change and require update.
+
+@timeout
+    Tests that are likely to timeout, currently at 30 seconds.
+
+Section Tags:
+=============
+
+The tags below are used to identify where a feature (not an individual scenario) is located within the site map. These should be the first tag on the left above the feature description.
+@about
+@front
+@getting_started
+@community
+@forums
+@docs
+@support
+@downloads
+@marketplace
+@about
+@casestudies
+@about_do
+@planet
+@learn_drupal
+@security
+@forums
+@user
+@login
+@admin
+@site_search
+@project
+@commit_log
+@git
+@news
+@revert_homepage_setting
+
+Featureset Tags
+===============
+Featureset tags describe features that don't correspond to a traditional site map structure or are complex features at a lower level on the site.
+
+@forums
+
 Tags to hook into the test process
 ==================================
 
@@ -46,6 +94,12 @@ Certain tags are used to hook into the testing process to trigger activity. For 
 
 @gitrepo
     Indicates a scenario that creates a git repository and used to invoke an @AfterScenario clean up routine.
+
+@git_branch
+    Indicates a scenario that creates a branch in the git repository and used to invoke an @AfterScenario clean up routine.
+
+@git_tag
+    Indicates a scenario that creates a tag in the git repository and used to invoke an @AfterScenario clean up routine.
 
 See http://docs.behat.org/guides/3.hooks.html for a detailed discussion.
 
