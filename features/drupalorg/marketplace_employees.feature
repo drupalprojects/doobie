@@ -23,17 +23,37 @@ Feature: Company employees on organization pages
     And I press "Save"
     Then I should see "has been updated"
 
+  @dependent
   Scenario: Updating profile of a user with current organization
     Given I am logged in as "site user"
     And I follow "Profile"
     And I follow "Edit"
     When I follow "Work"
+    And I fill in "Job title:" with random text
     And I fill in "Current company or organization:" with organization name
     And I press "Save"
     Then I should see "The changes have been saved."
 
-  @dependent @anon @clean_data
+  @anon @dependent
   Scenario: Following Featured providers organization to check for its listed users
     Given that I am on the homepage
     When I visit the organization page
     Then I should see the link "site user"
+
+  Scenario: Edit the document page and update
+    Given I am logged in as "site user"
+    And I follow "Documentation"
+    And I follow "Glossary"
+    When I follow "Edit"
+    And I fill in "Log message:" with random text
+    And I press "Save"
+    Then I should see "has been updated"
+
+  @anon @dependent @clean_data
+  Scenario: View the user profile details in brief
+    Given that I am on the homepage
+    When I visit the organization page
+    Then I should see the link "site user"
+    And I should see the random "Job title:" text
+    And I should see "On Drupal.org for"
+    And I should see text matching "(?:edit|edits) to documentation"
