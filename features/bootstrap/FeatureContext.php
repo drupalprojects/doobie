@@ -4635,11 +4635,14 @@ class FeatureContext extends DrupalContext {
   /**
    * @Given /^I follow "([^"]*)" tab$/
    */
-  public function iFollowTab($link) {
+  public function iFollowTab($link, $selector = "") {
     $tabLink = "";
     $page = $this->getSession()->getPage();
     // Get all the links from the tabs
-    $tabs = $page->findAll('css', '#tabs .tabs li a');
+    if (!$selector) {
+      $selector = '#tabs .tabs li a';
+    }
+    $tabs = $page->findAll('css', $selector);
     if (empty($tabs)) {
       throw new Exception('The page does not have any tabs');
     }
@@ -6811,5 +6814,17 @@ class FeatureContext extends DrupalContext {
     }
     $step = "I fill in \"$label\" with \"$text\"";
     return new Then($step);
+  }
+
+  /**
+   * Clicks on the link present in the navigation bar within the content region
+   *
+   * @param $link
+   *    string The link to be clicked
+   *
+   * @When /^I follow "([^"]*)" tab on the top navigation$/
+   */
+  public function iFollowTabOnTheTopNavigation($link) {
+    $this->iFollowTab($link, "#nav-content ul.links li a");
   }
 }
