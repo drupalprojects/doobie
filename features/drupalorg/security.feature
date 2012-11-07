@@ -21,7 +21,7 @@ Feature: Security announcements
     And I should see the following <texts>
     | texts                                               |
     | also sent to the security announcements e-mail list |
-    | SA_CORE                                             |
+    | SA-CORE                                             |
     | Posted by                                           |
     | Categories:                                         |
     | In addition to the news page                        |
