@@ -54,31 +54,21 @@ Feature: Training section of the Marketplace
     And I should see the link "last"
     And I should not see the link "previous"
     And I should not see the link "first"
-    When I click on page "2"
+    When I click on page "last"
     Then I should see at least "5" records
     And I should see the following <links>
     | links     |
     | first     |
     | previous  |
-    | 1         |
-    | 2         |
     And I should not see the link "next"
     And I should not see the link "last"
 
   @anon
-  Scenario Outline: Visit marketplace training links and view corresponding headings
-    Given I am on "/training"
-    When I follow "<link>"
-    Then I should be on "<url>"
-    And I should see the heading "<heading>"
-
-    Examples:
-    | link           | url                        | heading        |
-    | Acquia         | /marketplace/acquia        | Acquia         |
-    | BuildAModule   | /node/1765802              | BuildAModule   |
-    | Chapter Three  | /marketplace/chapter-three | Chapter Three  |
-    | Commerce Guys  | /marketplace/commerce-guys | Commerce Guys  |
-    | Druler         | /node/1791714              | Druler         |
+  Scenario: View service provider from Featured section
+    Given I am on the homepage
+    And I visit "/training"
+    When I follow training organization post
+    Then I should see "This organization is a Drupal training provider."
 
   @anon
   Scenario: Navigating through specific country and check for the links exists
