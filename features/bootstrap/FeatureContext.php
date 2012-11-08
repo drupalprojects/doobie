@@ -355,8 +355,8 @@ class FeatureContext extends DrupalContext {
    */
   public function iSearchSitewideFor($searchterm) {
     $element = $this->getSession()->getPage();
-    $element->fillField('edit-search-theme-form-1', $searchterm);
-    $submit = $element->findById('search-theme-form-submit');
+    $element->fillField('edit-search-block-form--2', $searchterm);
+    $submit = $element->find('css', '#block-search-form .form-submit');
     if (empty($submit)) {
       throw new Exception('No submit button at ' . $this->getSession()->getCurrentUrl());
     }
