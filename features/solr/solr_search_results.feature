@@ -96,7 +96,7 @@ Feature: Visitor searches site
     And I follow "Modules ("
     And I wait until the page loads
     When I select "Event" from "Modules categories"
-    And I select "6.x" from "Filter by compatibility"
+    And I select "6.x" from "Core compatibility"
     And I select "All projects" from "Status"
     And I select "Date" from "Sort by"
     Then I should see "results containing the words: views"

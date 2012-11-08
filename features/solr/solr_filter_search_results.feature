@@ -26,7 +26,7 @@ Feature: Visitor searches site and filters the results using various options
     | Search         |
 
   Scenario Outline: Filter by compatibility
-    When I select "<version>" from "Filter by compatibility"
+    When I select "<version>" from "Core compatibility"
     And I see "results containing the words: views"
     And I follow the first search result
     And I follow "View all releases"
