@@ -6520,7 +6520,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^I follow the first search result$/
    */
   public function iFollowTheFirstSearchResult() {
-    $result = $this->getSession()->getPage()->find("css", "dl.search-results dt a");
+    $result = $this->getSession()->getPage()->find("css", ".search-results dt a");
     if (empty($result)) {
       throw new Exception("The page does not contain any results");
     }
