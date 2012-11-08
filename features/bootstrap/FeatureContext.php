@@ -6678,30 +6678,6 @@ class FeatureContext extends DrupalContext {
    * @Then /^I should see "([^"]*)" recently published featured case studies in the slideshow$/
    */
   public function recentlyPublishedFeaturedCaseStudy($count, $context = "") {
-    $steps = array();
-    $steps[] = new Given("I visit \"/case-studies/manage\"");
-    $steps[] = new When("I select \"Featured\" from \"Status\"");
-    $steps[] = new Then("I press \"Apply\"");
-    $steps[] = new Then("I follow \"Updated\"");
-    $steps[] = new Then("I follow \"Updated\"");
-    if ($context == "front") {
-      $steps[] = new Then("the case study on home page should be one of the \"".$count."\"");
-    }
-    else {
-      $steps[] = new Then("the first \"".$count."\" case studies should be in the slideshow");
-    }
-    return $steps;
-  }
-
-  /**
-   * Check whether count number of case studies match the case studies page
-   *
-   * @param $count
-   *   integer The number of case studies to match
-   *
-   * @Then /^the first "([^"]*)" case studies should be in the slideshow$/
-   */
-  public function theFirstCaseStudiesShouldBeInTheSlideshow($count) {
     $textsSlide = array();
     // Get the featured case studies
     $textsManage = $this->getRecentFeaturedCaseStudies($count);
@@ -6734,18 +6710,6 @@ class FeatureContext extends DrupalContext {
    * @Then /^the case study should be one of the "([^"]*)" recently published featured case studies$/
    */
   public function theCaseStudyShouldBeOneOfTheRecentlyPublishedFeaturedCaseStudies($count) {
-    return $this->recentlyPublishedFeaturedCaseStudy($count, "front");
-  }
-
-  /**
-   * Checks if the cases study on the home page is one of the $count published featured case studies or not
-   *
-   * @param $count
-   *   integer The number of case studies to match against
-   *
-   * @Then /^the case study on home page should be one of the "([^"]*)"$/
-   */
-  public function theCaseStudyOnHomePageShouldBeOneOfThe($count) {
     // Get the featured case studies
     $textsManage = $this->getRecentFeaturedCaseStudies($count);
     // Go to homepage
@@ -6754,17 +6718,17 @@ class FeatureContext extends DrupalContext {
     // First check if case study section exists or not
     $temp = $this->getSession()->getPage()->find("css", "#front-top-middle .block-content .things-we-made-wrapper");
     if (empty($temp)) {
-      throw new Exception("The page does not contain case study section");
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not contain case study section");
     }
     // Now look for the title of the case study
     $temp = $temp->findAll("css", "a");
     if (empty($temp)) {
-      throw new Exception("The case study section on the page does not contain any case study");
+      throw new Exception("The case study section on the page " . $this->getSession()->getCurrentUrl() . " does not contain any case study");
     }
     $temp = end($temp);
     $caseStudy = trim($temp->getText());
     if ($caseStudy == "") {
-      throw new Exception("The case study title is empty in the case study section of the page");
+      throw new Exception("The case study title is empty in the case study section of the page - " . $this->getSession()->getCurrentUrl());
     }
     // If the recent cases studies list contains the one in homepage, then we pass here
     if (!in_array($caseStudy, $textsManage)) {
@@ -6779,12 +6743,14 @@ class FeatureContext extends DrupalContext {
    *   integer The number of case studies to retrieve
    */
   private function getRecentFeaturedCaseStudies($count) {
+    $this->getSession()->visit($this->locatePath("/case-studies/featured"));
+    sleep(3);
     $textsManage = array();
     $i = 0;
     // Get all the case studies from the table
-    $temp = $this->getSession()->getPage()->findAll("css", ".view-drupalorg-casestudies table tbody tr td.views-field-title");
+    $temp = $this->getSession()->getPage()->findAll("css", ".view-drupalorg-casestudies table tbody tr td span.views-field-title h2");
     if (empty($temp)) {
-      throw new Exception("The page does have any case studies");
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does have any case studies");
     }
     // Now, consider only the $count number of case studies
     foreach ($temp as $result) {
@@ -6795,7 +6761,7 @@ class FeatureContext extends DrupalContext {
       $i++;
     }
     if (empty($textsManage)) {
-      throw new Exception("The page does not have any case studies");
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not have any case studies");
     }
     // Check if we have enough case studies or not
     if (sizeof($textsManage) < $count) {
