@@ -3642,9 +3642,8 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I am on the project page$/
-   * @When /^I visit the project page$/
-   * @When /^I visit the organization page$/
+   * @Given /^I am on the (?:project|organization) page$/
+   * @When /^I visit the (?:project|organization) page$/
    */
   public function iAmOnTheProjectPage() {
     $path = $this->locatePath(HackyDataRegistry::get('project path'));
@@ -5454,7 +5453,8 @@ class FeatureContext extends DrupalContext {
    */
   public function iCreateANewOrganizationFor($context) {
     $element = $this->getSession()->getPage();
-    $this->issueTitle = $this->randomString(12);
+    // Prefix title with 01 in order to get it listed on top
+    $this->issueTitle = "01" . $this->randomString(12);
 		$element->fillField("Organization name:", $this->issueTitle);
     HackyDataRegistry::set('random:Organization name', $this->issueTitle);
     $element->fillField("Website:", $this->randomString(18));
@@ -6818,5 +6818,18 @@ class FeatureContext extends DrupalContext {
     if ($adcount < $count) {
       throw new Exception("There are less than \"" . $count . "\" WebAd" . ($count > 1 ? "s" : "") . " on the page");
     }
+  }
+
+  /**
+   * Looks for test organization link on the page
+   *
+   * @Then /^I should see the organization link$/
+   *
+   */
+  public function iShouldSeeTheOrganizationLink() {
+    if(!$orgn_name = HackyDataRegistry::get('random:Organization name')) {
+      throw new Exception('Organization name was not found');
+    }
+    return new Then('I should see the link "' . $orgn_name . '"');
   }
 }
