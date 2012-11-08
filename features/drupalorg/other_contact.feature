@@ -1,8 +1,8 @@
 @other @wip
 Feature: Drupal.org contact form
-  In order to prevent spammers frm flooding maintainers 
+  In order to prevent spammers from flooding maintainers 
   As a site visitor
-  I should required to log in with a valid account to use the contact form
+  I should be required to log in with a valid account to use the contact form
 
   @anon
   Scenario: Anonymous users views the page
