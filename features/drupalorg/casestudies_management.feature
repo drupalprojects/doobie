@@ -27,16 +27,12 @@ Feature: Case studies management
     And I should see at least "50" records
     And I should not see the link "previous"
 
-  Scenario Outline: Filter by Published
-    When I select "<option>" from "Published"
+  Scenario: Filter by Published
+    When I select "Yes" from "Published"
     And I press "Apply"
-    Then I should see at least "1" record
+    Then I should see at least "10" records
     And I should not see "Sorry, nothing found"
     And I should see the heading "Case Studies management"
-    Examples:
-    | option |
-    | Yes    |
-    | No     |
 
   Scenario Outline: Filter by Status
     When I select "<option>" from "Status"
@@ -49,7 +45,6 @@ Feature: Case studies management
     | option       |
     | Community    |
     | Featured     |
-    | Hidden       |
 
   Scenario: Filter by Title
     When I fill in "Title contains" with "Online"
