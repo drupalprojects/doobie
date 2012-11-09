@@ -1,4 +1,4 @@
-@marketplace
+@marketplace @content
 Feature: Training section of the Marketplace
   In order to find companies which provider Drupal training
   As any user
