@@ -55,7 +55,7 @@ Feature: Training section of the Marketplace
     And I should not see the link "previous"
     And I should not see the link "first"
     When I click on page "last"
-    Then I should see at least "5" records
+    Then I should see at least "1" record
     And I should see the following <links>
     | links     |
     | first     |
@@ -64,7 +64,7 @@ Feature: Training section of the Marketplace
     And I should not see the link "last"
 
   @anon
-  Scenario: View service provider from Featured section
+  Scenario: View training provider page
     Given I am on the homepage
     And I visit "/training"
     When I follow training organization post
