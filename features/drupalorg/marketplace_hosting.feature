@@ -1,4 +1,4 @@
-@marketplace @anon
+@marketplace @anon @content
 Feature: Drupal hosting providers
   In order to choose Drupal hosting provider
   As a sitebuilder
