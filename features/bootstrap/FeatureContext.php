@@ -5434,7 +5434,7 @@ class FeatureContext extends DrupalContext {
 
   /**
    * Function to navigate through featured or all providers list
-   * @When /^I follow (?:Featured providers|All providers) title post$/
+   * @When /^I follow (?:Featured providers|All providers|Organization) title post$/
    */
   public function iFollowFeaturedProvidersTitlePost() {
     $result = $this->getSession()->getPage()->find('css', '.view-content .node-type-organization .node-title a');
