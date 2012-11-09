@@ -4,7 +4,7 @@ Feature: Adding company to the Marketplace
   As an authenticated user
   I should be able to create an organization page
 
-  Scenario: Organisation cannot be created without filling req fields
+  Scenario: Organization cannot be created without filling req fields
     Given I am logged in as "site user"
     And I follow "Marketplace"
     And I follow "Add your listing"
@@ -16,14 +16,24 @@ Feature: Adding company to the Marketplace
     And I should see "URL field is required."
     And I should see "Drupal contributions field is required."
 
+  @javascript
   Scenario: Add organization and request promotion to Services section
     Given I am logged in as "site user"
-    And I visit "/drupal-services"
-    And I follow "Add your listing"
+    And I am on "/node/add/organization"
+    And I wait until the page is loaded
     When I create a new organization for "drupal services"
+    And I wait until the page is loaded
     Then I should see "has been created"
     And I should see the random "Organization name" text
+    And I should see the random "Website" text
+    And I should see the oraganization logo
+    And I should see the random "Services" text
+    And I should see the random "Sectors" text
+    And I should see the random "Locations" text
     And I should see the random "Drupal contributions" text
+    And I should see the random "Organization description" text
+    And I should see the random "Headquarters" text
+    And I should see the random "Usual project budget (optional)" text
     And I should see "Posted by site user"
 
   @dependent @flaky
@@ -78,6 +88,8 @@ Feature: Adding company to the Marketplace
     Then I should see "has been created"
     And I should see the random "Organization name" text
     And I should see the random "Drupal contributions" text
+    And I should see the random "Training url" text
+    And I should see the random "Training description" text
     And I should see "Posted by site user"
 
   @dependent @flaky

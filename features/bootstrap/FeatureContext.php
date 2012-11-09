@@ -5451,32 +5451,73 @@ class FeatureContext extends DrupalContext {
    * @param string $context
    * To specify feauture/all providers title post
    */
-  public function iCreateANewOrganizationFor($context) {
+  public function iCreateANewOrganizationFor($context = null) {
     $element = $this->getSession()->getPage();
     // Prefix title with 01 in order to get it listed on top
     $this->issueTitle = "01" . $this->randomString(12);
 		$element->fillField("Organization name:", $this->issueTitle);
     HackyDataRegistry::set('random:Organization name', $this->issueTitle);
-    $element->fillField("Website:", $this->randomString(18));
+    $website = $this->randomString(18);
+    $element->fillField("Website", $website);
+    HackyDataRegistry::set('random:Website', $website);
     $drupal_contributions = $this->randomString(18);
-    $element->fillField("Drupal contributions:", $drupal_contributions);
+    // Logo
+    $file_path = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'koala.jpg';
+    HackyDataRegistry::set('Organization Logo', $file_path);
+    $browse = $element->findField('Logo');
+    $browse->attachFile($file_path);
+    // Services
+    $service = 'Consulting';
+    $element->selectFieldOption('Services', $service, true);
+    HackyDataRegistry::set('random:Services', $service);
+    // Services
+    $sector = 'Arts';
+    $element->selectFieldOption('Sectors', $sector, true);
+    HackyDataRegistry::set('random:Sectors', $sector);
+    // Locations
+    $location = 'Algeria';
+    $element->selectFieldOption('Locations', $location, true);
+    HackyDataRegistry::set('random:Locations', $location);
+    // Drupal contributions
+    $element->fillField("Drupal contributions", $drupal_contributions);
     HackyDataRegistry::set('random:Drupal contributions', $drupal_contributions);
+
     if(!empty($context)) {
       if($context == 'training') {
         $chk = $element->findField("Request listing in the Training section");
+        // Training url
+        $train_url = $this->randomString(20);
+        $element->fillField("Training url", $train_url);
+        HackyDataRegistry::set('random:Training url', $train_url);
+        // Training description
+        $train_desc = str_repeat($this->randomString(10) . " ", 20);
+        $element->fillField("Training description", $train_desc);
+        HackyDataRegistry::set('random:Training description', $train_desc);
       }
       else if($context == 'drupal services') {
         $chk = $element->findField("Request listing in the Drupal services section");
+        // Organization description
+        $org_desc = str_repeat($this->randomString(10) . " ", 20);
+        $element->fillField("Organization description", $org_desc);
+        HackyDataRegistry::set('random:Organization description', $org_desc);
       }
       if(isset($chk)) {
         $chk->check();
       }
     }
+    // Headquarters
+    $headqrt = $this->randomString(10);
+    $element->fillField("Headquarters", $headqrt);
+    HackyDataRegistry::set('random:Headquarters', $headqrt);
+    // Project budget
+    $budget = $this->randomString(10);
+    $element->fillField("Usual project budget (optional)", $budget);
+    HackyDataRegistry::set('random:Usual project budget (optional)', $budget);
+
     $this->iSelectTheRadioButtonWithTheId('Enterprise & Managed', 'edit-field-organization-hosting-categ-value-Enterprise-&-Managed');
     HackyDataRegistry::set('issue title', $this->issueTitle);
     $element->pressButton("Save");
     sleep(7);
-    $this->getSession()->getCurrentUrl();
     HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
     sleep(2);
   }
@@ -6831,5 +6872,31 @@ class FeatureContext extends DrupalContext {
       throw new Exception('Organization name was not found');
     }
     return new Then('I should see the link "' . $orgn_name . '"');
+  }
+
+  /**
+   * Looks for test organization logo
+   *
+   * @Then /^I should see the oraganization logo$/
+   *
+   */
+  public function iShouldSeeTheOrganizationLogo() {
+    sleep(2);
+    $logo = HackyDataRegistry::get('Organization Logo');
+    $img_elements = $this->getSession()->getPage()->findAll('css', 'div.node-content img');
+    if (empty($img_elements) || empty($logo)) {
+      throw new Exception('Image/logo was not found');
+    }
+    $logo_name = pathinfo($logo);
+    $found = false;
+    foreach ($img_elements as $img) {
+      if (false !== strpos($img->getAttribute('src'), $logo_name['filename'])) {
+        $found = true;
+        break;
+      }
+    }
+    if (!$found) {
+      throw new Exception('The Organization logo was not found on the page');
+    }
   }
 }
