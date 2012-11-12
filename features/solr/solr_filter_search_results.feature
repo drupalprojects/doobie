@@ -10,8 +10,8 @@ Feature: Visitor searches site and filters the results using various options
     And I follow "Modules ("
     And I wait until the page loads
 
-  Scenario Outline: Filter by Modules categories
-    When I select "<module>" from "Modules categories"
+  Scenario Outline: Filter by Module categories
+    When I select "<module>" from "Module categories"
     And I see "results containing the words: views"
     And I follow the first search result
     Then I should see the link "<module>"
