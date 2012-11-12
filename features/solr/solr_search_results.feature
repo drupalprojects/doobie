@@ -108,7 +108,7 @@ Feature: Visitor searches site
     And I search sitewide for "views"
     And I follow "Themes ("
     And I wait until the page loads
-    When I select "7.x" from "Filter by compatibility"
+    When I select "7.x" from "Core compatibility"
     And I select "Full projects" from "Status"
     And I select "Author" from "Sort by"
     Then I should see "results containing the words: views"
