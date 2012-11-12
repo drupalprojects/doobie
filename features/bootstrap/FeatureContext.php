@@ -4344,14 +4344,26 @@ class FeatureContext extends DrupalContext {
     $editLink = $session->getPage()->findLink('Edit');
     if (!empty($editLink)) {
       if ($editLink->hasAttribute("href")) {
-        $session->visit($this->locatePath($editLink->getAttribute('href')));
+        try {
+          $session->visit($this->locatePath($editLink->getAttribute('href')));
+        } catch (Exception $e) {
+          throw new Exception("Could not load edit tab for $path. Likely caused by slow server or slow connection.");
+        }
         sleep(1);
         $page = $session->getPage();
         $page->fillField("Log message:", "Deleted during cleanup");
-        $page->pressButton("Delete");
+        try {
+          $page->pressButton("Delete");
+        } catch (Exception $e) {
+          throw new Exception("Could not delete $path. Likely caused by slow server or slow connection.");
+        }
         sleep(1);
         // Confirm delete
-        $page->pressButton("Delete");
+        try {
+          $page->pressButton("Delete");
+        } catch (Exception $e) {
+          throw new Exception("Could not confirm deletion of $path. Likely caused by slow server or slow connection.");
+        }
       }
     }
   }
