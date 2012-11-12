@@ -14,7 +14,7 @@ Feature: Visitor searches site
     | or search for                       |
     | results containing the words: views |
     | Posted by                           |
-    | Sort by:                            |
+    | Sort by                             |
     And I should see the following <links>
     | links           |
     | Views           |
@@ -95,7 +95,7 @@ Feature: Visitor searches site
     And I search sitewide for "views"
     And I follow "Modules ("
     And I wait until the page loads
-    When I select "Event" from "Modules categories"
+    When I select "Event" from "Module categories"
     And I select "6.x" from "Core compatibility"
     And I select "All projects" from "Status"
     And I select "Date" from "Sort by"
