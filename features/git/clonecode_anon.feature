@@ -1,16 +1,15 @@
-@wip
 Feature: Visitor clones repositories
-  In order to try out experimental code
+  In order to try out the latest code for a project
   As a visitor to Drupal.org
-  I want to clone a sandbox repo
+  I want to clone a repository
 
-  Scenario: Sandbox has a repo with code
-    Given I am at "/project/doobie"
+  Scenario: Project has a repo with code
+    Given I am at "/project/test_releases"
     When I click "Version control"
     And I clone the repo
-    Then I should have a local copy of "doobie"
+    Then I should have a local copy of "test_releases"
   
-  Scenario: Sandbox has a repo with no code    
+  Scenario: Project has a repo with no code    
     Given I am at "/project/git_dev"
     When I click "Version control"
     Then I should see the heading "Empty Repository"     
