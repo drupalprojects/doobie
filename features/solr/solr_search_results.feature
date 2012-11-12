@@ -5,7 +5,7 @@ Feature: Visitor searches site
   I want to search for the term 'views' and use filters provided
 
   Scenario: Search for the term and look for results
-    Given that I am on the homepage
+    Given I am on the homepage
     When I search sitewide for "views"
     And I should see the heading "Search again"
     And I should see the following <texts>
