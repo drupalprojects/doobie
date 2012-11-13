@@ -1,7 +1,7 @@
-@anon
-Feature: Get a feed of security announcements
-  In order to see the security announcements feeds
-  As a user
+@whitelist @anon
+Feature: Get a feed of packaging whitelist entries
+  In order to see the packaging whitelist feed
+  As any user
   I should be able to see the rss feeds icon
 
   @timeout @flaky
