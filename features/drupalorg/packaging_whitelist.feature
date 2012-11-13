@@ -1,13 +1,14 @@
-@anon
-Feature: To view the list of Packaging whitelist URLs
+@whitelist @anon
+Feature: View the list of Packaging whitelist entries
   In order to see the list of Packaging whitelist URLs
-  As a user
-  I should see the list and filter the same
+  As any user
+  I should be able see the list and search for specific library
 
   Scenario: View the list of items
     Given I am on "/project/drupalorg_whitelist"
     When I follow "list of existing whitelist entries"
     Then I should see the heading "Packaging whitelist URLs"
+    And I should be on "/packaging-whitelist"
     And I should see at least "25" records
     And I should see the following <texts>
     | texts |
@@ -28,7 +29,7 @@ Feature: To view the list of Packaging whitelist URLs
     And I should see "Categories:"
     And I should not see "Page not found"
 
-  Scenario: View list of itmes: Second/Last page
+  Scenario: View list of items: Second/Last page
     Given I am on "/packaging-whitelist"
     When I click on page "2"
     Then I should not see "Page not found"
