@@ -6889,7 +6889,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Looks for test organization logo
    *
-   * @Then /^I should see the oraganization logo$/
+   * @Then /^I should see the organization logo$/
    *
    */
   public function iShouldSeeTheOrganizationLogo() {

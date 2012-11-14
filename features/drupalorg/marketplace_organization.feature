@@ -26,7 +26,7 @@ Feature: Adding company to the Marketplace
     Then I should see "has been created"
     And I should see the random "Organization name" text
     And I should see the random "Website" text
-    And I should see the oraganization logo
+    And I should see the organization logo
     And I should see the random "Services" text
     And I should see the random "Sectors" text
     And I should see the random "Locations" text
