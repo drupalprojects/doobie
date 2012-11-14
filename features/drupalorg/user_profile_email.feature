@@ -1,8 +1,8 @@
 @user
-Feature: To view email addressess of a user
+Feature: Manage user email addresses
   In order to manage my email addresses
-  As a site user
-  I should edit my profile
+  As an authenticated user
+  I should be able to edit my profile and add or remove addresses
 
   Background:
     Given I am logged in as "site user"
