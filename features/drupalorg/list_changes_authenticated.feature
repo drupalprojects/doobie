@@ -27,5 +27,12 @@ Feature: Add change record
     And I check "Theming guide done"
     And I enter "#1507: printable drupal documentation" for field "Issues"
     And I press "Save"
-     Then I should see "has been created"
+    Then I should see "has been created"
+
+  Scenario: Add new change record as anonymous user
+    Given I am on "/list-changes/drupal"
+    When I follow "Add new change record"
+    Then I should see "You are not authorized to access this page"
+    And I should see the heading "Access denied"
+    But I should not see "Create Change record"
    
