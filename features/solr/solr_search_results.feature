@@ -98,7 +98,7 @@ Feature: Visitor searches site
     When I select "Event" from "Module categories"
     And I select "6.x" from "Core compatibility"
     And I select "All projects" from "Status"
-    And I select "Date" from "Sort by"
+    And I select "Created date" from "Sort by"
     Then I should see "results containing the words: views"
     And I should see at least "25" records
 

@@ -24,8 +24,8 @@ Feature: Visitor searches site and sorts the results
     And I see "results containing the words: views"
     Then I should see the results sorted in alphabetical order by project author
 
-  Scenario: Sort by Date
-    When I select "Date" from "Sort by"
+  Scenario: Sort by Created date
+    When I select "Created date" from "Sort by"
     And I see the results sorted by the project posted date
     And I click on page "3"
     And I see "results containing the words: views"
