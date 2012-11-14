@@ -1,8 +1,8 @@
 @user @javascript @anon
-Feature: Account registration should not allow user+something address patterns
-  In order to learn about Drupal
+Feature: Register an account on Drupal.org with valid username and email
+  In order to start using additional features of the site
   As any user
-  I want to register to the site
+  I should be able to register on the site
 
   Background:
     Given that I am on the homepage
@@ -21,7 +21,7 @@ Feature: Account registration should not allow user+something address patterns
     | Password |
 
   @known_git6failure
-  Scenario: For Account creation
+  Scenario: Create an account
     When I follow "Create new account"
     And I fill in "Username" with random text
     And I fill in "E-mail address" with "samp5+foo@example.com"
@@ -34,7 +34,7 @@ Feature: Account registration should not allow user+something address patterns
     Then I should see "Your password and further instructions have been sent to your e-mail address."
 
   @known_git6failure
-  Scenario: For creating a different user with the same Email Id
+  Scenario: Create a different user with the same Email Id
     When I follow "Create new account"
     And I fill in "Username" with random text
     And I fill in "E-mail address" with "samp5+foo@example.com"
@@ -47,7 +47,7 @@ Feature: Account registration should not allow user+something address patterns
     Then I should see "The e-mail address samp5+foo@example.com is already registered."
 
   @known_git6failure
-  Scenario: For creating a different user with the similar Email Id(For ex:same+similar@example.com)
+  Scenario: Create a different user with the similar Email Id(For ex:same+similar@example.com)
     When I follow "Create new account"
     And I fill in "Username" with random text
     And I fill in "E-mail address" with "samp5+bar@example.com"
@@ -60,7 +60,7 @@ Feature: Account registration should not allow user+something address patterns
     Then I should see "An e-mail address similar to samp5+bar@example.com is already registered."
 
   @known_git6failure
-  Scenario: For creating a different user with the different Email Id
+  Scenario: Create a different user with the different Email Id
     When I follow "Create new account"
     And I fill in "Username" with random text
     And I fill in "E-mail address" with "samp545@example.com"
