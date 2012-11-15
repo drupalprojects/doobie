@@ -276,7 +276,9 @@ class FeatureContext extends DrupalContext {
     if(empty($project)) {
       throw new Exception("No project found to push");
     }
-    $command = "./bin/gitwrapper clone $password $url $project";
+    $temp = explode(" ", $this->repo);
+    $branch = $temp[4];
+    $command = "./bin/gitwrapper clone $password $url $project $branch";
     $process = new Process($command);
     //$process->setTimeout(100000);
     $process->run();

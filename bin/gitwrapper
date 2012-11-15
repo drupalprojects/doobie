@@ -6,11 +6,12 @@ set context [lindex $argv 0]
 set pass [lindex $argv 1]
 set url [lindex $argv 2]
 set project [lindex $argv 3]
+set branch [lindex $argv 4]
 
 if { $context == "init" || $context == "push"} {
   spawn git push origin master;
 } elseif { $context == "clone" } {
-  spawn git clone --recursive --branch master $url $project;
+  spawn git clone --recursive --branch $branch $url $project;
 } elseif { $context == "branch" } {
   spawn git push -u origin $url
 } elseif { $context == "tag" } {
