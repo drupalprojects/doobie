@@ -1,8 +1,8 @@
 @user
-Feature: To verify ssh keys of a user
-  In order to add/edit/view ssh keys
+Feature: User ssh keys
+  In order to manage my ssh keys
   As an authenticated user
-  I should edit my profile
+  I should be able to view/add/edit ssh keys in my profile
 
   Background:
     Given I am logged in as "site user"
