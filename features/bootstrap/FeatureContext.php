@@ -5997,7 +5997,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Creates a forum and store subject, body and url
    *
-   * @When /^I create a forum(?:| topic)$/
+   * @When /^I create(?:d|) a forum(?:| topic)$/
    */
   public function iCreateAForum() {
     sleep(3);
@@ -6911,32 +6911,6 @@ class FeatureContext extends DrupalContext {
     }
     if (!$found) {
       throw new Exception('The Organization logo was not found on the page');
-    }
-  }
-
-  /** Step to ensure $user is set a maintainer
-   *
-   * @param $user
-   *   string The username to be added as maintainer
-   *
-   * @Then /^I should see "([^"]*)" as a maintainer$/
-   */
-  public function iShouldSeeAsAMaintainer($user) {
-    // Check if $user is a maintainer. If not, then make him maintainer
-    $userLink = $this->getSession()->getPage()->findLink($user);
-    if (empty($userLink)) {
-      $steps = array();
-      $steps[] = new Then("I enter \"$user\" for field \"Maintainer user name\"");
-      $steps[] = new Then("I wait \"3\" seconds");
-      $steps[] = new Then("I select \"$user\" from the suggestion \"Maintainer user name\"");
-      $steps[] = new Then("I wait \"2\" seconds");
-      $steps[] = new Then("I check the box \"edit-new-maintainer-permissions-write-to-vcs\"");
-      $steps[] = new Then("I check the box \"edit-new-maintainer-permissions-edit-project\"");
-      $steps[] = new Then("I check the box \"edit-new-maintainer-permissions-administer-releases\"");
-      $steps[] = new Then("I press \"Update\"");
-      $steps[] = new Then("I wait until the page loads");
-      $steps[] = new Then("I should see \"New maintainer git vetted user added and permissions updated\"");
-      return $steps;
     }
   }
 }
