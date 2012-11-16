@@ -6941,6 +6941,8 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Creates a new chnage record
+   *
    * @When /^I create new change record$/
    */
   public function iCreateNewChangeRecord() {
@@ -6999,7 +7001,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Function to check for the attachment
+   * Checks for attachment
    *
    * @Given /^I should see the attachment$/
    */
@@ -7012,7 +7014,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Function to confirm the created random text for the appropriate fields
+   * Confirms the created random text for the appropriate fields
    *
    * @Given /^I should see the random text for the following <fields>$/
    */
@@ -7040,4 +7042,34 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The project title '" . $recordTitle . "' was not found on the page");
     }
    }
+
+  /**
+   * Checks a random link exists for a label
+   *   
+   * @Then /^I should see the random "([^"]*)" link$/
+   *
+   * @param string $field
+   *   Field name
+   */
+  public function iShouldSeeTheRandomLink($field) {
+    if (!$link_label = HackyDataRegistry::get('random:' . $field)) {
+      throw new Exception('The random value for the field:"' . $field . '" was empty');
+    }
+    return new Then('I should see the link "' . $link_label . '"');
+  }
+
+  /**
+   * Visits random link
+   *
+   * @When /^I visit the random link for "([^"]*)"$/
+   *
+   * @param string $field
+   *   Field name
+   */
+  public function iVisitTheRandomLinkFor($field) {
+    if (!$link_label = HackyDataRegistry::get('random:' . $field)) {
+      throw new Exception('The random value for the field:"' . $field . '" was empty');
+    }
+    return new When('I follow "' . $link_label . '"');
+  }
 }
