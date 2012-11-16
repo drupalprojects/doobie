@@ -1,4 +1,4 @@
-@whitelist @anon
+@whitelist @anon @wip
 Feature: View the list of Packaging whitelist entries
   In order to see the list of Packaging whitelist URLs
   As any user
@@ -11,11 +11,11 @@ Feature: View the list of Packaging whitelist entries
     And I should be on "/packaging-whitelist"
     And I should see at least "25" records
     And I should see the following <texts>
-    | texts |
+    | texts                                                                                          |
     | To request changes to this list, visit the Drupal.org Library Packaging Whitelist project page |
-    | Search Packaging Whitelists |
-    | Whitelist name |
-    | Allowed URL filters |
+    | Search Packaging Whitelists                                                                    |
+    | Whitelist name                                                                                 |
+    | Allowed URL filters                                                                            |
     And I should see the link "next"
     And I should see the link "last"
     And I should not see the link "first"
@@ -29,9 +29,9 @@ Feature: View the list of Packaging whitelist entries
     And I should see "Categories:"
     And I should not see "Page not found"
 
-  Scenario: View list of items: Second/Last page
+  Scenario: View list of items: Last page
     Given I am on "/packaging-whitelist"
-    When I click on page "2"
+    When I follow "last"
     Then I should not see "Page not found"
     And I should see at least "15" records
     And I should see the heading "Packaging whitelist URLs"
