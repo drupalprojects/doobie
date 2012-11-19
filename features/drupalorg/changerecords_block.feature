@@ -1,4 +1,4 @@
-@anon
+@changerecords @anon
 Feature: Look for change record block in an issue
   In order to know that an issue resulted in a change to Drupal core
   As anonymous/guest user

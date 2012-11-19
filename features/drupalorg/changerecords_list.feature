@@ -1,4 +1,4 @@
-@anon @specific_text @changerecords
+@anon @content @changerecords
 Feature: List and search change records
   In order to see the list of change records
   As anonymous/guest user
