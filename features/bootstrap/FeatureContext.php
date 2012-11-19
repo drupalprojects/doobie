@@ -713,6 +713,9 @@ class FeatureContext extends DrupalContext {
     elseif ($field == "search again") {
       $field = "edit-query";
     }
+    elseif ($field == "project title") {
+      $field = "edit-projects-new-title";
+    }
     return new Given("I fill in \"$field\" with \"$value\"");
   }
 
@@ -1257,10 +1260,8 @@ class FeatureContext extends DrupalContext {
   public function iSelectFromTheSuggestion($value, $locator) {
     sleep(2);
     $element = $this->getSession()->getPage();
-    if (strtolower($locator) != "maintainer user name") {
-      if (strtolower($locator) == "key modules/theme/distribution used") {
-        $locator = "edit-field-module-0-nid-nid";
-      }
+    if (strtolower($locator) == "key modules/theme/distribution used") {
+      $locator = "edit-field-module-0-nid-nid";
       $element->fillField($locator, $value);
     }
     $this->project_value = $value;
@@ -3797,22 +3798,27 @@ class FeatureContext extends DrupalContext {
    *
    * @Then /^I should see "([^"]*)" in the dropdown "([^"]*)"$/
    *
-   * @param string $value
-   *   The option string to be searched for
-   * @param string $field
-   *   The dropdown field label
+   * @param $value
+   *   string The option string to be searched for
+   * @param $field
+   *   string The dropdown field selector
+   * @param $fieldLabel
+   *   string The label of the field in case $field is not a label
    */
-  public function iShouldSeeInTheDropdown($value, $field) {
+  public function iShouldSeeInTheDropdown($value, $field, $fieldLabel = "") {
+    if ($fieldLabel == "") {
+      $fieldLabel = $field;
+    }
     $page = $this->getSession()->getPage();
     // Get the object of the dropdown field
     $dropDown = $page->findField($field);
     if (empty($dropDown)) {
-      throw new Exception('The page does not have the dropdown with label "' . $field . '"');
+      throw new Exception('The page does not have the dropdown with label "' . $fieldLabel . '"');
     }
     // Get all the texts under the dropdown field
     $options = $dropDown->getText();
     if (strpos(trim($options), trim($value)) === FALSE) {
-      throw new Exception('The dropdown "' . $field . '" does not have the option "' . $value . '", but it should be.');
+      throw new Exception('The dropdown "' . $fieldLabel . '" does not have the option "' . $value . '", but it should be.');
     }
   }
 
@@ -7071,5 +7077,33 @@ class FeatureContext extends DrupalContext {
       throw new Exception('The random value for the field:"' . $field . '" was empty');
     }
     return new When('I follow "' . $link_label . '"');
+  }
+
+  /**
+   * Checks if the given value is default selected in the given dropdown
+   *
+   * @param $option
+   *   string The value to be looked for
+   * @param $field
+   *   string The dropdown field that has the value
+   *
+   * @Given /^I should see the option "([^"]*)" selected in "([^"]*)" dropdown$/
+   */
+  public function iShouldSeeTheOptionSelectedInDropdown($option, $field) {
+    $selector = $field;
+    // Some fields do not have label, so set the selector here
+    if (strtolower($field) == "default notification") {
+      $selector = "edit-projects-default";
+    }
+    // Make sure that the dropdown $field and the value $option exists in the dropdown
+    $selectObj = $this->iShouldSeeInTheDropdown($option, $selector, $field);
+    $optionObj = $selectObj->find('xpath', '//option[@selected="selected"]');
+    // Check if at least one value is selected
+    if (empty($optionObj)) {
+      throw new Exception("The field '" . $field . "' does not have any options selected");
+    }
+    if ($optionObj->getText() != $option) {
+      throw new Exception("The field '" . $field . "' does not have the option '" . $option . "' selected");
+    }
   }
 }
