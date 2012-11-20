@@ -34,10 +34,13 @@ Feature: Personal information in user profile
     Then I should see the following <texts>
     | texts            |
     | DrupalSiteUser   |
+    | Drupal           |
+    | Site user        |
     | drupalsiteuser   |
     | Latvian          |
     | Ewe              |
     | Czech            |
+    | Drupal site user |
     And I should see the following <links>
     | links                                        |
     | http://en.wikipedia.org/wiki/drupalsiteuser  |
@@ -56,9 +59,10 @@ Feature: Personal information in user profile
     And I should see the heading "<text>"
     And I should see the link "site user"
     Examples:
-    | link   | path                        | text                      |
-    | male   | profile/profile_gender/male | People who are male       |
-    | Latvia | profile/country/Latvia      | People who live in Latvia |
+    | link       | path                                | text                            |
+    | opensource | profile/profile_interest/opensource | People interested in opensource |
+    | male       | profile/profile_gender/male         | People who are male             |
+    | Latvia     | profile/country/Latvia              | People who live in Latvia       |
 
   Scenario Outline: Enter invalid values for fields that expect a url and save
     When I follow "Personal information"
