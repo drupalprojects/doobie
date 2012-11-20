@@ -593,7 +593,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I should see the following <texts>$/
+   * @Given /^I (?:should |)see the following <texts>$/
    */
   public function iShouldSeeTheFollowingTexts(TableNode $table) {
     $page = $this->getSession()->getPage();
@@ -607,7 +607,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-  * @Given /^I should see the following <links>$/
+  * @Given /^I (?:should |)see the following <links>$/
   */
   public function iShouldSeeTheFollowingLinks(TableNode $table) {
     $page = $this->getSession()->getPage();
@@ -2485,7 +2485,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see the following <tabs>$/
+   * @Then /^I (?:should |)see the following <tabs>$/
    */
   public function iShouldSeeTheFollowingTabs(TableNode $table) {
     // Fetch tab links.
@@ -7105,5 +7105,16 @@ class FeatureContext extends DrupalContext {
     if ($optionObj->getText() != $option) {
       throw new Exception("The field '" . $field . "' does not have the option '" . $option . "' selected");
     }
+  }
+
+  /**
+   * Identify a link
+   *
+   * @Given /^I see the link "([^"]*)"$/
+   * @param string $link
+   *   The link
+   */
+  public function iSeeTheLink($link) {
+    return new Then('I should see the link "' . $link . '"');
   }
 }
