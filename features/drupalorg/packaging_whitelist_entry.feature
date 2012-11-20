@@ -26,6 +26,7 @@ Feature: Create new packaging whitelist entry
     And I select "Clear BSD" from "License"
     And I press "Save"
     Then I should see the random "Title" text
+    And I should see the random "Allowed URL filters" text
     And I should see "Posted by admin test on"
     And I should see the following <links>
     | links     |
@@ -33,3 +34,4 @@ Feature: Create new packaging whitelist entry
     | Edit      |
     | Outline   |
     | unpublish |
+    | Clear BSD |
