@@ -1,8 +1,8 @@
 @user
-Feature: Your Posts
-  In order to keep track of responses to issues I've posted
+Feature: Content I posted
+  In order to keep track of responses to my posts
   As an authenticated user
-  I want to find them listed all in a single place
+  I want to find all different pieces of content I posted listed in a single place
 
   Scenario: Create test data for the following scenarios
     Given I am logged in as "git vetted user"
@@ -30,7 +30,7 @@ Feature: Your Posts
     Then I should see the following <texts>
     | texts        |
     | Type         |
-    | Posts        |
+    | Post         |
     | Author       |
     | Replies      |
     | Last updated |
