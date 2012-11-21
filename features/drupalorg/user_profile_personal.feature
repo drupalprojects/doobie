@@ -70,9 +70,9 @@ Feature: Personal information in user profile
     And I press "Save"
     Then I should see "The value provided for <field> is not a valid URL"
     Examples:
-    | field            | value                        |
-    | My website       | DrupalSiteUser.com           |
-    | LinkedIn profile | Drupal LinkedIn Siteuser.com |
-    | Facebook page    | Drupal Facebook Siteuser.com |
-    | Twitter url      | Drupal Twitter Siteuser.com  |
-    | Google profile   | Drupal Google Siteuser.com   |
+    | field              | value                        |
+    | My website         | DrupalSiteUser.com           |
+    | LinkedIn profile   | Drupal LinkedIn Siteuser.com |
+    | Facebook page      | Drupal Facebook Siteuser.com |
+    | Twitter url        | Drupal Twitter Siteuser.com  |
+    | Google profile URL | Drupal Google Siteuser.com   |
