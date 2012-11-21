@@ -4,22 +4,13 @@ Feature: Display additional information on my comments
   As an authenticated user
   I should be able to enter my signature and see it on my comments
 
-  Scenario: View labels and links in Signature section
-    Given I am logged in as "site user"
-    And I follow "Your Dashboard"
-    And I follow "Profile"
-    And I follow "Edit"
-    Then I should see the heading "site user"
-    And I should see the following <texts>
-    | texts               |
-    | Signature settings  |
-    | Signature           |
-
   Scenario: Enter signature and save
     Given I am logged in as "site user"
     And I follow "Your Dashboard"
     And I follow "Profile"
     And I follow "Edit"
+    And I see the heading "site user"
+    And I see "Signature settings"
     When I fill in "Signature" with random text
     And I press "Save"
     Then I should see "The changes have been saved"
