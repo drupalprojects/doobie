@@ -1,3 +1,4 @@
+@user
 Feature: Your Project Tab
   In order to easily manage the projects I've created
   As a project maintainer
