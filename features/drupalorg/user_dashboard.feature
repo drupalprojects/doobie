@@ -8,7 +8,6 @@ Feature:
     Given I am logged in as "site user"
     And I wait until the page is loaded
 
-
   Scenario: View the links and labels on Dashboard
     And I follow "Your Dashboard"
     And I wait until the page is loaded

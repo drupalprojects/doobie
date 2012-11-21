@@ -1,6 +1,6 @@
 @user @javascript @known_git6failure
 Feature:
-  In order to create a efficient, personalized workspace 
+  In order to create an efficient, personalized workspace 
   As an authenticated user
   I should be able to add blocks to my dashboard
 
