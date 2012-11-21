@@ -1,8 +1,8 @@
 @user
-Feature: View the issues created by a user
-  In order to view the issues created by me
+Feature: View the issues I am interested in
+  In order to see all the issues I am interested in
   As an authenticated user
-  I should see my issues list and filter them
+  I should be able to see the list of issues I follow and filter them
 
   Background:
     Given I am logged in as "site user"
@@ -20,6 +20,12 @@ Feature: View the issues created by a user
     | Status             |
     | Priority           |
     | Category           |
+    | Summary            |
+    | Version            |
+    | Replies            |
+    | Last updated       |
+    | Assigned to        |
+    | Created            |
 
   Scenario: Create test data for the following scenarios
     When I follow "Create a new issue"
