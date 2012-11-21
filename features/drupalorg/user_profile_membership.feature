@@ -12,7 +12,7 @@ Feature: Verify the DA membership block on a user profile
     And I should not see "Page not found"
     And I should see "Member for"
 
-  @anon
+  @anon @timeout
   Scenario: See that the user is an individual member only: Angie Byron (webchick)
     Given I am on "/node/3060/committers"
     When I follow "webchick"
@@ -20,7 +20,7 @@ Feature: Verify the DA membership block on a user profile
     And I should not see "My organization is a member of the Drupal Association"
     And I should not see "Hey! Want to support the Drupal Community"
 
-  @anon
+  @anon @timeout
   Scenario: See that the user is an organization member and individual member: Larry Garfield (Crell)
     Given I am on "/node/3060/committers"
     When I follow "Crell"
