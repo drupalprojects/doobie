@@ -30,13 +30,11 @@ Feature: Drupal information in user profile
     When I check the box "I contributed Drupal modules"
     And I check the box "I give support on IRC"
     And I check the box "I attended DrupalCon Boston 2008"
-    And I check the box "I will attend DrupalCon Sydney 2013"
     And I press "Save"
     Then I should see "The changes have been saved"
     And the "I contributed Drupal modules" checkbox should be checked
     And the "I contributed Drupal patches" checkbox should not be checked
     And the "I attended DrupalCon Boston 2008" checkbox should be checked
-    And the "I will attend DrupalCon Sydney 2013" checkbox should be checked
     And the "I give support on IRC" checkbox should be checked
 
   @dependent
@@ -50,7 +48,6 @@ Feature: Drupal information in user profile
     | I contributed Drupal modules        |
     | I give support on IRC               |
     | I attended DrupalCon Boston 2008    |
-    | I will attend DrupalCon Sydney 2013 |
 
   @dependent @timeout
   Scenario Outline: Follow Drupal contribution links from profile page
@@ -65,4 +62,3 @@ Feature: Drupal information in user profile
     | I contributed Drupal modules        | profile/profile_drupal_module_developer | People who contributed Drupal modules        |
     | I give support on IRC               | profile/profile_drupal_support_irc      | People who give support on IRC               |
     | I attended DrupalCon Boston 2008    | profile/conference-boston-2008          | People who attended DrupalCon Boston 2008    |
-    | I will attend DrupalCon Sydney 2013 | profile/profile_conference_sydney_2012  | People who will attend DrupalCon Sydney 2013 |
