@@ -1,8 +1,8 @@
-@admin
-Feature: To get administrative view of comments by a user
-  In order to manage comments
-  As an admin user
-  I should be able to view the list and filter them
+@user @admin
+Feature: Aministrative view of comments by a user
+  In order to effectively fight spam
+  As a site maintainer
+  I should be able to view the list of comments by a specific user and delete them
 
   Background:
     Given I am logged in as "admin test"

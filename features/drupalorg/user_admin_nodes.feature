@@ -1,8 +1,8 @@
-@admin
-Feature: To get administrative view of nodes by a user
-  In order to manage content
-  As an admin user
-  I should be able to view the list and filter them
+@user @admin
+Feature: Administrative view of nodes by a user
+  In order to effectively fight spam
+  As a site maintainer
+  I should be able to view the list of nodes by a specific user and delete them
 
   Background:
     Given I am logged in as "admin test"
