@@ -11,8 +11,6 @@ Feature:
   Scenario: Add a new block to the Dashboard
     And I follow "Your Dashboard"
     And I wait until the page is loaded
-    And I follow "Dashboard"
-    And I wait until the page is loaded
     And there are no blocks on my dashboard
     When I follow "Add a block"
     Then I should see the following <blocklinks> in small boxes
