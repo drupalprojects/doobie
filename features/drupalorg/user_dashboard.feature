@@ -1,4 +1,4 @@
-@user @javascript
+@user @javascript @wip
 Feature:
   In order to test the functionalities of Drupal dashboard
   As an authenticated user
