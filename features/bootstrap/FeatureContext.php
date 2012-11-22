@@ -2718,7 +2718,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Check the existence of "Add links" for blocks
    *
-   * @Then /^I should see the following <blocklinks> in small boxes$/
+   * @Then /^I (?:should |)see the following <blocklinks> in small boxes$/
    *
    * @param TableNode object $table
    */
