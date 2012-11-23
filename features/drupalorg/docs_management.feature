@@ -1,7 +1,7 @@
-@docs @slow
+@docs @slow @admin
 Feature: Documentation Management
   In order to manage Drupal.org Documentation
-  As an authenticated user
+  As a documentation manager
   I should be able to search and filter the list of documentation pages
 
   Background:
