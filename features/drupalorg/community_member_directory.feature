@@ -1,4 +1,4 @@
-@community
+@community @content @views
 Feature: View members of drupal community
   In order to interact with various members of the community
   As any user
