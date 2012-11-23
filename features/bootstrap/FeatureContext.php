@@ -413,6 +413,9 @@ class FeatureContext extends DrupalContext {
       if (strtolower($user) == strtolower($username)) {
         HackyDataRegistry::set('username', $username);
         // Successfully logged in.
+        $link = $this->getSession()->getPage()->findLink("Your Dashboard");
+        $link = explode("/", $link->getAttribute('href'));
+        HackyDataRegistry::set('uid:' . $username, $link[4]);
         return;
       }
     }
@@ -7117,5 +7120,43 @@ class FeatureContext extends DrupalContext {
    */
   public function iSeeTheLink($link) {
     return new Then('I should see the link "' . $link . '"');
+  }
+
+  /**
+   * Creates $count number of book pages
+   *
+   * @param $count
+   *   integer The number of book pages to be created
+   *
+   * @Given /^I create "([^"]*)" book page(?:s)$/
+   */
+  public function iCreateBookPages($count) {
+    if ($count > 0) {
+      for ($i = 1; $i <= $count; $i++) {
+        $this->iCreateABookPage();
+        sleep(2);
+        // If there is only one book page or if its the last book page created, then don't go to node add page
+        if ($count != 1 && $i != $count) {
+          $this->getSession()->visit($this->locatePath("/node/add/book?parent=3264"));
+          sleep(2);
+        }
+      }
+    }
+  }
+
+  /**
+   * Visit the profile page of a user
+   *
+   * @param $username
+   *   string The username of the user who's profile to be visited
+   *
+   * @When /^I visit "([^"]*)" profile page$/
+   */
+  public function iVisitProfilePage($username) {
+    if ($uid = HackyDataRegistry::get('uid:' . $username)) {
+      $path = "/user/" . $uid;
+      return new Given ("I visit \"$path\"");
+    }
+    throw new Exception("There was no user id found for the user '" . $username . "'");
   }
 }
