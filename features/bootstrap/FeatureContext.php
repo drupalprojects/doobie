@@ -3514,6 +3514,7 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     $this->documentTitle = $this->randomString(8);
     $page->fillField("Title:", $this->documentTitle);
+    HackyDataRegistry::set('random:Document title', $this->documentTitle);
     $page->fillField("Body:", "The body of the book page having more than ten words");
     HackyDataRegistry::set('book page title', $this->documentTitle);
     if (isset($options['input_format'])) {

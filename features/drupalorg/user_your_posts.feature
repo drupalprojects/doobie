@@ -1,4 +1,4 @@
-@user
+@user @wip
 Feature: Content I posted
   In order to keep track of responses to my posts
   As an authenticated user
@@ -15,7 +15,8 @@ Feature: Content I posted
     And I add a comment to the issue
     And I add one more comment to the issue
 
-  Scenario: Comment on a specific post
+  @dependent
+  Scenario: Comment on a specific post as git user
     Given I am logged in as "git user"
     And I am on the project page
     When I follow "open"
@@ -24,6 +25,7 @@ Feature: Content I posted
     And I add a comment to the issue
     And I add one more comment to the issue
 
+  @dependent
   Scenario: Navigate to your posts page
     Given I am logged in as "git vetted user"
     When I follow "Your Posts"
@@ -38,7 +40,7 @@ Feature: Content I posted
     And I should see at least "1" new reply for the post
     And I should see updated for the post
 
-  @clean_data
+  @clean_data @dependent
   Scenario: Navigate to the specific post and check for the new post.
     Given I am logged in as "git vetted user"
     And I follow "Your Posts"
@@ -46,3 +48,33 @@ Feature: Content I posted
     When I move backward one page
     Then I should see at least "4" replies for the post
     And I should not see updated for the post
+
+  @clean_data
+  Scenario: Create a case study and view the same
+    Given I am logged in as "site user"
+    When I visit "/node/add/casestudy"
+    And I create a case study
+    And I see the case study page
+    And I follow "Logged in as site user"
+    And I follow "Your Posts"
+    Then I should see the random "Project name" link
+  
+  @clean_data
+  Scenario: Create a book page and view the same
+    Given I am logged in as "site user"
+    When I visit "/node/add/book?parent=3264"
+    And I create a book page
+    And I see "has been created"
+    And I follow "Logged in as site user"
+    And I follow "Your Posts"
+    Then I should see the random "Document title" link
+  
+  @clean_data
+  Scenario: Create a book page and view the same
+    Given I am logged in as "site user"
+    When I visit "/node/add/organization"
+    And I create a new organization
+    And I see "has been created"
+    And I follow "Logged in as site user"
+    And I follow "Your Posts"
+    Then I should see the random "Organization name" link
