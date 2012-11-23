@@ -1,4 +1,4 @@
-@community @anon
+@community @anon @search
 Feature: Search members in drupal community
   In order to find members of the community
   As any user
