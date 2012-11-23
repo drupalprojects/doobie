@@ -1,4 +1,4 @@
-@about @anon @specific_text
+@about @anon @content
 Feature: About Drupal section
   In order to find out about Drupal
   As any user
@@ -37,4 +37,3 @@ Feature: About Drupal section
     | Security team                  |
     | Getting support                |
     | Licensing FAQ                  |
-

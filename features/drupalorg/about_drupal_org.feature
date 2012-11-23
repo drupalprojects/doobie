@@ -1,4 +1,4 @@
-@about_do @content @wip
+@about @content @wip
 Feature: About Drupal.org section
   In order to find out about Drupal.org website
   As any user
