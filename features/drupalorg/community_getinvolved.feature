@@ -11,7 +11,7 @@ Feature: Ways to get involved with the Drupal community
     Then I should see the heading "Getting Involved"
     And I should see the heading "Community Spotlight"
     And I should see the heading "Ways to Get Involved"
-    And I should see "Drupal is an open source project built by a team of volunteers"
+
 
   Scenario: Getting involove guide
     Given I am on "/getting-involved"
@@ -19,6 +19,7 @@ Feature: Ways to get involved with the Drupal community
     Then I should see the heading "Getting Involved Guide"
     And I should see the text "Why get involved"
     And I should see the text "Ready to get involved"
+    And I should see "Drupal is an open source project built by a team of volunteers"
 
   Scenario: Community spotlight
     Given I am on the homepage
