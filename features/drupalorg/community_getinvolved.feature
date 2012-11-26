@@ -12,7 +12,6 @@ Feature: Ways to get involved with the Drupal community
     And I should see the heading "Community Spotlight"
     And I should see the heading "Ways to Get Involved"
 
-
   Scenario: Getting involove guide
     Given I am on "/getting-involved"
     When I follow "Getting Involved Guide"
