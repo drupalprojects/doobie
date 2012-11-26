@@ -414,8 +414,11 @@ class FeatureContext extends DrupalContext {
         HackyDataRegistry::set('username', $username);
         // Successfully logged in.
         $link = $this->getSession()->getPage()->findLink("Your Dashboard");
-        $link = explode("/", $link->getAttribute('href'));
-        HackyDataRegistry::set('uid:' . $username, $link[4]);
+        // URL format: /user/{uid}/dashboard
+        preg_match("/\/user\/(.*)\//", $link->getAttribute('href'), $match);
+        if (!empty($match[1])) {
+          HackyDataRegistry::set('uid:' . $username, trim($match[1]));
+        }
         return;
       }
     }
