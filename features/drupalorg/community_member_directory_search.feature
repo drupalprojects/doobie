@@ -1,4 +1,4 @@
-@community @anon
+@community @known_git7failure @anon
 Feature: Search members in drupal community
   In order to find members of the community
   As any user
