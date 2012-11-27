@@ -42,8 +42,8 @@ Feature: Community Spotlight
     And I should see the community spotlight link
     And I should see at least "5" records
 
-  @anon @dependent @clean_data
+  @anon @javascript @dependent @clean_data
   Scenario: Visit Community spotlight page
     Given I am on the community spotlight page
     Then I should see the community spotlight title
-    And I should see "Posted by site user"
+    And I should see "Submitted by site user"
