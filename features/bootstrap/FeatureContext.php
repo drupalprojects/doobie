@@ -4989,7 +4989,7 @@ class FeatureContext extends DrupalContext {
   public function iShouldNotSeeTheSlideshowCaseStudiesInTheViewContent() {
     $page = $this->getSession()->getPage();
     // Get all the slide titles
-    $slides = $page->findAll('css', '#block-views-drupalorg_casestudies-block_3 ul li h2');
+    $slides = $page->findAll('css', '#block-views-drupalorg-casestudies-block-3 ul li .views-field-title a');
     if (empty($slides)) {
       throw new Exception("The page does not contain any slides");
     }
@@ -4998,7 +4998,7 @@ class FeatureContext extends DrupalContext {
     foreach ($slides as $slide) {
       $slideTexts[] = trim($slide->getText());
     }
-    $cases = $page->findAll('css', '#content h2');
+    $cases = $page->findAll('css', '#content .views-field-title a');
     if (empty($cases)) {
       throw new Exception("No case studies were found on the page");
     }
@@ -5014,7 +5014,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iFollowTheTag($tag) {
     $page = $this->getSession()->getPage();
-    $tagLink = $page->find('xpath', '//div[@id="content"]//div[@class="views-field-tid"]//a[text()="' . $tag . '"]');
+    $tagLink = $page->find('region', 'content')->findLink($tag);
     if (empty($tagLink)) {
       throw new Exception("The tag '" . $tag . "' was not found in the view content");
     }
