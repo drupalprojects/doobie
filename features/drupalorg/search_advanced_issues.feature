@@ -1,4 +1,4 @@
-@anon @wip
+@anon @wip @search
 Feature: Visitor searches issues and gets results from drupal site
   In order to see search issues in the related projects
   As a visitor to Drupal.org

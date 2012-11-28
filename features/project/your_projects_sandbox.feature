@@ -1,4 +1,4 @@
-@user
+@user @git @sandbox
 Feature: Your Project Tab
   In order to easily manage the sandbox projects I've created
   As a project maintainer

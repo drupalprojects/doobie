@@ -1,4 +1,4 @@
-@known_git6failure @anon
+@known_git6failure @anon @search
 Feature: Visitor searches site
   In order to see relevant search results and filters
   As a visitor to Drupal.org

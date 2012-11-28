@@ -1,4 +1,4 @@
-@user @ci
+@user @ci @git
 Feature: Verify projects and commits summary in user profile page
   In order to get a summary of the projects I have worked on
   As a git vetted user

@@ -1,4 +1,4 @@
-@community
+@community @search
 Feature: Community Search Documentation
   In order to find out drupal activities/options for getting involved with the site
   As any user

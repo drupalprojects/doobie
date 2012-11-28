@@ -1,4 +1,4 @@
-@known_git6failure @anon @wip @javascript
+@known_git6failure @anon @wip @javascript @search
 Feature: Visitor searches site and sorts the results
   In order to see relevant search results
   As a visitor to Drupal.org
