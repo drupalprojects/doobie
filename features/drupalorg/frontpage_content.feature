@@ -15,24 +15,33 @@ Feature: Drupal.org frontpage
     And I should see the "text" "Distributions are a collection of pre-configured themes and modules" in "top left content" area
 
   @anon @known_git7failure @wip
-  Scenario Outline: View the links in top left content area
+  Scenario Outline: Visit the links in frontpage content area
     When I follow "<link>"
     Then I should see the heading "<title>"
 
     Examples:
     | link                      | title                   |
-    | Get Started with Drupal   | Get Started             |
+    | Why Choose Drupal?        | About Drupal            |
+    | Get Started with Drupal   | Get Started with Drupal |
     | Drupal Distributions      | Download & Extend       |
     | Learn about Distributions | Distributions           |
+    | Sites Made with Drupal    | Drupal Case Studies     |
+    | Develop with Drupal       | Download & Extend       |
+    | Developers                | Commit messages         |
+    | Code commits              | Commit messages         |
+    | Issue comments            | Issues for all projects |
+    | Security Info             | Security advisories     |
+    | Developer Docs            | Develop for Drupal      |
+    | API Docs                  | API reference           |
 
   @anon @known_git7failure @wip
-  Scenario: View top middle content area on homepage
+  Scenario: View sites made with Drupal in top middle content area
     Then I should see the "link" "Sites Made with Drupal" in "top middle content" area
     And I should see the image of a drupal site in top middle content area
     And I should see the "text" "Drupal is used by some of the biggest sites on the Web, like" in "top middle content" area
 
   @anon @known_git7failure @wip @javascript
-  Scenario: View links and counts in top right content area
+  Scenario: View project and activity links, the count against each of them and advertisement in top right content area
     And I wait until the page is loaded
     And I should see the following <links> in "top right content" area
     | links               |
@@ -55,10 +64,30 @@ Feature: Drupal.org frontpage
     And I should see an advertisement in top right content area
 
   @anon
-  Scenario: View people, country and language statistics in power Drupal text
+  Scenario: View power Drupal text with people, country and language statistics in it
     Then I should see at least "682000" "people" in power Drupal text
     And I should see at least "200" "countries" in power Drupal text
     And I should see at least "150" "languages" in power Drupal text
+
+  @anon @known_git7failure
+  Scenario: Find modules for Drupal
+    When I follow "Modules"
+    Then I should see "Modules match your search"
+
+  @anon @known_git7failure
+  Scenario: Find themes for Drupal
+    When I follow "Themes"
+    Then I should see "Themes match your search"
+
+  @anon @known_git7failure
+  Scenario: Find Drupal distributions
+    When I follow "Distributions"
+    Then I should see "Distributions match your search"
+
+  @anon
+  Scenario: Find out about Drupal core
+    When I follow "Drupal Core"
+    Then I should see "Get started by downloading the official Drupal core files"
 
   @anon
   Scenario: View tabs in bottom right content area
