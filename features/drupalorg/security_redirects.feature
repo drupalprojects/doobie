@@ -1,7 +1,8 @@
-Feature:
-  In order to confirm the changes in URLs
+@security
+Feature: Security redirects
+  In order to ensure I can find important security information
   As any user
-  I should be redirected to the new URLs
+  I should be redirected from the old URLs to the new ones
 
   Scenario: Visit /security-contrib and get redirected to /security/contrib
     Given I am on "/security-contrib"
