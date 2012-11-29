@@ -4417,10 +4417,15 @@ class FeatureContext extends DrupalContext {
         sleep(1);
         $this->iFillInRevisionLogMessageWithText("Deleting during cleanup");
         $page = $session->getPage();
-        $page->pressButton("Delete");
-        sleep(1);
-        // Confirm delete
-        $page->pressButton("Delete");
+        if ($page->hasButton("Delete")) {
+          $page->pressButton("Delete");
+          sleep(1);
+          // Confirm delete
+          if ($page->hasButton("Delete")) {
+            $page = $session->getPage();
+            $page->pressButton("Delete");
+          }
+        }
       }
     }
   }
