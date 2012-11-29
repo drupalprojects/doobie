@@ -26,7 +26,7 @@ Feature: Documentation Management
   Scenario: Search records by Published: No
     When I select "No" from "Published"
     And I press "Apply"
-    Then I should see at least "40" records
+    Then I should see at least "0" records
     And I should see "No" under "Published"
     And I should not see "Yes" under "Published"
 
