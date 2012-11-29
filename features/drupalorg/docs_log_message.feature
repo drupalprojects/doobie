@@ -8,7 +8,7 @@ Feature: Log message required for documentation edits
     Given I am logged in as "site user"
     And I follow "Documentation"
     And I follow "Installation Guide"
-    And I follow "Quick install for beginners"
+    And I follow "Before you begin"
 
   Scenario: Edit a documentation: Leave blank
     When I follow "Edit"
