@@ -10,11 +10,11 @@ Feature: To view the list of Packaging whitelist URLs
     Then I should see the heading "Packaging whitelist URLs"
     And I should see at least "25" records
     And I should see the following <texts>
-    | texts |
+    | texts                                                                                          |
     | To request changes to this list, visit the Drupal.org Library Packaging Whitelist project page |
-    | Search Packaging Whitelists |
-    | Whitelist name |
-    | Allowed URL filters |
+    | Search Packaging Whitelists                                                                    |
+    | Whitelist name                                                                                 |
+    | Allowed URL filters                                                                            |
     And I should see the link "next"
     And I should see the link "last"
     And I should not see the link "first"
@@ -24,8 +24,7 @@ Feature: To view the list of Packaging whitelist URLs
     Given I am on "/packaging-whitelist"
     When I follow "ARC2"
     Then I should see the heading "ARC2"
-    And I should see "Posted by"
-    And I should see "Categories:"
+    And I should see "Submitted by"
     And I should not see "Page not found"
 
   Scenario: View list of itmes: Second/Last page
@@ -39,7 +38,7 @@ Feature: To view the list of Packaging whitelist URLs
     And I should not see the link "next"
     And I should not see the link "last"
 
-  @known_git6failure
+  @known_git6failure @javascript
   Scenario: Search the list
     Given I am on "/packaging-whitelist"
     When I fill in "Search Packaging Whitelists" with "ARC2"
