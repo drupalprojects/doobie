@@ -15,26 +15,6 @@ Feature: Drupal.org frontpage
     And I should see the "text" "Distributions are a collection of pre-configured themes and modules" in "top left content" area
 
   @anon @known_git7failure @wip
-  Scenario Outline: Visit the links in frontpage content area
-    When I follow "<link>"
-    Then I should see the heading "<title>"
-
-    Examples:
-    | link                      | title                   |
-    | Why Choose Drupal?        | About Drupal            |
-    | Get Started with Drupal   | Get Started with Drupal |
-    | Drupal Distributions      | Download & Extend       |
-    | Learn about Distributions | Distributions           |
-    | Sites Made with Drupal    | Drupal Case Studies     |
-    | Develop with Drupal       | Download & Extend       |
-    | Developers                | Commit messages         |
-    | Code commits              | Commit messages         |
-    | Issue comments            | Issues for all projects |
-    | Security Info             | Security advisories     |
-    | Developer Docs            | Develop for Drupal      |
-    | API Docs                  | API reference           |
-
-  @anon @known_git7failure @wip
   Scenario: View sites made with Drupal in top middle content area
     Then I should see the "link" "Sites Made with Drupal" in "top middle content" area
     And I should see the image of a drupal site in top middle content area
@@ -47,6 +27,7 @@ Feature: Drupal.org frontpage
     | links               |
     | Develop with Drupal |
     | Modules             |
+    | Themes              |
     | Distributions       |
     | Developers          |
     | Code commits        |
@@ -68,6 +49,26 @@ Feature: Drupal.org frontpage
     Then I should see at least "682000" "people" in power Drupal text
     And I should see at least "200" "countries" in power Drupal text
     And I should see at least "150" "languages" in power Drupal text
+
+  @anon @known_git7failure @wip
+  Scenario Outline: Visit the links in frontpage content area
+    When I follow "<link>"
+    Then I should see the heading "<title>"
+
+    Examples:
+    | link                      | title                   |
+    | Why Choose Drupal?        | About Drupal            |
+    | Get Started with Drupal   | Get Started with Drupal |
+    | Drupal Distributions      | Download & Extend       |
+    | Learn about Distributions | Distributions           |
+    | Sites Made with Drupal    | Drupal Case Studies     |
+    | Develop with Drupal       | Download & Extend       |
+    | Developers                | Commit messages         |
+    | Code commits              | Commit messages         |
+    | Issue comments            | Issues for all projects |
+    | Security Info             | Security advisories     |
+    | Developer Docs            | Develop for Drupal      |
+    | API Docs                  | API reference           |
 
   @anon @known_git7failure
   Scenario: Find modules for Drupal
@@ -97,3 +98,4 @@ Feature: Drupal.org frontpage
     | Docs Updates  |
     | Forum Posts   |
     | Commits       |
+    
