@@ -5762,8 +5762,13 @@ class FeatureContext extends DrupalContext {
             if (empty($a_ele)) {
               throw new Exception('Drupal banner is not found in the "' . $region . '" region of the page');
             }
-            elseif ('/' != $a_ele->getAttribute('href')) {
-              throw new Exception('Drupal banner in "' . $region . '" area is not linked to homepage');
+            else {
+              $link = $a_ele->getAttribute('href');
+              $parts = explode('drupal.org', $link);
+              $with_selenium = !empty($parts[1]) && $parts[1] == '/'; 
+              if ('/' != $link && !$with_selenium) {
+                throw new Exception('Drupal banner in "' . $region . '" area is not linked to homepage');
+              }
             }
             break;
           default:

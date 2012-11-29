@@ -1,17 +1,40 @@
-@front @specific_text
+@front @specific_text @javascript
 Feature: View home page header
   In order to have access to different sections of drupal.org
   As any user
   I need to be able to view navigations links and site search field
 
-  @anon @flaky @wip
+  @anon @known_git6failure
+  Scenario Outline: View header navigation links in header area
+    Given I am on "<page>"
+    And I should see the following <links> in "top header" area
+    | links             |
+    | Get Started       |
+    | Community         |
+    | Documentation     |
+    | Support           |
+    | Download & Extend |
+    | Marketplace       |
+    | About             |
+
+    Examples:
+    | page            |
+    | /               |
+    | /start          |
+    | /community      |
+    | /documentation  |
+    | /support        |
+    | /download       |
+    | /about          |
+
+  @anon @wip
   Scenario: View home page header banner link and texts
     Given I am on the homepage
     Then I should see that drupal banner is linked to the home page
     Then I should see the "text" "Come for the software, stay for the community" in "left header" area
     And I should see the "text" "Drupal is an open source content management platform powering millions of websites and applications." in "left header" area
 
-  @anon @flaky @wip
+  @anon @known_git6failure @wip
   Scenario Outline: View page header on other pages: Home page header text doesn't appear on other pages
     Given I am on "<page>"
     Then I should not see the "text" "Come for the software, stay for the community" in "left header" area
@@ -65,30 +88,7 @@ Feature: View home page header
     | /download       |
     | /about          |
 
-  @anon @flaky
-  Scenario Outline: View header navigation links in header area
-    Given I am on "<page>"
-    And I should see the following <links> in "top header" area
-    | links             |
-    | Get Started       |
-    | Community         |
-    | Documentation     |
-    | Support           |
-    | Download & Extend |
-    | Marketplace       |
-    | About             |
-
-    Examples:
-    | page            |
-    | /               |
-    | /start          |
-    | /community      |
-    | /documentation  |
-    | /support        |
-    | /download       |
-    | /about          |
-
-  @anon @flaky @wip
+  @anon @flaky @known_git7failure @wip
   Scenario Outline: View bottom header tabs anonymously
     Given I am on "<page>"
     Then I should see the following <tabs> in "bottom header" area
@@ -106,7 +106,7 @@ Feature: View home page header
     | /download       |
     | /about          |
 
-  @flaky @wip
+  @flaky @known_git7failure @wip
   Scenario Outline: View bottom header tabs as authenticated user
     Given I am logged in as "site user"
     And I am on "<page>"
