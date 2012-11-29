@@ -6765,4 +6765,107 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The section '" . $section . "' has less than '" . $count . "' links");
     }
   }
+
+  /**
+   * Look for recently published featured case studies
+   *
+   * @param $count
+   *   integer The number of case studied expected
+   * @param $context
+   *   string Which page should the comparision done against
+   *
+   * @Then /^I should see "([^"]*)" recently published featured case studies in the slideshow$/
+   */
+  public function recentlyPublishedFeaturedCaseStudy($count, $context = "") {
+    $textsSlide = array();
+    // Get the featured case studies
+    $textsManage = $this->getRecentFeaturedCaseStudies($count);
+    $this->getSession()->visit($this->locatePath("/case-studies"));
+    sleep(3);
+    // Get all the slideshow case studies
+    $temp = $this->getSession()->getPage()->findAll("css", "#block-views-drupalorg-casestudies-block-3 .view-id-drupalorg_casestudies ul li .views-field-title span a");
+    if (empty($temp)) {
+      throw new Exception("The page does have any case studies in the slide show");
+    }
+    foreach ($temp as $result) {
+      $textsSlide[] = $result->getText();
+    }
+    // If the slideshow contains less case studies than requested, then throw error
+    if (sizeof($textsSlide) < $count) {
+      throw new Exception("The slideshow has less than '" . $count . "' case studies");
+    }
+    // Check if case studies provided from manage page matches the one in case-studies page
+    if ($textsManage !== $textsSlide) {
+      throw new Exception("The slideshow does not contain recently published featured case studies");
+    }
+  }
+
+  /**
+   * Checks whether the case study on homepage is one of the published featured case studies or not
+   *
+   * @param $count
+   *   integer The number of case studies to match against
+   *
+   * @Then /^the case study should be one of the "([^"]*)" recently published featured case studies$/
+   */
+  public function theCaseStudyShouldBeOneOfTheRecentlyPublishedFeaturedCaseStudies($count) {
+    // Get the featured case studies
+    $textsManage = $this->getRecentFeaturedCaseStudies($count);
+    // Go to homepage
+    $this->getSession()->visit($this->locatePath("/"));
+    sleep(3);
+    // First check if case study section exists or not
+    $temp = $this->getSession()->getPage()->find("css", "#block-system-main #sites-with-drupal .things-we-made-wrapper");
+    if (empty($temp)) {
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not contain case study section");
+    }
+    // Now look for the title of the case study
+    $temp = $temp->findAll("css", "a");
+    if (empty($temp)) {
+      throw new Exception("The case study section on the page " . $this->getSession()->getCurrentUrl() . " does not contain any case study");
+    }
+    $temp = end($temp);
+    $caseStudy = trim($temp->getText());
+    if ($caseStudy == "") {
+      throw new Exception("The case study title is empty in the case study section of the page - " . $this->getSession()->getCurrentUrl());
+    }
+    // If the recent cases studies list contains the one in homepage, then we pass here
+    if (!in_array($caseStudy, $textsManage)) {
+      throw new Exception("The case study does not match any of the '" . $count . "' recently published featured case studies");
+    }
+  }
+
+  /**
+   * Function to get the count number of recently published featured case studies
+   *
+   * @param $count
+   *   integer The number of case studies to retrieve
+   */
+  private function getRecentFeaturedCaseStudies($count) {
+    $this->getSession()->visit($this->locatePath("/case-studies/featured"));
+    sleep(3);
+    $textsManage = array();
+    $i = 0;
+    // Get all the case studies from the table
+    $temp = $this->getSession()->getPage()->findAll("css", ".view-drupalorg-casestudies table tbody tr td div.views-field-title span a");
+    if (empty($temp)) {
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does have any case studies");
+    }
+    // Now, consider only the $count number of case studies
+    foreach ($temp as $result) {
+      if ($i >= $count) {
+        break;
+      }
+      $textsManage[] = $result->getText();
+      $i++;
+    }
+    if (empty($textsManage)) {
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not have any case studies");
+    }
+    // Check if we have enough case studies or not
+    if (sizeof($textsManage) < $count) {
+      throw new Exception("There are less than '" . $count . "' case studies on the page - " . $this->getSession()->getCurrentUrl());
+    }
+    return $textsManage;
+  }
 }
