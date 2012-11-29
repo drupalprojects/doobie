@@ -5549,28 +5549,79 @@ class FeatureContext extends DrupalContext {
    * @param string $context
    * To specify feauture/all providers title post
    */
-  public function iCreateANewOrganizationFor($context) {
+  public function iCreateANewOrganizationFor($context = null) {
     $element = $this->getSession()->getPage();
-    $this->issueTitle = $this->randomString(12);
-		$element->fillField("Organization name:", $this->issueTitle);
-    $element->fillField("Website:", $this->randomString(18));
-    $element->fillField("Drupal contributions:", $this->randomString(18));
+    // Prefix title with 01 in order to get it listed on top
+    $this->issueTitle = "01" . $this->randomString(12);
+		$element->fillField("Organization name", $this->issueTitle);
+    HackyDataRegistry::set('random:Organization name', $this->issueTitle);
+    $website = $this->randomString(18);
+    //id for website
+    $element->fillField("edit-field-link-und-0-url", $website);
+    HackyDataRegistry::set('random:Website', $website);
+    $drupal_contributions = $this->randomString(18);
+    // Logo
+    $file_path = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'koala.jpg';
+    HackyDataRegistry::set('Organization Logo', $file_path);
+    $browse = $element->findField('edit-field-logo-und-0-upload');
+    if (empty($browse)) {
+      throw new Exception("Logo is not found on the page");
+    }
+    $browse->attachFile($file_path);
+    // Services
+    $service = 'Consulting';
+    $element->selectFieldOption('Services', $service, true);
+    HackyDataRegistry::set('random:Services', $service);
+    // Services
+    $sector = 'Arts';
+    $element->selectFieldOption('Sectors', $sector, true);
+    HackyDataRegistry::set('random:Sectors', $sector);
+    // Locations
+    $location = 'Algeria';
+    $element->selectFieldOption('Locations', $location, true);
+    HackyDataRegistry::set('random:Locations', $location);
+    // Drupal contributions
+    $element->fillField("Drupal contributions", $drupal_contributions);
+    HackyDataRegistry::set('random:Drupal contributions', $drupal_contributions);
+
     if(!empty($context)) {
       if($context == 'training') {
         $chk = $element->findField("Request listing in the Training section");
+        // Training url
+        $train_url = $this->randomString(20);
+        $element->fillField("Training url", $train_url);
+        HackyDataRegistry::set('random:Training url', $train_url);
+        // Training description
+        $train_desc = str_repeat($this->randomString(10) . " ", 20);
+        $element->fillField("Training description", $train_desc);
+        HackyDataRegistry::set('random:Training description', $train_desc);
       }
       else if($context == 'drupal services') {
         $chk = $element->findField("Request listing in the Drupal services section");
+        // Organization description
+        $org_desc = str_repeat($this->randomString(10) . " ", 20);
+        $element->fillField("Organization description", $org_desc);
+        HackyDataRegistry::set('random:Organization description', $org_desc);
       }
       if(isset($chk)) {
         $chk->check();
       }
     }
-    $this->iSelectTheRadioButtonWithTheId('Enterprise & Managed', 'edit-field-organization-hosting-categ-value-Enterprise-&-Managed');
+    // Headquarters
+    $headqrt = $this->randomString(10);
+    $element->fillField("Headquarters", $headqrt);
+    HackyDataRegistry::set('random:Headquarters', $headqrt);
+    // Project budget
+    $budget = $this->randomString(10);
+    $element->fillField("Usual project budget (optional)", $budget);
+    HackyDataRegistry::set('random:Usual project budget (optional)', $budget);
+
+    $this->iSelectTheRadioButtonWithTheId('Enterprise & Managed', 'edit-field-organization-hosting-categ-und-2');
     HackyDataRegistry::set('issue title', $this->issueTitle);
     $element->pressButton("Save");
-    sleep(2);
+    sleep(7);
     HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
+    sleep(2);
   }
 
   /**
