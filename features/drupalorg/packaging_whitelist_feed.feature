@@ -1,11 +1,11 @@
-@anon
-Feature: Get a feed of security announcements
-  In order to see the security announcements feeds
-  As a user
+@whitelist @anon
+Feature: Get a feed of packaging whitelist entries
+  In order to see the packaging whitelist feed
+  As any user
   I should be able to see the rss feeds icon
 
   @timeout @flaky
-  Scenario: Visit the feed and view the contents
+  Scenario: Visit the feed and view the content
     Given I am on "/project/drupalorg_whitelist"
     When I follow "list of existing whitelist entries"
     And I should see "Subscribe with RSS"
