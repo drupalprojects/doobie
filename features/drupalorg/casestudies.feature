@@ -1,121 +1,104 @@
-@casestudies @anon
-Feature: Drupal case studies
-  In order to see the Drupal case studies
-  As any user
-  I want to look for a link on the home page that takes me there
+@casestudies @wip
+Feature: Adding new case study
+  In order to share the story of the site I built with Drupal
+  As an authenticated user
+  I should be able to create new case study
 
-  @timeout
-  Scenario: View case study page
-    Given that I am on the homepage
-    When I follow "Sites Made with Drupal"
+  Background:
+    Given I am logged in as "site user"
+    And I visit "/case-studies"
+
+  Scenario: View the texts and links on the page
     Then I should see the heading "Drupal Case Studies"
-    And I should not see the link "Add your case study"
-    And I should not see the link "Case Study guidelines"
+    And I should see the link "Add your case study"
+    And I should see the link "Case Study guidelines"
 
-  @javascript
-  Scenario: View the image slideshow
-    Given that I am on the homepage
-    When I follow "Sites Made with Drupal"
-    Then I should not see the slideshow case studies in the view content
-    And I should see "1"
-    And wait "2" seconds
-    And I should see "2"
-    And wait "2" seconds
-    And I should see "3"
-    And wait "2" seconds
-    And I should see "4"
+  Scenario: Add a new case study: Required field validation
+    When I follow "Add your case study"
+    And I press "Save"
+    Then I should see the following <texts>
+    | texts                                                              |
+    | Project name field is required                                     |
+    | Why Drupal was chosen field is required                            |
+    | URL field is required                                              |
+    | Why these modules/theme/distribution were chosen field is required |
+    | Primary screenshot field is required                               |
+    And the field "Project name" should be outlined in red
+    And the field "Why Drupal was chosen" should be outlined in red
+    And I should not see "has been created"
 
-  Scenario: View the list of categories on the right sidebar
-    Given that I am on the homepage
-    When I follow "Sites Made with Drupal"
-    Then I should see at least "5" links in the "right sidebar"
-    And I should see the link "Education"
-    And I should see the link "Technology"
-    And I should see the heading "Browse by category"
-
-  Scenario: Browse the community showcase tab and view pagination links
-    Given I am on "/case-studies"
-    When I follow "Community showcase"
-    Then I should see at least "5" records
+  @javascript @wip
+  Scenario: Add a new case study
+    When I follow "Add your case study"
+    And I see "Describe the project"
+    And I attach the local file "koala.jpg" to "Primary screenshot"
+    And I select "Arts" from "Sectors"
+    And I additionally select "Education" from "Sectors"
+    And I additionally select "Community" from "Sectors"
+    And I fill in "Project name" with random text
+    And I fill in the following:
+    | Why Drupal was chosen                            | Test data one test case study                  |
+    | Brief overview                                   | Test data two brief overview test case study   |
+    | Completed Drupal site or project URL             | example.com                                    |
+    | Why these modules/theme/distribution were chosen | Test data three test case study                |
+    And I enter "Features" for field "Key modules/theme/distribution used"
+    And I select "Features" from the suggestion "Key modules/theme/distribution used"
+    And I press "Save"
+    Then I should see "has been created"
+    And I should see that the tab "Community showcase" is highlighted
     And I should see the following <texts>
-    | texts              |
-    | Featured showcase  |
-    | Community showcase |
-    | Categories:        |
-    | Browse by category |
-    | next               |
-    | last               |
-    And I should not see the following <texts>
-    | texts    |
-    | previous |
-    | first    |
-
-  Scenario Outline: Navigate into featured showcase categories
-    Given I am on "/case-studies"
-    When I follow "<category>" on the "right sidebar"
-    And I should not see "Page not found"
-    And I should see "Category: <category>"
-    Examples:
-    | category      |
-    | Education     |
-    | Entertainment |
-    | Healthcare    |
-
-  Scenario: View the list of categories on the right sidebar in community showcase page
-    Given that I am on the homepage
-    When I follow "Sites Made with Drupal"
-    And I follow "Community showcase"
-    Then I should see at least "10" links in the "right sidebar"
-    And I should see the link "Education"
-    And I should see the link "Technology"
-
-  Scenario: Browse pagination links in community showcase page: Second page
-    Given I am on "/case-studies/community"
-    When I click on page "2"
-    Then I should see "Drupal Case Studies"
+    | texts           |
+    | Test data one   |
+    | Test data two   |
+    | Test data three |
     And I should see the following <links>
-    | links    |
-    | first    |
-    | previous |
-    | next     |
-    | last     |
+    | links           |
+    | Arts            |
+    | Education       |
+    | Community       |
+    | Features        |
+    | example.com     |
+    | site user       |
+    | Add new comment |
 
-  Scenario: Browse pagination links in community showcase page: Last page
-    Given I am on "/case-studies/community?page=2"
-    When I click on page "last"
-    Then I should see the link "first"
-    And I should see the link "previous"
-    And I should not see the link "next"
-    And I should not see the link "last"
-
-  Scenario Outline: Navigate into community showcase categories
-    Given I am on "/case-studies/community"
-    When I follow "<category>"
-    Then I should not see "Page not found"
-    And I should see at least "1" record
-    Examples:
-    | category      |
-    | Education     |
-    | Entertainment |
-    | Healthcare    |
-
-  Scenario: Navigate into an individual case study
-    Given I am on "/case-studies/community"
-    When I click on a case study image
-    Then I should not see "Page not found"
+  Scenario: Edit own case study
+    When I follow "Community showcase"
+    And I click on a case study image
+    And I follow "Edit"
+    Then I should not see "Access denied"
     And I should see the following <texts>
-    | texts                                |
-    | Why Drupal was chosen:               |
-    | Completed Drupal site or project URL |
-    | Key modules/theme/distribution used  |
+    | texts                 |
+    | Project name          |
+    | Primary screenshot    |
+    | Sectors               |
+    | Why Drupal was chosen |
+    | Brief overview        |
 
-  Scenario Outline: Follow tags
-    Given I am on "/case-studies"
-    When I follow the tag "<tagname>"
-    Then I should see "Category: <tagname>"
-    And I should see at least "1" record
-    Examples:
-    | tagname       |
-    | Education     |
-    | Entertainment |
-    | Community     |
+  Scenario: Comment on a case study
+    When I click on a case study image
+    And I follow "Add new comment"
+    And I fill in "Subject" with random text
+    And I fill in "Comment" with random text
+    And I press "Save"
+    Then I should see the random "Subject" text
+    And I should see the random "Comment" text
+    And I should see "Posted by site user"
+    And I should see the link "Add new comment"
+
+  Scenario: View case study guidelines
+    When I follow "Case Study guidelines"
+    Then I should see the heading "Case Study guidelines"
+    And I should see "How to write a case study"
+    And I should see the following <links>
+    | links                  |
+    | View                   |
+    | Edit                   |
+    | Revisions              |
+    | Drupal Case Studies    |
+    | Getting Involved Guide |
+
+  Scenario: View Add case study link in Community showcase
+    When I visit "/case-studies/all"
+    Then I should see the heading "Drupal Case Studies"
+    And I should see the link "Add your case study"
+    And I should see the link "Case Study guidelines"

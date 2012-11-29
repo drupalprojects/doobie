@@ -1093,7 +1093,7 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     $result = $page->find('css', '.view-content .col-first a');
     if (empty($result)) {
-      throw new Exception("This page does not have any case study");
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not have any case study");
     }
     $result->click();
   }
