@@ -28,7 +28,7 @@ Feature: Access document list updates from homepage
     And I should see "Submitted by site user"
     And I should see the link "More documentation"
 
-  @anon @javascript
+  @anon @javascript @known_git6failure
   Scenario: More documentation
     Given I am on the homepage
     And I wait until the page is loaded
