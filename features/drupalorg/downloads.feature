@@ -44,7 +44,7 @@ Feature: Download and Extend Drupal
 
     Examples:
     | link                            | url                    |
-    | Download Drupal 7               | /project/drupal        |
+    | Download Drupal                 | /project/drupal        |
     | Download Drupal 6               | /project/drupal        |
     | Other Releases                  | /node/3060/release     |
     | More Information                | /project/drupal        |
