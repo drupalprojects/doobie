@@ -32,7 +32,7 @@ Feature: Frontpage news section
     And I should see the summary text
     And I should see at least "3" more news links
 
-  @anon @dependent
+  @anon @dependent @clean_data
   Scenario: Frontpage News tab: More news
     Given I am on the homepage
     And I wait until the page is loaded
