@@ -22,7 +22,7 @@ Feature: Display of advertisements in Hosting support and Paid services forums
 
   Scenario: Advertisement under individual paid service forum
     Given I am on "/forum"
-    When I follow "Paid Drupal services"
+    And I follow "Paid Drupal services"
     And I see the heading "Paid Drupal services"
     When I follow a post
     And I wait until the page is loaded
