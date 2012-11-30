@@ -7062,4 +7062,30 @@ class FeatureContext extends DrupalContext {
       throw new Exception('The Organization logo was not found on the page');
     }
   }
+
+  /**
+   * Checks number of advertisements in the list
+   *
+   * @param int $count
+   *
+   * @Given /^I should see at least "([^"]*)" WebAd(?:s|)$/
+   */
+  public function iShouldSeeAtLeastAds($count) {
+    // Find wrapper div for ads: class=gam-holder
+    $div_ele = $this->getSession()->getPage()->findAll('css', 'div.gam-holder');
+    if (empty($div_ele)) {
+      throw new Exception("No WebAd was found");
+    }
+    $adcount = 0;
+    foreach ($div_ele as $ad) {
+      $link = $ad->find('css', 'a');
+      // Confirm the presence of ad by checking content and link
+      if ($ad->getText() && !empty($link)) {
+        $adcount++;
+      }
+    }
+    if ($adcount < $count) {
+      throw new Exception("There are less than \"" . $count . "\" WebAd" . ($count > 1 ? "s" : "") . " on the page");
+    }
+  }
 }
