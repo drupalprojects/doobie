@@ -1,42 +1,43 @@
-@marketplace @anon
-Feature: Use Marketplace to find services
+@marketplace @anon @content
+Feature: Find Drupal service provider in the Marketplace
   In order to find the right Drupal service provider for me
   As any user
-  I want to filter available providers by categories
+  I should be able to see the list of service providers and filter it
 
-  Scenario: Browse to the Marketplace page
-    Given I am on the homepage
-    When I follow "Marketplace"
-    Then I should see the heading "Marketplace"
-    And I should see the link "Marketplace"
-
-  Scenario: See a paged list of service providers
-    Given I am on "/drupal-services"
-    When I follow "Marketplace"
-    Then I should see at least "10" records
-    And I click on page "2"
-    And I should see at least "10" records
-    And I should see the following <links>
-    | links     |
-    | first     |
-    | next      |
-    | previous  |
-    | last      |
-    And I should see at least "10" records
-    When I click on page "last"
-    Then I should see at least "1" record
-
-  @javascript
   Scenario: Expand main category and view subcategories
     Given I am on "/marketplace"
     When I expand the category "Services"
     And I expand the category "Sectors"
-    And I expand the category "Countries served"
+    And I expand the category "Locations"
     Then I should see the following <texts>
     | texts            |
     | Services         |
     | Sectors          |
-    | Countries served |
+    | Locations        |
     And I should see assorted links under "Services"
     And I should see assorted links under "Sectors"
-    And I should see assorted links under "Countries served"
+    And I should see assorted links under "Locations"
+
+  Scenario: Service categories under an organization
+    Given I am on "/marketplace"
+    And I expand the category "Services"
+    And I follow "Consulting"
+    And I should see at least "5" records
+    When I follow Organization title post
+    Then I should see "Consulting" under "Services" heading
+
+  Scenario: Sector categories under an organization
+    Given I am on "/marketplace"
+    And I expand the category "Sectors"
+    And I follow "Technology"
+    And I should see at least "5" records
+    When I follow Organization title post
+    Then I should see "Technology" under "Sectors" heading
+
+  Scenario: Location categories under an organization
+    Given I am on "/marketplace"
+    And I expand the category "Locations"
+    And I follow "United States"
+    And I should see at least "5" records
+    When I follow Organization title post
+    Then I should see "United States" under "Locations" heading
