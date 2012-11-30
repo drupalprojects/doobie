@@ -5144,7 +5144,7 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeTheNewestCommitsFromCommitlog() {
     $page = $this->getSession()->getPage();
     // Get links from the Commit tab
-    $temp = $page->findAll('css', '#fragment-4 h6 a');
+    $temp = $page->findAll('css', '#tab-commits h6 a');
     if (empty($temp)) {
       throw new Exception("The page did not contain the commit tab");
     }
@@ -5157,7 +5157,7 @@ class FeatureContext extends DrupalContext {
     sleep(2);
     $temp = $page->findAll('css', '.commit-global h3 a');
     if (empty($temp)) {
-      throw new Exception("The page did not contain the commit information");
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " did not contain the commit information");
     }
     $commitLogLinks = array();
     $count = 0;
@@ -5182,7 +5182,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iFollowACommitFromTheList() {
     // Get links from the Commit tab
-    $link = $this->getSession()->getPage()->find('css', '#fragment-4 h6 a');
+    $link = $this->getSession()->getPage()->find('css', '#tab-commits h6 a');
     if (empty($link)) {
       throw new Exception("The commit tab did not contain any link");
     }
