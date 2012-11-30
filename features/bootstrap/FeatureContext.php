@@ -518,9 +518,11 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeProjectData() {
     $page = $this->getSession()->getPage();
-    $element = $page->find('css', 'h1#page-subtitle');
     if (empty($element)) {
-      throw new Exception("No title was found on the page");
+      $element = $page->find('css', 'h1#page-subtitle');
+      if (empty($element)) {
+        throw new Exception("No title was found on the page");
+      }
     }
     // Get the path of the current project
     HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
@@ -2059,7 +2061,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeThatTheProjectShortNameIsReadonly()
   {
-    $field = $this->getSession()->getPage()->findField('Short project name:');
+    $field = $this->getSession()->getPage()->findField('Short project name');
     if (!empty($field) && !$field->getAttribute('disabled')) {
       throw new Exception('Short project name form field exists on Edit Project page and is editable');
     }
@@ -3962,13 +3964,14 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     $page->clickLink('Promote');
     $page->checkField('confirm');
-    $this->projectShortName = $this->randomString(10);
+    /*$this->projectShortName = $this->randomString(10);
     HackyDataRegistry::set('project_short_name', $this->projectShortName);
-    $page->fillField('Short project name:', $this->projectShortName);
+    $page->fillField('Short project name:', $this->projectShortName);*/
     $page->pressButton('Promote to full project');
     $page = $this->getSession()->getPage();
     // Confirm promote
     $page->pressButton('Promote');
+    sleep(3);
   }
 
   /**

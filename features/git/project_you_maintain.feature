@@ -7,7 +7,7 @@ Feature: Promote a project from a sandbox to a full project
   Scenario: Git user creates a project and tries to promote it
     Given I am logged in as "git user"
     When I create a sandbox project
-    And I see the project title
+    And I see project data
     And I follow "Edit"
     Then I should not see the link "Promote"
     And I should not see the link "Promote this project"
@@ -28,6 +28,7 @@ Feature: Promote a project from a sandbox to a full project
     Given I am logged in as "git vetted user"
     And I created a sandbox project
     When I promote the project
+    And I see "has been promoted to a full project"
     And I follow "Edit"
     Then I should not see the link "Promote"
     And I should not see the link "Promote this project"
