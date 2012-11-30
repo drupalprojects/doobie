@@ -3535,16 +3535,39 @@ class FeatureContext extends DrupalContext {
   /**
    * @Given /^I should see the advertisment in the right sidebar$/
    */
-  public function iShouldSeeTheAdvertismentInTheRightSidebar() {
+  public function iShouldSeeTheAdvertismentInTheRightSidebar() {    
     $region = $this->getSession()->getPage()->find('region', 'right sidebar');
     if (empty($region)) {
       throw new Exception("Right sidebar region was not found");
     }
-    $result = $region->find('css', '.block-google-admanager');
-    if (empty($result)) {
+    $ad_container = array('div#google_ads_div_HostingForumBlock_ad_container', 'div.gam-suffix');
+    $found = false;
+    foreach ($ad_container as $ele) {
+      if ($region->find('css', $ele)) {
+        $found = true;
+        break;
+      }
+    }
+    if (!$found) {
       throw new Exception('No advertisement exists in the right sidebar');
     }
-    return $result;
+    $iframe_ele = $region->find('css', $ele . ' iframe');
+    if (!empty($iframe_ele)) {
+      $this->getSession()->switchToIFrame($iframe_ele->getAttribute('name'));
+      // Find links inside iframe
+      $a = $this->getSession()->getPage()->findAll('css', 'a');
+      if (empty($a)) {
+        $this->getSession()->switchToIFrame();
+        throw new Exception('No advertisement exists in the right sidebar');
+      }
+      $this->getSession()->switchToIFrame();
+    }
+    else {
+      $ad_ele = $region->findAll('css', $ele . ' a');
+      if (empty($ad_ele)) {
+        throw new Exception('No advertisement exists in the right sidebar');
+      }
+    }
   }
 
   /**
