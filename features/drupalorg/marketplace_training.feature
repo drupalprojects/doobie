@@ -1,22 +1,20 @@
+@marketplace @content
 Feature: Training section of the Marketplace
-  In order to advertise the training sessions of my organization
-  As an authenticated user
-  I should be able to create the organization
+  In order to find companies which provider Drupal training
+  As any user
+  I should be able to browse Training section
 
   @anon
   Scenario: View training page
     Given I am on the homepage
     When I follow "Marketplace"
     And I follow "Training"
-    Then I should see "Drupal training services"
+    Then I should see the heading "Marketplace"
+    And I should be on "/training"
+    And I should see "Drupal training services"
     And I should see "For upcoming Trainings check"
-
-  @anon
-  Scenario: View right sidebar navigation
-    Given I am on the homepage
-    When I visit "/training"
-    Then I should see "Browse by country"
-    And I should see at least "10" links in the "right sidebar"
+    And I should see "Browse by country"
+    And I should see at least "3" links in the "right sidebar"
     And I should not see the link "Add your listing"
 
   @anon
@@ -32,13 +30,11 @@ Feature: Training section of the Marketplace
     | Drupalcamp or Regional Summit |
     | Training (free or commercial) |
 
-  @anon @specific_text
+  @anon
   Scenario: Follow Global training days link
     Given I am on "/training"
-    When I follow "Global Training Days 2012"
-    Then I should see the heading "Learn Drupal: Global Training Days"
-    And I should see "Global Training dates"
-    And I should see "Drupal Global Training Days is an initiative"
+    When I follow "Global Training Days"
+    Then I should be on "/learn-drupal"
 
   Scenario: Follow Marketplace guidelines link
     Given I am logged in as "site user"
@@ -50,19 +46,35 @@ Feature: Training section of the Marketplace
     And I should see the heading "Training"
     And I should see the heading "Hosting"
 
-  Scenario: Add organization
-    Given I am logged in as "site user"
-    And I visit "/node/add/organization"
-    And I see "Request improvements to vocabularies by"
-    When I create a new organization for "training"
-    Then I should see "has been created"
+  @anon
+  Scenario: See a paged list of training providers
+    Given I am on "/training"
+    Then I should see at least "5" records
+    And I should see the link "next"
+    And I should see the link "last"
+    And I should not see the link "previous"
+    And I should not see the link "first"
+    When I click on page "last"
+    Then I should see at least "1" record
+    And I should see the following <links>
+    | links     |
+    | first     |
+    | previous  |
+    And I should not see the link "next"
+    And I should not see the link "last"
 
-  @dependent @clean_data
-  Scenario: View the created training session
-    Given I am logged in as "site user"
-    And I follow "Your Dashboard"
-    When I follow an issue of the project
-    Then I should see "to the Training section"
-    And I should see "has been posted"
-    And I should see "Drupal.org webmasters"
-    And I should see "Posted by site user"
+  @anon
+  Scenario: View training provider page
+    Given I am on the homepage
+    And I visit "/training"
+    When I follow training organization post
+    Then I should see "This organization is a Drupal training provider."
+
+  @anon
+  Scenario: Navigating through specific country and check for the links exists
+    Given I am on "/training"
+    And I should see "Browse by country"
+    And I follow "Australia"
+    And I should see "The following is a list of organizations that indicate they provide Drupal training services."
+    When I follow training organization post
+    Then I should see "Australia" under "Locations" heading

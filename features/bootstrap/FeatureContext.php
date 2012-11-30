@@ -6984,4 +6984,33 @@ class FeatureContext extends DrupalContext {
       return $steps;
     }
   }
+
+  /**
+   * @Then /^I should see "([^"]*)" under "([^"]*)" heading$/
+   */
+   public function iShouldSeeUnderHeading($link, $section) {
+    $parent = $this->getSectionParentDiv($section);
+    // Get all the links under this section - Assuming all links are under dl dd :)
+    $links = $parent->find("css", "dl dd a");
+    if (empty($links)) {
+      throw new Exception("The section '" . $section . "' does not contain any links");
+    }
+    $resultLink = $parent->findLink($link);
+    if (empty($resultLink)) {
+      throw new Exception("The link '" . $link . "' was not found in the section '" . $section . "'");
+    }
+  }
+
+  /**
+   * @When /^I follow training organization post$/
+   */
+  public function iFollowTrainingOrganizationPost() {
+    $result = $this->getSession()->getPage()->find('css', '.view-content .views-field-title a');
+    if(empty($result)) {
+      throw new Exception("Title post is not found on the page");
+    }
+    $href = $result->getAttribute("href");
+    $this->getSession()->visit($href);
+    sleep(5);
+  }
 }
