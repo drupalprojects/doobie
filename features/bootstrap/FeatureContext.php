@@ -707,6 +707,9 @@ class FeatureContext extends DrupalContext {
     elseif ($field == 'issue tags') {
       $field = 'edit-issue-tags-op';
     }
+    elseif ($field == 'services listing') {
+      $field = 'edit-field-organization-list-rule-value';
+    }
     $page = $this->getSession()->getPage();
     $page->selectFieldOption($field, trim($value));
     if (empty($page))
