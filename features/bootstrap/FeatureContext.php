@@ -518,6 +518,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeProjectData() {
     $page = $this->getSession()->getPage();
+    $element = $page->find('css', 'h1#page-title');
     if (empty($element)) {
       $element = $page->find('css', 'h1#page-subtitle');
       if (empty($element)) {
