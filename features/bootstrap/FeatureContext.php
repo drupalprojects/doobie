@@ -518,7 +518,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeProjectData() {
     $page = $this->getSession()->getPage();
-    $element = $page->find('css', 'h1#page-title');
+    $element = $page->find('css', 'h1#page-subtitle');
     if (empty($element)) {
       throw new Exception("No title was found on the page");
     }
@@ -1311,12 +1311,12 @@ class FeatureContext extends DrupalContext {
     $element = $this->getSession()->getPage();
     if (strtolower($locator) == "key modules/theme/distribution used") {
       $locator = "edit-field-module-0-nid-nid";
+      $element->fillField($locator, $value);
     }
-    $element->fillField($locator, $value);
     $this->project_value = $value;
-	  //In order to close the autocomplete dropdown, otherwise button click does not work
+	  // In order to close the autocomplete dropdown, otherwise button click does not work
 	  sleep(3);
-	  $this->getSession()->executeScript("$('#autocomplete').hide();");
+	  $this->getSession()->executeScript("if (document.getElementById('autocomplete')) { document.getElementById('autocomplete').style.display = 'none'; }");
   }
 
   /**
@@ -6220,15 +6220,7 @@ class FeatureContext extends DrupalContext {
    * @When /^I create a new branch for "([^"]*)" version$/
    */
   public function iCreateANewBranchForVersion($version) {
-    $validBranches = array();
-    // Perform initial operations
-    $data = $this->performPreBranchTagOperation();
-    // Get the list of branches in the current repo
-    $process = new Process("git branch -a");
-    $process->run();
-    // Each branch will be printed in one line, so split them
-    $temp = explode("\n", $process->getOutput());
-    foreach ($temp as $b) {
+    ach ($temp as $b) {
       // Consider only those branches that have the provided version (Eg. 6.x-1.x)
       if (strpos($b, "remotes/origin/" . $version)) {
         // The array should have only the minor version numbers and no characters
@@ -6249,29 +6241,19 @@ class FeatureContext extends DrupalContext {
     $command = "git checkout -b " . $branch;
     $process = new Process($command);
     $process->run();
+    sleep(2);
     if (!$process->isSuccessful()) {
       throw new Exception("Unable to create the branch - '" . $branch . "' Checkout failed -\n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
     }
     elseif (strpos($process->getOutput(), "fatal") !== FALSE || strpos($process->getErrorOutput(), "fatal") !== FALSE) {
       throw new Exception("Unable to create the branch - '" . $branch . "' Checkout failed -\n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
     }
-    // Update a file
-    $file = "test_releases.info";
-    $fh = fopen($file, "a");
-    fwrite($fh, "\nTest data for BDD - " . date('d F Y G:i:s'));
-    fclose($fh);
-    // Git add and commit
-    $command = 'git add ' . $file . '; git commit -m "by ' . $data['username'] . ': From the step definition"';
-    $process = new Process($command);
-    $process->run();
-    if (!$process->isSuccessful()) {
-      throw new Exception('Git add/commit failed during branch creation - ' . $process->getErrorOutput());
-    }
     // Push the changes to create a new branch
     $password = $data['password'];
     $command = "../bin/gitwrapper branch $password $branch";
     $process = new Process($command);
     $process->run();
+    sleep(2);
     if (!$process->isSuccessful()) {
       throw new Exception("Unable to create the branch '" . $branch . "' \n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
     }
@@ -6329,6 +6311,7 @@ class FeatureContext extends DrupalContext {
     // Get the list of tags in the current repo
     $process = new Process("git tag -l");
     $process->run();
+    sleep(1);
     // Each tag will be printed in one line, so split them
     $temp = explode("\n", $process->getOutput());
     foreach ($temp as $b) {
@@ -6348,6 +6331,7 @@ class FeatureContext extends DrupalContext {
     $command = "git tag " . $tag;
     $process = new Process($command);
     $process->run();
+    sleep(2);
     if (!$process->isSuccessful()) {
       throw new Exception("Unable to create the tag. '" . $tag . "' \n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
     }
@@ -6358,6 +6342,7 @@ class FeatureContext extends DrupalContext {
     $command = "../bin/gitwrapper tag $password $tag";
     $process = new Process($command);
     $process->run();
+    sleep(2);
     if (!$process->isSuccessful()) {
       throw new Exception("Unable to create the tag '" . $tag . "' \n Output: " . $process->getOutput() . "\n Error: " . $process->getErrorOutput());
     }
@@ -6400,8 +6385,8 @@ class FeatureContext extends DrupalContext {
       throw new Exception("Unable to set the git config value");
     }
     // Come back to version control page
-    $this->getSession()->visit($currUrl);
-    sleep(2);
+    //$this->getSession()->visit($currUrl);
+    //sleep(2);
     return $userData;
   }
 
@@ -6959,5 +6944,31 @@ class FeatureContext extends DrupalContext {
       throw new Exception('Organization name was not found');
     }
     return new Then('I should see the link "' . $orgn_name . '"');
+  }
+
+  /** Step to ensure $user is set a maintainer
+   *
+   * @param $user
+   *   string The username to be added as maintainer
+   *
+   * @Then /^I should see "([^"]*)" as a maintainer$/
+   */
+  public function iShouldSeeAsAMaintainer($user) {
+    // Check if $user is a maintainer. If not, then make him maintainer
+    $userLink = $this->getSession()->getPage()->findLink($user);
+    if (empty($userLink)) {
+      $steps = array();
+      $steps[] = new Then("I enter \"$user\" for field \"Maintainer user name\"");
+      $steps[] = new Then("I wait \"3\" seconds");
+      $steps[] = new Then("I select \"$user\" from the suggestion \"Maintainer user name\"");
+      $steps[] = new Then("I wait \"2\" seconds");
+      $steps[] = new Then("I check the box \"edit-new-maintainer-permissions-write-to-vcs\"");
+      $steps[] = new Then("I check the box \"edit-new-maintainer-permissions-update-project\"");
+      $steps[] = new Then("I check the box \"edit-new-maintainer-permissions-administer-releases\"");
+      $steps[] = new Then("I press \"Update\"");
+      $steps[] = new Then("I wait until the page loads");
+      $steps[] = new Then("I should see \"added and permissions updated\"");
+      return $steps;
+    }
   }
 }
