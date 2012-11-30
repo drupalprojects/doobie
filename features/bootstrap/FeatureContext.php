@@ -3533,9 +3533,9 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I should see the advertisment in the right sidebar$/
+   * @Given /^I should see the advertisement in the right sidebar$/
    */
-  public function iShouldSeeTheAdvertismentInTheRightSidebar() {    
+  public function iShouldSeeTheAdvertisementInTheRightSidebar() {    
     $region = $this->getSession()->getPage()->find('region', 'right sidebar');
     if (empty($region)) {
       throw new Exception("Right sidebar region was not found");
