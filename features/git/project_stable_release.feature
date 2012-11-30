@@ -1,4 +1,4 @@
-@wip @slow @javascript
+@wip @slow
 Feature: Manage stable releases
   In order to make stable releases available to users
   As a project owner
