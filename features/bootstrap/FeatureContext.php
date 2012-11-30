@@ -2014,7 +2014,7 @@ class FeatureContext extends DrupalContext {
     // Parse until the <span> tag, since it contains text 'xx commits'.
     $result = $page->findAll('css', "#block-versioncontrol_project-project_maintainers div.item-list ul li div span");
     if (empty($result)) {
-      throw new Exception("Unable to find the block of committers");
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not contain any commits");
     }
     foreach ($result as $commit) {
       // Get the text and make sure it has the string 'commits'.
