@@ -4,7 +4,7 @@ Feature: To see the list of all the commits
   As a user
   I should got to the commit log page
 
-  @smoke
+  @smoke @javascript
   Scenario: View the list of commits
     Given that I am on the homepage
     When I follow "Commits"
@@ -35,12 +35,10 @@ Feature: To see the list of all the commits
   Scenario: Click link to user profile
     Given I am on "/commitlog"
     When I click on "user name" of a commit
-    Then I should see the heading "Personal information"
-    And I should see the following <texts>
-    | texts     |
-    | Full name |
-    | Country   |
-    | History   |
+    Then I should see the following <texts>
+    | texts      |
+    | Member for |
+    | History    |
 
   Scenario: Click link to repository
     Given I am on "/commitlog"
@@ -53,6 +51,7 @@ Feature: To see the list of all the commits
     | commit    |
     | tree      |
 
+  @javascript
   Scenario: View project title as the first part of the heading
     Given that I am on the homepage
     When I follow "Commits"
