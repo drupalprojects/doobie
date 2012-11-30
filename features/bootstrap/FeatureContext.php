@@ -6103,6 +6103,21 @@ class FeatureContext extends DrupalContext {
     $subject = $this->randomString(8);
     $page->fillField("Subject", $subject);
     HackyDataRegistry::set('random:Forum subject', $subject);
+    $summary = str_repeat($this->randomString(10) . " ", 10);
+    // Fill summary
+     // If javascript is used, then click Edit summary link and then fill field
+    if ($this->getSession()->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
+      $page->findLink('Edit summary')->click();
+      $page->fillField("Summary", $summary);
+    }
+    else {
+      // If Goutte is used, then fill the field directly
+      $summary_ele = $page->find('css', '#edit-body-und-0-summary');
+      if (!empty($summary_ele)) {
+        $summary_ele->setValue($summary);
+      }
+    }
+    HackyDataRegistry::set('random:Forum summary', $summary);
     $body = str_repeat($this->randomString(30) . " ", 10);
     $page->fillField("Body", $body);
     HackyDataRegistry::set('random:Forum body', $body);
@@ -6151,24 +6166,24 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I should see the introductory text$/
+   * @Given /^I should see the summary text$/
    */
   public function iShouldSeeTheIntroductoryText() {
     // Get the anchor tag from the first new
-    $result = $this->getSession()->getPage()->find("css", "#fragment-1 p a");
+    $result = $this->getSession()->getPage()->find("css", "#tab-news p a");
     if (empty($result)) {
-      throw new Exception('The news section did not contain introductory text');
+      throw new Exception('The news section did not contain summary text');
     }
     // Move one level up to get the p tag. a > p
     $intro = $result->getParent()->getText();
     if (trim($intro) == "") {
-      throw new Exception('The news section did not contain introductory text');
+      throw new Exception('The news section did not contain summary text');
     }
     // Remove read more from the intro
     $intro = trim(str_replace("Read more", "", $intro));
-    // Get the full body from post and check if the intro is part of it or not
-    if (strpos(HackyDataRegistry::get('random:Forum body'), $intro) === FALSE) {
-      throw new Exception('The news section did not contain introductory text');
+    // Get the summary from post and check if the intro is part of it or not
+    if (strpos(HackyDataRegistry::get('random:Forum summary'), $intro) === FALSE) {
+      throw new Exception('The news section did not contain summary text');
     }
   }
 
@@ -6178,7 +6193,7 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeAtLeastMoreNewsLinks($count) {
     $links = 0;
     // Get the anchor tags
-    $result = $this->getSession()->getPage()->findAll("css", "#fragment-1 p a");
+    $result = $this->getSession()->getPage()->findAll("css", "#tab-news p a");
     if (empty($result)) {
       throw new Exception('The news section did not contain any links');
     }
