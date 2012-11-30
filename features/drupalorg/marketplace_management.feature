@@ -1,4 +1,4 @@
-@marketplace @wip
+@javascript @marketplace @wip
 Feature: Marketplace Management
   In order to manage marketplace listings
   As an authenticated user
