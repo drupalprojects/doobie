@@ -1314,9 +1314,9 @@ class FeatureContext extends DrupalContext {
       $element->fillField($locator, $value);
     }
     $this->project_value = $value;
-	  // In order to close the autocomplete dropdown, otherwise button click does not work
-	  sleep(3);
-	  $this->getSession()->executeScript("if (document.getElementById('autocomplete')) { document.getElementById('autocomplete').style.display = 'none'; }");
+    // In order to close the autocomplete dropdown, otherwise button click does not work
+    sleep(3);
+    $this->getSession()->executeScript("if (document.getElementById('autocomplete')) { document.getElementById('autocomplete').style.display = 'none'; }");
   }
 
   /**
@@ -6220,7 +6220,16 @@ class FeatureContext extends DrupalContext {
    * @When /^I create a new branch for "([^"]*)" version$/
    */
   public function iCreateANewBranchForVersion($version) {
-    ach ($temp as $b) {
+    $validBranches = array();
+    // Perform initial operations
+    $data = $this->performPreBranchTagOperation();
+    // Get the list of branches in the current repo
+    $process = new Process("git branch -a");
+    $process->run();
+    sleep(1);
+    // Each branch will be printed in one line, so split them
+    $temp = explode("\n", $process->getOutput());
+    foreach ($temp as $b) {
       // Consider only those branches that have the provided version (Eg. 6.x-1.x)
       if (strpos($b, "remotes/origin/" . $version)) {
         // The array should have only the minor version numbers and no characters
