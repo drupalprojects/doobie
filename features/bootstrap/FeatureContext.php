@@ -707,6 +707,9 @@ class FeatureContext extends DrupalContext {
     elseif ($field == 'issue tags') {
       $field = 'edit-issue-tags-op';
     }
+    elseif ($field == 'services listing') {
+      $field = 'edit-field-organization-list-rule-value';
+    }
     $page = $this->getSession()->getPage();
     $page->selectFieldOption($field, trim($value));
     if (empty($page))
@@ -2011,7 +2014,7 @@ class FeatureContext extends DrupalContext {
     // Parse until the <span> tag, since it contains text 'xx commits'.
     $result = $page->findAll('css', "#block-versioncontrol_project-project_maintainers div.item-list ul li div span");
     if (empty($result)) {
-      throw new Exception("Unable to find the block of committers");
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not contain any commits");
     }
     foreach ($result as $commit) {
       // Get the text and make sure it has the string 'commits'.
@@ -3685,8 +3688,8 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I am on the project page$/
-   * @When /^I visit the project page$/
+   * @Given /^I am on the (?:project|organization) page$/
+   * @When /^I visit the (?:project|organization) page$/
    */
   public function iAmOnTheProjectPage() {
     $path = $this->locatePath(HackyDataRegistry::get('project path'));
@@ -5141,7 +5144,7 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeTheNewestCommitsFromCommitlog() {
     $page = $this->getSession()->getPage();
     // Get links from the Commit tab
-    $temp = $page->findAll('css', '#fragment-4 h6 a');
+    $temp = $page->findAll('css', '#tab-commits h6 a');
     if (empty($temp)) {
       throw new Exception("The page did not contain the commit tab");
     }
@@ -5154,7 +5157,7 @@ class FeatureContext extends DrupalContext {
     sleep(2);
     $temp = $page->findAll('css', '.commit-global h3 a');
     if (empty($temp)) {
-      throw new Exception("The page did not contain the commit information");
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " did not contain the commit information");
     }
     $commitLogLinks = array();
     $count = 0;
@@ -5179,7 +5182,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iFollowACommitFromTheList() {
     // Get links from the Commit tab
-    $link = $this->getSession()->getPage()->find('css', '#fragment-4 h6 a');
+    $link = $this->getSession()->getPage()->find('css', '#tab-commits h6 a');
     if (empty($link)) {
       throw new Exception("The commit tab did not contain any link");
     }
@@ -6943,5 +6946,18 @@ class FeatureContext extends DrupalContext {
       throw new Exception("There are less than '" . $count . "' case studies on the page - " . $this->getSession()->getCurrentUrl());
     }
     return $textsManage;
+  }
+
+  /**
+   * Looks for test organization link on the page
+   *
+   * @Then /^I should see the organization link$/
+   *
+   */
+  public function iShouldSeeTheOrganizationLink() {
+    if(!$orgn_name = HackyDataRegistry::get('random:Organization name')) {
+      throw new Exception('Organization name was not found');
+    }
+    return new Then('I should see the link "' . $orgn_name . '"');
   }
 }

@@ -9,9 +9,9 @@ Feature: Verify git access
 
   @gitrepo
   Scenario: Create a sandbox project and initialize repo
-    When I visit "/node/add/project"
-    And I create a "module"
-    And I see the project title
+    When I visit "/node/add/project-module"
+    And I create a "sandbox" project
+    And I see project data
     And I follow "Version control"
     Then I initialize the repository
 
@@ -34,5 +34,6 @@ Feature: Verify git access
     And I click "Git access"
     And I check the box "I agree to these terms"
     And I press "Save"
+    And I reload the page
     Then I should not see the text "You will not be able to use Git"
     And I should see the text "Git user configuration"
