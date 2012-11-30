@@ -3688,8 +3688,8 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I am on the project page$/
-   * @When /^I visit the project page$/
+   * @Given /^I am on the (?:project|organization) page$/
+   * @When /^I visit the (?:project|organization) page$/
    */
   public function iAmOnTheProjectPage() {
     $path = $this->locatePath(HackyDataRegistry::get('project path'));
@@ -6931,5 +6931,18 @@ class FeatureContext extends DrupalContext {
       throw new Exception("There are less than '" . $count . "' case studies on the page - " . $this->getSession()->getCurrentUrl());
     }
     return $textsManage;
+  }
+
+  /**
+   * Looks for test organization link on the page
+   *
+   * @Then /^I should see the organization link$/
+   *
+   */
+  public function iShouldSeeTheOrganizationLink() {
+    if(!$orgn_name = HackyDataRegistry::get('random:Organization name')) {
+      throw new Exception('Organization name was not found');
+    }
+    return new Then('I should see the link "' . $orgn_name . '"');
   }
 }
