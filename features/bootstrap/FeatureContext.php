@@ -5624,7 +5624,7 @@ class FeatureContext extends DrupalContext {
         $chk = $element->findField("Request listing in the Training section");
         // Training url
         $train_url = $this->randomString(20);
-        $element->fillField("Training url", $train_url);
+        $element->fillField("edit-field-organization-training-url-und-0-url", $train_url);
         HackyDataRegistry::set('random:Training url', $train_url);
         // Training description
         $train_desc = str_repeat($this->randomString(10) . " ", 20);
@@ -7035,5 +7035,31 @@ class FeatureContext extends DrupalContext {
     $href = $result->getAttribute("href");
     $this->getSession()->visit($href);
     sleep(5);
+  }
+
+  /**
+   * Looks for test organization logo
+   *
+   * @Then /^I should see the organization logo$/
+   *
+   */
+  public function iShouldSeeTheOrganizationLogo() {
+    sleep(2);
+    $logo = HackyDataRegistry::get('Organization Logo');
+    $img_elements = $this->getSession()->getPage()->findAll('css', 'div.content img');
+    if (empty($img_elements) || empty($logo)) {
+      throw new Exception('Image/logo was not found');
+    }
+    $logo_name = pathinfo($logo);
+    $found = false;
+    foreach ($img_elements as $img) {
+      if (false !== strpos($img->getAttribute('src'), $logo_name['filename'])) {
+        $found = true;
+        break;
+      }
+    }
+    if (!$found) {
+      throw new Exception('The Organization logo was not found on the page');
+    }
   }
 }

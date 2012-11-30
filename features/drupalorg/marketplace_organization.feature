@@ -1,4 +1,4 @@
-@javascript @marketplace @wip
+@marketplace @wip
 Feature: Adding company to the Marketplace
   In order to advertise the drupal services of my organization
   As an authenticated user
@@ -16,7 +16,6 @@ Feature: Adding company to the Marketplace
     #And I should see "URL field is required."
     #And I should see "Drupal contributions field is required."
 
-  @javascript
   Scenario: Add organization and request promotion to Services section
     Given I am logged in as "site user"
     And I am on "/node/add/organization"
@@ -30,11 +29,11 @@ Feature: Adding company to the Marketplace
     And I should see the random "Services" text
     And I should see the random "Sectors" text
     And I should see the random "Locations" text
-    And I should see the random "Drupal contributions" text
-    And I should see the random "Organization description" text
+    #And I should see the random "Drupal contributions" text
+    #And I should see the random "Organization description" text
     And I should see the random "Headquarters" text
     And I should see the random "Usual project budget (optional)" text
-    And I should see "Posted by site user"
+    And I should see "Submitted by site user"
 
   @dependent @flaky
   Scenario: View an issue request for services section
@@ -44,12 +43,12 @@ Feature: Adding company to the Marketplace
     When I follow "this issue"
     Then I should see the issue link
     And I should see the following <texts>
-    | texts                 |
-    | has been posted       |
-    | Review                |
-    | Marketplace listing   |
-    | Drupal.org webmasters |
-    | Posted by site user   |
+    | texts                    |
+    | has been posted          |
+    | Review                   |
+    | Marketplace listing      |
+    | Drupal.org webmasters    |
+    | Submitted by site user   |
     And I should see the heading "Issue Summary"
     And I should see the heading "Comments"
     And I should see the heading "Post new comment"
@@ -65,7 +64,6 @@ Feature: Adding company to the Marketplace
     | texts            |
     | Services listing |
     | Issue for review |
-    | Training listing |
     | Hosting level    |
 
   @dependent @clean_data
@@ -73,7 +71,7 @@ Feature: Adding company to the Marketplace
     Given I am logged in as "git user"
     When I visit the organization page
     Then I should not see "Regarding Services listing communicate with webmasters"
-    And I should see "Posted by site user"
+    And I should see "Submitted by site user"
     And I should not see the following <links>
     | links      |
     | Edit       |
