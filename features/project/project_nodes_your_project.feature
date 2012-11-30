@@ -1,3 +1,4 @@
+@project
 Feature: Learn about details of a full project
   In order to learn about the various details and components associated with a project
   As any user

@@ -1,3 +1,4 @@
+@maintainers
 Feature: 'Administer maintainers' permission check
   In order to get help maintaining my project
   As a project owner

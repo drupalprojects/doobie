@@ -1,4 +1,4 @@
-@slow
+@slow @issues
 Feature: Overall Filter Search for Issues
   In order to define the Advanced Filter search for Project Issues
   As an Authenticated user

@@ -1,3 +1,4 @@
+@releases
 Feature: Project release files
   In order to install a specific release of Drupal core
   As any user
