@@ -1,4 +1,4 @@
-@flaky
+@user @flaky @git @wip
 Feature: To see the list of all the commits for a user
   In order to see the list of commits for a user
   As an authenticated user
@@ -11,9 +11,9 @@ Feature: To see the list of all the commits for a user
 
   @gitrepo @flaky
   Scenario: Git User creates a project
-    When I visit "/node/add/project"
-    And I create a "module"
-    And I see the project title
+    When I visit "/node/add/project-module"
+    And I create a "sandbox" project
+    And I see project data
     And I follow "Version control"
     Then I initialize the repository
     And I follow "Version control"
