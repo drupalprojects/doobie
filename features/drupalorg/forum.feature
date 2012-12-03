@@ -4,8 +4,10 @@ Feature: Create new forum topic as a regular site user
   As a site user
   I should be able to post a new forum topic
 
-  Scenario: View the forum topic page
+  Background:
     Given I am logged in as "site user"
+
+  Scenario: View the forum topic page
     When I follow "Support"
     And I follow "Forums"
     Then I should be on "/forum"
@@ -13,17 +15,17 @@ Feature: Create new forum topic as a regular site user
     And I should see "New forum topics" block in the right sidebar
     And I should see at least "5" links in the "right sidebar" region
 
+  @known_git7failure
   Scenario: Add a new forum topic with empty required fields
-    Given I am logged in as "site user"
     And I visit "/forum"
     When I follow "Add new Forum topic"
     And I press "Save"
     Then I should see "Subject field is required"
     And I should see "Forums field is required"
+    And the field "Body" should be outlined in red
 
-  @api
+  @api @known_git7failure
   Scenario: Add a new forum topic and see the latest topic in the right side block
-    Given I am logged in as "site user"
     And I visit "/forum"
     And I follow "Post installation"
     And I follow "Add new Forum topic"
