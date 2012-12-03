@@ -1,4 +1,4 @@
-@ci
+@user @ci @git
 Feature: Verify projects and commits summary in user profile page
   In order to get a summary of the projects I have worked on
   As a git vetted user
@@ -9,9 +9,9 @@ Feature: Verify projects and commits summary in user profile page
 
   @gitrepo
   Scenario: Create a sandbox project and initialize repo
-    When I visit "/node/add/project"
-    And I create a "module"
-    And I see the project title
+    When I visit "/node/add/project-module"
+    And I create a "sandbox" project
+    And I see project data
     And I am on the Version control tab
     And I initialize the repository
     And I follow "Version control"
@@ -39,8 +39,9 @@ Feature: Verify projects and commits summary in user profile page
 
   @gitrepo @clean_data
   Scenario: Create a full project, commit and and view the commits
-    When I visit "/node/add/project"
-    And I create a full project
+    When I visit "/node/add/project-module"
+    And I create a "full" project
+    And I see project data
     And I follow "Version control"
     And I initialize the repository
     And I follow "Version control"
