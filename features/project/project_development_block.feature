@@ -1,4 +1,4 @@
-@anon
+@project @anon
 Feature: Project Development Block
   In order to get the information about code development
   As a visitor
