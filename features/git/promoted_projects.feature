@@ -1,3 +1,4 @@
+@project @wip
 Feature: Ensure that sandbox repository is not available once the project is promoted
   In order to maintain a single canonical repository for a project with a memorable namespace
   As a project owner
@@ -5,10 +6,10 @@ Feature: Ensure that sandbox repository is not available once the project is pro
 
   Scenario: Create a Sandbox project as git vetted user and promote
     Given I am logged in as "git vetted user"
-    And I am on "/node/add/project"
-    When I create a "theme"
+    And I am on "/node/add/project-module"
+    When I create a "sandbox" project
     And I promote the project
-    Then I should see the project title
+    Then I should see project data
 
   @dependent
   Scenario: Visit project page and see that releases tab is available and project short name is readonly
@@ -34,11 +35,11 @@ Feature: Ensure that sandbox repository is not available once the project is pro
   @dependent
   Scenario: Clone the sandbox repository as project owner
     Given I am logged in as "git vetted user"
-    When I clone the sandbox repo
+    When I clone the "promoted sandbox" repo
     Then I should see an error
 
   @clean_data @wip
   Scenario: Clone the sandbox repository as anonymous user
     Given I am not logged in
-    When I clone the sandbox repo
+    When I clone the "promoted sandbox" repo
     Then I should see an error
