@@ -1,4 +1,4 @@
-@community @forums
+@community @forums @flaky
 Feature:
   In order to restrict unauthorized users from uploading files while creating a Forum Topic
   As a site admin
@@ -14,8 +14,7 @@ Feature:
 
   Scenario: File Attachments is available for admin
     Given I am logged in as "admin test"
-    When I follow "Support"
-    And I follow "Forums"
-    And I follow "Post new Forum topic"
+    And I am on "/forum"
+    When I follow "Post new Forum topic"
     Then I should see "File attachments"
     And I should see "Attach new file:"
