@@ -1169,7 +1169,7 @@ class FeatureContext extends DrupalContext {
     foreach ($table as $key => $value) {
       $select = $this->getSession()->getPage()->findField($table[$key]['fields']);
       if(empty($select)) {
-        throw new Exception('The page does not have the field with label');
+        throw new Exception("The page does not have the field with id|name|label|value '" . $table[$key]['fields'] . "'");
       }
       // if multiple is always true we get "value cannot be an array" error for single select fields
       $multiple = $select->getAttribute('multiple') ? true : false;
