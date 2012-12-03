@@ -708,15 +708,12 @@ class FeatureContext extends DrupalContext {
       $field = 'edit-objects-selector';
     }
     elseif ($field == 'issue tags') {
-      $field = 'edit-issue-tags-op';
+      $field = 'edit-taxonomy-vocabulary-9-tid-op';
     }
     elseif ($field == 'services listing') {
       $field = 'edit-field-organization-list-rule-value';
     }
-    $page = $this->getSession()->getPage();
-    $page->selectFieldOption($field, trim($value));
-    if (empty($page))
-      throw new Exception("Unable to select the text");
+    return new Given("I select \"$value\" from \"$field\"");
   }
 
   /**
@@ -761,7 +758,7 @@ class FeatureContext extends DrupalContext {
       $field = "edit-email";
     }
     elseif ($field == "issue tags") {
-      $field = "edit-issue-tags";
+      $field = "edit-taxonomy-vocabulary-9-tid";
     }
     elseif ($field == "maintainer user name") {
       $field = "edit-new-maintainer-user";
