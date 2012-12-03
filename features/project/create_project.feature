@@ -59,9 +59,9 @@ Feature: Create a project
     And I fill in the following:
     | Homepage:       | http://mytestsite.com |
     | Documentation:  | docs here             |
-    | Screenshots:    | screenshots...         |
+    | Screenshots:    | screenshots...        |
     | Changelog:      | http://mytestsite.com |
     | Demo site:      | http://mytestsite.com |
     And I fill in "Testing create project" for "Log message:"
     And I press "Save"
-    Then I check the project is created
+    Then I should see the project was created
