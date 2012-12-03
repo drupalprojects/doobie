@@ -9,7 +9,6 @@ Feature: Overall Filter Search for Issues
 
   Scenario: Visit the project issues page
     Then I should see the heading "Issues for all projects"
-    And I should see "Download & Extend"
     And I should see the following <texts>
     | texts      |
     | Search for |
@@ -25,49 +24,10 @@ Feature: Overall Filter Search for Issues
 
   @javascript @htaccess
   Scenario: Search for the project title
-    When I fill in "Project" with "Achie"
-    And I wait for the suggestion box to appear
+    When I fill in "Project" with "Achievements"
     And I select "Achievements" from the suggestion "Project"
-    And I wait for "5" seconds
     And I press "Search" in the "content" region
     Then I should see at least "5" records
-
-  Scenario: Search issues that are active
-    When I select "active" from "Status"
-    And I press "Search" in the "content" region
-    Then I should see at least "2" records
-    And I should see "active" under "Status"
-    And I should not see "needs work" under "Status"
-    And I should not see "fixed" under "Status"
-
-  Scenario: Search issues that needs review
-    When I select "needs review" from "Status"
-    And I press "Search" in the "content" region
-    Then I should see at least "1" records
-    And I should see "needs review" under "Status"
-    And I should not see "needs work" under "Status"
-    And I should not see "active" under "Status"
-
-  Scenario: Search issues based on Priorty and Category
-    When I select "normal" from "Priority"
-    And I press "Search" in the "content" region
-    And I should see at least "1" records
-    And I should see "normal" under "Priority"
-    And I select "bug report" from "Category"
-    And I press "Search" in the "content" region
-    And I should see at least "1" records
-    And I should see "bug reports" under "Category"
-
-  Scenario: Search issues with all filters
-    When I select the following <fields> with <values>
-    | fields   | values   |
-    | Status   | active   |
-    | Priority | normal   |
-    | Category | Any      |
-    And I press "Search" in the "content" region
-    Then I should see at least "3" records
-    And I should see "active" under "Status"
-    And I should see "normal" under "Priority"
 
   Scenario Outline: Search records by status
     When I select "<status>" from "Status"
@@ -75,24 +35,23 @@ Feature: Overall Filter Search for Issues
     Then I should see at least "4" records
     Examples:
     | status               |
-    | active               |
-    | needs work           |
-    | needs review         |
-    | patch (to be ported) |
-    | fixed                |
-    | postponed            |
-    | closed (fixed)       |
+    | Active               |
+    | Needs work           |
+    | Patch (to be ported) |
+    | Fixed                |
+    | Postponed            |
+    | Closed (fixed)       |
 
   Scenario Outline: Search records by Priority
     When I select "<priority>" from "Priority"
     And I press "Search" in the "content" region
-    Then I should see at least "5" records
+    Then I should see at least "3" records
     Examples:
     | priority |
-    | critical |
-    | major    |
-    | normal   |
-    | minor    |
+    | Critical |
+    | Major    |
+    | Normal   |
+    | Minor    |
 
   Scenario Outline: Search records by Category
     When I select "<category>" from "Category"
@@ -100,10 +59,20 @@ Feature: Overall Filter Search for Issues
     Then I should see at least "5" records
     Examples:
     | category        |
-    | bug report      |
-    | task            |
-    | feature request |
-    | support request |
+    | Bug report      |
+    | Task            |
+    | Feature request |
+    | Support request |
+
+  Scenario: Search issues with all filters
+    When I select the following <fields> with <values>
+    | fields   | values     |
+    | Status   | Needs work |
+    | Priority | Normal     |
+    | Category | Task       |
+    And I press "Search" in the "content" region
+    Then I should see at least "3" records
+    And I should see "Needs work" under "Status"
 
   Scenario: View pagination links: First page
     And I should see the following <links>
