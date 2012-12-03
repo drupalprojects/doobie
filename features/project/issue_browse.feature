@@ -1,20 +1,20 @@
-@issues @known_git7failure @wip
+@issues @wip
 Feature: Visitor views issue queue for a project
   In order to evaluate a project
   As a visitor to a project issue queue
   I want to browse issues
 
-  Scenario: Issues exist
+  Scenario: Issues exist in existing project
     Given I am on "/project/coder"
     When I click "Advanced search"
     Then I should see at least "50" records
     And I should see "Last updated" sorted in "ascending" order
 
   @clean_data
-  Scenario: No issues exist
+  Scenario: No issues exist in new project
     Given I am logged in as "git user"
-    And I create a sandbox project
+    And I visit "/node/add/project-module"
+    When I create a "sandbox" project
     And I click "0 total"
-    Then I should see "No issues match your criteria."
-
+    Then I should see "No issues match your criteria"
 
