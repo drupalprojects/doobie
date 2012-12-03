@@ -9,9 +9,9 @@ Feature: Users create git repository
 
   @smoke
   Scenario: Git User creates a project
-    Given I am at "/node/add/project"
-    When I create a "module"
-    And I see the project title
+    Given I am at "/node/add/project-module"
+    When I create a "sandbox" project
+    And I see project data
     And I am on the Version control tab
     And I see "Empty Sandbox repository"
     And I initialize the repository
