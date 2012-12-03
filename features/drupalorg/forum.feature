@@ -4,8 +4,10 @@ Feature: Create new forum topic as a regular site user
   As a site user
   I should be able to post a new forum topic
 
-  Scenario: View the forum topic page
+   Background:
     Given I am logged in as "site user"
+
+  Scenario: View the forum topic page
     When I follow "Support"
     And I follow "Forums"
     Then I should be on "/forum"
@@ -14,7 +16,6 @@ Feature: Create new forum topic as a regular site user
     And I should see at least "5" links in the "right sidebar" region
 
   Scenario: Add a new forum topic with empty required fields
-    Given I am logged in as "site user"
     And I visit "/forum"
     When I follow "Post new Forum topic"
     And I press "Save"
@@ -24,7 +25,6 @@ Feature: Create new forum topic as a regular site user
 
   @flaky @clean_data
   Scenario: Add a new forum topic and see the latest topic in the right side block
-    Given I am logged in as "site user"
     And I visit "/forum"
     And I follow "Post installation"
     And I follow "Post new Forum topic"
