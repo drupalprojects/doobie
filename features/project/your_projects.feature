@@ -1,3 +1,4 @@
+@project @user @wip
 Feature: Your Project Tab
   In order to easily manage the projects I've created
   As a project maintainer
@@ -7,8 +8,8 @@ Feature: Your Project Tab
     Given I am logged in as "git vetted user"
 
  Scenario: Create test data: Full project
-    And I am on "/node/add/project"
-    When I create a full project
+    And I am on "/node/add/project-module"
+    When I create a "full" project
     Then I should see project data
 
   @dependent
