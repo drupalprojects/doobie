@@ -105,7 +105,7 @@ Feature: Maintain the project
   Scenario: Git vetted user commits to repo
     Given I am logged in as "git vetted user"
     And I am on "/project/test_releases"
-    And I see the project title
+    And I see project data
     And I visit the Version control tab
     When I clone the repo
     And I push "2" commits to the repository
@@ -135,4 +135,4 @@ Feature: Maintain the project
     When I follow "delete" for the maintainer "git vetted user"
     And I press "Delete"
     Then I should see "Removed"
-    And I should see "as a maintainer" 
+    And I should see "as a maintainer"
