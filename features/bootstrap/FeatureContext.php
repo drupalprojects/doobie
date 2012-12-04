@@ -2238,8 +2238,8 @@ class FeatureContext extends DrupalContext {
    *
    * @param string $type
    *   File attachments/Primary screenshot/Additional screenshots/Images
-   * @param object $files
-   *   TableNode
+   * @param TableNode object $files
+   *   
    */
   private function uploadMultipleFiles($type, TableNode $files) {
     $type = strtolower($type);
