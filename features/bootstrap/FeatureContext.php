@@ -7126,4 +7126,107 @@ class FeatureContext extends DrupalContext {
     }
     return $return;
   }
+
+  /**
+   * Creates a new chnage record
+   *
+   * @When /^I create new change record$/
+   */
+  public function iCreateNewChangeRecord() {
+    sleep(5);
+    $element = $this->getSession()->getPage();
+    $recordTitle = $this->randomString(12);
+		$element->fillField("Title:", $recordTitle);
+    HackyDataRegistry::set('random:Title', $recordTitle);
+    $project_code = 'Drupal core';
+    $element->fillField("Project:", $project_code);
+    HackyDataRegistry::set('random:Project', $project_code);
+    $branch = $this->randomString(5);
+    $element->fillField("Introduced in branch:", $branch);
+    HackyDataRegistry::set('random:Introduced in branch', $branch);
+    $version = $this->randomString(5);
+    $element->fillField("Introduced in version:", $version);
+    HackyDataRegistry::set('random:Introduced in version', $version);
+    $description = str_repeat($this->randomString(10) . " ", 20);
+    $element->fillField("Description:", $description);
+    HackyDataRegistry::set('random:Description', $description);
+    $element->checkField('Site builders, administrators, editors');
+    $element->checkField('Module developers');
+    $element->checkField('Themers');
+    $updateLink = $element->findLink('Updates Done (doc team, etc.)');
+    if (empty($updateLink)) {
+      throw new Exception("The Link '" . $updateLink . "' was not found on the page");
+    }
+    $updateLink->click();
+    $element->checkField('Generic online documentation done');
+    $element->checkField('Theming guide done');
+    $element->checkField('Module developer documentation done');
+    $element->checkField('Examples for developers done');
+    $element->checkField('Coder review done');
+    $element->checkField('Coder upgrade done');
+    $element->checkField('Other updates done');
+    $details = str_repeat($this->randomString(10) . " ", 20);
+    $element->fillField("Details:", $details);
+    HackyDataRegistry::set('random:Details', $details);
+    $progress = str_repeat($this->randomString(10) . " ", 20);
+    $element->fillField("Progress:", $progress);
+    HackyDataRegistry::set('random:Progress', $progress);
+    $attachLink = $element->findLink('File attachments');
+    if (empty($attachLink)) {
+      throw new Exception("The Link '" . $attachLink . "' was not found on the page");
+    }
+    $attachLink->click();
+    $file_path = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'koala.jpg';
+    HackyDataRegistry::set('Attach new file', $file_path);
+    $browse = $element->findField('Attach new file:');
+    if (empty($browse)) {
+      throw new Exception("The field was not found on the page");
+    }
+    $browse->attachFile($file_path);
+    $element->pressButton("Save");
+    sleep(2);
+  }
+
+  /**
+   * Checks for attachment
+   *
+   * @Given /^I should see the attachment$/
+   */
+  public function iShouldSeeTheAttachment() {
+    sleep(2);
+    $img_elements = $this->getSession()->getPage()->findAll('css', 'div.node-content #attachments a');
+    if (empty($img_elements)) {
+      throw new Exception('Image/logo was not found');
+    }
+  }
+
+  /**
+   * Confirms the created random text for the appropriate fields
+   *
+   * @Given /^I should see the random text for the following <fields>$/
+   */
+  public function iShouldSeeTheRandomTextForTheFollowingFields(TableNode $table) {
+    if (empty($table)) {
+      throw new Exception('No blocks specified');
+    }
+    foreach ($table->getHash() as $values) {
+      $this->iShouldSeeTheRandomText($values['fields']);
+    }
+  }
+
+  /**
+   * Function to confirm the created random text for the appropriate fields
+   *
+   * @Then /^I should see change record link$/
+   */
+  public function iShouldSeeChangeRecordLink() {
+    $recordTitle = HackyDataRegistry::get('random:Title');
+    if (empty($recordTitle)) {
+        throw new Exception('No Title set for this page');
+    }
+    $link = $this->getSession()->getPage()->findLink($recordTitle);
+    if (empty($link)) {
+      throw new Exception("The project title '" . $recordTitle . "' was not found on the page");
+    }
+   }
 }
