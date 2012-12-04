@@ -660,7 +660,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-  * @Given /^I should see the following <links>$/
+  * @Given /^I (?:should |)see the following <links>$/
   */
   public function iShouldSeeTheFollowingLinks(TableNode $table) {
     $page = $this->getSession()->getPage();
@@ -2237,7 +2237,7 @@ class FeatureContext extends DrupalContext {
    * Multiple File Upload
    *
    * @param string $type
-   *   file attachments/primary screenshot/additional screenshots
+   *   File attachments/Primary screenshot/Additional screenshots/Images
    * @param object $files
    *   TableNode
    */
@@ -2246,7 +2246,19 @@ class FeatureContext extends DrupalContext {
     // Multiple file upload:
     // update the below 'switch' if this function needs to be reused
     switch ($type) {
-      // for Create Project image upload
+      // Images Eg: Module project page
+      case 'images':
+        // upload field id
+        $filefield_id 	= 'edit-field-project-images-und-{index}-upload';
+        // upload button id
+        $uploadbutton_id 	= 'edit-field-project-images-und-{index}-upload-button';
+        // parameters to be filled in after upload finishes
+        $arr_postupload_params = array(
+          // Alternate text
+          'alternate text' => 'edit-field-project-images-und-{index}-alt',
+        );
+        break;
+      // File attachments Eg: Module project page
       case 'file attachments':
         // upload field id
         $filefield_id 	= 'edit-upload-und-{index}-upload';
@@ -2254,11 +2266,11 @@ class FeatureContext extends DrupalContext {
         $uploadbutton_id 	= 'edit-upload-und-{index}-upload-button';
         // parameters to be filled in after upload finishes
         $arr_postupload_params = array(
-          // in description
+          // Description
           'description' => 'edit-upload-und-{index}-description',
         );
         break;
-      // Primary screenshot image. Eg: Case study image
+      // Primary screenshot image. Eg: Case study page
       case 'primary screenshot':
         // upload field id
         $filefield_id 	= 'edit-field-mainimage-und-{index}-upload';
@@ -2268,11 +2280,11 @@ class FeatureContext extends DrupalContext {
         $responsebox_id	= 'edit-field-mainimage-und-{index}-alt';
         // parameters to be filled in after upload finishes
         $arr_postupload_params = array(
-          // alt tag
+          // Alternate text
           'alternate text' => 'edit-field-mainimage-und-{index}-alt'
         );
         break;
-      // Additional  screenshot image. Eg: Case study image
+      // Additional  screenshot image. Eg: Case study page
       case 'additional screenshots':
         // upload field id
         $filefield_id 	= 'edit-field-images-und-{index}-upload';
@@ -2280,8 +2292,9 @@ class FeatureContext extends DrupalContext {
         $uploadbutton_id 	= 'edit-field-images-und-{index}-upload-button';
         // parameters to be filled in after upload finishes
         $arr_postupload_params = array(
-          // alt tag
+          // Alternate text
           'alternate text' => 'edit-field-images-und-{index}-alt',
+          // Title
           'title' => 'edit-field-images-und-{index}-title'
         );
         break;
@@ -2300,6 +2313,7 @@ class FeatureContext extends DrupalContext {
       for ($i = 0; $i < $total_files; $i++) {
         // Find newly inserted file and attach local file
         $file_id = str_replace('{index}', $i, $filefield_id);
+        sleep(1);
         $file = $this->getSession()->getPage()->findById($file_id);
         if (empty($file)) {
           throw new Exception('The file: "' . $files[$i]['files'] . '" cannot be attached.');
@@ -2311,6 +2325,7 @@ class FeatureContext extends DrupalContext {
         $file->attachFile($filepath);
         // find upload button and click
         $button_id = str_replace( '{index}', $i, $uploadbutton_id);
+        sleep(1);
         $submit = $this->getSession()->getPage()->findById($button_id);
         if (empty($submit)) {
           throw new Exception('The file: "' . $files[$i]['files'] . '" cannot be uploaded.');
@@ -2329,10 +2344,16 @@ class FeatureContext extends DrupalContext {
         $this->iWaitForSeconds(10, "typeof(jQuery('#". $fieldid_tocheck . "').val()) != 'undefined'");
         // process post upload parameters
         if (!empty($arr_postupload_params)) {
+          sleep(1);
           foreach ($arr_postupload_params as $param => $field_id) {
             if (isset($files[$i][$param]) && !empty($files[$i][$param])) {
               $field_id = str_replace('{index}', $i, $field_id);
-              $this->getSession()->getPage()->findById($field_id)->setValue($files[$i][$param]);
+              if ($field_ele = $this->getSession()->getPage()->findById($field_id)) {
+                $field_ele->setValue($files[$i][$param]);
+              }
+              else {
+                throw new Exception('The field: "' . $param . '" was not found');
+              }
             }
           }
         }
@@ -7087,5 +7108,22 @@ class FeatureContext extends DrupalContext {
     if ($adcount < $count) {
       throw new Exception("There are less than \"" . $count . "\" WebAd" . ($count > 1 ? "s" : "") . " on the page");
     }
+  }
+
+  /**
+   * Check the given table of fields are outlined in red
+   *
+   * @Then /^the following <fields> should be outlined in red$/
+   *   @param TableNode object $table
+   */
+  public function theFollowingFieldsShouldBeOutlinedInRed(TableNode $table) {
+    if (empty($table)) {
+      throw new Exception("Field list is empty");
+    }
+    $return = array();
+    foreach ($table->getHash() as $field) {
+      $return[] = new Given('the field "' . $field['fields'] . '" should be outlined in red');
+    }
+    return $return;
   }
 }
