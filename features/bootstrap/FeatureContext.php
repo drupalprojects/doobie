@@ -2043,14 +2043,17 @@ class FeatureContext extends DrupalContext {
         $edit = $tr->findLink('Edit');
         if (!empty($edit)) {
           $edit->click();
-        } else {
-          throw new Exception('Edit link can not be found');
         }
-      } else {
-        throw new Exception('Edit link can not be found');
+        else {
+          throw new Exception("No 'Edit' link found in the sandbox projects section on the page " . $this->getSession()->getCurrentUrl());
+        }
       }
-    } else {
-      throw new Exception('Sand box project doesn\'t exist for the user');
+      else {
+        throw new Exception("The sandbox project section does not contain any projects on the page " . $this->getSession()->getCurrentUrl());
+      }
+    }
+    else {
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not contain sandbox project");
     }
   }
 

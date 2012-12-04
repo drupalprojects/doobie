@@ -1,3 +1,4 @@
+@project @sandbox @wip
 Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
   In order to ensure that unsuspecting users don't access sandbox code
   As a vetted user
@@ -5,7 +6,6 @@ Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
 
   Background:
     Given I am logged in as "git vetted user"
-    And I follow "Your Dashboard"
     And I follow "Your Projects"
 
   Scenario: Sandbox Project edit page doesn't have Releases Tab and editable Project Short Name
