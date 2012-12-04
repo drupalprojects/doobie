@@ -1996,7 +1996,7 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeAtLeastCommitters($count) {
     $page = $this->getSession()->getPage();
     // parse until anchor tag because there are empty <li>s as well
-    $result = $page->findAll('css', "#block-versioncontrol_project-project_maintainers div.item-list ul li a");
+    $result = $page->findAll('css', "#block-versioncontrol-project-project-maintainers div.item-list ul li a");
     if (empty($result)) {
       throw new Exception("Unable to find the block of committers");
     }
@@ -2012,7 +2012,7 @@ class FeatureContext extends DrupalContext {
     $total = 0;
     $page = $this->getSession()->getPage();
     // Parse until the <span> tag, since it contains text 'xx commits'.
-    $result = $page->findAll('css', "#block-versioncontrol_project-project_maintainers div.item-list ul li div span");
+    $result = $page->findAll('css', "#block-versioncontrol-project-project-maintainers div.item-list ul li div span");
     if (empty($result)) {
       throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not contain any commits");
     }
@@ -4979,7 +4979,7 @@ class FeatureContext extends DrupalContext {
       $user = trim($value['user']);
       $count = trim($value['count']);
       // Get the anchor tag for the username in the maintainers block
-      $userLink = $page->find("xpath", "//div[@id=\"block-versioncontrol_project-project_maintainers\"]//a[text()=\"" . $user . "\"]");
+      $userLink = $page->find("xpath", "//div[@id=\"block-versioncontrol-project-project-maintainers\"]//a[text()=\"" . $user . "\"]");
       if (empty($userLink)) {
         throw new Exception("The user '" . $user . "' was not found in the maintainers block");
       }
@@ -5008,7 +5008,7 @@ class FeatureContext extends DrupalContext {
     $table = $table->getHash();
     foreach ($table as $value) {
       $committer = trim($value['committers']);
-      $committerLink = $page->find("xpath", "//div[@id=\"block-versioncontrol_project-project_maintainers\"]//a[text()=\"" . $committer . "\"]");
+      $committerLink = $page->find("xpath", "//div[@id=\"block-versioncontrol-project-project-maintainers\"]//a[text()=\"" . $committer . "\"]");
       if (empty($committerLink)) {
         throw new Exception("The committer '" . $committer . "' was not found for the project");
       }
