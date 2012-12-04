@@ -1,3 +1,4 @@
+@user @project @sandbox @wip
 Feature: Your Project Tab
   In order to easily manage the sandbox projects I've created
   As a project maintainer
@@ -7,8 +8,8 @@ Feature: Your Project Tab
     Given I am logged in as "git user"
 
   Scenario: Create test data: Sandbox project
-    And I am on "/node/add/project"
-    When I create a sandbox project
+    And I am on "/node/add/project-module"
+    When I create a "sandbox" project
     Then I should see project data
 
   @dependent
@@ -52,9 +53,8 @@ Feature: Your Project Tab
     When I click "Create" from "Sandbox Projects" table
     Then I should see "Create Issue" page
 
-  @dependent
+  @dependent @clean_data
   Scenario: Visit Edit link from Project Links column for Sandbox Project Table
     And I am on "/project/user"
     When I click "Edit" from "Sandbox Projects" table
     Then I should see "Project Edit" page
-    

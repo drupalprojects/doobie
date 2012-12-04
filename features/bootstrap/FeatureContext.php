@@ -3049,6 +3049,12 @@ class FeatureContext extends DrupalContext {
    */
   private function getTableElement($type) {
     $arr_table = array();
+    // Make sure we have project tables before proceeding ahead
+    $tables = $this->getSession()->getPage()->findAll('css','#content-inner table');
+    if (empty($tables)) {
+      $this->getSession()->getCurrentUrl();
+      throw new Exception('No tables found on the page ' . $this->getSession()->getCurrentUrl());
+    }
     switch ($type) {
       case 'Projects':
         // Class name(s) of the table. Multiple classnames are specified as getAttribute('class') returns different values with and without Goutte
@@ -3074,12 +3080,6 @@ class FeatureContext extends DrupalContext {
     }
     if (empty($arr_table)) {
       throw new Exception('Table details are not given for: "' . $type . '"');
-    }
-    // find the tables
-    $tables = $this->getSession()->getPage()->findAll('css','#content-inner table');
-    if (empty($tables)) {
-      $this->getSession()->getCurrentUrl();
-      throw new Exception('No tables found');
     }
     foreach ($tables as $table) {
      // find the Table class
