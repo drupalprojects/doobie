@@ -1,9 +1,9 @@
+@project @anon @wip
 Feature: To view the project details
   In order to view the project
   As an anonymous user
   I should be able to see some specific contents on the page
 
-  @known_git6failure
   Scenario: Visit the project page
     Given that I am on the homepage
     When I follow "Download & Extend"
@@ -93,7 +93,6 @@ Feature: To view the project details
     And I should not see the link "first"
     And I should not see the link "previous"
 
-  @known_git6failure
   Scenario: View committers and commit numbers: Maintainers block
     Given I am on "/download"
     When I follow "Download Drupal"
@@ -101,7 +100,6 @@ Feature: To view the project details
     And I should see at least "5" committers
     And I should see at least "11716" commits
 
-  @known_git6failure
   Scenario: View users: Maintainers block
     Given I am on "/download"
     When I follow "Download Drupal"
