@@ -4126,7 +4126,8 @@ class FeatureContext extends DrupalContext {
     }
     $arr_th = array();
     foreach ($ths as $th) {
-      if ('User' != ($header = $th->getText())) {
+      $header = trim($th->getText());
+      if ($header !="" && 'User' !=  $header && 'Operations' != $header) {
         $arr_th[] = $header;
       }
     }
