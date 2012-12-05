@@ -1,9 +1,9 @@
+@releases @anon @wip
 Feature: Project release files
   In order to install a specific release of Drupal core
   As any user
   I should be able to download the release file
 
-  @known_git6failure
   Scenario: Navigate to core releases
     Given that I am on the homepage
     When I follow "Download & Extend"
@@ -23,14 +23,13 @@ Feature: Project release files
     And I should see the link "drupal-6.25.tar.gz"
     And I should see the link "drupal-6.25.zip"
 
-  Scenario: Download tar file
+  Scenario: Download gz file
     Given I am on "/node/3060/release"
     When I select "7.x" from "API version"
     And I press "Apply"
-    And I download the "tar" file "drupal-7.7.tar.gz"
+    And I download the "gz" file "drupal-7.7.tar.gz"
     Then the md5 hash should match "2eeb63fd1ef6b23b0a9f5f6b8aef8850"
 
-  @known_git6failure
   Scenario: Download zip file
     Given I am on "/node/3060/release"
     When I select "8.x" from "API version"
