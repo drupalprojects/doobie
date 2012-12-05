@@ -1,6 +1,6 @@
-@user @javascript @known_git6failure
+@user @javascript
 Feature:
-  In order to create a efficient, personalized workspace 
+  In order to create an efficient, personalized workspace
   As an authenticated user
   I should be able to add blocks to my dashboard
 
@@ -21,12 +21,13 @@ Feature:
     | Planet Drupal             |
     | Your Posts                |
     | Your Issues               |
-    | Project Issue Summary     |
+    | Project: Issue summary    |
     | Contributor Links         |
     | Documentation Team links  |
     And I click the link "Contributor Links" to add
     And I should see the block "Contributor Links" in column "1"a
 
+  @known_git7failure
   Scenario Outline: Add block from project page
     And I am on "<page>"
     And I wait until the page is loaded
@@ -42,9 +43,10 @@ Feature:
     | /news                | Add Drupal News to dashboard              | Drupal News              |
     | /planet              | Add Drupal Planet to dashboard            | Drupal Planet            |
     | /talk                | Add Drupal talk to dashboard              | talk                     |
-    | /project/issues/user | Add Your Issues to dashboard              | Issues for site user     |
+    | /project/issues/user | Add Your Issues to dashboard              | site user                |
     | /getting-involved    | Add Contributor Links to dashboard        | Contributor Links        |
 
+  @known_git7failure
   Scenario:Add from the user track page
     And I follow "Your Dashboard"
     And I wait until the page is loaded
@@ -53,7 +55,7 @@ Feature:
     When I click "Add Your Posts to dashboard"
     And I wait until the page is loaded
     Then I should not see "Access denied"
-    And I should see "Track posts" 
+    And I should see "Track posts"
 
   Scenario: User cannot add someone else's block
     When I visit "/user/33570/track"
