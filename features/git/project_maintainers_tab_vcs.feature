@@ -1,4 +1,4 @@
-@ci
+@ci @maintainers @git @wip
 Feature: Verify Write to VCS permission
   In order to commit or push to the repository
   As a project maintainer
@@ -7,9 +7,9 @@ Feature: Verify Write to VCS permission
   @gitrepo
   Scenario: Create a new project and initialize repo
     Given I am logged in as "git vetted user"
-    And I am at "/node/add/project"
-    When I create a "module"
-    And I see the project title
+    And I am at "/node/add/project-module"
+    When I create a "sandbox" project
+    And I see project data
     And I am on the Version control tab
     And I initialize the repository
     And I follow "Version control"
