@@ -32,7 +32,7 @@ Feature:
     | Planet Drupal             |
     | Your Posts                |
     | Your Issues               |
-    | Project Issue Summary     |
+    | Project: Issue summary     |
     | Contributor Links         |
     | Documentation Team links  |
     And I click "Restore to defaults"
@@ -69,14 +69,16 @@ Feature:
   Scenario: Create test data for Your Posts
     And I am on "/node/add/project-issue/test_releases"
     And I should not see "Access denied"
-    And I create a new issue
+    When I create a new issue
+    And I see "has been created"
     And I am on "/node/add/project-issue/test_releases"
     And I create a new issue
+    And I see "has been created"
     And I am on "/node/add/project-issue/test_releases"
     And I create a new issue
     Then I should see "has been created"
 
-  @dependent @known_git7failure
+  @dependent
   Scenario: View the block: Your Posts
     And I follow "Your Dashboard"
     And I wait until the page is loaded
@@ -87,11 +89,11 @@ Feature:
     | Settings |
     | Close    |
 
-  @dependent @known_git7failure
+  @dependent
   Scenario: Change number of items to show in a block
     And I follow "Your Dashboard"
     And I wait until the page is loaded
-    When I change the setting "Number of posts to show:" to "3" for the block "Your Posts" and save
+    When I change the setting "Number of posts to show" to "3" for the block "Your Posts" and save
     Then I should see at least "3" items in block "Your Posts"
 
   @flaky

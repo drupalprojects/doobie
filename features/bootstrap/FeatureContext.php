@@ -2786,7 +2786,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Check the existence of "Add links" for blocks
    *
-   * @Then /^I should see the following <blocklinks> in small boxes$/
+   * @Then /^I (?:should |)see the following <blocklinks> in small boxes$/
    *
    * @param TableNode object $table
    */
@@ -3369,7 +3369,7 @@ class FeatureContext extends DrupalContext {
             sleep(1);
             $block_container_id = $block_inner->getParent()->getAttribute('id');
             // Wait for the result until it is loaded through ajax
-            $this->getSession()->wait(1, "typeof($('#" . $block_container_id . " > div.ahah-progress.ahah-progress-throbber').html()) == 'undefined'");
+            $this->getSession()->wait(1, "typeof(jQuery('#" . $block_container_id . " > div.ahah-progress.ahah-progress-throbber').html()) == 'undefined'");
           }else {
             throw new Exception('The setting cannot be saved for the block "' . $block . '"');
           }
@@ -3406,6 +3406,7 @@ class FeatureContext extends DrupalContext {
         }
         // Click it
         $close_link->click();
+        sleep(1);
       }else {
         throw new Exception('Close Icon cannot be found for the block "'  . $block . '"');
       }
@@ -3422,6 +3423,7 @@ class FeatureContext extends DrupalContext {
     if (!$block_name) {
       throw new Exception('Block name is empty');
     }
+    sleep(2);
     $block_inner = $this->getBlockInnerContainer($block_name);
     if (!empty($block_inner)) {
       throw new Exception('The block exists on Dashboard');
@@ -3759,16 +3761,15 @@ class FeatureContext extends DrupalContext {
   public function iCreateANewIssue() {
     $element = $this->getSession()->getPage();
     $this->issueTitle = $this->randomString(12);
+    $element->fillField("Title", $this->issueTitle);
+    HackyDataRegistry::set('issue title', $this->issueTitle);    
+    $element->selectFieldOption("Component", "Code");
 		$field = $this->getSession()->getPage()->findField('Version');
 		if(!empty($field)) {
-		$element->selectFieldOption("Version", "6.x-1.0");
+      $element->selectFieldOption("Version", "6.x-1.0");
 		}
-    $element->selectFieldOption("Component", "Code");
-    $element->selectFieldOption("Category", "task");
-    $element->selectFieldOption("Component", "Code");
-    $element->fillField("Title:", $this->issueTitle);
-    $element->fillField("Description:", $this->randomString(18));
-    HackyDataRegistry::set('issue title', $this->issueTitle);
+    $element->selectFieldOption("Category", "Task");
+    $element->fillField("Description", $this->randomString(18));
     $element->pressButton("Save");
     sleep(2);
     HackyDataRegistry::set('issue_url', $this->getSession()->getCurrentUrl());
