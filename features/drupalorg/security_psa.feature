@@ -23,7 +23,7 @@ Feature: Security public service announcements
     | texts                                                                 |
     | DRUPAL-PSA                                                            |
     | Submitted by                                                          |
-    | Drupal version:                                                           |
+    | Drupal version:                                                       |
     | Security-related announcements, such as information on best practices |
     | all security announcements are posted to                              |
     | In order to report a security issue                                   |
