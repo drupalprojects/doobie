@@ -1,40 +1,44 @@
 @security @anon
-Feature: To view list of security announcements for contributed modules
+Feature: Security announcements for contributed modules
   In order to know the security announcements for contributed modules
-  As a user
-  I should go to security advisories page of contributed modules
+  As any user
+  I should be able to view Security advisories page for contributed modules
 
   Scenario: View the security announcements page for contributed modules
     Given that I am on the homepage
     When I follow "Security Info"
     Then I should see the heading "Security advisories"
+    And I should see the heading "Security announcements"
+    And I should be on "/security"
     And I follow "Contributed projects"
     And I should see at least "10" records
     And I should see the heading "Security announcements"
     And I should see the heading "Contacting the Security team"
+    And I should be on "/security/contrib"
+    And I should see the following <tabs>
+    | tabs                         |
+    | Drupal core                  |
+    | Contributed projects         |
+    | Public service announcements |
+    And I should see that the tab "Contributed projects" is highlighted
     And I should see the following <texts>
     | texts                                                                         |
     | SA-CONTRIB                                                                    |
-    | Categories                                                                    |
+    | Submitted by                                                                  |
+    | Drupal version:                                                                   |
     | Security advisories for third-party projects that are not part of Drupal core |
+    | all security announcements are posted to                                      |
+    | In order to report a security issue                                           |
     And I should see the following <links>
-    | links                        |
-    | Drupal core                  |
-    | Public service announcements |
-    | Read more                    |
-    | Drupal Security Team         |
-    And I should not see "SA-CORE"
-
-  Scenario: View paginated items: First page
-    Given I am on "/security/contrib"
-    Then I should see the following <links>
-    | links |
-    | next  |
-    | last  |
-    | 2     |
+    | links                |
+    | Read more            |
+    | Drupal Security Team |
+    | next                 |
+    | last                 |
+    | 2                    |
     And I should not see the link "previous"
     And I should not see the link "first"
-    And I should see the heading "Security advisories"
+    And I should not see "SA-CORE"
 
   Scenario: View paginated items: Second page
     Given I am on "/security/contrib"
@@ -56,23 +60,26 @@ Feature: To view list of security announcements for contributed modules
     And I should not see the link "next"
     And I should see the heading "Security advisories"
 
-  Scenario: Visit Contributed projects page and view various parameters
+  Scenario: View various parameters on Contributed projects page
     Given I am on "/security"
     When I follow "Contributed projects"
     Then I should see the following <texts>
-    | texts            |
-    | Advisory ID      |
-    | Project          |
-    | Version          |
-    | Date             |
-    | Security risk    |
-    | Exploitable from |
-    | Vulnerability    |
+    | texts             |
+    | Advisory ID:      |
+    | Project:          |
+    | Version:          |
+    | Date:             |
+    | Security risk:    |
+    | Exploitable from: |
+    | Vulnerability:    |
 
-  Scenario: Check Read more link is working or not
+  Scenario: View individual advisory
     Given I am on "/security/contrib"
     When I follow "Read more"
     Then I should not see "Page not found"
+    And I should not see the link "Add new comment"
+    And I should see "Submitted by"
     And I should see the heading "Description"
     And I should see the heading "Solution"
     And I should see the heading "Reported by"
+    And I should see "Drupal version:"

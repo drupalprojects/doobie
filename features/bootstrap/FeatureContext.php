@@ -1063,7 +1063,7 @@ class FeatureContext extends DrupalContext {
       'grid' => '.view table.views-view-grid tr td',
       'row' => '.view div.views-row',
       'row li' => '.view li.views-row',
-      'sitewide search' => 'dl.search-results dt',
+      'sitewide search' => 'ol.search-results dt',
       'emails table' => '#multiple-email-manage table tbody tr',
       'profiles' => '#profile div.profile'
     );
