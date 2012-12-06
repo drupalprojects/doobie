@@ -1,4 +1,4 @@
-@javascript @security @anon
+@security @anon
 Feature: Security announcements for contributed modules
   In order to know the security announcements for contributed modules
   As any user
