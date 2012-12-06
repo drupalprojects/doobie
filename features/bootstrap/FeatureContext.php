@@ -3827,6 +3827,7 @@ class FeatureContext extends DrupalContext {
     if (strpos(trim($options), trim($value)) === FALSE) {
       throw new Exception('The dropdown "' . $fieldLabel . '" does not have the option "' . $value . '", but it should be.');
     }
+    return $dropDown;
   }
 
   /**

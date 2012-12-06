@@ -29,9 +29,11 @@ Feature: Manage email notification settings
 
   @javascript @flaky
   Scenario: Subscribe to project and delete it
+    And I wait until the page is loaded
     When I enter "Drupal.org BDD" for field "Project title"
     And I select "Drupal.org BDD" from the suggestion "Project title"
     And I press "Save"
+    And I wait until the page is loaded
     And I see "Your notification settings have been updated"
     And I follow "delete"
     Then I should see "Deleted notification settings for Drupal.org BDD."
