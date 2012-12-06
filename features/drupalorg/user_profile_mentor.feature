@@ -10,7 +10,7 @@ Feature: To verify that mentors can be added/viewed/removed by a user
   Scenario: Site user adds mentors to his profile
     When I follow "Edit"
     And I follow "Drupal" tab
-    And I fill in "My mentors:" with "eliza411"
+    And I fill in "My mentors" with "eliza411"
     And I press "Save"
     Then I should see "The changes have been saved"
 
@@ -22,7 +22,7 @@ Feature: To verify that mentors can be added/viewed/removed by a user
   Scenario: Site user adds more mentors to his profile
     When I follow "Edit"
     And I follow "Drupal" tab
-    And I fill in "eliza411, pradeeprkara, sachin2dhoni, jhedstrom" for "My mentors:"
+    And I fill in "eliza411, pradeeprkara, sachin2dhoni, jhedstrom" for "My mentors"
     And I press "Save"
     Then I should see "The changes have been saved"
 
@@ -44,6 +44,6 @@ Feature: To verify that mentors can be added/viewed/removed by a user
   Scenario: Remove the mentors added
     When I follow "Edit"
     And I follow "Drupal" tab
-    And I fill in "" for "My mentors:"
+    And I fill in "" for "My mentors"
     And I press "Save"
     Then I should see "The changes have been saved"
