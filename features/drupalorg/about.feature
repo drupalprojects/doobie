@@ -1,4 +1,4 @@
-@about @anon
+@about @content @anon
 Feature: About Drupal section
   In order to find out about Drupal
   As any user
