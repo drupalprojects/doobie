@@ -4,7 +4,7 @@ Feature: Aministrative view of comments by a user
   As a site maintainer
   I should be able to view the list of comments by a specific user and delete them
 
-  @slow
+  @slow 
   Scenario: Create test data
     Given I am logged in as "site user"
     When I visit "/node/add/book?parent=3264"
@@ -73,8 +73,8 @@ Feature: Aministrative view of comments by a user
     Given I am logged in as "admin test"
     And I visit "site user" profile page
     And I follow "Administer comments"
-    When I wait for "3" seconds
-    And I select "All (this page)" from field "Select..."
+    And I wait until the page is loaded
+    When I select "All (this page)" from field "Select..."
     And all the checkboxes are selected
     And I press "Delete comment"
     Then I should see "You selected"
@@ -142,7 +142,7 @@ Feature: Aministrative view of comments by a user
     And I follow "Cancel"
     Then I should not see "has been deleted"
 
-  @dependent @slow
+  @dependent @slow @known_git6failure
   Scenario: Unpublish comments: Confirm
     Given I am logged in as "admin test"
     And I visit "site user" profile page
@@ -150,34 +150,34 @@ Feature: Aministrative view of comments by a user
     When I check "2" checkboxes to "unpublish"
     And I press "Unpublish comment"
     And I press "Confirm"
-    And I wait "10" seconds
+    And I wait until the page is loaded
     Then I should see "Performed Unpublish comment on comment"
 
-  @dependent @slow
+  @dependent @slow @known_git6failure
   Scenario: Delete comments: Confirm
     Given I am logged in as "admin test"
     And I visit "site user" profile page
     And I follow "Administer comments"
     When I check "2" checkboxes to "delete"
     And I press "Delete comment"
-    And I wait "2" seconds
+    And I wait until the page is loaded
     And I press "Confirm"
-    And I wait "10" seconds
+    And I wait until the page is loaded
     Then I should see "Performed Delete comment on comment"
 
-  @dependent @slow
+  @dependent @slow @known_git6failure
   Scenario: Delete all remaining comments
     Given I am logged in as "admin test"
     And I visit "site user" profile page
     And I follow "Administer comments"
     When I select "All (all pages)" from field "Select..."
     And I press "Delete comment"
-    And I wait "2" seconds
+    And I wait until the page is loaded
     And I press "Confirm"
-    And I wait "10" seconds
+    And I wait until the page is loaded
     Then I should see "Performed Delete comment on comment"
 
-  @dependent
+  @dependent @known_git6failure
   Scenario: Delete book page
     Given I am logged in as "admin test"
     And I visit "site user" profile page
@@ -185,5 +185,5 @@ Feature: Aministrative view of comments by a user
     When I select "All (all pages)" from field "Select..."
     And I press "Delete node"
     And I press "Confirm"
-    And I wait "5" seconds
+    And I wait until the page is loaded
     Then I should see "has been deleted"
