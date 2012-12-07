@@ -6206,7 +6206,7 @@ class FeatureContext extends DrupalContext {
    * @Then /^I should see book image under Drupal books$/
    */
   public function iShouldSeeBookImageUnderDrupalBooks() {
-    $result = $this->getSession()->getPage()->find('css', '#content-inner .grid-3 .narrow-box-list img');
+    $result = $this->getSession()->getPage()->find('css', '#content-inner .narrow-box-list img');
     if (empty($result)) {
       throw new Exception('No Drupal book image under drupal books');
     }
