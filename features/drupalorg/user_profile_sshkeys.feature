@@ -1,5 +1,5 @@
 @user
-Feature: To verify ssh keys of a user
+Feature: Verify ssh keys of a user
   In order to add/edit/view ssh keys
   As an authenticated user
   I should edit my profile
@@ -23,8 +23,8 @@ Feature: To verify ssh keys of a user
     And I should see the following <texts>
     | texts                                          |
     | Need help with public keys? View the excellent |
-    | Title:                                         |
-    | Key:                                           |
+    | Title                                          |
+    | Key                                            |
     And I should see the link "Cancel"
 
   Scenario: Add a public key: Cancel
