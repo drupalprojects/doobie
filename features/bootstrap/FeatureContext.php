@@ -7137,7 +7137,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Creates a new chnage record
+   * Creates a new change record
    *
    * @When /^I create new change record$/
    */
@@ -7265,5 +7265,35 @@ class FeatureContext extends DrupalContext {
     if ($optionObj->getText() != $option) {
       throw new Exception("The field '" . $field . "' does not have the option '" . $option . "' selected");
     }
+  }
+
+  /**
+   * Checks a random link exists for a label
+   *
+   * @Then /^I should see the random "([^"]*)" link$/
+   *
+   * @param string $field
+   *   Field name
+   */
+  public function iShouldSeeTheRandomLink($field) {
+    if (!$link_label = HackyDataRegistry::get('random:' . $field)) {
+      throw new Exception('The random value for the field:"' . $field . '" was empty');
+    }
+    return new Then('I should see the link "' . $link_label . '"');
+  }
+
+  /**
+   * Visits random link
+   *
+   * @When /^I visit the random link for "([^"]*)"$/
+   *
+   * @param string $field
+   *   Field name
+   */
+  public function iVisitTheRandomLinkFor($field) {
+    if (!$link_label = HackyDataRegistry::get('random:' . $field)) {
+      throw new Exception('The random value for the field:"' . $field . '" was empty');
+    }
+    return new When('I follow "' . $link_label . '"');
   }
 }
