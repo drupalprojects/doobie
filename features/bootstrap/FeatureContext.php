@@ -4234,8 +4234,8 @@ class FeatureContext extends DrupalContext {
     $temp = HackyDataRegistry::get('issue title');
     $result = $page->findLink($temp);
     if (!empty($result)) {
-     return $result;
-	}
+      return $result;
+    }
   }
 
 	/**
@@ -4244,7 +4244,7 @@ class FeatureContext extends DrupalContext {
   public function iAddACommentToTheIssue() {
     $page = $this->getSession()->getPage();
     $this->comment = $this->randomString(12);
-    $page->fillField("Comment:", $this->comment);
+    $page->fillField("Comment", $this->comment);
     $page->pressButton("Save");
   }
 
@@ -7294,5 +7294,27 @@ class FeatureContext extends DrupalContext {
    */
   public function iFollowTabOnTheTopNavigation($link) {
     $this->iFollowTab($link, "#nav-content ul.links li a");
+  }
+
+  /**
+   * Creates $count number of book pages
+   *
+   * @param $count
+   *   integer The number of book pages to be created
+   *
+   * @Given /^I create "([^"]*)" book page(?:s)$/
+   */
+  public function iCreateBookPages($count) {
+    if ($count > 0) {
+      for ($i = 1; $i <= $count; $i++) {
+        $this->iCreateABookPage();
+        sleep(2);
+        // If there is only one book page or if its the last book page created, then don't go to node add page
+        if ($count != 1 && $i != $count) {
+          $this->getSession()->visit($this->locatePath("/node/add/book?parent=3264"));
+          sleep(2);
+        }
+      }
+    }
   }
 }
