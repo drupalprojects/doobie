@@ -6155,7 +6155,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Creates a forum and store subject, body and url
    *
-   * @When /^I create a forum(?:| topic)$/
+   * @When /^I create(?:d|) a forum(?:| topic)$/
    */
   public function iCreateAForum() {
     sleep(3);
