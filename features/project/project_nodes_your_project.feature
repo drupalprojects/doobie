@@ -118,3 +118,4 @@ Feature: Learn about details of a full project
     But I should see the heading "Create Issue"
     And I should see "Title"
     And I should see "Description"
+
