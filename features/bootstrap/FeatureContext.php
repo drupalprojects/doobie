@@ -410,7 +410,12 @@ class FeatureContext extends DrupalContext {
       $user = $this->whoami();
       if (strtolower($user) == strtolower($username)) {
         HackyDataRegistry::set('username', $username);
-        // Successfully logged in.
+        $link = $this->getSession()->getPage()->findLink("Your Dashboard");
+        // URL format: /user/{uid}/dashboard
+        preg_match("/\/user\/(.*)\//", $link->getAttribute('href'), $match);
+        if (!empty($match[1])) {
+          HackyDataRegistry::set('uid:' . $username, trim($match[1]));
+        }
         return;
       }
     }
@@ -712,6 +717,9 @@ class FeatureContext extends DrupalContext {
     }
     elseif ($field == 'services listing') {
       $field = 'edit-field-organization-list-rule-value';
+    }
+    elseif ($field == '- choose an operation -') {
+      $field = 'edit-operation';
     }
     return new Given("I select \"$value\" from \"$field\"");
   }
@@ -1916,7 +1924,7 @@ class FeatureContext extends DrupalContext {
     }
     // If all the checkboxes are requested, then use the Select.... dropdown
     if ($count == count($chks)) {
-      return new Given("I select \"All (this page)\" from field \"Select...\"");
+      return new Given("I \"check\" the table header checkbox");
     }
     foreach ($chks as $chk) {
       // check only the requested no. of checkboxes
@@ -1926,7 +1934,7 @@ class FeatureContext extends DrupalContext {
       if ($context == "unpublish") {
         // if a post is already unpublished, then take next.
         // checkbox > label > div > td > tr
-        $tr = $chk->getParent()->getParent()->getParent()->getParent();
+        $tr = $chk->getParent()->getParent()->getParent();
         $tds = $tr->findAll("css", "td.views-field");
         if (empty($tds)) {
           continue;
@@ -1935,11 +1943,12 @@ class FeatureContext extends DrupalContext {
         // 'Published' is present in the last column, so get the last 'td'
         foreach ($tds as $td) {
           $td = $td->getText();
-        }
-        if ($td == "Yes") {
-          // 'check()' checked the checkbox but when 'unpublish' button was pressed, the values were not considered
-          $chk->click();
-          $i++;
+          if ($td == "Yes") {
+            // 'check()' checked the checkbox but when 'unpublish' button was pressed, the values were not considered
+            $chk->click();
+            $i++;
+            break;
+          }
         }
       }
       elseif($context == "delete") {
@@ -7245,6 +7254,47 @@ class FeatureContext extends DrupalContext {
           sleep(2);
         }
       }
+    }
+  }
+
+  /**
+   * Visit the profile page of a user
+   *
+   * @param $username
+   *   string The username of the user who's profile to be visited
+   *
+   * @When /^I visit "([^"]*)" profile page$/
+   */
+  public function iVisitProfilePage($username) {
+    if ($uid = HackyDataRegistry::get('uid:' . $username)) {
+      $path = "/user/" . $uid;
+      return new Given ("I visit \"$path\"");
+    }
+    throw new Exception("There was no user id found for the user '" . $username . "'");
+  }
+
+  /**
+   * Select the checkbox in the table header
+   *
+   * @When /^I "([^"]*)" the table header checkbox$/
+   */
+  public function iSelectTheCheckboxInTheTableHeader($status) {
+    $chk_ele = $this->getSession()->getPage()->find('css', 'table.views-table thead tr th .vbo-table-select-all');
+    if (empty($chk_ele)) {
+      throw new Exception("No checkbox found in the table header");
+    }
+    if ($status == 'check') {
+      if (!$chk_ele->isChecked()) {
+        $chk_ele->click();
+        sleep(2);
+      }
+    }elseif ($status == 'uncheck') {
+      if ($chk_ele->isChecked()) {
+        $chk_ele->click();
+        sleep(2);
+      }
+    }else {
+      throw new Exception('Either "check" or "uncheck" needs to be specified');
     }
   }
 }

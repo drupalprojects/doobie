@@ -1,22 +1,22 @@
-@admin
-Feature: To get administrative view of nodes by a user
-  In order to manage content
-  As an admin user
-  I should be able to view the list and filter them
+@user @admin @javascript @wip
+Feature: Administrative view of nodes by a user
+  In order to effectively fight spam
+  As a site maintainer
+  I should be able to view the list of nodes by a specific user and delete them
 
-  Background:
-    Given I am logged in as "admin test"
-    And I follow "Administer nodes"
-
-  @slow
-  Scenario: Create test data
-    When I visit "/node/add/page"
-    And I create "3" pages
+  Scenario: Create test data as site user
+    Given I am logged in as "site user"
+    When I visit "/node/add/book?parent=3264"
+    And I create "3" book pages
     Then I should see "has been created"
 
   @dependent
   Scenario: View the list of items
-    Then I should see at least "3" records
+    Given I am logged in as "admin test"
+    And I visit "site user" profile page
+    When I follow "Administer nodes"
+    Then I should see the heading "Nodes by site user"
+    And I should see at least "3" records
     And I should see the following <texts>
     | texts     |
     | Title     |
@@ -33,6 +33,9 @@ Feature: To get administrative view of nodes by a user
 
   @dependent
   Scenario: Navigate to an item
+    Given I am logged in as "admin test"
+    And I visit "site user" profile page
+    And I follow "Administer nodes"
     When I follow a post
     Then I should see the link "Edit"
     And I should see the link "View"
@@ -41,91 +44,126 @@ Feature: To get administrative view of nodes by a user
 
   @dependent
   Scenario: Visit Edit link and view the contents
+    Given I am logged in as "admin test"
+    And I visit "site user" profile page
+    And I follow "Administer nodes"
     When I follow "edit" for a post
-    Then I should see "Log message"
+    And I click "Revision information"
+    Then I should see "Revision log message"
     And I should see "Create new revision"
 
-  @dependent
+  @dependent @known_git7failure
   Scenario: Vsit Delete link
+    Given I am logged in as "admin test"
+    And I visit "site user" profile page
+    And I follow "Administer nodes"
     When I follow "delete"
     Then I should see "Are you sure you want to delete"
     And I should see "This action cannot be undone"
     And I should see "Delete"
     And I should see the link "Cancel"
 
-  @javascript @dependent @flaky
+  @dependent @flaky
   Scenario: Select dropdown: This page
-    When I wait for "3" seconds
-    And I select "All (this page)" from field "Select..."
+    Given I am logged in as "admin test"
+    And I visit "site user" profile page
+    And I follow "Administer nodes"
+    And I wait until the page is loaded
+    When I "check" the table header checkbox
     And all the checkboxes are selected
-    And I press "Delete node"
-    Then I should see "You selected"
-    And I should see "rows"
+    And I select "Delete item" from field "- Choose an operation -"
+    And I press "Execute"
+    Then I should see "You selected the following items"
     And I should see the link "Cancel"
-
-  @javascript @dependent
-  Scenario: Select dropdown: All pages
-    When I select "All (all pages)" from field "Select..."
-    And all the checkboxes are selected
-    And I press "Delete node"
-    Then I should see "You selected all"
-    And I should see "rows in this view"
-    And I should see the link "Cancel"
-
-  @javascript @dependent
-  Scenario: Select dropdown: None
-    When I select "All (all pages)" from field "Select..."
-    And all the checkboxes are selected
-    And I select "None" from field "Select..."
-    Then none the checkboxes are selected
 
   @dependent
-  Scenario: Unpublish posts: Don't select
-    When I press "Unpublish"
-    Then I should see "No row selected. Please select one or more rows"
-    And I should not see "Performed Unpublish on node"
+  Scenario: Select dropdown: All pages
+    Given I am logged in as "admin test"
+    And I visit "site user" profile page
+    And I follow "Administer nodes"
+    And I wait until the page is loaded
+    When I "check" the table header checkbox
+    And all the checkboxes are selected
+    And I select "Delete item" from field "- Choose an operation -"
+    And I press "Execute"
+    Then I should see "You selected the following items"
+    And I should see the link "Cancel"
 
-  @javascript @dependent
+  @dependent
+  Scenario: Select dropdown: None
+    Given I am logged in as "admin test"
+    And I visit "site user" profile page
+    And I follow "Administer nodes"
+    And I wait until the page is loaded
+    When I "check" the table header checkbox
+    And all the checkboxes are selected
+    And I "uncheck" the table header checkbox
+    Then none the checkboxes are selected
+
+  @dependent @known_git7failure
+  Scenario: Unpublish posts: Don't select
+    Given I am logged in as "admin test"
+    And I visit "site user" profile page
+    And I follow "Administer nodes"
+    When I select "Unpublish content" from field "- Choose an operation -"
+    And I press "Execute"
+    Then I should see "Please select at least one item"
+    And I should not see "You selected the following item"
+
+  @dependent @known_git7failure
   Scenario: Unpublish posts: Cancel
+    Given I am logged in as "admin test"
+    And I visit "site user" profile page
+    And I follow "Administer nodes"
     When I check "2" checkboxes to "unpublish"
-    And I press "Unpublish"
+    And I select "Unpublish content" from field "- Choose an operation -"
+    And I press "Execute"
     And I follow "Cancel"
-    Then I should not see "Performed Unpublish on node"
+    Then I should not see "Performed Unpublish content on"
 
   @dependent
   Scenario: Delete node: Don't select
-    When I press "Delete node"
-    Then I should see "No row selected. Please select one or more rows"
-    And I should not see "This action cannot be undone"
-    And I should not see "has been deleted"
+    Given I am logged in as "admin test"
+    And I visit "site user" profile page
+    And I follow "Administer nodes"
+    When I select "Delete item" from field "- Choose an operation -"
+    And I press "Execute"
+    Then I should see "Please select at least one item"
+    And I should not see "You selected the following item"
+    And I should not see "Performed Delete item on"
 
-  @javascript @dependent
+  @dependent
   Scenario: Delete posts: Cancel
+    Given I am logged in as "admin test"
+    And I visit "site user" profile page
+    And I follow "Administer nodes"
     When I check "2" checkboxes to "delete"
-    And I press "Delete node"
+    When I select "Delete item" from field "- Choose an operation -"
+    And I press "Execute"
     And I follow "Cancel"
-    Then I should not see "has been deleted"
+    Then I should not see "Performed Delete item on"
 
-  @javascript @slow @dependent
+  @dependent @slow
   Scenario: Unpublish posts: Confirm
+    Given I am logged in as "admin test"
+    And I visit "site user" profile page
+    And I follow "Administer nodes"
     When I check "2" checkboxes to "unpublish"
-    And I press "Unpublish"
+    And I select "Unpublish content" from field "- Choose an operation -"
+    And I press "Execute"
     And I press "Confirm"
-    And I wait "5" seconds
-    Then I should see "The update has been performed"
+    And I wait until the page is loaded
+    Then I should see "Performed Unpublish content on"
 
-  @javascript @slow @dependent
+  @dependent @slow
   Scenario: Delete posts: Confirm
+    Given I am logged in as "admin test"
+    And I visit "site user" profile page
+    And I follow "Administer nodes"
     When I check "2" checkboxes to "delete"
-    And I press "Delete node"
+    And I select "Delete item" from field "- Choose an operation -"
+    And I press "Execute"
     And I press "Confirm"
-    And I wait "5" seconds
-    Then I should see "has been deleted"
-
-  @javascript @dependent
-  Scenario: Select dropdown: All pages and delete
-    When I select "All (all pages)" from field "Select..."
-    And I press "Delete node"
-    And I press "Confirm"
-    And I wait "5" seconds
-    Then I should see "has been deleted"
+    And I wait until the page is loaded
+    Then I should see "Performed Delete item on"
+    

@@ -75,11 +75,11 @@ Feature: Aministrative view of comments by a user
     And I visit "site user" profile page
     And I follow "Administer comments"
     And I wait until the page is loaded
-    When I select "All (this page)" from field "Select..."
+    When I "check" the table header checkbox
     And all the checkboxes are selected
-    And I press "Delete comment"
-    Then I should see "You selected"
-    And I should see "rows"
+    And I select "Delete item" from field "- Choose an operation -"
+    And I press "Execute"
+    Then I should see "You selected the following items"
     And I should see the link "Cancel"
 
   @dependent
@@ -87,11 +87,12 @@ Feature: Aministrative view of comments by a user
     Given I am logged in as "admin test"
     And I visit "site user" profile page
     And I follow "Administer comments"
-    When I select "All (all pages)" from field "Select..."
+    And I wait until the page is loaded
+    When I "check" the table header checkbox
     And all the checkboxes are selected
-    And I press "Delete comment"
-    Then I should see "You selected all"
-    And I should see "rows in this view"
+    And I select "Delete item" from field "- Choose an operation -"
+    And I press "Execute"
+    Then I should see "You selected the following items"
     And I should see the link "Cancel"
 
   @dependent
@@ -99,9 +100,10 @@ Feature: Aministrative view of comments by a user
     Given I am logged in as "admin test"
     And I visit "site user" profile page
     And I follow "Administer comments"
-    When I select "All (all pages)" from field "Select..."
+    And I wait until the page is loaded
+    When I "check" the table header checkbox
     And all the checkboxes are selected
-    And I select "None" from field "Select..."
+    And I "uncheck" the table header checkbox
     Then none the checkboxes are selected
 
   @dependent
@@ -109,9 +111,10 @@ Feature: Aministrative view of comments by a user
     Given I am logged in as "admin test"
     And I visit "site user" profile page
     And I follow "Administer comments"
-    When I press "Unpublish comment"
-    Then I should see "No row selected. Please select one or more rows"
-    And I should not see "Performed Unpublish comment on comment"
+    When I select "Unpublish content" from field "- Choose an operation -"
+    And I press "Execute"
+    Then I should see "Please select at least one item"
+    And I should not see "You selected the following item"
 
   @dependent
   Scenario: Unpublish comment: Cancel
@@ -119,19 +122,21 @@ Feature: Aministrative view of comments by a user
     And I visit "site user" profile page
     And I follow "Administer comments"
     When I check "2" checkboxes to "unpublish"
-    And I press "Unpublish comment"
+    And I select "Unpublish content" from field "- Choose an operation -"
+    And I press "Execute"
     And I follow "Cancel"
-    Then I should not see "Performed Unpublish comment on comment"
+    Then I should not see "Performed Unpublish content on"
 
   @dependent
   Scenario: Delete comment: Don't select
     Given I am logged in as "admin test"
     And I visit "site user" profile page
     And I follow "Administer comments"
-    When I press "Delete comment"
-    Then I should see "No row selected. Please select one or more rows"
-    And I should not see "This action cannot be undone"
-    And I should not see "has been deleted"
+    When I select "Delete item" from field "- Choose an operation -"
+    And I press "Execute"
+    Then I should see "Please select at least one item"
+    And I should not see "You selected the following item"
+    And I should not see "Performed Delete item on"
 
   @dependent
   Scenario: Delete comments: Cancel
@@ -139,9 +144,10 @@ Feature: Aministrative view of comments by a user
     And I visit "site user" profile page
     And I follow "Administer comments"
     When I check "2" checkboxes to "delete"
-    And I press "Delete comment"
+    When I select "Delete item" from field "- Choose an operation -"
+    And I press "Execute"
     And I follow "Cancel"
-    Then I should not see "has been deleted"
+    Then I should not see "Performed Delete item on"
 
   @dependent @slow
   Scenario: Unpublish comments: Confirm
@@ -149,10 +155,11 @@ Feature: Aministrative view of comments by a user
     And I visit "site user" profile page
     And I follow "Administer comments"
     When I check "2" checkboxes to "unpublish"
-    And I press "Unpublish comment"
+    And I select "Unpublish content" from field "- Choose an operation -"
+    And I press "Execute"
     And I press "Confirm"
     And I wait until the page is loaded
-    Then I should see "Performed Unpublish comment on comment"
+    Then I should see "Performed Unpublish content on"
 
   @dependent @slow
   Scenario: Delete comments: Confirm
@@ -160,31 +167,8 @@ Feature: Aministrative view of comments by a user
     And I visit "site user" profile page
     And I follow "Administer comments"
     When I check "2" checkboxes to "delete"
-    And I press "Delete comment"
-    And I wait until the page is loaded
+    And I select "Delete item" from field "- Choose an operation -"
+    And I press "Execute"
     And I press "Confirm"
     And I wait until the page is loaded
-    Then I should see "Performed Delete comment on comment"
-
-  @dependent @slow
-  Scenario: Delete all remaining comments
-    Given I am logged in as "admin test"
-    And I visit "site user" profile page
-    And I follow "Administer comments"
-    When I select "All (all pages)" from field "Select..."
-    And I press "Delete comment"
-    And I wait until the page is loaded
-    And I press "Confirm"
-    And I wait until the page is loaded
-    Then I should see "Performed Delete comment on comment"
-
-  @dependent
-  Scenario: Delete book page
-    Given I am logged in as "admin test"
-    And I visit "site user" profile page
-    And I follow "Administer nodes"
-    When I select "All (all pages)" from field "Select..."
-    And I press "Delete node"
-    And I press "Confirm"
-    And I wait until the page is loaded
-    Then I should see "has been deleted"
+    Then I should see "Performed Delete item on"
