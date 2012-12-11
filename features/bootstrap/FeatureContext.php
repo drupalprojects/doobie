@@ -1313,7 +1313,7 @@ class FeatureContext extends DrupalContext {
   public function iSelectFromTheSuggestion($value, $locator) {
     $element = $this->getSession()->getPage();
     if (strtolower($locator) == "key modules/theme/distribution used") {
-      $locator = "edit-field-module-0-nid-nid";      
+      $locator = "edit-field-module-0-nid-nid";
       $element->fillField($locator, $value);
     }
     $this->project_value = $value;
@@ -1829,46 +1829,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Function to press the particular button on the specified region
-   * Note: The function looks for input type = 'submit' and not
-   * input type = 'button' or 'image'
-   *
-   * @Given /^I press "(?P<button>[^"]*)" in the "(?P<region>[^"]*)" region$/
-   *
-   * @param string $button
-   *   The value of the button to be pressed.
-   * @param string $region
-   *   The region (right sidebar, content) where.  the button is located
-   *
-   * @return object
-   *   Given class object.
-   */
-  public function iPressInTheRegion($button, $regionSelector) {
-    $buttonId = "";
-    $page = $this->getSession()->getPage();
-    $region = $page->find('region', $regionSelector);
-    if (empty($region)) {
-      throw new Exception($region . " region was not found");
-    }
-    // Get all the buttons present within a form in that region.
-    $inputs = $region->findAll('css', 'form input[type=submit]');
-    if (empty($inputs)) {
-      throw new Exception("The page did not contain any submit buttons");
-    }
-    foreach ($inputs as $input) {
-      // Just to make sure we press the right button.
-      if ($input->getAttribute("value") == $button) {
-        $buttonId = $input->getAttribute("id");
-        break;
-      }
-    }
-    if ($buttonId) {
-      return new Given("I press \"$buttonId\"");
-    }
-    throw new Exception("The button '" . $button . "' was not found in the region '" . $regionSelector . "'");
-  }
-
-  /**
    * @When /^I follow a post$/
    * Function to get the link from a table's first row
    */
@@ -2242,7 +2202,7 @@ class FeatureContext extends DrupalContext {
    * @param string $type
    *   File attachments/Primary screenshot/Additional screenshots/Images
    * @param TableNode object $files
-   *   
+   *
    */
   private function uploadMultipleFiles($type, TableNode $files) {
     $type = strtolower($type);
@@ -3561,7 +3521,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Given /^I should see the advertisement in the right sidebar$/
    */
-  public function iShouldSeeTheAdvertisementInTheRightSidebar() {    
+  public function iShouldSeeTheAdvertisementInTheRightSidebar() {
     $region = $this->getSession()->getPage()->find('region', 'right sidebar');
     if (empty($region)) {
       throw new Exception("Right sidebar region was not found");
@@ -3765,7 +3725,7 @@ class FeatureContext extends DrupalContext {
     $element = $this->getSession()->getPage();
     $this->issueTitle = $this->randomString(12);
     $element->fillField("Title", $this->issueTitle);
-    HackyDataRegistry::set('issue title', $this->issueTitle);    
+    HackyDataRegistry::set('issue title', $this->issueTitle);
     $element->selectFieldOption("Component", "Code");
 		$field = $this->getSession()->getPage()->findField('Version');
 		if(!empty($field)) {
@@ -3866,7 +3826,7 @@ class FeatureContext extends DrupalContext {
 
   /**
    * Function to check if an option is present in the dropdown
-   *   
+   *
    * @param $value
    *   string The option string to be searched for
    * @param $field
@@ -3877,7 +3837,7 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeInTheDropdown($value, $field, $fieldLabel = "") {
     if ($fieldLabel == "") {
       $fieldLabel = $field;
-    }  
+    }
     $page = $this->getSession()->getPage();
     // Get the object of the dropdown field
     $dropDown = $page->findField($field);
@@ -5884,7 +5844,7 @@ class FeatureContext extends DrupalContext {
             else {
               $link = $a_ele->getAttribute('href');
               $parts = explode('drupal.org', $link);
-              $with_selenium = !empty($parts[1]) && $parts[1] == '/'; 
+              $with_selenium = !empty($parts[1]) && $parts[1] == '/';
               if ('/' != $link && !$with_selenium) {
                 throw new Exception('Drupal banner in "' . $region . '" area is not linked to homepage');
               }
@@ -6107,36 +6067,6 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldNotSeeTheLinkInTheRegion($link, $region) {
     $this->iShouldSeeInArea('link', $link, $region, FALSE);
-  }
-
-  /**
-   * Checks if the specified text was found on the specified region of the page or not
-   *
-   * @param $text
-   *   string The text to look for on the page
-   * @param $region
-   *   string The page region in which the text should be looked for
-   * @param $find (optional)
-   *   boolean When the $text should be present or not
-   *
-   * @Given /^I should see the text "([^"]*)" in the "([^"]*)" region$/
-   */
-  public function iShouldSeeTheTextInTheRegion($text, $region, $find = TRUE) {
-    $this->iShouldSeeInArea('text', $text, $region, $find);
-  }
-
-  /**
-   * Checks if the specified text was found on the specified region of the page or not
-   *
-   * @param $text
-   *   string The text to look for on the page
-   * @param $region
-   *   string The page region in which the text should be looked for
-   *
-   * @Given /^I should not see the text "([^"]*)" in the "([^"]*)" region$/
-   */
-  public function iShouldNotSeeTheTextInTheRegion($text, $region) {
-    $this->iShouldSeeTheTextInTheRegion($text, $region, FALSE);
   }
 
   /**
