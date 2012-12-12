@@ -651,7 +651,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I should see the following <texts>$/
+   * @Given /^I (?:should |)see the following <texts>$/
    */
   public function iShouldSeeTheFollowingTexts(TableNode $table) {
     $page = $this->getSession()->getPage();
@@ -2520,7 +2520,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see the following <tabs>$/
+   * @Then /^I (?:should |)see the following <tabs>$/
    */
   public function iShouldSeeTheFollowingTabs(TableNode $table) {
     // Fetch tab links.
@@ -5741,7 +5741,9 @@ class FeatureContext extends DrupalContext {
           }
         }
         else {
-          if (!$find) {
+          // Look for exact match
+          $is_exact = ($region_ele->getText() === $content);
+          if (!$find && $is_exact) {
             throw new Exception('The link "' . $content . '" was found in the "' . $region . '" region of the page, but it should not be');
           }
         }
@@ -7298,5 +7300,16 @@ class FeatureContext extends DrupalContext {
     }else {
       throw new Exception('Either "check" or "uncheck" needs to be specified');
     }
+  }
+
+  /**
+   * Identify a link
+   *
+   * @Given /^I see the link "([^"]*)"$/
+   * @param string $link
+   *   The link
+   */
+  public function iSeeTheLink($link) {
+    return new Then('I should see the link "' . $link . '"');
   }
 }

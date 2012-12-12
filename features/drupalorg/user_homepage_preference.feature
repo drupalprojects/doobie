@@ -10,7 +10,7 @@ Feature: Home page preference functionality
     And I follow "Your Dashboard"
     And I wait until the page loads
 
-  @wip
+  @wip @known_git7failure
   Scenario: Select dashboard as homepage and visit homepage by clicking drupal banner
     When I click "Make this your Homepage" link
     And I click the drupal banner in the header
@@ -20,7 +20,7 @@ Feature: Home page preference functionality
     And I should see the link "Use Default Homepage"
     And I should not see the link "Make this your Homepage"
 
-  @revert_homepage_setting @flaky @wip
+  @revert_homepage_setting @flaky @wip @known_git7failure
   Scenario: Select default home page and and visit homepage by clicking drupal banner
     When I click "Use Default Homepage" link
     And I click the drupal banner in the header
