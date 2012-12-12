@@ -4887,13 +4887,14 @@ class FeatureContext extends DrupalContext {
       // Find setting link
       $link = $page->find('css','form#drupalorg-set-home div a');
       if (empty($link)) {
-        throw new Exception('Homepage setting link is not found. Revert failed');
+        echo "\n" . 'Homepage setting link is not found. Revert failed';
+        return;
       }
       // Compare current setting with saved default setting
       if ($setting != $link->getText()) {
         HackyDataRegistry::set('homepage setting', '');
         // Use the click statement to make sure ajax request is complete
-        $this->iClickLink($link->getText());
+        $this->iClickLink($link->getText(), false);
       }
     }
   }
@@ -4910,7 +4911,8 @@ class FeatureContext extends DrupalContext {
     // Visit dashboard page to find the setting link
     $link = $page->findLink("Your Dashboard");
     if (empty($link)) {
-      throw new Exception('"Your Dashboard" link is not found. Revert failed');
+      echo "\n" . '"Your Dashboard" link is not found. Revert failed';
+      return;
     }
     $session->visit($this->locatePath($link->getAttribute('href')));
     // Revert the setting
