@@ -10,7 +10,7 @@ Feature: User contact form
     And I check the box "Personal contact form"
     And I press "Save"
     Then I should see "The changes have been saved"
-    And I should not see the link "Contact"
+    And I should not see the link "Contact" in the "content" region
 
   @anon
   Scenario: Anonymous user doesn't have access to contact form
@@ -20,7 +20,7 @@ Feature: User contact form
     And I press "Search" in the "content" region
     And I see "Search results"
     And I follow "site user"
-    Then I should not see the link "Contact"
+    Then I should not see the link "Contact" in the "content" region
 
   Scenario: Git user accesses site user's contact form and sends message
     Given I am logged in as "git user"
@@ -66,4 +66,4 @@ Feature: User contact form
     And I press "Search" in the "content" region
     And I see "Search results"
     And I follow "site user"
-    Then I should not see the link "Contact"
+    Then I should not see the link "Contact" in the "content" region

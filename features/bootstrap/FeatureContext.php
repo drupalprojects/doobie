@@ -5628,7 +5628,9 @@ class FeatureContext extends DrupalContext {
           }
         }
         else {
-          if (!$find) {
+          // Look for exact match
+          $is_exact = ($region_ele->getText() === $content);
+          if (!$find && $is_exact) {
             throw new Exception('The link "' . $content . '" was found in the "' . $region . '" region of the page, but it should not be');
           }
         }
