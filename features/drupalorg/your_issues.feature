@@ -1,8 +1,8 @@
 @user
-Feature: View the issues created by a user
-  In order to view the issues created by me
+Feature: View the issues I am interested in
+  In order to see all the issues I am interested in
   As an authenticated user
-  I should see my issues list and filter them
+  I should be able to see the list of issues I follow and filter them
 
   Background:
     Given I am logged in as "site user"
@@ -20,10 +20,16 @@ Feature: View the issues created by a user
     | Status             |
     | Priority           |
     | Category           |
+    | Summary            |
+    | Version            |
+    | Replies            |
+    | Last updated       |
+    | Assigned to        |
+    | Created            |
 
   Scenario: Create test data for the following scenarios
     When I follow "Create a new issue"
-    And I select "443 Session" from "Project"
+    And I fill in "Project" with "443 Session"
     And I press "Next"
     And I create a new issue
     Then I should see "has been created"
@@ -33,7 +39,6 @@ Feature: View the issues created by a user
     When I fill in "Project" with "443"
     And I wait for the suggestion box to appear
     And I select "443 Session" from the suggestion "Project"
-    And I wait for "5" seconds
     And I press "Search" in the "content" region
     Then I should see the issue link
     And I should not see "No issues match your criteria."
@@ -43,12 +48,11 @@ Feature: View the issues created by a user
     When I fill in "Project" with "443"
     And I wait for the suggestion box to appear
     And I select "443 Session" from the suggestion "Project"
-    And I wait for "4" seconds
     And I select the following <fields> with <values>
     | fields   | values    |
-    | Status   | active    |
-    | Priority | normal    |
-    | Category | task      |
+    | Status   | Active    |
+    | Priority | Normal    |
+    | Category | Task      |
     And I press "Search" in the "content" region
     Then I should see the issue link
     And I should not see "No issues match your criteria."
@@ -56,6 +60,6 @@ Feature: View the issues created by a user
   @dependent @clean_data
   Scenario: Navigate through the issue created previously
     When I follow an issue of the project
-    Then I should see the heading "Issue Summary"
-    And I should see the heading "Comments"
-    And I should see the heading "Post new comment"	
+    Then I should see the random "Description" text
+    And I should see the heading "Issue status"
+    And I should see "443 Session"

@@ -1089,7 +1089,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iWaitForTheSuggestionBoxToAppear() {
     $seconds = 1;
-    $this->iWaitForSeconds($seconds, "$('#edit-search-term-results').children().length > 0");
+    $this->iWaitForSeconds($seconds, "jQuery('#edit-search-term-results').children().length > 0");
   }
 
   /**
@@ -3741,7 +3741,9 @@ class FeatureContext extends DrupalContext {
       $element->selectFieldOption("Version", "6.x-1.0");
 		}
     $element->selectFieldOption("Category", "Task");
-    $element->fillField("Description", $this->randomString(18));
+    $description = $this->randomString(18);
+    $element->fillField("Description", $description);
+    HackyDataRegistry::set('random:Description', $description);
     $element->pressButton("Save");
     sleep(2);
     HackyDataRegistry::set('issue_url', $this->getSession()->getCurrentUrl());
@@ -4813,7 +4815,7 @@ class FeatureContext extends DrupalContext {
       if (!empty($element)) {
         $element->click();
         // As the operation is done through ajax, wait until the link disappears from the dom or for 3 seconds
-        $this->iWaitForSeconds(1, "$('a:contains(\"" . $link . "\")').text() == \"\"");
+        $this->iWaitForSeconds(1, "jQuery('a:contains(\"" . $link . "\")').text() == \"\"");
         $clicked = true;
       }
     }
