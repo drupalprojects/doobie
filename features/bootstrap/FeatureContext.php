@@ -2415,6 +2415,9 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeAtLeastRepliesForThePost($count) {
     $page = $this->getSession()->getPage();
     $result = $this->getIssueTiteObj($page);
+    if (empty($result)) {
+      throw new Exception('Issue title is empty');
+    }
     $postTitle = $result->getText();
     // Get the row in which the post resides. a > td > tr.
     $trow = $result->getParent()->getParent();
@@ -4207,6 +4210,7 @@ class FeatureContext extends DrupalContext {
     if (!empty($result)) {
       return $result;
     }
+    return null;
   }
 
 	/**
@@ -4786,7 +4790,7 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeTheIssueLink() {
     $page = $this->getSession()->getPage();
     $link = $this->getIssueTiteObj($page);
-	if (empty($link)) {
+    if (empty($link)) {
       throw new Exception('Could Not find the link in the current page');
     }
   }
