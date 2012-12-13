@@ -31,7 +31,7 @@ Feature: View the issues I am interested in
     When I follow "Create a new issue"
     And I fill in "Project" with "443 Session"
     And I press "Next"
-    And I create a new issue
+    When I create a new issue
     Then I should see "has been created"
 
   @javascript @dependent
