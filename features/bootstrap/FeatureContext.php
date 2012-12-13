@@ -1783,46 +1783,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Function to press the particular button on the specified region
-   * Note: The function looks for input type = 'submit' and not
-   * input type = 'button' or 'image'
-   *
-   * @Given /^I press "(?P<button>[^"]*)" in the "(?P<region>[^"]*)" region$/
-   *
-   * @param string $button
-   *   The value of the button to be pressed.
-   * @param string $region
-   *   The region (right sidebar, content) where.  the button is located
-   *
-   * @return object
-   *   Given class object.
-   */
-  public function iPressInTheRegion($button, $regionSelector) {
-    $buttonId = "";
-    $page = $this->getSession()->getPage();
-    $region = $page->find('region', $regionSelector);
-    if (empty($region)) {
-      throw new Exception($region . " region was not found");
-    }
-    // Get all the buttons present within a form in that region.
-    $inputs = $region->findAll('css', 'form input[type=submit]');
-    if (empty($inputs)) {
-      throw new Exception("The page did not contain any submit buttons");
-    }
-    foreach ($inputs as $input) {
-      // Just to make sure we press the right button.
-      if ($input->getAttribute("value") == $button) {
-        $buttonId = $input->getAttribute("id");
-        break;
-      }
-    }
-    if ($buttonId) {
-      return new Given("I press \"$buttonId\"");
-    }
-    throw new Exception("The button '" . $button . "' was not found in the region '" . $regionSelector . "'");
-  }
-
-  /**
    * @When /^I follow a post$/
    * Function to get the link from a table's first row
    */
@@ -5744,7 +5704,7 @@ class FeatureContext extends DrupalContext {
             else {
               $link = $a_ele->getAttribute('href');
               $parts = explode('drupal.org', $link);
-              $with_selenium = !empty($parts[1]) && $parts[1] == '/'; 
+              $with_selenium = !empty($parts[1]) && $parts[1] == '/';
               if ('/' != $link && !$with_selenium) {
                 throw new Exception('Drupal banner in "' . $region . '" area is not linked to homepage');
               }
@@ -5962,57 +5922,11 @@ class FeatureContext extends DrupalContext {
    *   string The link to look for on the page
    * @param $region
    *   string The page region in which the link should be looked for
-   * @param $find (optional)
-   *   boolean When the $link should be present or not
-   *
-   * @Given /^I should see the link "([^"]*)" in the "([^"]*)" region$/
-   */
-  public function iShouldSeeTheLinkInTheRegion($link, $region, $find = TRUE) {
-    $this->iShouldSeeInArea('link', $link, $region, $find);
-  }
-
-  /**
-   * Checks if the specified link was found on the specified region of the page or not
-   *
-   * @param $link
-   *   string The link to look for on the page
-   * @param $region
-   *   string The page region in which the link should be looked for
    *
    * @Given /^I should not see the link "([^"]*)" in the "([^"]*)" region$/
    */
   public function iShouldNotSeeTheLinkInTheRegion($link, $region) {
-    $this->iShouldSeeTheLinkInTheRegion($link, $region, FALSE);
-  }
-
-  /**
-   * Checks if the specified text was found on the specified region of the page or not
-   *
-   * @param $text
-   *   string The text to look for on the page
-   * @param $region
-   *   string The page region in which the text should be looked for
-   * @param $find (optional)
-   *   boolean When the $text should be present or not
-   *
-   * @Given /^I should see the text "([^"]*)" in the "([^"]*)" region$/
-   */
-  public function iShouldSeeTheTextInTheRegion($text, $region, $find = TRUE) {
-    $this->iShouldSeeInArea('text', $text, $region, $find);
-  }
-
-  /**
-   * Checks if the specified text was found on the specified region of the page or not
-   *
-   * @param $text
-   *   string The text to look for on the page
-   * @param $region
-   *   string The page region in which the text should be looked for
-   *
-   * @Given /^I should not see the text "([^"]*)" in the "([^"]*)" region$/
-   */
-  public function iShouldNotSeeTheTextInTheRegion($text, $region) {
-    $this->iShouldSeeTheTextInTheRegion($text, $region, FALSE);
+    $this->iShouldSeeInArea('link', $link, $region, FALSE);
   }
 
   /**
@@ -7066,7 +6980,7 @@ class FeatureContext extends DrupalContext {
 
   /**
    * Checks a random link exists for a label
-   *   
+   *
    * @Then /^I should see the random "([^"]*)" link$/
    *
    * @param string $field
