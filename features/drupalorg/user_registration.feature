@@ -1,4 +1,4 @@
-@user @anon
+@user @anon @wip
 Feature: Register an account on Drupal.org with valid username and email
   In order to start using additional features of the site
   As any user
@@ -20,57 +20,50 @@ Feature: Register an account on Drupal.org with valid username and email
     | Username |
     | Password |
 
-  @known_git7failure @javascript
   Scenario: Create an account
     When I follow "Create new account"
     And I fill in "Username" with random text
-    And I fill in "E-mail address" with "samp5+foo@example.com"
+    And I fill in "E-mail address" with "samp9+foo@example.com"
     And I fill in "Full name" with random text
     And I fill in "First or given name" with random text
     And I fill in "Last name or surname" with random text
     And I select "United States" from "Country"
     And I press "Create new account"
-    And I wait for "4" seconds
-    Then I should see "Your password and further instructions have been sent to your e-mail address."
+    Then I should see "A welcome message with further instructions has been sent to your e-mail address."
 
-  @known_git7failure @javascript
   Scenario: Create a different user with the same Email Id
     When I follow "Create new account"
     And I fill in "Username" with random text
-    And I fill in "E-mail address" with "samp5+foo@example.com"
+    And I fill in "E-mail address" with "samp9+foo@example.com"
     And I fill in "Full name" with random text
     And I fill in "First or given name" with random text
     And I fill in "Last name or surname" with random text
     And I select "United States" from "Country"
     And I press "Create new account"
-    And I wait for "4" seconds
-    Then I should see "The e-mail address samp5+foo@example.com is already registered."
+    And I wait until the page loads
+    Then I should see "The e-mail address samp9+foo@example.com is already registered."
 
-  @known_git7failure @javascript
   Scenario: Create a different user with the similar Email Id(For ex:same+similar@example.com)
     When I follow "Create new account"
     And I fill in "Username" with random text
-    And I fill in "E-mail address" with "samp5+bar@example.com"
+    And I fill in "E-mail address" with "samp9+bar@example.com"
     And I fill in "Full name" with random text
     And I fill in "First or given name" with random text
     And I fill in "Last name or surname" with random text
     And I select "United States" from "Country"
     And I press "Create new account"
-    And I wait for "4" seconds
-    Then I should see "An e-mail address similar to samp5+bar@example.com is already registered."
+    Then I should see "An e-mail address similar to samp9+bar@example.com is already registered."
 
-  @known_git7failure @javascript
   Scenario: Create a different user with the different Email Id
     When I follow "Create new account"
     And I fill in "Username" with random text
-    And I fill in "E-mail address" with "samp545@example.com"
+    And I fill in "E-mail address" with "samp949@example.com"
     And I fill in "Full name" with random text
     And I fill in "First or given name" with random text
     And I fill in "Last name or surname" with random text
     And I select "United States" from "Country"
     And I press "Create new account"
-    And I wait for "4" seconds
-    Then I should see "Your password and further instructions have been sent to your e-mail address."
+    Then I should see "A welcome message with further instructions has been sent to your e-mail address"
 
   Scenario Outline: Username validation: Valid username
     When I follow "Create new account"
@@ -82,7 +75,7 @@ Feature: Register an account on Drupal.org with valid username and email
     | text         |
     | example*123  |
     | ~example~    |
-    | example#5    |
+    | example#9    |
     | example%23   |
     | example(123) |
 
