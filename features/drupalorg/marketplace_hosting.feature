@@ -6,7 +6,7 @@ Feature: Drupal hosting providers
 
   @javascript
   Scenario: View Shared hosting providers
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Marketplace"
     And I follow "Hosting"
     Then I should see the heading "Shared Hosting Providers"

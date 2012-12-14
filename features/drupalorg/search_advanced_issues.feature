@@ -5,7 +5,7 @@ Feature: Visitor searches issues and gets results from drupal site
   I want to search for the issues in the site
 
   Scenario: Search for drupal issues
-    Given that I am on the homepage
+    Given I am on the homepage
     When I search sitewide for "BDD"
     And I see "results containing the words: BDD"
     And I follow "Advanced Issues"

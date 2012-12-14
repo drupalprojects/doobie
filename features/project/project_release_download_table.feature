@@ -5,7 +5,7 @@ Feature: To view and download a release package from the download table
   I should select a release from the download table
 
   Scenario: View the list of available releases
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Get Started with Drupal"
     And I follow "Download Drupal"
     Then I should see the heading "Download & Extend"

@@ -5,7 +5,7 @@ Feature: Security announcements
   I should be able to view security advisories
 
   Scenario: Visit Security page and view texts and links
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Security Info"
     Then I should see the heading "Security advisories"
     And I should be on "/security"

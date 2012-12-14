@@ -5,7 +5,7 @@ Feature: Display of advertisements in Hosting support and Paid services forums
   I should see an advertisement on the forum page
 
   Scenario: Advertisement in services hosting support page
-    Given that I am on the homepage
+    Given I am on the homepage
     And I follow "Support"
     And I follow "Forums"
     When I follow "Hosting support"

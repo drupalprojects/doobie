@@ -5,7 +5,7 @@ Feature: Project release files
   I should be able to download the release file
 
   Scenario: Navigate to core releases
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Download & Extend"
     And I follow "Other Releases"
     Then I should see the heading "Releases for Drupal core"

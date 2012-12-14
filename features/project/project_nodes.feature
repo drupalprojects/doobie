@@ -5,7 +5,7 @@ Feature: To view the project details
   I should be able to see some specific contents on the page
 
   Scenario: Visit the project page
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Download & Extend"
     And I follow "Download Drupal"
     Then I should see the heading "Download & Extend"
