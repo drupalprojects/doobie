@@ -3841,6 +3841,8 @@ class FeatureContext extends DrupalContext {
   /**
    * Function to check if an option is present in the dropdown
    *
+   * @Then /^I should see "([^"]*)" in the dropdown "([^"]*)"$/
+   *
    * @param $value
    *   string The option string to be searched for
    * @param $field

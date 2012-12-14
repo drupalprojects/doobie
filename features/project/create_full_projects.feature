@@ -16,7 +16,6 @@ Feature: Create projects
     And I select "Full project" from "Project type"
     And I select "Under active development" from "Development status"
     And I fill in "Short name" with random text
-    And I select "Administration" from "Projects"
     And I upload the following <files> for "File attachments"
     | files           | description     |
     | desert.jpg      | Desert pic      |
@@ -46,4 +45,3 @@ Feature: Create projects
     | Drupal.org project   |
     | Theme Engine project |
     | Theme project        |
-    | Translation project  |  

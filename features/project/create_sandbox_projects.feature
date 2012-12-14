@@ -5,7 +5,7 @@ Feature: Create projects
   I need to create a project
 
   Background: 
-  Given I am logged in as "git user"
+  Given I am logged in as "git vetted user"
   And I am on "/node/add"
 
   Scenario: Create a module
@@ -14,14 +14,16 @@ Feature: Create projects
     And I select "Actively maintained" from "Maintenance status"
     And I select "Sandbox project" from "Project type"
     And I select "Under active development" from "Development status"
-    And I select "Administration" from "Projects"
+    And I fill in "Short name" with random text
+    And I uncheck "Has project releases"
     And I press "Save"
     Then I should see the random "Name" text
 
   Scenario Outline: Create other projects
     When I follow "<project>"
-    Then I should not see "Full project" in the dropdown "Project type"
-    And I should not see "Project short name"
+    Then I should see "Full project" in the dropdown "Project type"
+    And I should see "Sandbox project" in the dropdown "Project type"
+    And I should see "Project short name"
  
     Examples:
     | project              |
@@ -31,6 +33,3 @@ Feature: Create projects
     | Module project       |
     | Theme Engine project |
     | Theme project        |
-    | Translation project  |
-
-
