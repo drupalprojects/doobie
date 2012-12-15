@@ -1,8 +1,8 @@
 @whitelist @anon
 Feature: Get a feed of packaging whitelist entries
-  In order to see the packaging whitelist feed
+  In order to know when new packages are added to the whitelist
   As any user
-  I should be able to see the rss feeds icon
+  I should be able to see RSS feed icon to subscribe
 
   Scenario: Visit the feed and view the content
     Given I am on "/project/drupalorg_whitelist"
