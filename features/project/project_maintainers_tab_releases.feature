@@ -1,10 +1,9 @@
-@project @maintainers @wip
+@project @maintainers 
 Feature: 'Administer releases' permission check
   In order to get help maintaining my project releases
   As a project owner
   I need to be able to add people to my project with appropriate permissions
 
-  @known_git7failure
   Scenario: Create a new project
     Given I am logged in as "git vetted user"
     And I am at "/node/add/project-distribution"
