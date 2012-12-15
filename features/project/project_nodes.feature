@@ -1,8 +1,8 @@
-@project @anon
+@project @anon @content
 Feature: To view the project details
-  In order to view the project
+  In order to learn about the project
   As an anonymous user
-  I should be able to see some specific contents on the page
+  I should be able to see data and follow links about it
 
   Scenario: Visit the project page
     Given I am on the homepage
