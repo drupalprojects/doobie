@@ -1,4 +1,4 @@
-@casestudies @wip
+@casestudies 
 Feature: Adding new case study
   In order to share the story of the site I built with Drupal
   As an authenticated user
