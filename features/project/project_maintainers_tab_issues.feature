@@ -1,10 +1,9 @@
-@project @maintainers @wip @issues
+@project @maintainers @issues
 Feature: 'Maintain issues' permission check
   In order to get help maintaining my project issues
   As a project owner
   I need to be able to add people to my project with appropriate permissions
 
-  @known_git7failure
   Scenario: Create a new project and an issue
     Given I am logged in as "git vetted user"
     And I am at "/node/add/project-distribution"
@@ -30,7 +29,7 @@ Feature: 'Maintain issues' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent @known_git7failure
+  @dependent 
   Scenario: Log in as maintainer and see creator username in Assigned drop down : git user can assign an issue to maintainer
     Given I am logged in as "git user"
     And I am on the project page
@@ -46,7 +45,7 @@ Feature: 'Maintain issues' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent @known_git7failure @clean_data
+  @dependent @clean_data
   Scenario: Log in as maintainer and see creator username in Assigned drop down : git user can assign an issue to maintainer
     Given I am logged in as "git user"
     And I am on the project page
