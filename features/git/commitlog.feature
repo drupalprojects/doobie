@@ -1,8 +1,8 @@
 @ci
-Feature: To see the list of all the commits
-  In order to see the list of commits
-  As a user
-  I should got to the commit log page
+Feature: Sitewide commit log 
+  In order to conveniently follow code-related activity on Drupal.org
+  As a site visitor
+  I need a log of commits to all Drupal.org projects
 
   @smoke @javascript
   Scenario: View the list of commits
