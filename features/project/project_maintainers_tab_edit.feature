@@ -1,10 +1,9 @@
-@project @maintainers @wip
+@project @maintainers
 Feature: 'Edit project' permission check
   In order to provide information about a project
   As a project maintainer
   I should be able to edit the project
 
-  @known_git7failure
   Scenario: Create a new project
     Given I am logged in as "git vetted user"
     And I am at "/node/add/project-core"
