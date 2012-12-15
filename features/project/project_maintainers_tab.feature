@@ -1,4 +1,4 @@
-@project @maintainers @wip
+@project @maintainers
 Feature: Add additional maintainers with appropriate permissions
   In order to get help maintaining my project
   As a project owner
@@ -7,13 +7,12 @@ Feature: Add additional maintainers with appropriate permissions
   Background:
     Given I am logged in as "git vetted user"
 
-  @known_git7failure
   Scenario: Create a new project
     And I am at "/node/add/project-distribution"
     When I create a "sandbox" project
     Then I should see project data
 
-  @dependent @known_git7failure
+  @dependent 
   Scenario: View texts and links on maintainers tab
     When I am on the Maintainers tab
     Then I should see the following <texts>
@@ -73,7 +72,7 @@ Feature: Add additional maintainers with appropriate permissions
     And I should see "added and permissions updated"
     And I should see the link "git user"
 
-  @dependent @known_git7failure
+  @dependent 
   Scenario: Assign permissions to a maintainer
     Given I am on the Maintainers tab
     When I assign the following <permissions> to the maintainer "git user"
@@ -85,7 +84,7 @@ Feature: Add additional maintainers with appropriate permissions
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent @known_git7failure
+  @dependent
   Scenario: Remove permissions from a maintainer
     Given I am on the Maintainers tab
     When I unassign the following <permissions> from the maintainer "git user"
@@ -97,7 +96,7 @@ Feature: Add additional maintainers with appropriate permissions
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent @known_git7failure @clean_data
+  @dependent @clean_data
   Scenario: Create a new issue is available for owner
     Given I am on the Maintainers tab
     When I follow "total"
