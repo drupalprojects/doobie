@@ -1,8 +1,8 @@
-@whitelist @wip @javascript
+@whitelist @javascript
 Feature: Create new packaging whitelist entry
-  In order to add new packaging whitelist URL to the list
+  In order to include an external library on the packaging whitelist 
   As a packaging whitelist maintainer
-  I should be able to create new entry and save it
+  I need to add new entries
 
   Scenario: Create packaging whitelist entry: Authenticated user
     Given I am logged in as "site user"
