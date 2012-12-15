@@ -1,8 +1,8 @@
-@project @wip
+@project 
 Feature: Learn about details of a full project
-  In order to learn about the various details and components associated with a project
+  In order to learn about the details and components associated with a project
   As any user
-  I should be able to visit the project page, follow various links, and find assorted information
+  I should be able to visit the project page, follow links, and find assorted information
 
   @anon
   Scenario: Project page
@@ -18,7 +18,7 @@ Feature: Learn about details of a full project
     | Actively maintained      |
     | Under active development |
 
-  @anon
+  @anon @content
   Scenario: Project git instructions
     Given I am on "/project/test_releases"
     When I follow "Version control"
@@ -39,7 +39,7 @@ Feature: Learn about details of a full project
     | Patching                                   |
     | git clone --recursive --branch master      |
 
-  @anon
+  @anon @content
   Scenario: Browse repository link
     Given I am on "/project/test_releases"
     When I follow "Repository viewer"
@@ -118,4 +118,3 @@ Feature: Learn about details of a full project
     But I should see the heading "Create Issue"
     And I should see "Title"
     And I should see "Description"
-

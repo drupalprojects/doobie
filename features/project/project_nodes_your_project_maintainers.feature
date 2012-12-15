@@ -1,4 +1,4 @@
-@wip
+@project
 Feature: Maintain the project
   In order to maintain the project
   As a project maintainer
