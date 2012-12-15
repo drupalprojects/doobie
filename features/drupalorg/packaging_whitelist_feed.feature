@@ -4,7 +4,6 @@ Feature: Get a feed of packaging whitelist entries
   As any user
   I should be able to see the rss feeds icon
 
-  @timeout @flaky
   Scenario: Visit the feed and view the content
     Given I am on "/project/drupalorg_whitelist"
     When I follow "list of existing whitelist entries"
