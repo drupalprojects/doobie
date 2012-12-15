@@ -1,8 +1,8 @@
 @whitelist @anon 
 Feature: View the list of Packaging whitelist entries
-  In order to see the list of Packaging whitelist URLs
+  In order to learn if an external library has already been whitelisted
   As any user
-  I should be able see the list and search for specific library
+  I should be able browse the list and search for specific library
 
   Scenario: View the list of items
     Given I am on "/project/drupalorg_whitelist"
