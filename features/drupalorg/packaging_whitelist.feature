@@ -1,4 +1,4 @@
-@whitelist @anon @wip
+@whitelist @anon 
 Feature: View the list of Packaging whitelist entries
   In order to see the list of Packaging whitelist URLs
   As any user
@@ -39,7 +39,7 @@ Feature: View the list of Packaging whitelist entries
     And I should not see the link "next"
     And I should not see the link "last"
 
-  @known_git6failure @javascript
+  @javascript
   Scenario: Search the list
     Given I am on "/packaging-whitelist"
     When I fill in "Search Packaging Whitelists" with "ARC2"
