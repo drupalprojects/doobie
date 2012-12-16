@@ -1,4 +1,4 @@
-@downloads @known_git6failure @anon @wip
+@downloads @anon 
 Feature: Find modules to extend Drupal
   In order to add additional functionality to my site
   As a sitebuilder
