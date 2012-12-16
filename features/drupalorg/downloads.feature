@@ -1,4 +1,4 @@
-@downloads @known_git6failure @anon
+@downloads @anon
 Feature: Download and Extend Drupal
   In order to download and extend Drupal
   As a sitebuilder
