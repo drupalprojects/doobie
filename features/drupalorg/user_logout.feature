@@ -1,6 +1,6 @@
-@user @wip
+@user
 Feature: User log out
-  In order to leave the site
+  In order to leave the site and prevent others from using my account 
   As an authenticated user
   I should be able to log out
 
