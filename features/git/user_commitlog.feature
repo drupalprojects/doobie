@@ -1,8 +1,8 @@
 @user @git
 Feature: To see the list of all the commits for a user
-  In order to see the list of commits for a user
+  In order to see code contributions made by a particular person
   As an authenticated user
-  I should log in and see my commits log
+  I should be able to see all of a user's code commits from one log
 
   Background:
     Given I am logged in as "git user"
