@@ -23,6 +23,7 @@ Feature: Featured Drupal case studies
     And I should see the link "Education"
     And I should see the link "Technology"
     And I should see at least "8" records
+    And I should see an image for every case study
 
   @javascript
   Scenario: View the image slideshow
@@ -52,7 +53,7 @@ Feature: Featured Drupal case studies
 
   Scenario: View individual case study from Featured section
     Given I am on "/case-studies"
-    When I click on a case study image
+    When I click on a case study
     Then I should not see "Page not found"
     And I should see that the tab "Featured showcase" is highlighted
     And I should see the following <texts>

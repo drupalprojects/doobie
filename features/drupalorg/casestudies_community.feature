@@ -4,7 +4,7 @@ Feature: Community case studies
   As any user
   I should be able to browse Community case studies section
 
-Scenario: Browse Community showcase tab and view pagination links
+  Scenario: Browse Community showcase tab and view pagination links
     Given I am on "/case-studies"
     When I follow "Community showcase"
     Then I should see at least "8" records
@@ -28,6 +28,7 @@ Scenario: Browse Community showcase tab and view pagination links
     And I should see at least "10" links in the "right sidebar"
     And I should see the link "Education"
     And I should see the link "Technology"
+    And I should see an image for every case study
 
   Scenario: Browse pagination links in community showcase page: Second page
     Given I am on "/case-studies/community"
@@ -62,7 +63,7 @@ Scenario: Browse Community showcase tab and view pagination links
 
   Scenario: View individual case study from Community section
     Given I am on "/case-studies/community"
-    When I click on a case study image
+    When I click on a case study
     Then I should not see "Page not found"
     And I should see that the tab "Community showcase" is highlighted
     And I should see the following <texts>

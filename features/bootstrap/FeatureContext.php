@@ -1101,11 +1101,10 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @When /^I click on a case study image$/
+   * @When /^I click on a case study$/
    */
-  public function iClickOnACaseStudyImage() {
-    $page = $this->getSession()->getPage();
-    $result = $page->find('css', '.view-content .col-first a');
+  public function iClickOnACaseStudy() {
+    $result = $this->getSession()->getPage()->find('css', '.view-content .col-first a');
     if (empty($result)) {
       throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not have any case study");
     }
@@ -7319,5 +7318,30 @@ class FeatureContext extends DrupalContext {
    */
   public function iSeeTheLink($link) {
     return new Then('I should see the link "' . $link . '"');
+  }
+
+  /**
+   * Checks if the page contains case study images or not
+   *
+   * @Given /^I should see an image for every case study$/
+   */
+  public function iShouldSeeAnImageForEveryCaseStudy() {
+    $page = $this->getSession()->getPage();
+    // Get all the case study titles
+    $resultTitles = $page->findAll('css', '.view-content table tr td .views-field-title a');
+    // Make sure the page has case studies in it
+    if (empty($resultTitles)) {
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not have any case study");
+    }
+    // Get all the images on the case study view
+    $resultImgs = $page->findAll('css', '.view-content table tr td .views-field-field-mainimage a img');
+    // Make sure there is atleast one image
+    if (empty($result)) {
+      throw new Exception("The case studies on the page " . $this->getSession()->getCurrentUrl() . " do not have any images");
+    }
+    // If the number of titles and number of images do not match, then some of the case studies are missing images
+    if (sizeof($resultTitles) != sizeof($resultImgs)) {
+      throw new Exception("Not all the case studies on the page " . $this->getSession()->getCurrentUrl() . " have images");
+    }
   }
 }

@@ -63,7 +63,7 @@ Feature: Adding new case study
 
   Scenario: Edit own case study
     When I follow "Community showcase"
-    And I click on a case study image
+    And I click on a case study
     And I follow "Edit"
     Then I should not see "Access denied"
     And I should see the following <texts>
@@ -75,7 +75,7 @@ Feature: Adding new case study
     | Brief overview        |
 
   Scenario: Comment on a case study
-    When I click on a case study image
+    When I click on a case study
     And I follow "Add new comment"
     And I fill in "Subject" with random text
     And I fill in "Comment" with random text
