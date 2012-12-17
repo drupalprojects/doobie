@@ -4,7 +4,7 @@ Feature: Get a feed of security announcements
   As any user
   I should be able to see the rss feeds icons and view rss feeds
 
-  @timeout @flaky
+  @timeout
   Scenario: Visit the Drupal core announcements feed and view the contents
     Given I am on "/security"
     Then I should see "Subscribe with RSS"
@@ -15,7 +15,7 @@ Feature: Get a feed of security announcements
     And I should see the text "Versions affected" in the feed
     And I should see at least "5" feed items
 
-  @timeout @flaky
+  @timeout
   Scenario: Visit the Contributed projects feed and view the contents
     Given I am on "security/contrib"
     Then I should see "Subscribe with RSS"
@@ -26,7 +26,7 @@ Feature: Get a feed of security announcements
     And I should see the text "Versions affected" in the feed
     And I should see at least "5" feed items
 
-  @timeout @flaky
+  @timeout
   Scenario: Visit the public service announcements feed and view the contents
     Given I am on "security/psa"
     Then I should see "Subscribe with RSS"
