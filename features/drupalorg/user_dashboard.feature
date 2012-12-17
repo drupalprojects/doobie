@@ -65,7 +65,6 @@ Feature:
     And I should see at least "2" blocks in column "3"
     And I should see at least "3" items in block "Planet Drupal"
 
-  @wip @known_git7failure
   Scenario: Create test data for Your Posts
     And I am on "/node/add/project-issue/test_releases"
     And I should not see "Access denied"
@@ -96,7 +95,6 @@ Feature:
     When I change the setting "Number of posts to show" to "3" for the block "Your Posts" and save
     Then I should see at least "3" items in block "Your Posts"
 
-  @flaky
   Scenario: Close the block
     And I follow "Your Dashboard"
     And I wait until the page is loaded
