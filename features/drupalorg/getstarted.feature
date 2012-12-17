@@ -1,4 +1,4 @@
-@wip @get_started @known_git7failure
+@get_started
 Feature: Get started with Drupal
   In order to use Drupal
   As any user
