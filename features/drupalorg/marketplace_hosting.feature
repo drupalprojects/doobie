@@ -1,8 +1,8 @@
 @marketplace @anon @content
 Feature: Drupal hosting providers
-  In order to choose Drupal hosting provider
-  As a sitebuilder
-  I should be able to see lists of various types of hosting providers
+  In order to choose a Drupal hosting provider
+  As a site builder
+  I should be able to see categorized lists of hosting providers
 
   @javascript
   Scenario: View Shared hosting providers
