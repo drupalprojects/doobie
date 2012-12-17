@@ -27,7 +27,6 @@ Feature:
     And I click the link "Contributor Links" to add
     And I should see the block "Contributor Links" in column "1"a
 
-  @known_git7failure
   Scenario Outline: Add block from project page
     And I am on "<page>"
     And I wait until the page is loaded
@@ -46,7 +45,6 @@ Feature:
     | /project/issues/user | Add Your Issues to dashboard              | site user                |
     | /getting-involved    | Add Contributor Links to dashboard        | Contributor Links        |
 
-  @known_git7failure
   Scenario:Add from the user track page
     And I follow "Your Dashboard"
     And I wait until the page is loaded

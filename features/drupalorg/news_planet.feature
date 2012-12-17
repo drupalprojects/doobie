@@ -1,4 +1,4 @@
-@news @anon @wip
+@news @anon
 Feature: Find Drupal News
   In order to stay up-to-date on what's happening in Drupal
   As any user
