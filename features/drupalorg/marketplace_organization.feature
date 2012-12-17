@@ -1,6 +1,6 @@
-@marketplace @wip
+@marketplace
 Feature: Adding company to the Marketplace
-  In order to advertise the drupal services of my organization
+  In order to advertise the Drupal services of my organization
   As an authenticated user
   I should be able to create an organization page
 
