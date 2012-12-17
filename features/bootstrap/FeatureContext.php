@@ -580,7 +580,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Requires the Expect library to supply password to ssh on the command line.
    *
-   * @When /^I initialize the repository$/
+   * @Then /^I(?:| should be able to) initialize the repository$/
    */
   public function iInitializeTheRepository() {
     // Check for the `expect` library.

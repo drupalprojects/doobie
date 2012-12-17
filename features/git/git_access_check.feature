@@ -13,7 +13,7 @@ Feature: Verify git access
     And I create a "sandbox" project
     And I see project data
     And I follow "Version control"
-    Then I initialize the repository
+    Then I should be able to initialize the repository
 
   Scenario: Disagree to git access agreement
     When I follow "Edit"
