@@ -1,4 +1,4 @@
-@project @user @wip
+@project @user
 Feature: Your Project Tab
   In order to easily manage the projects I've created
   As a project maintainer
@@ -34,7 +34,7 @@ Feature: Your Project Tab
     And I should see at least "1" record in "Projects" table
     And I should see at least "1" record in "Project Issues" table
 
-  @wip @dependent
+  @dependent
   Scenario: View the links in Project Table
     And I am on "/project/user"
     Then I should see the following <links> in column "Issue links" in "Projects" table
