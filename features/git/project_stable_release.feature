@@ -1,10 +1,10 @@
-@wip @slow
+@slow
 Feature: Manage stable releases
   In order to make stable releases available to users
   As a project owner
   I should be able to create a tag and stable release
-
   
+  @javascript
   Scenario: Add git vetted user as maintainer
     Given I am logged in as "admin test"
     When I visit "/node/1791620/maintainers"
