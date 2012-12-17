@@ -1,4 +1,4 @@
-@user @flaky @git @wip
+@user @git
 Feature: To see the list of all the commits for a user
   In order to see the list of commits for a user
   As an authenticated user
