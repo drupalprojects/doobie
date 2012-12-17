@@ -1,4 +1,4 @@
-@user @wip
+@user
 Feature: Content I posted
   In order to keep track of responses to my posts
   As an authenticated user
