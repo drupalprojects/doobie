@@ -1,8 +1,8 @@
-@issues @slow @anon @known_git7failure
+@issues @slow @anon
 Feature: Overall Filter Search for Issues
-  In order to define the overall Filter search for Issues
-  As an Anonymous user
-  I wanted to look for overall Filter search for Issues
+  In order to find issues on on all of Drupal.org
+  As any user
+  I need to be able to filter and search
 
   Background:
     Given I am on "/project/issues"
