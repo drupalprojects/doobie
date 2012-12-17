@@ -1,4 +1,4 @@
-@wip @changerecords
+@changerecords
 Feature: Add change record
   In order to see and add change records
   As an authenticated user
