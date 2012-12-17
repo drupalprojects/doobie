@@ -1,8 +1,8 @@
 @security @anon
 Feature: Get a feed of security announcements
-  In order to see the security announcements feeds
-  As any user
-  I should be able to see the rss feeds icons and view rss feeds
+  In order to get focused and timely information that will allow me to keep my site secure
+  As a Drupal site maintainer
+  I should be able to subscribe to rss feeds
 
   @timeout
   Scenario: Visit the Drupal core announcements feed and view the contents
