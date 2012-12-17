@@ -87,7 +87,7 @@ Feature: To view and download a release package from the download table
   @wip
   Scenario: Download a release: Recommended - tar
     Given I am on "/project/drupal"
-    When I download the "tar" file for version "6.x-dev"
+    When I download the "gz" file for version "6.x-dev"
     Then the downloaded file name should be "drupal-6.x-dev.tar.gz"
 
   @wip
