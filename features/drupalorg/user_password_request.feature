@@ -1,4 +1,4 @@
-@user @anon @wip
+@user @anon
 Feature: Request new password
   In order to log in to the site when I forgot my password
   As any user
