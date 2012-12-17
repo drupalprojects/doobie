@@ -1,4 +1,4 @@
-@security @wip
+@security
 Feature: Publishing new security announcement
   In order to make new security advisory public
   As a member of Security team
