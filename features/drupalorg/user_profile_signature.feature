@@ -1,4 +1,4 @@
-@user @wip
+@user
 Feature: Display additional information on my comments
   In order to add some information to all my comments
   As an authenticated user

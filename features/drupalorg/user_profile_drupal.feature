@@ -1,4 +1,4 @@
-@user @wip
+@user
 Feature: Drupal information in user profile
   In order to let everyone know what I am doing in Drupal
   As an authenticated user

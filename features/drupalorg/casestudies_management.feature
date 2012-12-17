@@ -1,4 +1,4 @@
-@casestudies @wip @javascript
+@casestudies @javascript
 Feature: Case studies management
   In order to manage case studies
   As an authenticated user
