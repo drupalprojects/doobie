@@ -7325,4 +7325,16 @@ class FeatureContext extends DrupalContext {
       throw new Exception("Not all the case studies on the page " . $this->getSession()->getCurrentUrl() . " have images");
     }
   }
+
+  /**
+   * @Given /^I fill in "([^"]*)" with organization name$/
+   */
+  public function iFillInWithOrganizationName($label) {
+    $text = HackyDataRegistry::get('random:Organization name');
+    if (empty($text)) {
+      throw new Exception("No random text stored");
+    }
+    $step = "I fill in \"$label\" with \"$text\"";
+    return new Then($step);
+  }
 }
