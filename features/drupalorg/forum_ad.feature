@@ -5,7 +5,7 @@ Feature: Display ads in the Hosting support and Paid services forum
   I should see an Ad on the forum page
 
   Background:
-    Given that I am on the homepage
+    Given I am on the homepage
     And I follow "Support"
     And I follow "Forums"
 

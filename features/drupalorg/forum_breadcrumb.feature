@@ -6,7 +6,7 @@ Feature: Forum breadcrumbs
 
   @anon
   Scenario: User follows link in the Support forum without logging in
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Community"
     And I follow "Forum"
     And I follow "Post installation"

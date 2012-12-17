@@ -6,7 +6,7 @@ Feature: To see the list of all the commits
 
   @smoke
   Scenario: View the list of commits
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Commits"
     And I follow "More commit messages..."
     Then I should see the heading "Commit messages"
@@ -52,7 +52,7 @@ Feature: To see the list of all the commits
     | tree      |
 
   Scenario: View project title as the first part of the heading
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Commits"
     And I follow "More commit messages..."
     Then I should see the heading "Commit messages"

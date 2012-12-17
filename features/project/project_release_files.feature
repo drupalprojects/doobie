@@ -6,7 +6,7 @@ Feature: Project release files
 
   @known_git6failure
   Scenario: Navigate to core releases
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Download & Extend"
     And I follow "Other Releases"
     Then I should see the heading "Releases for Drupal core"

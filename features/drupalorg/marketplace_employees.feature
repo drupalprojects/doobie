@@ -36,7 +36,7 @@ Feature: Company employees on organization pages
 
   @anon @dependent
   Scenario: Following Featured providers organization to check for its listed users
-    Given that I am on the homepage
+    Given I am on the homepage
     When I visit the organization page
     Then I should see the link "site user"
 
@@ -51,7 +51,7 @@ Feature: Company employees on organization pages
 
   @anon @dependent @clean_data
   Scenario: View the user profile details in brief
-    Given that I am on the homepage
+    Given I am on the homepage
     When I visit the organization page
     Then I should see the link "site user"
     And I should see the random "Job title:" text

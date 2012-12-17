@@ -6,7 +6,7 @@ Feature: Featured Drupal case studies
 
   @timeout
   Scenario: View case study page
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Sites Made with Drupal"
     Then I should see the heading "Drupal Case Studies"
     And I should see "Categories:"
@@ -27,7 +27,7 @@ Feature: Featured Drupal case studies
 
   @javascript
   Scenario: View the image slideshow
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Sites Made with Drupal"
     Then I should not see the slideshow case studies in the view content
     And I should see "1"

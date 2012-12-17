@@ -5,7 +5,7 @@ Feature: Security public service announcements
   I should be able to view the list of such announcements
 
   Scenario: View the Security public service announcements
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Security Info"
     Then I should see the heading "Security advisories"
     And I follow "Public service announcements"

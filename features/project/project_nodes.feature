@@ -6,7 +6,7 @@ Feature: To view the project details
 
   @known_git6failure
   Scenario: Visit the project page
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Download & Extend"
     And I follow "Download Drupal"
     Then I should see the heading "Download & Extend"

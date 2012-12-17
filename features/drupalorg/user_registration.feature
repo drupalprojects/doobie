@@ -5,7 +5,7 @@ Feature: Register an account on Drupal.org with valid username and email
   I should be able to register on the site
 
   Background:
-    Given that I am on the homepage
+    Given I am on the homepage
     And I follow "Log in / Register"
 
   Scenario: Register to the site

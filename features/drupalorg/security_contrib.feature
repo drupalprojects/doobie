@@ -5,7 +5,7 @@ Feature: Security announcements for contributed modules
   I should be able to view Security advisories page for contributed modules
 
   Scenario: View the security announcements page for contributed modules
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Security Info"
     Then I should see the heading "Security advisories"
     And I follow "Contributed projects"

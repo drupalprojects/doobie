@@ -6,7 +6,7 @@ Feature: To view and download a release package from the download table
 
   @wip
   Scenario: View the list of available releases
-    Given that I am on the homepage
+    Given I am on the homepage
     When I follow "Get Started with Drupal"
     And I follow "Download Drupal 7."
     Then I should see the heading "Download & Extend"

@@ -5,7 +5,7 @@ Feature: About Drupal section
   I want to find information on an About page
 
   Scenario: View About page
-    Given that I am on the homepage 
+    Given I am on the homepage 
     When I follow "About"
     Then I should see the heading "About Drupal"
     And I should see the heading "Drupal is Open Source"

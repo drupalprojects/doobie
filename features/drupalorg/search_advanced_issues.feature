@@ -6,7 +6,7 @@ Feature: Visitor searches issues and gets results from drupal site
 
   @known_git6failure
   Scenario: Search for drupal issues
-    Given that I am on the homepage
+    Given I am on the homepage
     When I search sitewide for "BDD"
     And I see "results containing the words: BDD"
     And I follow "Advanced Issues"

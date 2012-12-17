@@ -6,7 +6,7 @@ Feature: Visitor searches content and gets results from multiple sites
 
   @known_git6failure
   Scenario: Search using the sitewide search: Exact word
-    Given that I am on the homepage
+    Given I am on the homepage
     When I search sitewide for "Senpai"
     And I follow "Users"
     Then I should see at least "1" record
@@ -15,7 +15,7 @@ Feature: Visitor searches content and gets results from multiple sites
 
   @known_git6failure
   Scenario: Search using the sitewide search: Part of the word
-    Given that I am on the homepage
+    Given I am on the homepage
     When I search sitewide for "eliza"
     And I follow "Users"
     Then I should see at least "10" records
