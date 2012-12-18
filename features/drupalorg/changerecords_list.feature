@@ -1,4 +1,4 @@
-@javascript @anon @specific_text
+@anon @specific_text
 Feature: List and search change records
   In order to see the list of change records
   As anonymous/guest user
@@ -67,6 +67,7 @@ Feature: List and search change records
     Then I should not see "08-Jul-2012"
     And I should see at least "1" record
 
+  @javascript
   Scenario: Search by entering values for Change node created dropdown: Is between
     Given I am on "/list-changes/drupal"
     When I select "Is between" from field "Change node created"
