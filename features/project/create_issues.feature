@@ -1,4 +1,4 @@
-@issues @javascript
+@issues
 Feature: Drupal Create Issues
   In order to get help contributing code or using modules and themes
   As a site user
