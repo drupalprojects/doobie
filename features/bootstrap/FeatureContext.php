@@ -5454,11 +5454,37 @@ class FeatureContext extends DrupalContext {
    * @Given /^I wait until the page (?:loads|is loaded)$/
    */
   public function iWaitUntilThePageLoads() {
-    $session = $this->getSession();
-    // If selenium is loaded, wait for the page to completely load
-    if ($session->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
-      $session->wait(1, "document.readyState == 'interactive' || document.readyState == 'complete'");
+    // Manual timeout in seconds
+    $timeout = 60;
+    // Default callback
+    if (empty($callback)) {
+      if ($this->getSession()->getDriver() instanceof Behat\Mink\Driver\GoutteDriver) {
+        $callback = function($context) {
+          // If the page is completely loaded and the footer text is found
+          if(200 == $context->getSession()->getDriver()->getStatusCode()) {
+            return true;
+          }
+          return false;
+        };
+      }else {
+        // Convert $timeout value to milliseconds
+        // document.readyState becomes 'complete' when the page is fully loaded
+        $this->getSession()->wait($timeout*1000, "document.readyState == 'complete'");
+        return;
+      }
     }
+    if (!is_callable($callback)) {
+      throw new Exception('The given callback is invalid/doesn\'t exist');
+    }
+    // Try out the callback until $timeout is reached
+    for ($i = 0; $i < $timeout/2; $i++) {
+      if ($callback($this)) {
+        return true;
+      }
+      // Try every 2 seconds
+      sleep(2);
+    }
+    throw new Exception('The request is timed out');
   }
 
   /**
