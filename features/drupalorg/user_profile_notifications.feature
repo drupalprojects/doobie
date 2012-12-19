@@ -19,21 +19,15 @@ Feature: Manage email notification settings
     | Customize for individual projects below |
     And I should see the option "None" selected in "Default notification" dropdown
 
-  @javascript @flaky
   Scenario: Subscribe to project: Invalid project title
     When I enter "doobie" for field "Project title"
-    And I wait "3" seconds
     And I press "Save"
     Then I should see "The name you entered (doobie) is not a valid project"
     But I should not see "Your notification settings have been updated"
 
-  @javascript @flaky
   Scenario: Subscribe to project and delete it
-    And I wait until the page is loaded
     When I enter "Drupal.org BDD" for field "Project title"
-    And I select "Drupal.org BDD" from the suggestion "Project title"
     And I press "Save"
-    And I wait until the page is loaded
     And I see "Your notification settings have been updated"
     And I follow "delete"
     Then I should see "Deleted notification settings for Drupal.org BDD."
