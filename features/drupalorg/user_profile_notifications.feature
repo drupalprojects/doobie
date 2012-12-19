@@ -1,4 +1,4 @@
-@user @content @wip
+@user @content
 Feature: Manage email notification settings
   In order to choose which notifications I want to receive
   As an authenticated user
