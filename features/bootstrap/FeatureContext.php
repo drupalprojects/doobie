@@ -3115,8 +3115,7 @@ class FeatureContext extends DrupalContext {
    * @param int $count
    * @param null/int $column
    */
-  public function iShouldSeeAtLeastBlocks($count, $column = null)
-  {
+  public function iShouldSeeAtLeastBlocks($count, $column = null) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     // Find divs with the class 'homebox-portlet' inside #homebox div
@@ -3133,8 +3132,7 @@ class FeatureContext extends DrupalContext {
    * @param int $count
    * @param string $block
    */
-  public function iShouldSeeAtLeastItemsInBlock($count, $block)
-  {
+  public function iShouldSeeAtLeastItemsInBlock($count, $block) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     $obj_block = $this->getBlockInnerContainer($block);
@@ -3151,8 +3149,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Then /^I should see the item "([^"]*)" in the block "([^"]*)"$/
    */
-  public function iShouldSeeTheItemInTheBlock($item, $block)
-  {
+  public function iShouldSeeTheItemInTheBlock($item, $block) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     $obj_block = $this->getBlockInnerContainer($block);
@@ -3188,8 +3185,7 @@ class FeatureContext extends DrupalContext {
    * @param string $destination
    *   Block name
    */
-  public function iDragTheBlockOnto($origin, $destination)
-  {
+  public function iDragTheBlockOnto($origin, $destination) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     $block_ele = $this->getBlockInnerContainer($origin);
@@ -3210,8 +3206,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Then /^I drag the block "([^"]*)" onto column "([^"]*)"$/
    */
-  public function iDragTheBlockOntoColumn($origin, $destination)
-  {
+  public function iDragTheBlockOntoColumn($origin, $destination) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     $block_ele = $this->getBlockInnerContainer($origin);
@@ -3232,8 +3227,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Then /^I should not see the below <blocks> in column "([^"]*)"$/
    */
-  public function iShouldNotSeeTheBelowBlocksInColumn($column, TableNode $table)
-  {
+  public function iShouldNotSeeTheBelowBlocksInColumn($column, TableNode $table) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     $table = $table->getHash();
@@ -3279,8 +3273,7 @@ class FeatureContext extends DrupalContext {
    * @param string $blockNearBy
    *   Block name
    */
-  public function iShouldSeeTheBlockInColumnJustTheBlock($blockToFind, $column, $position, $blockNearBy )
-  {
+  public function iShouldSeeTheBlockInColumnJustTheBlock($blockToFind, $column, $position, $blockNearBy ) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     $arr_exporder = array();
@@ -3321,8 +3314,7 @@ class FeatureContext extends DrupalContext {
    * @param int $value
    * @param string $block
    */
-  public function iChangeTheSettingToForTheBlockAndSave($setting, $value, $block)
-  {
+  public function iChangeTheSettingToForTheBlockAndSave($setting, $value, $block) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     $block_inner = $this->getBlockInnerContainer($block);
@@ -3340,7 +3332,7 @@ class FeatureContext extends DrupalContext {
           if (!empty($setting_submit)) {
             // Submit
             $setting_submit->press();
-            sleep(1);
+            sleep(2);
             $block_container_id = $block_inner->getParent()->getAttribute('id');
             // Wait for the result until it is loaded through ajax
             $this->getSession()->wait(1, "typeof(jQuery('#" . $block_container_id . " > div.ahah-progress.ahah-progress-throbber').html()) == 'undefined'");
@@ -3363,8 +3355,7 @@ class FeatureContext extends DrupalContext {
    *
    * @param string $block
    */
-  public function iCloseTheBlockFromDashboard($block)
-  {
+  public function iCloseTheBlockFromDashboard($block) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     // Find the block inner div
@@ -3409,8 +3400,7 @@ class FeatureContext extends DrupalContext {
    *
    * @param string $blockLink
    */
-  public function iClickTheLinkToAdd($blockLink)
-  {
+  public function iClickTheLinkToAdd($blockLink) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     // Loop through the links
@@ -3437,8 +3427,7 @@ class FeatureContext extends DrupalContext {
    * @param string $block
    * @param int $column
    */
-  public function iShouldSeeTheBlockInColumn($block, $column)
-  {
+  public function iShouldSeeTheBlockInColumn($block, $column) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     // Find blocks from the column
@@ -3466,8 +3455,7 @@ class FeatureContext extends DrupalContext {
    * @param string $block
    * @param TableNode object $table
    */
-  public function iShouldSeeTheFollowingOnTheBlock($block, TableNode $table)
-  {
+  public function iShouldSeeTheFollowingOnTheBlock($block, TableNode $table) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     // Classes for icons

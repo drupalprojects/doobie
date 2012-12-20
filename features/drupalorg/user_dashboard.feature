@@ -1,4 +1,4 @@
-@user @javascript
+@user
 Feature:
   In order to test the functionalities of Drupal dashboard
   As an authenticated user
@@ -23,8 +23,10 @@ Feature:
     | Profile                 |
     | Add a block             |
 
+  @javascript
   Scenario: Click Restore to defaults and view dashboard blocks
     When I follow "Your Dashboard"
+    And I wait until the page is loaded
     And I click "Add a block"
     And I see the following <blocklinks> in small boxes
     | blocklinks                |
@@ -38,6 +40,7 @@ Feature:
     And I click "Restore to defaults"
     And I wait until the page is loaded
     And I press "Confirm"
+    And I wait until the page is loaded
     Then I should see the following <blocks> in column "1"
     | blocks        |
     | Drupal News   |
@@ -65,6 +68,7 @@ Feature:
     And I should see at least "2" blocks in column "3"
     And I should see at least "3" items in block "Planet Drupal"
 
+  @known_git7failure
   Scenario: Create test data for Your Posts
     And I am on "/node/add/project-issue/test_releases"
     And I should not see "Access denied"
@@ -79,7 +83,7 @@ Feature:
 
   @dependent
   Scenario: View the block: Your Posts
-    And I follow "Your Dashboard"
+    When I follow "Your Dashboard"
     And I wait until the page is loaded
     Then I should see the block "Your Posts" in column "2"
     And I should see at least "2" items in block "Your Posts"
@@ -88,13 +92,14 @@ Feature:
     | Settings |
     | Close    |
 
-  @dependent
+  @dependent @javascript
   Scenario: Change number of items to show in a block
     And I follow "Your Dashboard"
     And I wait until the page is loaded
     When I change the setting "Number of posts to show" to "3" for the block "Your Posts" and save
     Then I should see at least "3" items in block "Your Posts"
 
+  @javascript
   Scenario: Close the block
     And I follow "Your Dashboard"
     And I wait until the page is loaded
