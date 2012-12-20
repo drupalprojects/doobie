@@ -12,7 +12,6 @@ Feature: Add change record
     And I should see the heading "Access denied"
     But I should not see "Create Change record"
 
-  @javascript
   Scenario: Add new change record
     Given I am logged in as "site user"
     And I am on "/project/drupal"

@@ -20,9 +20,8 @@ Feature: Drupal.org frontpage
     And I should see the image of a drupal site in top middle content area
     And I should see the "text" "Drupal is used by some of the biggest sites on the Web, like" in "top middle content" area
 
-  @anon @known_git7failure @wip @javascript
+  @anon @known_git7failure @wip
   Scenario: View project and activity links, the count against each of them and advertisement in top right content area
-    And I wait until the page is loaded
     And I should see the following <links> in "top right content" area
     | links               |
     | Develop with Drupal |

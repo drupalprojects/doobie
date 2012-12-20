@@ -24,11 +24,9 @@ Feature: Find Drupal distributions
     | New Distributions            |
     | Most Active Distribitions    |
 
-  @javascript
   Scenario: Visit Distributions page
     Given I am on "/download"
     When I follow "Distributions"
-    And I wait until the page loads
     Then I should be on "/project/distributions"
     And I should see the following <tabs>
     | tabs                   |

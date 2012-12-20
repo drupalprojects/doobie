@@ -68,7 +68,7 @@ Feature: User contact form
     And I follow "site user"
     Then I should not see the link "Contact" in the "content" region
 
-  @known_git7failure @javascript
+  @known_git7failure
   Scenario: EmailAddress validation: In valid email address
     Given I am on the homepage
     And I follow "Log in / Register"
@@ -76,7 +76,6 @@ Feature: User contact form
     And I fill in "Username" with "testsample161424"
     And I fill in "E-mail address" with "testsample161424@mailinator.com"
     And I select "United States" from "Country"
-    And I wait until the page is loaded
     And I press "Create new account"
     Then I should see "has been denied access"
     And the field "E-mail address" should be outlined in red

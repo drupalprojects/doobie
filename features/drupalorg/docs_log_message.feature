@@ -27,7 +27,6 @@ Feature: Log message required for documentation edits
     And I should see "Revisions allow you to track differences between multiple versions of your content"
     And I should not see "Log message field is required"
 
-  @javascript
   Scenario: Edit a documentation: Log message field should be in foreground
     When I follow "Edit"
     And I fill in "Revision log message" with random text

@@ -1,4 +1,4 @@
-@front @specific_text @javascript
+@front @specific_text
 Feature: View home page header
   In order to have access to different sections of drupal.org
   As any user

@@ -23,11 +23,9 @@ Feature: Find Drupal themes
     | New Themes               |
     | Most Active Themes       |
 
-  @javascript
   Scenario: Visit Themes page
     Given I am on "/download"
     When I follow "Themes"
-    And I wait until the page loads
     Then I should be on "/project/themes"
     And I should see the following <tabs>
     | tabs                   |

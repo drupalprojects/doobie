@@ -4,7 +4,6 @@ Feature: Drupal hosting providers
   As a site builder
   I should be able to see categorized lists of hosting providers
 
-  @javascript
   Scenario: View Shared hosting providers
     Given I am on the homepage
     When I follow "Marketplace"
@@ -26,7 +25,6 @@ Feature: Drupal hosting providers
     And I should see the heading "Other great hosts that support Drupal"
     And I should see at least "5" records
 
-  @javascript
   Scenario: View Enterprise and Managed hosting providers
     Given I am on "/hosting"
     When I follow "Enterprise & Managed"
@@ -38,7 +36,6 @@ Feature: Drupal hosting providers
     And I should see the heading "Other great hosts that support Drupal"
     And I should see at least "6" records
 
-  @javascript
   Scenario: View Platform as a Service hosting providers
     Given I am on "/hosting"
     When I follow "Platform as a Service"
@@ -65,4 +62,4 @@ Feature: Drupal hosting providers
     | Add your listing              | https://association.drupal.org/advertising/hosting | Drupal Association Media Kit |
     | Paid services                 | /paid-services                                     | Paid Drupal services         |
     | Hosting support               | /hosting-support                                   | Hosting support              |
-    
+

@@ -1,4 +1,4 @@
-@whitelist @javascript
+@whitelist
 Feature: Create new packaging whitelist entry
   In order to include an external library on the packaging whitelist 
   As a packaging whitelist maintainer

@@ -4,7 +4,6 @@ Feature: Case studies moderation
   As a site administrator
   I need to be able to edit any case study and change their status
 
-  @javascript
   Scenario: Create a case study as a site user
     Given I am logged in as "site user"
     And I visit "/node/add/casestudy"
