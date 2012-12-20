@@ -5449,11 +5449,13 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Hold the execution until the page is completely loaded
+   * Hold the execution until the page is/resource are completely loaded OR timeout
    *
    * @Given /^I wait until the page (?:loads|is loaded)$/
+   * @param object $callback
+   *   The callback function that needs to be checked repeatedly
    */
-  public function iWaitUntilThePageLoads() {
+  public function iWaitUntilThePageLoads($callback = null) {
     // Manual timeout in seconds
     $timeout = 60;
     // Default callback
@@ -5466,8 +5468,9 @@ class FeatureContext extends DrupalContext {
           }
           return false;
         };
-      }else {
-        // Convert $timeout value to milliseconds
+      }
+      else {
+        // Convert $timeout value into milliseconds
         // document.readyState becomes 'complete' when the page is fully loaded
         $this->getSession()->wait($timeout*1000, "document.readyState == 'complete'");
         return;
@@ -5477,7 +5480,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception('The given callback is invalid/doesn\'t exist');
     }
     // Try out the callback until $timeout is reached
-    for ($i = 0; $i < $timeout/2; $i++) {
+    for ($i = 0, $limit = $timeout/2; $i < $limit; $i++) {
       if ($callback($this)) {
         return true;
       }
