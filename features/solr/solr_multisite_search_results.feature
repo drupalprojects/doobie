@@ -1,4 +1,4 @@
-@known_git7failure @anon @wip @javascript
+@anon @wip
 Feature: Visitor searches content and gets results from multiple sites
   In order to see search results from other drupal sites
   As a visitor to Drupal.org
