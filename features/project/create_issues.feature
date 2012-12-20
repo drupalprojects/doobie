@@ -4,6 +4,7 @@ Feature: Drupal Create Issues
   As a site user
   I want create an issue
 
+  @javascript
   Scenario: Create an issue from the main issues page
     Given I am logged in as "site user"
     And I am on "/node/add/project-issue"
