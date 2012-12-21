@@ -96,7 +96,7 @@ Feature: Adding new case study
     | Edit                   |
     | Revisions              |
     | Drupal Case Studies    |
-    | Getting Involved Guide |
+    | Getting Involved       |
 
   Scenario: View Add case study link in Community showcase
     When I visit "/case-studies/all"
