@@ -18,6 +18,7 @@ Feature: Work information in user profile
     And I press "Save"
     Then I should see "The changes have been saved"
 
+  @dependent
   Scenario: View work information as site user
     Given I am logged in as "site user"
     And I follow "Your Dashboard"
@@ -30,6 +31,7 @@ Feature: Work information in user profile
     And I should see the random "Current company or organization" link
     And I should see the random "Company or organization size" text
 
+  @dependent
   Scenario Outline: Visit the links in work information
     Given I am logged in as "site user"
     And I follow "Your Dashboard"

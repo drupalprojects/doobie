@@ -65,7 +65,7 @@ Feature: User ssh keys
     And I should see "has been saved"
     And I should not see "The key is invalid"
 
-  @linux
+  @linux @dependent
   Scenario: Add a public key: Duplicate key validation
     When I follow "Add a public key"
     And I fill in "Key" with a "valid" ssh key
@@ -76,13 +76,13 @@ Feature: User ssh keys
     And I should see "The public key with fingerprint"
     And I should see "is already in use"
 
-  @linux
+  @linux @dependent
   Scenario: Delete a key: View delete page
     When I follow "Delete" for a key
     Then I should see "Are you sure you want to delete the public key"
     And I should see the link "Cancel"
 
-  @linux
+  @linux @dependent
   Scenario: Delete a key: Cancel
     When I follow "Delete" for a key
     And I follow "Cancel"
@@ -90,7 +90,7 @@ Feature: User ssh keys
     And I should not see "The SSH public key"
     And I should not see "has been deleted"
 
-  @linux
+  @linux @dependent
   Scenario: Delete a key: Delete
     When I follow "Delete" for a key
     And I press "Delete"
@@ -107,7 +107,7 @@ Feature: User ssh keys
     And I should see "has been saved"
     And I should not see "The key is invalid"
 
-  @linux
+  @linux @dependent
   Scenario: Edit a key title
     When I follow "Edit" for a key
     And I fill in "Title" with random text

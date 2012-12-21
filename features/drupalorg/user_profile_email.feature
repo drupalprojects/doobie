@@ -47,6 +47,7 @@ Feature: Manage user email addresses
     And I press "Save"
     Then I should see "has been added to your account. Check your e-mail in order to confirm this new address"
 
+  @dependent
   Scenario: See at least one confirmed email address
     When I follow "E-mail addresses"
     And I follow "Delete"

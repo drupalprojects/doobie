@@ -4,6 +4,7 @@ Feature: Adding books listing to the Marketplace
   As an authenticated user
   I should be able to create a book page
 
+  @anon
   Scenario: Anyonymous users can't create book listings
     Given I am on the homepage
     When I visit "/books"
@@ -95,7 +96,7 @@ Feature: Adding books listing to the Marketplace
     When I visit the random link for "Title"
     Then I should not see the link "Edit"
 
-  @dependent
+  @dependent @anon
   Scenario: Once book listing is edited by admin and published - it should appear in the list
     Given I am on the homepage
     When I visit "/books"
@@ -111,7 +112,7 @@ Feature: Adding books listing to the Marketplace
     And I wait for "8" seconds
     Then I should see the link "publish"
 
-  @dependent
+  @dependent @anon
   Scenario: Once book listing is unpublished, it should not appear in the list
     Given I am on the homepage
     When I visit "/books"

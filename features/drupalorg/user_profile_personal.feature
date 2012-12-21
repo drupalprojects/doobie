@@ -52,6 +52,7 @@ Feature: Personal information in user profile
     | http://twitter.com/drupalsiteuser            |
     | http://plus.google.com/109229333624640995186 |
 
+  @dependent
   Scenario Outline: Visit gender and country links
     When I follow "View"
     And I follow "<link>"

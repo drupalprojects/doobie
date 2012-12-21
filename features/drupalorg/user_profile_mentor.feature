@@ -14,6 +14,7 @@ Feature: To verify that mentors can be added/viewed/removed by a user
     And I press "Save"
     Then I should see "The changes have been saved"
 
+  @dependent
   Scenario: Mentor should be displayed in the profile page
     When I visit "/user"
     Then I should see "My mentors"
@@ -26,6 +27,7 @@ Feature: To verify that mentors can be added/viewed/removed by a user
     And I press "Save"
     Then I should see "The changes have been saved"
 
+  @dependent
   Scenario: Mentor should be displayed in the profile page
     When I visit "/user"
     Then I should see "My mentors"
@@ -36,6 +38,7 @@ Feature: To verify that mentors can be added/viewed/removed by a user
     | sachin2dhoni |
     | jhedstrom    |
 
+  @dependent
   Scenario: Follow a mentor and users name should be listed
     When I follow "eliza411"
     Then I should see the link "site user"
