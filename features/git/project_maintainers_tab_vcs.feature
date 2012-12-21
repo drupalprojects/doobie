@@ -1,4 +1,4 @@
-@ci
+@ci @maintainers
 Feature: Verify Write to VCS permission
   In order to commit or push to the repository
   As a project maintainer

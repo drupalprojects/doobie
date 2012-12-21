@@ -1,3 +1,4 @@
+@project
 Feature: Ensure that sandbox repository is not available once the project is promoted
   In order to maintain a single canonical repository for a project with a memorable namespace
   As a project owner
