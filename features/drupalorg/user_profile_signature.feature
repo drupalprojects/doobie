@@ -31,7 +31,7 @@ Feature: Display additional information on my comments
     And I should see the random "Signature" text
 
   @dependent @anon
-  Scenario: View siganature in reply anonymously
+  Scenario: View signature in reply anonymously
     Given I am not logged in
     And I am on the forum topic page
     Then I should see the random "Subject" text
@@ -48,7 +48,7 @@ Feature: Display additional information on my comments
     Then I should see "The changes have been saved"
 
   @dependent
-  Scenario: Siganature doesn't appear in reply any more for site user
+  Scenario: signature doesn't appear in reply any more for site user
     Given I am logged in as "site user"
     And I am on the forum topic page
     Then I should see the random "Subject" text
@@ -56,7 +56,7 @@ Feature: Display additional information on my comments
     And I should not see the random "Signature" text
 
   @dependent @anon @clean_data
-  Scenario: Siganature doesn't appear in reply any more for anonymous user
+  Scenario: signature doesn't appear in reply any more for anonymous user
     Given I am not logged in
     And I am on the forum topic page
     Then I should see the random "Subject" text
