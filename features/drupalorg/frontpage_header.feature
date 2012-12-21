@@ -106,7 +106,7 @@ Feature: Verify home page header
     | /download       |
     | /about          |
 
-  @known_git6failure @retest_after_next_build @flaky @wip
+  @known_git6failure @flaky @wip
   Scenario Outline: View bottom header tabs as authenticated user
     Given I am logged in as "site user"
     And I am on "<page>"
