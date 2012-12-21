@@ -1,3 +1,4 @@
+@user
 Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
   In order to ensure that unsuspecting users don't access sandbox code
   As a vetted user
