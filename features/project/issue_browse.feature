@@ -4,6 +4,7 @@ Feature: Visitor views issue queue for a project
   As a visitor to a project issue queue
   I want to browse issues
 
+  @anon
   Scenario: Issues exist
     Given I am on "/project/coder"
     When I click "Advanced search"

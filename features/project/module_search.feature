@@ -1,4 +1,4 @@
-@wip @project
+@wip @project @anon
 Feature: Find modules
   In order to extend Drupal's core functionality 
     As a site builder

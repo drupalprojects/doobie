@@ -1,4 +1,4 @@
-@project
+@project @anon
 Feature: To view the project details
   In order to view the project
   As an anonymous user
