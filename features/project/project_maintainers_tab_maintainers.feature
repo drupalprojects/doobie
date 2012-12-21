@@ -10,6 +10,7 @@ Feature: 'Administer maintainers' permission check
     When I create a "module"
     Then I should see project data
 
+  @dependent
   Scenario: Add a maintainer: Valid maintainer name
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -17,6 +18,7 @@ Feature: 'Administer maintainers' permission check
     And I press "Update"
     Then I should see "added and permissions updated"
 
+  @dependent
   Scenario: Assign Administer maintainers permission to a maintainer
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -24,6 +26,7 @@ Feature: 'Administer maintainers' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
+  @dependent
   Scenario: Log in as maintainer and see that if you can add a maintainer
     Given I am logged in as "git user"
     And I am on the Maintainers tab
@@ -31,6 +34,7 @@ Feature: 'Administer maintainers' permission check
     And I press "Update"
     Then I should see "added and permissions updated"
 
+  @dependent
   Scenario: Unassign Administer maintainers permission from a maintainer
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -38,6 +42,7 @@ Feature: 'Administer maintainers' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
+  @dependent
   Scenario: Log in as maintainer and see that maintainers tab is accessible
     Given I am logged in as "git user"
     When I am on the Maintainers tab

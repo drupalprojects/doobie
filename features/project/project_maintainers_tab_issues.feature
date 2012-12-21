@@ -13,6 +13,7 @@ Feature: 'Maintain issues' permission check
     And I follow "Create a new issue"
     And I create a new issue
 
+  @dependent
   Scenario: Add a maintainer: Valid maintainer name
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -20,6 +21,7 @@ Feature: 'Maintain issues' permission check
     And I press "Update"
     Then I should see "added and permissions updated"
 
+  @dependent
   Scenario: Assign Maintain issues permission to a maintainer
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -27,6 +29,7 @@ Feature: 'Maintain issues' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
+  @dependent
   Scenario: Log in as maintainer and see creator username in Assigned drop down : git user can assign an issue to maintainer
     Given I am logged in as "git user"
     And I am on the project page
@@ -34,6 +37,7 @@ Feature: 'Maintain issues' permission check
     And I follow an issue of the project
     Then I should see "git vetted user" in the dropdown "Assigned:"
 
+  @dependent
   Scenario: Unassign Maintain issues permission from a maintainer
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -41,6 +45,7 @@ Feature: 'Maintain issues' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
+  @dependent
   Scenario: Log in as maintainer and see creator username in Assigned drop down : git user can assign an issue to maintainer
     Given I am logged in as "git user"
     And I am on the project page

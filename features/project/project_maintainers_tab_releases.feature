@@ -10,6 +10,7 @@ Feature: 'Administer releases' permission check
     When I create a full project
     Then I should see project data
 
+  @dependent
   Scenario: Add a maintainer: Valid maintainer name
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -17,6 +18,7 @@ Feature: 'Administer releases' permission check
     And I press "Update"
     Then I should see "added and permissions updated"
 
+  @dependent
   Scenario: Assign Administer releases permission to a maintainer
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -24,6 +26,7 @@ Feature: 'Administer releases' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
+  @dependent
   Scenario: Log in as maintainer and view add new release link
     Given I am logged in as "git user"
     When I am on the project page
@@ -31,6 +34,7 @@ Feature: 'Administer releases' permission check
     Then I should see "Supported versions"
     And I should see "For each term in the Core compatibility vocabulary"
 
+  @dependent
   Scenario: Unassign Administer releases permission from a maintainer
     Given I am logged in as "git vetted user"
     And I am on the Maintainers tab
@@ -38,6 +42,7 @@ Feature: 'Administer releases' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
+  @dependent
   Scenario: Log in as maintainer and see that add new release link is accessible
     Given I am logged in as "git user"
     When I am on the project page

@@ -12,6 +12,7 @@ Feature: Add additional maintainers with appropriate permissions
     When I create a "module"
     Then I should see project data
 
+  @dependent
   Scenario: View texts and links on maintainers tab
     When I am on the Maintainers tab
     Then I should see the following <texts>
@@ -31,12 +32,14 @@ Feature: Add additional maintainers with appropriate permissions
     | Maintainers     |
     | git vetted user |
 
+  @dependent
   Scenario: Add a maintainer: Invalid maintainer name
     Given I am on the Maintainers tab
     When I enter "git user test user name" for field "Maintainer user name"
     And I press "Update"
     Then I should see "is not a valid user on this site"
 
+  @dependent
   Scenario: Add a maintainer: Valid maintainer name
     Given I am on the Maintainers tab
     When I enter "git user" for field "Maintainer user name"
@@ -45,12 +48,14 @@ Feature: Add additional maintainers with appropriate permissions
     And I should see "added and permissions updated"
     And I should see the link "git user"
 
+  @dependent
   Scenario: Add a maintainer: Existing maintainer name
     Given I am on the Maintainers tab
     When I enter "git user" for field "Maintainer user name"
     And I press "Update"
     Then I should see "is already a maintainer of this project"
 
+  @dependent
   Scenario: Delete a maintainer
     Given I am on the Maintainers tab
     When I follow "delete" for the maintainer "git user"
@@ -58,6 +63,7 @@ Feature: Add additional maintainers with appropriate permissions
     Then I should see "Removed"
     And I should see "as a maintainer"
 
+  @dependent
   Scenario: Add a maintainer: Valid maintainer name
     Given I am on the Maintainers tab
     When I enter "git user" for field "Maintainer user name"
@@ -66,6 +72,7 @@ Feature: Add additional maintainers with appropriate permissions
     And I should see "added and permissions updated"
     And I should see the link "git user"
 
+  @dependent
   Scenario: Assign permissions to a maintainer
     Given I am on the Maintainers tab
     When I assign the following <permissions> to the maintainer "git user"
@@ -77,6 +84,7 @@ Feature: Add additional maintainers with appropriate permissions
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
+  @dependent
   Scenario: Remove permissions from a maintainer
     Given I am on the Maintainers tab
     When I unassign the following <permissions> from the maintainer "git user"
@@ -88,6 +96,7 @@ Feature: Add additional maintainers with appropriate permissions
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
+  @dependent
   Scenario: Create a new issue is available for owner
     Given I am on the Maintainers tab
     When I follow "total"
