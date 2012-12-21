@@ -1,4 +1,4 @@
-@site_search @anon @search
+@anon @search
 Feature: Search for IRC nicknames on the site
   In order to chat with the Drupal Community on IRC
   As a user
