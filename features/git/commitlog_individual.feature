@@ -1,4 +1,4 @@
-@data_creation @ci
+@data_creation @ci @anon
 Feature: To view an individual commit
   In order to see the commit information of a particular commit
   As a user

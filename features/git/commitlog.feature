@@ -1,4 +1,4 @@
-@ci
+@ci @anon
 Feature: To see the list of all the commits
   In order to see the list of commits
   As a user

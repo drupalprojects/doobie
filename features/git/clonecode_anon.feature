@@ -1,3 +1,4 @@
+@anon
 Feature: Visitor clones repositories
   In order to try out the latest code for a project
   As a visitor to Drupal.org

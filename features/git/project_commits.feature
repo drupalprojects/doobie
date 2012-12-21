@@ -1,4 +1,4 @@
-@ci
+@ci @anon
 Feature: View the commits for a project
   In order to track the changes made to the source code of the project
   As a user

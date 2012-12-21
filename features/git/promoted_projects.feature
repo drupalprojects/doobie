@@ -25,7 +25,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     When I initialize the repository
     Then I should have a local copy of the project
 
-  @dependent @wip
+  @dependent @wip @anon
   Scenario: Clone the repository as anonymous user
     Given I am on the Version control tab
     When I clone the repo
@@ -37,7 +37,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     When I clone the "promoted sandbox" repo
     Then I should see an error
 
-  @clean_data @wip
+  @clean_data @wip @anon
   Scenario: Clone the sandbox repository as anonymous user
     Given I am not logged in
     When I clone the "promoted sandbox" repo
