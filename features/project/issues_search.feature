@@ -22,10 +22,8 @@ Feature: Overall Filter Search for Issues
     And I press "Search" in the "content" region
     Then I should see at least "2" records
 
-  @javascript
   Scenario: Search for the project title
     When I fill in "Project" with "Achievements"
-    And I select "Achievements" from the suggestion "Project"
     And I press "Search" in the "content" region
     Then I should see at least "5" records
 
