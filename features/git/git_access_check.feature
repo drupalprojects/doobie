@@ -29,6 +29,7 @@ Feature: Verify git access
     And I clone the repo
     Then I should not be able to push a commit to the repository
 
+  @dependent
   Scenario: Agree git access agreement - Reset to original
     When I follow "Edit"
     And I click "Git access"
