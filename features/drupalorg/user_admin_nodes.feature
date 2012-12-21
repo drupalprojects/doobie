@@ -1,4 +1,4 @@
-@user @admin @javascript @wip
+@user @admin @wip
 Feature: Administrative view of nodes by a user
   In order to effectively fight spam
   As a site maintainer
@@ -63,7 +63,7 @@ Feature: Administrative view of nodes by a user
     And I should see "Delete"
     And I should see the link "Cancel"
 
-  @dependent @flaky
+  @dependent @flaky @javascript
   Scenario: Select dropdown: This page
     Given I am logged in as "admin test"
     And I visit "site user" profile page
@@ -76,7 +76,7 @@ Feature: Administrative view of nodes by a user
     Then I should see "You selected the following items"
     And I should see the link "Cancel"
 
-  @dependent
+  @dependent @javascript
   Scenario: Select dropdown: All pages
     Given I am logged in as "admin test"
     And I visit "site user" profile page
@@ -89,7 +89,7 @@ Feature: Administrative view of nodes by a user
     Then I should see "You selected the following items"
     And I should see the link "Cancel"
 
-  @dependent
+  @dependent @javascript
   Scenario: Select dropdown: None
     Given I am logged in as "admin test"
     And I visit "site user" profile page
@@ -110,7 +110,7 @@ Feature: Administrative view of nodes by a user
     Then I should see "Please select at least one item"
     And I should not see "You selected the following item"
 
-  @dependent @known_git7failure
+  @dependent @known_git7failure @javascript
   Scenario: Unpublish posts: Cancel
     Given I am logged in as "admin test"
     And I visit "site user" profile page
@@ -121,7 +121,7 @@ Feature: Administrative view of nodes by a user
     And I follow "Cancel"
     Then I should not see "Performed Unpublish content on"
 
-  @dependent
+  @dependent @javascript
   Scenario: Delete node: Don't select
     Given I am logged in as "admin test"
     And I visit "site user" profile page
@@ -132,7 +132,7 @@ Feature: Administrative view of nodes by a user
     And I should not see "You selected the following item"
     And I should not see "Performed Delete item on"
 
-  @dependent
+  @dependent @javascript
   Scenario: Delete posts: Cancel
     Given I am logged in as "admin test"
     And I visit "site user" profile page
@@ -143,7 +143,7 @@ Feature: Administrative view of nodes by a user
     And I follow "Cancel"
     Then I should not see "Performed Delete item on"
 
-  @dependent @slow
+  @dependent @slow @javascript
   Scenario: Unpublish posts: Confirm
     Given I am logged in as "admin test"
     And I visit "site user" profile page
@@ -155,7 +155,7 @@ Feature: Administrative view of nodes by a user
     And I wait until the page is loaded
     Then I should see "Performed Unpublish content on"
 
-  @dependent @slow
+  @dependent @slow @javascript
   Scenario: Delete posts: Confirm
     Given I am logged in as "admin test"
     And I visit "site user" profile page

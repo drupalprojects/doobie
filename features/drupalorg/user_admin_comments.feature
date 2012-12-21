@@ -1,4 +1,4 @@
-@user @admin @javascript @known_git7failure
+@user @admin @known_git7failure
 Feature: Aministrative view of comments by a user
   In order to effectively fight spam
   As a site maintainer
@@ -69,7 +69,7 @@ Feature: Aministrative view of comments by a user
     And I should see "Delete"
     And I should see the link "Cancel"
 
-  @dependent @flaky
+  @dependent @flaky @javascript
   Scenario: Select dropdown: This page
     Given I am logged in as "admin test"
     And I visit "site user" profile page
@@ -82,7 +82,7 @@ Feature: Aministrative view of comments by a user
     Then I should see "You selected the following items"
     And I should see the link "Cancel"
 
-  @dependent
+  @dependent @javascript
   Scenario: Select dropdown: All pages
     Given I am logged in as "admin test"
     And I visit "site user" profile page
@@ -95,7 +95,7 @@ Feature: Aministrative view of comments by a user
     Then I should see "You selected the following items"
     And I should see the link "Cancel"
 
-  @dependent
+  @dependent  @javascript
   Scenario: Select dropdown: None
     Given I am logged in as "admin test"
     And I visit "site user" profile page
