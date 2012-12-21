@@ -1,4 +1,4 @@
-@marketplace @wip
+@marketplace @wip @anon
 Feature: Marketplace books filtering
   In order to define the overall Filter search for books listing
   As an authenticated user

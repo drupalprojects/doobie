@@ -71,18 +71,18 @@ Feature: Browse Drupal services section
     And I should see the link "Show more"
 
   Scenario Outline: Visit marketplace links and view corresponding headings
-  Given I am on "/drupal-services"
-  When I follow "<link>"
-  Then I should be on "<url>"
-  And I should see the heading "<heading>"
+    Given I am on "/drupal-services"
+    When I follow "<link>"
+    Then I should be on "<url>"
+    And I should see the heading "<heading>"
 
-  Examples:
-  | link                                  | url                           | heading                               |
-  | Working with Drupal service providers | /node/995766                  | Working with Drupal service providers |
-  | Paid services                         | /paid-services                | Paid Drupal services                  |
-  | Hosting support                       | /hosting-support              | Hosting support                       |
-  | Jobs                                  | http://groups.drupal.org/jobs | Drupal Jobs                           |
-  | Marketplace guidelines                | /node/1735708                 | Marketplace guidelines                |
+    Examples:
+    | link                                  | url                           | heading                               |
+    | Working with Drupal service providers | /node/995766                  | Working with Drupal service providers |
+    | Paid services                         | /paid-services                | Paid Drupal services                  |
+    | Hosting support                       | /hosting-support              | Hosting support                       |
+    | Jobs                                  | http://groups.drupal.org/jobs | Drupal Jobs                           |
+    | Marketplace guidelines                | /node/1735708                 | Marketplace guidelines                |
 
   Scenario: View service provider from Featured section
     Given I am on "/drupal-services"

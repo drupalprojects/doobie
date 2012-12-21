@@ -4,6 +4,7 @@ Feature: Landing page of Community section of the site
   As any user
   I should go to community page
 
+  @anon
   Scenario: View community page
     Given I am on the homepage
     When I follow "Community"
@@ -28,7 +29,7 @@ Feature: Landing page of Community section of the site
     And I create a new issue
     Then I should see "has been created"
 
-  @dependent @clean_data
+  @dependent @clean_data @anon
   Scenario: Look for the issue created in Recent activity block
     Given I am on the homepage
     When I follow "Community"
@@ -43,13 +44,14 @@ Feature: Landing page of Community section of the site
     And I create a new issue
     Then I should see "has been created"
 
-  @dependent @clean_data
+  @dependent @clean_data @anon
   Scenario: Look for the issue created in Recent activity block
     Given I am on the homepage
     When I follow "Community"
     Then I should see the issue link
     And I should see the heading "Recent activity"
 
+  @anon
   Scenario: View more recent posts
     Given I am on "/community"
     When I follow "More recent activity"
@@ -62,4 +64,4 @@ Feature: Landing page of Community section of the site
     | Author       |
     | Replies      |
     | Last updated |
-	| ago          |
+	  | ago          |

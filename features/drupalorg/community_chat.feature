@@ -1,4 +1,4 @@
-@community @content
+@community @content @anon
 Feature: Participate in community IRC
   In order to chat with the Drupal community via IRC
   As any user
