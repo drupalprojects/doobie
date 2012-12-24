@@ -100,3 +100,15 @@ Feature: Register an account on Drupal.org with valid username and email
     | testuserforgi6gmail.com    |
     | testuserforgi6gmail.com@   |
     | test@user@forgi6@gmailcom  |
+
+  @known_git7failure
+  Scenario: EmailAddress validation: In valid email address
+    Given I am on the homepage
+    And I follow "Log in / Register"
+    When I follow "Create new account"
+    And I fill in "Username" with "testsample161424"
+    And I fill in "E-mail address" with "testsample161424@mailinator.com"
+    And I select "United States" from "Country"
+    And I press "Create new account"
+    Then I should see "has been denied access"
+    And the field "E-mail address" should be outlined in red
