@@ -1,4 +1,4 @@
-@marketplace @wip @javascript
+@marketplace @wip
 Feature: Book listing content type
   In order to advertise Drupal book
   As an authenticated user
