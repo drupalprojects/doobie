@@ -7353,4 +7353,25 @@ class FeatureContext extends DrupalContext {
     $step = "I fill in \"$label\" with \"$text\"";
     return new Then($step);
   }
+
+  /**
+   * @Then /^I should not see the random "([^"]*)" link$/
+   */
+  public function iShouldNotSeeTheRandomLink($field) {
+    $link_label = HackyDataRegistry::get('random:' . $field);
+    $link = $this->getSession()->getPage()->findLink($link_label);
+    if (!empty($link)) {
+      throw new Exception("The random link \"" . $link . "\" was found on the page which should not be");
+    }
+  }
+
+  /**
+   * @Given /^I should see the book cover image$/
+   */
+  public function iShouldSeeTheBookCoverImage() {
+    $result = $this->getSession()->getPage()->find('css', '#content-inner .node-content img');
+    if (empty($result)) {
+      throw new Exception('No Book cover image was found on this page');
+    }
+  }
 }
