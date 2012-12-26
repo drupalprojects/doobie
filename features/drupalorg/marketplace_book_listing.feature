@@ -1,4 +1,4 @@
-@marketplace @wip
+@marketplace @wip @javascript
 Feature: Book listing content type
   In order to advertise Drupal book
   As an authenticated user
@@ -59,6 +59,7 @@ Feature: Book listing content type
     And I should see the link "Official website for this book"
     And I should see the link "Add new comment"
     And I should see the random "Book description" text
+    And I should see the book cover image
     And I should not see the link "publish"
     And I should not see the link "unpublish"
     And I should see the link "edit"

@@ -34,12 +34,6 @@ Feature: Drupal Books
     And I select "Drupal 7.x" from "Drupal version"
     And I select "Designers/themers" from "Audience"
     And I select "Print" from "Format"
-    When I select the following <fields> with <values>
-    | fields         | values                 |
-    | Status         | Available              |
-    | Drupal version | Drupal 7.x             |
-    | Audience       | Designers/themers      |
-    | Format         | Print                  |
     And I press "Apply"
     Then I should see at least "2" records
 
