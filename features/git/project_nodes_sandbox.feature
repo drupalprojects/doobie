@@ -14,7 +14,9 @@ Feature: Learn about details of a (sandbox) project
     | Sandbox                   |
     | Experimental Project      |
     | This is a sandbox project |
-    | Categories:               |
+    | Maintenance status:       |
+    | Development status:       |
+    | Module categories:        |
     | Maintainers for           |
     | Issues for                |
     And I should see the following <links>
