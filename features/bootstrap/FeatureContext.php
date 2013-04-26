@@ -3767,7 +3767,7 @@ class FeatureContext extends DrupalContext {
     // Make sure the project directory exists before any step is taken
     $cwd = getcwd();
     if (!is_dir($cwd . '/' . $projectTitle)) {
-      throw new Exception("The folder '" . $projectTitle . "' does not exist. Please clone the repository");
+      throw new Exception("The folder '" . $projectTitle . "' does not exist in '" . $cwd . "'. Please clone the repository");
     }
     $page = $this->getSession()->getPage();
     $currUrl = $this->getSession()->getCurrentUrl();
