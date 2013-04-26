@@ -13,7 +13,7 @@ Feature: Users create git repository
     When I create a "sandbox" project
     And I see project data
     And I am on the Version control tab
-    And I see "Empty Sandbox repository"
+    And I see "Empty Sandbox Repository"
     And I initialize the repository
     And I am on the Version control tab
     Then I should see "Routinely"
