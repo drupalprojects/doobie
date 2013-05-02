@@ -4183,7 +4183,7 @@ class FeatureContext extends DrupalContext {
       $editLink->click();
       $page = $session->getPage();
       // Get the value from Email address field
-      if ($emailField = $page->findField("E-mail address:")) {
+      if ($emailField = $page->findField("E-mail address")) {
         return $emailField->getAttribute("value");
       }
     }
