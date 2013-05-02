@@ -609,7 +609,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception("No command was provided to execute");
     }
     $process = new Process($fullCommand);
-    $process->setTimeout(10);
+    $process->setTimeout(20);
     $process->run();
     if (!$process->isSuccessful() || stripos($process->getOutput(), "error") !== FALSE) {
       throw new Exception("Initializing repository failed - " .
