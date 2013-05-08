@@ -8,7 +8,7 @@ Feature: Sitewide commit log
   Scenario: View the list of commits
     Given I am on the homepage
     When I follow "Commits"
-    And I follow "More commit messages..."
+    And I follow "More commit messages…"
     Then I should see the heading "Commit messages"
     And I should see at least "10" records
     And I should see the following <texts>
@@ -55,6 +55,6 @@ Feature: Sitewide commit log
   Scenario: View project title as the first part of the heading
     Given I am on the homepage
     When I follow "Commits"
-    And I follow "More commit messages..."
+    And I follow "More commit messages…"
     Then I should see the heading "Commit messages"
     And I should see project name in the first part of the heading

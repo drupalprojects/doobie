@@ -42,7 +42,7 @@ Feature: See git activity on the front page
 
   @anon
   Scenario: Commit tab: More commit messages
-    When I follow "More commit messages..."
+    When I follow "More commit messages…"
     Then I should be on "/commitlog"
     And I should see the heading "Commit messages"
 
