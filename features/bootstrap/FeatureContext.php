@@ -3776,7 +3776,7 @@ class FeatureContext extends DrupalContext {
     $code = $codeBlock->getText();
     $userData = $userData = $this->getGitUserData($code);
     if (!$userData) {
-      throw new Exception("Git username was not found on the page");
+      throw new Exception("Git username was not found on " . $currUrl);
     }
     $gitUsername = $userData['username'];
     $password = $userData['password'];
