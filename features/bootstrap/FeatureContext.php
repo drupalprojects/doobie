@@ -4497,7 +4497,7 @@ class FeatureContext extends DrupalContext {
     for ($i = 0; $i < $count; $i++) {
       $this->iShouldBeAbleToPushACommitToTheRepository();
       // take some rest!
-      sleep(1);
+      sleep(5);
     }
   }
 
