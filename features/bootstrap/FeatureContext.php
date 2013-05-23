@@ -602,7 +602,7 @@ class FeatureContext extends DrupalContext {
         }
       }
       elseif ($command == "git push origin master") {
-        $command = "../bin/gitwrapper init $gitPassword";
+        $command = "./bin/gitwrapper init $gitPassword";
       }
       $fullCommand .= $command . ' ; ';
     }
