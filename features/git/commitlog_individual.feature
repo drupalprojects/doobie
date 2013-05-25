@@ -7,8 +7,7 @@ Feature: To view an individual commit
   @smoke
   Scenario: View the commit information: Few information
     Given I am on "/commitlog/commit/43232/ca9a5dca5fb6f4b34839a5bf21b44b163f060e78"
-    Then I should see "Author date:"
-    And I should see "on master"
+    Then I should see "on master"
     And I should see "Commit"
     And I should see at least "1" files in the list
     And I should see at least "1" "plus" symbol
