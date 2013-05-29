@@ -1,4 +1,4 @@
-This maintenance folder contains files which will automatically run tag sets via Jenkins and output the results on bddtest.drupal.org
+This maintenance folder contains files which will automatically run tag sets via Jenkins and output the results on bddtest.drupal.org/test-output/maint  
 
 Example
 =======
@@ -9,4 +9,6 @@ To run all of the features tagged @git:
 
 git&&~wip
 
-So that all scenarios tests that are tagged @git but NOT tagged @wip will be run and the results will be available in a folder that matches the filename, e.g. http://bddtest.drupal.org/maintenance/git
+This tag set runs all tests that are tagged @git but NOT tagged @wip. The results are available in a folder that matches the filename, e.g. http://bddtest.drupal.org/test-output/maint/git
+
+NOTE: At this time the file names are being manually added to runall_doobie7_maint. New files won't be auto-discovered. However, the tag sets inside the existing files *are* being used dynamically in run_doobie7_maint
