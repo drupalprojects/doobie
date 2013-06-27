@@ -11,4 +11,4 @@ git&&~wip
 
 This tag set runs all tests that are tagged @git but NOT tagged @wip. The results are available in a folder that matches the filename, e.g. http://bddtest.drupal.org/test-output/maint/git
 
-NOTE: At this time the file names are being manually added to runall_doobie7_maint. New files won't be auto-discovered. However, the tag sets inside the existing files *are* being used dynamically in run_doobie7_maint
+NOTE: At this time the file names are being manually added to runall_doobie7_maint, which is located on Jenkin's CI tab. New files won't be auto-discovered. However, the tag sets inside the existing files *are* being used dynamically in run_doobie7_maint
