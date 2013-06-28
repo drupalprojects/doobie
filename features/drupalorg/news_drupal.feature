@@ -5,14 +5,14 @@ Feature: Find Drupal News
   I want to read the latest news
 
   Background:
-    Given I am on the homepage
+    Given I am on "/news"
+
 
   Scenario: View the news listing page
-    When I visit "/news"
     Then I should see the heading "Drupal News"
     And I should be on "/news"
     And I should see "Read more"
-    And I should see "Forums:"
+    And I should see "Forum"
     And I should see the following <links>
     | links                  |
     | Drupal News            |
@@ -38,16 +38,14 @@ Feature: Find Drupal News
     | last     |
 
   Scenario: View the pagination links: Last page
-    When I visit "/news"
-    And I click on page "last"
+    When I click on page "last"
     Then I should see the link "first"
     And I should see the link "previous"
     And I should not see the link "next"
 
   Scenario Outline: View News and announcements forum
-    When I visit "/news"
-    And I follow "News and announcements"
-    Then I should see "Community"
+    When I follow "News and announcements"
+    Then I should see "Drupal News"
     And I should see the heading "News and announcements"
     And I should see the heading "New forum topics"
     And I should see at least "10" links in the "right sidebar" region
@@ -55,8 +53,8 @@ Feature: Find Drupal News
     | links      |
     | Topic      |
     | Replies    |
-    #| Created    |
     | Last reply |
+
     And I should see <tablist>
     Examples:
     | tablist            |
