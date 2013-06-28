@@ -21,6 +21,20 @@ abstract class HackyDataRegistry {
   }
 }
 
+class LocalDataRegistry {
+  public $data = array();
+  public function set($name, $value) {
+    $this->data[$name] = $value;
+  }
+  public function get($name) {
+    $value = "";
+    if (isset($this->data[$name])) {
+      $value = $this->data[$name];
+    }
+    return $value;
+  }
+}
+
 use Behat\Behat\Exception\PendingException,
     Behat\Gherkin\Node\TableNode;
 use Drupal\DrupalExtension\Context\DrupalContext;
@@ -65,6 +79,13 @@ class FeatureContext extends DrupalContext {
    * Store the file name of a downloaded file
    */
   private $downloadedFileName = '';
+
+  /**
+   * Create a context specific data storage container.
+   */
+
+  private $dataRegistry = '';
+
   /**
    * Initializes context.
    *
@@ -74,6 +95,7 @@ class FeatureContext extends DrupalContext {
    *   Context parameters (set them up through behat.yml or behat.local.yml).
    */
   public function __construct(array $parameters) {
+    $this->dataRegistry = new LocalDataRegistry();
     $this->default_browser = $parameters['default_browser'];
     if (isset($parameters['drupal_users'])) {
       $this->drupal_users = $parameters['drupal_users'];
@@ -4159,10 +4181,10 @@ class FeatureContext extends DrupalContext {
       $title = $this->issueTitle;
       $type = 'Issue';
     }
-    elseif ($title = HackyDataRegistry::get('book page title')) {
+    elseif ($title = $this->dataRegistry->get('book page title')) {
       $type = 'Document';
     }
-    elseif ($title = HackyDataRegistry::get('random:Forum subject')) {
+    elseif ($title = $this->dataRegistry->get('random:Forum subject')) {
       $type = 'Forum';
     }
     if (empty($title) || empty($element) || strpos($element->getText(), $title) === FALSE) {
@@ -6097,7 +6119,7 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     $subject = $this->randomString(8);
     $page->fillField("Subject", $subject);
-    HackyDataRegistry::set('random:Forum subject', $subject);
+    $this->dataRegistry->set('random:Forum subject', $subject);
     $summary = str_repeat($this->randomString(10) . " ", 10);
     // Fill summary
      // If javascript is used, then click Edit summary link and then fill field
@@ -6112,10 +6134,10 @@ class FeatureContext extends DrupalContext {
         $summary_ele->setValue($summary);
       }
     }
-    HackyDataRegistry::set('random:Forum summary', $summary);
+    $this->dataRegistry->set('random:Forum summary', $summary);
     $body = str_repeat($this->randomString(30) . " ", 10);
     $page->fillField("Body", $body);
-    HackyDataRegistry::set('random:Forum body', $body);
+    $this->dataRegistry->set('random:Forum body', $body);
     $page->pressButton('Save');
     // Let the page load
     sleep(3);
@@ -6142,7 +6164,7 @@ class FeatureContext extends DrupalContext {
    * @Then /^I should see the (?:community spotlight|forum topic) link$/
    */
   public function iShouldSeeTheForumLink() {
-    if (!($subject = HackyDataRegistry::get('random:Forum subject'))) {
+    if (!($subject = $this->dataRegistry->get('random:Forum subject'))) {
       throw new Exception('Forum subject is empty');
     }
     // Let the page load
@@ -6177,7 +6199,7 @@ class FeatureContext extends DrupalContext {
     // Remove read more from the intro
     $intro = trim(str_replace("Read more", "", $intro));
     // Get the summary from post and check if the intro is part of it or not
-    if (strpos(HackyDataRegistry::get('random:Forum summary'), $intro) === FALSE) {
+    if (strpos($this->dataRegistry->get('random:Forum summary'), $intro) === FALSE) {
       throw new Exception('The news section did not contain summary text');
     }
   }
@@ -6510,7 +6532,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeLatestForumTopicInTheRightsideBlock() {
     sleep(6);
-    $forumTitle = HackyDataRegistry::get('random:Forum subject');
+    $forumTitle = $this->dataRegistry->get('random:Forum subject');
     if(empty($forumTitle)) {
       throw new Exception('No Forum title exists in this page');
     }
