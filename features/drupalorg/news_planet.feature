@@ -52,5 +52,3 @@ Feature: Find Drupal News
     And I should see the link "feed" in the "right sidebar" region
     And I should see the link "the requirements and steps on how to join" in the "right sidebar" region
     And I should see the link "Drupal.org frontpage posts for the Drupal planet" in the "right sidebar" region
-    And I should not see the link "balalalala" in the "right sidebar" region
-    And I should not see the link "textdfdf" in the "right sidebar" region
