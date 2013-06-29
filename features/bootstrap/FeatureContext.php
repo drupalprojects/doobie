@@ -6138,11 +6138,24 @@ class FeatureContext extends DrupalContext {
     $body = str_repeat($this->randomString(30) . " ", 10);
     $page->fillField("Body", $body);
     $this->dataRegistry->set('random:Forum body', $body);
+//    $page->selectFieldOption('edit-taxonomy-forums-und');
     $page->pressButton('Save');
     // Let the page load
-    sleep(3);
+     sleep(3);
     // Store node url
-    HackyDataRegistry::set('forum url', $this->getSession()->getCurrentUrl());
+    $this->dataRegistry->set('forum url', $this->getSession()->getCurrentUrl());
+  }
+
+  /**
+   * @Given /^there is a new "([^"]*)" forum topic$/
+   */
+  public function thereIsANewForumTopic($forum) {
+    return array (
+      new Given("I am logged in as \"site user\""),
+      new Given("I am at \"/node/add/forum/0\""),
+      new Given("I select \"-$forum\" from \"edit-taxonomy-forums-und\""),
+      new Given("I create a forum topic")
+    );
   }
 
   /**
@@ -6168,7 +6181,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception('Forum subject is empty');
     }
     // Let the page load
-    sleep(3);
+     sleep(3);
     return new Then('I should see the link "' . $subject . '"');
   }
 

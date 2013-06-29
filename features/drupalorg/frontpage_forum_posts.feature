@@ -18,21 +18,19 @@ Feature: Forum posts on front page
     
 
   Scenario: Forum Posts tab on front page
-    Given I am on the homepage
-    And there is a new forum topic
+    Given there is a new forum topic
+    And I am on the homepage
     When I follow "Forum Posts"
     Then I should see the forum topic link
     And I should see "Posted by"
     And I should see at least "5" links under the "Forum Posts" tab
     And I should see the link "More forums"
 
-  @anon @flaky @clean_data
   Scenario: Forum Posts tab on front page: More
-    Given I am on the homepage
+    Given there is a new "Post installation" forum topic
+    And I am on the homepage
     When I follow "Forum Posts"
     And I follow "More forums"
-    And I follow "News and announcements"
-    Then I should see "Community"
-    And I should see the heading "News and announcements"
+    And I follow "Post installation"
+    Then I should see the heading "Post installation"
     And I should see the forum topic link
-    And I should see "Log in to post new content in the forum"
