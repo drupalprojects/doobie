@@ -10,7 +10,6 @@ Feature: Forum posts on front page
     And I follow "News and announcements"
     And I follow "Add new Forum topic"
     When I create a forum topic
-    And I see "has been created"
     And I visit "/forum"
     And I follow "News and announcements"
     Then I should see the forum topic link

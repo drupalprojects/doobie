@@ -183,28 +183,22 @@ class FeatureContext extends DrupalContext {
 
 
   /**
-    * A step to deal with slow loading pages
-    */
+   * A step to deal with slow loading pages
+   */
 
   public function spin ($lambda, $wait = 60) {
-    for ($i = 0; $i < $wait; $i++)
-    {
+    for ($i = 0; $i < $wait; $i++) {
       try {
         if ($lambda($this)) {
           return true;
         }
-     } catch (Exception $e) {
+      } catch (Exception $e) {
              // do nothing
-     }
-
+      }
         sleep(1);
     }
-
-
     $backtrace = debug_backtrace();
-    throw new Exception(
-      "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" . $backtrace[1]['file'] . ", line " . $backtrace[1]['line']
-    );
+    throw new Exception("Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" . $backtrace[1]['file'] . ", line " . $backtrace[1]['line']);
   }
 
 
@@ -6167,8 +6161,11 @@ class FeatureContext extends DrupalContext {
     $page->fillField("Body", $body);
     $this->dataRegistry->set('random:Forum body', $body);
     $page->pressButton('Save');
-    // Store node url
-      $this->dataRegistry->set('forum url', $this->getSession()->getCurrentUrl());
+    // Wait for the Save to complete before trying to store node url
+    $this->spin(function($context) {
+    return ($context->getSession()->getPage()->hasContent('has been created'));
+    },5);
+    $this->dataRegistry->set('forum url', $this->getSession()->getCurrentUrl());
   }
 
   /**
