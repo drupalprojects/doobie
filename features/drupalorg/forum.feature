@@ -24,13 +24,12 @@ Feature: Create new forum topic as a regular site user
     And I should see "Forums field is required"
     And the field "Body" should be outlined in red
 
-  @api @known_git7failure
+  @known_git7failure
   Scenario: Add a new forum topic and see the latest topic in the right side block
     And I visit "/forum"
     And I follow "Post installation"
     And I follow "Add new Forum topic"
     When I create a forum topic
     And I see "has been created"
-    And the cache has been cleared
     And I follow "Post installation"
     Then I should see latest forum topic in the rightside block
