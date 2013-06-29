@@ -198,7 +198,7 @@ class FeatureContext extends DrupalContext {
         sleep(1);
     }
     $backtrace = debug_backtrace();
-    throw new Exception("Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" . $backtrace[1]['file'] . ", line " . $backtrace[1]['line']);
+    throw new Exception('Something* took too long to load at ' . $this->getSession()->getCurrentUrl());
   }
 
 
@@ -7432,5 +7432,15 @@ class FeatureContext extends DrupalContext {
     if (empty($result)) {
       throw new Exception('No Book cover image was found on this page');
     }
+  }
+
+ /**
+  * Put a spin on the slow-loading homepage
+  */ 
+  public function iAmOnHomepage() {
+    $this->getSession()->visit($this->locatePath('/'));
+    $this->spin(function($context) {
+      return ($context->getSession()->getPage()->hasLink('Forum Posts'));
+    },5);
   }
 }
