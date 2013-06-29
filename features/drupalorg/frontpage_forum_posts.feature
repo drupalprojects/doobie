@@ -15,7 +15,7 @@ Feature: Forum posts on front page
     And I follow "News and announcements"
     Then I should see the forum topic link
     
-
+  @javascript
   Scenario: Forum Posts tab on front page
     Given there is a new "Paid Drupal services" forum topic
     And I am on the homepage
