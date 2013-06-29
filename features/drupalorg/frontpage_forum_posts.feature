@@ -4,7 +4,6 @@ Feature: Forum posts on front page
   As any user
   I should be able to view the Forum Posts tab on the Drupal front page
 
-  @javascript
   Scenario: Create a forum post
     Given I am logged in as "site user"
     And I visit "/forum"
@@ -18,7 +17,7 @@ Feature: Forum posts on front page
     
 
   Scenario: Forum Posts tab on front page
-    Given there is a new forum topic
+    Given there is a new "Paid Drupal services" forum topic
     And I am on the homepage
     When I follow "Forum Posts"
     Then I should see the forum topic link
