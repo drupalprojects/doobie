@@ -181,6 +181,34 @@ class FeatureContext extends DrupalContext {
     return FALSE;
   }
 
+
+  /**
+    * A step to deal with slow loading pages
+    */
+
+  public function spin ($lambda, $wait = 60) {
+    for ($i = 0; $i < $wait; $i++)
+    {
+      try {
+        if ($lambda($this)) {
+          return true;
+        }
+     } catch (Exception $e) {
+             // do nothing
+     }
+
+        sleep(1);
+    }
+
+
+    $backtrace = debug_backtrace();
+    throw new Exception(
+      "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" . $backtrace[1]['file'] . ", line " . $backtrace[1]['line']
+    );
+  }
+
+
+
   /**
    * @} End of defgroup "helper functions".
    */
@@ -6115,7 +6143,7 @@ class FeatureContext extends DrupalContext {
    * @When /^I create(?:d|) a forum(?:| topic)$/
    */
   public function iCreateAForum() {
-    sleep(3);
+    // sleep(3);
     $page = $this->getSession()->getPage();
     $subject = $this->randomString(8);
     $page->fillField("Subject", $subject);
@@ -6138,12 +6166,9 @@ class FeatureContext extends DrupalContext {
     $body = str_repeat($this->randomString(30) . " ", 10);
     $page->fillField("Body", $body);
     $this->dataRegistry->set('random:Forum body', $body);
-//    $page->selectFieldOption('edit-taxonomy-forums-und');
     $page->pressButton('Save');
-    // Let the page load
-     sleep(3);
     // Store node url
-    $this->dataRegistry->set('forum url', $this->getSession()->getCurrentUrl());
+      $this->dataRegistry->set('forum url', $this->getSession()->getCurrentUrl());
   }
 
   /**
@@ -6154,7 +6179,8 @@ class FeatureContext extends DrupalContext {
       new Given("I am logged in as \"site user\""),
       new Given("I am at \"/node/add/forum/0\""),
       new Given("I select \"-$forum\" from \"edit-taxonomy-forums-und\""),
-      new Given("I create a forum topic")
+      new Given("I create a forum topic"),
+      // User should be logged out after data set up
     );
   }
 
@@ -6181,7 +6207,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception('Forum subject is empty');
     }
     // Let the page load
-     sleep(3);
+    //  sleep(3);
     return new Then('I should see the link "' . $subject . '"');
   }
 
