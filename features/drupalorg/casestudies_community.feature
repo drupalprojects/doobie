@@ -24,7 +24,7 @@ Feature: Community case studies
     | previous            |
     | first               |
     | Add your case study |
-    And I should see the text "Drupal Case Studies" in the "right sidebar" region
+    And I should see the text "Browse by category" in the "right sidebar" region
     And I should see at least "10" links in the "right sidebar"
     And I should see the link "Education"
     And I should see the link "Technology"
@@ -66,9 +66,10 @@ Feature: Community case studies
     When I click on a case study
     Then I should not see "Page not found"
     And I should see that the tab "Community showcase" is highlighted
+Then show last response
     And I should see the following <texts>
     | texts                                |
-    | Why Drupal was chosen:               |
+    | Why Drupal was chosen                |
     | Completed Drupal site or project URL |
     | Key modules/theme/distribution used  |
     | Posted by                            |

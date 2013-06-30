@@ -12,14 +12,14 @@ Feature: Case studies moderation
     And I visit "/case-studies/all"
     Then I should see the random "Project name" text
 
-  @dependent
-  Scenario: Edit the case study created and status field should not be present
+  Scenario: Can't edit until moderated
     Given I am logged in as "site user"
-    And I visit the case study page
+    And I visit "/node/add/casestudy"
+    And I create a case study
     When I follow "Edit"
-    Then I should not see "Status:"
+    Then I should not see "Status"
     And I should not see "Choose \"Featured\" to promote case study to \"Featured showcase\" section."
-    And I should see "Project name:"
+    But I should see "Project name"
     And I should see "Brief overview:"
     And I should see "Community contributions:"
 

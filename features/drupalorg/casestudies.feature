@@ -30,6 +30,7 @@ Feature: Adding new case study
   @javascript @wip
   Scenario: Add a new case study
     When I follow "Add your case study"
+    And I wait until the page loads
     And I see "Describe the project"
     And I attach the local file "koala.jpg" to "Primary screenshot"
     And I select "Arts" from "Sectors"
@@ -62,20 +63,6 @@ Feature: Adding new case study
     | Add new comment |
     And I should see "Edit"
 
-  @wip // This does not seem valuable
-  Scenario: Edit own case study
-    When I follow "Community showcase"
-    And I click on a case study
-    And I follow "Edit"
-    Then I should not see "Access denied"
-    And I should see the following <texts>
-    | texts                 |
-    | Project name          |
-    | Primary screenshot    |
-    | Sectors               |
-    | Why Drupal was chosen |
-    | Brief overview        |
-
   Scenario: Comment on a case study
     When I click on a case study
     And I follow "Add new comment"
@@ -87,17 +74,18 @@ Feature: Adding new case study
     And I should see "Posted by site user"
     And I should see the link "Add new comment"
 
+  @anon @content
   Scenario: View case study guidelines
     When I follow "Case Study guidelines"
     Then I should see the heading "Case Study guidelines"
     And I should see "How to write a case study"
     And I should see the following <links>
-    | links                  |
-    | View                   |
-    | Edit                   |
-    | Revisions              |
-    | Drupal Case Studies    |
-    | Getting Involved Guide |
+    | links                         |
+    | View                          |
+    | Edit                          |
+    | Revisions                     |
+    | How to write a case study     |
+    | Getting involved              |
 
   Scenario: View Add case study link in Community showcase
     When I visit "/case-studies/all"
