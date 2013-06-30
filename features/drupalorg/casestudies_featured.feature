@@ -4,7 +4,6 @@ Feature: Featured Drupal case studies
   As any user
   I should be able to browse Featured case studies section
 
-  @timeout
   Scenario: View case study page
     Given I am on the homepage
     When I follow "Sites Made with Drupal"
@@ -29,7 +28,7 @@ Feature: Featured Drupal case studies
   Scenario: View the image slideshow
     Given I am on the homepage
     When I follow "Sites Made with Drupal"
-    Then I should not see the slideshow case studies in the view content
+    Then I should see the case studies slideshow
     And I should see "1"
     And wait "2" seconds
     And I should see "2"

@@ -60,7 +60,9 @@ Feature: Adding new case study
     | example.com     |
     | site user       |
     | Add new comment |
+    And I should see "Edit"
 
+  @wip // This does not seem valuable
   Scenario: Edit own case study
     When I follow "Community showcase"
     And I click on a case study

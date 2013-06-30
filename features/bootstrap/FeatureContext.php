@@ -1948,10 +1948,13 @@ class FeatureContext extends DrupalContext {
    */
   public function iCheckCheckboxesTo($count, $context) {
     // Wait for the page to load
-    sleep(4);
+    // sleep(4);
     $i = 1;
     $page = $this->getSession()->getPage();
     // Get all checkboxes
+    $this->spin(function($context) {
+      return ($context->getSession()->getPage()->find('css','.views-table .form-item'));
+    },3);
     $chks = $page->findAll("css", ".views-table .form-item input[type=checkbox]");
     if (empty($chks)) {
       throw new Exception("No checkboxes were found on the page");
@@ -5066,12 +5069,12 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I should not see the slideshow case studies in the view content$/
+   * @Given /^I should see the case studies slideshow$/
    */
-  public function iShouldNotSeeTheSlideshowCaseStudiesInTheViewContent() {
+  public function iShouldSeeTheCaseStudiesSlideshow() {
     $page = $this->getSession()->getPage();
     // Get all the slide titles
-    $slides = $page->findAll('css', '#block-views-drupalorg-casestudies-block-3 ul li .views-field-title a');
+    $slides = $page->findAll('css', '#block-views-drupalorg-casestudies-block-3 ul li h2 a');
     if (empty($slides)) {
       throw new Exception("The page does not contain any slides");
     }
@@ -5080,7 +5083,7 @@ class FeatureContext extends DrupalContext {
     foreach ($slides as $slide) {
       $slideTexts[] = trim($slide->getText());
     }
-    $cases = $page->findAll('css', '#content .views-field-title a');
+    $cases = $page->findAll('css', '#content h2 a');
     if (empty($cases)) {
       throw new Exception("No case studies were found on the page");
     }
@@ -7387,15 +7390,15 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeAnImageForEveryCaseStudy() {
     $page = $this->getSession()->getPage();
     // Get all the case study titles
-    $resultTitles = $page->findAll('css', '.view-content table tr td .views-field-title a');
+    $resultTitles = $page->findAll('css', 'table.views-view-grid tr td .views-field-field-mainimage a');
     // Make sure the page has case studies in it
     if (empty($resultTitles)) {
       throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not have any case study");
     }
     // Get all the images on the case study view
-    $resultImgs = $page->findAll('css', '.view-content table tr td .views-field-field-mainimage a img');
-    // Make sure there is atleast one image
-    if (empty($result)) {
+    $resultImgs = $page->findAll('css', 'table.views-view-grid tr td a img');
+    // Make sure there is at least one image
+    if (empty($resultImgs)) {
       throw new Exception("The case studies on the page " . $this->getSession()->getCurrentUrl() . " do not have any images");
     }
     // If the number of titles and number of images do not match, then some of the case studies are missing images
@@ -7446,4 +7449,27 @@ class FeatureContext extends DrupalContext {
       return ($context->getSession()->getPage()->hasLink('Forum Posts'));
     },5);
   }
+
+ /**
+  * D.o: Strip markup out of the links in administrative vertical tabs
+  *
+  * @When /^I click the "([^"]*)" tab$/
+  */
+  public function iClickTheTab($tab) {
+    $page = $this->getSession()->getPage();
+    $this->spin(function($context) {
+      return ($context->getSession()->getPage()->find('css','.vertical-tab-button'));
+    },10);
+    $links = $page->findAll('css', '.vertical-tab-button');
+    if (empty($links)) {
+      throw new Exception('No vertical tabs found');
+    }
+    foreach ($links as $link) {
+      if (strstr($link->getText(), $tab)) { 
+        $link->find('css', 'a')->click();
+      }
+    }
+  } 
 }
+
+

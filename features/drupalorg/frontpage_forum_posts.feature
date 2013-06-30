@@ -19,6 +19,7 @@ Feature: Forum posts on front page
     And I am on the homepage
     When I follow "Forum Posts"
     And I follow "More forums"
+    And I wait until the page loads
     And I follow "Post installation"
     Then I should see the heading "Post installation"
     And I should see the forum topic link

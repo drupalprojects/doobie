@@ -17,13 +17,14 @@ Feature: Administrative view of nodes by a user
     When I follow "Administer nodes"
     Then I should see the heading "Nodes by site user"
     And I should see at least "3" records
+Then show last response
     And I should see the following <texts>
-    | texts     |
-    | Title     |
-    | Body      |
-    | Post date |
-    | Operations|
-    | Published |
+    | texts        |
+    | Title        |
+    | Body         |
+    |  Post date   |
+    | Operations   |
+    | Published    |
     And I should see the following <links>
     | links     |
     | View      |
@@ -42,18 +43,18 @@ Feature: Administrative view of nodes by a user
     And I should not see "Page not found"
     And I should not see "Access denied"
 
-  @dependent
+  @dependent @javascript
   Scenario: Visit Edit link and view the contents
     Given I am logged in as "admin test"
     And I visit "site user" profile page
     And I follow "Administer nodes"
     When I follow "edit" for a post
-    And I click "Revision information"
+    And I click the "Revision information" tab
     Then I should see "Revision log message"
     And I should see "Create new revision"
 
-  @dependent @known_git7failure
-  Scenario: Vsit Delete link
+  @dependent
+  Scenario: Visit Delete link
     Given I am logged in as "admin test"
     And I visit "site user" profile page
     And I follow "Administer nodes"
@@ -73,7 +74,7 @@ Feature: Administrative view of nodes by a user
     And all the checkboxes are selected
     And I select "Delete item" from field "- Choose an operation -"
     And I press "Execute"
-    Then I should see "You selected the following items"
+    Then I should see "You selected the following"
     And I should see the link "Cancel"
 
   @dependent @javascript
@@ -86,7 +87,7 @@ Feature: Administrative view of nodes by a user
     And all the checkboxes are selected
     And I select "Delete item" from field "- Choose an operation -"
     And I press "Execute"
-    Then I should see "You selected the following items"
+    Then I should see "You selected the following"
     And I should see the link "Cancel"
 
   @dependent @javascript
@@ -100,7 +101,7 @@ Feature: Administrative view of nodes by a user
     And I "uncheck" the table header checkbox
     Then none the checkboxes are selected
 
-  @dependent @known_git7failure
+  @dependent
   Scenario: Unpublish posts: Don't select
     Given I am logged in as "admin test"
     And I visit "site user" profile page
@@ -108,9 +109,9 @@ Feature: Administrative view of nodes by a user
     When I select "Unpublish content" from field "- Choose an operation -"
     And I press "Execute"
     Then I should see "Please select at least one item"
-    And I should not see "You selected the following item"
+    And I should not see "You selected the following"
 
-  @dependent @known_git7failure @javascript
+  @dependent @javascript
   Scenario: Unpublish posts: Cancel
     Given I am logged in as "admin test"
     And I visit "site user" profile page
@@ -118,8 +119,9 @@ Feature: Administrative view of nodes by a user
     When I check "2" checkboxes to "unpublish"
     And I select "Unpublish content" from field "- Choose an operation -"
     And I press "Execute"
+    And I wait for the page to load
     And I follow "Cancel"
-    Then I should not see "Performed Unpublish content on"
+    Then I should not see "Performed"
 
   @dependent @javascript
   Scenario: Delete node: Don't select
@@ -129,8 +131,8 @@ Feature: Administrative view of nodes by a user
     When I select "Delete item" from field "- Choose an operation -"
     And I press "Execute"
     Then I should see "Please select at least one item"
-    And I should not see "You selected the following item"
-    And I should not see "Performed Delete item on"
+    And I should not see "You selected the following"
+    And I should not see "Performed"
 
   @dependent @javascript
   Scenario: Delete posts: Cancel
@@ -140,8 +142,9 @@ Feature: Administrative view of nodes by a user
     When I check "2" checkboxes to "delete"
     When I select "Delete item" from field "- Choose an operation -"
     And I press "Execute"
+    And I wait for the page to load
     And I follow "Cancel"
-    Then I should not see "Performed Delete item on"
+    Then I should not see "Performed"
 
   @dependent @slow @javascript
   Scenario: Unpublish posts: Confirm
@@ -153,7 +156,7 @@ Feature: Administrative view of nodes by a user
     And I press "Execute"
     And I press "Confirm"
     And I wait until the page is loaded
-    Then I should see "Performed Unpublish content on"
+    Then I should see "Performed"
 
   @dependent @slow @javascript
   Scenario: Delete posts: Confirm
@@ -165,5 +168,5 @@ Feature: Administrative view of nodes by a user
     And I press "Execute"
     And I press "Confirm"
     And I wait until the page is loaded
-    Then I should see "Performed Delete item on"
+    Then I should see "Performed"
     
