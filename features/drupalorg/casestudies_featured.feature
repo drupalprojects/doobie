@@ -28,6 +28,7 @@ Feature: Featured Drupal case studies
   Scenario: View the image slideshow
     Given I am on the homepage
     When I follow "Sites Made with Drupal"
+    And I wait until the page loads
     Then I should see the case studies slideshow
     And I should see "1"
     And wait "2" seconds
