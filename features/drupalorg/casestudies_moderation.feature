@@ -20,8 +20,8 @@ Feature: Case studies moderation
     Then I should not see "Status"
     And I should not see "Choose \"Featured\" to promote case study to \"Featured showcase\" section."
     But I should see "Project name"
-    And I should see "Brief overview:"
-    And I should see "Community contributions:"
+    And I should see "Brief overview"
+    And I should see "Community contributions"
 
   @dependent
   Scenario: Admin user can feature other people's case study
