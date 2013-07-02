@@ -6,7 +6,7 @@ Feature: Handbook comment directions
 
   Background:
     Given I am logged in as "site user"
-    And I am on "/documentation/install"
+    And I am on "/documentation/install/download"
 
   Scenario: A note with specific directions should appear above the comment form
     When I follow "Add new comment"
