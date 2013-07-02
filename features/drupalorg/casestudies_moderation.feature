@@ -23,13 +23,18 @@ Feature: Case studies moderation
     And I should see "Brief overview"
     And I should see "Community contributions"
 
-  @dependent
+  @dependent 
   Scenario: Admin user can feature other people's case study
     Given I am logged in as "admin test"
     And I am on the case study page
     When I follow "Edit"
-    And I check "Featured" radio button
+    And I wait until the page loads
+ Then show last response
+And I check "Featured" radio button
+ Then show last response
     And I press "Save"
+ Then show last response
+    And I see "has been saved"
     And I follow "Featured showcase"
     Then I should see the random "Project name" text
 
@@ -45,7 +50,7 @@ Feature: Case studies moderation
     And I visit "/case-studies/hidden"
     Then I should see the random "Project name" text
 
-  @dependent @clean_data
+  @dependent @ clean_data
   Scenario: Admin user can put case study on community showcase
     Given I am logged in as "admin test"
     And I am on the case study page

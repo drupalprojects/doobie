@@ -66,7 +66,6 @@ Feature: Community case studies
     When I click on a case study
     Then I should not see "Page not found"
     And I should see that the tab "Community showcase" is highlighted
-Then show last response
     And I should see the following <texts>
     | texts                                |
     | Why Drupal was chosen                |

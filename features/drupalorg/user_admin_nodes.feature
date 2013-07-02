@@ -17,7 +17,6 @@ Feature: Administrative view of nodes by a user
     When I follow "Administer nodes"
     Then I should see the heading "Nodes by site user"
     And I should see at least "3" records
-Then show last response
     And I should see the following <texts>
     | texts        |
     | Title        |

@@ -59,10 +59,11 @@ Feature: Case studies management
     | Non-profit |
     | Technology |
 
+  @wip @needs_data
   Scenario: Filter by New
     When I check the box "New"
     And I press "Apply"
-    Then I should see at least "25" records
+    Then I should see at least "1" records
 
   Scenario: Filter by all the options
     When I select "Yes" from "Published"
