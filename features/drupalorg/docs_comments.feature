@@ -19,4 +19,5 @@ Feature: Handbook comment directions
     And I fill in "Subject" with random text
     And I fill in "Comment" with random text
     And I press "Save"
+    And I wait until the page loads 
     Then I should see the random "Comment" text
