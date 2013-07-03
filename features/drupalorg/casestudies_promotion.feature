@@ -4,13 +4,11 @@ Feature: Case studies promotion
   As any user
   I should be able to see featured slidehows and a case study on the homepage
 
-  @known_failure
   Scenario: Cases studies slideshow
     Given I am on the homepage
     When I visit "/case-studies"
     Then I should see "4" recently published featured case studies in the slideshow
 
-  @known_failure
   Scenario: Cases study block on front page
     Given I am on the homepage
     Then the case study should be one of the "10" recently published featured case studies

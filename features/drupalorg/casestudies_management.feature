@@ -59,7 +59,7 @@ Feature: Case studies management
     | Non-profit |
     | Technology |
 
-  @wip @needs_data
+  @needs_data
   Scenario: Filter by New
     When I check the box "New"
     And I press "Apply"
