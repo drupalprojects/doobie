@@ -4567,7 +4567,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception('There is no url for the document');
     }
     $this->getSession()->visit($this->locatePath($doc_url));
-    sleep(10);
+    sleep(1);
     // Find and save metdata string
     $updates = $this->getSession()->getPage()->find('css', 'div.content > p.updated > em');
     if (empty($updates)) {
