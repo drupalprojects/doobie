@@ -18,7 +18,6 @@ Feature: Find Drupal News
     | Drupal News            |
     | Planet Drupal          |
     | Drupal Association     |
-    | News and announcements |
     | next  |
     | last  |
     | 1     |
@@ -43,24 +42,4 @@ Feature: Find Drupal News
     And I should see the link "previous"
     And I should not see the link "next"
 
-  Scenario Outline: View News and announcements forum
-    When I follow "News and announcements"
-    Then I should see "Drupal News"
-    And I should see the heading "News and announcements"
-    And I should see the heading "New forum topics"
-    And I should see at least "10" links in the "right sidebar" region
-    And I should see the following <links>
-    | links      |
-    | Topic      |
-    | Replies    |
-    | Last reply |
 
-    And I should see <tablist>
-    Examples:
-    | tablist            |
-    | "Community Home"   |
-    | "Getting Involved" |
-    | "Chat"             |
-    | "Mailing Lists"    |
-    | "Member Directory" |
-    | "Forum"            |
