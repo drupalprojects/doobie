@@ -5,9 +5,8 @@ Feature: About Drupal.org section
   I should be able to see About Drupal.org page and visit various links
 
   Scenario: View the about page
-    #Given I am on the homepage
-    #When I follow "About Drupal.org"
-    Given I am not logged in
+    Given I am on the homepage
+    And I visit "About Drupal.org"
     When I visit "/about-drupal.org"
     Then I should see the heading "Drupal.org"
     And I should see the following <texts>
@@ -20,10 +19,7 @@ Feature: About Drupal.org section
     And I should see the following <links>
     | links                        |
     | Drupal.org-specific projects |
-    | Contribute to documentation  |
-    | Donating to Drupal           |
-    | Drupal.org improvements      |
-    | Log in                        |
+    | Log in                       |
     | register                     |
     And I should see the following <tabs>
     | tabs                 |
@@ -40,13 +36,12 @@ Feature: About Drupal.org section
     Given I am on "/about-drupal.org"
     When I follow "<tab>" tab on the top navigation
     Then I should not see "Page not found"
-    And I should see the heading "<heading>"
-    And I should see that the tab "<tab>" is highlighted
+      And I should see that the tab "<tab>" is highlighted
     Examples:
-    | tab                  | heading                         |
-    | Drupal.org Projects  | Drupal.org Projects             |
-    | Webmasters           | Drupal.org webmasters           |
-    | Documentation        | Documentation                   |
-    | Project Applications | Drupal.org Project applications |
-    | Infrastructure       | Drupal.org infrastructure       |
-    | Theme                | Bluecheese                      |
+    | tab                  | 
+    | Drupal.org Projects  | 
+    | Webmasters           | 
+    | Documentation        |
+    | Project Applications | 
+    | Infrastructure       |
+    | Theme                |
