@@ -50,4 +50,3 @@ Feature: Security public service announcements
     When I follow "Read more"
     Then I should not see "Page not found"
     And I should not see the link "Add new comment"
-    And I should see "Posted by Drupal Security Team"
