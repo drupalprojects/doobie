@@ -106,11 +106,7 @@ Feature: To view the project details
     Then I should see the heading "Maintainers for Drupal core"
     And I should see the following <links>
     | links               |
-    | webchick            |
-    | catch               |
     | Dries               |
-    | jhodgdon            |
-    | David_Rothstein     |
     | View all committers |
     | View commits        |
 
@@ -139,6 +135,6 @@ Feature: To view the project details
     | Summary            |
     | Priority           |
     | Replies            |
-    | tasks              |
+    | Task               |
     | Subscribe with RSS |
     And I should see at least "25" records
