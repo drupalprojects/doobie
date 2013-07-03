@@ -25,7 +25,6 @@ Feature: Drupal Association News
     | next                                     |
     | last                                     |
     | https://association.drupal.org/news/feed |
-    And I should not see the link "previous"
 
   Scenario: View the pagination links: Second page
     When I follow "Drupal Association"
@@ -41,4 +40,3 @@ Feature: Drupal Association News
     And I click on page "last"
     Then I should see the link "first"
     And I should see the link "previous"
-    And I should not see the link "next"
