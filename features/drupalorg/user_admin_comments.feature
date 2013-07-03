@@ -79,7 +79,7 @@ Feature: Aministrative view of comments by a user
     And all the checkboxes are selected
     And I select "Delete item" from field "- Choose an operation -"
     And I press "Execute"
-    Then I should see "You selected the following items"
+    Then I should see "You selected the following"
     And I should see the link "Cancel"
 
   @dependent @javascript
@@ -92,7 +92,7 @@ Feature: Aministrative view of comments by a user
     And all the checkboxes are selected
     And I select "Delete item" from field "- Choose an operation -"
     And I press "Execute"
-    Then I should see "You selected the following items"
+    Then I should see "You selected the following"
     And I should see the link "Cancel"
 
   @dependent  @javascript
@@ -111,7 +111,7 @@ Feature: Aministrative view of comments by a user
     Given I am logged in as "admin test"
     And I visit "site user" profile page
     And I follow "Administer comments"
-    When I select "Unpublish content" from field "- Choose an operation -"
+    When I select "Unpublish comment" from field "- Choose an operation -"
     And I press "Execute"
     Then I should see "Please select at least one item"
     And I should not see "You selected the following item"
