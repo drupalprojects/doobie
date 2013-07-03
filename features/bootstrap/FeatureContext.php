@@ -6183,9 +6183,24 @@ class FeatureContext extends DrupalContext {
       new Given("I am at \"/node/add/forum/0\""),
       new Given("I select \"-$forum\" from \"edit-taxonomy-forums-und\""),
       new Given("I create a forum topic"),
+      new Given ("I am not logged in")
       // User should be logged out after data set up
     );
   }
+
+  /**
+   * For use with various forum topics clown
+   *
+   * @Given /^I edit the "([^"]*)"$/
+   */
+  public function iEditThe($forumtopic) {
+    $url = $this->dataRegistry->get('forum url');
+    return array (
+      new Given("I visit \"$url\""),
+      new Given("I follow \"Edit\"")
+    );
+  }
+
 
   /**
    * Loads already saved community spotlight page

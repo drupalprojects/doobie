@@ -13,11 +13,11 @@ Feature: Community Spotlight
     Then I should see the community spotlight title
     And I should see "has been created"
 
-  @javascript @dependent @flaky
+  @javascript
   Scenario: Admin promotes the community spotlight
-    Given I am logged in as "admin test"
-    And I am on the community spotlight page
-    And I follow "Edit"
+    Given there is a new "Community Spotlight" forum topic
+    And I am logged in as "admin test"
+    And I edit the "community spotlight"
     And I wait until the page is loaded
     When I click "Publishing options"
     And I check the box "Promoted to front page"
@@ -25,25 +25,22 @@ Feature: Community Spotlight
     And I wait until the page is loaded
     Then I should see the community spotlight title
     And I should see "has been updated"
+    And I should see "Posted by site user"
 
-  @anon @dependent @flaky
   Scenario: Visit getting involved page and view heading and community spotlight link
-    Given I am on "/community"
+    Given there is a new "Community Spotlight" forum topic
+    And I am on "/community"
     When I follow "Getting Involved"
     Then I should see the heading "Community Spotlight"
     And I should see the community spotlight link
 
-  @anon @dependent @flaky
   Scenario: Visit community spotlight page and view the records
-    Given I am on "/community"
+    Given there is a new "Community Spotlight" forum topic
+    And I am on "/community"
     When I follow "Getting Involved"
     And I follow "View more community spotlights"
     Then I should see the heading "Community Spotlight"
     And I should see the community spotlight link
     And I should see at least "5" records
 
-  @anon @dependent @clean_data
-  Scenario: Visit Community spotlight page
-    Given I am on the community spotlight page
-    Then I should see the community spotlight title
-    And I should see "Submitted by site user"
+
