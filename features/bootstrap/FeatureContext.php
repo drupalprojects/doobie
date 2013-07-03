@@ -3617,6 +3617,7 @@ class FeatureContext extends DrupalContext {
     $page->fillField("Title", $this->documentTitle);
     $page->fillField("Body", str_repeat($this->randomString(20) . " ", 10));
     HackyDataRegistry::set('book page title', $this->documentTitle);
+
     if (isset($options['input_format'])) {
       $page->selectFieldOption("Text format", $options['input_format']);
     }
@@ -4202,20 +4203,19 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheTitle() {
     $page = $this->getSession()->getPage();
-    $element = $page->find('css', 'h1#page-subtitle');
-    $title = $type
-           = "";
+    $element = $page->find('css','h1#page-subtitle')->getText();
+    $title = $type = "";
     if (isset($this->issueTitle)) {
       $title = $this->issueTitle;
       $type = 'Issue';
     }
-    elseif ($title = $this->dataRegistry->get('book page title')) {
+    elseif ($title = HackyDataRegistry::get('book page title')) {
       $type = 'Document';
     }
     elseif ($title = $this->dataRegistry->get('random:Forum subject')) {
       $type = 'Forum';
     }
-    if (empty($title) || empty($element) || strpos($element->getText(), $title) === FALSE) {
+    if (empty($title) || empty($element) || strpos($element, $title) === FALSE) {
       throw new Exception($type . ' title is not found where it was expected.');
     }
   }
