@@ -26,7 +26,6 @@ Feature: Find Drupal News
     | last                   |
     | 1                      |
     | 2                      |
-    And I should not see the link "previous"
 
   Scenario: View the pagination links: Second page
     When I follow "Planet Drupal"
