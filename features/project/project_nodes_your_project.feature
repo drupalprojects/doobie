@@ -37,7 +37,7 @@ Feature: Learn about details of a full project
     | One-Time Only                              |
     | Routinely                                  |
     | Patching                                   |
-    | git clone --recursive --branch master      |
+    | git clone --branch master                  |
 
   @anon @content
   Scenario: Browse repository link
