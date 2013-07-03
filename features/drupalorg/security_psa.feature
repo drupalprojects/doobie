@@ -22,8 +22,8 @@ Feature: Security public service announcements
     And I should see the following <texts>
     | texts                                                                 |
     | DRUPAL-PSA                                                            |
-    | Submitted by                                                          |
-    | Drupal version:                                                       |
+    | Posted by                                                             |
+    | Version:                                                              |
     | Security-related announcements, such as information on best practices |
     | all security announcements are posted to                              |
     | In order to report a security issue                                   |
@@ -50,8 +50,4 @@ Feature: Security public service announcements
     When I follow "Read more"
     Then I should not see "Page not found"
     And I should not see the link "Add new comment"
-    And I should see "Submitted by Drupal Security Team"
-    And I should see the heading "Description"
-    And I should see the heading "Solution"
-    And I should see the heading "Reported by"
-    And I should see "Drupal version:"
+    And I should see "Posted by Drupal Security Team"
