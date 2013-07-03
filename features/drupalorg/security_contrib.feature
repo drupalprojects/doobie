@@ -24,8 +24,8 @@ Feature: Security announcements for contributed modules
     And I should see the following <texts>
     | texts                                                                         |
     | SA-CONTRIB                                                                    |
-    | Submitted by                                                                  |
-    | Drupal version:                                                                   |
+    | Posted by                                                                     |
+    | Version:                                                                      |
     | Security advisories for third-party projects that are not part of Drupal core |
     | all security announcements are posted to                                      |
     | In order to report a security issue                                           |
@@ -78,8 +78,4 @@ Feature: Security announcements for contributed modules
     When I follow "Read more"
     Then I should not see "Page not found"
     And I should not see the link "Add new comment"
-    And I should see "Submitted by"
-    And I should see the heading "Description"
-    And I should see the heading "Solution"
-    And I should see the heading "Reported by"
-    And I should see "Drupal version:"
+    And I should see "Posted by"
