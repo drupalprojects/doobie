@@ -27,20 +27,20 @@ Feature: Adding new case study
     And the field "Why Drupal was chosen" should be outlined in red
     And I should not see "has been created"
 
-  @javascript @wip
+  @javascript @known_failure
   Scenario: Add a new case study
     When I follow "Add your case study"
     And I wait until the page loads
     And I see "Describe the project"
-    And I attach the local file "koala.jpg" to "Primary screenshot"
+    And I fill in "Project name" with random text
+    And I attach the local file "koala.jpg" to "edit-field-mainimage-und-0-upload"
     And I select "Arts" from "Sectors"
     And I additionally select "Education" from "Sectors"
     And I additionally select "Community" from "Sectors"
-    And I fill in "Project name" with random text
+    And I fill in "URL" with "example.com"
     And I fill in the following:
     | Why Drupal was chosen                            | Test data one test case study                  |
     | Brief overview                                   | Test data two brief overview test case study   |
-    | Completed Drupal site or project URL             | example.com                                    |
     | Why these modules/theme/distribution were chosen | Test data three test case study                |
     And I enter "Features" for field "Key modules/theme/distribution used"
     And I select "Features" from the suggestion "Key modules/theme/distribution used"

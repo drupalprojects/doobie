@@ -12,26 +12,14 @@ Feature: Case studies moderation
     And I visit "/case-studies/all"
     Then I should see the random "Project name" text
 
-  Scenario: Can't edit until moderated
-    Given I am logged in as "site user"
-    And I visit "/node/add/casestudy"
-    And I create a case study
-    When I follow "Edit"
-    Then I should not see "Status"
-    And I should not see "Choose \"Featured\" to promote case study to \"Featured showcase\" section."
-    But I should see "Project name"
-    And I should see "Brief overview"
-    And I should see "Community contributions"
-
   @dependent 
   Scenario: Admin user can feature other people's case study
     Given I am logged in as "admin test"
     And I am on the case study page
     When I follow "Edit"
-    And I wait until the page loads
     And I check "Featured" radio button
     And I press "Save"
-    And I see "has been saved"
+    And I see "has been updated"
     And I follow "Featured showcase"
     Then I should see the random "Project name" text
 
@@ -47,7 +35,7 @@ Feature: Case studies moderation
     And I visit "/case-studies/hidden"
     Then I should see the random "Project name" text
 
-  @dependent @ clean_data
+  @dependent @clean_data
   Scenario: Admin user can put case study on community showcase
     Given I am logged in as "admin test"
     And I am on the case study page
@@ -56,3 +44,15 @@ Feature: Case studies moderation
     And I press "Save"
     And I follow "Community showcase"
     Then I should see the random "Project name" text
+
+  @clean_data
+  Scenario: Can't edit until moderated
+    Given I am logged in as "site user"
+    And I visit "/node/add/casestudy"
+    And I create a case study
+    When I follow "Edit"
+    Then I should not see "Status"
+    And I should not see "Choose \"Featured\" to promote case study to \"Featured showcase\" section."
+    But I should see "Project name"
+    And I should see "Brief overview"
+    And I should see "Community contributions"
