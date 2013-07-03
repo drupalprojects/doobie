@@ -29,11 +29,8 @@ Feature: Case studies moderation
     And I am on the case study page
     When I follow "Edit"
     And I wait until the page loads
- Then show last response
-And I check "Featured" radio button
- Then show last response
+    And I check "Featured" radio button
     And I press "Save"
- Then show last response
     And I see "has been saved"
     And I follow "Featured showcase"
     Then I should see the random "Project name" text
