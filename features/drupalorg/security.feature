@@ -22,8 +22,8 @@ Feature: Security announcements
     | texts                                               |
     | also sent to the security announcements e-mail list |
     | SA-CORE                                             |
-    | Submitted by                                        |
-    | Drupal version:                                         |
+    | Posted by                                           |
+    | Version:                                            |
     | In addition to the news page                        |
     | In order to report a security issue                 |
     | Writing secure code                                 |
@@ -75,8 +75,4 @@ Feature: Security announcements
     When I follow "Read more"
     Then I should not see "Page not found"
     And I should not see the link "Add new comment"
-    And I should see "Submitted by"
-    And I should see the heading "Description"
-    And I should see the heading "Solution"
-    And I should see the heading "Reported by"
-    And I should see "Drupal version:"
+    And I should see "Posted by"
