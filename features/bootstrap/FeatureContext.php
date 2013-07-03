@@ -4453,6 +4453,9 @@ class FeatureContext extends DrupalContext {
     if ($spotlight_url = HackyDataRegistry::get('forum url')) {
       $arr_nodeurl[] = $spotlight_url;
     }
+    if ($spotlight_url = $this->dataRegistry->get('forum url')) {
+      $arr_nodeurl[] = $spotlight_url;
+    }
     // Test Document/Book page
     if ($document_url = HackyDataRegistry::get('document url')) {
       $arr_nodeurl[] = $document_url;
@@ -6189,7 +6192,7 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * For use with various forum topics clown
+   * For use with various forum topics
    *
    * @Given /^I edit the "([^"]*)"$/
    */
