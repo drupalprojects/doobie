@@ -32,9 +32,7 @@ Feature: About Drupal section
     And I should see "Drupal is more than software"
     And I should see the following <links>
     | links                          |
-    | Mission and principles         |
     | Core developers                |
     | Security team                  |
-    | Drupal Accessibility Statement |
     | Getting support                |
     | Licensing FAQ                  |
