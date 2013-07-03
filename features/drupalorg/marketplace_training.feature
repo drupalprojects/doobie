@@ -41,10 +41,10 @@ Feature: Training section of the Marketplace
     And I am on "/training"
     When I follow "Marketplace guidelines"
     Then I should see the heading "Marketplace guidelines"
-    And I should see the heading "Drupal Services"
-    And I should see the heading "Featured providers"
-    And I should see the heading "Training"
-    And I should see the heading "Hosting"
+    And I should see the link "Services section"
+    And I should see the link "Training section"
+    And I should see the link "Hosting section"
+    And I should see the link "Books section"
 
   @anon
   Scenario: See a paged list of training providers
