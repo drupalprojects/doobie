@@ -57,7 +57,8 @@ Feature: View the issues I am interested in
     Then I should see the issue link
     And I should not see "No issues match your criteria."
 
-  @dependent @clean_data
+  @dependent
+  # clean_data tag was failing because of revision log message 
   Scenario: Navigate through the issue created previously
     When I follow an issue of the project
     Then I should see the random "Description" text
