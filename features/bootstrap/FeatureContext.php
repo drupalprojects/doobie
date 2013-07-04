@@ -1121,7 +1121,8 @@ class FeatureContext extends DrupalContext {
       'row li' => '.view li.views-row',
       'sitewide search' => 'ol.search-results dt',
       'emails table' => '#multiple-email-manage table tbody tr',
-      'profiles' => '#profile div.profile'
+      'profiles' => '#profile div.profile',
+      'search result' => 'li.search-result'
     );
     foreach ($classes as $type => $class) {
       $result = $page->findAll('css', $class);
