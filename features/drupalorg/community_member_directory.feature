@@ -39,5 +39,6 @@ Feature: View members of drupal community
   Scenario: Navigate to regional groups page
     Given I am on "/profile"
     When I follow "regional groups"
+    And I wait for the page to load
     Then I should see the heading "Working and regional Groups & Meetups"
     And I should see the link "Go to Drupal.org"

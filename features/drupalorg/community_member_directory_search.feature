@@ -15,13 +15,12 @@ Feature: Search members in drupal community
     Given I am on "/profile"
     When I press "Search" in the "right sidebar" region
     Then I should see "Please enter some keywords"
-    And I should see the heading "Search"
     And I should see "Enter your keywords"
     And I should not see "Your search yielded no results"
 
   Scenario: Search for member: Invalid user
     Given I am on "/profile"
-    When I fill in "a long username here" for "Username:"
+    When I fill in "a long username here" for "Username"
     And I press "Search" in the "right sidebar" region
     Then I should see "Your search yielded no results"
     And I should not see "Please enter some keywords"
