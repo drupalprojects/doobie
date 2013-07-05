@@ -63,13 +63,13 @@ Feature: Create a project
     | Maintenance status  |
     | Development status  |
 
-  @javascript @clean_data @known_git7failure
-  Scenario: Create a Project
+  # See Issue 2035755 re: use of labels
+  @javascript @clean_data
+  Scenario: Create a sandbox project
     Given I am logged in as "git vetted user"
     And I am on "/node/add/project-module"
     When I fill in "Name" with random text
     And I select "Sandbox project" from "Project type"
-    And I fill in "Short name" with random text
     And I fill in "Description" with random text
     And I select the following <fields> with <values>
     | fields              | values                    |
@@ -88,15 +88,16 @@ Feature: Create a project
     | koala.jpg       | Koala pic       |
     And I follow "Resources"
     And I fill in the following:
-    | Screenshots    | screenshots...                       |
-    | License        | license...                           |
-    | Documentation  | docs here                            |
-    | Demo           | http://mytestsite.com/demo           |
-    | Changelog      | http://mytestsite.com/changelog.txt  |
-    | Homepage       | http://mytestsite.com                |
+    | edit-field-project-screenshots-und-0-url   | screenshots...                       |
+#   | License                                    | license...                           |
+    | edit-field-project-documentation-und-0-url | docs here                            |
+    | edit-field-project-demo-und-0-url          | http://mytestsite.com/demo           |
+    | edit-field-project-changelog-und-0-url     | http://mytestsite.com/changelog.txt  |
+    | edit-field-project-homepage-und-0-url      | http://mytestsite.com                |
     And I follow "Revision information"
     And I fill in "Testing create project" for "Revision log message"
     And I press "Save"
+    Then I should not see "Sandbox projects may not have releases."
     Then I should see the project was created
     And I should see the random "Name" text
     And I should see the random "Short name" text
