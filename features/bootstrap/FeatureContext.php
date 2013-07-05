@@ -4494,7 +4494,6 @@ class FeatureContext extends DrupalContext {
       if ($editLink->hasAttribute("href")) {
         $session->visit($this->locatePath($editLink->getAttribute('href')));
         sleep(1);
-        $this->iFillInRevisionLogMessageWithText("Deleting during cleanup");
         $page = $session->getPage();
         if ($page->hasButton("Delete")) {
           $page->pressButton("Delete");
@@ -6790,7 +6789,7 @@ class FeatureContext extends DrupalContext {
       return;
     }
     else {
-      // If goute is used, then fill the field edit-log directly
+      // If goutte is used, then fill the field edit-log directly
       $log_ele = $page->find('css', '#edit-log');
       if (!empty($log_ele)) {
         $log_ele->setValue($text);
