@@ -51,7 +51,7 @@ Feature: Community case studies
 
   Scenario Outline: Navigate into community showcase categories
     Given I am on "/case-studies/community"
-    When I follow "<category>"
+    When I follow "<category>" in the "right sidebar" region
     Then I should not see "Page not found"
     And I should see "Categories:"
     And I should see at least "1" record
