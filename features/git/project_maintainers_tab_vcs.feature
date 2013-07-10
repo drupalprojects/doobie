@@ -13,7 +13,7 @@ Feature: Verify Write to VCS permission
     And I am on the Version control tab
     And I initialize the repository
     And I follow "Version control"
-    Then I should see "Setting up repository for the first time"
+    Then I should see "Setting up this repository for the first time"
 
   @dependent
   Scenario: Add a maintainer: Valid maintainer name
