@@ -646,7 +646,7 @@ class FeatureContext extends DrupalContext {
         }
       }
       elseif ($command == "git push origin master") {
-        $command = "./bin/gitwrapper init $gitPassword";
+        $command = "../bin/gitwrapper init $gitPassword";
       }
       $fullCommand .= $command . ' ; ';
     }
@@ -661,7 +661,7 @@ class FeatureContext extends DrupalContext {
       "\nCommand: " . $fullCommand .
       "\nError: " . $process->getErrorOutput() .
       "\nOutput: " . $process->getOutput()
-      );
+      ); 
     }
   }
 
