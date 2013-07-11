@@ -1,4 +1,4 @@
-@user
+@user @profile
 Feature: User contact form
   In order to allow or stop other people from contacting me
   As an authenticated user

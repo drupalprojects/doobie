@@ -1,4 +1,4 @@
-@user
+@user @profile
 Feature: Manage user email addresses
   In order to manage my email addresses
   As an authenticated user

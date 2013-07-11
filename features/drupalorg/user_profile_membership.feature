@@ -1,4 +1,4 @@
-@user
+@user @profile
 Feature: Verify the DA membership block on a user profile
   In order to know the DA membership of a user
   As any user

@@ -1,4 +1,4 @@
-@user
+@user @profile
 Feature: Personal information in user profile
   In order to share information about myself
   As an authenticated user

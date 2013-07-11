@@ -1,4 +1,4 @@
-@user
+@user @profile
 Feature: Work information in user profile
   In order to share information about my current and past jobs
   As an authenticated user
