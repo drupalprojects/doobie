@@ -60,7 +60,7 @@ Feature: Overall Filter Search for issues
 
   @javascript
   Scenario: Search the issues with tags
-    When I fill in "Assigned" with "sdboy"
+    When I fill in "Assigned" with "sdboyer"
     And I wait for the suggestion box to appear
     And I select "sdboyer" from the suggestion "Assigned"
     And I select "Is one of" from field "Issue tags"
