@@ -1,4 +1,4 @@
-@user @admin @known_git7failure
+@user @admin @known_git7failure @wip
 Feature: Aministrative view of comments by a user
   In order to effectively fight spam
   As a site maintainer

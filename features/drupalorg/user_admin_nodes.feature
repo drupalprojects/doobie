@@ -118,7 +118,7 @@ Feature: Administrative view of nodes by a user
     When I check "2" checkboxes to "unpublish"
     And I select "Unpublish content" from field "- Choose an operation -"
     And I press "Execute"
-    And I wait for the page to load
+    And I wait until the page to loads
     And I follow "Cancel"
     Then I should not see "Performed"
 
