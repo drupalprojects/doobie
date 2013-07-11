@@ -58,6 +58,7 @@ Feature: Overall Filter Search for issues
     And I press "Search" in the "content" region
     Then I should see at least "2" records
 
+  @javascript
   Scenario: Search the issues with tags
     When I fill in "Assigned" with "sdboyer"
     And I select "Is one of" from field "Issue tags"
