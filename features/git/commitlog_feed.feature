@@ -1,3 +1,4 @@
+@git @anon
 Feature: Subscribe to commitlog feed
   In order to keep up on Drupal.org code changes
   As a site visitor
