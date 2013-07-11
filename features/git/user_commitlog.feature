@@ -62,7 +62,6 @@ Feature: To see the list of all the commits for a user
   @dependent
   Scenario: Click link to date
     When I click on "date" of a commit
-    Then I should see "Author date:"
     And I should see "Custom text:"
     And I should see "Commit"
 
