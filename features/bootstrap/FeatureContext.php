@@ -1013,7 +1013,7 @@ class FeatureContext extends DrupalContext {
     // Use Goutte driver to get content to get the complete xml data and store it
     // temporarily in a variable for use by function iShouldSeeTheTextInTheFeed()
     $this->xmlContent = $this->getSession()->getDriver()->getClient()->getResponse()->getContent();
-    if (strpos($responseHeaders['Content-Type'], "application/rss+xml") === FALSE) {
+    if (strpos(array_pop($responseHeaders['Content-Type']), "application/rss+xml") === FALSE) {
       if (strpos($this->xmlContent, "<?xml version=") === FALSE && strpos($this->xmlContent, "<rss version=") === FALSE) {
         throw new Exception("This page '" . $this->getSession()->getCurrentUrl() . "' does not provide xml data");
       }
