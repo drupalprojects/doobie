@@ -758,7 +758,7 @@ class FeatureContext extends DrupalContext {
       $field = 'edit-objects-selector';
     }
     elseif ($field == 'issue tags') {
-      $field = 'edit-taxonomy-vocabulary-9-tid-op';
+      $field = 'edit-vocabulary-9';
     }
     elseif ($field == 'services listing') {
       $field = 'edit-field-organization-list-rule-value';
@@ -811,7 +811,7 @@ class FeatureContext extends DrupalContext {
       $field = "edit-email";
     }
     elseif ($field == "issue tags") {
-      $field = "edit-taxonomy-vocabulary-9-tid";
+      $field = "edit-vocabulary-9";
     }
     elseif ($field == "maintainer user name") {
       $field = "edit-new-maintainer-user";
