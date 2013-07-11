@@ -758,7 +758,7 @@ class FeatureContext extends DrupalContext {
       $field = 'edit-objects-selector';
     }
     elseif ($field == 'issue tags') {
-      $field = 'edit-vocabulary-9';
+      $field = 'edit-vocabulary-9-op';
     }
     elseif ($field == 'services listing') {
       $field = 'edit-field-organization-list-rule-value';
