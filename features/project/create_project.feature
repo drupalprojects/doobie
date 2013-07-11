@@ -64,6 +64,7 @@ Feature: Create a project
     | Development status  |
 
   # See Issue 2035755 re: use of labels
+  @clean_data
   Scenario: Create a sandbox project
     Given I am logged in as "git vetted user"
     And I am on "/node/add/project-module"
