@@ -60,7 +60,7 @@ Feature: Project Development Block
 
   Scenario: View change records
    When I follow "View change records"
-   Then I should see "Change records for"
+   Then I should see "Change records"
    And I should see the following <texts>
    | texts                    |
    | Keywords                 |
