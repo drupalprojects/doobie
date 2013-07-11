@@ -11,12 +11,6 @@ Feature: Community Search Documentation
     And I wait until the page loads
     And I fill in "FAQ" for "Search Documentation"
     And I wait for the suggestion box to appear
-    And I follow "Drupal FAQs"
-    Then I should see the heading "Drupal project Frequently Asked Questions (FAQ)"
-    And I should see "About Drupal"
-    And I should see the link "Drupal project Frequently Asked Questions (FAQ)"
-    And I should see the following <links>
-    | links              |
-    | About Drupal       |
-    | Using Drupal       |
-    | Configuring Drupal |
+    And I follow "FAQ: Frequently Asked Questions"
+    Then I should see the heading "FAQ: Frequently Asked Questions"
+    And I should be on "/documentation/modules/faq"
