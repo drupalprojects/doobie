@@ -1837,7 +1837,7 @@ class FeatureContext extends DrupalContext {
       break;
     }
     if (trim($href) == "") {
-      throw new Exception("No link for '" . $linkType . "' was found on the page");
+      throw new Exception("No link for '" . $linkType . "' was found on the page " . $this->getSession()->getCurrentUrl());
     }
     $this->getSession()->visit($this->locatePath($href));
   }
