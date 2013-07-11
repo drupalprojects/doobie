@@ -661,7 +661,7 @@ class FeatureContext extends DrupalContext {
       "\nCommand: " . $fullCommand .
       "\nError: " . $process->getErrorOutput() .
       "\nOutput: " . $process->getOutput()
-      ); 
+      );
     }
   }
 
@@ -7460,7 +7460,7 @@ class FeatureContext extends DrupalContext {
 
  /**
   * Put a spin on the slow-loading homepage
-  */ 
+  */
   public function iAmOnHomepage() {
     $this->getSession()->visit($this->locatePath('/'));
     $this->spin(function($context) {
@@ -7483,11 +7483,11 @@ class FeatureContext extends DrupalContext {
       throw new Exception('No vertical tabs found');
     }
     foreach ($links as $link) {
-      if (strstr($link->getText(), $tab)) { 
+      if (strstr($link->getText(), $tab)) {
         $link->find('css', 'a')->click();
       }
     }
-  } 
+  }
 }
 
 
