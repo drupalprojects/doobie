@@ -17,6 +17,7 @@ Feature: To see the list of all the commits for a user
     And I follow "Version control"
     Then I initialize the repository
     And I follow "Version control"
+    And I wait until the page loads
     And I push "3" commits to the repository
 
   @dependent
@@ -54,7 +55,7 @@ Feature: To see the list of all the commits for a user
     | texts                     |
     | Experimental Project      |
     | This is a sandbox project |
-    | categories:               |
+    | Module categories:        |
     | sandbox:                  |
     And I should see the link "View"
     And I should see the heading "Development"
