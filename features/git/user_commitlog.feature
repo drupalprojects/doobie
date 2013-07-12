@@ -54,7 +54,7 @@ Feature: To see the list of all the commits for a user
     | texts                     |
     | Experimental Project      |
     | This is a sandbox project |
-    | Categories:               |
+    | categories:               |
     | sandbox:                  |
     And I should see the link "View"
     And I should see the heading "Development"

@@ -515,10 +515,11 @@ class FeatureContext extends DrupalContext {
         $element->selectFieldOption('Project type', $type);
       }
     }
+
     $element->selectFieldOption('Development status', 'Under active development'); //Under active development
     $element->fillField('Short name', strtolower($this->projectTitle));
-    if ($element->findField("Projects")) {
-      $element->selectFieldOption('Projects', "Administration");
+    if ($element->findField("Module categories")) {
+      $element->selectFieldOption('Module categories', "Administration");
     }
     if (isset($options["Taxonomy upgrade extras"])) {
       $element->fillField('Taxonomy upgrade extras', $options["Taxonomy upgrade extras"]);
@@ -5130,9 +5131,9 @@ class FeatureContext extends DrupalContext {
     }
     $code = $element->getText();
     // If sandbox repo is already initiated
-    // Eg: git clone --recursive --branch master ssh://gitvetteduser@git6.devdrupal.org:2020/sandbox/gitvetteduser/1788043.git
+    // Eg: git clone --branch master ssh://gitvetteduser@git6.devdrupal.org:2020/sandbox/gitvetteduser/1788043.git
     $end_point = '';
-    if (preg_match('#git clone --recursive --branch (.+)\.git#', $code, $matches)) {
+    if (preg_match('#git clone --branch (.+)\.git#', $code, $matches)) {
       $arr_ep = explode(" ", $matches[1]);
       $end_point = end($arr_ep) . ".git";
     }
