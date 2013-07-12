@@ -71,7 +71,6 @@ Feature: Overall Filter Search for issues
   Scenario: Search the issues with tags
     When I select "Is all of" from field "Issue tags"
     And I fill in "sprint 2, sprint 1" for "Issue tags"
-    And I fill in "Assigned" with "mirzu"
     And I press "Search" in the "content" region
     Then I should see at least "1" record
 
