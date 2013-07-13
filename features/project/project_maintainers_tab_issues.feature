@@ -35,7 +35,7 @@ Feature: 'Maintain issues' permission check
     And I am on the project page
     And I follow "open"
     And I follow an issue of the project
-    Then I should see "git vetted user" in the dropdown "Assigned:"
+    Then I should see "git vetted user" in the "Assigned" field
 
   @dependent
   Scenario: Unassign Maintain issues permission from a maintainer

@@ -6,6 +6,7 @@ default:
   context:
     parameters:
       default_browser: 'goutte'
+      ansi: ~
   extensions:
     Behat\MinkExtension\Extension:
       goutte: ~

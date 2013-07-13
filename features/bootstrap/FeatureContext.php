@@ -1109,6 +1109,32 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * @Then /^I should see "([^"]*)" in the "([^"]*)" field$/
+   */
+  public function iShouldSeeInTheField($value, $field) {
+    $element = $this->getSession()->getPage();
+    $metadata = $element->find('css','#block-project-issue-issue-metadata');
+    if(empty($metadata)) {
+      throw new Exception ("The issue metadata block is not present on " . $this->getSession()->getCurrentUrl()); 
+    }
+    $rows = $element->findAll('css','.field-label-inline');
+    if(empty($rows)) {
+      throw new Exception ("No rows present in the issue metadata block on "  . $this->getSession()->getCurrentUrl());
+    }
+    foreach ($rows as $row) {
+      $label_row = $row->find('css','.field-label')->getText();
+      if(strpos($label_row, $field) !== FALSE) {
+        $item_row = $row->find('css','.field-item')->getText();
+        if(strpos($item_row, $value) !== FALSE) {
+          return; //We found what we need, exit.
+        }
+        throw new Exception ("Value ". $value ." was not found near label ". $field);
+      }
+    }
+    throw new Exception ("Label ". $field ." was not found");
+  }
+
+  /**
    * Function to get the array of records from the current view listing
    * @param $page Object The page object to look into
    * @return $result Array An array of items
