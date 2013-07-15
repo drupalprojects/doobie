@@ -1149,7 +1149,8 @@ class FeatureContext extends DrupalContext {
       'sitewide search' => 'ol.search-results dt',
       'emails table' => '#multiple-email-manage table tbody tr',
       'profiles' => '#profile div.profile',
-      'search result' => 'li.search-result'
+      'search result' => 'li.search-result',
+      'marketplace' => '.view .view-content .node-organization'
     );
     foreach ($classes as $type => $class) {
       $result = $page->findAll('css', $class);
@@ -1635,7 +1636,10 @@ class FeatureContext extends DrupalContext {
     $expanded = 0;
     $category_found = 0;
     $page = $this->getSession()->getPage();
-    $grids = $page->findAll('css', 'div.grid-2');
+    $grids = $page->findAll('css', '.nav-column');
+    if (empty($grids)) {
+      throw new Exception ('The CSS selector for the category was not found on ' . $this->getSession()->getCurrentUrl());
+    }
     if (!empty($grids)) {
       foreach ( $grids as $grid) {
         // check main category
@@ -5659,7 +5663,7 @@ class FeatureContext extends DrupalContext {
    * @When /^I follow (?:Featured providers|All providers|Organization) title post$/
    */
   public function iFollowFeaturedProvidersTitlePost() {
-    $result = $this->getSession()->getPage()->find('css', '.view-content .node-type-organization .node-title a');
+    $result = $this->getSession()->getPage()->find('css', '.view-content .node-organization a');
     if(empty($result)) {
       throw new Exception("Title post is not found on the page");
     }
@@ -6889,7 +6893,7 @@ class FeatureContext extends DrupalContext {
   */
   private function getSectionParentDiv($section) {
     // List possible headings, here we are looking for section headings
-    $headings = array("h1", "h2", "h2", "h4", "h5", "h6");
+    $headings = array("h1", "h2", "h2", "h4", "h5", "h6","dt");
     $hTag = "";
     foreach ($headings as $heading) {
       $hTag = $this->getSession()->getPage()->find("xpath", '//div[@id="content-inner"]//' . $heading . '[text()="' . $section . '"]');

@@ -14,9 +14,12 @@ Feature: Find Drupal service provider in the Marketplace
     | Services         |
     | Sectors          |
     | Locations        |
-    And I should see assorted links under "Services"
-    And I should see assorted links under "Sectors"
-    And I should see assorted links under "Locations"
+    And I should see the following <links>
+    | links              |
+    | Development        |
+    | Beauty and Fashion |
+    | Latvia             |
+   
 
   Scenario: Service categories under an organization
     Given I am on "/marketplace"
