@@ -51,4 +51,4 @@ Feature: 'Maintain issues' permission check
     And I am on the project page
     And I follow "open"
     And I follow an issue of the project
-    Then I should not see "git vetted user" in the dropdown "Assigned:"
+    Then I should not see "git vetted user" in "Assigned" field
