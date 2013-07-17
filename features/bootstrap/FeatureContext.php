@@ -300,10 +300,17 @@ class FeatureContext extends DrupalContext {
     }
     $tempArr = explode(" ", $this->repo);
     foreach ($tempArr as $key => $value) {
+      if (strpos($tempArr[$key], '--branch') !== FALSE) {
+        // The branch name always follows --branch.
+        $branch = trim($tempArr[$key+1]);
+      }
       if (strpos($tempArr[$key], ".git") !== FALSE) {
         $url = trim($tempArr[$key]);
         break;
       }
+    }
+    if (!$branch || trim($branch) == "" ) {
+      throw new Exception("Could not find the branch to use with the repository.");
     }
     if (!$url || trim($url) == "" ) {
       throw new Exception("Could not find the url to the repository. Initialize the repository before cloning");
@@ -320,7 +327,7 @@ class FeatureContext extends DrupalContext {
     if(empty($project)) {
       throw new Exception("No project found to push");
     }
-    $command = "./bin/gitwrapper clone $password $url $project";
+    $command = "./bin/gitwrapper clone $password $url $project $branch";
     $process = new Process($command);
     $process->setTimeout(3600);
     $process->run();
@@ -4112,58 +4119,6 @@ class FeatureContext extends DrupalContext {
       $project_shortname = strtolower($project_shortname);
     }
     return new Then('I should have a local copy of "' . $project_shortname . '"');
-  }
-
-  /**
-   * @Then /^I clone the sandbox repo$/
-   */
-  public function iCloneTheSandboxRepo() {
-    // Check for the `expect` library.
-    $this->checkExpectLibraryStatus();
-    $gitwrapper = './bin/gitwrapper';
-    $dir = HackyDataRegistry::get('project_short_name');
-    // Find logged in username
-    $loggedin_user = $this->whoami();
-    if ($loggedin_user && $loggedin_user != 'User account') {
-      // Remove spaces if any
-      $loggedin_user = str_replace(" ", "", $loggedin_user);
-      $password = $this->fetchPassword('git', $loggedin_user);
-    }else {
-      $loggedin_user = "";
-      $password = "\"\"";
-    }
-    $endpoint = HackyDataRegistry::get('sandbox git endpoint');
-    if (empty($endpoint)) {
-      throw new Exception('Sandbox git end point is empty');
-    }
-    if (!$loggedin_user) {
-      $url = '';
-      $components = parse_url($endpoint);
-      $components['scheme'] = 'http';
-      if (isset($components['host'])) {
-        $url .= $components['host'];
-      }
-      if (isset($components['port'])) {
-        $url .= ':' . $components['port'];
-      }
-      if (isset($components['path'])) {
-        // Remove username from path
-        // if host is drupal.org. $components['path'] will have username too
-        $components['path'] = preg_replace(array("/(.+)@/", "/:sandbox/"), array("", "/sandbox"), $components['path']);
-        $url .= $components['path'];
-      }
-      $endpoint = $components['scheme'] . '://' . $url;
-    }
-    // Generate the git clone command
-    $command = $gitwrapper . ' ' . $password . ' ' . $endpoint . ' ' . $dir;
-    // Initialize the process
-    $process = new Process($command);
-    $process->setTimeout(3600);
-    $process->run();
-    $this->process_output = $process->getOutput();
-    // Remove the directory if it exists
-    $process = new Process('rm -rf ' . $dir);
-    $process->run();
   }
 
   /**
