@@ -36,7 +36,6 @@ Feature: 'Maintain issues' permission check
     And I follow "open"
     And I follow an issue of the project
     And I click "Edit"
-Then show last response
     And I select "git vetted user" from "Assigned"
     And I press "Save"
     Then I should see "git vetted user" in the "Assigned" field

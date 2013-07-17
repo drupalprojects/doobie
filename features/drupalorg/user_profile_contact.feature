@@ -15,7 +15,7 @@ Feature: User contact form
   @anon
   Scenario: Anonymous user doesn't have access to contact form
     Given I am not logged in
-    When I visit "/search/user_search"
+    When I visit "/search/user"
     And I fill in "Enter your keywords" with "site user"
     And I press "Search" in the "content" region
     And I see "Search results"
@@ -24,7 +24,7 @@ Feature: User contact form
 
   Scenario: Git user accesses site user's contact form and sends message
     Given I am logged in as "git user"
-    When I visit "/search/user_search"
+    When I visit "/search/user"
     And I fill in "Enter your keywords" with "site user"
     And I press "Search" in the "content" region
     And I see "Search results"
@@ -61,7 +61,7 @@ Feature: User contact form
 
   Scenario: Git user doesn't have access to site user's contact form
     Given I am logged in as "git user"
-    When I visit "/search/user_search"
+    When I visit "/search/user"
     And I fill in "Enter your keywords" with "site user"
     And I press "Search" in the "content" region
     And I see "Search results"
