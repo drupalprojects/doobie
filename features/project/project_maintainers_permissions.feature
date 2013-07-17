@@ -4,7 +4,6 @@ Feature: To check maintainers permissions
   As a project owner
   I should make sure that proper permissions have been assigned to the maintainers
 
-  @wip
   Scenario: Follow Maintainers page and view maintainer's permissions
     Given I am logged in as "admin test"
     And I am at "/node/1765126/maintainers"
