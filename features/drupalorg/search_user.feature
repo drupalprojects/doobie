@@ -18,7 +18,7 @@ Feature: Visitor searches content and gets results from multiple sites
     Then I should see at least "10" records
 
   Scenario: Search using the direct url
-    Given I am on "/search/user_search"
+    Given I am on "/search/user"
     When I enter "ksbalaji" for field "Enter your keywords"
     And I press "Search" in the "content" region
     Then I should see at least "1" record
