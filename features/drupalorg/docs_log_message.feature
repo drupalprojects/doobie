@@ -1,4 +1,4 @@
-@docs @wip
+@docs @javascript
 Feature: Log message required for documentation edits
   In order to promote communication and collaboration in the community
   As a site user
@@ -6,11 +6,11 @@ Feature: Log message required for documentation edits
 
   Background:
     Given I am logged in as "site user"
-    And I follow "Documentation"
-    And I follow "Installation Guide"
-    And I follow "Before you begin"
 
   Scenario: Edit a documentation: Leave blank
+    And I follow "Installation Guide" in the "footer" region
+    And I follow "System requirements"
+    And I follow "Web server"
     When I follow "Edit"
     And I press "Save"
     Then I should see "Revision log message field is required"
