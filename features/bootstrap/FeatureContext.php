@@ -6139,20 +6139,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Checks if the specified link was found on the specified region of the page or not
-   *
-   * @param $link
-   *   string The link to look for on the page
-   * @param $region
-   *   string The page region in which the link should be looked for
-   *
-   * @Given /^I should not see the link "([^"]*)" in the "([^"]*)" region$/
-   */
-  public function iShouldNotSeeTheLinkInTheRegion($link, $region) {
-    $this->iShouldSeeInArea('link', $link, $region, FALSE);
-  }
-
-  /**
    * Creates a forum and store subject, body and url
    *
    * @When /^I create(?:d|) a forum(?:| topic)$/
