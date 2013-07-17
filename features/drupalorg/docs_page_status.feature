@@ -1,4 +1,4 @@
-@docs @wip
+@docs
 Feature: Page status block on documentation pages
   In order to quickly communicate the status of a book page to site visitors
   As someone editing a page

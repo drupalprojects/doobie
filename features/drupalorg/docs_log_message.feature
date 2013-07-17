@@ -1,4 +1,4 @@
-@docs @javascript
+@docs @javascript @wip
 Feature: Log message required for documentation edits
   In order to promote communication and collaboration in the community
   As a site user
