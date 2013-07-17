@@ -11,6 +11,6 @@ Feature: Community Search Documentation
     And I wait until the page loads
     And I fill in "FAQ" for "Search Documentation"
     And I wait for the suggestion box to appear
-    And I follow "FAQ: Frequently Asked Questions"
+    And I click "FAQ: Frequently Asked Questions"
     Then I should see the heading "FAQ: Frequently Asked Questions"
     And I should be on "/documentation/modules/faq"
