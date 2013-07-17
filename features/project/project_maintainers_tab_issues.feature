@@ -35,6 +35,10 @@ Feature: 'Maintain issues' permission check
     And I am on the project page
     And I follow "open"
     And I follow an issue of the project
+    And I click "Edit"
+Then show last response
+    And I select "git vetted user" from "Assigned"
+    And I press "Save"
     Then I should see "git vetted user" in the "Assigned" field
 
   @dependent
@@ -51,4 +55,5 @@ Feature: 'Maintain issues' permission check
     And I am on the project page
     And I follow "open"
     And I follow an issue of the project
-    Then I should not see "git vetted user" in "Assigned" field
+    And I click "Edit"
+    Then the "Assigned" field should not contain "git vetted user"
