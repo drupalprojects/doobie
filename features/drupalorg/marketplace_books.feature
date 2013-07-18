@@ -1,4 +1,4 @@
-@marketplace @wip @anon
+@marketplace @anon
 Feature: Drupal Books
   In order to find book about Drupal suitable for me
   As any user
@@ -48,7 +48,7 @@ Feature: Drupal Books
 
   Scenario: View Book listing guidelines
     Given I am on "/books"
-    When I follow "Book listing guidelines"
+    When I follow "Book listing guide"
     Then I should see the heading "Books listing"
     And I should see the heading "Guidelines for book listings"
     And I should see the heading "How to create a book listing"
