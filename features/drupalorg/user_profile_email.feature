@@ -12,7 +12,6 @@ Feature: Manage user email addresses
     Then the "E-mail address" field should be "disabled"
     And I should see the following <texts>
     | texts               |
-    | Account information |
     | E-mail address      |
     | Location            |
     | Signature settings  |
