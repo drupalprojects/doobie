@@ -503,6 +503,7 @@ class FeatureContext extends DrupalContext {
       throw new PendingException('Only full project and sandbox projects can be created.');
     }
     $element = $this->getSession()->getPage();
+    print_r($element->find('css','Name'));
     if (!$element->hasField('Name')) {
       throw new Exception("The field Name was not found on the page");
     }
@@ -513,14 +514,15 @@ class FeatureContext extends DrupalContext {
     $field = $this->getSession()->getPage()->findField('Project type');
 		if ($type == 'full') {
       if (empty($field)) {
-        throw new Exception("The field Name was not found on the page");
+        throw new Exception("The option 'full' was not found on the page");
       }
 		  $element->selectFieldOption('Project type', $type);
 		}
     else if($type == 'sandbox') {
-      if (!empty($field)) {
+      if (empty($field)) {
+        throw new Exception("The option 'sandbox' was not found on the page");
+      } 
         $element->selectFieldOption('Project type', $type);
-      }
     }
 
     $element->selectFieldOption('Development status', 'Under active development'); //Under active development

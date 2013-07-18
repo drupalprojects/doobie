@@ -102,4 +102,18 @@ Feature: Create a project
     And I should see the random "Name" text
     And I should see the random "Short name" text
     And I should see the random "Description" text
-    
+
+  Scenario Outline: Create each project type
+    Given I am logged in as "git vetted user"
+    And I am at "<url>"
+    When I create a "full" project
+    Then I should see "has been created"    
+
+    Examples:
+    | url                            |
+    | /node/add/project-module       |
+    | /node/add/project-core         |
+    | /node/add/project-drupalorg    |
+    | /node/add/project-theme-engine |
+    | /node/add/project-distribution |
+    | /node/add/project-theme        |
