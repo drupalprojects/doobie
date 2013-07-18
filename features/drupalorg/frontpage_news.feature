@@ -12,9 +12,10 @@ Feature: Frontpage news section
     When I create a forum topic
     Then I should see "has been created"
 
-  @javascript @dependent
+  @javascript
   Scenario: Admin promotes the news post
-    Given I am logged in as "admin test"
+    Given there is a new "General discussion" forum topic
+    And I am logged in as "admin test"
     And I am on the forum topic page
     And I follow "Edit"
     And I wait until the page is loaded
@@ -24,18 +25,21 @@ Feature: Frontpage news section
     And I wait until the page is loaded
     Then I should see "has been updated"
 
-  @anon @dependent @flaky
+  @anon @wip @javascript @api
   Scenario: Frontpage News tab
-    Given I am on the homepage
+    Given there is a new promoted forum topic
+    And the cache has been cleared
+    And I am on the homepage
     And I wait until the page is loaded
     Then I should see the forum topic link
     And I should see the summary text
     And I should see at least "3" more news links
 
-  @anon @dependent @clean_data
+  @anon @wip @javascript @api
   Scenario: Frontpage News tab: More news
-    Given I am on the homepage
-    And I wait until the page is loaded
+    Given there is a new promoted forum topic
+    And the cache has been cleared
+    And I am on the homepage
     When I follow "More news"
     Then I should see the heading "Drupal News"
     And I should see the forum topic link

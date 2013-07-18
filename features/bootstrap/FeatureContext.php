@@ -6193,6 +6193,25 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * @Given /^there is a new promoted forum topic$/
+   */
+  public function thereIsANewPromotedForumTopic() {
+   return array (
+      new Given("there is a new \"General discussion\" forum topic"),
+      new Given("I am logged in as \"admin test\""),
+      new Given("I am on the forum topic page"),
+      new Given("I follow \"Edit\""),
+      new Given("I click \"Publishing options\""),
+      new Given("I check the box \"Promoted to front page\""),
+      new Given("I press \"Save\""),
+      new Given("I should see \"has been updated\""),
+      new Given("I am not logged in"),
+      // User should be logged out after data set up
+    );
+  }
+
+
+  /**
    * For use with various forum topics
    *
    * @Given /^I edit the "([^"]*)"$/
