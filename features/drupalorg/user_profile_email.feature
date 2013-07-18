@@ -10,17 +10,6 @@ Feature: Manage user email addresses
 
   Scenario: View page contents: Email address field not editable
     Then the "E-mail address" field should be "disabled"
-    And I should see the following <texts>
-    | texts               |
-    | E-mail address      |
-    | Location            |
-    | Signature settings  |
-    And I should see the following <links>
-    | links            |
-    | Account          |
-    | Git access       |
-    | Drupal           |
-    | E-mail addresses |
 
   Scenario: Has at least one email address
     When I follow "E-mail addresses"
