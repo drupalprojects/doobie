@@ -1,4 +1,4 @@
-@project @sandbox @wip
+@project @sandbox
 Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
   In order to ensure that unsuspecting users don't access sandbox code
   As a vetted user
@@ -6,7 +6,7 @@ Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
 
   Scenario: Create a sample sandbox project
     Given I am logged in as "git vetted user"
-    And I visit "/node/add/project-core"
+    And I visit "/node/add/project-theme"
     When I create a "sandbox" project
     And I see "has been created"
     And I follow "Logged in as git vetted user"
