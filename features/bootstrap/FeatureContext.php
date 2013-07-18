@@ -6173,6 +6173,7 @@ class FeatureContext extends DrupalContext {
     return ($context->getSession()->getPage()->hasContent('has been created'));
     },5);
     $this->dataRegistry->set('forum url', $this->getSession()->getCurrentUrl());
+    HackyDataRegistry::set('forum url', $this->getSession()->getCurrentUrl());
   }
 
   /**
@@ -7487,5 +7488,4 @@ class FeatureContext extends DrupalContext {
     }
   }
 }
-
 

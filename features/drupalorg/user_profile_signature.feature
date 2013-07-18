@@ -29,6 +29,7 @@ Feature: Display additional information on my comments
     Then I should see the random "Subject" text
     And I should see the random "Comment" text
     And I should see the random "Signature" text
+ Then show last response
 
   @dependent @anon
   Scenario: View signature in reply anonymously
@@ -55,11 +56,12 @@ Feature: Display additional information on my comments
     And I should see the random "Comment" text
     And I should not see the random "Signature" text
 
-  @dependent @anon @clean_data
+  @dependent @anon @clean_data @api
   Scenario: signature doesn't appear in reply any more for anonymous user
     Given I am not logged in
     And I am on the forum topic page
     Then I should see the random "Subject" text
     And I should see the random "Comment" text
     And I should not see the random "Signature" text
+
     
