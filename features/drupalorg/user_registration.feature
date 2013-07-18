@@ -1,4 +1,5 @@
-@user @anon 
+# https://drupal.org/node/2045095
+@user @anon @wip 
 Feature: Register an account on Drupal.org with valid username and email
   In order to start using additional features of the site
   As any user
