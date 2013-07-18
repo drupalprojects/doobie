@@ -18,7 +18,6 @@ Feature: User contact form
     When I visit "/search/user"
     And I fill in "Enter your keywords" with "site user"
     And I press "Search" in the "content" region
-    And I see "Search results"
     And I follow "site user"
     Then I should not see the link "Contact" in the "content" region
 
@@ -27,7 +26,6 @@ Feature: User contact form
     When I visit "/search/user"
     And I fill in "Enter your keywords" with "site user"
     And I press "Search" in the "content" region
-    And I see "Search results"
     And I follow "site user"
     And I follow "Contact"
     And I see the heading "Contact site user"
@@ -64,6 +62,5 @@ Feature: User contact form
     When I visit "/search/user"
     And I fill in "Enter your keywords" with "site user"
     And I press "Search" in the "content" region
-    And I see "Search results"
     And I follow "site user"
     Then I should not see the link "Contact" in the "content" region
