@@ -25,7 +25,7 @@ Feature: View the list of Packaging whitelist entries
     Given I am on "/packaging-whitelist"
     When I follow "ARC2"
     Then I should see the heading "ARC2"
-    And I should see "Submitted by"
+    And I should see "Posted by"
     And I should not see "Page not found"
 
   Scenario: View list of itmes: Second/Last page
@@ -36,8 +36,8 @@ Feature: View the list of Packaging whitelist entries
     And I should see the heading "Packaging whitelist URLs"
     And I should see the link "first"
     And I should see the link "previous"
-    And I should not see the link "next"
-    And I should not see the link "last"
+    And I should see the link "next"
+    And I should see the link "last"
 
   Scenario: Search the list
     Given I am on "/packaging-whitelist"
