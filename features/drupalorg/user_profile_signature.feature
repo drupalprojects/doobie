@@ -29,7 +29,6 @@ Feature: Display additional information on my comments
     Then I should see the random "Subject" text
     And I should see the random "Comment" text
     And I should see the random "Signature" text
- Then show last response
 
   @dependent @anon
   Scenario: View signature in reply anonymously
