@@ -1,4 +1,4 @@
-@docs @slow @javascript
+@docs @slow
 Feature: Documentation Management
   In order to manage Drupal.org Documentation
   As an authenticated user
