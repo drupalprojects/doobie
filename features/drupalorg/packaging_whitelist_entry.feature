@@ -6,7 +6,7 @@ Feature: Create new packaging whitelist entry
 
   Scenario: Create packaging whitelist entry: Authenticated user
     Given I am logged in as "site user"
-    When I visit "/node/add/packaging-whitelist"
+    And I am on "/node/add/packaging-whitelist"
     Then I should see the heading "Access denied"
     But I should not see "Create Packaging whitelist entry"
 
