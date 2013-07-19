@@ -7182,19 +7182,19 @@ class FeatureContext extends DrupalContext {
     sleep(5);
     $element = $this->getSession()->getPage();
     $recordTitle = $this->randomString(12);
-		$element->fillField("Title:", $recordTitle);
+		$element->fillField("Title", $recordTitle);
     HackyDataRegistry::set('random:Title', $recordTitle);
     $project_code = 'Drupal core';
-    $element->fillField("Project:", $project_code);
+    $element->fillField("Project", $project_code);
     HackyDataRegistry::set('random:Project', $project_code);
     $branch = $this->randomString(5);
-    $element->fillField("Introduced in branch:", $branch);
+    $element->fillField("Introduced in branch", $branch);
     HackyDataRegistry::set('random:Introduced in branch', $branch);
     $version = $this->randomString(5);
-    $element->fillField("Introduced in version:", $version);
+    $element->fillField("Introduced in version", $version);
     HackyDataRegistry::set('random:Introduced in version', $version);
     $description = str_repeat($this->randomString(10) . " ", 20);
-    $element->fillField("Description:", $description);
+    $element->fillField("Description", $description);
     HackyDataRegistry::set('random:Description', $description);
     $element->checkField('Site builders, administrators, editors');
     $element->checkField('Module developers');
@@ -7212,10 +7212,10 @@ class FeatureContext extends DrupalContext {
     $element->checkField('Coder upgrade done');
     $element->checkField('Other updates done');
     $details = str_repeat($this->randomString(10) . " ", 20);
-    $element->fillField("Details:", $details);
+    $element->fillField("Details", $details);
     HackyDataRegistry::set('random:Details', $details);
     $progress = str_repeat($this->randomString(10) . " ", 20);
-    $element->fillField("Progress:", $progress);
+    $element->fillField("Progress", $progress);
     HackyDataRegistry::set('random:Progress', $progress);
     $attachLink = $element->findLink('File attachments');
     if (empty($attachLink)) {
