@@ -1023,7 +1023,7 @@ class FeatureContext extends DrupalContext {
     // Use Goutte driver to get content to get the complete xml data and store it
     // temporarily in a variable for use by function iShouldSeeTheTextInTheFeed()
     $this->xmlContent = $this->getSession()->getDriver()->getClient()->getResponse()->getContent();
-    if (strpos(array_pop($responseHeaders['Content-Type']), "application/rss+xml") === FALSE) {
+    if (strpos(array_pop($responseHeaders['content-type']), "application/rss+xml") === FALSE) {
       if (strpos($this->xmlContent, "<?xml version=") === FALSE && strpos($this->xmlContent, "<rss version=") === FALSE) {
         throw new Exception("This page '" . $this->getSession()->getCurrentUrl() . "' does not provide xml data");
       }
@@ -6810,7 +6810,11 @@ class FeatureContext extends DrupalContext {
     HackyDataRegistry::set('random:Revision log message', trim($text));
     // If javascript is used, then we have to click Revision information link and then fill field
     if ($this->getSession()->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
-      $page->findLink('Revision information')->click();
+      $revlink = $page->findLink('Revision information');
+      if (empty($revlink)) {
+        throw new Exception("Revision information link not found");
+      }
+      $revlink->click();
       $page->fillField("Revision log message", $text);
       return;
     }
