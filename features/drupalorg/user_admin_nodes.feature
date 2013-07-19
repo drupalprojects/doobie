@@ -1,4 +1,4 @@
-@user @admin @wip
+@user @admin
 Feature: Administrative view of nodes by a user
   In order to effectively fight spam
   As a site maintainer
@@ -118,7 +118,7 @@ Feature: Administrative view of nodes by a user
     When I check "2" checkboxes to "unpublish"
     And I select "Unpublish content" from field "- Choose an operation -"
     And I press "Execute"
-    And I wait until the page to loads
+    And I wait until the page is loaded
     And I follow "Cancel"
     Then I should not see "Performed"
 
@@ -141,7 +141,7 @@ Feature: Administrative view of nodes by a user
     When I check "2" checkboxes to "delete"
     When I select "Delete item" from field "- Choose an operation -"
     And I press "Execute"
-    And I wait for the page to load
+    And I wait until the page is loaded
     And I follow "Cancel"
     Then I should not see "Performed"
 
