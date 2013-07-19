@@ -1456,11 +1456,15 @@ class FeatureContext extends DrupalContext {
           $href = $res->getAttribute("href");
           // Get parent row $res = <a>, $res->getParent() = <td>
           // $res->getParent()->getParent() = <tr>.
-          $parent = $res->getParent()->getParent();
+          $parent = ($res->getParent()->getParent()->getParent());
+          //$parent = $res->getParent()->getParent();
           // From parent row get the file hash column and its contents.
-          $md5Hash = $parent->find('css', '.views-field-filehash')->getText();
+          $md5Hash = $parent->find('css', '.views-field-field-release-file-hash');
+          if(empty($md5Hash)) {
+            throw new Exception('The CSS selector was not found');
+          }
           // Set the temporary variable for use in "the md5 hash should match".
-          $this->md5Hash = $md5Hash;
+          $this->md5Hash = $md5Hash->getText();
           break;
         }
       }
@@ -1468,22 +1472,22 @@ class FeatureContext extends DrupalContext {
         $this->getSession()->visit($href);
         // Will work only on Goutte. Selenium does not support responseHeaders.
         $responseHeaders = $this->getSession()->getResponseHeaders();
-        if ((int) $responseHeaders['Content-Length'][0] > 10000) {
-          // If "tar" is requested, then chk corresponding content type.
-          if ($type == "tar") {
-            if ($responseHeaders['Content-Type'] != "application/x-gzip") {
+        if ((int) $responseHeaders['content-length'][0] > 10000) {
+          // If "gz" is requested, then check corresponding content type.
+          if ($type == "gz") {
+            if (strpos(array_pop($responseHeaders['content-type']), "application/x-gzip") === FALSE) {
               throw new Exception("The file '" . $filename. "' was not downloaded");
             }
           }
-          // If "zip" is requested, then chk corresponding content type.
+          // If "zip" is requested, then check corresponding content type.
           elseif ($type == "zip") {
-            if ($responseHeaders['Content-Type'] != "application/zip") {
+            if (strpos(array_pop($responseHeaders['content-type']), "application/zip") === FALSE) {
               throw new Exception("The file '" . $filename. "' was not downloaded");
             }
           }
-          // If any thing other than tar or zip is requested, throw error.
+          // If any thing other than gz or zip is requested, throw error.
           else {
-            throw new Exception("Only 'tar' and 'zip' files can be downloaded");
+            throw new Exception("Only 'gz' and 'zip' files can be downloaded");
           }
         }
         else {
@@ -4014,9 +4018,9 @@ class FeatureContext extends DrupalContext {
           throw new Exception($noDownloadMsg);
         }
       }
-      // If any thing other than tar or zip is requested, throw error
+      // If any thing other than gz or zip is requested, throw error
       else {
-        throw new Exception("Only 'tar' and 'zip' files can be downloaded");
+        throw new Exception("Only 'gz' and 'zip' files can be downloaded");
       }
     }
     else {
