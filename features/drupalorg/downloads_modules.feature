@@ -7,12 +7,12 @@ Feature: Find modules to extend Drupal
   @slow @timeout
   Scenario: View most installed modules
     Given I am on the homepage
-    When I follow "Download and Extend"
+    When I follow "Download & Extend"
     Then I should see at least "4" most installed modules
 
   Scenario: View links under new modules and module index
     Given I am on the homepage
-    When I follow "Download and Extend"
+    When I follow "Download & Extend"
     Then I should see the following <links> under "Most installed"
     | links    |
     | Views    |
@@ -26,12 +26,13 @@ Feature: Find modules to extend Drupal
     When I follow "More Most installed"
     Then I should see "Modules match your search"
     And I should see "Modules categories"
-    And I should see "Search Modules:"
+    And I should see "Search Modules"
     And I should see the text "Extend and customize Drupal functionality with contributed modules."
 
   Scenario: View module categories
     Given I am on the homepage
     When I follow "Download and Extend Drupal"
+    And I wait until the page loads
     Then I should see the following <links> under "Module Categories"
     | links          |
     | Administration |
@@ -42,7 +43,7 @@ Feature: Find modules to extend Drupal
   Scenario: View all module categories
     Given I am on "/download"
     When I follow "All Categories"
-    Then I should see the heading "Modules categories"
+    Then I should see the heading "Module categories"
     And I should see "Filter by compatibility"
     And I should see the heading "Administration"
     And I should see the heading "User Management"

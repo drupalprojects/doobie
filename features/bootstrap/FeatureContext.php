@@ -5598,7 +5598,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastMostInstalledModules($count) {
     // Get the links from the most installed block
-    $links = $this->getSession()->getPage()->findAll("css", "#block-drupalorg_order_facet-sort_most_installed ul li a");
+    $links = $this->getSession()->getPage()->findAll("css", ".most-installed a");
     if (empty($links)) {
       throw new Exception("The most installed block did not contain any links");
     }
