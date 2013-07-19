@@ -1,4 +1,4 @@
-@docs @wip
+@docs
 Feature: About this page block on documentation pages
   In order to make sure that the documentation contents are displayed correctly
   As a document manager
