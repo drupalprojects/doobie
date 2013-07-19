@@ -503,7 +503,6 @@ class FeatureContext extends DrupalContext {
       throw new PendingException('Only full project and sandbox projects can be created.');
     }
     $element = $this->getSession()->getPage();
-    print_r($element->find('css','Name'));
     if (!$element->hasField('Name')) {
       throw new Exception("The field Name was not found on the page");
     }
@@ -587,7 +586,6 @@ class FeatureContext extends DrupalContext {
     }
     // Get the path of the current project
     HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
-  print_r($this->getSession()->getCurrentUrl());
     if (!HackyDataRegistry::get('sandbox_url')) {
       $this->projectTitle = $element->getText();
       // If clone is called after visiting url instead of creating project
