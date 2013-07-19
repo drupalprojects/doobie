@@ -587,11 +587,13 @@ class FeatureContext extends DrupalContext {
     }
     // Get the path of the current project
     HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
+  print_r($this->getSession()->getCurrentUrl());
     if (!HackyDataRegistry::get('sandbox_url')) {
       $this->projectTitle = $element->getText();
       // If clone is called after visiting url instead of creating project
       HackyDataRegistry::set('project_short_name', basename($this->getSession()->getCurrentUrl()));
       HackyDataRegistry::set('project title', $this->projectTitle);
+
     }
     // Get link to Maintainers tab
     $maintainersTabLink = $page->findLink('Maintainers');

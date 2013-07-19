@@ -64,7 +64,7 @@ Feature: Create a project
     | Development status  |
 
   # See Issue 2035755 re: use of labels
-  @clean_data
+  @clean_data @javascript
   Scenario: Create a sandbox project
     Given I am logged in as "git vetted user"
     And I am on "/node/add/project-module"
@@ -73,7 +73,7 @@ Feature: Create a project
     And I fill in "Description" with random text
     And I select the following <fields> with <values>
     | fields              | values                    |
-    | Module categories  | Event                      |
+    | Module categories   | Event                      |
     | Maintenance status  | Actively maintained       |
     | Development status  | Under active development  |
     And I upload the following <files> for "Images"
@@ -100,7 +100,6 @@ Feature: Create a project
     Then I should not see "Sandbox projects may not have releases."
     Then I should see the project was created
     And I should see the random "Name" text
-    And I should see the random "Short name" text
     And I should see the random "Description" text
 
   Scenario Outline: Create each project type

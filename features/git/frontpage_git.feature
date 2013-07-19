@@ -49,6 +49,5 @@ Feature: See git activity on the front page
   @anon
   Scenario: Commit tab: Follow a commit
     When I follow a commit from the list
-    Then I should see "Author date:"
     And I should see "Commit"
     And I should see "on master"
