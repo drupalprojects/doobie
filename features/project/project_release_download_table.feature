@@ -1,4 +1,4 @@
-@releases @anon @wip
+@releases @anon
 Feature: To view and download a release package from the download table
   In order to view/download the release package
   As a user
