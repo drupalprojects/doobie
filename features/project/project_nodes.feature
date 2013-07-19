@@ -47,7 +47,6 @@ Feature: To view the project details
     Given I am on "/project/drupal/git-instructions"
     When I select "7.x" from "Version to work from"
     And I press "Show"
-    Then I should see the heading "Download & Extend"
     And I should see the following <texts>
     | texts                           |
     | 7.x                             |
@@ -120,9 +119,9 @@ Feature: To view the project details
     | Download                  |
     | Size                      |
     | md5 hash                  |
-    | Official release from tag |
     | Release notes             |
     | Known issues              |
+    | Official release from tag |
 
   Scenario: Issue queue can be read
     Given I am on "/project/drupal"
