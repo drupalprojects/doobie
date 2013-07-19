@@ -4001,16 +4001,16 @@ class FeatureContext extends DrupalContext {
 
     // Will work only on Goutte. Selenium does not support responseHeaders
     $responseHeaders = $this->getSession()->getResponseHeaders();
-    if ((int) $responseHeaders['Content-Length'][0] > 10000) {
-      // If "tar" is requested, then check corresponding content type
-      if ($format == "tar") {
-        if ($responseHeaders['Content-Type'] != "application/x-gzip") {
+    if ((int) $responseHeaders['content-length'][0] > 10000) {
+      // If "gz" is requested, then check corresponding content type
+      if ($format == "gz") {
+        if (strpos(array_pop($responseHeaders['content-type']), "application/x-gzip") === FALSE) {
           throw new Exception($noDownloadMsg);
         }
       }
       // If "zip" is requested, then check corresponding content type
       elseif ($format == "zip") {
-        if ($responseHeaders['Content-Type'] != "application/zip") {
+        if (strpos(array_pop($responseHeaders['content-type']),"application/zip") === FALSE) {
           throw new Exception($noDownloadMsg);
         }
       }

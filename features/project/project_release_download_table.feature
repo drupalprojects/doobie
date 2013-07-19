@@ -34,7 +34,7 @@ Feature: To view and download a release package from the download table
     Then I should see "drupal 7."
     And I should see the following <texts>
     | texts                         |
-    | Submitted by                  |
+    | Posted by                     |
     | Download                      |
     | Size                          |
     | md5 hash                      |
@@ -46,20 +46,21 @@ Feature: To view and download a release package from the download table
     Then I should see "Drupal 6.x-dev"
     And I should see the following <texts>
     | texts                                 |
-    | Submitted by                          |
+    | Posted by                             |
     | development snapshot from branch:     |
     | Download                              |
     | Size                                  |
     | md5 hash                              |
     | Release notes                         |
 
+  @content
   Scenario: See the notes of a release: Recommended
     Given I am on "/project/drupal"
-    When I follow "Notes" for version "6.26"
-    Then I should see "drupal 6.26"
+    When I follow "Notes" for version "6.28"
+    Then I should see "drupal 6.28"
     And I should see the following <texts>
     | texts                           |
-    | Submitted by                    |
+    | Posted by                       |
     | Download                        |
     | Size                            |
     | md5 hash                        |
@@ -71,26 +72,24 @@ Feature: To view and download a release package from the download table
     Then I should see "Drupal 7.x"
     And I should see the following <texts>
     | texts                                                             |
-    | Submitted by                                                      |
+    | Posted by                                                         |
     | development snapshot from branch:                                 |
     | Download                                                          |
     | Size                                                              |
     | md5 hash                                                          |
     | This is not stable, and production sites should not run this code |
 
-  @wip
+  @content
   Scenario: Download a release: Recommended - zip
     Given I am on "/project/drupal"
-    When I download the "zip" file for version "6.26"
-    Then the downloaded file name should be "drupal-6.26.zip"
+    When I download the "zip" file for version "6.28"
+    Then the downloaded file name should be "drupal-6.28.zip"
 
-  @wip
   Scenario: Download a release: Recommended - tar
     Given I am on "/project/drupal"
     When I download the "gz" file for version "6.x-dev"
     Then the downloaded file name should be "drupal-6.x-dev.tar.gz"
 
-  @wip
   Scenario: Download a release: Development - tar
     Given I am on "/project/drupal"
     When I download the "gz" file for version "7.x-dev"
