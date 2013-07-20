@@ -1134,16 +1134,17 @@ class FeatureContext extends DrupalContext {
     }
 
     // Get rows
-    $rows = $element->findAll('css','.field-label-inline');
+    $rows = $metadata->findAll('css','.field');
+
     if(empty($rows)) {
-      throw new Exception ("No rows present in the issue metadata block on "  . $this->getSession()->getCurrentUrl());
+      throw new Exception ("No rows present in the issue metadata block. Did the css selector change?");
     }
     foreach ($rows as $row) {
 
       // Get label
       $label_row = $row->find('css','.field-label');
       if (empty($label_row)) {
-        throw new Exception ('Label row not found. Did the css selector change?');
+        continue; // No label on this row. Skip it.
       }
       $label_row = $label_row->getText();
 
@@ -1160,6 +1161,7 @@ class FeatureContext extends DrupalContext {
         throw new Exception ("Value ". $value ." was not found near label ". $field);
       }
     }
+      
     throw new Exception ("Label ". $field ." was not found");
   }
 
