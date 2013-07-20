@@ -1122,20 +1122,28 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeInTheMetadata($value, $field) {
     $element = $this->getSession()->getPage();
+
+    // Get metadata block
     $metadata = $element->find('css','#block-project-issue-issue-metadata');
     if(empty($metadata)) {
       throw new Exception ("The issue metadata block is not present on " . $this->getSession()->getCurrentUrl()); 
     }
+
+    // Get rows
     $rows = $element->findAll('css','.field-label-inline');
     if(empty($rows)) {
       throw new Exception ("No rows present in the issue metadata block on "  . $this->getSession()->getCurrentUrl());
     }
     foreach ($rows as $row) {
+
+      // Get label
       $label_row = $row->find('css','.field-label');
       if (empty($label_row)) {
         throw new Exception ('Label row not found. Did the css selector change?');
       }
       $label_row = $label_row->getText();
+
+      // Get value
       if(strpos($label_row, $field) !== FALSE) {
         $item_row = $row->find('css','.field-item');
         if (empty($item_row)) {
