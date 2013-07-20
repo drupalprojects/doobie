@@ -1118,9 +1118,9 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should see "([^"]*)" in the "([^"]*)" field$/
+   * @Then /^I should see "([^"]*)" in the "([^"]*)" metadata$/
    */
-  public function iShouldSeeInTheField($value, $field) {
+  public function iShouldSeeInTheMetadata($value, $field) {
     $element = $this->getSession()->getPage();
     $metadata = $element->find('css','#block-project-issue-issue-metadata');
     if(empty($metadata)) {
@@ -1131,9 +1131,17 @@ class FeatureContext extends DrupalContext {
       throw new Exception ("No rows present in the issue metadata block on "  . $this->getSession()->getCurrentUrl());
     }
     foreach ($rows as $row) {
-      $label_row = $row->find('css','.field-label')->getText();
+      $label_row = $row->find('css','.field-label');
+      if (empty($label_row)) {
+        throw new Exception ('Label row not found. Did the css selector change?');
+      }
+      $label_row = $label_row->getText();
       if(strpos($label_row, $field) !== FALSE) {
-        $item_row = $row->find('css','.field-item')->getText();
+        $item_row = $row->find('css','.field-item');
+        if (empty($item_row)) {
+          throw new Exception ('Item row not found. Did the css selector change?');
+      }
+        $item_row = $item_row->getText();
         if(strpos($item_row, $value) !== FALSE) {
           return; //We found what we need, exit.
         }
@@ -1144,9 +1152,31 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Then /^I should not see "([^"]*)" in the "([^"]*)" field$/
+   * @Then /^I should see the "([^"]*)" issue status$/
    */
-  public function iShouldNoteSeeInTheField($value, $field) {
+  public function iShouldSeeTheIssueStatus($status) {
+  
+    $element = $this->getSession()->getPage();
+    $metadata = $element->find('css','#block-project-issue-issue-metadata');
+    if(empty($metadata)) {
+      throw new Exception ("The issue metadata block is not present on " . $this->getSession()->getCurrentUrl());
+    }
+   $status_row = $metadata->find('css', '.field-name-field-issue-status');
+    if(empty($status_row)) {
+      throw new Exception ("The issue status field is not present on " . $this->getSession()->getCurrentUrl());
+    }
+    $status_value = $status_row->getText();
+    if($status_value != $status) {
+      throw new Exception ("The issue status is not set to ". $status ." on " . $this->getSession()->getCurrentUrl());
+    }
+
+    
+
+}
+  /**
+   * @Then /^I should not see "([^"]*)" in the "([^"]*)" metadata$/
+   */
+  public function iShouldNoteSeeInTheMetadata($value, $field) {
     $element = $this->getSession()->getPage();
     $metadata = $element->find('css','#block-project-issue-issue-metadata');
     if(empty($metadata)) {
