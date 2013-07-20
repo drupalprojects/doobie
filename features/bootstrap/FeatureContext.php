@@ -710,16 +710,20 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheFollowingTexts(TableNode $table) {
     $page = $this->getSession()->getPage();
-    $failed_items = array();
+    $messages = array();
+    $failure_detected = FALSE;
     $table = $table->getHash();
     foreach ($table as $key => $value) {
       $text = $table[$key]['texts'];
       if($page->hasContent($text) === FALSE) {
-        $failed_items[] = "The text '" . $text . "' was not found";
+        $messages[] = "FAILED: The text '" . $text . "' was not found";
+        $failure_detected = TRUE;
+      } else {
+        $messages[] = "PASSED: '" . $text . "'";
       }
     }
-    if ($failed_items) {
-      throw new Exception(implode("\n",$failed_items));
+    if ($failure_detected) {
+      throw new Exception(implode("\n", $messages));
     }
   }
 
