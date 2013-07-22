@@ -111,8 +111,6 @@ Feature: Create a project
     Examples:
     | url                            |
     | /node/add/project-module       |
-    | /node/add/project-core         |
-    | /node/add/project-drupalorg    |
     | /node/add/project-theme-engine |
     | /node/add/project-distribution |
     | /node/add/project-theme        |
