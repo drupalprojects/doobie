@@ -5,7 +5,7 @@ Feature: Find modules
   I need to be able to find contributed modules
   
   Scenario: Search by name
-    Given I am on "/project/modules"
+    Given I am on "/project/project_module"
     When I fill in "Search Modules" with "Masquerade"
     And I press "Search" in the "content" region
     Then I should not see "No projects found in this category."
