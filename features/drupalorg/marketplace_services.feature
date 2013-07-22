@@ -15,7 +15,7 @@ Feature: Browse Drupal services section
     | Sectors                                               |
     | Locations                                             |
     | Featured providers section lists companies which have |
-    | Submitted by                                             |
+    | Posted by                                             |
     And I should see the link "Marketplace guidelines"
     And I should see the link "Show more"
     And I should not see the link "Add your listing"
@@ -55,7 +55,7 @@ Feature: Browse Drupal services section
     | Sectors                                             |
     | Locations                                           |
     | All providers section lists companies which provide |
-    | Submitted by                                           |
+    | Posted by                                           |
     And I should see the link "Marketplace guidelines"
     And I should see the link "Show more"
     And I should not see the link "Add your listing"
@@ -65,7 +65,7 @@ Feature: Browse Drupal services section
     When I follow "Featured providers"
     Then I should see the heading "Marketplace"
     And I should be on "/drupal-services/featured"
-    And I should see "Submitted by"
+    And I should see "Posted by"
     And I should see "Featured providers section lists companies which have"
     And I should see the heading "Services"
     And I should see the link "Show more"
@@ -78,7 +78,7 @@ Feature: Browse Drupal services section
 
   Examples:
   | link                                  | url                           | heading                               |
-  | Working with Drupal service providers | /node/995766                  | Working with Drupal service providers |
+  | Working with Drupal service providers | /node/51169                   | Working with Drupal service providers |
   | Paid services                         | /paid-services                | Paid Drupal services                  |
   | Hosting support                       | /hosting-support              | Hosting support                       |
   | Jobs                                  | http://groups.drupal.org/jobs | Drupal Jobs                           |
