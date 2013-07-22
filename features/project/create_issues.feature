@@ -12,6 +12,8 @@ Feature: Drupal Create Issues
     And I select "Achievements" from the suggestion "Project"
     And I press "Next"
     And I wait until the page loads
+    And I fill in "Title" with random text
+    And I fill in "Description" with random text
     And I select the following <fields> with <values>
     | fields    | values     |
     | Version   | 7.x-1.4    |
@@ -20,9 +22,7 @@ Feature: Drupal Create Issues
     | Priority  | Normal     |
     | Assigned  | site user  |
     | Status    | Needs work |
-    And I fill in "Title" with random text
-    And I fill in "Description" with random text
-    And I press "Save"
+   And I press "Save"
     Then I should see "has been created"
 
   Scenario: Create an issue from a specific project's issue page
