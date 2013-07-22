@@ -511,21 +511,17 @@ class FeatureContext extends DrupalContext {
     $element->fillField('Name', $this->projectTitle);
     $element->selectFieldOption('Maintenance status', 'Actively maintained'); //Actively maintained
     $field = $this->getSession()->getPage()->findField('Project type');
-		if ($type == 'full') {
-      if (empty($field)) {
-        throw new Exception("The option 'full' was not found on the page");
-      }
-		  $element->selectFieldOption('Project type', $type);
-		}
-    else if($type == 'sandbox') {
-      if (empty($field)) {
-        throw new Exception("The option 'sandbox' was not found on the page");
-      } 
+    if(($field)) {
+  		if ($type == 'full') {
+		    $element->selectFieldOption('Project type', $type);
+        $element->fillField('Short name', strtolower($this->projectTitle));
+		  }
+      else if($type == 'sandbox') {
         $element->selectFieldOption('Project type', $type);
+      }
     }
 
     $element->selectFieldOption('Development status', 'Under active development'); //Under active development
-    $element->fillField('Short name', strtolower($this->projectTitle));
     if ($element->findField("Module categories")) {
       $element->selectFieldOption('Module categories', "Administration");
     }
