@@ -7149,7 +7149,7 @@ class FeatureContext extends DrupalContext {
    * @When /^I follow training organization post$/
    */
   public function iFollowTrainingOrganizationPost() {
-    $result = $this->getSession()->getPage()->find('css', '.view-content .views-field-title a');
+    $result = $this->getSession()->getPage()->find('css', '.view-drupalorg-training .intro a');
     if(empty($result)) {
       throw new Exception("Title post is not found on the page");
     }
