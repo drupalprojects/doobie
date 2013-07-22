@@ -57,16 +57,14 @@ Feature: Find modules to extend Drupal
   Scenario: View full modules index
     Given I am on "/download"
     When I follow "View full index"
-    Then I should be on "/project/modules/index"
-    And I should see the heading "Modules index"
+    Then I should see the heading "Modules index"
     And I should see "Views"
     And I should see "Link"	
 
   Scenario: Visit Modules page
     Given I am on "/download"
     When I follow "Modules"
-    Then I should be on "/project/modules"
-    And I should see the following <tabs>
+    Then I should see the following <tabs>
     | tabs                   |
     | Download & Extend Home |
     | Drupal Core            |
