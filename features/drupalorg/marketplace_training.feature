@@ -68,6 +68,7 @@ Feature: Training section of the Marketplace
     Given I am on the homepage
     And I visit "/training"
     When I follow training organization post
+    Then show last response
     Then I should see "This organization is a Drupal training provider."
 
   @anon
