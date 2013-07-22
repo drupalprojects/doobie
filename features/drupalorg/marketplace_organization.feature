@@ -16,11 +16,13 @@ Feature: Adding company to the Marketplace
     #And I should see "URL field is required."
     #And I should see "Drupal contributions field is required."
 
+  @javascript
   Scenario: Add organization and request promotion to Services section
     Given I am logged in as "site user"
     And I am on "/node/add/organization"
     And I wait until the page is loaded
     When I create a new organization for "drupal services"
+Then show last response
     And I wait until the page is loaded
     Then I should see "has been created"
     And I should see the random "Organization name" text
@@ -33,7 +35,7 @@ Feature: Adding company to the Marketplace
     #And I should see the random "Organization description" text
     And I should see the random "Headquarters" text
     And I should see the random "Usual project budget (optional)" text
-    And I should see "Submitted by site user"
+    And I should see "Posted by site user"
 
   @dependent @flaky
   Scenario: View an issue request for services section
@@ -48,7 +50,7 @@ Feature: Adding company to the Marketplace
     | Review                   |
     | Marketplace listing      |
     | Drupal.org webmasters    |
-    | Submitted by site user   |
+    | Posted by site user      |
     And I should see the heading "Issue Summary"
     And I should see the heading "Comments"
     And I should see the heading "Post new comment"
@@ -71,7 +73,7 @@ Feature: Adding company to the Marketplace
     Given I am logged in as "git user"
     When I visit the organization page
     Then I should not see "Regarding Services listing communicate with webmasters"
-    And I should see "Submitted by site user"
+    And I should see "Posted by site user"
     And I should not see the following <links>
     | links      |
     | Edit       |
@@ -111,7 +113,7 @@ Feature: Adding company to the Marketplace
     Given I am logged in as "git user"
     When I visit the organization page
     Then I should not see "Regarding Training listing communicate with webmasters"
-    And I should see "Submitted by site user"
+    And I should see "Posted by site user"
     And I should not see the following <links>
     | links      |
     | Edit       |
