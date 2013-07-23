@@ -2679,7 +2679,7 @@ class FeatureContext extends DrupalContext {
     }
     // If not available from yml then take the first item from table.
     if ($flag == 0) {
-      $result = $page->find("css", "table tbody tr td a");
+      $result = $page->find("css", "table.views-table tbody tr td a");
       if (!empty($result)) {
         return $result;
       }
