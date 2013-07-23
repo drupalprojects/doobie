@@ -44,7 +44,7 @@ Feature: Company employees on organization pages
     And I follow "Documentation"
     And I follow "Glossary"
     When I follow "Edit"
-    And I fill in "Log message" with random text
+    And I fill in "Log message:" with random text
     And I press "Save"
     Then I should see "has been updated"
 
