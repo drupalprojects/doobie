@@ -8,7 +8,6 @@ Feature: Adding company to the Marketplace
     Given I am logged in as "site user"
     And I follow "Marketplace"
     And I follow "Add your listing"
-    And I see "Request improvements to vocabularies by"
     And I see "People with your organization name"
     And I see "Marketplace guidelines"
     When I press "Save"
@@ -60,8 +59,7 @@ Then show last response
     Given I am logged in as "site user"
     When I visit the organization page
     And I follow "Edit"
-    Then I should see "Request improvements to vocabularies"
-    And I should see "Organization name"
+    Then I should see "Organization name"
     And I should not see the following <texts>
     | texts            |
     | Services listing |
@@ -83,7 +81,6 @@ Then show last response
     Given I am logged in as "site user"
     And I visit "/training"
     And I follow "Add your listing"
-    And I see "Request improvements to vocabularies by"
     When I create a new organization for "training"
     Then I should see "has been created"
     And I should see the random "Organization name" text
