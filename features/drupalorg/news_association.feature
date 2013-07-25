@@ -1,4 +1,4 @@
-@news @anon @wip
+@news @anon
 Feature: Drupal Association News
   In order to stay up-to-date on what's happening in Drupal Association
   As any user
