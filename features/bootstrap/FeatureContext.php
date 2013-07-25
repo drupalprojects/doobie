@@ -7206,7 +7206,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastAds($count) {
     // Find wrapper div for ads: class=gam-holder
-    $div_ele = $this->getSession()->getPage()->findAll('css', 'div.gam-holder');
+    $div_ele = $this->getSession()->getPage()->findAll('css', 'div.hosting-item');
     if (empty($div_ele)) {
       throw new Exception("No WebAd was found");
     }
