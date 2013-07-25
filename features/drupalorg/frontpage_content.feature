@@ -14,13 +14,13 @@ Feature: Drupal.org frontpage
     And I should see the "link" "Drupal Distributions" in "top left content" area
     And I should see the "text" "Distributions are a collection of pre-configured themes and modules" in "top left content" area
 
-  @anon @known_git7failure @wip
+  @anon
   Scenario: View sites made with Drupal in top middle content area
     Then I should see the "link" "Sites Made with Drupal" in "top middle content" area
     And I should see the image of a drupal site in top middle content area
     And I should see the "text" "Drupal is used by some of the biggest sites on the Web, like" in "top middle content" area
 
-  @anon @known_git7failure @wip
+  @anon
   Scenario: View project and activity links, the count against each of them and advertisement in top right content area
     And I should see the following <links> in "top right content" area
     | links               |
@@ -40,7 +40,7 @@ Feature: Drupal.org frontpage
     And I should see at least "400" "Distributions" in top right content area
     And I should see at least "10000" "Developers" in top right content area
     And I should see at least "1000" "Code commits" in top right content area
-    And I should see at least "4000" "Issue comments" in top right content area
+    And I should see at least "3000" "Issue comments" in top right content area
     And I should see an advertisement in top right content area
 
   @anon
@@ -49,7 +49,7 @@ Feature: Drupal.org frontpage
     And I should see at least "200" "countries" in power Drupal text
     And I should see at least "150" "languages" in power Drupal text
 
-  @anon @known_git7failure @wip
+  @anon
   Scenario Outline: Visit the links in frontpage content area
     When I follow "<link>"
     Then I should see the heading "<title>"
@@ -58,7 +58,7 @@ Feature: Drupal.org frontpage
     | link                      | title                   |
     | Why Choose Drupal?        | About Drupal            |
     | Get Started with Drupal   | Get Started with Drupal |
-    | Drupal Distributions      | Download & Extend       |
+    | Distributions             | Download & Extend       |
     | Learn about Distributions | Distributions           |
     | Sites Made with Drupal    | Drupal Case Studies     |
     | Develop with Drupal       | Download & Extend       |
@@ -69,17 +69,17 @@ Feature: Drupal.org frontpage
     | Developer Docs            | Develop for Drupal      |
     | API Docs                  | API reference           |
 
-  @anon @known_git7failure
+  @anon
   Scenario: Find modules for Drupal
     When I follow "Modules"
     Then I should see "Modules match your search"
 
-  @anon @known_git7failure
+  @anon
   Scenario: Find themes for Drupal
     When I follow "Themes"
     Then I should see "Themes match your search"
 
-  @anon @known_git7failure
+  @anon
   Scenario: Find Drupal distributions
     When I follow "Distributions"
     Then I should see "Distributions match your search"
