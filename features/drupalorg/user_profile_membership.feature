@@ -12,20 +12,19 @@ Feature: Verify the DA membership block on a user profile
     And I should not see "Page not found"
     And I should see "Member for"
 
-  @anon @timeout @known_git7failure
-  Scenario: See that the user is an individual member only: Angie Byron (webchick)
-    Given I am on "/node/3060/committers"
-    When I follow "webchick"
-    Then I should see "is an individual member of the Drupal Association"
-    And I should not see "My organization is a member of the Drupal Association"
+  @anon @content
+  Scenario: See that the user is not an individual member: Angie Byron (webchick)
+    Given I am on "/user/24967"
+  Then show last response
+    Then I should not see "is an individual member of the Drupal Association"
+    And I should see "is an Organization Member of the Drupal Association"
     And I should not see "Hey! Want to support the Drupal Community"
 
-  @anon @timeout @known_git7failure
+  @anon @content
   Scenario: See that the user is an organization member and individual member: Larry Garfield (Crell)
-    Given I am on "/node/3060/committers"
-    When I follow "Crell"
+    Given I am on "/user/26398"
     Then I should see "is an individual member of the Drupal Association"
-    And I should see "My organization is a member of the Drupal Association"
+    And I should see "is an Organization member of the Drupal Association"
     And I should not see "Hey! Want to support the Drupal Community"
 
   Scenario: See member block on own profile
