@@ -5369,7 +5369,7 @@ class FeatureContext extends DrupalContext {
     $image->attachFile($filepath);
     $page->fillField("Why Drupal was chosen", $this->randomString(9));
     $page->fillField("edit-field-link-und-0-url", "http://example.com");
-    $page->fillField("edit-field-module-und-0-target-id", "Views");
+    $page->fillField("edit-field-module-und-0-nid", "Views");
     $page->fillField("Why these modules/theme/distribution were chosen", $this->randomString(10));
     HackyDataRegistry::set('random:Project name', $this->caseStudyTitle);
     $page->pressButton('Save');
