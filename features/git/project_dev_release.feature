@@ -7,7 +7,8 @@ Feature: Manage development releases
   @javascript
   Scenario: Add git vetted user as maintainer
     Given I am logged in as "admin test"
-    When I visit "/node/1791620/maintainers"
+    When I visit "/project/test_releases"
+    And I follow "Maintainers"
     And I wait until the page loads
     Then I should see "git vetted user" as a maintainer
 
