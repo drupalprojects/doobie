@@ -1089,6 +1089,19 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * @Given /^I fill in "([^"]*)" with a random address$/
+   */
+  public function iFillInWithARandomAddress($label) {
+    // A @Tranform would be more elegant.
+    $randomString = strtolower($this->randomString(10)) . "@example.com";
+    // Save this for later retrieval.
+    HackyDataRegistry::set('random:' . $label, $randomString);
+    $step = "I fill in \"$label\" with \"$randomString\"";
+    return new Then($step);
+  }
+
+
+  /**
    * @Then /^I should see the random "([^"]*)" text$/
    */
   public function iShouldSeeTheRandomText($label) {
@@ -7562,5 +7575,27 @@ class FeatureContext extends DrupalContext {
       }
     }
   }
-}
 
+  /**
+   * @Given /^I am logged in as a new user$/
+   */
+  public function iAmLoggedInAsANewUser() {
+    $username = $this->randomString(10);
+    return array (
+      new Given("I am logged in as \"admin test\""),
+      new Given("I visit \"/admin/people/create\""),
+      new Given("I fill in \"Username\" with \"$username\""),
+      new Given("I fill in \"E-mail\" with a random address"),
+      new Given("I fill in \"Password\" with \"newuser1\""),
+      new Given("I fill in \"Confirm password\" with \"newuser1\""),
+      new Given("I select \"Albania\" from \"Country\""),
+      new Given("I press \"Create new account\""),
+      new Given("I should see \"Created a new user account\""),
+      new Given("I am not logged in"),
+      new Given("I visit \"/user\""),
+      new Given("I fill in \"Username\" with \"$username\""),
+      new Given("I fill in \"Password\" with \"newuser1\""),
+      new Given("I press \"Log in\""),
+    );
+  }
+}
