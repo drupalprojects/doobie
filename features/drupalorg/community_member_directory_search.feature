@@ -32,7 +32,6 @@ Feature: Search members in drupal community
     When I fill in "site user" for "Username"
     And I press "Search" in the "right sidebar" region
     Then I should see at least "1" record
-    And I should see "results containing the words: site user"
     But I should not see "Your search yielded no results"
     And I should not see "Please enter some keywords"
 
