@@ -6,23 +6,26 @@ Feature: Maintain the project
 
   Scenario: Add git vetted user as maintainer
     Given I am logged in as "admin test"
-    And I visit "/node/1791620/maintainers"
-    When I enter "git vetted user" for field "Maintainer user name"
+    And I am on "/project/test_releases"
+    When I follow "Maintainers"
+    And I enter "git vetted user" for field "Maintainer user name"
     And I press "Update"
     Then I should see the link "git vetted user"
 
   Scenario: Add site user as another maintainer
     Given I am logged in as "admin test"
-    And I visit "/node/1791620/maintainers"
-    When I enter "site user" for field "Maintainer user name"
+    And I am on "/project/test_releases"
+    When I follow "Maintainers"
+    And I enter "site user" for field "Maintainer user name"
     And I press "Update"
     Then I should see the link "site user"
 
   @dependent
   Scenario: Assign permissions to above users
     Given I am logged in as "admin test"
-    And I visit "/node/1791620/maintainers"
-    When I assign the following <permissions> to the maintainer "git vetted user"
+    And I am on "/project/test_releases"
+    When I follow "Maintainers"
+    And I assign the following <permissions> to the maintainer "git vetted user"
     | permissions            |
     | Write to VCS           |
     | Edit project           |
@@ -78,8 +81,9 @@ Feature: Maintain the project
   @dependent
   Scenario: Updated maintainers permissions
     Given I am logged in as "git vetted user"
-    And I visit "/node/1791620/maintainers"
-    When I assign the following <permissions> to the maintainer "eliza411"
+    And I am on "/project/test_releases"
+    When I follow "Maintainers"
+    And I assign the following <permissions> to the maintainer "eliza411"
     | permissions            |
     | Administer maintainers |
     | Administer releases    |
@@ -91,8 +95,9 @@ Feature: Maintain the project
   @dependent
   Scenario: Updated maintainers permissions: Reset to previous
     Given I am logged in as "git vetted user"
-    And I visit "/node/1791620/maintainers"
-    When I unassign the following <permissions> from the maintainer "eliza411"
+    And I am on "/project/test_releases"
+    When I follow "Maintainers"
+    And I unassign the following <permissions> from the maintainer "eliza411"
     | permissions            |
     | Administer maintainers |
     | Administer releases    |
@@ -122,8 +127,9 @@ Feature: Maintain the project
   @dependent
   Scenario: Remove site user
     Given I am logged in as "git vetted user"
-    And I visit "/node/1791620/maintainers"
-    When I follow "delete" for the maintainer "site user"
+    And I am on "/project/test_releases"
+    When I follow "Maintainers"
+    And I follow "delete" for the maintainer "site user"
     And I press "Delete"
     Then I should see "Removed"
     And I should see "as a maintainer"
@@ -131,8 +137,9 @@ Feature: Maintain the project
   @dependent
   Scenario: Remove git vetted user
     Given I am logged in as "admin test"
-    And I visit "/node/1791620/maintainers"
-    When I follow "delete" for the maintainer "git vetted user"
+    And I am on "/project/test_releases"
+    When I follow "Maintainers"
+    And I follow "delete" for the maintainer "git vetted user"
     And I press "Delete"
     Then I should see "Removed"
     And I should see "as a maintainer"
