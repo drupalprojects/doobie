@@ -3289,6 +3289,8 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * Use for checking the user dashboard
+   *
    * @Then /^I should see at least "([^"]*)" blocks(?: in column "([^"]*)"|)$/
    *
    * @param int $count
@@ -3301,7 +3303,7 @@ class FeatureContext extends DrupalContext {
     $boxes = $this->getSession()->getPage()->findAll('css', ($column ? '#homebox div.homebox-column-wrapper-' . $column . ' div.homebox-portlet' :
       '#homebox div.homebox-portlet'));
     if (empty($boxes) || count($boxes) < $count) {
-      throw new Exception(($column ? 'Column ' . $column : 'Dashboard') . ' has only less than ' . $count . ' block' . ($count > 1 ? 's' : ''));
+      throw new Exception(($column ? 'Column ' . $column : 'Dashboard') . ' has less than ' . $count . ' block' . ($count > 1 ? 's' : ''));
     }
   }
 
