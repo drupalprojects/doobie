@@ -15,7 +15,6 @@ Feature: Verify the DA membership block on a user profile
   @anon @content
   Scenario: See that the user is not an individual member: Angie Byron (webchick)
     Given I am on "/user/24967"
-  Then show last response
     Then I should not see "is an individual member of the Drupal Association"
     And I should see "is an Organization Member of the Drupal Association"
     And I should not see "Hey! Want to support the Drupal Community"

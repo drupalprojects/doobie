@@ -149,13 +149,15 @@ Feature: Administrative view of nodes by a user
   Scenario: Unpublish posts: Confirm
     Given I am logged in as "admin test"
     And I visit "site user" profile page
+    And I visit "/user/2654261"
     And I follow "Administer nodes"
     When I check "2" checkboxes to "unpublish"
     And I select "Unpublish content" from field "- Choose an operation -"
     And I press "Execute"
     And I press "Confirm"
-    And I wait until the page is loaded
-    Then I should see "Performed"
+    Then I should see "Performing"
+    And I wait until the page loads    
+    And I should see "Performed"
 
   @dependent @slow @javascript
   Scenario: Delete posts: Confirm
@@ -166,6 +168,6 @@ Feature: Administrative view of nodes by a user
     And I select "Delete item" from field "- Choose an operation -"
     And I press "Execute"
     And I press "Confirm"
+    Then I should see "Performing"
     And I wait until the page is loaded
-    Then I should see "Performed"
-    
+    And I should see "Performed"
