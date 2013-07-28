@@ -9,7 +9,6 @@ Feature: Verify Write to VCS permission
     Given I am logged in as "git vetted user"
     And I am at "/node/add/project-module"
     When I create a "sandbox" project
-Then show last response
     And I see project data
     And I am on the Version control tab
     And I initialize the repository
