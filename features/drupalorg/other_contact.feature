@@ -1,4 +1,4 @@
-@other @wip @content
+@other @content
 Feature: Drupal.org contact form
   In order to prevent spammers from flooding maintainers 
   As a site visitor
