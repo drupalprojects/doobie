@@ -18,12 +18,14 @@ Feature: Create a project
     Then I should see the following <texts>
     | texts                                 |
     | Name field is required                |
+    | Project type field is required        |
     | Maintenance status field is required  |
     | Development status field is required  |
     | Short name field is required          |
     And the following <fields> should be outlined in red
     | fields              |
     | Name                |
+    | Project type        |
     | Short name          |
     | Maintenance status  |
     | Development status  |
