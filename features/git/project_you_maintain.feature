@@ -1,4 +1,4 @@
-@ci
+@ci @git
 Feature: Promote a project from a sandbox to a full project
   In order to make a project official
   As a git vetted user

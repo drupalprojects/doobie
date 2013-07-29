@@ -1,4 +1,4 @@
-@known_git7failure @anon @wip @javascript
+@known_git7failure @anon @wip @javascript @search
 Feature: Visitor searches site and filters the results using various options
   In order to see relevant search results
   As a visitor to Drupal.org

@@ -1,3 +1,4 @@
+@git
 Feature: Visitor clones repositories
   In order to try out experimental code
   As a visitor to Drupal.org

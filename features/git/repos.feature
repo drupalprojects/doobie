@@ -1,4 +1,4 @@
-@ci
+@ci @git
 Feature: Users create git repository
   In order to share and improve code
   As a git user

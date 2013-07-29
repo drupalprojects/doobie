@@ -1,4 +1,4 @@
-@wip
+@wip @project
 Feature: Manage all project types
   In order to assist users and the project
   As an administrator

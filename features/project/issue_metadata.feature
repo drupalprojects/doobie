@@ -1,3 +1,4 @@
+@issues
 Feature: Prominently display issue metadata
   In order to easily see the status of an issue
   As a site visitor

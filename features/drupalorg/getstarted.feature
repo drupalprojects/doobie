@@ -1,4 +1,4 @@
-@get_started
+@content @other
 Feature: Get started with Drupal
   In order to use Drupal
   As any user

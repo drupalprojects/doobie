@@ -1,4 +1,4 @@
-@ci
+@ci @git
 Feature: Learn about details of a (sandbox) project
   In order to learn about the various details and components associated with a project
   As any user

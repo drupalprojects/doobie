@@ -1,3 +1,4 @@
+@project
 Feature: Create specific project types
   In order to prevent end user from accidentally downloading experimental code
   As a git user

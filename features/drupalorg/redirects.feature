@@ -1,3 +1,4 @@
+@other
 Feature: Redirect urls
   In order to experience a seamless transition to D7
   As any visitor

@@ -1,4 +1,4 @@
-@slow
+@slow @project @releases
 Feature: Manage stable releases
   In order to make stable releases available to users
   As a project owner

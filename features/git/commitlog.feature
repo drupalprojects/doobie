@@ -1,4 +1,4 @@
-@ci
+@ci @git @commitlog
 Feature: Sitewide commit log 
   In order to conveniently follow code-related activity on Drupal.org
   As a site visitor
