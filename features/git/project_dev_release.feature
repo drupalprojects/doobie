@@ -1,4 +1,4 @@
-@slow
+@slow @releases @project
 Feature: Manage development releases
   In order to make development releases available to users
   As a project owner
