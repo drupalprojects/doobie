@@ -4,9 +4,20 @@ Feature: Find modules
   As a site builder
   I need to be able to find contributed modules
   
-  Scenario: Search by name
-    Given I am on "/project/project_module"
-    When I fill in "Search Modules" with "Masquerade"
+  Scenario Outline: Search by name
+    Given I am on "/project/<path>"
+    When I fill in "Search <type>" with "<term>"
     And I press "Search" in the "content" region
     Then I should not see "No projects found in this category."
-    And I should see the heading "Masquerade"
+    And I should see the heading "<term>"
+
+    Examples:
+
+    | path                  | type                | term           |
+    | project_module        | Modules             | Masquerade     |
+    | project_theme         | Themes              | Zen            |
+    | project_core          | Drupal Cores        | Something      |
+    | project_distribution  | Distributions       | OpenScholar    |
+    | project_drupalorg     | Drupal.org projects | Drupal.org BDD |
+    | project_theme_engine  | Theme engines       | Smarty         |
+    | project_translations  | Translations        | Something      |
