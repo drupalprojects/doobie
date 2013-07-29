@@ -38,7 +38,7 @@ Feature: 'Maintain issues' permission check
     And I click "Edit"
     And I select "git vetted user" from "Assigned"
     And I press "Save"
-    Then I should see "git vetted user" in the "Assigned" field
+    Then I should see "git vetted user" in the "Assigned" metadata
 
   @dependent
   Scenario: Unassign Maintain issues permission from a maintainer
