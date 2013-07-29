@@ -1,4 +1,4 @@
-@ci
+@ci @git
 Feature: Verify git access
   In order to push code to the repository
   As an authenticated user
