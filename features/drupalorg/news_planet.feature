@@ -18,7 +18,6 @@ Feature: Find Drupal News
     | Planet Drupal aggregates |
     And I should see the following <links>
     | links                  |
-    | read more              |
     | Drupal News            |
     | Planet Drupal          |
     | Drupal Association     |
