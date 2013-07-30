@@ -1,4 +1,4 @@
-@casestudies @slow @anon @wip
+@casestudies @anon
 Feature: Case studies promotion
   In order to view promoted case studies
   As any user
@@ -11,4 +11,4 @@ Feature: Case studies promotion
 
   Scenario: Cases study block on front page
     Given I am on the homepage
-    Then the case study should be one of the "10" recently published featured case studies
+    Then the case study should be one of the "8" recently published featured case studies

@@ -7020,9 +7020,9 @@ class FeatureContext extends DrupalContext {
     $this->getSession()->visit($this->locatePath("/case-studies"));
     sleep(3);
     // Get all the slideshow case studies
-    $temp = $this->getSession()->getPage()->findAll("css", "#block-views-drupalorg-casestudies-block-3 .view-id-drupalorg_casestudies ul li .views-field-title span a");
+    $temp = $this->getSession()->getPage()->findAll("css", "#block-views-drupalorg-casestudies-block-3 .view-id-drupalorg_casestudies ul li .views-field-title a");
     if (empty($temp)) {
-      throw new Exception("The page does have any case studies in the slide show");
+      throw new Exception("The page does not have any case studies in the slide show");
     }
     foreach ($temp as $result) {
       $textsSlide[] = $result->getText();
@@ -7084,7 +7084,7 @@ class FeatureContext extends DrupalContext {
     $textsManage = array();
     $i = 0;
     // Get all the case studies from the table
-    $temp = $this->getSession()->getPage()->findAll("css", ".view-drupalorg-casestudies table tbody tr td div.views-field-title span a");
+    $temp = $this->getSession()->getPage()->findAll("css", ".view-drupalorg-casestudies table tbody tr td div.views-field-title a");
     if (empty($temp)) {
       throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not have any case studies");
     }
