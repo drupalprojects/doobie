@@ -3907,6 +3907,8 @@ class FeatureContext extends DrupalContext {
     $this->issueTitle = $this->randomString(12);
     $element->fillField("Title", $this->issueTitle);
     HackyDataRegistry::set('issue title', $this->issueTitle);
+    // TODO: refactor so this is not necessary in both spots
+    HackyDataRegistry::set('random:' . 'issue title', $this->issueTitle);
     $element->selectFieldOption("Component", "Code");
 		$field = $this->getSession()->getPage()->findField('Version');
 		if(!empty($field)) {
@@ -7597,6 +7599,23 @@ class FeatureContext extends DrupalContext {
       new Given("I fill in \"Username\" with \"$username\""),
       new Given("I fill in \"Password\" with \"newuser1\""),
       new Given("I press \"Log in\""),
+    );
+  }
+
+
+  /**
+   * @Given /^a new "([^"]*)" "([^"]*)" issue$/
+   */
+  public function aNewIssue($type, $project) {
+    return array (
+      new Given("I am on \"/project/user\""),
+      new Given("I click \"Add a new project\""),
+      new Given("I click \"$project\""),
+      new Given("I create a \"$type\" project"),
+      new Given("I click \"0 open\""),
+      new Given("I click \"Create a new issue\""),
+      new Given("I create a new issue"),
+      new Given("I should see the issue title"),
     );
   }
 }

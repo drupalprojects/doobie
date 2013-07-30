@@ -7,17 +7,14 @@ Feature: Your Project Tab
   Background:
     Given I am logged in as "git vetted user"
 
- Scenario: Create test data: Full project
-    And I am on "/node/add/project-module"
-    When I create a "full" project
-    Then I should see project data
+  Scenario: Access navigation for a new project
+    When I am on "/project/user"
+    Then I should see "Add a new project"
 
-  @dependent
-  Scenario: Create test data: Project issue
-    And I am on "/project/user"
-    When I click "Create" from "Projects" table
-    And I create a new issue
-    Then I should see the issue title
+  Scenario: See issues on in the project table
+    Given a new "sandbox" "Module project" issue
+    When I visit "/project/user"
+    Then I should see the random "issue title" text 
 
   @dependent
   Scenario: View the links and count of records on the page
