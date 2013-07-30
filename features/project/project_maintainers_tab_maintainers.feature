@@ -43,7 +43,7 @@ Feature: 'Administer maintainers' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent @clean_data @wip
+  @dependent @clean_data
   Scenario: Log in as maintainer and see that maintainers tab is accessible
     Given I am logged in as "git user"
     When I am on the Maintainers tab
