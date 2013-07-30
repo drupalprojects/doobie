@@ -1,4 +1,4 @@
-@marketplace @wip @known_git7failure
+@marketplace @known_git7failure
 Feature: Book listing content type
   In order to advertise Drupal book
   As an authenticated user
