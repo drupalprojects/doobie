@@ -1,4 +1,4 @@
-@wip @project
+@project
 Feature: Manage all project types
   In order to assist users and the project
   As an administrator
@@ -37,7 +37,7 @@ Feature: Manage all project types
     | /node/add/project-drupalorg    |
 
   Scenario Outline: Create a full project for each type 
-    Given I am logged in as "admin test/*"
+    Given I am logged in as "admin test"
     And I am on "<url>"
     And I create a "full" project
     Then I should see "has been created"
