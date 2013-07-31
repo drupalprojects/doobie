@@ -7618,4 +7618,15 @@ class FeatureContext extends DrupalContext {
       new Given("I should see the issue title"),
     );
   }
+
+  /**
+   * @Given /^the cache is cleared$/
+   */
+  public function theCacheIsCleared() {
+    return array (
+      new Then("I visit \"http://git7site.devdrupal.org/sites/default/kick-cache.php\""),
+      new Then("I move backward one page"),
+    );
+  }
+
 }

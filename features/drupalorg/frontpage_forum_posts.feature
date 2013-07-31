@@ -4,10 +4,11 @@ Feature: Forum posts on front page
   As any user
   I should be able to view the Forum Posts tab on the Drupal front page
 
-  @javascript
+  @javascript @cache
   Scenario: Forum Posts tab on front page
     Given there is a new "Paid Drupal services" forum topic
     And I am on the homepage
+    And the cache is cleared
     When I follow "Forum Posts"
     Then I should see the forum topic link
     And I should see "Posted by"

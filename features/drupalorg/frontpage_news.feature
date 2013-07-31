@@ -12,7 +12,6 @@ Feature: Frontpage news section
     When I create a forum topic
     Then I should see "has been created"
 
-  # See Issue  #1809174 // anonymous check needs cache clear
   @javascript
   Scenario: Admin promotes the news post
     Given there is a new "General discussion" forum topic
@@ -23,10 +22,8 @@ Feature: Frontpage news section
     When I click "Publishing options"
     And I check the box "Promoted to front page"
     And I press "Save"
-    And I wait until the page is loaded
     Then I should see "has been updated"
 
-  # See Issue  #1809174 // anonymous check needs cache clear
   @javascript
   Scenario: Frontpage News tab: More news viewed as admin
     Given there is a new promoted forum topic
