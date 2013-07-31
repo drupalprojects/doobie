@@ -18,6 +18,7 @@ Feature: See git activity on the front page
     And I follow "Version control"
     When I push "2" commits to the repository
     And I follow "Drupal Homepage"
+    And the cache is cleared
     And I follow "Commits"
     Then I should see the link "by gitvetteduser: From the step definition"
 
