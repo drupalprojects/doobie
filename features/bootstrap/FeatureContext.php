@@ -5758,6 +5758,10 @@ class FeatureContext extends DrupalContext {
     // Drupal contributions
     $element->fillField("Drupal contributions", $drupal_contributions);
     HackyDataRegistry::set('random:Drupal contributions', $drupal_contributions);
+    // Organization description
+    $org_desc = str_repeat($this->randomString(10) . " ", 20);
+    $element->fillField("Organization description", $org_desc);
+    HackyDataRegistry::set('random:Organization description', $org_desc);
 
     if(!empty($context)) {
       if($context == 'training') {
@@ -5773,10 +5777,6 @@ class FeatureContext extends DrupalContext {
       }
       else if($context == 'drupal services') {
         $chk = $element->findField("Request listing in the Drupal services section");
-        // Organization description
-        $org_desc = str_repeat($this->randomString(10) . " ", 20);
-        $element->fillField("Organization description", $org_desc);
-        HackyDataRegistry::set('random:Organization description', $org_desc);
       }
       if(isset($chk)) {
         $chk->check();

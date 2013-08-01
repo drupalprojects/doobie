@@ -21,7 +21,7 @@ Feature: Adding company to the Marketplace
     And I am on "/node/add/organization"
     And I wait until the page is loaded
     When I create a new organization for "drupal services"
-Then show last response
+#Then show last response
     And I wait until the page is loaded
     Then I should see "has been created"
     And I should see the random "Organization name" text
@@ -30,8 +30,8 @@ Then show last response
     And I should see the random "Services" text
     And I should see the random "Sectors" text
     And I should see the random "Locations" text
-    #And I should see the random "Drupal contributions" text
-    #And I should see the random "Organization description" text
+    And I should see the random "Drupal contributions" text
+    And I should see the random "Organization description" text
     And I should see the random "Headquarters" text
     And I should see the random "Usual project budget (optional)" text
     And I should see "Posted by site user"
@@ -47,12 +47,11 @@ Then show last response
     | texts                    |
     | has been posted          |
     | Review                   |
-    | Marketplace listing      |
-    | Drupal.org webmasters    |
+    | Services listing         |
+    | Drupal.org content       |
     | Posted by site user      |
-    And I should see the heading "Issue Summary"
     And I should see the heading "Comments"
-    And I should see the heading "Post new comment"
+    And I should see the heading "Add new comment"
 
   @dependent
   Scenario: Edit own organization page
@@ -72,11 +71,15 @@ Then show last response
     When I visit the organization page
     Then I should not see "Regarding Services listing communicate with webmasters"
     And I should see "Posted by site user"
+    And I should see the random "Services" text
+    And I should see the random "Drupal contributions" text
+    And I should see the random "Organization description" text
     And I should not see the following <links>
     | links      |
     | Edit       |
     | this issue |
 
+  @javascript
   Scenario: Add organization and request promotion to Training section
     Given I am logged in as "site user"
     And I visit "/training"
@@ -100,10 +103,9 @@ Then show last response
     | texts                 |
     | Training section      |
     | has been posted       |
-    | Drupal.org webmasters |
-    And I should see the heading "Issue Summary"
+    | Drupal.org content |
     And I should see the heading "Comments"
-    And I should see the heading "Post new comment"
+    And I should see the heading "Add new comment"
 
   @dependent @clean_data
   Scenario:  User can't edit organization pages or see the issues - that are not created by him
@@ -111,6 +113,8 @@ Then show last response
     When I visit the organization page
     Then I should not see "Regarding Training listing communicate with webmasters"
     And I should see "Posted by site user"
+    And I should see the random "Organization name" text
+    And I should see the random "Drupal contributions" text
     And I should not see the following <links>
     | links      |
     | Edit       |
