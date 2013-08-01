@@ -11,7 +11,7 @@ Feature: Company employees on organization pages
     When I create a new organization for "drupal services"
     Then I should see "has been created"
     And I should see the random "Organization name" text
-    And I should see "Submitted by site user"
+    And I should see "Posted by site user"
 
   @dependent
   Scenario: Edit newly created organization page and update it to get the page listed
@@ -44,7 +44,7 @@ Feature: Company employees on organization pages
     And I follow "Documentation"
     And I follow "Glossary"
     When I follow "Edit"
-    And I fill in "Log message:" with random text
+    And I fill in "Revision log message" with random text
     And I press "Save"
     Then I should see "has been updated"
 
