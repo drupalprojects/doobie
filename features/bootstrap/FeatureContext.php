@@ -1396,7 +1396,7 @@ class FeatureContext extends DrupalContext {
     // Check Modules categories if Modules is selected
     if ($check_category) {
       $this->iWaitForSeconds(1, "");
-      $this->iShouldSeeTheText('Modules categories');
+      $this->assertTextVisible('Modules categories');
     }
   }
 
@@ -5792,7 +5792,7 @@ class FeatureContext extends DrupalContext {
     $element->fillField("Usual project budget (optional)", $budget);
     HackyDataRegistry::set('random:Usual project budget (optional)', $budget);
 
-    $this->iSelectTheRadioButtonWithTheId('Enterprise & Managed', 'edit-field-organization-hosting-categ-und-enterprise-managed');
+    $this->assertSelectRadioById('Enterprise & Managed', 'edit-field-organization-hosting-categ-und-enterprise-managed');
     HackyDataRegistry::set('issue title', $this->issueTitle);
     $element->pressButton("Save");
     sleep(7);
