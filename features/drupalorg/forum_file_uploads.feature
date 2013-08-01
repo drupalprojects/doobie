@@ -5,7 +5,7 @@ Feature:
   I need to know that file upload is only permitted to users with Administer content.
 
   Scenario: File Attachments is not available for regular site user
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I follow "Support"
     And I follow "Forums"
     And I follow "Add new Forum topic"
@@ -13,7 +13,7 @@ Feature:
     And I should not see "Add a new file"
 
   Scenario: File Attachments is available for admin
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I am on "/forum"
     When I follow "Add new Forum topic"
     Then I should see "File attachments"

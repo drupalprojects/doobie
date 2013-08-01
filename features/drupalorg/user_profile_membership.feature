@@ -27,7 +27,7 @@ Feature: Verify the DA membership block on a user profile
     And I should not see "Hey! Want to support the Drupal Community"
 
   Scenario: See member block on own profile
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I follow "Logged in as site user"
     Then I should see the heading "site user"
     And I should see "History"

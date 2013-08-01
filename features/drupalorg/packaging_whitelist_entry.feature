@@ -5,13 +5,13 @@ Feature: Create new packaging whitelist entry
   I need to add new entries
 
   Scenario: Create packaging whitelist entry: Authenticated user
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on "/node/add/packaging-whitelist"
     Then I should see the heading "Access denied"
     But I should not see "Create Packaging whitelist entry"
 
   Scenario: Create packaging whitelist entry as Admin user: Validation
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     When I visit "/node/add/packaging-whitelist"
     And I press "Save"
     Then I should see "Title field is required"
@@ -19,7 +19,7 @@ Feature: Create new packaging whitelist entry
     But I should not see "has been created"
 
   Scenario: Create packaging whitelist entry as Admin user
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     When I visit "/node/add/packaging-whitelist"
     And I fill in "Title" with random text
     And I fill in "Allowed URL filters" with random text

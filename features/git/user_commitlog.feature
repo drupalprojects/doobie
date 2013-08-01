@@ -5,7 +5,7 @@ Feature: To see the list of all the commits for a user
   I should be able to see all of a user's code commits from one log
 
   Background:
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     And I follow "Your Dashboard"
     And I follow "Your Commits"
 

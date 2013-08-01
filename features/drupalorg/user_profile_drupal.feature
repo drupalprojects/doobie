@@ -5,7 +5,7 @@ Feature: Drupal information in user profile
   I should be able to edit my profile and fill in Drupal information
 
   Scenario: Site user sets Drupal information
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "Edit"
     And I follow "Drupal" tab
     When I fill in "Drupal contributions" with random text
@@ -15,7 +15,7 @@ Feature: Drupal information in user profile
 
   @dependent
   Scenario: View Drupal information on profile page
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I follow "Logged in as site user"
     Then I should see the heading "site user"
     And I should see "Drupal contributions"
@@ -24,7 +24,7 @@ Feature: Drupal information in user profile
     And I should see the random "Roles in working with Drupal" text
 
   Scenario: Site user sets Drupal contribution checkboxes
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "Edit"
     And I follow "Drupal" tab
     When I check the box "I contributed Drupal modules"
@@ -39,7 +39,7 @@ Feature: Drupal information in user profile
 
   @dependent
   Scenario: View checked Drupal contribution on profile page
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I follow "Logged in as site user"
     Then I should see the heading "site user"
     And I should see "Roles in working with Drupal"
@@ -51,7 +51,7 @@ Feature: Drupal information in user profile
 
   @dependent @timeout
   Scenario Outline: Follow Drupal contribution links from profile page
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I follow "<link>"
     Then I should be on "<path>"
     And I should see the heading "<text>"

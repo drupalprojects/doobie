@@ -134,7 +134,7 @@ Feature: Learn about details of a (sandbox) project
 
   @smoke
   Scenario: Visit create a new issue page to post an issue
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I visit "/project/issues/1765126"
     When I follow "Create a new issue"
     Then I should not see "Access denied"

@@ -5,7 +5,7 @@ Feature: Content I posted
   I want to find all different pieces of content I posted listed in a single place
 
   Scenario: Create test data for the following scenarios
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am at "/node/add/project-project"
     And I follow "Module project"
     When I create a "full" project
@@ -20,7 +20,7 @@ Feature: Content I posted
 
   @dependent
   Scenario: Comment on a specific post as git user
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     And I am on the project page
     When I follow "open"
     Then I should see the issue link
@@ -30,7 +30,7 @@ Feature: Content I posted
 
   @dependent
   Scenario: Navigate to your posts page
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     When I follow "Your Posts"
     Then I should see the following <texts>
     | texts        |
@@ -45,7 +45,7 @@ Feature: Content I posted
 
   @clean_data @dependent
   Scenario: Navigate to the specific post and check for the new post.
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I follow "Your Posts"
     And I follow an issue of the project
     When I move backward one page
@@ -54,7 +54,7 @@ Feature: Content I posted
 
   @clean_data
   Scenario: Create a case study and view the same
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I visit "/node/add/casestudy"
     And I create a case study
     And I see the case study page
@@ -64,7 +64,7 @@ Feature: Content I posted
   
   @clean_data
   Scenario: Create a book page and view the same
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I visit "/node/add/book?parent=3264"
     And I create a book page
     And I see "has been created"
@@ -74,7 +74,7 @@ Feature: Content I posted
   
   @clean_data
   Scenario: Create a book page and view the same
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I visit "/node/add/organization"
     And I create a new organization
     And I see "has been created"

@@ -5,7 +5,7 @@ Feature: Case studies management
   I should be able to search and filter the list of case studies
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I visit "/case-studies/manage"
 
   Scenario: View casestudies management page

@@ -5,7 +5,7 @@ Feature:  Verify handbook metadata is displayed correctly
   I should be able to see the meta information displayed on the page in proper format
 
   Scenario: Create a documentation as site user
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "Documentation"
     And I follow "Installation Guide"
     And I follow "Add child page"
@@ -14,7 +14,7 @@ Feature:  Verify handbook metadata is displayed correctly
 
   @dependent
   Scenario: Edit the document as Git User
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     And I am on the document page
     And I follow "edit this page"
     When I edit the document
@@ -22,7 +22,7 @@ Feature:  Verify handbook metadata is displayed correctly
 
   @dependent
   Scenario: Edit the document as Git Vetted User
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am on the document page
     And I follow "edit this page"
     When I edit the document
@@ -30,7 +30,7 @@ Feature:  Verify handbook metadata is displayed correctly
 
   @dependent
   Scenario: Edit the document as docs manager
-    Given I am logged in as "docs manager"
+    Given I am logged in as the "docs manager"
     And I am on the document page
     And I follow "edit this page"
     When I edit the document
@@ -38,7 +38,7 @@ Feature:  Verify handbook metadata is displayed correctly
 
   @dependent
   Scenario: Edit the document as Document Creator
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on the document page
     And I follow "edit this page"
     When I edit the document
@@ -46,7 +46,7 @@ Feature:  Verify handbook metadata is displayed correctly
 
   @dependent
   Scenario: Edit the document again as Git User
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     And I am on the document page
     And I follow "edit this page"
     When I edit the document
@@ -54,7 +54,7 @@ Feature:  Verify handbook metadata is displayed correctly
 
   @dependent
   Scenario: Edit the document as admin test user
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I am on the document page
     And I follow "edit this page"
     When I edit the document
@@ -62,14 +62,14 @@ Feature:  Verify handbook metadata is displayed correctly
 
   @dependent
   Scenario: Follow revisions tab and compare last updated date
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I am on the document page
     When I follow "Revisions"
     Then the "last updated date" should match the latest revision
 
   @dependent
   Scenario: Follow revisions tab and view created user and created time
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I am on the document page
     When I follow "Revisions"
     Then the "created by username" should match the first revision
@@ -77,7 +77,7 @@ Feature:  Verify handbook metadata is displayed correctly
 
   @clean_data @timeout @dependent
   Scenario: Edited usernames will be the latest four entries from revision tab and it doesn't include creator username or duplicates of the latest editors
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I am on the document page
     When I follow "Revisions"
     Then the "editor usernames" should match the usernames in the revisions

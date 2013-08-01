@@ -5,7 +5,7 @@ Feature: Your Project Tab
   I should be able to find a list of projects and their associated issues in a central location.
 
   Background:
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
 
   Scenario: Access navigation for a new project
     When I am on "/project/user"

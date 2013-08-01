@@ -5,7 +5,7 @@ Feature: Regular users should not be able to post a topic in Newsletters subforu
   I should try to add a new forum topic
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
 
   Scenario: Add new forum topic from Newsletters forum page
     And I am on "/forum"

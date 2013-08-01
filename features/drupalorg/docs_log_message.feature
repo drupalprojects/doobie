@@ -5,7 +5,7 @@ Feature: Log message required for documentation edits
   I should be required to supply a revision log message when editing documentation
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on "/best-practices" 
 
   Scenario: Edit a documentation: Leave blank

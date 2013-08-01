@@ -5,7 +5,7 @@ Feature: Handbook comment directions
   I need to be able to leave comments on handbook pages
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on "/documentation/install/download"
 
   Scenario: A note with specific directions should appear above the comment form

@@ -5,7 +5,7 @@ Feature: Prevent users from editing certain pages
   I should not be able to edit pages that were locked by a privileged user
 
   Scenario: Docs manager creates a document
-    Given I am logged in as "docs manager"
+    Given I am logged in as the "docs manager"
     When I visit "/documentation/install"
     And I follow "Add child page"
     And I create a book page with full html
@@ -13,14 +13,14 @@ Feature: Prevent users from editing certain pages
 
   @dependent
   Scenario: Site user tries to find the Edit link on the above book page
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I visit "/documentation/install"
     And I follow the book page
     Then I should not see the link "Edit"
 
   @dependent @clean_data
   Scenario: Site user tries to edit a page directly
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I go to the document edit page
     Then I should see "Access Denied"
     And I should see "You are not authorized to access this page"

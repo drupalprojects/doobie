@@ -5,7 +5,7 @@ Feature:
   I need to be able to check User Dashboard and its regions and blocks
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I wait until the page is loaded
 
   Scenario: View the links and labels on Dashboard

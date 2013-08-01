@@ -5,7 +5,7 @@ Feature: View the issues I am interested in
   I should be able to see the list of issues I follow and filter them
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "Your Issues"
 
   Scenario: View links and texts on the page

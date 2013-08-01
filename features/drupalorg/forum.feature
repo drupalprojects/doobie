@@ -5,7 +5,7 @@ Feature: Create new forum topic as a regular site user
   I should be able to post a new forum topic
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
 
   Scenario: View the forum topic page
     When I follow "Support"

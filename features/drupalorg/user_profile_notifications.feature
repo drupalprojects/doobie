@@ -5,7 +5,7 @@ Feature: Manage email notification settings
   I should be able to update my notification settings
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "Notifications"
 
   Scenario: View Notifications tab contents

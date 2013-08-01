@@ -5,7 +5,7 @@ Feature: Access document list updates from homepage
   I should create a book page document
 
   Scenario: Add a child page as site user
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "Documentation"
     And I follow "Understanding Drupal"
     When I follow "Add child page"

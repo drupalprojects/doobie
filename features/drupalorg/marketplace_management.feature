@@ -5,7 +5,7 @@ Feature: Marketplace Management
   I should be able to search and filter the list of organization pages
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on "/drupal-services/manage"
 
   Scenario: Visit manage marketplace page and view text and links    

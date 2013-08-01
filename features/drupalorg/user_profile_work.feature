@@ -5,7 +5,7 @@ Feature: Work information in user profile
   I should be able to edit my profile and fill in work information
 
   Scenario: Update work information
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "Your Dashboard"
     And I follow "Profile"
     And I follow "Edit"
@@ -19,7 +19,7 @@ Feature: Work information in user profile
     Then I should see "The changes have been saved"
 
   Scenario: View work information as site user
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "Your Dashboard"
     And I follow "Profile"
     Then I should see the heading "site user"
@@ -31,7 +31,7 @@ Feature: Work information in user profile
     And I should see the random "Company or organization size" text
 
   Scenario Outline: Visit the links in work information
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "Your Dashboard"
     And I follow "Profile"
     When I visit the random link for "<fields>"
@@ -45,7 +45,7 @@ Feature: Work information in user profile
     | Current company or organization | People who currently work for   |
 
   Scenario: Reset work information
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "Your Dashboard"
     And I follow "Profile"
     And I follow "Edit"

@@ -5,7 +5,7 @@ Feature:
   I should be able to add blocks to my dashboard
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I wait until the page is loaded
 
   @javascript

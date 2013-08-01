@@ -5,7 +5,7 @@ Feature: Verify ssh keys of a user
   I should edit my profile
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "SSH keys"
 
   Scenario: View page contents

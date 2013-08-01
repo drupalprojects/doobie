@@ -5,7 +5,7 @@ Feature: Case studies moderation
   I need to be able to edit any case study and change their status
 
   Scenario: Create a case study as a site user
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I visit "/node/add/casestudy"
     When I create a case study
     And I see the case study page
@@ -14,7 +14,7 @@ Feature: Case studies moderation
 
   @dependent 
   Scenario: Admin user can feature other people's case study
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I am on the case study page
     When I follow "Edit"
     And I check "Featured" radio button
@@ -25,7 +25,7 @@ Feature: Case studies moderation
 
   @dependent
   Scenario: Admin user can hide a case study
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I am on the case study page
     When I follow "Edit"
     And I check "Hidden" radio button
@@ -37,7 +37,7 @@ Feature: Case studies moderation
 
   @dependent @clean_data
   Scenario: Admin user can put case study on community showcase
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I am on the case study page
     When I follow "Edit"
     And I check "Community" radio button
@@ -47,7 +47,7 @@ Feature: Case studies moderation
 
   @clean_data
   Scenario: Can't edit until moderated
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I visit "/node/add/casestudy"
     And I create a case study
     When I follow "Edit"

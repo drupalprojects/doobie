@@ -5,7 +5,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
   I should be able to promote sandbox project and it should not be available at its previous sandbox URL
 
   Scenario: Create a Sandbox project as git vetted user and promote
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am on "/node/add/project-module"
     When I create a "sandbox" project
     And I promote the project
@@ -13,7 +13,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
 
   @dependent
   Scenario: Visit project page and see that releases tab is available and project short name is readonly
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am on the project page
     When I follow "Edit"
     Then I should see the link "Releases"
@@ -21,7 +21,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
 
   @dependent
   Scenario: Initialize the repository as project owner
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am on the Version control tab
     When I initialize the repository
     Then I should have a local copy of the project
@@ -34,7 +34,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
 
   @dependent
   Scenario: Clone the sandbox repository as project owner
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     When I clone the "promoted sandbox" repo
     Then I should see an error
 

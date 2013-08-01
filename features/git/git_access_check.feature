@@ -5,7 +5,7 @@ Feature: Verify git access
   I should agree to the git access agreement
 
   Background:
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
 
   @gitrepo
   Scenario: Create a sandbox project and initialize repo

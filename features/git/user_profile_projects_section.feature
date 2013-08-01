@@ -5,7 +5,7 @@ Feature: Verify projects and commits summary in user profile page
   I should see the Projects section in my profile page
 
   Background:
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
 
   @gitrepo
   Scenario: Create a sandbox project and initialize repo

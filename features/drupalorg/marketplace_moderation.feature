@@ -5,14 +5,14 @@ Feature: Moderate Marketplace listing
   I should be able to edit any organization page and promote it to Marketplace
 
   Scenario: Add organization
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I visit "/node/add/organization"
     When I create a new organization for "drupal services"
     Then I should see "has been created"
 
   @dependent
   Scenario: Visit edit organization page as an admin
-    Given I am logged in as "site maintainer"
+    Given I am logged in as the "site maintainer"
     When I visit the organization page
     And I follow "Edit"
     Then I should see the following <texts>
@@ -27,7 +27,7 @@ Feature: Moderate Marketplace listing
 
   @dependent
   Scenario: Edit organization page as an admin to promote to All providers
-    Given I am logged in as "site maintainer"
+    Given I am logged in as the "site maintainer"
     And I am on the organization page
     When I follow "Edit"
     And I select "All providers" radio button
@@ -44,7 +44,7 @@ Feature: Moderate Marketplace listing
 
   @dependent
   Scenario: Edit organization page as an admin to promote to Featured providers
-    Given I am logged in as "site maintainer"
+    Given I am logged in as the "site maintainer"
     And I am on the organization page
     When I follow "Edit"
     And I select "Featured providers" radio button
@@ -60,7 +60,7 @@ Feature: Moderate Marketplace listing
 
   @dependent
   Scenario: Edit organization page as an admin to promote to Training section
-    Given I am logged in as "site maintainer"
+    Given I am logged in as the "site maintainer"
     And I am on the organization page
     When I follow "Edit"
     And I check "Request listing in the Training section"

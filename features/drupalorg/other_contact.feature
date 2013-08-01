@@ -14,7 +14,7 @@ Feature: Drupal.org contact form
     And I should not see "Send yourself a copy"
 
   Scenario: Authenticated user views the page
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on "/contact"
     Then I should see "You can leave us a message using"
     And I should see "Please provide as many"

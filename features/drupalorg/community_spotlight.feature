@@ -5,7 +5,7 @@ Feature: Community Spotlight
   I need to be able to create community spotlight and check its display once it is promoted
 
   Scenario: Can navigate to add a spotlight
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on "/forum"
     When I follow "Community Spotlight"
     And I follow "Add new Forum topic"
@@ -15,7 +15,7 @@ Feature: Community Spotlight
   @javascript @clean_data
   Scenario: Admin can promote a community spotlight
     Given there is a new "Community Spotlight" forum topic
-    And I am logged in as "admin test"
+    And I am logged in as the "admin test"
     And I edit the "community spotlight"
     And I wait until the page is loaded
     When I click "Publishing options"

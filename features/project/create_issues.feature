@@ -6,7 +6,7 @@ Feature: Drupal Create Issues
 
   @javascript
   Scenario: Create an issue from the main issues page
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on "/node/add/project-issue"
     When I fill in "Project" with "Achievements"
     And I select "Achievements" from the suggestion "Project"
@@ -26,7 +26,7 @@ Feature: Drupal Create Issues
     Then I should see "has been created"
 
   Scenario: Create an issue from a specific project's issue page
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on "/project/issues/achievements"
     When I follow "Create a new issue"
     And I select the following <fields> with <values>

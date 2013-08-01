@@ -5,7 +5,7 @@ Feature: User log out
   I should be able to log out
 
   Scenario: Log in as site user and view links and texts
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     Then I should see the heading "site user"
     And I should see the following <links>
     | links                   |
@@ -32,7 +32,7 @@ Feature: User log out
     | Password  |
 
   Scenario: Site user logs out
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I follow "Log out"
     Then I should be on "/"
     And I should see the link "Log in / Register"

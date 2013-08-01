@@ -5,14 +5,14 @@ Feature: Administrative view of nodes by a user
   I should be able to view the list of nodes by a specific user and delete them
 
   Scenario: Create test data as site user
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I visit "/node/add/book?parent=3264"
     And I create "3" book pages
     Then I should see "has been created"
 
   @dependent
   Scenario: View the list of items
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "site user" profile page
     When I follow "Administer nodes"
     Then I should see the heading "Nodes by site user"
@@ -33,7 +33,7 @@ Feature: Administrative view of nodes by a user
 
   @dependent
   Scenario: Navigate to an item
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "site user" profile page
     And I follow "Administer nodes"
     When I follow a post
@@ -44,7 +44,7 @@ Feature: Administrative view of nodes by a user
 
   @dependent @javascript
   Scenario: Visit Edit link and view the contents
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "site user" profile page
     And I follow "Administer nodes"
     When I follow "edit" for a post
@@ -54,7 +54,7 @@ Feature: Administrative view of nodes by a user
 
   @dependent
   Scenario: Visit Delete link
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "site user" profile page
     And I follow "Administer nodes"
     When I follow "delete"
@@ -65,7 +65,7 @@ Feature: Administrative view of nodes by a user
 
   @dependent @flaky @javascript
   Scenario: Select dropdown: This page
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "site user" profile page
     And I follow "Administer nodes"
     And I wait until the page is loaded
@@ -78,7 +78,7 @@ Feature: Administrative view of nodes by a user
 
   @dependent @javascript
   Scenario: Select dropdown: All pages
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "site user" profile page
     And I follow "Administer nodes"
     And I wait until the page is loaded
@@ -91,7 +91,7 @@ Feature: Administrative view of nodes by a user
 
   @dependent @javascript
   Scenario: Select dropdown: None
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "site user" profile page
     And I follow "Administer nodes"
     And I wait until the page is loaded
@@ -102,7 +102,7 @@ Feature: Administrative view of nodes by a user
 
   @dependent
   Scenario: Unpublish posts: Don't select
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "site user" profile page
     And I follow "Administer nodes"
     When I select "Unpublish content" from field "- Choose an operation -"
@@ -112,7 +112,7 @@ Feature: Administrative view of nodes by a user
 
   @dependent @javascript
   Scenario: Unpublish posts: Cancel
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "site user" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "unpublish"
@@ -124,7 +124,7 @@ Feature: Administrative view of nodes by a user
 
   @dependent @javascript
   Scenario: Delete node: Don't select
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "site user" profile page
     And I follow "Administer nodes"
     When I select "Delete item" from field "- Choose an operation -"
@@ -135,7 +135,7 @@ Feature: Administrative view of nodes by a user
 
   @dependent @javascript
   Scenario: Delete posts: Cancel
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "site user" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "delete"
@@ -147,7 +147,7 @@ Feature: Administrative view of nodes by a user
 
   @dependent @slow @javascript
   Scenario: Unpublish posts: Confirm
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "site user" profile page
     And I visit "/user/2654261"
     And I follow "Administer nodes"
@@ -161,7 +161,7 @@ Feature: Administrative view of nodes by a user
 
   @dependent @slow @javascript
   Scenario: Delete posts: Confirm
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "site user" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "delete"

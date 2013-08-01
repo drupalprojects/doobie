@@ -421,7 +421,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Authenticates a user.
    *
-   * @Given /^I am logged in as "([^"]*)" with the password "([^"]*)"$/
+   * @Given /^I am logged in as the "([^"]*)" with the password "([^"]*)"$/
    */
   public function iAmLoggedInAsWithThePassword($username, $passwd) {
     $user = $this->whoami();
@@ -480,7 +480,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Authenticates a user with password from configuration.
    *
-   * @Given /^I am logged in as "([^"]*)"$/
+   * @Given /^I am logged in as the "([^"]*)"$/
    */
   public function iAmLoggedInAs($username) {
     $password = $this->fetchPassword('drupal', $username);

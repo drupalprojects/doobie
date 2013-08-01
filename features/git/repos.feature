@@ -5,7 +5,7 @@ Feature: Users create git repository
   I need to initialize a git repository for my project
 
   Background:
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
 
   @smoke
   Scenario: Git User creates a project

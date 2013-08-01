@@ -5,7 +5,7 @@ Feature: Personal information in user profile
   I should be able to edit my profile and fill in personal information
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "Edit"
     And I wait until the page is loaded
 

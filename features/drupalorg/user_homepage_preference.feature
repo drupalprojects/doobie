@@ -5,7 +5,7 @@ Feature: Home page preference functionality
   I need to be able to use my dashboard as my home page
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I wait until the page loads
     And I follow "Your Dashboard"
     And I wait until the page loads

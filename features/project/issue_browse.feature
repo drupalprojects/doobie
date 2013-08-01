@@ -12,7 +12,7 @@ Feature: Visitor views issue queue for a project
 
   @clean_data
   Scenario: No issues exist in new project
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     And I visit "/node/add/project-module"
     When I create a "sandbox" project
     And I click "0 total"

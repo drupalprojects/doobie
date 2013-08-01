@@ -6,7 +6,7 @@ Feature: Publishing new security announcement
 
   @clean_data
   Scenario Outline: Create forum topic
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     When I visit "/forum/1188"
     And I follow "<section>"
     And I follow "Add new Forum topic"

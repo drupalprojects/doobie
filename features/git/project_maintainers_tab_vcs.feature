@@ -6,7 +6,7 @@ Feature: Verify Write to VCS permission
 
   @gitrepo
   Scenario: Create a new project and initialize repo
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am at "/node/add/project-module"
     When I create a "sandbox" project
     And I see project data
@@ -17,7 +17,7 @@ Feature: Verify Write to VCS permission
 
   @dependent
   Scenario: Add a maintainer: Valid maintainer name
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am on the Maintainers tab
     When I enter "git user" for field "Maintainer user name"
     And I press "Update"
@@ -28,7 +28,7 @@ Feature: Verify Write to VCS permission
 
   @gitrepo @dependent @clean_data
   Scenario: Git user does a push a commit to the repository
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     And I am on the Version control tab
     When I clone the repo
     And I push "2" commits to the repository

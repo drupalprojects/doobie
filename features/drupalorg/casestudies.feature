@@ -5,7 +5,7 @@ Feature: Adding new case study
   I should be able to create new case study
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I visit "/case-studies"
 
   Scenario: View the texts and links on the page
