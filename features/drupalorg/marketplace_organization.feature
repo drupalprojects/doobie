@@ -79,7 +79,6 @@ Feature: Adding company to the Marketplace
     | Edit       |
     | this issue |
 
-  @javascript
   Scenario: Add organization and request promotion to Training section
     Given I am logged in as "site user"
     And I visit "/training"
