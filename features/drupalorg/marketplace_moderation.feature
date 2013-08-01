@@ -1,4 +1,4 @@
-@marketplace @content
+@marketplace @content @wip
 Feature: Moderate Marketplace listing
   In order to moderate Marketplace listing
   As a site maintainer

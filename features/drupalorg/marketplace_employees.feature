@@ -13,7 +13,7 @@ Feature: Company employees on organization pages
     And I should see the random "Organization name" text
     And I should see "Posted by site user"
 
-  @dependent
+  @dependent @wip
   Scenario: Edit newly created organization page and update it to get the page listed
     Given I am logged in as the "admin test"
     When I visit the organization page

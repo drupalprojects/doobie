@@ -21,7 +21,6 @@ Feature: Adding company to the Marketplace
     And I am on "/node/add/organization"
     And I wait until the page is loaded
     When I create a new organization for "drupal services"
-#Then show last response
     And I wait until the page is loaded
     Then I should see "has been created"
     And I should see the random "Organization name" text

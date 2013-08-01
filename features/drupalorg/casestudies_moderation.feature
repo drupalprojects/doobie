@@ -1,4 +1,4 @@
-@casestudies @flaky
+@casestudies @flaky @wip
 Feature: Case studies moderation
   In order to moderate case studies
   As a site administrator
