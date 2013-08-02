@@ -31,12 +31,12 @@ Feature: Book listing content type
     When I follow "Add book listing"
     And I wait until the page is loaded
     And I fill in "Title" with random text
-    And I select "Drupal 7.x" from "Drupal version:"
-    And I select "Advanced" from "Level:"
+    And I select "Drupal 7.x" from "Drupal version"
+    And I select "Advanced" from "Level"
     And I select "Programmers" from "Audience"
     And I select "Print" from "Book format"
-    And I select "Available" from "Book availability:"
-    And I attach the local file "koala.jpg" to "Cover image:"
+    And I select "Available" from "Book availability"
+    And I attach the local file "koala.jpg" to "Cover image"
     And I fill in "Sub-title" with random text
     And I fill in "Authors" with random text
     And I fill in "Publisher" with random text

@@ -49,7 +49,7 @@ Feature: Drupal Books
   Scenario: View Book listing guidelines
     Given I am on "/books"
     When I follow "Book listing guide"
-    Then I should see the heading "Books listing"
+    Then I should see the heading "Books listing guide"
     And I should see the heading "Guidelines for book listings"
     And I should see the heading "How to create a book listing"
     And I should see "Books must be published in English"
