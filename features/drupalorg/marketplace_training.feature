@@ -37,7 +37,7 @@ Feature: Training section of the Marketplace
     Then I should be on "/learn-drupal"
 
   Scenario: Follow Marketplace guidelines link
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on "/training"
     When I follow "Marketplace guidelines"
     Then I should see the heading "Marketplace guidelines"

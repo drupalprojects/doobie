@@ -15,7 +15,7 @@ Feature: Forum breadcrumbs
     And I should see "Log in to post new content in the forum."
 
   Scenario: Logged in user follows link in Support forum
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I visit "/forum/18"
     And I follow "Before you start"
     Then I should see "Add new forum topic"

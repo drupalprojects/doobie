@@ -17,7 +17,7 @@ Feature: View members of drupal community
     And I should see at least "20" members
 
   Scenario: Navigate to the page as authenticated user
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I follow "Community"
     And I follow "Member Directory"
     Then I should see the heading "Community"

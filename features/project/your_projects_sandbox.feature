@@ -5,7 +5,7 @@ Feature: Your Project Tab
   I should be able to find a list of sandboxes and their associated issues in a central location.
 
   Background:
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
 
   Scenario: Create test data: Sandbox project
     And I am on "/node/add/project-module"

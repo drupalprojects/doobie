@@ -5,7 +5,7 @@ Feature: Create specific project types
   I should only be allowed to create sandbox projects
 
   Scenario Outline: Full project options should not available for git user
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     When I visit "<url>"
     Then I should not see "Project type"
     And I should not see "Short name"
@@ -22,7 +22,7 @@ Feature: Create specific project types
     | /node/add/project-theme        |
 
   Scenario Outline: Create each project type as a sandbox
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     And I am on "<url>"
     And I create a "sandbox" project
     Then I should see "has been created"

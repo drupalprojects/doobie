@@ -106,7 +106,7 @@ Feature: View home page header
     | /about          |
 
   Scenario Outline: View bottom header tabs as authenticated user
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on "<page>"
     Then I should see the following <tabs> in "bottom header" area
     | tabs                    |

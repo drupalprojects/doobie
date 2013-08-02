@@ -13,7 +13,7 @@ Feature: Add change record
     But I should not see "Create Change record"
 
   Scenario: Add new change record
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on "/project/drupal"
     And I follow "View change records"
     And I follow "Add new change record"
@@ -47,7 +47,7 @@ Feature: Add change record
 
   @dependent
   Scenario: View the list of newly created changed records
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on "/project/drupal"
     When I follow "View change records"
     Then I should see change record link

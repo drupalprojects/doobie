@@ -5,7 +5,7 @@ Feature: 'Maintain issues' permission check
   I need to be able to add people to my project with appropriate permissions
 
   Scenario: Create a new project and an issue
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am at "/node/add/project-distribution"
     When I create a "sandbox" project
     Then I should see project data
@@ -15,7 +15,7 @@ Feature: 'Maintain issues' permission check
 
   @dependent
   Scenario: Add a maintainer: Valid maintainer name
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am on the Maintainers tab
     When I enter "git user" for field "Maintainer user name"
     And I press "Update"
@@ -23,7 +23,7 @@ Feature: 'Maintain issues' permission check
 
   @dependent
   Scenario: Assign Maintain issues permission to a maintainer
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am on the Maintainers tab
     When I assign "Maintain issues" to the maintainer "git user"
     And I press "Update"
@@ -31,7 +31,7 @@ Feature: 'Maintain issues' permission check
 
   @dependent 
   Scenario: Log in as maintainer and see creator username in Assigned drop down : git user can assign an issue to maintainer
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     And I am on the project page
     And I follow "open"
     And I follow an issue of the project
@@ -42,7 +42,7 @@ Feature: 'Maintain issues' permission check
 
   @dependent
   Scenario: Unassign Maintain issues permission from a maintainer
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am on the Maintainers tab
     When I unassign "Maintain issues" from the maintainer "git user"
     And I press "Update"
@@ -50,7 +50,7 @@ Feature: 'Maintain issues' permission check
 
   @dependent @clean_data
   Scenario: Log in as maintainer and see creator username in Assigned drop down : git user can assign an issue to maintainer
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     And I am on the project page
     And I follow "open"
     And I follow an issue of the project

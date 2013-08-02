@@ -5,7 +5,7 @@ Feature: To verify that mentors can be added/viewed/removed by a user
   I should be able to add mentors to my profile
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
 
   Scenario: Site user adds mentors to his profile
     When I follow "Edit"

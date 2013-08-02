@@ -5,7 +5,7 @@ Feature: Documentation Management
   I should be able to search and filter the list of documentation pages
 
   Background:
-   Given I am logged in as "docs manager"
+   Given I am logged in as the "docs manager"
    And I visit "/documentation/manage"
 
   @timeout

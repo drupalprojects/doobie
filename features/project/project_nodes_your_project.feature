@@ -111,7 +111,7 @@ Feature: Learn about details of a full project
 
   @timeout
   Scenario: Site user can post an issue or not
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I visit "/project/issues/test_releases"
     When I follow "Create a new issue"
     Then I should not see "Access denied"

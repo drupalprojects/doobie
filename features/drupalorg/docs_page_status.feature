@@ -5,7 +5,7 @@ Feature: Page status block on documentation pages
   I need to change the status
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "Documentation"
     And I follow "Understanding Drupal"
 

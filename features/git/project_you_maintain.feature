@@ -5,7 +5,7 @@ Feature: Promote a project from a sandbox to a full project
   I should be able to promote a sandbox
 
   Scenario: Git user creates a project and tries to promote it
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     When I create a sandbox project
     And I see project data
     And I follow "Edit"
@@ -15,7 +15,7 @@ Feature: Promote a project from a sandbox to a full project
 
   @gitrepo @dependent @clean_data
   Scenario: Git user initializes the repo and tries to promote project
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     And I am on the Version control tab
     When I initialize the repository
     And I follow "Edit"
@@ -25,7 +25,7 @@ Feature: Promote a project from a sandbox to a full project
 
   @clean_data
   Scenario: Git vetted user create a project and tries to promote it
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I created a sandbox project
     When I promote the project
     And I see "has been promoted to a full project"
@@ -36,7 +36,7 @@ Feature: Promote a project from a sandbox to a full project
 
   @gitrepo @clean_data
   Scenario: Git vetted user initializes the repo and tries to promote project
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I created a sandbox project
     And I follow "Version control"
     And I initialize the repository

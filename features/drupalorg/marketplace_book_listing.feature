@@ -12,7 +12,7 @@ Feature: Book listing content type
     And I should see "You are not authorized to access this page"
 
   Scenario: Create new book listing: validation
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I visit "/books"
     When I follow "Add book listing"
     And I see "Book descriptions are generally copyrighted by the book author or publisher"
@@ -26,7 +26,7 @@ Feature: Book listing content type
     And I should see "ISBN-10 field is required"
 
   Scenario: Create new book listing
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I visit "/books"
     When I follow "Add book listing"
     And I wait until the page is loaded
@@ -66,13 +66,13 @@ Feature: Book listing content type
 
   @dependent
   Scenario: New book listing is unpublished by default
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     When I visit "/books"
     Then I should not see the random "Title" link
 
   @dependent @javascript
   Scenario: Publish the book listing as admin
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "/books"
     And I visit the random link for "Title"
     When I follow "publish"
@@ -82,7 +82,7 @@ Feature: Book listing content type
 
   @dependent @flaky
   Scenario: Authenticated users can't edit other's book listings
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     And I visit "/books"
     When I visit the random link for "Title"
     Then I should see the heading "Book status"
@@ -97,7 +97,7 @@ Feature: Book listing content type
 
   @dependent @javascript
   Scenario: Unpublish the book page
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "/books"
     And I visit the random link for "Title"
     When I follow "unpublish"
@@ -113,7 +113,7 @@ Feature: Book listing content type
 
   @dependent
   Scenario: Delete the listing once testing is done
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I visit "/books"
     And I visit the random link for "Title"
     And I follow "Edit"

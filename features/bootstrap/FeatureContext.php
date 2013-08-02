@@ -38,6 +38,7 @@ class LocalDataRegistry {
 use Behat\Behat\Exception\PendingException,
     Behat\Gherkin\Node\TableNode;
 use Drupal\DrupalExtension\Context\DrupalContext;
+use Drupal\Component\Utility\Random;
 use Symfony\Component\Process\Process;
 
 use Behat\Behat\Context\Step\Given;
@@ -421,7 +422,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Authenticates a user.
    *
-   * @Given /^I am logged in as "([^"]*)" with the password "([^"]*)"$/
+   * @Given /^I am logged in as the "([^"]*)" with the password "([^"]*)"$/
    */
   public function iAmLoggedInAsWithThePassword($username, $passwd) {
     $user = $this->whoami();
@@ -480,7 +481,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Authenticates a user with password from configuration.
    *
-   * @Given /^I am logged in as "([^"]*)"$/
+   * @Given /^I am logged in as the "([^"]*)"$/
    */
   public function iAmLoggedInAs($username) {
     $password = $this->fetchPassword('drupal', $username);
@@ -506,7 +507,7 @@ class FeatureContext extends DrupalContext {
     if (!$element->hasField('Name')) {
       throw new Exception("The field Name was not found on the page");
     }
-    $this->projectTitle = $this->randomString(16);
+    $this->projectTitle = Random::string(16);
     HackyDataRegistry::set('project title', $this->projectTitle);
     $element->fillField('Name', $this->projectTitle);
     $element->selectFieldOption('Maintenance status', 'Actively maintained'); //Actively maintained
@@ -556,7 +557,7 @@ class FeatureContext extends DrupalContext {
         $element->uncheckField("Enable issue tracker");
       }
     }
-    $element->fillField("Description", str_repeat($this->randomString(20) . " ", 3));
+    $element->fillField("Description", str_repeat(Random::string(20) . " ", 3));
     $element->pressButton('Save');
     // Allow some time for the repo to be created.
     sleep(5);
@@ -1081,7 +1082,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iFillInWithRandomText($label) {
     // A @Tranform would be more elegant.
-    $randomString = strtolower($this->randomString(10));
+    $randomString = strtolower(Random::string(10));
     // Save this for later retrieval.
     HackyDataRegistry::set('random:' . $label, $randomString);
     $step = "I fill in \"$label\" with \"$randomString\"";
@@ -1093,7 +1094,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iFillInWithARandomAddress($label) {
     // A @Tranform would be more elegant.
-    $randomString = strtolower($this->randomString(10)) . "@example.com";
+    $randomString = strtolower(Random::string(10)) . "@example.com";
     // Save this for later retrieval.
     HackyDataRegistry::set('random:' . $label, $randomString);
     $step = "I fill in \"$label\" with \"$randomString\"";
@@ -1395,7 +1396,7 @@ class FeatureContext extends DrupalContext {
     // Check Modules categories if Modules is selected
     if ($check_category) {
       $this->iWaitForSeconds(1, "");
-      $this->iShouldSeeTheText('Modules categories');
+      $this->assertTextVisible('Modules categories');
     }
   }
 
@@ -3743,9 +3744,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iCreateABookPage($options = array()) {
     $page = $this->getSession()->getPage();
-    $this->documentTitle = $this->randomString(8);
+    $this->documentTitle = Random::string(8);
     $page->fillField("Title", $this->documentTitle);
-    $page->fillField("Body", str_repeat($this->randomString(20) . " ", 10));
+    $page->fillField("Body", str_repeat(Random::string(20) . " ", 10));
     HackyDataRegistry::set('book page title', $this->documentTitle);
 
     if (isset($options['input_format'])) {
@@ -3904,7 +3905,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iCreateANewIssue() {
     $element = $this->getSession()->getPage();
-    $this->issueTitle = $this->randomString(12);
+    $this->issueTitle = Random::string(12);
     $element->fillField("Title", $this->issueTitle);
     HackyDataRegistry::set('issue title', $this->issueTitle);
     // TODO: refactor so this is not necessary in both spots
@@ -3915,7 +3916,7 @@ class FeatureContext extends DrupalContext {
     //  $element->selectFieldOption("Version", "6.x-1.0");
 		}
     $element->selectFieldOption("Category", "Task");
-    $description = $this->randomString(18);
+    $description = Random::string(18);
     $element->fillField("Description", $description);
     HackyDataRegistry::set('random:Description', $description);
     $element->pressButton("Save");
@@ -4164,7 +4165,7 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     $page->clickLink('Promote');
     $page->checkField('confirm');
-    /*$this->projectShortName = $this->randomString(10);
+    /*$this->projectShortName = Random::string(10);
     HackyDataRegistry::set('project_short_name', $this->projectShortName);
     $page->fillField('Short project name:', $this->projectShortName);*/
     $page->pressButton('Promote to full project');
@@ -4338,7 +4339,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iAddACommentToTheIssue() {
     $page = $this->getSession()->getPage();
-    $this->comment = $this->randomString(12);
+    $this->comment = Random::string(12);
     $page->fillField("Comment", $this->comment);
     $page->pressButton("Save");
   }
@@ -4475,8 +4476,8 @@ class FeatureContext extends DrupalContext {
    */
   public function iGenerateASshKey() {
     // Give a title for this key
-    $title = $this->randomString(8);
-    $pass = $this->randomString(10);
+    $title = Random::string(8);
+    $pass = Random::string(10);
     $sshFile = "files/$title";
     $pubFile = "files/$title.pub";
     $command = "ssh-keygen -f \"$sshFile\" -N \"$pass\" -t rsa -C \"$title\"";
@@ -4670,7 +4671,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception('The body field is not found on the page. Make sure you are on the document edit page');
     }
     // Attach some strings to document body
-    $text = $body->getText() . "\n" . chunk_split($this->randomString(50), 5, " ");
+    $text = $body->getText() . "\n" . chunk_split(Random::string(50), 5, " ");
     $body->setValue($text);
     // Log message
     $this->iFillInRevisionLogMessageWithText('Updated document');
@@ -5376,7 +5377,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iCreateACaseStudy() {
     $page = $this->getSession()->getPage();
-    $this->caseStudyTitle = $this->randomString(8);
+    $this->caseStudyTitle = Random::string(8);
     $page->fillField("Project name", $this->caseStudyTitle);
     $image = $page->findField("edit-field-mainimage-und-0-upload");
     if (!$image) {
@@ -5384,9 +5385,9 @@ class FeatureContext extends DrupalContext {
     }
     $filepath = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'koala.jpg';
     $image->attachFile($filepath);
-    $page->fillField("Why Drupal was chosen", $this->randomString(9));
+    $page->fillField("Why Drupal was chosen", Random::string(9));
     $page->fillField("edit-field-link-und-0-url", "http://example.com");
-    $page->fillField("Why these modules/theme/distribution were chosen", $this->randomString(10));
+    $page->fillField("Why these modules/theme/distribution were chosen", Random::string(10));
     HackyDataRegistry::set('random:Project name', $this->caseStudyTitle);
     $page->pressButton('Save');
     sleep(2);
@@ -5504,7 +5505,7 @@ class FeatureContext extends DrupalContext {
       if (empty($page)) {
         throw new Exception("The current page is not valid");
       }
-      $page->fillField("Title:", $this->randomString(10));
+      $page->fillField("Title:", Random::string(10));
       $page->pressButton('Save');
       sleep(2);
       // Store the url of the page if only 1 page is created
@@ -5727,14 +5728,14 @@ class FeatureContext extends DrupalContext {
   public function iCreateANewOrganizationFor($context = null) {
     $element = $this->getSession()->getPage();
     // Prefix title with 01 in order to get it listed on top
-    $this->issueTitle = "01" . $this->randomString(12);
+    $this->issueTitle = "01" . Random::string(12);
 		$element->fillField("Organization name", $this->issueTitle);
     HackyDataRegistry::set('random:Organization name', $this->issueTitle);
-    $website = $this->randomString(18);
+    $website = Random::string(18);
     //id for website
     $element->fillField("edit-field-link-und-0-url", $website);
     HackyDataRegistry::set('random:Website', $website);
-    $drupal_contributions = $this->randomString(18);
+    $drupal_contributions = Random::string(18);
     // Logo
     $file_path = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'koala.jpg';
     HackyDataRegistry::set('Organization Logo', $file_path);
@@ -5759,7 +5760,7 @@ class FeatureContext extends DrupalContext {
     $element->fillField("Drupal contributions", $drupal_contributions);
     HackyDataRegistry::set('random:Drupal contributions', $drupal_contributions);
     // Organization description
-    $org_desc = str_repeat($this->randomString(10) . " ", 20);
+    $org_desc = str_repeat(Random::string(10) . " ", 20);
     $element->fillField("Organization description", $org_desc);
     HackyDataRegistry::set('random:Organization description', $org_desc);
 
@@ -5767,11 +5768,11 @@ class FeatureContext extends DrupalContext {
       if($context == 'training') {
         $chk = $element->findField("Request listing in the Training section");
         // Training url
-        $train_url = $this->randomString(20);
+        $train_url = Random::string(20);
         $element->fillField("edit-field-organization-training-url-und-0-url", $train_url);
         HackyDataRegistry::set('random:Training url', $train_url);
         // Training description
-        $train_desc = str_repeat($this->randomString(10) . " ", 20);
+        $train_desc = str_repeat(Random::string(10) . " ", 20);
         $element->fillField("Training description", $train_desc);
         HackyDataRegistry::set('random:Training description', $train_desc);
       }
@@ -5783,15 +5784,15 @@ class FeatureContext extends DrupalContext {
       }
     }
     // Headquarters
-    $headqrt = $this->randomString(10);
+    $headqrt = Random::string(10);
     $element->fillField("Headquarters", $headqrt);
     HackyDataRegistry::set('random:Headquarters', $headqrt);
     // Project budget
-    $budget = $this->randomString(10);
+    $budget = Random::string(10);
     $element->fillField("Usual project budget (optional)", $budget);
     HackyDataRegistry::set('random:Usual project budget (optional)', $budget);
 
-    $this->iSelectTheRadioButtonWithTheId('Enterprise & Managed', 'edit-field-organization-hosting-categ-und-enterprise-managed');
+    $this->assertSelectRadioById('Enterprise & Managed', 'edit-field-organization-hosting-categ-und-enterprise-managed');
     HackyDataRegistry::set('issue title', $this->issueTitle);
     $element->pressButton("Save");
     sleep(7);
@@ -6212,10 +6213,10 @@ class FeatureContext extends DrupalContext {
   public function iCreateAForum() {
     // sleep(3);
     $page = $this->getSession()->getPage();
-    $subject = $this->randomString(8);
+    $subject = Random::string(8);
     $page->fillField("Subject", $subject);
     $this->dataRegistry->set('random:Forum subject', $subject);
-    $summary = str_repeat($this->randomString(10) . " ", 10);
+    $summary = str_repeat(Random::string(10) . " ", 10);
     // Fill summary
      // If javascript is used, then click Edit summary link and then fill field
     if ($this->getSession()->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
@@ -6230,7 +6231,7 @@ class FeatureContext extends DrupalContext {
       }
     }
     $this->dataRegistry->set('random:Forum summary', $summary);
-    $body = str_repeat($this->randomString(30) . " ", 10);
+    $body = str_repeat(Random::string(30) . " ", 10);
     $page->fillField("Body", $body);
     $this->dataRegistry->set('random:Forum body', $body);
     $page->pressButton('Save');
@@ -6740,7 +6741,7 @@ class FeatureContext extends DrupalContext {
     if ($event->hasException() && isset($this->environment['webpath'])) {
       $html = $this->getSession()->getPage()->getContent(); //Here is the HTML of your failed step
       $url = $this->getSession()->getCurrentUrl();
-      $filename = date('c') . '-' . $this->randomString(4) . '.html';
+      $filename = date('c') . '-' . Random::string(4) . '.html';
       $filepath = $this->environment['webpath'] . '/html/' . $filename;
       file_put_contents($filepath, $html);
       print '<li class="failed">View: <a href="' . $this->environment['baseurl'] . '/html/' . urlencode($filename) . '">failure snapshot</a> <a href="' . $url . '"></a></li>';
@@ -6862,7 +6863,7 @@ class FeatureContext extends DrupalContext {
   public function iFillInRevisionLogMessageWithText($text = "") {
     $page = $this->getSession()->getPage();
     if (!trim($text)) {
-      $text = $this->randomString(15);
+      $text = Random::string(15);
     }
     if (!trim($text)) {
       throw new Exception("No text was provided to fill in the revision log message");
@@ -7251,19 +7252,19 @@ class FeatureContext extends DrupalContext {
   public function iCreateNewChangeRecord() {
     sleep(5);
     $element = $this->getSession()->getPage();
-    $recordTitle = $this->randomString(12);
+    $recordTitle = Random::string(12);
 		$element->fillField("Title", $recordTitle);
     HackyDataRegistry::set('random:Title', $recordTitle);
     $project_code = 'Drupal core';
     $element->fillField("Project", $project_code);
     HackyDataRegistry::set('random:Project', $project_code);
-    $branch = $this->randomString(5);
+    $branch = Random::string(5);
     $element->fillField("Introduced in branch", $branch);
     HackyDataRegistry::set('random:Introduced in branch', $branch);
-    $version = $this->randomString(5);
+    $version = Random::string(5);
     $element->fillField("Introduced in version", $version);
     HackyDataRegistry::set('random:Introduced in version', $version);
-    $description = str_repeat($this->randomString(10) . " ", 20);
+    $description = str_repeat(Random::string(10) . " ", 20);
     $element->fillField("Description", $description);
     HackyDataRegistry::set('random:Description', $description);
     $element->checkField('Site builders, administrators, editors');
@@ -7281,10 +7282,10 @@ class FeatureContext extends DrupalContext {
     $element->checkField('Coder review done');
     $element->checkField('Coder upgrade done');
     $element->checkField('Other updates done');
-    $details = str_repeat($this->randomString(10) . " ", 20);
+    $details = str_repeat(Random::string(10) . " ", 20);
     $element->fillField("Details", $details);
     HackyDataRegistry::set('random:Details', $details);
-    $progress = str_repeat($this->randomString(10) . " ", 20);
+    $progress = str_repeat(Random::string(10) . " ", 20);
     $element->fillField("Progress", $progress);
     HackyDataRegistry::set('random:Progress', $progress);
     $attachLink = $element->findLink('File attachments');
@@ -7583,7 +7584,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^I am logged in as a new user$/
    */
   public function iAmLoggedInAsANewUser() {
-    $username = $this->randomString(10);
+    $username = Random::string(10);
     return array (
       new Given("I am logged in as \"admin test\""),
       new Given("I visit \"/admin/people/create\""),

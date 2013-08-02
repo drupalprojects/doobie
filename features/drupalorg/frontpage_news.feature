@@ -5,7 +5,7 @@ Feature: Frontpage news section
   I should be able to read the News section on the Drupal front page
 
   Scenario: Create a news post
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I visit "/forum"
     And I follow "News and announcements"
     And I follow "Add new Forum topic"
@@ -15,7 +15,7 @@ Feature: Frontpage news section
   @javascript
   Scenario: Admin promotes the news post
     Given there is a new "General discussion" forum topic
-    And I am logged in as "admin test"
+    And I am logged in as the "admin test"
     And I am on the forum topic page
     And I follow "Edit"
     And I wait until the page is loaded

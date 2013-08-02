@@ -9,7 +9,7 @@ Feature: See git activity on the front page
 
   @gitrepo @clean_data @timeout @smoke
   Scenario: Create sample data, push commits and view the commits on the homepage
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am on "/node/add/project-module"
     And I create a "sandbox" project
     And I see project data

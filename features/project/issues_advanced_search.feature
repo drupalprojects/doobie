@@ -5,7 +5,7 @@ Feature: Overall Filter Search for issues
   I wanted to look for Advanced Filter search options for finding the Issues
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I am on "/project/issues/search"
 
   Scenario: Visit the advanced search page

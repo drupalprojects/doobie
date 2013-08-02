@@ -5,7 +5,7 @@ Feature: Manage user email addresses
   I should be able to edit my profile and add or remove addresses
 
   Background:
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I follow "Edit"
 
   Scenario: View page contents: Email address field not editable

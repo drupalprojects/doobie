@@ -5,7 +5,7 @@ Feature: User contact form
   I should be able to enable or disable my contact form
 
   Scenario: Site user enables contact form
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I follow "Edit"
     And I check the box "Personal contact form"
     And I press "Save"
@@ -22,7 +22,7 @@ Feature: User contact form
     Then I should not see the link "Contact" in the "content" region
 
   Scenario: Git user accesses site user's contact form and sends message
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     When I visit "/search/user"
     And I fill in "Enter your keywords" with "site user"
     And I press "Search" in the "content" region
@@ -51,14 +51,14 @@ Feature: User contact form
     Then I should see "Your message has been sent"
 
   Scenario: Site user disables contact form
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     When I follow "Edit"
     And I uncheck the box "Personal contact form"
     And I press "Save"
     Then I should see "The changes have been saved"
 
   Scenario: Git user doesn't have access to site user's contact form
-    Given I am logged in as "git user"
+    Given I am logged in as the "git user"
     When I visit "/search/user"
     And I fill in "Enter your keywords" with "site user"
     And I press "Search" in the "content" region

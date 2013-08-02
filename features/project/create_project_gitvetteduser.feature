@@ -5,14 +5,14 @@ Feature: Create a project
   I need to be able to create a project
 
   Scenario: Can choose between sandbox and full project
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     When I visit "/node/add/project-module"
     Then I should see "Project type"
     And I should see "Sandbox project" in the dropdown "Project type"
     And I should see "Full project" in the dropdown "Project type"
 
   Scenario:
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am on "/node/add/project-module"
     When I press "Save"
     Then I should see the following <texts>
@@ -33,7 +33,7 @@ Feature: Create a project
   # See Issue 2035755 re: use of labels
   @clean_data @javascript
   Scenario: Create a sandbox project
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am on "/node/add/project-module"
     When I fill in "Name" with random text
     And I select "Sandbox project" from "Project type"
@@ -70,7 +70,7 @@ Feature: Create a project
     And I should see the random "Description" text
 
   Scenario Outline: Create each project type
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am at "<url>"
     When I create a "full" project
     Then I should see "has been created"    
@@ -83,7 +83,7 @@ Feature: Create a project
     | /node/add/project-theme        |
 
   Scenario Outline: Cannot create full projects for Drupal*
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am at "<url>"
     Then I should not see "Project type"
     And I should not see "Short name"
@@ -94,7 +94,7 @@ Feature: Create a project
     | /node/add/project-drupalorg | Drupal.org  |
 
   Scenario Outline: Create Drupal* sandbox projects
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I am at "<url>"
     When I fill in "Name" with random text
     And I select "Unsupported" from "Maintenance status"

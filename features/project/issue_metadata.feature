@@ -5,7 +5,7 @@ Feature: Prominently display issue metadata
   I want to see the status categories prominently displayed
 
     Scenario: 
-    Given I am logged in as "site user"
+    Given I am logged in as the "site user"
     And I visit "/project/issues/doobie"
     And I follow "Create a new issue"
     And I fill in "Title" with "Metadata Example" 

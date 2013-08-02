@@ -5,7 +5,7 @@ Feature: About this page block on documentation pages
   I want to fill various field in the form and save the same
 
   Background:
-   Given I am logged in as "docs manager"
+   Given I am logged in as the "docs manager"
    And I am on "/documentation/administer"
 
   Scenario: Dropdown values

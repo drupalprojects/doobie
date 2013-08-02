@@ -5,7 +5,7 @@ Feature: Add additional maintainers with appropriate permissions
   I need to be able to add people to my project with appropriate permissions
 
   Background:
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
 
   Scenario: Create a new project
     And I am at "/node/add/project-distribution"

@@ -6,7 +6,7 @@ Feature: Manage stable releases
   
   @javascript
   Scenario: Add git vetted user as maintainer
-    Given I am logged in as "admin test"
+    Given I am logged in as the "admin test"
     And I am on "/project/test_releases"
     When I follow "Maintainers"
     And I wait until the page loads
@@ -14,7 +14,7 @@ Feature: Manage stable releases
 
   @dependent
   Scenario: Create a new tag
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I visit "/project/test_releases"
     And I see project data
     And I am on the Version control tab
@@ -26,7 +26,7 @@ Feature: Manage stable releases
 
   @dependent @git_tag @flaky
   Scenario: Create a release for the above tag
-    Given I am logged in as "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I visit "/project/test_releases"
     When I follow "Add new release"
     And I select a tag from "Git release tag or branch"
