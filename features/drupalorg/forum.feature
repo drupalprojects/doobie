@@ -15,7 +15,6 @@ Feature: Create new forum topic as a regular site user
     And I should see "New forum topics" block in the right sidebar
     And I should see at least "5" links in the "right sidebar" region
 
-  @known_git7failure
   Scenario: Add a new forum topic with empty required fields
     And I visit "/forum"
     When I follow "Add new Forum topic"
@@ -24,12 +23,13 @@ Feature: Create new forum topic as a regular site user
     And I should see "Forums field is required"
     And the field "Body" should be outlined in red
 
-  @known_git7failure
+  @cache
   Scenario: Add a new forum topic and see the latest topic in the right side block
     And I visit "/forum"
     And I follow "Post installation"
     And I follow "Add new Forum topic"
     When I create a forum topic
     And I see "has been created"
+    And the cache is cleared
     And I follow "Post installation"
     Then I should see latest forum topic in the rightside block
