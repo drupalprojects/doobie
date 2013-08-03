@@ -6,10 +6,8 @@ Feature: Book listing content type
 
   @anon
   Scenario: Anyonymous users can't create book listings
-    Given I am on the homepage
-    When I visit "/node/add/book-listing"
-    Then I should see the heading "Access denied"
-    And I should see "You are not authorized to access this page"
+    When I am on "/node/add/book-listing"
+    Then the response status code should be 403
 
   Scenario: Create new book listing: validation
     Given I am logged in as the "site user"
