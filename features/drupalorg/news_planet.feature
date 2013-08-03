@@ -9,7 +9,7 @@ Feature: Find Drupal News
 
   Scenario: View the news listing page
     When I follow "Planet Drupal"
-    Then I should see the heading "Drupal Planet"
+    Then I should see the heading "Planet Drupal"
     And I should be on "/planet"
     And I should see the following <texts>
     | texts                    |
