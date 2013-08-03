@@ -25,8 +25,7 @@ Feature: Book listing content type
 
   Scenario: Create new book listing
     Given I am logged in as the "site user"
-    And I visit "/books"
-    When I follow "Add book listing"
+    And I am on "/node/add/book"
     And I wait until the page is loaded
     And I fill in "Title" with random text
     And I select "Drupal 7.x" from "Drupal version"
