@@ -6248,7 +6248,7 @@ class FeatureContext extends DrupalContext {
    */
   public function thereIsANewForumTopic($forum) {
     return array (
-      new Given("I am logged in as \"site user\""),
+      new Given("I am logged in as the \"site user\""),
       new Given("I am at \"/node/add/forum/0\""),
       new Given("I select \"-$forum\" from \"edit-taxonomy-forums-und\""),
       new Given("I create a forum topic"),
@@ -6263,7 +6263,7 @@ class FeatureContext extends DrupalContext {
   public function thereIsANewPromotedForumTopic() {
    return array (
       new Given("there is a new \"General discussion\" forum topic"),
-      new Given("I am logged in as \"admin test\""),
+      new Given("I am logged in as the \"admin test\""),
       new Given("I am on the forum topic page"),
       new Given("I follow \"Edit\""),
       new Given("I click \"Publishing options\""),
@@ -7586,7 +7586,7 @@ class FeatureContext extends DrupalContext {
   public function iAmLoggedInAsANewUser() {
     $username = Random::name(10);
     return array (
-      new Given("I am logged in as \"admin test\""),
+      new Given("I am logged in as the \"admin test\""),
       new Given("I visit \"/admin/people/create\""),
       new Given("I fill in \"Username\" with \"$username\""),
       new Given("I fill in \"E-mail\" with a random address"),
