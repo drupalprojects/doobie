@@ -9,7 +9,7 @@ Feature: Sitewide commit log
     Given I am on the homepage
     When I follow "Commits"
     And I follow "More commit messages…"
-    Then I should see the heading "Commit messages"
+    Then I should see the heading "All commits"
     And I should see at least "10" records
     And I should see the following <texts>
     | texts              |
@@ -29,8 +29,7 @@ Feature: Sitewide commit log
   Scenario: Click link to date
     Given I am on "/commitlog"
     When I click on "date" of a commit
-    Then I should see "Author date:"
-    And I should see "Commit"
+    Then I should see "Commit"
 
   Scenario: Click link to user profile
     Given I am on "/commitlog"
@@ -56,5 +55,5 @@ Feature: Sitewide commit log
     Given I am on the homepage
     When I follow "Commits"
     And I follow "More commit messages…"
-    Then I should see the heading "Commit messages"
+    Then I should see the heading "All commits"
     And I should see project name in the first part of the heading
