@@ -21,13 +21,11 @@ Feature: View the commits for a project
 
   Scenario: Click link to project title
     When I click on "project title" of a commit
-    Then I should see "Posted by"
-    And I should see the heading "Development"
+    Then I should see "by"
+    And I should see "Commit"
 
   Scenario: Click link to date
     When I click on "date" of a commit
-    Then I should see "Author date:"
-    And I should see "Custom text:"
     And I should see "Commit"
 
   Scenario: Click link to user profile
