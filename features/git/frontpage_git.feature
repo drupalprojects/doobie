@@ -33,7 +33,7 @@ Feature: See git activity on the front page
   Scenario: Follow code commit link and verify
     When I follow "Code commits"
     Then I should be on "/commitlog"
-    And I should see the heading "Commit messages"
+    And I should see the heading "All commits"
 
   @anon
   Scenario: Commit tab
@@ -45,7 +45,7 @@ Feature: See git activity on the front page
   Scenario: Commit tab: More commit messages
     When I follow "More commit messages…"
     Then I should be on "/commitlog"
-    And I should see the heading "Commit messages"
+    And I should see the heading "All commits"
 
   @anon
   Scenario: Commit tab: Follow a commit
