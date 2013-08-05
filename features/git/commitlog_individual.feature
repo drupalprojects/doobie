@@ -20,7 +20,7 @@ Feature: To view an individual commit
     And I should see "by sachin2dhoni"
     And I should see the link "sachin2dhoni"
     And I should see at least "4" files in the list
-    And I should see at least "6" "plus" symbol
+    And I should see at least "4" "plus" symbol
     And I should see at least "1" "minus" symbol
     And I should see the commit message
 
