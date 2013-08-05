@@ -15,8 +15,7 @@ Feature: To view an individual commit
 
   Scenario: View the commit information: More info
     Given I am on "/commitlog/commit/43232/a2d746d3d26f64771108aab11b4d5a75f621db3b"
-    Then I should see "Author date:"
-    And I should see "on master"
+    Then I should see "on master"
     And I should see "Commit"
     And I should see "by sachin2dhoni"
     And I should see the link "sachin2dhoni"
