@@ -79,7 +79,6 @@ Feature: Learn about details of a (sandbox) project
     | Commit             |
     | Commits            |
     | Subscribe with RSS |
-    | Development        |
     And I should not see the link "first"
     And I should not see the link "previous"
 
