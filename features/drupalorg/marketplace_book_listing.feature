@@ -10,7 +10,7 @@ Feature: Book listing content type
     Then the response status code should be 403
 
   Scenario: Create new book listing: validation
-    Given I am logged in as the "site user"
+    Given I am logged in as the "admin test"
     And I visit "/books"
     When I follow "Add book listing"
     And I see "Book descriptions are generally copyrighted by the book author or publisher"
@@ -23,9 +23,10 @@ Feature: Book listing content type
     And I should see "ISBN-13 field is required"
     And I should see "ISBN-10 field is required"
 
+  @javascript
   Scenario: Create new book listing
-    Given I am logged in as the "site user"
-    And I am on "/node/add/book"
+    Given I am logged in as the "admin test"
+    And I am on "/node/add/book-listing"
     And I wait until the page is loaded
     And I fill in "Title" with random text
     And I select "Drupal 7.x" from "Drupal version"
@@ -33,16 +34,17 @@ Feature: Book listing content type
     And I select "Programmers" from "Audience"
     And I select "Print" from "Book format"
     And I select "Available" from "Book availability"
-    And I attach the local file "koala.jpg" to "Cover image"
+    And I attach the local file "koala.jpg" to "edit-field-cover-image-und-0-upload"
     And I fill in "Sub-title" with random text
     And I fill in "Authors" with random text
     And I fill in "Publisher" with random text
     And I fill in "Publication date" with random text
-    And I fill in "Website" with random text
+    And I fill in "edit-field-official-website-und-0-url" with random text
     And I fill in "ISBN-13" with random text
     And I fill in "ISBN-10" with random text
     And I fill in "Book description" with random text
     And I press "Save"
+And I break
     Then I should see "has been created"
     And I should see "Drupal 7.x"
     And I should see "Advanced"
