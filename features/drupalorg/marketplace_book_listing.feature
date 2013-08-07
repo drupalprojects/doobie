@@ -23,7 +23,6 @@ Feature: Book listing content type
     And I should see "ISBN-13 field is required"
     And I should see "ISBN-10 field is required"
 
-  @javascript
   Scenario: Create new book listing
     Given I am logged in as the "admin test"
     And I am on "/node/add/book-listing"
@@ -44,7 +43,6 @@ Feature: Book listing content type
     And I fill in "ISBN-10" with random text
     And I fill in "Book description" with random text
     And I press "Save"
-And I break
     Then I should see "has been created"
     And I should see "Drupal 7.x"
     And I should see "Advanced"
