@@ -17,6 +17,6 @@ Feature: Choose git username
     Then I should not see "Desired Git username"
     And I should see "Your Git username"
     And I should see the random "Desired Git username" text
-    And I should see "Git configuration"
-    
+Then show last response
+    And I should see "Git user configuration"
  

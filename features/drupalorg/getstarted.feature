@@ -103,7 +103,7 @@ Feature: Get started with Drupal
     When I follow "Find a Distribution"
     And I wait until the page is loaded
     Then I should not see "Recoverable fatal error"
-    And I should be on "/project/distributions"
+    And I should be on "/project/project_distributions"
     And I should see the heading "Download & Extend"
     And I should see "Distributions provide site features and functions for a specific type of site"
 

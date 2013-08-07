@@ -1910,9 +1910,9 @@ class FeatureContext extends DrupalContext {
           $href = $temp->getAttribute('href');
         }
         else {
-          $temp = $commitGlobal->find("css", ".commit-global .attribution a");
+          $temp = $commitGlobal->find("css", ".attribution");
           if (!empty($temp)) {
-            $href = $temp->getAttribute('href');
+            $href = $temp->getText();
           }
         }
       break;
