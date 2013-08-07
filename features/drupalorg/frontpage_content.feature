@@ -62,8 +62,8 @@ Feature: Drupal.org frontpage
     | Learn about Distributions | Distributions           |
     | Sites Made with Drupal    | Drupal Case Studies     |
     | Develop with Drupal       | Download & Extend       |
-    | Developers                | Commit messages         |
-    | Code commits              | Commit messages         |
+    | Developers                | All commits             |
+    | Code commits              | All commits             |
     | Issue comments            | Issues for all projects |
     | Security Info             | Security advisories     |
     | Developer Docs            | Develop for Drupal      |
