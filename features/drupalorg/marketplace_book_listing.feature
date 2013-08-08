@@ -33,11 +33,12 @@ Feature: Book listing content type
     And I select "Programmers" from "Audience"
     And I select "Print" from "Book format"
     And I select "Available" from "Book availability"
+    And I fill in "Page count" with "300"
     And I attach the local file "koala.jpg" to "edit-field-cover-image-und-0-upload"
     And I fill in "Sub-title" with random text
     And I fill in "Authors" with random text
     And I fill in "Publisher" with random text
-    And I fill in "Publication date" with random text
+    And I fill in "Publication date" with "2012-05" 
     And I fill in "edit-field-official-website-und-0-url" with random text
     And I fill in "ISBN-13" with random text
     And I fill in "ISBN-10" with random text

@@ -7543,7 +7543,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the book cover image$/
    */
   public function iShouldSeeTheBookCoverImage() {
-    $result = $this->getSession()->getPage()->find('css', '#content-inner .node-content img');
+    $result = $this->getSession()->getPage()->find('css', '.field-name-field-cover-image img');
     if (empty($result)) {
       throw new Exception('No Book cover image was found on this page');
     }
