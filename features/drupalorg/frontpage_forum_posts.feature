@@ -7,8 +7,8 @@ Feature: Forum posts on front page
   @javascript @cache
   Scenario: Forum Posts tab on front page
     Given there is a new "Paid Drupal services" forum topic
-    And I am on the homepage
     And the cache is cleared
+    And I am on the homepage
     When I follow "Forum Posts"
     Then I should see the forum topic link
     And I should see "Posted by"
