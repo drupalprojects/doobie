@@ -19,7 +19,6 @@ Feature: Forum posts on front page
     Given there is a new "Post installation" forum topic
     And I am on the homepage
     When I follow "Forum Posts"
-    And I wait until the page loads
     And I follow "More forums"
     And I follow "Post installation"
     Then I should see the heading "Post installation"
