@@ -9,7 +9,12 @@ default:
       ansi: ~
   extensions:
     Behat\MinkExtension\Extension:
-      goutte: ~
+      goutte: 
+        guzzle_parameters:
+          ssl.certificate_authority: system
+          curl.options:
+            64: false   # CURLOPT_SSL_VERIFYPEER
+            172: false  # CURLOPT_CERTINFO
       selenium2: ~
     Drupal\DrupalExtension\Extension:
       blackbox: ~
