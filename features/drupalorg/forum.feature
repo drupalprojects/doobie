@@ -30,6 +30,7 @@ Feature: Create new forum topic as a regular site user
     And I follow "Add new Forum topic"
     When I create a forum topic
     And I see "has been created"
-    And the cache is cleared
     And I follow "Post installation"
+    And the cache is cleared
+    And I visit "/forum/22"
     Then I should see latest forum topic in the rightside block
