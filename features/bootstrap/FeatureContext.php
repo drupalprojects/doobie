@@ -1,4 +1,18 @@
 <?php
+use Behat\Behat\Exception\PendingException,
+    Behat\Gherkin\Node\TableNode;
+use Drupal\DrupalExtension\Context\DrupalContext;
+use Drupal\Component\Utility\Random;
+use Symfony\Component\Process\Process;
+
+use Behat\Behat\Context\Step\Given;
+use Behat\Behat\Context\Step\When;
+use Behat\Behat\Context\Step\Then;
+use Behat\Behat\Event\ScenarioEvent;
+use Behat\Behat\Event\StepEvent;
+
+use Behat\Mink\Exception\ElementNotFoundException;
+
 
 /**
  * Some of our features need to run their scenarios sequentially
@@ -17,6 +31,15 @@ abstract class HackyDataRegistry {
     if (isset(self::$data[$name])) {
       $value = self::$data[$name];
     }
+    if ($value === "") {
+        $backtrace = debug_backtrace(FALSE, 2);
+        $calling = $backtrace[1];
+        if (array_key_exists('line', $calling) && array_key_exists('file', $calling)) {
+            throw new PendingException(sprintf("Fix HackyDataRegistry accessing with unset key at %s:%d in %s.", $calling['file'], $calling['line'], $calling['function']));
+        } else {
+            throw new PendingException(sprintf("Fix HackyDataRegistry accessing with unset key in %s.", $calling['function']));
+        }
+    }
     return $value;
   }
 }
@@ -34,20 +57,6 @@ class LocalDataRegistry {
     return $value;
   }
 }
-
-use Behat\Behat\Exception\PendingException,
-    Behat\Gherkin\Node\TableNode;
-use Drupal\DrupalExtension\Context\DrupalContext;
-use Drupal\Component\Utility\Random;
-use Symfony\Component\Process\Process;
-
-use Behat\Behat\Context\Step\Given;
-use Behat\Behat\Context\Step\When;
-use Behat\Behat\Context\Step\Then;
-use Behat\Behat\Event\ScenarioEvent;
-use Behat\Behat\Event\StepEvent;
-
-use Behat\Mink\Exception\ElementNotFoundException;
 
 require 'vendor/autoload.php';
 
