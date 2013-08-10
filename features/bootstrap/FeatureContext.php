@@ -2602,7 +2602,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastRepliesForThePost($count) {
     $page = $this->getSession()->getPage();
-    $result = $this->getIssueTiteObj($page);
+    $result = $this->getIssueTitleObj($page);
     if (empty($result)) {
       throw new Exception('Issue title is empty');
     }
@@ -2629,7 +2629,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastNewRepliesForThePost($count) {
 	  $page = $this->getSession()->getPage();
-    $result = $this->getIssueTiteObj($page);
+    $result = $this->getIssueTitleObj($page);
     $postTitle = $result->getText();
     // Get the row in which the post resides. a > td > tr.
     $trow = $result->getParent()->getParent();
@@ -2653,7 +2653,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeUpdatedForThePost($postUpdated= TRUE) {
 	  $page = $this->getSession()->getPage();
-    $result = $this->getIssueTiteObj($page);
+    $result = $this->getIssueTitleObj($page);
     $postTitle = $result->getText();
     // Get the row in which the post resides. span > td.
     $td = $result->getParent();
@@ -4334,7 +4334,7 @@ class FeatureContext extends DrupalContext {
   /**
    * Function to get the Title for Post of type Issue
    */
-  function getIssueTiteObj($page) {
+  function getIssueTitleObj($page) {
     $temp = HackyDataRegistry::get('issue title');
     $result = $page->findLink($temp);
     if (!empty($result)) {
@@ -4921,9 +4921,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheIssueLink() {
     $page = $this->getSession()->getPage();
-    $link = $this->getIssueTiteObj($page);
-    if (empty($link)) {
-      throw new Exception('Could Not find the link in the current page');
+    $link = $this->getIssueTitleObj($page);
+    if (1 || empty($link)) {
+      throw new Exception(sprintf('Could not find the link "%s" on %s', $link->getText(), $this->getSession()->getCurrentUrl()));
     }
   }
 
