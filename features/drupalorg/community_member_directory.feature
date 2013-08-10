@@ -13,7 +13,6 @@ Feature: View members of drupal community
     And I should see the link "next"
     And I should see the link "last"
     And I should not see the link "first"
-    And I should not see the link "previous"
     And I should see at least "20" members
 
   Scenario: Navigate to the page as authenticated user
@@ -24,7 +23,6 @@ Feature: View members of drupal community
     And I should see the link "next"
     And I should see the link "last"
     And I should not see the link "first"
-    And I should not see the link "previous"
     And I should see at least "20" members
     And I should see the link "site user" in the "content" region
 
