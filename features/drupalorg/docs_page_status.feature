@@ -23,16 +23,17 @@ Feature: Page status block on documentation pages
     And I select "<status>" from "Page status"
     And I fill in revision log message with random text
     And I press "Save"
-    And I wait "3" seconds 
+    And I wait until the page loads
     Then I should see "has been updated"
     And the page status should be "<status>"
+    And the background color of the status should be "<color>"
     Examples:
-    | status                  |
-    | No known problems       |  
-    | Incomplete              |
-    | Insecure code           |
-    | Needs copy/style review |
-    | Needs dividing          |
-    | Needs technical review  |
-    | Needs updating          |
-    | Deprecated              |
+    | status                  | color  |
+    | No known problems       | green  |
+    | Incomplete              | yellow |
+    | Insecure code           | red    |
+    | Needs copy/style review | yellow |
+    | Needs dividing          | yellow |
+    | Needs technical review  | yellow |
+    | Needs updating          | yellow |
+    | Deprecated              | red    |
