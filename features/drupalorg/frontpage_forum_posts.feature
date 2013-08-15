@@ -1,10 +1,10 @@
-@front @forums
+@front @forums @javascript
 Feature: Forum posts on front page
   In order to know about the latest forum posts
   As any user
   I should be able to view the Forum Posts tab on the Drupal front page
 
-  @javascript @cache
+  @cache
   Scenario: Forum Posts tab on front page
     Given there is a new "Paid Drupal services" forum topic
     And the cache is cleared
