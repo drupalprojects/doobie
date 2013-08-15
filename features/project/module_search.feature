@@ -13,11 +13,11 @@ Feature: Find modules
 
     Examples:
 
-    | path                  | type                | term           |
-    | project_module        | Modules             | Masquerade     |
-    | project_theme         | Themes              | Zen            |
-    | project_core          | Drupal Cores        | Something      |
-    | project_distribution  | Distributions       | OpenScholar    |
-    | project_drupalorg     | Drupal.org projects | Drupal.org BDD |
-    | project_theme_engine  | Theme engines       | Smarty         |
-    | project_translations  | Translations        | Something      |
+    | path                  | type                | term                  |
+    | project_module        | Modules             | Masquerade            |
+    | project_theme         | Themes              | Zen                   |
+    | project_core          | Drupal Cores        | Core placeholder      |
+    | project_distribution  | Distributions       | OpenScholar           |
+    | project_drupalorg     | Drupal.org projects | Drupal.org BDD        |
+    | project_theme_engine  | Theme engines       | wgSmarty theme engine |
+    | project_translation   | Translations        | Haitian Creole        |
