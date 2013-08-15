@@ -33,7 +33,6 @@ Feature: Landing page of Community section of the site
     Given I am on the homepage
     And the cache is cleared
     When I follow "Community"
-And I break
     Then I should see the issue link
     And I should see the heading "Recent activity"
 
