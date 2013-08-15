@@ -55,7 +55,7 @@ Feature: Visitor searches site
     Examples:
     | link            | path                      |
     | IRC Nicks       | /search/drupalorg/views   |
-    | Users           | /search/user_search/views |
+    | Users           | /search/user/views        |
     | Advanced Issues | /search/issues?text=views |
 
   Scenario: Facet search on the right side bar
