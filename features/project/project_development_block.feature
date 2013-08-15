@@ -58,6 +58,7 @@ Feature: Project Development Block
     And I should not see the link "first"
     And I should not see the link "previous"
 
+  @changerecords
   Scenario: View change records
    When I follow "View change records"
    Then I should see "Change records"
