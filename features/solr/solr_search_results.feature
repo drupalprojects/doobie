@@ -68,7 +68,6 @@ Feature: Visitor searches site
     | Themes (          |
     | Documentation (   |
     | Forums & Issues ( |
-    | Groups (          |
     And I should see at least "10" records for each filter
 
   @slow
@@ -87,7 +86,6 @@ Feature: Visitor searches site
     | Themes (          |
     | Documentation (   |
     | Forums & Issues ( |
-    | Groups (          |
 
   @javascript
   Scenario: Meta type modules has more filters
