@@ -5547,7 +5547,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastRecordForEachFilter($count) {
     // Get all the links under the block
-    $links = $this->getSession()->getPage()->findAll('css', '#block-drupalorg_search-meta_type ul li a');
+    $links = $this->getSession()->getPage()->findAll('css', 'ol.search-results li a');
     if (empty($links)) {
       throw new Exception("The page did not contain any filters");
     }
