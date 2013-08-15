@@ -27,7 +27,7 @@ Feature: Adding new case study
     And the field "Why Drupal was chosen" should be outlined in red
     And I should not see "has been created"
 
-  @javascript @known_failure
+  @javascript
   Scenario: Add a new case study
     When I follow "Add your case study"
     And I wait until the page loads

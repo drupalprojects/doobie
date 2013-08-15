@@ -812,7 +812,7 @@ class FeatureContext extends DrupalContext {
       $field = "edit-created-max";
     }
     elseif ($field == "key modules/theme/distribution used") {
-      $field = "edit-field-module-0-nid-nid";
+      $field = "edit-field-module-und-0-nid";
     }
     elseif ($field == "issues") {
       $field = "edit-field-issues-0-nid-nid";
