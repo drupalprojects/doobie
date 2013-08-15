@@ -14,7 +14,7 @@ Feature: Page status block on documentation pages
     And I create a book page
     Then I should see "has been created"
 
-  @javascript @flaky
+  @javascript @manual
   Scenario Outline: Edit a book page and set status
     When I follow a random book page
     And I wait until the page loads
