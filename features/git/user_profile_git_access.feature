@@ -14,8 +14,7 @@ Feature: Choose git username
     And I fill in "Desired Git username" with random text
     And I press "Save"
     And I press "Confirm"
-    Then I should not see "Desired Git username"
+    Then I should see "Git access agreement"
     And I should see "Your Git username"
     And I should see the random "Desired Git username" text
-    And I should see "Git user configuration"
- 
+    And the checkbox "I agree to these terms" should be unchecked
