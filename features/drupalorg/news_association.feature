@@ -18,7 +18,7 @@ Feature: Drupal Association News
     | Categories: |
     And I should see the following <links>
     | links                                    |
-    | Drupal Planet                            |
+    | Planet Drupal                            |
     | Drupal News                              |
     | Planet Drupal                            |
     | Drupal Association                       |
