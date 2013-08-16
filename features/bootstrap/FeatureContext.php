@@ -197,7 +197,7 @@ class FeatureContext extends DrupalContext {
    * A step to deal with slow loading pages
    */
 
-  public function spin ($lambda, $wait = 60) {
+  public function spin ($lambda, $wait = 120) {
     for ($i = 0; $i < $wait; $i++) {
       try {
         if ($lambda($this)) {
@@ -3249,15 +3249,15 @@ class FeatureContext extends DrupalContext {
         // If any link(s) need not be considered, gice it here seperated bby comma - Optional
         $arr_table['link_exceptions'] = array('Add a new project');
         break;
-      case 'Sandbox Projects':
+      case 'Sandbox projects':
         $arr_table['table_class'] = array('projects sandbox sticky-enabled', 'projects sandbox sticky-enabled sticky-table');
         $arr_table['link_column'] = '1';
         $arr_table['link_exceptions'] = array('Add a new project');
         break;
       case 'Project Issues':
         $arr_table['table_class'] = array(
-          'views-table sticky-enabled project-issue',
-          'views-table sticky-enabled project-issue sticky-table',
+          'view-dom-id-1a535b8320402c6579c48c76e7190485',
+          'view-dom-id-1a535b8320402c6579c48c76e7190485',
         );
         $arr_table['link_column'] = '1';
         $arr_table['link_exceptions'] = array();
@@ -4924,7 +4924,7 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     $link = $this->getIssueTitleObj($page);
     if (1 || empty($link)) {
-      throw new Exception(sprintf('Could not find the link "%s" on %s', $link->getText(), $this->getSession()->getCurrentUrl()));
+      throw new Exception(sprintf('Could not find the link on %s', $this->getSession()->getCurrentUrl()));
     }
   }
 
