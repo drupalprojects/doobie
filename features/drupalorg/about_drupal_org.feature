@@ -6,7 +6,6 @@ Feature: About Drupal.org section
 
   Scenario: View the about page
     Given I am on the homepage
-    And I visit "About Drupal.org"
     When I visit "/about-drupal.org"
     Then I should see the heading "Drupal.org"
     And I should see the following <texts>
