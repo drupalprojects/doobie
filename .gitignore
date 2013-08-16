@@ -4,3 +4,5 @@ bin
 vendor
 behat.local.yml
 *.rej
+test_releases
+
