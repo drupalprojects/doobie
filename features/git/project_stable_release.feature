@@ -24,14 +24,14 @@ Feature: Manage stable releases
     And I follow "Add new release"
     Then I should see the tag in the dropdown "Git release tag or branch"
 
-  @dependent @git_tag @flaky
+  @dependent
   Scenario: Create a release for the above tag
     Given I am logged in as the "git vetted user"
     And I visit "/project/test_releases"
     When I follow "Add new release"
     And I select a tag from "Git release tag or branch"
     And I press "Next"
-    And I select "New features" from "Release type"
+    And I check the box "New features"
     And I fill in "Release notes" with random text
     And I press "Save"
     Then I should see "has been created"
