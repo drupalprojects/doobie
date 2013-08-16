@@ -71,14 +71,15 @@ Feature: Book listing content type
   @dependent @javascript
   Scenario: Publish the book listing as admin
     Given I am logged in as the "admin test"
-    And I visit "/books"
+    And I visit "/admin/content"
     And I visit the random link for "Title"
-    When I follow "publish"
-    And I wait for "8" seconds
-    Then I should see the link "unpublish"
-    And I should see the link "edit"
+    And I follow "Edit"
+    When I check the box "Published"
+    And I press "Save"
+    And I visit "/books"
+    Then I should see the random "Title" link
 
-  @dependent @flaky
+  @dependent
   Scenario: Authenticated users can't edit other's book listings
     Given I am logged in as the "git user"
     And I visit "/books"
@@ -86,27 +87,11 @@ Feature: Book listing content type
     Then I should see the heading "Book status"
     And I should not see the link "Edit"
 
-  @dependent @anon
+  @dependent
   Scenario: Once book listing is edited by admin and published - it should appear in the list
     Given I am on the homepage
     When I visit "/books"
     Then I should see the random "Title" link
-    And I should see the heading "Marketplace"
-
-  @dependent @javascript
-  Scenario: Unpublish the book page
-    Given I am logged in as the "admin test"
-    And I visit "/books"
-    And I visit the random link for "Title"
-    When I follow "unpublish"
-    And I wait for "8" seconds
-    Then I should see the link "publish"
-
-  @dependent @anon
-  Scenario: Once book listing is unpublished, it should not appear in the list
-    Given I am on the homepage
-    When I visit "/books"
-    Then I should not see the random "Title" link
     And I should see the heading "Marketplace"
 
   @dependent
@@ -115,7 +100,6 @@ Feature: Book listing content type
     And I visit "/books"
     And I visit the random link for "Title"
     And I follow "Edit"
-    And I fill in "Log message" with "Delete"
     And I press "Delete"
     And I see "Are you sure you want to delete"
     When I press "Delete"
