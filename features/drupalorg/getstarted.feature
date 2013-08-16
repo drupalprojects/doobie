@@ -38,9 +38,8 @@ Feature: Get started with Drupal
   Scenario: Follow All modules link
     Given I am on "/start"
     When I follow "All modules"
-    Then I should not see "Recoverable fatal error"
-    And I should see "Modules categories"
-    And I should see "Search Modules:"
+    And I should see "Module categories"
+    And I should see "Search Modules"
     And I should see the text "Extend and customize Drupal functionality with contributed modules."
     And I should see "Posted by"
 
@@ -59,9 +58,8 @@ Feature: Get started with Drupal
   Scenario: Follow All themes link
     Given I am on "/start"
     When I follow "All themes"
-    Then I should not see "Recoverable fatal error"
     And I should see "Themes match your search"
-    And I should see "Search Themes:"
+    And I should see "Search Themes"
     And I should see "Themes allow you to change the look and feel of your Drupal site."
     And I should see "Posted by"
 
@@ -103,7 +101,7 @@ Feature: Get started with Drupal
     When I follow "Find a Distribution"
     And I wait until the page is loaded
     Then I should not see "Recoverable fatal error"
-    And I should be on "/project/project_distributions"
+    And I should be on "/project/project_distribution"
     And I should see the heading "Download & Extend"
     And I should see "Distributions provide site features and functions for a specific type of site"
 
