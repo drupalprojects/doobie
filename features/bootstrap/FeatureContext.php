@@ -2190,31 +2190,30 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The project has less than '" . $count . "' commits");
     }
   }
-
   /**
-   * @Given /^I click the edit link for the sandbox project$/
+   * Used where tables are only identifiable by caption.
+   *
+   * @When /^I click the "([^"]*)" link in the "([^"]*)" table$/
    */
-  public function iClickTheEditLinkForTheSandboxProject() {
+  public function iClickTheLinkInTheTable($linktype, $projecttable) {
     // Find the first title link from sandbox table.
-    $first_a = $this->getSession()->getPage()->find('css', '#content-inner > table.projects.sandbox > tbody td.project-name > a');
-    if (!empty($first_a)) {
-      // Fetch the <TR>, the link belongs to.
-      $tr = $first_a->getParent()->getParent();
-      if (!empty($tr)) {
-        $edit = $tr->findLink('Edit');
-        if (!empty($edit)) {
-          $edit->click();
-        }
-        else {
-          throw new Exception("No 'Edit' link found in the sandbox projects section on the page " . $this->getSession()->getCurrentUrl());
+    $page = $this->getSession()->getPage();
+    $result = $page->findAll('css', 'caption');
+    if(empty($result)) {
+      throw new Exception("No project type label was found on " . $this->getSession()->getCurrentUrl() . "Has the css selctor changed?");
+    } 
+    foreach($result as $tabletype) {
+      $text = trim($tabletype->getText());
+      if ($text == $projecttable) {
+        $table = $tabletype->getParent();
+        $link = $table->findLink($linktype);
+        if ($link) {
+          $link->click();
+          return;
+        } else {
+          throw new Exception ("No " . $linktype . " link was present on " .  $this->getSession()->getCurrentUrl());
         }
       }
-      else {
-        throw new Exception("The sandbox project section does not contain any projects on the page " . $this->getSession()->getCurrentUrl());
-      }
-    }
-    else {
-      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not contain sandbox project");
     }
   }
 

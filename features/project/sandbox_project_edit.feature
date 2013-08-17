@@ -16,14 +16,14 @@ Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
   Scenario: Sandbox Project edit page doesn't have Releases Tab and editable Project Short Name
     Given I am logged in as the "git vetted user"
     And I follow "Your Projects"
-    When I click the edit link for the sandbox project
+    When I click the "Edit" link in the "Sandbox projects" table
     Then I should not see the link "Releases"
     And I should see that the project short name is readonly
 
   Scenario: Administer Releases column doesn't exist in maintainers table
     Given I am logged in as the "git vetted user"
     And I follow "Your Projects"
-    When I click the edit link for the sandbox project
+    When I click the "Edit" link in the "Sandbox projects" table
     And I follow "Maintainers"
     Then I should not see "Administer releases"
 
