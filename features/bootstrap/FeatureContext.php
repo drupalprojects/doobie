@@ -505,6 +505,16 @@ class FeatureContext extends DrupalContext {
     throw new PendingException();
   }
 
+
+  /**
+   * @Then /^I should see the project name$/
+   */
+  public function iShouldSeeTheProjectName() {
+    $project_name = $this->dataRegistry->get('random:project title');
+    return new Then(sprintf('I should see "%s"', $project_name));
+  }
+
+
   /**
    * @When /^I create a "([^"]*)" project$/
    */
@@ -519,6 +529,7 @@ class FeatureContext extends DrupalContext {
     }
     $this->projectTitle = Random::name(16);
     HackyDataRegistry::set('project title', $this->projectTitle);
+    $this->dataRegistry->set('random:project title', $this->projectTitle);
     $element->fillField('Name', $this->projectTitle);
     $element->selectFieldOption('Maintenance status', 'Actively maintained'); //Actively maintained
     $field = $this->getSession()->getPage()->findField('Project type');
@@ -2190,6 +2201,15 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The project has less than '" . $count . "' commits");
     }
   }
+
+  /**
+   * @When /^I click the "([^"]*)" link for the new project$/
+   */
+  public function iClickTheLinkForTheNewProject($linkname) {
+    $projectname = $this->dataRegistry->get('random:project title');
+    return new Then(sprintf('I click "%s" in the "%s" row', $linkname, $projectname));
+  }
+
   /**
    * Used where tables are only identifiable by caption.
    *
@@ -2203,6 +2223,7 @@ class FeatureContext extends DrupalContext {
       $projecttable = $linktype;
       $linktype = 'first project';
     }
+    
     // Find the first title link from sandbox table.
     $page = $this->getSession()->getPage();
     $result = $page->findAll('css', 'caption');
