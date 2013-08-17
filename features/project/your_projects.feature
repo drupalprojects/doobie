@@ -47,31 +47,31 @@ Feature: Your Project Tab
   @dependent
   Scenario: Visit link from Issue Links column for Projects
     And I am on "/project/user"
-    When I click "View" from "Projects" table
+    When I click the "View" link in the "Full projects" table
     Then I should see "Project Issue" page
 
   @dependent
   Scenario: Visit Search link from Issue Links column for Projects
     And I am on "/project/user"
-    When I click "Search" from "Projects" table
+    When I click the "Search" link in the "Full projects" table
     Then I should see "Advanced Search" page
 
   @dependent
   Scenario: Visit Create link from Issue Links column for Projects
     And I am on "/project/user"
-    When I click "Create" from "Projects" table
+    When I click the "Create" link in the "Full projects" table
     And I should see "Create Issue" page
 
   @dependent
   Scenario: Visit Edit link from Project Links column for Projects
     And I am on "/project/user"
-    When I click "Edit" from "Projects" table
+    When I click the "Edit" link in the "Full projects" table
     Then I should see "Project Edit" page
 
   @wip @dependent
   Scenario: Visit Add release link from Project Links column for Projects
     And I am on "/project/user"
-    When I click "Add release" from "Projects" table
+    When I click the "Add release" link in the "Full projects" table
     Then I should see "Create Project Release" page
 
   @javascript @slow @dependent
@@ -86,7 +86,7 @@ Feature: Your Project Tab
   @dependent
   Scenario: Visit project link from in Project Issues table
     And I am on "/project/user"
-    When I click "Project" from "Project Issues" table
+    When I click the "Project" link in the "Full projects" table
     Then I should see "Project Issue" page
 
   @dependent

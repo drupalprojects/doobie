@@ -2209,22 +2209,17 @@ class FeatureContext extends DrupalContext {
     if(empty($result)) {
       throw new Exception("No project type label was found on " . $this->getSession()->getCurrentUrl() . "Has the css selctor changed?");
     } 
-    foreach($result as $tabletype) {
-      $text = trim($tabletype->getText());
-      if ($text == $projecttable) {
-        $table = $tabletype->getParent();
-        if ($linktype == 'first project') {
-          $link = $table->find('css', 'a');        
-        } else {
-          $link = $table->findLink($linktype);
-        }
-        if ($link) {
-          $link->click();
-          return;
-        } else {
-          throw new Exception ("No " . $linktype . " link was present on " .  $this->getSession()->getCurrentUrl());
-        }
-      }
+    $table = $this->findTableWithCaption($projecttable);
+    if ($linktype == 'first project') {
+      $link = $table->find('css', 'a');        
+    } else {
+      $link = $table->findLink($linktype);
+    }
+    if ($link) {
+      $link->click();
+      return;
+    } else {
+      throw new Exception ("No " . $linktype . " link was present on " .  $this->getSession()->getCurrentUrl());
     }
   }
 
@@ -3211,6 +3206,22 @@ class FeatureContext extends DrupalContext {
     }
   }
 
+  private function findTableWithCaption($caption) {
+    $page = $this->getSession()->getPage();
+    $result = $page->findAll('css', 'caption');
+    if(empty($result)) {
+      throw new Exception("No project type label was found on " . $this->getSession()->getCurrentUrl() . "Has the css selctor changed?");
+    } 
+    foreach($result as $tabletype) {
+      $text = trim($tabletype->getText());
+      if ($text == $caption) {
+        $table = $tabletype->getParent();
+          return $table;
+        }
+      }
+    }
+ 
+
   /**
    * Gets Table Element for the specified type
    * Update the switch to consider other tables as well
@@ -3225,42 +3236,26 @@ class FeatureContext extends DrupalContext {
     }
     switch ($type) {
       case 'Projects':
-        // Class name(s) of the table. Multiple classnames are specified as getAttribute('class') returns different values with and without Goutte
-        $arr_table['table_class'] = array('projects sticky-enabled', 'projects sticky-enabled sticky-table');
+        $arr_table['element'] = $this->findTableWithCaption('Full projects');
         // In which column, the main link is placed - Optional
         $arr_table['link_column'] = '1';
         // If any link(s) need not be considered, gice it here seperated bby comma - Optional
         $arr_table['link_exceptions'] = array('Add a new project');
-        break;
+        return $arr_table;
       case 'Sandbox projects':
-        $arr_table['table_class'] = array('projects sandbox sticky-enabled', 'projects sandbox sticky-enabled sticky-table');
+        $arr_table['element'] = $this->findTableWithCaption('Sandbox projects');
         $arr_table['link_column'] = '1';
         $arr_table['link_exceptions'] = array('Add a new project');
-        break;
+        return $arr_table;
       case 'Project Issues':
-        $arr_table['table_class'] = array(
-          'view-dom-id-1a535b8320402c6579c48c76e7190485',
-          'view-dom-id-1a535b8320402c6579c48c76e7190485',
-        );
+        $arr_table['element'] = $tables[2]; // Until we have a caption just use the third table and pray.
         $arr_table['link_column'] = '1';
         $arr_table['link_exceptions'] = array();
-        break;
+        return $arr_table;
     }
     if (empty($arr_table)) {
       throw new Exception('Table details are not given for: "' . $type . '"');
     }
-    foreach ($tables as $table) {
-     // find the Table class
-      $table_class = $table->getAttribute('class');
-      // Remove cols-10/cols-11 class if any
-      $table_class = preg_replace("/ cols-(\d*) /", " ", $table_class);
-      // Consider only the required table
-      if (in_array($table_class, $arr_table['table_class'])) {
-        $arr_table['element'] = $table;
-        return $arr_table;
-      }
-    }
-    return null;
   }
 
   /**
