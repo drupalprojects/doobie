@@ -58,14 +58,14 @@ Feature: Sandbox Project Development Block
     And I should not see the link "first"
     And I should not see the link "previous"
 
+  @content
   Scenario: View Sandbox security policy
     When I follow "Sandbox security policy"
     Then I should see the heading "Security advisories process and permissions policy"
     And I should see the following <links>
     | links                          |
     | Security team                  |
-    | How to report a security issue |
-    | Security Risk Levels           |
+    | report the issue to the team   |
 
   Scenario: View change records
    When I follow "View change records"
