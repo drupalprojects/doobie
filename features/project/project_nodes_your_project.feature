@@ -7,8 +7,8 @@ Feature: Learn about details of a full project
   @anon
   Scenario: Project page
     Given I am on the homepage
-    When I visit "/project/media"
-    Then I should see the heading "Media"
+    When I visit "/project/commons"
+    Then I should see the heading "Drupal Commons"
     And I should see the heading "Development"
     And I should see the following <links>
     | links                    |
@@ -20,9 +20,9 @@ Feature: Learn about details of a full project
 
   @anon @content
   Scenario: Project git instructions
-    Given I am on "/project/media"
+    Given I am on "/project/commons"
     When I follow "Version control"
-    Then I should see the heading "Media"
+    Then I should see the heading "Drupal Commons"
     And I should see the following <links>
     | links                          |
     | Troubleshooting Git clone      |
@@ -36,11 +36,11 @@ Feature: Learn about details of a full project
     | One-Time Only                              |
     | Routinely                                  |
     | Patching                                   |
-    | git clone --branch master                  |
+    | git clone --branch                         |
 
   @anon @content
   Scenario: Browse repository link
-    Given I am on "/project/media"
+    Given I am on "/project/commons"
     When I follow "Repository viewer"
     Then I should see the following <links>
     | links       |
@@ -78,7 +78,7 @@ Feature: Learn about details of a full project
   @anon @wip
   Scenario: Commit numbers in maintainers block
     Given I am on the homepage
-    When I visit "/project/media"
+    When I visit "/project/commons"
     Then the <user> should have at least <count> commits
     | user            | count |
     | ksbalajisundar  | 7     |
@@ -88,7 +88,7 @@ Feature: Learn about details of a full project
   @anon @wip
   Scenario: Users in maintainers block
     Given I am on the homepage
-    When I visit "/project/media"
+    When I visit "/project/commons"
     Then the project should have the following <committers>
     | committers      |
     | ksbalajisundar  |
@@ -97,7 +97,7 @@ Feature: Learn about details of a full project
 
   @anon @timeout
   Scenario: Read issue queue
-    Given I am on "/project/media"
+    Given I am on "/project/commons"
     When I follow "open"
     Then I should see the following <texts>
     | texts          |
@@ -113,7 +113,7 @@ Feature: Learn about details of a full project
   @timeout
   Scenario: Site user can post an issue or not
     Given I am logged in as the "site user"
-    And I visit "/project/issues/media"
+    And I visit "/project/issues/commons"
     When I follow "Create a new issue"
     Then I should not see "Access denied"
     But I should see the heading "Create Issue"

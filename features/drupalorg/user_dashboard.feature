@@ -70,14 +70,14 @@ Feature:
 
   @known_git7failure
   Scenario: Create test data for Your Posts
-    And I am on "/node/add/project-issue/wysiwyg"
+    And I am on "/node/add/project-issue/spark"
     And I should not see "Access denied"
     When I create a new issue
     And I see "has been created"
-    And I am on "/node/add/project-issue/wysiwyg"
+    And I am on "/node/add/project-issue/spark"
     And I create a new issue
     And I see "has been created"
-    And I am on "/node/add/project-issue/wysiwyg"
+    And I am on "/node/add/project-issue/spark"
     And I create a new issue
     Then I should see "has been created"
 
