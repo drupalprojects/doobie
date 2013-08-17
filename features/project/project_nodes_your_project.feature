@@ -63,7 +63,7 @@ Feature: Learn about details of a full project
 
   @anon
   Scenario: Git messages
-    Given I am on "/project/test_releases"
+    Given I am on "/project/doobie"
     When I follow "View commits"
     Then I should see at least "10" commits
     And I should see the following <texts>
@@ -71,8 +71,10 @@ Feature: Learn about details of a full project
     | Commit             |
     | Commits            |
     | Subscribe with RSS |
-    | Development        |
     And I should see the link "next"
+    And I should see "Resources" in the "right sidebar" region
+    And I should see "Development" in the "right sidebar" region
+    
 
   @anon
   Scenario: Commit numbers in maintainers block
