@@ -2194,8 +2194,15 @@ class FeatureContext extends DrupalContext {
    * Used where tables are only identifiable by caption.
    *
    * @When /^I click the "([^"]*)" link in the "([^"]*)" table$/
+   * @When /^I click the first project link in the "([^"]*)" table$/
    */
-  public function iClickTheLinkInTheTable($linktype, $projecttable) {
+  public function iClickTheLinkInTheTable($linktype, $projecttable='') {
+    // If $projecttable is empty we need to switch arguments since that means
+    // only the table was passed using the second step type.
+    if (empty($projecttable)) {
+      $projecttable = $linktype;
+      $linktype = 'first project';
+    }
     // Find the first title link from sandbox table.
     $page = $this->getSession()->getPage();
     $result = $page->findAll('css', 'caption');
@@ -2206,7 +2213,11 @@ class FeatureContext extends DrupalContext {
       $text = trim($tabletype->getText());
       if ($text == $projecttable) {
         $table = $tabletype->getParent();
-        $link = $table->findLink($linktype);
+        if ($linktype == 'first project') {
+          $link = $table->find('css', 'a');        
+        } else {
+          $link = $table->findLink($linktype);
+        }
         if ($link) {
           $link->click();
           return;
@@ -2365,33 +2376,6 @@ class FeatureContext extends DrupalContext {
       throw new Exception('The dropdown "' . $field . '" has the option "' . $value . '", but it should not have');
     }
   }
-
-  /**
-   * @When /^I click the Sandbox project link$/
-   */
-  public function iClickTheSandboxProjectLink()
-  {
-    // Find the first title link from sandbox table
-    $first_a = $this->getSession()->getPage()->find('css', '#content-inner > table.projects.sandbox > tbody td.project-name > a');
-    if (!empty($first_a)) {
-      $this->getSession()->visit($first_a->getAttribute('href'));
-      return;
-    }
-    throw new Exception('Sandbox project link cannot be found');
-  }
-
-  /**
-   * @Given /^I click the Full project link$/
-   */
-  public function iClickTheFullProjectLink() {
-      // Find the first title link from full project table
-    $first_a = $this->getSession()->getPage()->find('css', '#content-inner > table.projects > tbody td.project-name > a');
-    if (!empty($first_a)) {
-      $this->getSession()->visit($first_a->getAttribute('href'));
-      return;
-    }
-    throw new Exception('Full project link cannot be found');
-   }
 
   /**
    * Multiple File Upload

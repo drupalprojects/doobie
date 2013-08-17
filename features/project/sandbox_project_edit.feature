@@ -31,7 +31,7 @@ Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
   Scenario: Releases links don't exist on Sandbox project main page
     Given I am logged in as the "git vetted user"
     And I follow "Your Projects"
-    When I click the Sandbox project link
+    When I click the first project link in the "Sandbox projects" table
     Then I should not see the following <links>
     | links                 |
     | View all releases     |
