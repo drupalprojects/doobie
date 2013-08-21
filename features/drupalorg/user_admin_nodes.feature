@@ -160,7 +160,7 @@ Feature: Administrative view of nodes by a user
     And I wait until the page loads    
     And I should see "Performed"
 
-  @dependent @slow @javascript
+  @dependent @slow @javascript @manual
   Scenario: Delete posts: Confirm
     Given I am logged in as the "admin test"
     And I visit "site user" profile page
