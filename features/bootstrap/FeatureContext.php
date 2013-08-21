@@ -5800,8 +5800,6 @@ class FeatureContext extends DrupalContext {
     $budget = Random::name(10);
     $element->fillField("Usual project budget (optional)", $budget);
     HackyDataRegistry::set('random:Usual project budget (optional)', $budget);
-
-    $this->assertSelectRadioById('Enterprise & Managed', 'edit-field-organization-hosting-categ-und-enterprise-managed');
     HackyDataRegistry::set('issue title', $this->issueTitle);
     $element->pressButton("Save");
     sleep(7);
