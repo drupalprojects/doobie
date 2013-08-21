@@ -63,7 +63,7 @@ Feature: Content I posted
     Then I should see the random "Project name" link
   
   @clean_data
-  Scenario: Create a book page and view the same
+  Scenario: Create and view a book page
     Given I am logged in as the "site user"
     When I visit "/node/add/book?parent=3264"
     And I create a book page
@@ -73,7 +73,7 @@ Feature: Content I posted
     Then I should see the random "Document title" link
   
   @clean_data
-  Scenario: Create a book page and view the same
+  Scenario: Create and view an Organization page
     Given I am logged in as the "site user"
     When I visit "/node/add/organization"
     And I create a new organization
