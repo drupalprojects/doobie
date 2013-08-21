@@ -39,6 +39,7 @@ Feature: Administrative view of nodes by a user
     When I follow a post
     Then I should see the link "Edit"
     And I should see the link "View"
+    And I should see the link "Outline"
     And I should not see "Page not found"
     And I should not see "Access denied"
 
