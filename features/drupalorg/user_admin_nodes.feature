@@ -150,7 +150,6 @@ Feature: Administrative view of nodes by a user
   Scenario: Unpublish posts: Confirm
     Given I am logged in as the "admin test"
     And I visit "site user" profile page
-    And I visit "/user/2654261"
     And I follow "Administer nodes"
     When I check "2" checkboxes to "unpublish"
     And I select "Unpublish content" from field "- Choose an operation -"
