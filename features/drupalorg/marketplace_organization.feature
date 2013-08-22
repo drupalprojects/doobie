@@ -19,11 +19,8 @@ Feature: Adding company to the Marketplace
   Scenario: Add organization and request promotion to Services section
     Given I am logged in as the "site user"
     And I am on "/node/add/organization"
-    And I wait until the page is loaded
     When I create a new organization for "drupal services"
-    And I wait until the page is loaded
-    Then I should see "has been created"
-    And I should see the random "Organization name" text
+    Then I should see the random "Organization name" text
     And I should see the random "Website" text
     And I should see the organization logo
     And I should see the random "Services" text
@@ -34,6 +31,7 @@ Feature: Adding company to the Marketplace
     And I should see the random "Headquarters" text
     And I should see the random "Usual project budget (optional)" text
     And I should see "Posted by site user"
+    And I should see "has been created"
 
   @dependent @flaky
   Scenario: View an issue request for services section
@@ -41,7 +39,7 @@ Feature: Adding company to the Marketplace
     And I visit the organization page
     And I see "Regarding Services listing communicate with webmasters using this issue"
     When I follow "this issue"
-    Then I should see the issue link
+    Then I should see the random "Organization name" text 
     And I should see the following <texts>
     | texts                    |
     | has been posted          |
@@ -96,7 +94,7 @@ Feature: Adding company to the Marketplace
     And I visit the organization page
     And I see "Regarding Training listing communicate with webmasters using this issue"
     When I follow "this issue"
-    Then I should see the issue link
+    Then I should see the random "Organization name" text
     And I should see the following <texts>
     | texts                 |
     | Training section      |
