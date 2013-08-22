@@ -37,7 +37,6 @@ Feature: Your Project Tab
     When I click the "Search" link for the new project
     Then I should see the project name
 
-  @wip
   Scenario: Visit Create link from Issue Links column for Projects
     When I click the "Create" link for the new project
     Then I should see the project name
@@ -46,17 +45,17 @@ Feature: Your Project Tab
     When I click the "Edit" link for the new project
     Then I should see the project name
 
-  @wip
   Scenario: Visit Add release link from Project Links column for Projects
     When I click the "Add release" link for the new project
     Then I should see the project name
 
   @javascript @slow @wip
   Scenario: Search for issue
+    And I create a new issue
     And I visit "/cron.php"
     And I visit "/project/user"
-    When I fill in "Search for" with issue name
-    And I select project name from "Project"
+    When I fill in "Search for" with the issue name
+    And I select the project name from "Project"
     And I press "Search" in the "content" region
     Then I should see at least "1" record in "Project Issues" table
 
@@ -70,7 +69,6 @@ Feature: Your Project Tab
     When I click the "Summary" link for the new project
     Then I should see the project name
 
-  @wip
   Scenario: Visit the feed link and view the contents
     When I click on the feed icon
     Then I should see at least "1" feed item
