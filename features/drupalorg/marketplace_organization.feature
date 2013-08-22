@@ -20,6 +20,7 @@ Feature: Adding company to the Marketplace
     Given I am logged in as the "site user"
     And I am on "/node/add/organization"
     When I create a new organization for "drupal services"
+    And I wait for "5" seconds
     Then I should see the random "Organization name" text
     And I should see the random "Website" text
     And I should see the organization logo
