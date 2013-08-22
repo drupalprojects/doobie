@@ -20,9 +20,9 @@ Feature: Manage email notification settings
     And I should see the option "None" selected in "Default notification" dropdown
 
   Scenario: Subscribe to project: Invalid project title
-    When I enter "doobie" for field "Project title"
+    When I enter "bad_judgement" for field "Project title"
     And I press "Save"
-    Then I should see "The name you entered (doobie) is not a valid project"
+    Then I should see "The name you entered (bad_judgement) is not a valid project"
     But I should not see "Your notification settings have been updated"
 
   Scenario: Subscribe to project and delete it

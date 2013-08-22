@@ -5,10 +5,10 @@ Feature: Visitor clones repositories
   I want to clone a sandbox repo
 
   Scenario: Sandbox has a repo with code
-    Given I am at "/project/doobie"
+    Given I am at "/project/bad_judgement"
     When I click "Version control"
     And I clone the repo
-    Then I should have a local copy of "doobie"
+    Then I should have a local copy of "bad_judgement"
   
   Scenario: Sandbox has a repo with no code    
     Given I am at "/project/git_dev"

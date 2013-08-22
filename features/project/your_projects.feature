@@ -29,19 +29,6 @@ Feature: Your Project Tab
     And I should see at least "1" record in "Projects" table
     And I should see at least "1" record in "Project Issues" table
 
-  @wip
-  Scenario: View the links in Project Table
-    And I am on "/project/user"
-    Then I should see the following <links> in column "Issue links" in "Projects" table
-    | links   |
-    | View    |
-    | Search  |
-    | Create  |
-    And I should see the following <links> in column "Project links" in "Projects" table
-    | links       |
-    | Edit        |
-    | Add release |
-
   Scenario: Visit link from Issue Links column for Projects
     When I click the "View" link for the new project
     Then I should see the project name
@@ -59,7 +46,7 @@ Feature: Your Project Tab
     When I click the "Edit" link for the new project
     Then I should see the project name
 
-  @wip @dependent
+  @wip
   Scenario: Visit Add release link from Project Links column for Projects
     When I click the "Add release" link for the new project
     Then I should see the project name

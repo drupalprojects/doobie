@@ -6,55 +6,24 @@ Feature: Your Project Tab
 
   Background:
     Given I am logged in as the "git user"
-
-  Scenario: Create test data: Sandbox project
     And I am on "/node/add/project-module"
-    When I create a "sandbox" project
-    Then I should see project data
+    And I create a "sandbox" project
+    And I am on "project/user"
 
-  @dependent
-  Scenario: Create test data: Sandbox project issue
-    And I am on "/project/user"
-    When I click "Create" from "Sandbox Projects" table
-    And I create a new issue
-    Then I should see the issue title
-
-  @dependent
   Scenario: View the records in Sandbox Projects table
-    And I am on "/project/user"
-    Then I should see at least "1" record in "Sandbox Projects" table
+    When I click the "Create" link for the new project
+    And I create a new issue
+    And I visit "/project/user"
+    Then I should see at least "1" record in "Project Issues" table
 
-  Scenario: View the links in Sandbox Project Table
-    And I am on "/project/user"
-    Then I should see the following <links> in column "Issue links" in "Sandbox Projects" table
-    | links  |
-    | View   |
-    | Search |
-    | Create |
-    And I should see the following <links> in column "Project links" in "Sandbox Projects" table
-    | links |
-    | Edit  |
-
-  @dependent
   Scenario: Visit View link from Issue Links column for Sandbox Project Table
-    And I am on "/project/user"
-    When I click "View" from "Sandbox Projects" table
-    Then I should see "Project Issue" page
+    When I click the "View" link for the new project
+    Then I should see the project name 
 
-  @dependent
   Scenario: Visit Search link from Issue Links column for Sandbox Project Table
-    And I am on "/project/user"
-    When I click "Search" from "Sandbox Projects" table
-    Then I should see "Advanced Search" page
+    When I click the "Search" link for the new project
+    Then I should see the project name
 
-  @dependent
-  Scenario: Visit Create link from Issue Links column for Sandbox Project Table
-    And I am on "/project/user"
-    When I click "Create" from "Sandbox Projects" table
-    Then I should see "Create Issue" page
-
-  @dependent @clean_data
   Scenario: Visit Edit link from Project Links column for Sandbox Project Table
-    And I am on "/project/user"
-    When I click "Edit" from "Sandbox Projects" table
-    Then I should see "Project Edit" page
+    When I click the "Edit" link for the new project
+    Then I should see the project name
