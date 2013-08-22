@@ -1,4 +1,4 @@
-@marketplace
+egarketplace
 Feature: Adding company to the Marketplace
   In order to advertise the Drupal services of my organization
   As an authenticated user
@@ -39,7 +39,6 @@ Feature: Adding company to the Marketplace
   Scenario: View an issue request for services section
     Given I am logged in as the "site user"
     And I visit the organization page
-    And I see "Regarding Services listing communicate with webmasters"
     When I follow "this issue"
     Then I should see the issue link
     And I should see the following <texts>
@@ -68,7 +67,6 @@ Feature: Adding company to the Marketplace
   Scenario: User can't edit organization pages or see the issues - that are not created by him
     Given I am logged in as the "git user"
     When I visit the organization page
-    Then I should not see "Regarding Services listing communicate with webmasters"
     And I should see "Posted by site user"
     And I should see the random "Services" text
     And I should see the random "Drupal contributions" text
@@ -94,7 +92,6 @@ Feature: Adding company to the Marketplace
   Scenario: View an issue request for training section
     Given I am logged in as the "site user"
     And I visit the organization page
-    And I see "Regarding Training listing communicate with webmasters"
     When I follow "this issue"
     Then I should see the issue link
     And I should see the following <texts>
@@ -109,7 +106,6 @@ Feature: Adding company to the Marketplace
   Scenario:  User can't edit organization pages or see the issues - that are not created by him
     Given I am logged in as the "git user"
     When I visit the organization page
-    Then I should not see "Regarding Training listing communicate with webmasters"
     And I should see "Posted by site user"
     And I should see the random "Organization name" text
     And I should see the random "Drupal contributions" text

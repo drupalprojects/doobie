@@ -33,7 +33,6 @@ Feature: Moderate Marketplace listing
     And I select "All providers" radio button
     And I press "Save"
     Then I should see "has been updated"
-    And I should see "Regarding Services listing communicate with webmasters using this issue"
 
   @dependent @anon
   Scenario: View organization page in All providers list anonymously
@@ -67,7 +66,6 @@ Feature: Moderate Marketplace listing
     And I select "List in the Training section" radio button
     And I press "Save"
     Then I should see "has been updated"  
-    And I should see "Regarding Training listing communicate with webmasters using this issue"
 
   @dependent @anon @clean_data 
   Scenario: View organization page in training section anonymously
