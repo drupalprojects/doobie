@@ -3923,7 +3923,7 @@ class FeatureContext extends DrupalContext {
     $element->selectFieldOption("Component", "Code");
 		$field = $this->getSession()->getPage()->findField('Version');
 		if(!empty($field)) {
-      $element->selectFieldOption("Version", "6.x-1.0");
+      $element->selectFieldOption("Version", "7.x-1.0");
 		}
     $element->selectFieldOption("Category", "Task");
     $description = Random::name(18);
