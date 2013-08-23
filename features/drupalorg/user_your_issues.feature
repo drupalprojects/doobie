@@ -1,4 +1,4 @@
-@user
+@user @manual
 Feature: View the issues I am interested in
   In order to see all the issues I am interested in
   As an authenticated user
