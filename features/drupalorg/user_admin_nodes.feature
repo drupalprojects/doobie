@@ -31,18 +31,6 @@ Feature: Administrative view of nodes by a user
     | edit      |
     | delete    |
 
-  @dependent
-  Scenario: Navigate to an item
-    Given I am logged in as the "admin test"
-    And I visit "site user" profile page
-    And I follow "Administer nodes"
-    When I follow a post
-    Then I should see the link "Edit"
-    And I should see the link "View"
-    And I should see the link "Outline"
-    And I should not see "Page not found"
-    And I should not see "Access denied"
-
   @dependent @javascript
   Scenario: Visit Edit link and view the contents
     Given I am logged in as the "admin test"
@@ -159,7 +147,7 @@ Feature: Administrative view of nodes by a user
     And I wait until the page loads    
     And I should see "Performed"
 
-  @dependent @slow @javascript @manual
+  @dependent @slow @javascript
   Scenario: Delete posts: Confirm
     Given I am logged in as the "admin test"
     And I visit "site user" profile page
@@ -169,5 +157,5 @@ Feature: Administrative view of nodes by a user
     And I press "Execute"
     And I press "Confirm"
     Then I should see "Performing"
-    And I wait until the page is loaded
+    And I wait "5" seconds 
     And I should see "Performed"
