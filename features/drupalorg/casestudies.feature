@@ -52,16 +52,7 @@ Feature: Adding new case study
     | Test data one   |
     | Test data two   |
     | Test data three |
-    And I should see the following <links>
-    | links           |
-    | Arts            |
-    | Education       |
-    | Community       |
-    | Features        |
-    | example.com     |
-    | site user       |
-    | Add new comment |
-    And I should see "Edit"
+   And I should see "Edit"
 
   Scenario: Comment on a case study
     When I click on a case study
