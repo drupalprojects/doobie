@@ -17,10 +17,6 @@ Feature: List and search change records
     | last                 |
     | Keywords             |
     | Introduced in branch |
-    And I should not see the following <texts>
-    | texts    |
-    | previous |
-    | first    |
 
   Scenario: Search by keyword
     Given I am on "/list-changes/drupal"
