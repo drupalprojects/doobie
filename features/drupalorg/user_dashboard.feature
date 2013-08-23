@@ -34,7 +34,7 @@ Feature:
     | Planet Drupal             |
     | Your Posts                |
     | Your Issues               |
-    | Project: Issue summary     |
+#    | Project: Issue summary   |
     | Contributor Links         |
     | Documentation Team links  |
     And I click "Restore to defaults"
