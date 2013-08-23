@@ -43,7 +43,7 @@ Feature: Adding new case study
     | Brief overview                                   | Test data two brief overview test case study   |
     | Why these modules/theme/distribution were chosen | Test data three test case study                |
     And I enter "Features" for field "Key modules/theme/distribution used"
-    And I select "Features" from the suggestion "Key modules/theme/distribution used"
+#    And I select "Features" from the suggestion "Key modules/theme/distribution used"
     And I press "Save"
     Then I should see "has been created"
     And I should see that the tab "Community showcase" is highlighted
