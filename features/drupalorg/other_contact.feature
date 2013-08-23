@@ -7,9 +7,8 @@ Feature: Drupal.org contact form
   @anon
   Scenario: Anonymous users views the page
     Given I am not logged in 
-    When I visit "/contact"
-    Then I should see the heading "Contact"
-    And I should see "You have to log in to contact us"
+    When I am on "/contact"
+    Then I should see "Access Denied"
     And I should not see "You can leave us a message using"
     And I should not see "Send yourself a copy"
 
