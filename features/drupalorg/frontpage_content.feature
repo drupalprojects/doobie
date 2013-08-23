@@ -39,7 +39,6 @@ Feature: Drupal.org frontpage
     And I should see at least "1000" "Themes" in top right content area
     And I should see at least "400" "Distributions" in top right content area
     And I should see at least "10000" "Developers" in top right content area
-    And I should see at least "3000" "Issue comments" in top right content area
     And I should see an advertisement in top right content area
 
   @anon
