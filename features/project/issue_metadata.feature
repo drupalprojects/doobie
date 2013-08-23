@@ -6,7 +6,7 @@ Feature: Prominently display issue metadata
 
     Scenario: 
     Given I am logged in as the "site user"
-    And I visit "/project/issues/bad_judgement"
+    And I visit "/project/issues/doobie"
     And I follow "Create a new issue"
     And I fill in "Title" with "Metadata Example" 
     And I select the following <fields> with <values>
