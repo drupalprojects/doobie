@@ -31,16 +31,6 @@ Feature: Administrative view of nodes by a user
     | edit      |
     | delete    |
 
-  @dependent @javascript
-  Scenario: Visit Edit link and view the contents
-    Given I am logged in as the "admin test"
-    And I visit "site user" profile page
-    And I follow "Administer nodes"
-    When I follow "edit" for a post
-    And I click the "Revision information" tab
-    Then I should see "Revision log message"
-    And I should see "Create new revision"
-
   @dependent
   Scenario: Visit Delete link
     Given I am logged in as the "admin test"
