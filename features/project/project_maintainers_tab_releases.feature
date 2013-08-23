@@ -30,14 +30,8 @@ Feature: 'Administer releases' permission check
   Scenario: Log in as maintainer and view add new release link
     Given I am logged in as the "git user"
     When I am on the project page
-    And I follow "Administer releases"
-    Then I should see the following <texts>
-    | texts                                              |
-    | Current Release                                    |
-    | Supported                                          |
-    | Show snapshot release                              |
-    | Major version                                      |
-    | For each term in the Core compatibility vocabulary |
+    And I follow "Add new release"
+    Then I should see "No valid branches or tags found"
 
   @dependent
   Scenario: Unassign Administer releases permission from a maintainer
