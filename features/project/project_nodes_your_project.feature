@@ -62,7 +62,7 @@ Feature: Learn about details of a full project
 
   @anon
   Scenario: Git messages
-    Given I am on "/project/bad_judgement"
+    Given I am on "/project/commons"
     When I follow "View commits"
     Then I should see at least "10" commits
     And I should see the following <texts>
