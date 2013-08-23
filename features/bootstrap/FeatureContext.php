@@ -5304,7 +5304,7 @@ class FeatureContext extends DrupalContext {
     // Extract the number and convert to integer
     $commitCount = (int) trim(str_replace(",", "", trim($temp->getText())));
     if ($commitCount < $count) {
-      throw new Exception("The 'Code commits' is less than '" . $count . "'");
+      throw new Exception("The 'Code commits' is less than '" . $count . "' This may happen when the database is not being refreshed daily.");
     }
   }
 
