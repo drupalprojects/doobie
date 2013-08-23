@@ -33,5 +33,4 @@ Feature: Create new packaging whitelist entry
     | View      |
     | Edit      |
     | Outline   |
-    | unpublish |
     | Clear BSD |
