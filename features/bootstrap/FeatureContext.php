@@ -7642,12 +7642,4 @@ class FeatureContext extends DrupalContext {
     );
   }
 
-    /** @When /^I run "([^"]*)"$/ */
-    public function iRun($command)
-    {
-        exec($command, $output);
-        $this->output = trim(implode("\n", $output));
-        print($this->output);
-    }
-
 }
