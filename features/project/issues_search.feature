@@ -79,7 +79,6 @@ Feature: Overall Filter Search for Issues
     | last  |
     | 2     |
     | 3     |
-    And I should not see the link "first"
 
   Scenario: View pagination links: Second page
     When I click on page "2"
