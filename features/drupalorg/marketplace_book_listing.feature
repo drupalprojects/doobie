@@ -74,6 +74,7 @@ Feature: Book listing content type
     And I visit "/admin/content"
     And I visit the random link for "Title"
     And I follow "Edit"
+    And I follow "Publishing options"
     When I check the box "Published"
     And I press "Save"
     And I visit "/books"
