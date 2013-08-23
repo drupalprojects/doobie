@@ -18,6 +18,6 @@ Feature: Find modules
     | project_theme         | Themes              | Zen                   |
     | project_core          | Drupal Cores        | Core placeholder      |
     | project_distribution  | Distributions       | OpenScholar           |
-    | project_drupalorg     | Drupal.org projects | Drupal.org BDD        |
+    | project_drupalorg     | Drupal.org projects | Association.drupal.org|
     | project_theme_engine  | Theme engines       | wgSmarty theme engine |
     | project_translation   | Translations        | Haitian Creole        |
