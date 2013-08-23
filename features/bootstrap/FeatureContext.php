@@ -4175,7 +4175,7 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     $page->clickLink('Promote');
     $page->checkField('confirm');
-    $this->projectShortName = Random::name(10);
+    $this->projectShortName = strtolower(Random::name(10));
     HackyDataRegistry::set('project_short_name', $this->projectShortName);
     $page->fillField('Short project name', $this->projectShortName);
     $page->pressButton('Promote to full project');

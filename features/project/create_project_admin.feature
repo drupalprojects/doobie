@@ -20,7 +20,7 @@ Feature: Manage all project types
     | /node/add/project-drupalorg    |
     | /node/add/project-theme        |
 
-    
+  @javascript    
   Scenario Outline: Promote sandboxes
     Given I am logged in as the "admin test"     
     And I am on "<url>"
