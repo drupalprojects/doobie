@@ -26,12 +26,12 @@ Feature: Landing page of Community section of the site
     When I follow "open"
     And I follow "Create a new issue"
     And I create a new issue
+    And the cache is cleared
     Then I should see "has been created"
 
   @dependent @clean_data @cache @javascript
   Scenario: Look for the issue created in Recent activity block
     Given I am on the homepage
-    And the cache is cleared
     When I follow "Community"
     Then I should see the issue link
     And I should see the heading "Recent activity"

@@ -370,6 +370,7 @@ class FeatureContext extends DrupalContext {
    * @Then /^I should have a local copy of "([^"]*)"$/
    */
   public function iShouldHaveALocalCopyOf($repo) {
+    echo $repo;
     if (!is_dir($repo)) {
       throw new Exception('The repo could not be found.');
     }
@@ -4174,9 +4175,9 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     $page->clickLink('Promote');
     $page->checkField('confirm');
-    /*$this->projectShortName = Random::name(10);
+    $this->projectShortName = Random::name(10);
     HackyDataRegistry::set('project_short_name', $this->projectShortName);
-    $page->fillField('Short project name:', $this->projectShortName);*/
+    $page->fillField('Short project name', $this->projectShortName);
     $page->pressButton('Promote to full project');
     $page = $this->getSession()->getPage();
     // Confirm promote
@@ -4188,7 +4189,7 @@ class FeatureContext extends DrupalContext {
    * @Then /^I should have a local copy of (?:the|([^"]*)") project$/
    */
   public function iShouldHaveALocalCopyOfTheProject($project = null) {
-    $project_shortname = $project ? $project : HackyDataRegistry::get('project_short_name');
+    $project_shortname = $this->projectShortName;
     if (empty($project_shortname)) {
       throw new Exception('The project cannot be found.');
     }
@@ -7640,5 +7641,13 @@ class FeatureContext extends DrupalContext {
       new Then("I move backward one page"),
     );
   }
+
+    /** @When /^I run "([^"]*)"$/ */
+    public function iRun($command)
+    {
+        exec($command, $output);
+        $this->output = trim(implode("\n", $output));
+        print($this->output);
+    }
 
 }

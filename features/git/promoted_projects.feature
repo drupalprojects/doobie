@@ -10,29 +10,27 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     When I create a "sandbox" project
     And I promote the project
     Then I should see project data
-
-  @dependent
-  Scenario: Visit project page and see that releases tab is available and project short name is readonly
-    Given I am logged in as the "git vetted user"
-    And I am on the project page
-    When I follow "Edit"
-    Then I should see the link "Releases"
+    And I follow "Edit" 
+    And I should see "Releases"
     And I should see that the project short name is readonly
 
-  @dependent
+  @wip
   Scenario: Initialize the repository as project owner
     Given I am logged in as the "git vetted user"
+    And I am on "/node/add/project-module"
+    When I create a "sandbox" project
+    And I promote the project
     And I am on the Version control tab
     When I initialize the repository
     Then I should have a local copy of the project
 
-  @dependent
+  @dependent @wip
   Scenario: Clone the repository as anonymous user
     Given I am on the Version control tab
     When I clone the repo
     Then I should have a local copy of the project
 
-  @dependent
+  @dependent @wip
   Scenario: Clone the sandbox repository as project owner
     Given I am logged in as the "git vetted user"
     When I clone the "promoted sandbox" repo

@@ -30,7 +30,6 @@ Feature: Adding company to the Marketplace
     And I should see the random "Organization description" text
     And I should see the random "Headquarters" text
     And I should see the random "Usual project budget (optional)" text
-    And I should see "Posted by site user"
     And I should see "has been created"
 
   @dependent @flaky
