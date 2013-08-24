@@ -43,6 +43,12 @@ abstract class HackyDataRegistry {
     }
     return $value;
   }
+  public static function keyExists($name) {
+    if (isset(self::$data[$name])) {
+      return TRUE;
+    }
+    return FALSE;
+  }
 }
 
 class LocalDataRegistry {
@@ -310,6 +316,7 @@ class FeatureContext extends DrupalContext {
     	$password = $userData['password'];
     }
     $tempArr = explode(" ", $this->repo);
+    $branch = "";
     foreach ($tempArr as $key => $value) {
       if (strpos($tempArr[$key], '--branch') !== FALSE) {
         // The branch name always follows --branch.
@@ -3952,8 +3959,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldBeAbleToPushACommitToTheRepository($canCommit = TRUE) {
     // Get the project folder name and make sure there is a clone
-    $projectTitle = strtolower(HackyDataRegistry::get('project_short_name'));
-    if (!$projectTitle) {
+    if (HackyDataRegistry::keyExists('project_short_name')) {
+      $projectTitle = strtolower(HackyDataRegistry::get('project_short_name'));
+    } else {
       $projectTitle = strtolower(HackyDataRegistry::get('project title'));
     }
     if (!$projectTitle) {
@@ -4634,7 +4642,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^I (?:|should be able to) push "([^"]*)" commit(?:|s) to the repository$/
    */
   public function iPushCommitsToTheRepository($count) {
-    if (!$count || $count == 0 || $count == "") {
+    if (!$count || $count <= 0 || $count == "") {
       throw new Exception("The number of commits required should be greater than zero");
     }
     for ($i = 0; $i < $count; $i++) {
