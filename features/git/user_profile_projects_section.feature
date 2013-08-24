@@ -45,6 +45,7 @@ Feature: Verify projects and commits summary in user profile page
     And I follow "Version control"
     And I initialize the repository
     And I follow "Version control"
+    And I clone the repo
     And I push "2" commits to the repository
     And I visit "/user"
     Then I should see the project link
