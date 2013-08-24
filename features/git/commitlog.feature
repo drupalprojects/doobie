@@ -31,7 +31,6 @@ Feature: Sitewide commit log
     When I click on "date" of a commit
     Then I should see "Commit"
 
-  @wip
   Scenario: Click link to user profile
     Given I am on "/commitlog"
     When I click on "user name" of a commit
