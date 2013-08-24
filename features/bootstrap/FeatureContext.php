@@ -1934,7 +1934,7 @@ class FeatureContext extends DrupalContext {
     $commitGlobal = $project->getParent()->getParent();
     switch ($linkType) {
       case 'user name':
-        $temp = $commitGlobal->find("css", ".attribtution a");
+        $temp = $commitGlobal->find("css", ".attribution a");
         if (!empty($temp)) {
           $href = $temp->getAttribute('href');
         }
