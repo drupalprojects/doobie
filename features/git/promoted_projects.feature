@@ -4,40 +4,24 @@ Feature: Ensure that sandbox repository is not available once the project is pro
   As a project owner
   I should be able to promote sandbox project and it should not be available at its previous sandbox URL
 
-  Scenario: Create a Sandbox project as git vetted user and promote
+  Scenario: Promote a sandbox project to full project
     Given I am logged in as the "git vetted user"
     And I am on "/node/add/project-module"
-    When I create a "sandbox" project
-    And I promote the project
-    Then I should see project data
-    And I follow "Edit" 
-    And I should see "Releases"
-    And I should see that the project short name is readonly
+    When I create and promote a sandbox project
+    Then I should see the new short name in the URL
+    And I should see a new Git clone URL
+    And I should not be able to edit the project short name
 
-  @wip
-  Scenario: Initialize the repository as project owner
-    Given I am logged in as the "git vetted user"
-    And I am on "/node/add/project-module"
-    When I create a "sandbox" project
-    And I promote the project
-    And I am on the Version control tab
-    When I initialize the repository
-    Then I should have a local copy of the project
 
-  @dependent @wip
-  Scenario: Clone the repository as anonymous user
-    Given I am on the Version control tab
-    When I clone the repo
-    Then I should have a local copy of the project
+  Scenario Outline: Sandbox clone URL should not allow cloning
+    Given a promoted sandbox
+    And that I am logged in as "<user>"
+    Then I should be able to use the Version control instructions to clone the repository
+    And I should not be able to clone the respository at the original sandbox URL
 
-  @dependent @wip
-  Scenario: Clone the sandbox repository as project owner
-    Given I am logged in as the "git vetted user"
-    When I clone the "promoted sandbox" repo
-    Then I should see an error
-
-  @clean_data @wip
-  Scenario: Clone the sandbox repository as anonymous user
-    Given I am not logged in
-    When I clone the "promoted sandbox" repo
-    Then I should see an error
+    Examples:
+    | user            |
+    | anonymous       |
+    | site user       |
+    | git vetted user |
+  

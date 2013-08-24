@@ -32,7 +32,7 @@ abstract class HackyDataRegistry {
       $value = self::$data[$name];
     }
     if ($value === "") {
-        $backtrace = debug_backtrace(FALSE, 2);
+        $backtrace = debug_backtrace(FALSE);
         $calling = $backtrace[1];
         if (array_key_exists('line', $calling) && array_key_exists('file', $calling)) {
             throw new PendingException(sprintf("Fix HackyDataRegistry accessing with unset key at %s:%d in %s.", $calling['file'], $calling['line'], $calling['function']));
@@ -257,6 +257,7 @@ class FeatureContext extends DrupalContext {
     // Initialise the password as "" to consider anonymous user
     $password = "\"\"";
     $url = "";
+    $branch = "";
     $user = $this->getLoggedinUsername();
     switch ($repo) {
       // Follow version control tab and read code block
@@ -276,6 +277,20 @@ class FeatureContext extends DrupalContext {
           throw new Exception("The page does not contain any codeblock");
         }
         $this->repo = $result->getText();
+        $tempArr = explode(" ", $this->repo);
+        foreach ($tempArr as $key => $value) {
+          if (strpos($tempArr[$key], '--branch') !== FALSE) {
+            // The branch name always follows --branch.
+            $branch = trim($tempArr[$key+1]);
+          }
+          if (strpos($tempArr[$key], ".git") !== FALSE) {
+            $url = trim($tempArr[$key]);
+            break;
+          }
+        }
+        if (!$branch || trim($branch) == "" ) {
+          throw new Exception("Could not find the branch to use with the repository.");
+        }
         break;
       //This is to clone a sandbox repo once it is promoted and this should not clone the repository
       case 'promoted sandbox':
@@ -304,6 +319,7 @@ class FeatureContext extends DrupalContext {
           $endpoint = $components['scheme'] . '://' . $endpoint;
         }
         $this->repo = $endpoint;
+        $url = $endpoint;
         break;
       default:
         throw new Exception("Invalid repo is given");
@@ -315,21 +331,7 @@ class FeatureContext extends DrupalContext {
     	$userData = $this->getGitUserData($this->repo);
     	$password = $userData['password'];
     }
-    $tempArr = explode(" ", $this->repo);
-    $branch = "";
-    foreach ($tempArr as $key => $value) {
-      if (strpos($tempArr[$key], '--branch') !== FALSE) {
-        // The branch name always follows --branch.
-        $branch = trim($tempArr[$key+1]);
-      }
-      if (strpos($tempArr[$key], ".git") !== FALSE) {
-        $url = trim($tempArr[$key]);
-        break;
-      }
-    }
-    if (!$branch || trim($branch) == "" ) {
-      throw new Exception("Could not find the branch to use with the repository.");
-    }
+
     if (!$url || trim($url) == "" ) {
       throw new Exception("Could not find the url to the repository. Initialize the repository before cloning");
     }
@@ -364,7 +366,7 @@ class FeatureContext extends DrupalContext {
         "\n Output: " . $process->getOutput()
       );
     }
-    // If clone is successfull, then a directory must be created
+    // If clone is successful, then a directory must be created
     if (!is_dir(getcwd() . "/" . $project)) {
       throw new RuntimeException("The clone did not work - " .
         "\n Error: " . $process->getErrorOutput() .
@@ -377,7 +379,6 @@ class FeatureContext extends DrupalContext {
    * @Then /^I should have a local copy of "([^"]*)"$/
    */
   public function iShouldHaveALocalCopyOf($repo) {
-    echo $repo;
     if (!is_dir($repo)) {
       throw new Exception('The repo could not be found.');
     }
@@ -535,16 +536,15 @@ class FeatureContext extends DrupalContext {
     if (!$element->hasField('Name')) {
       throw new Exception("The field Name was not found on the page");
     }
-    $this->projectTitle = Random::name(16);
-    HackyDataRegistry::set('project title', $this->projectTitle);
-    $this->dataRegistry->set('random:project title', $this->projectTitle);
-    $element->fillField('Name', $this->projectTitle);
+    $projectTitle = Random::name(16);
+    $this->dataRegistry->set('random:project title', $projectTitle);
+    $element->fillField('Name', $projectTitle);
     $element->selectFieldOption('Maintenance status', 'Actively maintained'); //Actively maintained
     $field = $this->getSession()->getPage()->findField('Project type');
     if(($field)) {
   		if ($type == 'full') {
 		    $element->selectFieldOption('Project type', $type);
-        $element->fillField('Short name', strtolower($this->projectTitle));
+        $element->fillField('Short name', strtolower($projectTitle));
 		  }
       else if($type == 'sandbox') {
         $element->selectFieldOption('Project type', $type);
@@ -555,16 +555,13 @@ class FeatureContext extends DrupalContext {
     if ($element->findField("Module categories")) {
       $element->selectFieldOption('Module categories', "Administration");
     }
-    if (isset($options["Taxonomy upgrade extras"])) {
-      $element->fillField('Taxonomy upgrade extras', $options["Taxonomy upgrade extras"]);
-    }
     if ($element->hasField("Has project releases")) {
       // By default do not include releases
       $element->uncheckField("Has project releases");
     }
     // Has project releases
     if (isset($options["Has project releases"])) {
-      if ((!$chk = $element->findField("Has project releases"))) {
+      if ((!$element->findField("Has project releases"))) {
         throw new Exception("The field 'Has project releases' was not found on the page");
       }
       if ($options["Has project releases"] == 1) {
@@ -576,7 +573,7 @@ class FeatureContext extends DrupalContext {
     }
     // Enable issue tracker
     if (isset($options["Enable issue tracker"])) {
-      if ((!$chk = $element->findField("Enable issue tracker"))) {
+      if ((!$element->findField("Enable issue tracker"))) {
         throw new Exception("The field 'Enable issue tracker' was not found on the page");
       }
       if ($options["Enable issue tracker"] == 1) {
@@ -591,10 +588,12 @@ class FeatureContext extends DrupalContext {
     // Allow some time for the repo to be created.
     sleep(5);
     if ($type == "full") {
-      HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
+      //HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
+      $this->dataRegistry->set('project_url', $this->getSession()->getCurrentUrl());
     }
     elseif ($type == "sandbox") {
-      HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
+      //HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
+      $this->dataRegistry->set('sandbox_url', $this->getSession()->getCurrentUrl());
     }
   }
 
@@ -674,6 +673,10 @@ class FeatureContext extends DrupalContext {
     foreach ($element as $code) {
       $command = trim($code->getText());
       // Get username and password
+      if (strpos($command, "mkdir") !== FALSE) {
+        $parts = explode(" ", $command);
+        HackyDataRegistry::set('project_git_dir', trim($parts[1]));
+      }
       if (strpos($command, "add origin") !== FALSE) {
         $gitUser = $this->getGitUserData($command);
         if ($gitUser) {
@@ -2253,9 +2256,10 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I should see that the project short name is readonly$/
+   * @Given /^I should see that the project short name is read-only$/
+   * @Given /^I should not be able to edit the project short name$/
    */
-  public function iShouldSeeThatTheProjectShortNameIsReadonly()
+  public function iShouldSeeThatTheProjectShortNameIsReadOnly()
   {
     $field = $this->getSession()->getPage()->findField('Short project name');
     if (!empty($field) && !$field->getAttribute('disabled')) {
@@ -4168,36 +4172,13 @@ class FeatureContext extends DrupalContext {
     $this->iCreateAProject('sandbox');
     HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
     return new Given('I see that the project was created');
-
-  }
-
-  /**
-   * Promote a sandbox project:
-   * @When /^I promote the project$/
-   */
-  public function iPromoteTheProject() {
-    // Read sandbox code block and save for later use
-    $this->saveSandboxGitEndpoint();
-    $page = $this->getSession()->getPage();
-    $page->clickLink('Edit');
-    $page = $this->getSession()->getPage();
-    $page->clickLink('Promote');
-    $page->checkField('confirm');
-    $this->projectShortName = strtolower(Random::name(10));
-    HackyDataRegistry::set('project_short_name', $this->projectShortName);
-    $page->fillField('Short project name', $this->projectShortName);
-    $page->pressButton('Promote to full project');
-    $page = $this->getSession()->getPage();
-    // Confirm promote
-    $page->pressButton('Promote');
-    sleep(3);
   }
 
   /**
    * @Then /^I should have a local copy of (?:the|([^"]*)") project$/
    */
   public function iShouldHaveALocalCopyOfTheProject($project = null) {
-    $project_shortname = $this->projectShortName;
+    $project_shortname = HackyDataRegistry::get('project_git_dir');
     if (empty($project_shortname)) {
       throw new Exception('The project cannot be found.');
     }
@@ -5205,40 +5186,6 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The tag '" . $tag . "' was not found in the view content");
     }
     $tagLink->click();
-  }
-
-  /**
-   * Save Sandbox code block from revision tab
-   *
-   */
-  private function saveSandboxGitEndpoint() {
-    $current_url = $this->getSession()->getCurrentUrl();
-    $link = $this->getSession()->getPage()->findLink('Version control');
-    // If no link found, do not harm promote project. so return
-    if (empty($link)) {
-      $this->getSession()->visit($this->locatePath($current_url));
-      return;
-    }
-    $this->getSession()->visit($this->locatePath($link->getAttribute('href')));
-    // Get the code block
-    $element = $this->getSession()->getPage()->find('css', '#content div.codeblock');
-    if (empty($element)) {
-      $this->getSession()->visit($this->locatePath($current_url));
-      return;
-    }
-    $code = $element->getText();
-    // If sandbox repo is already initiated
-    // Eg: git clone --branch master ssh://gitvetteduser@git6.devdrupal.org:2020/sandbox/gitvetteduser/1788043.git
-    $end_point = '';
-    if (preg_match('#git clone --branch (.+)\.git#', $code, $matches)) {
-      $arr_ep = explode(" ", $matches[1]);
-      $end_point = end($arr_ep) . ".git";
-    }
-    elseif (preg_match('#git remote add origin (.+)\.git#', $code, $matches)) {
-       $end_point = $matches[1] . ".git";
-    }
-    HackyDataRegistry::set('sandbox git endpoint', $end_point);
-    $this->getSession()->visit($this->locatePath($current_url));
   }
 
   /**
@@ -7650,4 +7597,118 @@ class FeatureContext extends DrupalContext {
     );
   }
 
+  /**
+   * @Then /^I should see the new short name in the URL$/
+   */
+  public function iShouldSeeTheNewShortNameInTheUrl() {
+    $this->getSession()->visit($this->dataRegistry->get('sandbox_url'));
+    $currentUrl = $this->getSession()->getCurrentUrl();
+    $correctUrl = $this->locatePath('/project/' . $this->dataRegistry->get('project_short_name'));
+    if ($currentUrl !== $correctUrl) {
+      throw new Exception("$currentUrl doesn't match the expected url, $correctUrl.");
+    }
+  }
+
+  /**
+   * @Given /^I should see a new Git clone URL$/
+   */
+  public function iShouldSeeANewGitCloneUrl() {
+    $page = $this->getSession()->getPage();
+    $page->clickLink('Version control');
+    $instructions = $this->getSession()->getPage()->findAll('css', '.codeblock code');
+    if (empty($instructions)) {
+      throw new Exception("Git instructions not found at " . $this->getSession()->getCurrentUrl());
+    }
+    foreach ($instructions as $instruction) {
+      $instruction = trim($instruction->getText());
+      if (strpos($instruction, "git clone") !== FALSE) {
+        $clone = explode(" ", $instruction);
+        $giturl = trim(array_pop($clone));
+        $this->dataRegistry->set('project clone url', $giturl);
+        $gitbranch = trim(array_pop($clone));
+        $this->dataRegistry->set('project clone branch', $gitbranch);
+      }
+    }
+    if (empty($giturl)) {
+      throw new Exception("Clone URL not found on the git instructions page. Are the git workers running?");
+    }
+    if ($giturl == $this->dataRegistry->get('sandbox clone url')) {
+      throw new Exception("Sandbox clone location not updated after promotion to new project.");
+    }
+  }
+
+  /**
+   * @Given /^a promoted sandbox$/
+   */
+  public function aPromotedSandbox() {
+    throw new PendingException();
+  }
+
+  /**
+   * @Given /^that I am logged in as "([^"]*)"$/
+   */
+  public function thatIAmLoggedInAs($arg1) {
+    throw new PendingException();
+  }
+
+  /**
+   * @Then /^I should be able to use the Version control instructions to clone the repository$/
+   */
+  public function iShouldBeAbleToUseTheVersionControlInstructionsToCloneTheRepository() {
+    throw new PendingException();
+  }
+
+  /**
+   * @Given /^I should not be able to clone the respository at the original sandbox URL$/
+   */
+  public function iShouldNotBeAbleToCloneTheRespositoryAtTheOriginalSandboxUrl() {
+    throw new PendingException();
+  }
+
+  /**
+   * @Given /^I create and promote a sandbox project$/
+   */
+  public function iCreateAndPromoteASandboxProject() {
+    $this->iCreateAProject('sandbox');
+
+    $page = $this->getSession()->getPage();
+    // Go to the git instructions page
+    $page->clickLink('Version control');
+
+    // Save important details about our sandbox before we promote it.
+    $instructions = $this->getSession()->getPage()->findAll('css', '.codeblock code');
+    if (empty($instructions)) {
+      throw new Exception("Git instructions not found at " . $this->getSession()->getCurrentUrl());
+    }
+    foreach ($instructions as $instruction) {
+      $instruction = trim($instruction->getText());
+      if (strpos($instruction, "mkdir") !== FALSE) {
+        $mkdir = explode(" ", $instruction);
+        $this->dataRegistry->set('sandbox project name', trim($mkdir[1]));
+      }
+      if (strpos($instruction, "remote add origin") !== FALSE) {
+        $origin = explode(" ", $instruction);
+        $giturl = trim(array_pop($origin));
+        $this->dataRegistry->set('sandbox clone url', $giturl);
+      }
+    }
+
+    // We need to put some code in while it's still a sandbox.
+    $this->iInitializeTheRepository();
+   
+    // Now promote the sandbox to a full project 
+    $page = $this->getSession()->getPage();
+    $page->clickLink('Edit');
+    $page = $this->getSession()->getPage();
+    $page->clickLink('Promote');
+    $page->checkField('confirm');
+    $projectShortName = strtolower(Random::name(10));
+    $this->dataRegistry->set('project_short_name', $projectShortName);
+    $page->fillField('Short project name', $projectShortName);
+    $page->pressButton('Promote to full project');
+    $page = $this->getSession()->getPage();
+    // Confirm promotion
+    $page->pressButton('Promote');
+    sleep(3);
+  }
 }

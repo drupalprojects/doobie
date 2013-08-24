@@ -24,8 +24,7 @@ Feature: Manage all project types
   Scenario Outline: Promote sandboxes
     Given I am logged in as the "admin test"     
     And I am on "<url>"
-    And I create a "sandbox" project
-    When I promote the project 
+    And I create and promote a sandbox project
     Then the URL should match "/project/*"
 
     Examples:                        

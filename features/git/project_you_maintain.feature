@@ -11,7 +11,7 @@ Feature: Promote a project from a sandbox to a full project
     And I follow "Edit"
     Then I should not see the link "Promote"
     And I should not see the link "Promote this project"
-    And I should see that the project short name is readonly
+    And I should see that the project short name is read-only
 
   @gitrepo @dependent @clean_data
   Scenario: Git user initializes the repo and tries to promote project
@@ -21,7 +21,7 @@ Feature: Promote a project from a sandbox to a full project
     And I follow "Edit"
     Then I should not see the link "Promote"
     And I should not see the link "Promote this project"
-    And I should see that the project short name is readonly
+    And I should see that the project short name is read-only
 
   @clean_data
   Scenario: Git vetted user create a project and tries to promote it
@@ -32,7 +32,7 @@ Feature: Promote a project from a sandbox to a full project
     And I follow "Edit"
     Then I should not see the link "Promote"
     And I should not see the link "Promote this project"
-    And I should see that the project short name is readonly
+    And I should see that the project short name is read-only
 
   @gitrepo @clean_data
   Scenario: Git vetted user initializes the repo and tries to promote project
@@ -45,4 +45,4 @@ Feature: Promote a project from a sandbox to a full project
     And I follow "Edit"
     Then I should not see the link "Promote"
     And I should not see the link "Promote this project"
-    And I should see that the project short name is readonly
+    And I should see that the project short name is read-only
