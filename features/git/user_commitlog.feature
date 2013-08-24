@@ -6,26 +6,21 @@ Feature: To see the list of all the commits for a user
 
   Background:
     Given I am logged in as the "git user"
-    And I follow "Your Dashboard"
-    And I follow "Your Commits"
 
   @gitrepo
-  Scenario: Git User creates a project
+  Scenario: Visit the commits page and view commits 
     When I visit "/node/add/project-module"
     And I create a "sandbox" project
     And I see project data
     And I follow "Version control"
-    Then I initialize the repository
+    And I initialize the repository
     And I follow "Version control"
     And I wait until the page loads
     And I push "3" commits to the repository
-
-  @dependent
-  Scenario: Visit your commits page and view the contents
-    When I visit "/user"
+    And I follow "Your Dashboard"
     And I follow "Your Commits"
-    Then I should see at least "3" records
-    And I should see the following <texts>
+    And I should see at least "3" records
+    Then I should see the following <texts>
     | texts              |
     | Commit             |
     | master             |
@@ -33,6 +28,8 @@ Feature: To see the list of all the commits for a user
 
   @dependent
   Scenario: Click link to user profile
+    And I follow "Your Dashboard"
+    And I follow "Your Commits"
     When I click on "user name" of a commit
     Then I should see the following <texts>
     | texts           |
@@ -42,6 +39,8 @@ Feature: To see the list of all the commits for a user
 
   @dependent
   Scenario: Click link to project title: Full project
+    And I follow "Your Dashboard"
+    And I follow "Your Commits"
     When I click on "project title" of a commit
     Then I should see "Posted by"
     And I should see the link "View"
@@ -49,6 +48,8 @@ Feature: To see the list of all the commits for a user
 
   @dependent
   Scenario: Click link to sandbox project title: Sandbox project
+    And I follow "Your Dashboard"
+    And I follow "Your Commits"
     When I click on "sandbox project title" of a commit
     Then I should see "Posted by"
     And I should see the following <texts>
@@ -62,11 +63,15 @@ Feature: To see the list of all the commits for a user
 
   @dependent
   Scenario: Click link to date
+    And I follow "Your Dashboard"
+    And I follow "Your Commits"
     When I click on "date" of a commit
     And I should see "Commit"
 
   @clean_data @dependent
   Scenario: Click link to repository
+    And I follow "Your Dashboard"
+    And I follow "Your Commits"
     When I click on "commit info" of a commit
     Then I should see the link "summary"
     And I should see the following <texts>
