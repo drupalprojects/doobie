@@ -28,6 +28,7 @@ Feature: View the commits for a project
     When I click on "date" of a commit
     And I should see "Commit"
 
+  @wip
   Scenario: Click link to user profile
     When I click on "user name" of a commit
     Then I should see the following <texts>
