@@ -2693,8 +2693,8 @@ class FeatureContext extends DrupalContext {
     $flag = 0;
     $result = "";
     // Try to get title from HackyDataRegistry.
-    $temp = HackyDataRegistry::get('project title');
-    if ($temp) {
+    if (HackyDataRegistry::keyExists('project title')) {
+      $temp = HackyDataRegistry::get('project title');
       $result = $page->findLink($temp);
       if (!empty($result)) {
         return $result;
