@@ -7,11 +7,11 @@ Feature: Your Project Tab
   Background:
     Given I am logged in as the "git vetted user"
     And I am on "/node/add/project-theme"
-    And I create a "full" project
+    And I create a "full" project with releases
     And I am on "project/user"
 
   Scenario: See issues on in the project table
-    Given a new "sandbox" "Module project" issue
+    Given a new "full" "Module project" issue
     When I visit "/project/user"
     Then I should see the random "issue title" text 
 
