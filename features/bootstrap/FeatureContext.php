@@ -3963,11 +3963,16 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldBeAbleToPushACommitToTheRepository($canCommit = TRUE) {
     // Get the project folder name and make sure there is a clone
-    if (HackyDataRegistry::keyExists('project_short_name')) {
+		if (HackyDataRegistry::keyExists('project_git_dir')) {
+			$projectTitle = HackyDataRegistry::get('project_git_dir');
+		} elseif ($this->dataRegistry->get('sandbox project name')) {
+			$projectTitle = $this->dataRegistry->get('sandbox project name');
+		} elseif (HackyDataRegistry::keyExists('project_short_name')) {
       $projectTitle = strtolower(HackyDataRegistry::get('project_short_name'));
     } else {
       $projectTitle = strtolower(HackyDataRegistry::get('project title'));
     }
+		HackyDataRegistry::set('project title', $projectTitle);
     if (!$projectTitle) {
       throw new Exception("No project found to push");
     }
