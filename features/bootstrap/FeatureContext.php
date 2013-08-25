@@ -632,7 +632,7 @@ class FeatureContext extends DrupalContext {
     }
     $versionControlTabPath = $vcLink->getAttribute('href');
     HackyDataRegistry::set('version control path', $versionControlTabPath);
-    if (empty($element) || strpos($element->getText(), $this->projectTitle) === FALSE) {
+    if (empty($element) || strpos($element->getText(), $this->dataRegistry->get('project_short_name')) === FALSE) {
       throw new Exception('Project title not found where it was expected.');
     }
   }
@@ -7641,28 +7641,82 @@ class FeatureContext extends DrupalContext {
    * @Given /^a promoted sandbox$/
    */
   public function aPromotedSandbox() {
-    throw new PendingException();
-  }
-
-  /**
-   * @Given /^that I am logged in as "([^"]*)"$/
-   */
-  public function thatIAmLoggedInAs($arg1) {
-    throw new PendingException();
+    return array(
+      new Given('I am logged in as the "git vetted user"'),
+      new Given('I am on "/node/add/project-module"'),
+      new Given('I create and promote a sandbox project'),
+    );
   }
 
   /**
    * @Then /^I should be able to use the Version control instructions to clone the repository$/
    */
   public function iShouldBeAbleToUseTheVersionControlInstructionsToCloneTheRepository() {
-    throw new PendingException();
+    $projectUrl = $this->locatePath('/project/' . $this->dataRegistry->get('project_short_name'));
+    $this->getSession()->visit($projectUrl);
+    $page = $this->getSession()->getPage();
+    $page->clickLink('Version control');
+    $instructions = $this->getSession()->getPage()->findAll('css', '.codeblock code');
+    if (empty($instructions)) {
+      throw new Exception("Git instructions not found at " . $this->getSession()->getCurrentUrl());
+    }
+    foreach ($instructions as $instruction) {
+      $instruction = trim($instruction->getText());
+      if (strpos($instruction, "git clone") !== FALSE) {
+        $clone = explode(" ", $instruction);
+        $giturl = trim(array_pop($clone));
+        $branch = trim(array_pop($clone));
+        $this->dataRegistry->set('project anonymous clone branch', $branch);
+        $this->dataRegistry->set('project anonymous clone url', $giturl);
+      }
+    }
+    $this->checkExpectLibraryStatus();
+    $password = '""';
+    $localgitdir = $this->dataRegistry->get('project_short_name');
+    $command = "./bin/gitwrapper clone $password $giturl $localgitdir $branch";
+    $process = new Process($command);
+    $process->setTimeout(3600);
+    $process->run();
+
+    // Continue with normal cloning
+    if (!$process->isSuccessful()) {
+      throw new RuntimeException("The clone did not work - " .
+        "\n Error: " . $process->getErrorOutput() .
+        "\n Output: " . $process->getOutput()
+      );
+    }
+    // If clone is successful, then a directory must be created
+    if (!is_dir(getcwd() . "/" . $localgitdir)) {
+      throw new RuntimeException("The clone did not work - " .
+        "\n Error: " . $process->getErrorOutput() .
+        "\n Output: " . $process->getOutput()
+      );
+    }
   }
 
   /**
    * @Given /^I should not be able to clone the respository at the original sandbox URL$/
    */
   public function iShouldNotBeAbleToCloneTheRespositoryAtTheOriginalSandboxUrl() {
-    throw new PendingException();
+    $this->checkExpectLibraryStatus();
+    $branch = $this->dataRegistry->get('project anonymous clone branch');
+    $giturl = $this->dataRegistry->get('sandbox anonymous clone url');
+    $password = '""';
+    $localgitdir = Random::name(10);
+    $command = "./bin/gitwrapper clone $password $giturl $localgitdir $branch";
+    $process = new Process($command);
+    $process->setTimeout(3600);
+    $process->run();
+    $process_output = $process->getOutput();
+    $process = new Process('rm -rf ' . $localgitdir);
+    $process->run();
+    if (empty($process_output)) {
+      throw new Exception("Process output is not found");
+    }
+    // Look for error in the output
+    if (!preg_match("/(?:fatal: |warning: )/", $process_output)) {
+      throw new Exception("The error did not happen as expected");
+    }
   }
 
   /**
@@ -7695,7 +7749,36 @@ class FeatureContext extends DrupalContext {
 
     // We need to put some code in while it's still a sandbox.
     $this->iInitializeTheRepository();
-   
+
+    $this->assertAnonymousUser();
+
+    // Go back to the project page
+    $this->getSession()->visit($this->dataRegistry->get('sandbox_url'));
+
+    $page = $this->getSession()->getPage();
+    // Go to the git instructions page
+    $page->clickLink('Version control');
+
+    // Save important details about our sandbox before we promote it.
+    $instructions = $this->getSession()->getPage()->findAll('css', '.codeblock code');
+    if (empty($instructions)) {
+      throw new Exception("Git instructions not found at " . $this->getSession()->getCurrentUrl());
+    }
+    foreach ($instructions as $instruction) {
+      $instruction = trim($instruction->getText());
+      if (strpos($instruction, "git clone") !== FALSE) {
+        $clone = explode(" ", $instruction);
+        $gitdir = trim(array_pop($clone));
+        $giturl = trim(array_pop($clone));
+        $this->dataRegistry->set('sandbox anonymous clone url', $giturl);
+      }
+    }
+    // Log back in, wheee!
+    $this->iAmLoggedInAs('git vetted user');
+
+    // Go back to the project page
+    $this->getSession()->visit($this->dataRegistry->get('sandbox_url'));
+
     // Now promote the sandbox to a full project 
     $page = $this->getSession()->getPage();
     $page->clickLink('Edit');

@@ -15,13 +15,11 @@ Feature: Ensure that sandbox repository is not available once the project is pro
 
   Scenario Outline: Sandbox clone URL should not allow cloning
     Given a promoted sandbox
-    And that I am logged in as "<user>"
+    And I am logged in as the "<user>"
     Then I should be able to use the Version control instructions to clone the repository
     And I should not be able to clone the respository at the original sandbox URL
 
     Examples:
     | user            |
-    | anonymous       |
     | site user       |
-    | git vetted user |
   
