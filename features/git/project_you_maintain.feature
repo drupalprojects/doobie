@@ -4,45 +4,29 @@ Feature: Promote a project from a sandbox to a full project
   As a git vetted user
   I should be able to promote a sandbox
 
+  @gitrepo @cleanup
   Scenario: Git user creates a project and tries to promote it
     Given I am logged in as the "git user"
-    When I create a sandbox project
-    And I see project data
+    And I am on "/node/add/project-theme"
+    When I create a "sandbox" project
     And I follow "Edit"
     Then I should not see the link "Promote"
     And I should not see the link "Promote this project"
     And I should see that the project short name is read-only
 
-  @gitrepo @dependent @clean_data
-  Scenario: Git user initializes the repo and tries to promote project
-    Given I am logged in as the "git user"
-    And I am on the Version control tab
-    When I initialize the repository
-    And I follow "Edit"
-    Then I should not see the link "Promote"
-    And I should not see the link "Promote this project"
-    And I should see that the project short name is read-only
-
-  @clean_data
+  @cleanup
   Scenario: Git vetted user create a project and tries to promote it
+    Given a promoted sandbox
     Given I am logged in as the "git vetted user"
-    And I created a sandbox project
-    When I promote the project
-    And I see "has been promoted to a full project"
-    And I follow "Edit"
+    When I follow "Edit"
     Then I should not see the link "Promote"
     And I should not see the link "Promote this project"
     And I should see that the project short name is read-only
 
-  @gitrepo @clean_data
+  @gitrepo @cleanup
   Scenario: Git vetted user initializes the repo and tries to promote project
-    Given I am logged in as the "git vetted user"
-    And I created a sandbox project
-    And I follow "Version control"
-    And I initialize the repository
-    When I promote the project
-    And I see "has been promoted to a full project"
-    And I follow "Edit"
+    Given a promoted sandbox    
+    When I follow "Edit"
     Then I should not see the link "Promote"
     And I should not see the link "Promote this project"
     And I should see that the project short name is read-only
