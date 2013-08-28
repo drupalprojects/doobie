@@ -16,7 +16,10 @@ Feature: To see the list of all the commits for a user
     And I initialize the repository
     And I follow "Version control"
     And I wait until the page loads
-    And I push "3" commits to the repository
+    And I should be able to push a commit to the repository
+    And I should be able to push a commit to the repository
+    And I should be able to push a commit to the repository
+#    And I push "3" commits to the repository
     And I follow "Your Dashboard"
     And I follow "Your Commits"
     And I should see at least "3" records
