@@ -94,6 +94,7 @@ Feature: Visitor searches site
     And I follow "Modules ("
     And I wait until the page loads
     When I select "Event" from "Module categories"
+    And I wait until the page loads
     And I select "6.x" from "Core compatibility"
     And I select "All projects" from "Status"
     And I select "Created date" from "Sort by"
