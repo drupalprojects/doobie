@@ -1,4 +1,4 @@
-@known_git7failure @anon @search
+@anon @search
 Feature: Visitor searches site
   In order to see relevant search results and filters
   As a visitor to Drupal.org
@@ -37,11 +37,11 @@ Feature: Visitor searches site
   Scenario: Page contains a search field in the right column
     Given I am on "/search"
     And I search sitewide for "views"
-    When I enter "cck" for field "Search again"
-    And I press "Submit"
+    When I enter "Masquerade" for field "Search again"
+    And I press "Search" in the "right sidebar" region
     Then I should see at least "25" records
-    And I should see the link "CCK"
-    And I should see "results containing the words: cck"
+    And I should see the link "Masquerade"
+    And I should see "results containing the words: Masquerade"
     And I should not see "Your search yielded no results"
 
   @slow
