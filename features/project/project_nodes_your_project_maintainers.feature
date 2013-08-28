@@ -34,7 +34,7 @@ Feature: Maintain the project
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent @wip
+  @dependent
   Scenario: Maintainers users
     Given I am logged in as the "git vetted user"
     And I visit "/project/test_releases"
@@ -46,9 +46,8 @@ Feature: Maintain the project
     | pradeeprkara    |
     | sachin2dhoni    |
     | git vetted user |
-    | site user       |
 
-  @dependent @wip
+  @dependent
   Scenario: Maintainers tab users and permissions
     Given I am logged in as the "git vetted user"
     And I visit "/project/test_releases"
