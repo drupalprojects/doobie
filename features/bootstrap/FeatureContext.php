@@ -2030,7 +2030,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheCommitMessage() {
     $page = $this->getSession()->getPage();
-    $temp = $page->find("css", ".view-vc-git-individual-commit .views-field-nothing-1 span.field-content");
+    $temp = $page->find("css", ".view-vc-git-individual-commit .views-field-message");
     // check whether message is present or not before calling getText(), otherwise it will throw error
     if (empty($temp)) {
       throw new Exception("The page does not contain any commit message");
