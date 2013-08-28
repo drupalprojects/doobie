@@ -52,8 +52,6 @@ Feature: Sitewide commit log
 
   @javascript
   Scenario: View project title as the first part of the heading
-    Given I am on the homepage
-    When I follow "Commits"
-    And I follow "More commit messages…"
+    Given I am on "/commitlog" 
     Then I should see the heading "All commits"
     And I should see project name in the first part of the heading
