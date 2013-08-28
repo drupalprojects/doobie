@@ -17,10 +17,10 @@ Feature: Manage development releases
   Given I am logged in as the "git vetted user"
     And I visit "/project/git_deploy"
     And I see project data
-    And I am on the Version control tab
+    And I follow "Version control"
     And I clone the repo
     When I create a new branch for "6.x" version
-    And I visit the Version control tab
+    And I follow "Version control"
     Then I should see the branch in the dropdown "Version to work from"
 
   @dependent

@@ -13,7 +13,7 @@ Feature: See git activity on the front page
     And I am on "/node/add/project-module"
     And I create a "sandbox" project
     And I see project data
-    And I visit the Version control tab
+    And I follow "Version control"
     And I initialize the repository
     And I follow "Version control"
     When I push "2" commits to the repository

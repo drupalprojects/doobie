@@ -638,25 +638,19 @@ class FeatureContext extends DrupalContext {
     }
   }
 
+
   /**
-   * @Given /^I am on the Version control tab$/
-   * @When /^I visit the Version control tab$/
+   * @When /^I visit the recent sandbox$/
    */
-  public function iAmOnTheVersionControlTab() {
-    $path = trim(HackyDataRegistry::get('version control path'));
-    if (!$path || $path == "") {
-      // If directly coming from project page
-      $element = $this->getSession()->getPage()->findLink('Version control');
-      if (!empty($element)) {
-        $path = $element->getAttribute('href');
-      }
-      else {
-        throw new Exception("The path to Version control tab was not found");
-      }
+  public function iVisitTheRecentSandbox() {
+    // Temporary function to allow us to get rid of the even more confusing one.
+    $dest =  HackyDataRegistry::get('sandbox_url');
+    if (!$dest) {
+      throw new Exception('No sandbox found to visit.');
     }
-    $path = $this->locatePath($path);
-    return new Given("I am at \"$path\"");
+    $this->getSession()->visit($this->locatePath($dest));
   }
+
 
   /**
    * Requires the Expect library to supply password to ssh on the command line.

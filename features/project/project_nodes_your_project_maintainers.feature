@@ -109,7 +109,7 @@ Feature: Maintain the project
   Scenario: Git vetted user commits to repo
     Given I am logged in as the "git vetted user"
     And I am on "/project/test_releases"
-    And I visit the Version control tab
+    And I follow "Version control"
     When I clone the repo
     And I push "2" commits to the repository
     Then I should have a local copy of "test_releases"

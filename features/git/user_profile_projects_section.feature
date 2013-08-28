@@ -12,14 +12,15 @@ Feature: Verify projects and commits summary in user profile page
     When I visit "/node/add/project-module"
     And I create a "sandbox" project
     And I see project data
-    And I am on the Version control tab
+    And I follow "Version control"
     And I initialize the repository
     And I follow "Version control"
     Then I should see "Setting up repository for the first time"
 
   @gitrepo @dependent
   Scenario: Commit to the above sandbox project and view the commits
-    When I visit the Version control tab
+    When I visit the recent sandbox
+    And I follow "Version control"
     And I clone the repo
     And I push "2" commits to the repository
     And I visit "/user"
