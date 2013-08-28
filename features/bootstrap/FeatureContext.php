@@ -3029,7 +3029,7 @@ class FeatureContext extends DrupalContext {
       }
     }
     if ( $records < $count ) {
-      throw new Exception('The table has less than ' . $count . ' records only.');
+      throw new Exception('The table has ' . $records . ' records. Expected ' . $count . ' or more records.');
     }
   }
 
@@ -3277,7 +3277,11 @@ class FeatureContext extends DrupalContext {
         $arr_table['link_exceptions'] = array('Add a new project');
         return $arr_table;
       case 'Project Issues':
-        $arr_table['element'] = $tables[2]; // Until we have a caption just use the third table and pray.
+        $issue_table = $this->getSession()->getPage()->find('css', '#content-inner table.project-issue');
+        if (!$issue_table) {
+          throw new Exception('Project issue table no found at ' . $this->getSession()->getCurrentUrl());
+        }
+        $arr_table['element'] = $issue_table;
         $arr_table['link_column'] = '1';
         $arr_table['link_exceptions'] = array();
         return $arr_table;
