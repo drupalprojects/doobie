@@ -341,6 +341,7 @@ class FeatureContext extends DrupalContext {
         $arr_url = explode('/', $url);
         $project = str_replace('.git', '', end($arr_url));
       }
+      HackyDataRegistry::set('project_short_name', $project);
     }
     if(empty($project)) {
       throw new Exception("No project found to push");
@@ -3728,7 +3729,7 @@ class FeatureContext extends DrupalContext {
     if (empty($region)) {
       throw new Exception("Right sidebar region was not found");
     }
-    $ad_container = array('div#google_ads_div_HostingForumBlock_ad_container', 'div.gam-suffix');
+    $ad_container = array('div#google_ads_div_Redesign_home_ad_wrapper', '#google_ads_iframe_Redesign_home');
     $found = false;
     foreach ($ad_container as $ele) {
       if ($region->find('css', $ele)) {
