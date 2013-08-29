@@ -12,7 +12,7 @@ Feature: Verify Write to VCS permission
     And I see project data
     And I follow "Version control"
     And I initialize the repository
-    And I follow "Version control"
+    And I reload the page 
     Then I should see "Setting up repository for the first time"
 
   @dependent
@@ -27,7 +27,7 @@ Feature: Verify Write to VCS permission
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent @gitrep @clean_data
+  @dependent @gitrepo @clean_data
   Scenario: Git user does a push a commit to the repository
     Given I am logged in as the "git user"
     And I visit the recent sandbox
