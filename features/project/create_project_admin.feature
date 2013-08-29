@@ -25,7 +25,8 @@ Feature: Manage all project types
     Given I am logged in as the "admin test"     
     And I am on "<url>"
     And I create a "sandbox" project
-    When I promote the project 
+    When I promote the project
+    And I wait for "1" second
     Then the URL should match "/project/*"
 
     Examples:                        
