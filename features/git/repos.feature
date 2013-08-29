@@ -7,7 +7,7 @@ Feature: Users create git repository
   Background:
     Given I am logged in as the "git user"
 
-  @smoke
+  @smoke @clean_data @gitrepo
   Scenario: Git User creates a project
     Given I am at "/node/add/project-module"
     When I create a "sandbox" project
@@ -15,7 +15,7 @@ Feature: Users create git repository
     And I follow "Version control"
     And I see "Empty Sandbox Repository"
     And I initialize the repository
-    And I follow "Version control"
+    And I reload the page 
     Then I should see "Routinely"
     And I should see "Switching to a different branch"
 
