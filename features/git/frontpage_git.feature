@@ -15,11 +15,11 @@ Feature: See git activity on the front page
     And I see project data
     And I follow "Version control"
     And I initialize the repository
-    And I follow "Version control"
+    And I reload the page
     When I push "2" commits to the repository
     And I follow "Drupal Homepage"
     And the cache is cleared
-    And I follow "Commits"
+    And I visit "/home#tab-commits"
     Then I should see the link "by gitvetteduser: From the step definition"
 
   @anon
