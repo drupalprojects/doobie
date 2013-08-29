@@ -19,7 +19,7 @@ Feature: Home page preference functionality
     And I should see "Use Default Homepage"
     And I should not see the link "Make this your Homepage"
 
-  Scenario: Select default home page and and visit homepage by clicking drupal banner
+  Scenario: Select default home page and visit homepage by clicking drupal banner
     When I select the radio button "Use Default Homepage"
     And I click the drupal banner in the header
     And I wait until the page loads

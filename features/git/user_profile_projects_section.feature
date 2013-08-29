@@ -28,7 +28,7 @@ Feature: Verify projects and commits summary in user profile page
     And I should see "2" commits for the project
 
   @gitrepo @dependent @clean_data
-  Scenario: Promote the sandbox project, commit and and view the commits
+  Scenario: Promote the sandbox project, commit and view the commits
     When I visit the project page
     And I promote the project
     And I follow "Version control"
@@ -39,7 +39,7 @@ Feature: Verify projects and commits summary in user profile page
     And I should see "4" commits for the project
 
   @gitrepo @clean_data
-  Scenario: Create a full project, commit and and view the commits
+  Scenario: Create a full project, commit and view the commits
     When I visit "/node/add/project-module"
     And I create a "full" project
     And I see project data

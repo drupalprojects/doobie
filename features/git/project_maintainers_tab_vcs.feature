@@ -10,7 +10,7 @@ Feature: Verify Write to VCS permission
     And I am at "/node/add/project-module"
     When I create a "sandbox" project
     And I see project data
-    And And I follow "Version control"
+    And I follow "Version control"
     And I initialize the repository
     And I follow "Version control"
     Then I should see "Setting up repository for the first time"
@@ -23,10 +23,11 @@ Feature: Verify Write to VCS permission
     And I press "Update"
     And I see "added and permissions updated"
     And I assign "Write to VCS" to the maintainer "git user"
+    And I assign "Maintain issues" to the maintainer "git user"
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @gitrepo @dependent @clean_data
+  @dependent
   Scenario: Git user does a push a commit to the repository
     Given I am logged in as the "git user"
     And I visit the recent sandbox
@@ -36,3 +37,18 @@ Feature: Verify Write to VCS permission
     And I follow "Logged in as git user"
     And I follow "Your Commits"
     Then I should see the project link
+
+  Scenario: Revoke VCS permissions
+    Given I am logged in as the "git vetted user"
+    And I am on the Maintainers tab
+    When I unassign "Write to VCS" from the maintainer "git user"
+    And I press "Update"
+    Then I should see "Maintainer permissions updated"
+
+  Scenario: User should not be able to push
+    Given I am logged in as the "git user"
+    And I visit the recent sandbox
+    And I follow "Version control"
+    When I push "2" commits to the repository
+    Then I got pwnd 
+  

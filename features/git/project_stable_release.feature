@@ -17,7 +17,7 @@ Feature: Manage stable releases
     Given I am logged in as the "git vetted user"
     And I visit "/project/git_deploy"
     And I see project data
-    And And I follow "Version control"
+    And I follow "Version control"
     And I clone the repo
     When I create a new tag for "7.x" version
     And I visit "/project/git_deploy"

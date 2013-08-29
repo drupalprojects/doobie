@@ -20,7 +20,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     And I am on "/node/add/project-module"
     When I create a "sandbox" project
     And I promote the project
-    And And I follow "Version control"
+    And I follow "Version control"
     When I initialize the repository
     Then I should have a local copy of the project
 
