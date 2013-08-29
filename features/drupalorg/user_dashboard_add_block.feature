@@ -30,6 +30,7 @@ Feature:
     And I am on "<page>"
     When I click "<blocklink>"
     Then I should not see "Access denied"
+    And I reload the page
     And I should see "<blocktitle>"
 
     Examples:
@@ -37,7 +38,7 @@ Feature:
     | /project/drupal      | Add Issues for Drupal core to dashboard   | Issues for Drupal core   |
     | /node/24572          | Add Documentation Team links to dashboard | Documentation Team links |
     | /news                | Add Drupal News to dashboard              | Drupal News              |
-    | /planet              | Add Planet Drupal to dashboard            | Plant Drupal             |
+    | /planet              | Add Planet Drupal to dashboard            | Planet Drupal            |
     | /talk                | Add Drupal Talk to dashboard              | Drupal talk              |
     | /project/issues/user | Add Your Issues to dashboard              | site user                |
     | /getting-involved    | Add Contributor Links to dashboard        | Contributor Links        |
