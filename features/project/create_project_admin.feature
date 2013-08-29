@@ -20,13 +20,12 @@ Feature: Manage all project types
     | /node/add/project-drupalorg    |
     | /node/add/project-theme        |
 
-  @javascript    
+  @javascript @local
   Scenario Outline: Promote sandboxes
     Given I am logged in as the "admin test"     
     And I am on "<url>"
     And I create a "sandbox" project
     When I promote the project
-    And I wait for "1" second
     Then the URL should match "/project/*"
 
     Examples:                        
