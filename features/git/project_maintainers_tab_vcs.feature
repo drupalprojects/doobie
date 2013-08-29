@@ -27,7 +27,7 @@ Feature: Verify Write to VCS permission
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent
+  @dependent @gitrep @clean_data
   Scenario: Git user does a push a commit to the repository
     Given I am logged in as the "git user"
     And I visit the recent sandbox
@@ -38,17 +38,4 @@ Feature: Verify Write to VCS permission
     And I follow "Your Commits"
     Then I should see the project link
 
-  Scenario: Revoke VCS permissions
-    Given I am logged in as the "git vetted user"
-    And I am on the Maintainers tab
-    When I unassign "Write to VCS" from the maintainer "git user"
-    And I press "Update"
-    Then I should see "Maintainer permissions updated"
 
-  Scenario: User should not be able to push
-    Given I am logged in as the "git user"
-    And I visit the recent sandbox
-    And I follow "Version control"
-    When I push "2" commits to the repository
-    Then I got pwnd 
-  
