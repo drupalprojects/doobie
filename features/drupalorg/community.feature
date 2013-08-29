@@ -28,7 +28,7 @@ Feature: Landing page of Community section of the site
     And I create a new issue
     Then I should see "has been created"
 
-  @dependent @clean_data @cache @javascript
+  @dependent @clean_data @cache @javascript @manual
   Scenario: Look for the issue created in Recent activity block
     Given I am on the homepage
     And the cache is cleared
@@ -36,6 +36,7 @@ Feature: Landing page of Community section of the site
     Then I should see the issue link
     And I should see the heading "Recent activity"
 
+  @manual
   Scenario: Create one more test issue to check Recent activity block
     Given I am logged in as the "site user"
     And I visit "/node/1765126"
@@ -44,7 +45,7 @@ Feature: Landing page of Community section of the site
     And I create a new issue
     Then I should see "has been created"
 
-  @dependent @clean_data @cache @javascript
+  @dependent @clean_data @cache @javascript @manual
   Scenario: Look for the issue created in Recent activity block
     Given I am on the homepage
     And the cache is cleared
