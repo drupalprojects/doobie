@@ -37,8 +37,7 @@ Feature: Maintain the project
   @dependent
   Scenario: Maintainers users
     Given I am logged in as the "git vetted user"
-    And I visit "/project/test_releases"
-    When I follow "Maintainers"
+    And I visit "/node/1791620/maintainers"
     Then I should see the following <links>
     | links           |
     | eliza411        |
@@ -105,10 +104,10 @@ Feature: Maintain the project
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent @local
+  @dependent
   Scenario: Git vetted user commits to repo
     Given I am logged in as the "git vetted user"
-    And I am on "/project/test_releases"
+    And I am on "/node/1791620/maintainers"
     And I follow "Version control"
     When I clone the repo
     And I push "2" commits to the repository

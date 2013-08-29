@@ -3752,7 +3752,7 @@ class FeatureContext extends DrupalContext {
       $this->getSession()->switchToIFrame();
     }
     else {
-      $ad_ele = $region->findAll('css', $ele . ' a');
+      $ad_ele = $region->findAll('css', $ele . '#google_ads_iframe_Redesign_home a');
       if (empty($ad_ele)) {
         throw new Exception('No advertisement exists in the right sidebar');
       }
