@@ -124,7 +124,7 @@ Feature: Administrative view of nodes by a user
     And I follow "Cancel"
     Then I should not see "Performed"
 
-  @dependent @slow @javascript
+  @dependent @slow @javascript @local
   Scenario: Unpublish posts: Confirm
     Given I am logged in as the "admin test"
     And I visit "site user" profile page
@@ -134,10 +134,9 @@ Feature: Administrative view of nodes by a user
     And I press "Execute"
     And I press "Confirm"
     Then I should see "Performing"
-    And I wait until the page loads    
     And I should see "Performed"
 
-  @dependent @slow @javascript
+  @dependent @slow @javascript @local
   Scenario: Delete posts: Confirm
     Given I am logged in as the "admin test"
     And I visit "site user" profile page
@@ -147,5 +146,4 @@ Feature: Administrative view of nodes by a user
     And I press "Execute"
     And I press "Confirm"
     Then I should see "Performing"
-    And I wait "5" seconds 
     And I should see "Performed"
