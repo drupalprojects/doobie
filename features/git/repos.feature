@@ -12,10 +12,10 @@ Feature: Users create git repository
     Given I am at "/node/add/project-module"
     When I create a "sandbox" project
     And I see project data
-    And I am on the Version control tab
+    And I follow "Version control"
     And I see "Empty Sandbox Repository"
     And I initialize the repository
-    And I am on the Version control tab
+    And I follow "Version control"
     Then I should see "Routinely"
     And I should see "Switching to a different branch"
 

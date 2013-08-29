@@ -16,7 +16,8 @@ Feature: Promote a project from a sandbox to a full project
   @gitrepo @dependent @clean_data
   Scenario: Git user initializes the repo and tries to promote project
     Given I am logged in as the "git user"
-    And I am on the Version control tab
+    And I visit the recent sandbox
+    And I follow "Version control"
     When I initialize the repository
     And I follow "Edit"
     Then I should not see the link "Promote"

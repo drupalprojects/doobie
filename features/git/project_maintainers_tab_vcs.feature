@@ -10,7 +10,7 @@ Feature: Verify Write to VCS permission
     And I am at "/node/add/project-module"
     When I create a "sandbox" project
     And I see project data
-    And I am on the Version control tab
+    And And I follow "Version control"
     And I initialize the repository
     And I follow "Version control"
     Then I should see "Setting up repository for the first time"
@@ -29,7 +29,8 @@ Feature: Verify Write to VCS permission
   @gitrepo @dependent @clean_data
   Scenario: Git user does a push a commit to the repository
     Given I am logged in as the "git user"
-    And I am on the Version control tab
+    And I visit the recent sandbox
+    And I follow "Version control"
     When I clone the repo
     And I push "2" commits to the repository
     And I follow "Logged in as git user"
