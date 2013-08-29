@@ -668,7 +668,9 @@ class FeatureContext extends DrupalContext {
     foreach ($element as $code) {
       $command = trim($code->getText());
       if  (strpos($command, "mkdir") !== FALSE) {
-        HackyDataRegistry::set('project_short_name', explode(' ', $command)[1]);
+        $mkdircmd = explode(' ', $command);
+        $dirname = $mkdircmd[1];
+        HackyDataRegistry::set('project_short_name', $dirname);
       }
       // Get username and password
       if (strpos($command, "add origin") !== FALSE) {
