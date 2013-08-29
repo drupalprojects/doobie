@@ -667,6 +667,9 @@ class FeatureContext extends DrupalContext {
     $fullCommand = "";
     foreach ($element as $code) {
       $command = trim($code->getText());
+      if  (strpos($command, "mkdir") !== FALSE) {
+        HackyDataRegistry::set('project_short_name', explode(' ', $command)[1]);
+      }
       // Get username and password
       if (strpos($command, "add origin") !== FALSE) {
         $gitUser = $this->getGitUserData($command);
@@ -680,6 +683,7 @@ class FeatureContext extends DrupalContext {
       }
       $fullCommand .= $command . ' ; ';
     }
+
     if (!$fullCommand) {
       throw new Exception("No command was provided to execute");
     }
@@ -3957,11 +3961,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldBeAbleToPushACommitToTheRepository($canCommit = TRUE) {
     // Get the project folder name and make sure there is a clone
-    if (HackyDataRegistry::keyExists('project_short_name')) {
-      $projectTitle = strtolower(HackyDataRegistry::get('project_short_name'));
-    } else {
-      $projectTitle = strtolower(HackyDataRegistry::get('project title'));
-    }
+    $projectTitle = strtolower(HackyDataRegistry::get('project_short_name'));
     if (!$projectTitle) {
       throw new Exception("No project found to push");
     }
