@@ -11,9 +11,7 @@ Feature:
   @javascript
   Scenario: Add a new block to the Dashboard
     And I follow "Your Dashboard"
-    And I wait until the page is loaded
     And I follow "Dashboard"
-    And I wait until the page is loaded
     And there are no blocks on my dashboard
     When I follow "Add a block"
     Then I should see the following <blocklinks> in small boxes
@@ -30,9 +28,7 @@ Feature:
 
   Scenario Outline: Add block from project page
     And I am on "<page>"
-    And I wait until the page is loaded
     When I click "<blocklink>"
-    And I wait until the page is loaded
     Then I should not see "Access denied"
     And I should see "<blocktitle>"
 
@@ -48,11 +44,8 @@ Feature:
 
   Scenario:Add from the user track page
     And I follow "Your Dashboard"
-    And I wait until the page is loaded
     And I click "Your Posts"
-    And I wait until the page is loaded
     When I follow "Add Your Posts to dashboard"
-    And I wait until the page is loaded
     Then I should not see "Access denied"
     And I should see "Your Posts"
 
