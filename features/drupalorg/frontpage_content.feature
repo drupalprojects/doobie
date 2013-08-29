@@ -5,7 +5,7 @@ Feature: Drupal.org frontpage
   I should go to Drupal.org frontpage
 
   Background:
-    Given I am on the homepage
+  Given I am on the homepage
 
   @anon
   Scenario: View texts and links in top left content area
@@ -20,7 +20,7 @@ Feature: Drupal.org frontpage
     And I should see the image of a drupal site in top middle content area
     And I should see the "text" "Drupal is used by some of the biggest sites on the Web, like" in "top middle content" area
 
-  @anon
+  @anon 
   Scenario: View project and activity links, the count against each of them and advertisement in top right content area
     And I should see the following <links> in "top right content" area
     | links               |

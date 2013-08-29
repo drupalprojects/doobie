@@ -3729,7 +3729,7 @@ class FeatureContext extends DrupalContext {
     if (empty($region)) {
       throw new Exception("Right sidebar region was not found");
     }
-    $ad_container = array('div#google_ads_div_Redesign_home_ad_wrapper', '#google_ads_iframe_Redesign_home');
+    $ad_container = array('#google_ads_iframe_Redesign_home');
     $found = false;
     foreach ($ad_container as $ele) {
       if ($region->find('css', $ele)) {
@@ -3744,7 +3744,7 @@ class FeatureContext extends DrupalContext {
     if (!empty($iframe_ele)) {
       $this->getSession()->switchToIFrame($iframe_ele->getAttribute('name'));
       // Find links inside iframe
-      $a = $this->getSession()->getPage()->findAll('css', 'a');
+      $a = $this->getSession()->getPage()->findAll('css', '#google_ads_iframe_Redesign_home a');
       if (empty($a)) {
         $this->getSession()->switchToIFrame();
         throw new Exception('No advertisement exists in the right sidebar');
@@ -5352,6 +5352,7 @@ class FeatureContext extends DrupalContext {
     }
     // Check if both the arrays are same
     if ($commitTabLinks !== $commitLogLinks) {
+    print($commitTabLinks . ' | ' . $commitLogLinks);
       throw new Exception("The commit tab does not contain the newest commits from commitlog");
     }
   }
@@ -5989,7 +5990,7 @@ class FeatureContext extends DrupalContext {
             break;
           // Advertisement image - can be an iframe/image with links/links
           case 'advertisement':
-            $iframe_ele = $region_ele->find('css', 'div#google_ads_div_Redesign_home_ad_container iframe');
+            $iframe_ele = $region_ele->find('css', 'iframe#google_ads_iframe_Redesign_home');
             if (!empty($iframe_ele)) {
               $this->getSession()->switchToIFrame($iframe_ele->getAttribute('name'));
               $a = $this->getSession()->getPage()->findAll('css', 'a');
@@ -6000,7 +6001,7 @@ class FeatureContext extends DrupalContext {
               $this->getSession()->switchToIFrame();
             }
             else {
-              $iframe_ele = $region_ele->findAll('css', 'div#google_ads_div_Redesign_home_ad_container a');
+              $iframe_ele = $region_ele->findAll('css', ' a');
               if (empty($iframe_ele)) {
                 throw new Exception('"' . ucfirst($content) . '" is not found in the "' . $region . '" region of the page');
               }
