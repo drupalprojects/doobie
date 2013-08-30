@@ -12,11 +12,16 @@ Feature: Add change record
     And I should see the heading "Access denied"
     But I should not see "Create Change record"
 
+  Scenario: Navigate to a change record
+    Given I am logged in as the "site user"
+    When I am on "/project/drupal"
+    And I follow "View change records"
+    Then I should see "Create Change record"
+
+@javascript
   Scenario: Add new change record
     Given I am logged in as the "site user"
-    And I am on "/project/drupal"
-    And I follow "View change records"
-    And I follow "Add new change record"
+    And I am on "/node/add/changenotice"
     When I create new change record
     Then I should see "has been created"
     And I should see "Posted by site user"

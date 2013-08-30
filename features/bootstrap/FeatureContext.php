@@ -7292,11 +7292,15 @@ class FeatureContext extends DrupalContext {
     $element->checkField('Site builders, administrators, editors');
     $element->checkField('Module developers');
     $element->checkField('Themers');
-    $updateLink = $element->findLink('Updates Done (doc team, etc.)');
-    if (empty($updateLink)) {
-      throw new Exception("The Link '" . $updateLink . "' was not found on the page");
-    }
-    $updateLink->click();
+    //  The fieldgroup isn't collapsed by default anymore. This code will expand 
+    //  the fieldgroup if it becomes collapsed by default again. 
+    //  This can be removed after deployment.
+    // 
+    //    $updateLink = $element->findLink('Updates Done (doc team, etc.)');
+    //    if (empty($updateLink)) {
+    //      throw new Exception("The Link '" . $updateLink . "' was not found on the page");
+    //    }
+    //    $updateLink->click();
     $element->checkField('Generic online documentation done');
     $element->checkField('Theming guide done');
     $element->checkField('Module developer documentation done');
@@ -7310,14 +7314,9 @@ class FeatureContext extends DrupalContext {
     $progress = str_repeat(Random::name(10) . " ", 20);
     $element->fillField("Progress", $progress);
     HackyDataRegistry::set('random:Progress', $progress);
-    $attachLink = $element->findLink('File attachments');
-    if (empty($attachLink)) {
-      throw new Exception("The Link '" . $attachLink . "' was not found on the page");
-    }
-    $attachLink->click();
     $file_path = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'koala.jpg';
     HackyDataRegistry::set('Attach new file', $file_path);
-    $browse = $element->findField('Attach new file:');
+    $browse = $element->find('css', '#edit-upload-und-0-upload');
     if (empty($browse)) {
       throw new Exception("The field was not found on the page");
     }
