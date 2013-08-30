@@ -104,7 +104,7 @@ Feature: Maintain the project
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent
+  @dependent @local
   Scenario: Git vetted user commits to repo
     Given I am logged in as the "git vetted user"
     And I am on "/node/1791620/maintainers"
