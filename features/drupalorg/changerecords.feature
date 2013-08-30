@@ -16,9 +16,9 @@ Feature: Add change record
     Given I am logged in as the "site user"
     When I am on "/project/drupal"
     And I follow "View change records"
+    And I follow "Add new change record"
     Then I should see "Create Change record"
 
-@javascript
   Scenario: Add new change record
     Given I am logged in as the "site user"
     And I am on "/node/add/changenotice"

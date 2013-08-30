@@ -7272,12 +7272,11 @@ class FeatureContext extends DrupalContext {
    * @When /^I create new change record$/
    */
   public function iCreateNewChangeRecord() {
-    sleep(5);
     $element = $this->getSession()->getPage();
     $recordTitle = Random::name(12);
 		$element->fillField("Title", $recordTitle);
     HackyDataRegistry::set('random:Title', $recordTitle);
-    $project_code = 'Drupal core';
+    $project_code = 'Drupal core (3060)';
     $element->fillField("Project", $project_code);
     HackyDataRegistry::set('random:Project', $project_code);
     $branch = Random::name(5);
@@ -7331,8 +7330,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the attachment$/
    */
   public function iShouldSeeTheAttachment() {
-    sleep(2);
-    $img_elements = $this->getSession()->getPage()->findAll('css', 'div.node-content #attachments a');
+    $img_elements = $this->getSession()->getPage()->findAll('css', 'div.field-name-upload span.file a');
     if (empty($img_elements)) {
       throw new Exception('Image/logo was not found');
     }
