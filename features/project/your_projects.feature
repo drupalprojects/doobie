@@ -45,10 +45,6 @@ Feature: Your Project Tab
     When I click the "Edit" link for the new project
     Then I should see the project name
 
-  Scenario: Visit Add release link from Project Links column for Projects
-    When I click the "Add release" link for the new project
-    Then I should see the project name
-
   @javascript @slow @wip
   Scenario: Search for issue
     And I create a new issue
