@@ -3722,44 +3722,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I should see the advertisement in the right sidebar$/
-   */
-  public function iShouldSeeTheAdvertisementInTheRightSidebar() {
-    $region = $this->getSession()->getPage()->find('region', 'right sidebar');
-    if (empty($region)) {
-      throw new Exception("Right sidebar region was not found");
-    }
-    $ad_container = array('#google_ads_iframe_Redesign_home');
-    $found = false;
-    foreach ($ad_container as $ele) {
-      if ($region->find('css', $ele)) {
-        $found = true;
-        break;
-      }
-    }
-    if (!$found) {
-      throw new Exception('No advertisement exists in the right sidebar');
-    }
-    $iframe_ele = $region->find('css', $ele . ' iframe');
-    if (!empty($iframe_ele)) {
-      $this->getSession()->switchToIFrame($iframe_ele->getAttribute('name'));
-      // Find links inside iframe
-      $a = $this->getSession()->getPage()->findAll('css', '#google_ads_iframe_Redesign_home a');
-      if (empty($a)) {
-        $this->getSession()->switchToIFrame();
-        throw new Exception('No advertisement exists in the right sidebar');
-      }
-      $this->getSession()->switchToIFrame();
-    }
-    else {
-      $ad_ele = $region->findAll('css', $ele . '#google_ads_iframe_Redesign_home a');
-      if (empty($ad_ele)) {
-        throw new Exception('No advertisement exists in the right sidebar');
-      }
-    }
-  }
-
-  /**
    * Create a book page and store the title and URL
    *
    * @Given /^I create a book page$/
@@ -5990,7 +5952,12 @@ class FeatureContext extends DrupalContext {
             break;
           // Advertisement image - can be an iframe/image with links/links
           case 'advertisement':
-            $iframe_ele = $region_ele->find('css', 'iframe#google_ads_iframe_Redesign_home');
+
+            // Advertisement iFrame is loaded via javascript, so test needs to wait
+            // until iFrame actually loaded.
+            $this->getSession()->wait(10, "jQuery('.block-google-admanger iframe').length");
+
+            $iframe_ele = $region_ele->find('css', '.block-google-admanger iframe');
             if (!empty($iframe_ele)) {
               $this->getSession()->switchToIFrame($iframe_ele->getAttribute('name'));
               $a = $this->getSession()->getPage()->findAll('css', 'a');

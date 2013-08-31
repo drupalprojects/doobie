@@ -1,4 +1,4 @@
-@front
+@front @javascript
 Feature: Drupal.org frontpage
   In order to have an overview about Drupal.org and Drupal project
   As any user
