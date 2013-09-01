@@ -15,8 +15,8 @@ Feature: Display of advertisements in Hosting support and Paid services forums
   Scenario: Advertisement in paid services page
     Given I am on "/forum"
     When I follow "Paid Drupal services"
-    Then I should see the heading "Paid Drupal services"
-    And I should see the "image" "advertisement" in "right sidebar" area
+    Then I should see the "image" "advertisement" in "right sidebar" area
+    And I should see the heading "Paid Drupal services"
 
   Scenario: Advertisement under individual paid service forum
     Given I am on "/forum"
