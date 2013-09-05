@@ -12,7 +12,6 @@ Feature: Find Drupal News
     Then I should see the heading "Drupal News"
     And I should be on "/news"
     And I should see "Read more"
-    And I should see "Forum"
     And I should see the following <links>
     | links                  |
     | Drupal News            |
@@ -22,7 +21,6 @@ Feature: Find Drupal News
     | last  |
     | 1     |
     | 2     |
-    And I should not see the link "previous"
 
   Scenario: View the pagination links: Second page
     When I visit "/news"
