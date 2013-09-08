@@ -92,12 +92,14 @@ Feature: Visitor searches site
     Given I am on "/search"
     And I search sitewide for "views"
     And I follow "Modules ("
-    And I wait until the page loads
     When I select "Event" from "Module categories"
     And I wait until the page loads
     And I select "6.x" from "Core compatibility"
+    And I wait until the page loads
     And I select "All projects" from "Status"
+    And I wait until the page loads
     And I select "Created date" from "Sort by"
+    And I wait until the page loads
     Then I should see "results containing the words: views"
     And I should see at least "25" records
 
