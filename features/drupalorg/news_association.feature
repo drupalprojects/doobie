@@ -8,7 +8,7 @@ Feature: Drupal Association News
     Given I am on "/news"
 
   Scenario: View the news listing page
-    When I follow "Drupal Association"
+    When I follow "Drupal Association" in the "right sidebar" region
     Then I should see the heading "Drupal Association News"
     And I should be on "/aggregator/sources/628"
     And I should see the following <texts>
@@ -27,7 +27,7 @@ Feature: Drupal Association News
     | https://association.drupal.org/news/feed |
 
   Scenario: View the pagination links: Second page
-    When I follow "Drupal Association"
+    When I follow "Drupal Association" in the "right sidebar" region
     And I click on page "2"
     Then I should see the following <links>
     | links    |
@@ -36,7 +36,7 @@ Feature: Drupal Association News
     | 1        |
 
   Scenario: View the pagination links: Last page
-    When I follow "Drupal Association"
+    When I follow "Drupal Association" in the "right sidebar" region
     And I click on page "last"
     Then I should see the link "first"
     And I should see the link "previous"

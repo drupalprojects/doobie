@@ -67,7 +67,7 @@ Feature: Drupal.org frontpage
     | Developer Docs            | Develop for Drupal      |
     | API Docs                  | API reference           |
 
-  @anon
+  @anon @manual
   Scenario: Find modules for Drupal
     When I follow "Modules"
     Then I should see "Modules match your search"
