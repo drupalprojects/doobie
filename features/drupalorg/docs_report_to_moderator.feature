@@ -23,7 +23,7 @@ Feature: Use the "report to moderator" to file a documentation issue
     Given I am logged in as the "site user"
     And I am on "/documentation/multilingual"
     When I follow "Report to moderator"
-    And I fill in "Description" with random text
+    And I fill in "Issue summary" with random text
     And I select "Task" from "Category"
     And press "Save"
     Then I should see "has been created"
