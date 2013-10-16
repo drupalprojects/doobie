@@ -3901,7 +3901,7 @@ class FeatureContext extends DrupalContext {
 		}
     $element->selectFieldOption("Category", "Task");
     $description = Random::name(18);
-    $element->fillField("Description", $description);
+    $element->fillField("Issue summary", $description);
     HackyDataRegistry::set('random:Description', $description);
     $element->pressButton("Save");
     sleep(2);
