@@ -108,10 +108,8 @@ Feature: List and search change records
     | 2        |
     | previous |
     | first    |
-    And I should not see the following <texts>
-    | texts    |
-    | next     |
-    | last     |
+    And I should not see "next" in the "pager" region
+    And I should not see "last" in the "pager" region
 
   Scenario: Enter values in all the fields and search
     Given I am on "/list-changes/drupal"

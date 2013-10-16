@@ -39,6 +39,8 @@ default:
         middle content: "#front-drupal-stats"
         # Footer region
         footer: "#footer"
+        # Pager region
+        pager: ".pager"
 
 imports:
   - behat.local.yml
