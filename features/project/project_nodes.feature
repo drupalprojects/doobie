@@ -97,7 +97,6 @@ Feature: To view the project details
     When I follow "Download Drupal"
     Then I should see the heading "Maintainers for Drupal core"
     And I should see at least "5" committers
-    And I should see at least "11716" commits
 
   Scenario: View users: Maintainers block
     Given I am on "/download"
