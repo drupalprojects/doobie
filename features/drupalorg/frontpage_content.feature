@@ -72,7 +72,7 @@ Feature: Drupal.org frontpage
     When I follow "Modules"
     Then I should see "Modules match your search"
 
-  @anon
+  @anon @local
   Scenario: Find themes for Drupal
     When I follow "Themes"
     Then I should see "Themes match your search"
