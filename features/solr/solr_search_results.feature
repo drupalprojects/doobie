@@ -103,7 +103,7 @@ Feature: Visitor searches site
     Then I should see "results containing the words: views"
     And I should see at least "25" records
 
-  @javascript
+  @javascript @local
   Scenario: Meta type themes has more filters
     Given I am on "/search"
     And I search sitewide for "views"
