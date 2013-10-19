@@ -13,7 +13,7 @@ Feature: Drupal Create Issues
     And I press "Next"
     And I wait until the page loads
     And I fill in "Title" with random text
-    And I fill in "Description" with random text
+    And I fill in "Issue summary" with random text
     And I select the following <fields> with <values>
     | fields    | values     |
     | Version   | 7.x-1.4    |
