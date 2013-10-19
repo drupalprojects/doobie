@@ -44,5 +44,5 @@ Feature: View the list of Packaging whitelist entries
     When I fill in "Search Packaging Whitelists" with "ARC2"
     And I press "Apply"
     Then I should see "ARC2"
-    And I should not see "Jquery"
+    And I should not see "Aloha Editor"
     And I should not see "No whitelists have been created"
