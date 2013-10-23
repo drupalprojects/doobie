@@ -26,7 +26,7 @@ Feature: Find Drupal themes
   Scenario: Visit Themes page
     Given I am on "/download"
     When I follow "Themes"
-    Then I should be on "/project/themes"
+    Then I should be on "/project/project_theme"
     And I should see the following <tabs>
     | tabs                   |
     | Download & Extend Home |

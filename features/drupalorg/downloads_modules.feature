@@ -24,8 +24,9 @@ Feature: Find modules to extend Drupal
   Scenario: View more most installed modules
     Given I am on "/download"
     When I follow "More Most installed"
+    And I wait until the page loads
     Then I should see "Modules match your search"
-    And I should see "Modules categories"
+    And I should see "Module categories"
     And I should see "Search Modules"
     And I should see the text "Extend and customize Drupal functionality with contributed modules."
 
@@ -43,10 +44,11 @@ Feature: Find modules to extend Drupal
   Scenario: View all module categories
     Given I am on "/download"
     When I follow "All Categories"
+    And I wait until the page loads
     Then I should see the heading "Module categories"
-    And I should see "Filter by compatibility"
     And I should see the heading "Administration"
     And I should see the heading "User Management"
+    And I should see "Filter by compatibilty"
 
   Scenario: View more new modules
     Given I am on "/download"
@@ -57,7 +59,7 @@ Feature: Find modules to extend Drupal
   Scenario: View full modules index
     Given I am on "/download"
     When I follow "View full index"
-    Then I should see the heading "Modules index"
+    Then I should see the heading "Module project index"
     And I should see "Views"
     And I should see "Link"	
 

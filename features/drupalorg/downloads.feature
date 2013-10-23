@@ -43,18 +43,17 @@ Feature: Download and Extend Drupal
     Then I should be on "<url>"
 
     Examples:
-    | link                            | url                    |
-    | Download Drupal                 | /project/drupal        |
-    | Download Drupal 6               | /project/drupal        |
-    | Other Releases                  | /node/3060/release     |
-    | More Information                | /project/drupal        |
-    | Search for More Distributions   | /project/distributions |
-    | Search for More Themes          | /project/themes        |
+    | link                            | url                           |
+    | Download Drupal                 | /project/drupal               |
+    | Other Releases                  | /node/3060/release            |
+    | More Information                | /project/drupal               |
+    | Search for More Distributions   | /project/project_distribution |
+    | Search for More Themes          | /project/project_theme        |
   
   Scenario: View all translations
     Given I am on "/download"
     When I follow "All Translations"
-    Then I should see the heading "Translate"
+    Then I should see the heading "Translations"
     And I should see the heading "Drupal translations"
     And I should see "Install Drupal localized with translation"
     And the current url should be "localize.drupal.org"

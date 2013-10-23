@@ -27,7 +27,7 @@ Feature: Find Drupal distributions
   Scenario: Visit Distributions page
     Given I am on "/download"
     When I follow "Distributions"
-    Then I should be on "/project/distributions"
+    Then I should be on "/project_distribution"
     And I should see the following <tabs>
     | tabs                   |
     | Download & Extend Home |
