@@ -24,7 +24,6 @@ Feature: Drupal support
     | Books                       |
     | Professional services       |
     | Drupal training             |
-    | Learn more about Drupal.org |
     | Report an issue             |
     | hosting                     |
     And I should not see the following <links>
@@ -33,5 +32,4 @@ Feature: Drupal support
     | Site content issues       |
     | Site functionality issues |
     And I should see "Read the Drupal.org online documentation"
-    And I should see "Find out how Drupal.org is built and maintained"
     And I should see "Find organizations that provide Drupal training services."
