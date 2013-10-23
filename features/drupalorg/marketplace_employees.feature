@@ -48,7 +48,7 @@ Feature: Company employees on organization pages
     And I press "Save"
     Then I should see "has been updated"
 
-  @anon @dependent @clean_data
+  @dependent @clean_data
   Scenario: View the user profile details in brief
     Given I am on the homepage
     When I visit the organization page
