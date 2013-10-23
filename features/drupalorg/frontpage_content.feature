@@ -6,6 +6,7 @@ Feature: Drupal.org frontpage
 
   Background:
   Given I am on the homepage
+  And I wait until the page loads
 
   @anon
   Scenario: View texts and links in top left content area
@@ -50,6 +51,7 @@ Feature: Drupal.org frontpage
   @anon
   Scenario Outline: Visit the links in frontpage content area
     When I follow "<link>"
+    And I wait until the page loads
     Then I should see the heading "<title>"
 
     Examples:
