@@ -38,6 +38,6 @@ Feature: Drupal Create Issues
     | Assigned  | site user  |
     | Status    | Needs work |
     And I fill in "Title" with random text
-    And I fill in "Description" with random text
+    And I fill in "Issue summary" with random text
     And I press "Save"
     Then I should see "has been created"
