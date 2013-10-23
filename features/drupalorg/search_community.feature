@@ -4,7 +4,7 @@ Feature: Community Search Documentation
   As any user
   I should search for the avaliable options in the site
 
-  @javascript
+  @javascript @local
   Scenario: Search for documentation
     Given I am on the homepage
     When I follow "Community"
