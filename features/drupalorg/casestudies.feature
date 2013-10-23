@@ -65,7 +65,7 @@ Feature: Adding new case study
     And I should see "Posted by site user"
     And I should see the link "Add new comment"
 
-  @anon @content
+  @content
   Scenario: View case study guidelines
     When I follow "Case Study guidelines"
     Then I should see the heading "Case Study guidelines"
