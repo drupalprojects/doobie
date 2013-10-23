@@ -37,7 +37,7 @@ Feature: Find Drupal themes
     And I should see that the tab "Themes" is highlighted
     And I should see "Themes match your search"
     And I should see "Themes allow you to change the look and feel of your Drupal site"
+    And I should see the heading "Drupal Themes" in the "right sidebar" region
+    And I should see the heading "New Themes" in the "right sidebar" region
+    And I should see the heading "Most installed" in the "right sidebar" region
     And I should see "Posted by"
-    And I should see the heading "Drupal Themes"
-    And I should see "Theme guide"
-    And I should see "More advanced themes are table-less"
