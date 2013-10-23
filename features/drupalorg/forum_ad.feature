@@ -8,6 +8,7 @@ Feature: Display of advertisements in Hosting support and Paid services forums
     Given I am on the homepage
     And I follow "Support"
     And I follow "Forums"
+    And I wait until the page loads
     When I follow "Hosting support"
     Then I should see the heading "Hosting support"
     And I should see the "image" "advertisement" in "right sidebar" area
