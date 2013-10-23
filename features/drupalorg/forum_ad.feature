@@ -16,12 +16,14 @@ Feature: Display of advertisements in Hosting support and Paid services forums
   Scenario: Advertisement in paid services page
     Given I am on "/forum"
     When I follow "Paid Drupal services"
+    And I wait until the page loads
     Then I should see the "image" "advertisement" in "right sidebar" area
     And I should see the heading "Paid Drupal services"
 
   Scenario: Advertisement under individual paid service forum
     Given I am on "/forum"
     And I follow "Paid Drupal services"
+    And I wait until the page loads
     And I see the heading "Paid Drupal services"
     When I follow a post
     Then I should see the "image" "advertisement" in "right sidebar" area
