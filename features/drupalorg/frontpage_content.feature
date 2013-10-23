@@ -48,7 +48,7 @@ Feature: Drupal.org frontpage
     And I should see at least "200" "countries" in power Drupal text
     And I should see at least "150" "languages" in power Drupal text
 
-  @anon
+  @anon @local
   Scenario Outline: Visit the links in frontpage content area
     When I follow "<link>"
     And I wait until the page loads
@@ -69,7 +69,7 @@ Feature: Drupal.org frontpage
     | Developer Docs            | Develop for Drupal      |
     | API Docs                  | API reference           |
 
-  @anon @manual
+  @anon @local 
   Scenario: Find modules for Drupal
     When I follow "Modules"
     Then I should see "Modules match your search"
