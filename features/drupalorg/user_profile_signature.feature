@@ -30,7 +30,7 @@ Feature: Display additional information on my comments
     And I should see the random "Comment" text
     And I should see the random "Signature" text
 
-  @dependent @anon
+  @dependent
   Scenario: View signature in reply anonymously
     Given I am not logged in
     And I am on the forum topic page
@@ -55,7 +55,7 @@ Feature: Display additional information on my comments
     And I should see the random "Comment" text
     And I should not see the random "Signature" text
 
-  @dependent @anon @clean_data @api
+  @dependent @clean_data @api
   Scenario: signature doesn't appear in reply any more for anonymous user
     Given I am not logged in
     And the cache is cleared
