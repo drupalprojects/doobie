@@ -35,7 +35,7 @@ Feature: Moderate Marketplace listing
     Then I should see "has been updated"
     And I should see "Regarding Services listing communicate with webmasters using this issue"
 
-  @dependent @anon
+  @dependent
   Scenario: View organization page in All providers list anonymously
     Given I am not logged in
     When I follow "Marketplace"
@@ -51,7 +51,7 @@ Feature: Moderate Marketplace listing
     And I press "Save"
     Then I should see "has been updated"
 
-  @dependent @anon 
+  @dependent 
   Scenario: View organization page in Featured providers list anonymously
     Given I am not logged in
     When I follow "Marketplace"
@@ -69,7 +69,7 @@ Feature: Moderate Marketplace listing
     Then I should see "has been updated"  
     And I should see "Regarding Training listing communicate with webmasters using this issue"
 
-  @dependent @anon @clean_data 
+  @dependent @clean_data 
   Scenario: View organization page in training section anonymously
     Given I am not logged in
     When I follow "Marketplace"
