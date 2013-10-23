@@ -32,7 +32,7 @@ Feature: Adding company to the Marketplace
     And I should see the random "Usual project budget (optional)" text
     And I should see "has been created"
 
-  @dependent @flaky
+  @dependent
   Scenario: View an issue request for services section
     Given I am logged in as the "site user"
     And I visit the organization page
@@ -47,7 +47,7 @@ Feature: Adding company to the Marketplace
     | Drupal.org content       |
     | Posted by site user      |
     And I should see the heading "Comments"
-    And I should see the heading "Add new comment"
+    And I should see "Add new comment"
 
   @dependent
   Scenario: Edit own organization page
@@ -87,7 +87,7 @@ Feature: Adding company to the Marketplace
     And I should see the random "Training description" text
     And I should see "Posted by site user"
 
-  @dependent @flaky
+  @dependent
   Scenario: View an issue request for training section
     Given I am logged in as the "site user"
     And I visit the organization page
@@ -100,7 +100,7 @@ Feature: Adding company to the Marketplace
     | has been posted       |
     | Drupal.org content |
     And I should see the heading "Comments"
-    And I should see the heading "Add new comment"
+    And I should see "Add new comment"
 
   @dependent @clean_data
   Scenario:  User can't edit organization pages or see the issues - that are not created by him
