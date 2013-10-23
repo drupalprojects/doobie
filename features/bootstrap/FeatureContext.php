@@ -5243,7 +5243,7 @@ class FeatureContext extends DrupalContext {
         $id = '#block-drupalorg-order-facet-ds-created .item-list ul > li > a';
         break;
       case 'Module Index':
-        $id = '.drupal-modules-facets .grid-3.omega .item-list ul > li > a';
+        $id = '.drupal-modules-facets .index a';
         break;
       default:
         throw new Exception('The heading "' . ucfirst($heading) . '" was not found on the page');
@@ -5251,7 +5251,7 @@ class FeatureContext extends DrupalContext {
     }
     $links = $this->getSession()->getPage()->find("css", $id);
     if (empty($links)) {
-      throw new Exception("No Results found to follow in the " . $id . "region");
+      throw new Exception("No Results found to follow in the " . $id . " region");
     }
     $this->getSession()->visit($this->locatePath($links->getAttribute('href')));
   }
