@@ -20,7 +20,7 @@ Feature: Project Development Block
 
   Scenario: View pending patches
     When I follow "View pending patches"
-    Then I should see the text "Search issues for"
+    Then I should see the heading "Issues for Views"
 
   Scenario: View Repository
     When I follow "Repository viewer"
