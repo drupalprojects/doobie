@@ -56,7 +56,7 @@ Feature: Visitor searches site
     | link            | path                      |
     | IRC Nicks       | /search/drupalorg/views   |
     | Users           | /search/user/views        |
-    | Advanced Issues | /search/issues?text=views |
+    | Advanced Issues | /project/issues/search?text=views |
 
   Scenario: Facet search on the right side bar
     Given I am on "/search"
