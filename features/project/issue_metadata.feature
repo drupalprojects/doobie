@@ -19,7 +19,7 @@ Feature: Prominently display issue metadata
     | Priority  | Normal       |
     | Status    | Active       |
    
-    And I fill in "Description" with random text
+    And I fill in "Issue summary" with random text
     And I fill in "qa" for "Issue tags"
     And I press "Save"
     And I wait until the page loads
