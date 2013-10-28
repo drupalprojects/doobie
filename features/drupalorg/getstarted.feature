@@ -1,10 +1,9 @@
-@content @other
+@content @other @anon
 Feature: Get started with Drupal
   In order to use Drupal
   As any user
   I should know how to get started
 
-  @anon
   Scenario: View Get started page
     Given I am on the homepage
     When I follow "Get Started"
@@ -24,7 +23,6 @@ Feature: Get started with Drupal
     | our forums           |
     | IRC channels         |
 
-  @anon
   Scenario: View the links under Most popular modules
     Given I am on the homepage
     When I follow "Get Started"
@@ -34,7 +32,6 @@ Feature: Get started with Drupal
     | Token    |
     | Pathauto |
 
-  @anon
   Scenario: Follow All modules link
     Given I am on "/start"
     When I follow "All modules"
@@ -43,7 +40,6 @@ Feature: Get started with Drupal
     And I should see the text "Extend and customize Drupal functionality with contributed modules."
     And I should see "Posted by"
 
-  @anon
   Scenario: View the links under Most popular themes
     Given I am on the homepage
     When I follow "Get Started"
@@ -54,7 +50,6 @@ Feature: Get started with Drupal
     | AdaptiveTheme |
     | Fusion        |
 
-  @anon
   Scenario: Follow All themes link
     Given I am on "/start"
     When I follow "All themes"
@@ -63,7 +58,6 @@ Feature: Get started with Drupal
     And I should see "Themes allow you to change the look and feel of your Drupal site."
     And I should see "Posted by"
 
-  @anon
   Scenario: View the links under Translations
     Given I am on the homepage
     When I follow "Get Started"
@@ -74,14 +68,12 @@ Feature: Get started with Drupal
     | Hungarian |
     | Dutch     |
 
-  @anon
   Scenario: Follow All translations link
     Given I am on "/start"
     When I follow "All translations"
     Then I should see "Drupal translations"
     And I should see "Pick a language"
 
-  @anon
   Scenario: Follow Download drupal
     Given I am on "/start"
     When I follow "Download Drupal"
@@ -95,7 +87,6 @@ Feature: Get started with Drupal
     | Development releases |
     And I should see the link "7."
 
-  @anon
   Scenario: Follow Find distribution
     Given I am on "/start"
     When I follow "Find a Distribution"
@@ -105,13 +96,11 @@ Feature: Get started with Drupal
     And I should see the heading "Download & Extend"
     And I should see "Distributions provide site features and functions for a specific type of site"
 
-  @anon
   Scenario: Drupal book image
     Given I am on the homepage
     When I follow "Get Started"
     Then I should see book image under Drupal books
 
-  @anon
   Scenario: Follow All documentation
     Given I am on "/start"
     When I follow "All documentation"

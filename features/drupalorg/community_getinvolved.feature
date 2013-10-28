@@ -1,4 +1,4 @@
-@community
+@community @anon
 Feature: Ways to get involved with the Drupal community
   In order to participate in the Drupal community
   As any user

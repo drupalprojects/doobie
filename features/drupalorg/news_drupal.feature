@@ -7,7 +7,6 @@ Feature: Find Drupal News
   Background:
     Given I am on "/news"
 
-
   Scenario: View the news listing page
     Then I should see the heading "Drupal News"
     And I should be on "/news"
@@ -39,5 +38,3 @@ Feature: Find Drupal News
     Then I should see the link "first"
     And I should see the link "previous"
     And I should not see the link "next"
-
-

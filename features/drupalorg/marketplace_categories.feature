@@ -19,7 +19,6 @@ Feature: Find Drupal service provider in the Marketplace
     | Development        |
     | Beauty and Fashion |
     | Latvia             |
-   
 
   Scenario: Service categories under an organization
     Given I am on "/drupal-services"

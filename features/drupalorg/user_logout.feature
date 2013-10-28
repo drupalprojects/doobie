@@ -70,4 +70,3 @@ Feature: User log out
     | Profile                 |
     | View                    |
     | Edit                    |
-    

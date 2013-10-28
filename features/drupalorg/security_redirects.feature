@@ -1,4 +1,4 @@
-@security
+@security @anon
 Feature: Security redirects
   In order to ensure I can find important security information
   As any user

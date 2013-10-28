@@ -29,8 +29,3 @@ Feature: Remove default post speed throttle
     When I am logged in as the "git-peon"
     And I visit "/user/33570"
     And I should see "revoke role Not a spammer"
-
-    
-    
-
-  

@@ -9,7 +9,7 @@ Feature: Find Drupal themes
     When I follow "About Themes & Subthemes"
     Then I should see the heading "About theming"
     And I should see "You can do more with a theme"
-	
+
   Scenario Outline: Visit links under Themes
     Given I am on "/download"
     When I follow "<link>"

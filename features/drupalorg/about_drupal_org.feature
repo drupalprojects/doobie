@@ -1,4 +1,4 @@
-@about @content
+@about @content @anon
 Feature: About Drupal.org section
   In order to find out about Drupal.org website
   As any user
@@ -35,7 +35,7 @@ Feature: About Drupal.org section
     Given I am on "/about-drupal.org"
     When I follow "<tab>" tab on the top navigation
     Then I should not see "Page not found"
-      And I should see that the tab "<tab>" is highlighted
+    And I should see that the tab "<tab>" is highlighted
     Examples:
     | tab                  | 
     | Drupal.org Projects  | 
