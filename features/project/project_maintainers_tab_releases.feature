@@ -7,7 +7,7 @@ Feature: 'Administer releases' permission check
   Scenario: Create a new project
     Given I am logged in as the "git vetted user"
     And I am at "/node/add/project-distribution"
-    When I create a "full" project with releases
+    When I create a "full" project
     Then I should see project data
 
   @dependent
