@@ -3878,13 +3878,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @When /^I create a "([^"]*)" project with releases$/
-   */
-  public function iCreateAProjectWithReleases($type) {
-    $this->iCreateAProject($type, array('Has project releases' => 1));
-  }
-
-  /**
    * @Then /^I create a new issue$/
    */
   public function iCreateANewIssue() {
