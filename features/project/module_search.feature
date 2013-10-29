@@ -1,4 +1,4 @@
-@project @search
+@project @search @anon
 Feature: Find modules
   In order to extend Drupal's core functionality 
   As a site builder
