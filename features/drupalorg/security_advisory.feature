@@ -19,3 +19,16 @@ Feature: Publishing new security announcement
     | Security advisories for Drupal core          | /forum/1852 |
     | Security advisories for contributed projects | /forum/44   |
     | Security public service announcements        | /forum/1856 |
+
+  Scenario Outline: Fail to create forum topic
+    Given I am logged in as the "site user"
+    When I visit "/forum/1188"
+    And I follow "<section>"
+    And I follow "Add new Forum topic"
+    Then I should see "You do not have permission to post to this forum."
+    Examples:
+      | section                                      | path        |
+      | Security advisories for Drupal core          | /forum/1852 |
+      | Security advisories for contributed projects | /forum/44   |
+      | Security public service announcements        | /forum/1856 |
+
