@@ -1,4 +1,4 @@
-@user
+@user @notification
 Feature:
   In order to test the functionalities of Drupal dashboard
   As an authenticated user
@@ -68,7 +68,7 @@ Feature:
     And I should see at least "2" blocks in column "3"
     And I should see at least "3" items in block "Planet Drupal"
 
-  @known_git7failure
+  @notification @wip
   Scenario: Create test data for Your Posts
     And I am on "/node/add/project-issue/spark"
     And I should not see "Access denied"
