@@ -25,6 +25,7 @@ Feature: Drupal Create Issues
    And I press "Save"
     Then I should see "has been created"
 
+  @wip @notification
   Scenario: Create an issue from a specific project's issue page
     Given I am logged in as the "site user"
     And I am on "/project/issues/achievements"
