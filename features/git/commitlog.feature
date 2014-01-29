@@ -15,7 +15,6 @@ Feature: Sitewide commit log
     | texts              |
     | Commit             |
     | Subscribe with RSS |
-    | next               |
     And I should see the link "next"
 
   Scenario: Click link to project title
