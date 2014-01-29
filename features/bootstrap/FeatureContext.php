@@ -5307,7 +5307,8 @@ class FeatureContext extends DrupalContext {
     }
     // Check if both the arrays are same
     if ($commitTabLinks !== $commitLogLinks) {
-    print($commitTabLinks . ' | ' . $commitLogLinks);
+      print_r($commitTabLinks);
+      print_r($commitLogLinks);
       throw new Exception("The commit tab does not contain the newest commits from commitlog");
     }
   }
