@@ -27,7 +27,7 @@ Feature: To view an individual commit
   Scenario: Click link on commit information page
     Given I am on "/commitlog/commit/43232/65c565d3f47412b1d37a9e47afff66e0f7dc1b70"
     When I follow "65c565d"
-    Then I should see "summary"
+    Then I should see "Added new module file"
     And I should see "committer"
 
   Scenario: Click link on user name
