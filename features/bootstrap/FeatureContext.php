@@ -3816,11 +3816,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The maintainer '" . $maintainer . "' was not found on the page");
     }
     // Get the user id of the maintainer
-    $href = $userLink->getAttribute('href');
-    // The pattern of 'href' - /user/<uid>
-    $user = explode("/", $href);
-    // 0 => "", 1 => "user", 2 => <uid>
-    $uid  = $user[2];
+    $uid = $userLink->getAttribute('data-uid');
     $tempPerm = $permission;
     if ($tempPerm == "Edit project") {
       $tempPerm = "Update project";
