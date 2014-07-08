@@ -681,7 +681,7 @@ class FeatureContext extends DrupalContext {
           $gitPassword = $gitUser['password'];
         }
       }
-      elseif ($command == "git push origin master") {
+      elseif (strpos($command, 'git push origin ') === 0) {
         $command = "../bin/gitwrapper init $gitPassword";
       }
       $fullCommand .= $command . ' ; ';
