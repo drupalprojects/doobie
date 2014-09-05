@@ -46,7 +46,7 @@ Feature: Add change record
     | Module developer documentation done    |
     | Examples for developers done           |
     | Coder review done                      |
-    | Coder upgrade done                     | 
+    | Coder upgrade done                     |
     | Other updates done                     |
     And I should see the attachment
 
