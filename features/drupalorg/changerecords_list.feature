@@ -125,13 +125,6 @@ Feature: List and search change records
     Then I should see at least "2" records
     But I should not see "Invalid project or no changes found"
 
-  Scenario: Add new change record as anonymous user
-    Given I am on "/list-changes/drupal"
-    When I follow "Add new change record"
-    Then I should see "You are not authorized to access this page"
-    And I should see the heading "Access denied"
-    But I should not see "Create Change record"
-
   Scenario Outline: Search by entering words to get no results
     Given I am on "/list-changes/drupal"
     When I fill in "<fieldname>" with "blahblah"

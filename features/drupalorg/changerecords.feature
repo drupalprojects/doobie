@@ -4,12 +4,12 @@ Feature: Add change record
   As an authenticated user
   I should be able to click on the respective link and submit the page
 
-  @anon
+  @anon @javascript
   Scenario: Add new change record as anonymous user
     Given I am on "/list-changes/drupal"
     When I follow "Add new change record"
-    Then I should see "You are not authorized to access this page"
-    And I should see the heading "Access denied"
+    Then I should see "You need to log in or register an account to access this page"
+    And I should see the heading "User account"
     But I should not see "Create Change record"
 
   Scenario: Navigate to a change record
