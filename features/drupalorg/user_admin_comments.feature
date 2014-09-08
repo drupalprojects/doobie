@@ -1,5 +1,5 @@
 @user @admin @known_git7failure @wip
-Feature: Aministrative view of comments by a user
+Feature: Administrative view of comments by a user
   In order to effectively fight spam
   As a site maintainer
   I should be able to view the list of comments by a specific user and delete them
@@ -12,7 +12,7 @@ Feature: Aministrative view of comments by a user
     And I see "has been created"
     And I follow "Add new comment"
     And I add "3" comments
-    Then I should see "Posted by site user"
+    Then I should see "site user commented"
 
   @dependent
   Scenario: View the list of items

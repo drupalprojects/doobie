@@ -62,7 +62,7 @@ Feature: Adding new case study
     And I press "Save"
     Then I should see the random "Subject" text
     And I should see the random "Comment" text
-    And I should see "Posted by site user"
+    And I should see "site user commented"
     And I should see the link "Add new comment"
 
   @content
