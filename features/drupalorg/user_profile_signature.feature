@@ -55,7 +55,7 @@ Feature: Display additional information on my comments
     And I should see the random "Comment" text
     And I should not see the random "Signature" text
 
-  @dependent @clean_data @api
+  @dependent @clean_data @api @cache
   Scenario: signature doesn't appear in reply any more for anonymous user
     Given I am not logged in
     And the cache is cleared

@@ -46,7 +46,7 @@ Feature: Landing page of Community section of the site
     And I create a new issue
     Then I should see "has been created"
 
-  @dependent @clean_data @cache @javascript @manual
+  @dependent @clean_data @cache @javascript @manual @cache
   Scenario: Look for the issue created in Recent activity block
     Given I am on the homepage
     And the cache is cleared
