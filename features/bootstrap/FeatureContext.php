@@ -1174,7 +1174,7 @@ class FeatureContext extends DrupalContext {
     // Get metadata block
     $metadata = $element->find('css','#block-project-issue-issue-metadata');
     if(empty($metadata)) {
-      throw new Exception ("The issue metadata block is not present on " . $this->getSession()->getCurrentUrl()); 
+      throw new Exception ("The issue metadata block is not present on " . $this->getSession()->getCurrentUrl());
     }
 
     // Get rows
@@ -1205,7 +1205,7 @@ class FeatureContext extends DrupalContext {
         throw new Exception ("Value ". $value ." was not found near label ". $field);
       }
     }
-      
+
     throw new Exception ("Label ". $field ." was not found");
   }
 
@@ -1213,7 +1213,7 @@ class FeatureContext extends DrupalContext {
    * @Then /^I should see the "([^"]*)" issue status$/
    */
   public function iShouldSeeTheIssueStatus($status) {
-  
+
     $element = $this->getSession()->getPage();
     $metadata = $element->find('css','#block-project-issue-issue-metadata');
     if(empty($metadata)) {
@@ -1228,7 +1228,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception ("The issue status is not set to ". $status ." on " . $this->getSession()->getCurrentUrl());
     }
 
-    
+
 
 }
   /**
@@ -2232,16 +2232,16 @@ class FeatureContext extends DrupalContext {
       $projecttable = $linktype;
       $linktype = 'first project';
     }
-    
+
     // Find the first title link from sandbox table.
     $page = $this->getSession()->getPage();
     $result = $page->findAll('css', 'caption');
     if(empty($result)) {
       throw new Exception("No project type label was found on " . $this->getSession()->getCurrentUrl() . "Has the css selctor changed?");
-    } 
+    }
     $table = $this->findTableWithCaption($projecttable);
     if ($linktype == 'first project') {
-      $link = $table->find('css', 'a');        
+      $link = $table->find('css', 'a');
     } else {
       $link = $table->findLink($linktype);
     }
@@ -3241,7 +3241,7 @@ class FeatureContext extends DrupalContext {
     $result = $page->findAll('css', 'caption');
     if(empty($result)) {
       throw new Exception("No project type label was found on " . $this->getSession()->getCurrentUrl() . "Has the css selctor changed?");
-    } 
+    }
     foreach($result as $tabletype) {
       $text = trim($tabletype->getText());
       if ($text == $caption) {
@@ -3250,7 +3250,7 @@ class FeatureContext extends DrupalContext {
         }
       }
     }
- 
+
 
   /**
    * Gets Table Element for the specified type
@@ -5152,9 +5152,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iFollowTheTag($tag) {
     $page = $this->getSession()->getPage();
-    $tagLink = $page->find('region', 'content')->findLink($tag);
+    $tagLink = $page->find('region', 'right sidebar')->findLink($tag);
     if (empty($tagLink)) {
-      throw new Exception("The tag '" . $tag . "' was not found in the view content");
+      throw new Exception("The tag '" . $tag . "' was not found in the right sidebar");
     }
     $tagLink->click();
   }
@@ -7248,15 +7248,16 @@ class FeatureContext extends DrupalContext {
     $element->checkField('Site builders, administrators, editors');
     $element->checkField('Module developers');
     $element->checkField('Themers');
-    //  The fieldgroup isn't collapsed by default anymore. This code will expand 
-    //  the fieldgroup if it becomes collapsed by default again. 
+    //  The fieldgroup isn't collapsed by default anymore. This code will expand
+    //  the fieldgroup if it becomes collapsed by default again.
     //  This can be removed after deployment.
-    // 
+    //
     //    $updateLink = $element->findLink('Updates Done (doc team, etc.)');
     //    if (empty($updateLink)) {
     //      throw new Exception("The Link '" . $updateLink . "' was not found on the page");
     //    }
     //    $updateLink->click();
+    $element->checkField('Published');
     $element->checkField('Generic online documentation done');
     $element->checkField('Theming guide done');
     $element->checkField('Module developer documentation done');
