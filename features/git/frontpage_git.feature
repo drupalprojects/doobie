@@ -7,7 +7,7 @@ Feature: See git activity on the front page
   Background:
     Given I am on the homepage
 
-  @gitrepo @clean_data @timeout @smoke @local @cache
+  @gitrepo @clean_data @timeout @smoke @local @cache @api
   Scenario: Create sample data, push commits and view the commits on the homepage
     Given I am logged in as the "git vetted user"
     And I am on "/node/add/project-module"
@@ -18,7 +18,7 @@ Feature: See git activity on the front page
     And I reload the page
     When I push "2" commits to the repository
     And I follow "Drupal Homepage"
-    And the cache is cleared
+    And the cache has been cleared
     And I visit "/home#tab-commits"
     Then I should see the link "by gitvetteduser: From the step definition"
 

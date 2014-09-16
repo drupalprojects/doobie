@@ -23,7 +23,7 @@ Feature: Create new forum topic as a regular site user
     And I should see "Forums field is required"
     And the field "Body" should be outlined in red
 
-  @cache
+  @cache @api
   Scenario: Add a new forum topic and see the latest topic in the right side block
     And I visit "/forum"
     And I follow "Post installation"
@@ -31,6 +31,6 @@ Feature: Create new forum topic as a regular site user
     When I create a forum topic
     And I see "has been created"
     And I follow "Post installation"
-    And the cache is cleared
+    And the cache has been cleared
     And I visit "/forum/22"
     Then I should see latest forum topic in the rightside block

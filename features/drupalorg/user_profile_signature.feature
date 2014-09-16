@@ -58,7 +58,7 @@ Feature: Display additional information on my comments
   @dependent @clean_data @api @cache
   Scenario: signature doesn't appear in reply any more for anonymous user
     Given I am not logged in
-    And the cache is cleared
+    And the cache has been cleared
     And I am on the forum topic page
     Then I should see the random "Subject" text
     And I should see the random "Comment" text

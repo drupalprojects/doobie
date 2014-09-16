@@ -29,10 +29,10 @@ Feature: Landing page of Community section of the site
     And I create a new issue
     Then I should see "has been created"
 
-  @dependent @clean_data @cache @javascript @manual
+  @dependent @clean_data @cache @javascript @manual @api
   Scenario: Look for the issue created in Recent activity block
     Given I am on the homepage
-    And the cache is cleared
+    And the cache has been cleared
     When I follow "Community"
     Then I should see the issue link
     And I should see the heading "Recent activity"
@@ -46,10 +46,10 @@ Feature: Landing page of Community section of the site
     And I create a new issue
     Then I should see "has been created"
 
-  @dependent @clean_data @cache @javascript @manual @cache
+  @dependent @clean_data @cache @javascript @manual @api
   Scenario: Look for the issue created in Recent activity block
     Given I am on the homepage
-    And the cache is cleared
+    And the cache has been cleared
     When I follow "Community"
     Then I should see the issue link
     And I should see the heading "Recent activity"
