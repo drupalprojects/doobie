@@ -24,7 +24,7 @@ Feature: Manage development releases
     And I follow "Version control"
     Then I should see the branch in the dropdown "Version to work from"
 
-  @dependent @git_tbranch
+  @dependent @git_branch
   Scenario: Create a release for the above branch
     Given I am logged in as the "git vetted user"
     And I visit "/project/git_deploy"
