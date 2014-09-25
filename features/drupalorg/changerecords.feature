@@ -4,6 +4,11 @@ Feature: Add change record
   As an authenticated user
   I should be able to click on the respective link and submit the page
 
+  Background:
+  Given users:
+    | name       | pass     | mail                                   | roles           |
+    | site user2 | password | ryan+fakeuser@association.drupal.org   | Not a spammer   |
+
   @anon @javascript
   Scenario: Add new change record as anonymous user
     Given I am on "/list-changes/drupal"
@@ -13,18 +18,19 @@ Feature: Add change record
     But I should not see "Create Change record"
 
   Scenario: Navigate to a change record
-    Given I am logged in as the "site user"
+    Given I am logged in as "site user2"
     When I am on "/project/drupal"
     And I follow "View change records"
     And I follow "Add new change record"
     Then I should see "Create Change record"
 
+  @parenthesiserror
   Scenario: Add new change record
-    Given I am logged in as the "site user"
+    Given I am logged in as "site user2"
     And I am on "/node/add/changenotice"
     When I create new change record
     Then I should see "has been created"
-    And I should see "Posted by site user"
+    And I should see "Posted by site user2"
     And I should see the random text for the following <fields>
     | fields                |
     | Title                 |
@@ -49,10 +55,6 @@ Feature: Add change record
     | Coder upgrade done                     |
     | Other updates done                     |
     And I should see the attachment
-
-  @dependent
-  Scenario: View the list of newly created changed records
-    Given I am logged in as the "site user"
     And I am on "/project/drupal"
     When I follow "View change records"
     Then I should see change record link
