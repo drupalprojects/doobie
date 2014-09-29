@@ -69,7 +69,7 @@ Feature: Administrative view of comments by a user
     And I should see "Delete"
     And I should see the link "Cancel"
 
-  @dependent @flaky @javascript
+  @dependent @javascript
   Scenario: Select dropdown: This page
     Given I am logged in as the "admin test"
     And I visit "site user" profile page

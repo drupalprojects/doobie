@@ -1,4 +1,4 @@
-@casestudies @flaky @wip
+@casestudies @wip
 Feature: Case studies moderation
   In order to moderate case studies
   As a site administrator
@@ -12,7 +12,7 @@ Feature: Case studies moderation
     And I visit "/case-studies/all"
     Then I should see the random "Project name" text
 
-  @dependent 
+  @dependent
   Scenario: Admin user can feature other people's case study
     Given I am logged in as the "admin test"
     And I am on the case study page
