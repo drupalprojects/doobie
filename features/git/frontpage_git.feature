@@ -9,7 +9,7 @@ Feature: See git activity on the front page
 
   @gitrepo @clean_data @timeout @smoke @local @cache @api
   Scenario: Create sample data, push commits and view the commits on the homepage
-    Given I am logged in as the "git vetted user"
+    Given I am logged in as the "git user"
     And I am on "/node/add/project-module"
     And I create a "sandbox" project
     And I see project data
@@ -20,7 +20,7 @@ Feature: See git activity on the front page
     And I follow "Drupal Homepage"
     And the cache has been cleared
     And I visit "/home#tab-commits"
-    Then I should see the link "by gitvetteduser: From the step definition"
+    Then I should see the link "by gituser: From the step definition"
 
   @anon
   Scenario: Look for commit link and number of commits
