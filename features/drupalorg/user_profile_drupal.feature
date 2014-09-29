@@ -44,10 +44,10 @@ Feature: Drupal information in user profile
     Then I should see the heading "site user"
     And I should see "Roles in working with Drupal"
     And I should see the following <links>
-    | links                               |
-    | I contributed Drupal modules        |
-    | I give support on IRC               |
-    | I attended DrupalCon Boston 2008    |
+      | links                            |
+      | I contributed Drupal modules     |
+      | I give support on IRC            |
+      | I attended DrupalCon Boston 2008 |
 
   @dependent @timeout
   Scenario Outline: Follow Drupal contribution links from profile page
@@ -57,8 +57,8 @@ Feature: Drupal information in user profile
     And I should see the heading "<text>"
     And I should see the link "site user"
 
-    Examples:
-    | link                                | path                                    | text                                         |
-    | I contributed Drupal modules        | profile/profile_drupal_module_developer | People who contributed Drupal modules        |
-    | I give support on IRC               | profile/profile_drupal_support_irc      | People who give support on IRC               |
-    | I attended DrupalCon Boston 2008    | profile/conference-boston-2008          | People who attended DrupalCon Boston 2008    |
+  Examples:
+    | link                             | path                                    | text                                      |
+    | I contributed Drupal modules     | profile/profile_drupal_module_developer | People who contributed Drupal modules     |
+    | I give support on IRC            | profile/profile_drupal_support_irc      | People who give support on IRC            |
+    | I attended DrupalCon Boston 2008 | profile/conference-boston-2008          | People who attended DrupalCon Boston 2008 |

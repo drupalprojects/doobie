@@ -1,12 +1,12 @@
 @other @content
 Feature: Drupal.org contact form
-  In order to prevent spammers from flooding maintainers 
+  In order to prevent spammers from flooding maintainers
   As a site visitor
   I should be required to log in with a valid account to use the contact form
 
   @anon
   Scenario: Anonymous users views the page
-    Given I am not logged in 
+    Given I am not logged in
     When I am on "/contact"
     Then I should see "Access Denied"
     And I should not see "You can leave us a message using"

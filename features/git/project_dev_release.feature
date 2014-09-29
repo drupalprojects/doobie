@@ -14,7 +14,7 @@ Feature: Manage development releases
 
   @dependent
   Scenario: Create a new branch
-  Given I am logged in as the "git vetted user"
+    Given I am logged in as the "git vetted user"
     And I visit "/project/git_deploy"
     And I see project data
     And I follow "Version control"

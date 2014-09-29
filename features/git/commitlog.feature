@@ -1,5 +1,5 @@
 @ci @git @commitlog
-Feature: Sitewide commit log 
+Feature: Sitewide commit log
   In order to conveniently follow code-related activity on Drupal.org
   As a site visitor
   I need a log of commits to all Drupal.org projects
@@ -12,9 +12,9 @@ Feature: Sitewide commit log
     Then I should see the heading "All commits"
     And I should see at least "10" records
     And I should see the following <texts>
-    | texts              |
-    | Commit             |
-    | Subscribe with RSS |
+      | texts              |
+      | Commit             |
+      | Subscribe with RSS |
 
   Scenario: Click link to project title
     Given I am on "/commitlog"
@@ -34,23 +34,23 @@ Feature: Sitewide commit log
     Given I am on "/commitlog"
     When I click on "user name" of a commit
     Then I should see the following <texts>
-    | texts      |
-    | Member for |
-    | History    |
+      | texts      |
+      | Member for |
+      | History    |
 
   Scenario: Click link to repository
     Given I am on "/commitlog"
     When I click on "commit info" of a commit
     Then I should see the link "summary"
     And I should see the following <texts>
-    | texts     |
-    | author    |
-    | committer |
-    | commit    |
-    | tree      |
+      | texts     |
+      | author    |
+      | committer |
+      | commit    |
+      | tree      |
 
   @javascript
   Scenario: View project title as the first part of the heading
-    Given I am on "/commitlog" 
+    Given I am on "/commitlog"
     Then I should see the heading "All commits"
     And I should see project name in the first part of the heading

@@ -18,18 +18,18 @@ Feature: Administrative view of nodes by a user
     Then I should see the heading "Nodes by site user"
     And I should see at least "3" records
     And I should see the following <texts>
-    | texts        |
-    | Title        |
-    | Body         |
-    |  Post date   |
-    | Operations   |
-    | Published    |
+      | texts      |
+      | Title      |
+      | Body       |
+      | Post date  |
+      | Operations |
+      | Published  |
     And I should see the following <links>
-    | links     |
-    | View      |
-    | Edit      |
-    | edit      |
-    | delete    |
+      | links  |
+      | View   |
+      | Edit   |
+      | edit   |
+      | delete |
 
   @dependent
   Scenario: Visit Delete link

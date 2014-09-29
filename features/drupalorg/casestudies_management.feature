@@ -11,19 +11,19 @@ Feature: Case studies management
   Scenario: View casestudies management page
     Then I should see the heading "Drupal Case Studies"
     And I should see the following <texts>
-    | texts          |
-    | Published      |
-    | Status         |
-    | Title contains |
-    | Category       |
-    | New            |
+      | texts          |
+      | Published      |
+      | Status         |
+      | Title contains |
+      | Category       |
+      | New            |
     And I should see the following <links>
-    | links                 |
-    | Case Study guidelines |
-    | next                  |
-    | last                  |
-    | Featured showcase     |
-    | Community showcase    |
+      | links                 |
+      | Case Study guidelines |
+      | next                  |
+      | last                  |
+      | Featured showcase     |
+      | Community showcase    |
     And I should see at least "50" records
     And I should not see the link "previous"
 
@@ -37,10 +37,10 @@ Feature: Case studies management
     And I press "Apply"
     Then I should see at least "1" record
     And I should see "<option>" under "Status"
-    Examples:
-    | option       |
-    | Community    |
-    | Featured     |
+  Examples:
+    | option    |
+    | Community |
+    | Featured  |
 
   Scenario: Filter by Title
     When I fill in "Title contains" with "BrightCove"
@@ -52,7 +52,7 @@ Feature: Case studies management
     When I select "<option>" from "Category"
     And I press "Apply"
     Then I should see at least "5" records
-    Examples:
+  Examples:
     | option     |
     | Arts       |
     | Education  |

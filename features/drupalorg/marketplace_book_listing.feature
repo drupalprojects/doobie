@@ -38,7 +38,7 @@ Feature: Book listing content type
     And I fill in "Sub-title" with random text
     And I fill in "Authors" with random text
     And I fill in "Publisher" with random text
-    And I fill in "Publication date" with "2012-05" 
+    And I fill in "Publication date" with "2012-05"
     And I fill in "edit-field-official-website-und-0-url" with random text
     And I fill in "ISBN-13" with random text
     And I fill in "ISBN-10" with random text

@@ -29,7 +29,7 @@ Feature: 'Maintain issues' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent 
+  @dependent
   Scenario: Log in as maintainer and see creator username in Assigned drop down : git user can assign an issue to maintainer
     Given I am logged in as the "git user"
     And I am on the project page

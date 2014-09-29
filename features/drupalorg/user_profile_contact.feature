@@ -30,20 +30,20 @@ Feature: User contact form
     And I follow "Contact"
     And I see the heading "Contact site user"
     And I see the following <tabs>
-    | tabs    |
-    | Profile |
-    | Posts   |
-    | Commits |
+      | tabs    |
+      | Profile |
+      | Posts   |
+      | Commits |
     And I see the following <links>
-    | links     |
-    | View      |
-    | Contact   |
-    | site user |
+      | links     |
+      | View      |
+      | Contact   |
+      | site user |
     And I see the following <texts>
-    | texts               |
-    | Your name           |
-    | Your e-mail address |
-    | To                  |
+      | texts               |
+      | Your name           |
+      | Your e-mail address |
+      | To                  |
     And I fill in "Subject" with random text
     And I fill in "Message" with random text
     And I check the box "Send yourself a copy"

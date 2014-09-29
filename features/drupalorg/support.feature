@@ -16,20 +16,20 @@ Feature: Drupal support
     Given I am on the homepage
     When I follow "Support"
     Then I should see the following <links>
-    | links                       |
-    | Community Documentation     |
-    | IRC online chat             |
-    | Forums                      |
-    | Other languages             |
-    | Books                       |
-    | Professional services       |
-    | Drupal training             |
-    | Report an issue             |
-    | hosting                     |
+      | links                   |
+      | Community Documentation |
+      | IRC online chat         |
+      | Forums                  |
+      | Other languages         |
+      | Books                   |
+      | Professional services   |
+      | Drupal training         |
+      | Report an issue         |
+      | hosting                 |
     And I should not see the following <links>
-    | links                     |
-    | Spam                      |
-    | Site content issues       |
-    | Site functionality issues |
+      | links                     |
+      | Spam                      |
+      | Site content issues       |
+      | Site functionality issues |
     And I should see "Read the Drupal.org online documentation"
     And I should see "Find organizations that provide Drupal training services."

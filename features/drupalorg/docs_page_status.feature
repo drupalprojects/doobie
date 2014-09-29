@@ -27,7 +27,7 @@ Feature: Page status block on documentation pages
     Then I should see "has been updated"
     And the page status should be "<status>"
     And the background color of the status should be "<color>"
-    Examples:
+  Examples:
     | status                  | color  |
     | No known problems       | green  |
     | Incomplete              | yellow |

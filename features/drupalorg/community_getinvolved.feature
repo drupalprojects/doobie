@@ -33,18 +33,18 @@ Feature: Ways to get involved with the Drupal community
     When I follow "Getting Involved"
     Then I should see "Ways to Get Involved"
     And I should see the following <links>
-    | links                 |
-    | Forums                |
-    | IRC                   |
-    | Community Initiatives |
-    | Modules               |
-    | Themes                |
-    | Translations          |
-    | Groups                |
-    | Events                |
-    | Donate                |
-    | Documentation         |
-    | Drupal Association    |
+      | links                 |
+      | Forums                |
+      | IRC                   |
+      | Community Initiatives |
+      | Modules               |
+      | Themes                |
+      | Translations          |
+      | Groups                |
+      | Events                |
+      | Donate                |
+      | Documentation         |
+      | Drupal Association    |
 
   Scenario: See drupal.org activity block
     Given I am on the homepage

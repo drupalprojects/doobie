@@ -13,29 +13,29 @@ Feature: Security announcements
     And I should see the heading "Security announcements"
     And I should see the heading "Contacting the Security team"
     And I should see the following <tabs>
-    | tabs                         |
-    | Drupal core                  |
-    | Contributed projects         |
-    | Public service announcements |
+      | tabs                         |
+      | Drupal core                  |
+      | Contributed projects         |
+      | Public service announcements |
     And I should see that the tab "Drupal core" is highlighted
     And I should see the following <texts>
-    | texts                                               |
-    | also sent to the security announcements e-mail list |
-    | SA-CORE                                             |
-    | Posted by                                           |
-    | Version:                                            |
-    | In addition to the news page                        |
-    | In order to report a security issue                 |
-    | Writing secure code                                 |
-    | If you are a Drupal developer                       |
-    | There are many useful                               |
+      | texts                                               |
+      | also sent to the security announcements e-mail list |
+      | SA-CORE                                             |
+      | Posted by                                           |
+      | Version:                                            |
+      | In addition to the news page                        |
+      | In order to report a security issue                 |
+      | Writing secure code                                 |
+      | If you are a Drupal developer                       |
+      | There are many useful                               |
     And I should see the following <links>
-    | links                |
-    | Read more            |
-    | Drupal Security Team |
-    | next                 |
-    | last                 |
-    | 2                    |
+      | links                |
+      | Read more            |
+      | Drupal Security Team |
+      | next                 |
+      | last                 |
+      | 2                    |
     And I should not see the link "previous"
     And I should not see the link "first"
 
@@ -60,14 +60,14 @@ Feature: Security announcements
     Given I am on the homepage
     When I follow "Security Announcements"
     Then I should see the following <texts>
-    | texts             |
-    | Advisory ID:      |
-    | Project:          |
-    | Version:          |
-    | Date:             |
-    | Security risk:    |
-    | Exploitable from: |
-    | Vulnerability:    |
+      | texts             |
+      | Advisory ID:      |
+      | Project:          |
+      | Version:          |
+      | Date:             |
+      | Security risk:    |
+      | Exploitable from: |
+      | Vulnerability:    |
     And I should be on "/security"
 
   Scenario: View individual advisory

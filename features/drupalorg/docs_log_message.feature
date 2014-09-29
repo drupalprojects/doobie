@@ -6,7 +6,7 @@ Feature: Log message required for documentation edits
 
   Background:
     Given I am logged in as the "site user"
-    And I am on "/best-practices" 
+    And I am on "/best-practices"
 
   Scenario: Edit a documentation: Leave blank
     When I follow "Edit"

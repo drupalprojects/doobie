@@ -10,15 +10,15 @@ Feature: Find Drupal service provider in the Marketplace
     And I expand the category "Sectors"
     And I expand the category "Locations"
     Then I should see the following <texts>
-    | texts            |
-    | Services         |
-    | Sectors          |
-    | Locations        |
+      | texts     |
+      | Services  |
+      | Sectors   |
+      | Locations |
     And I should see the following <links>
-    | links              |
-    | Development        |
-    | Beauty and Fashion |
-    | Latvia             |
+      | links              |
+      | Development        |
+      | Beauty and Fashion |
+      | Latvia             |
 
   Scenario: Service categories under an organization
     Given I am on "/drupal-services"

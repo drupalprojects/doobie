@@ -5,9 +5,9 @@ Feature: Add change record
   I should be able to click on the respective link and submit the page
 
   Background:
-  Given users:
-    | name       | pass     | mail                                   | roles           |
-    | site user2 | password | ryan+fakeuser@association.drupal.org   | Not a spammer   |
+    Given users:
+      | name       | pass     | mail                                 | roles         |
+      | site user2 | password | ryan+fakeuser@association.drupal.org | Not a spammer |
 
   @anon @javascript
   Scenario: Add new change record as anonymous user
@@ -32,28 +32,28 @@ Feature: Add change record
     Then I should see "has been created"
     And I should see "Posted by site user"
     And I should see the random text for the following <fields>
-    | fields                |
-    | Title                 |
-    | Project               |
-    | Introduced in branch  |
-    | Introduced in version |
-    | Description           |
-    | Details               |
-    | Progress              |
+      | fields                |
+      | Title                 |
+      | Project               |
+      | Introduced in branch  |
+      | Introduced in version |
+      | Description           |
+      | Details               |
+      | Progress              |
     And I should see the link "Drupal Core"
     And I should see the following <texts>
-    | texts                                  |
-    | Project                                |
-    | Site builders, administrators, editors |
-    | Module developers                      |
-    | Themers                                |
-    | Generic online documentation done      |
-    | Theming guide done                     |
-    | Module developer documentation done    |
-    | Examples for developers done           |
-    | Coder review done                      |
-    | Coder upgrade done                     |
-    | Other updates done                     |
+      | texts                                  |
+      | Project                                |
+      | Site builders, administrators, editors |
+      | Module developers                      |
+      | Themers                                |
+      | Generic online documentation done      |
+      | Theming guide done                     |
+      | Module developer documentation done    |
+      | Examples for developers done           |
+      | Coder review done                      |
+      | Coder upgrade done                     |
+      | Other updates done                     |
     And I should see the attachment
     And I am on "/project/drupal"
     When I follow "View change records"

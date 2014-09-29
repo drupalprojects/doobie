@@ -14,7 +14,7 @@ Feature: Publishing new security announcement
     And I see "has been created"
     And I visit "<path>"
     Then I should see the forum topic link
-    Examples:
+  Examples:
     | section                                      | path        |
     | Security advisories for Drupal core          | /forum/1852 |
     | Security advisories for contributed projects | /forum/44   |
@@ -26,9 +26,9 @@ Feature: Publishing new security announcement
     And I follow "<section>"
     And I follow "Add new Forum topic"
     Then I should see "You do not have permission to post to this forum."
-    Examples:
-      | section                                      | path        |
-      | Security advisories for Drupal core          | /forum/1852 |
-      | Security advisories for contributed projects | /forum/44   |
-      | Security public service announcements        | /forum/1856 |
+  Examples:
+    | section                                      | path        |
+    | Security advisories for Drupal core          | /forum/1852 |
+    | Security advisories for contributed projects | /forum/44   |
+    | Security public service announcements        | /forum/1856 |
 

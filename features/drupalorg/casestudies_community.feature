@@ -10,20 +10,20 @@ Feature: Community case studies
     Then I should see at least "8" records
     And I should see the heading "Drupal Case Studies"
     And I should see the following <tabs>
-    | tabs               |
-    | Featured showcase  |
-    | Community showcase |
+      | tabs               |
+      | Featured showcase  |
+      | Community showcase |
     And I should see that the tab "Community showcase" is highlighted
     And I should see "Categories:"
     And I should see the following <links>
-    | links              |
-    | next               |
-    | last               |
+      | links |
+      | next  |
+      | last  |
     And I should not see the following <links>
-    | links               |
-    | previous            |
-    | first               |
-    | Add your case study |
+      | links               |
+      | previous            |
+      | first               |
+      | Add your case study |
     And I should see the text "Browse by category" in the "right sidebar" region
     And I should see at least "10" links in the "right sidebar"
     And I should see the link "Education"
@@ -35,11 +35,11 @@ Feature: Community case studies
     When I click on page "2"
     Then I should see "Drupal Case Studies"
     And I should see the following <links>
-    | links    |
-    | first    |
-    | previous |
-    | next     |
-    | last     |
+      | links    |
+      | first    |
+      | previous |
+      | next     |
+      | last     |
 
   Scenario: Browse pagination links in community showcase page: Last page
     Given I am on "/case-studies/community"
@@ -55,7 +55,7 @@ Feature: Community case studies
     Then I should not see "Page not found"
     And I should see "Categories:"
     And I should see at least "1" record
-    Examples:
+  Examples:
     | category      |
     | Education     |
     | Entertainment |
@@ -68,8 +68,8 @@ Feature: Community case studies
     Then I should not see "Page not found"
     And I should see that the tab "Community showcase" is highlighted
     And I should see the following <texts>
-    | texts                                |
-    | Why Drupal was chosen                |
+      | texts                 |
+      | Why Drupal was chosen |
 #    | Completed Drupal site or project URL |
 #    | Key modules/theme/distribution used  |
 #    | Posted by                            |

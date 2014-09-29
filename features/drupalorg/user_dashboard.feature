@@ -14,14 +14,14 @@ Feature:
     When I follow "Dashboard"
     And I wait until the page is loaded
     Then I should see the following <links>
-    | links                   |
-    | Dashboard               |
-    | Your Posts              |
-    | Your Commits            |
-    | Your Issues             |
-    | Your Projects           |
-    | Profile                 |
-    | Add a block             |
+      | links         |
+      | Dashboard     |
+      | Your Posts    |
+      | Your Commits  |
+      | Your Issues   |
+      | Your Projects |
+      | Profile       |
+      | Add a block   |
 
   @javascript
   Scenario: Click Restore to defaults and view dashboard blocks
@@ -29,34 +29,34 @@ Feature:
     And I wait until the page is loaded
     And I click "Add a block"
     And I see the following <blocklinks> in small boxes
-    | blocklinks                |
-    | Drupal News               |
-    | Planet Drupal             |
-    | Your Posts                |
-    | Your Issues               |
-#    | Project: Issue summary   |
-    | Contributor Links         |
-    | Documentation Team links  |
+      | blocklinks               |
+      | Drupal News              |
+      | Planet Drupal            |
+      | Your Posts               |
+      | Your Issues              |
+  #    | Project: Issue summary   |
+      | Contributor Links        |
+      | Documentation Team links |
     And I click "Restore to defaults"
     And I wait until the page is loaded
     And I press "Confirm"
     And I wait until the page is loaded
     Then I should see the following <blocks> in column "1"
-    | blocks        |
-    | Drupal News   |
-    | Planet Drupal |
+      | blocks        |
+      | Drupal News   |
+      | Planet Drupal |
     And I should see the following <blocks> in column "2"
-    | blocks      |
-    | Your Posts  |
-    | Your Issues |
+      | blocks      |
+      | Your Posts  |
+      | Your Issues |
     And I should see the following <blocks> in column "3"
-    | blocks                 |
-    | Issues for Drupal core |
-    | Contributor Links      |
+      | blocks                 |
+      | Issues for Drupal core |
+      | Contributor Links      |
     And I should not see the below <blocks> in column "1"
-    | blocks                 |
-    | Issues for Drupal core |
-    | Contributor Links      |
+      | blocks                 |
+      | Issues for Drupal core |
+      | Contributor Links      |
     And I should see the block "Drupal News" in column "1" just "above" the block "Planet Drupal"
     And I should see the block "Your Issues" in column "2" just "below" the block "Your Posts"
 
@@ -88,9 +88,9 @@ Feature:
     Then I should see the block "Your Posts" in column "2"
     And I should see at least "2" items in block "Your Posts"
     And I should see the following <icons> on the block "Your Posts"
-    | icons    |
-    | Settings |
-    | Close    |
+      | icons    |
+      | Settings |
+      | Close    |
 
   @dependent @javascript
   Scenario: Change number of items to show in a block

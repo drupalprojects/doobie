@@ -8,7 +8,7 @@ Feature: To see the list of all the commits for a user
     Given I am logged in as the "git user"
 
   @gitrepo
-  Scenario: Visit the commits page and view commits 
+  Scenario: Visit the commits page and view commits
     When I visit "/node/add/project-module"
     And I create a "sandbox" project
     And I see project data
@@ -21,10 +21,10 @@ Feature: To see the list of all the commits for a user
     And I follow "Your Commits"
     And I should see at least "3" records
     Then I should see the following <texts>
-    | texts              |
-    | Commit             |
-    | master             |
-    | Subscribe with RSS |
+      | texts              |
+      | Commit             |
+      | master             |
+      | Subscribe with RSS |
 
   @dependent
   Scenario: Click link to user profile
@@ -32,10 +32,10 @@ Feature: To see the list of all the commits for a user
     And I follow "Your Commits"
     When I click on "user name" of a commit
     Then I should see the following <texts>
-    | texts           |
-    | History         |
-    | Git attribution |
-    | Member for      |
+      | texts           |
+      | History         |
+      | Git attribution |
+      | Member for      |
 
   @dependent
   Scenario: Click link to project title: Full project
@@ -53,11 +53,11 @@ Feature: To see the list of all the commits for a user
     When I click on "sandbox project title" of a commit
     Then I should see "Posted by"
     And I should see the following <texts>
-    | texts                     |
-    | Experimental Project      |
-    | This is a sandbox project |
-    | Module categories:        |
-    | sandbox:                  |
+      | texts                     |
+      | Experimental Project      |
+      | This is a sandbox project |
+      | Module categories:        |
+      | sandbox:                  |
     And I should see the link "View"
     And I should see the heading "Development"
 
@@ -75,8 +75,8 @@ Feature: To see the list of all the commits for a user
     When I click on "commit info" of a commit
     Then I should see the link "summary"
     And I should see the following <texts>
-    | texts     |
-    | author    |
-    | committer |
-    | commit    |
-    | tree      |
+      | texts     |
+      | author    |
+      | committer |
+      | commit    |
+      | tree      |

@@ -11,7 +11,7 @@ Feature: Manage all project types
     Then I should see "has been created"
     And the URL should match "/sandbox/*"
 
-    Examples:
+  Examples:
     | url                            |
     | /node/add/project-module       |
     | /node/add/project-theme-engine |
@@ -22,13 +22,13 @@ Feature: Manage all project types
 
   @javascript @local
   Scenario Outline: Promote sandboxes
-    Given I am logged in as the "admin test"     
+    Given I am logged in as the "admin test"
     And I am on "<url>"
     And I create a "sandbox" project
     When I promote the project
     Then the URL should match "/project/*"
 
-    Examples:                        
+  Examples:
     | url                            |
     | /node/add/project-module       |
     | /node/add/project-theme-engine |
@@ -36,14 +36,14 @@ Feature: Manage all project types
     | /node/add/project-core         |
     | /node/add/project-drupalorg    |
 
-  Scenario Outline: Create a full project for each type 
+  Scenario Outline: Create a full project for each type
     Given I am logged in as the "admin test"
     And I am on "<url>"
     And I create a "full" project
     Then I should see "has been created"
     And the URL should match "/project/*"
 
-    Examples:
+  Examples:
     | url                            |
     | /node/add/project-module       |
     | /node/add/project-theme-engine |

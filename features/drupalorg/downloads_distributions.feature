@@ -18,7 +18,7 @@ Feature: Find Drupal distributions
     And I should see "Distributions provide site features and functions for a specific type"
     And I should see "Posted by"
 
-    Examples:
+  Examples:
     | link                         |
     | Most Installed Distributions |
     | New Distributions            |
@@ -29,12 +29,12 @@ Feature: Find Drupal distributions
     When I follow "Distributions"
     Then I should be on "/project/project_distribution"
     And I should see the following <tabs>
-    | tabs                   |
-    | Download & Extend Home |
-    | Drupal Core            |
-    | Distributions          |
-    | Modules                |
-    | Distributions          |
+      | tabs                   |
+      | Download & Extend Home |
+      | Drupal Core            |
+      | Distributions          |
+      | Modules                |
+      | Distributions          |
     And I should see that the tab "Distributions" is highlighted
     And I should see "Distributions match your search"
     And I should see "Distributions provide site features and functions for a specific type"

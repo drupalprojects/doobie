@@ -1,5 +1,5 @@
 # https://drupal.org/node/2045095
-@user @anon @wip 
+@user @anon @wip
 Feature: Register an account on Drupal.org with valid username and email
   In order to start using additional features of the site
   As any user
@@ -12,14 +12,14 @@ Feature: Register an account on Drupal.org with valid username and email
   Scenario: Register to the site
     Then I should see the heading "User account"
     And I should see the following <links>
-    | links                |
-    | Create new account   |
-    | Log in               |
-    | Request new password |
+      | links                |
+      | Create new account   |
+      | Log in               |
+      | Request new password |
     And I should see the following <texts>
-    | texts    |
-    | Username |
-    | Password |
+      | texts    |
+      | Username |
+      | Password |
 
   Scenario: Create an account
     When I follow "Create new account"
@@ -72,7 +72,7 @@ Feature: Register an account on Drupal.org with valid username and email
     And I press "Create new account"
     Then I should see "The username contains an illegal character"
     And the field "Username" should be outlined in red
-    Examples:
+  Examples:
     | text         |
     | example*123  |
     | ~example~    |
@@ -95,12 +95,12 @@ Feature: Register an account on Drupal.org with valid username and email
     And I press "Create new account"
     Then I should see "The e-mail address <address> is not valid"
     And the field "E-mail address" should be outlined in red
-    Examples:
-    | address                    |
-    | testuserforgi6.gmail.com   |
-    | testuserforgi6gmail.com    |
-    | testuserforgi6gmail.com@   |
-    | test@user@forgi6@gmailcom  |
+  Examples:
+    | address                   |
+    | testuserforgi6.gmail.com  |
+    | testuserforgi6gmail.com   |
+    | testuserforgi6gmail.com@  |
+    | test@user@forgi6@gmailcom |
 
   @known_git7failure
   Scenario: EmailAddress validation: In valid email address

@@ -14,26 +14,26 @@ Feature: Your Project Tab
   Scenario: See issues on in the project table
     Given a new "full" "Module project" issue
     When I visit "/project/user"
-    Then I should see the random "issue title" text 
+    Then I should see the random "issue title" text
 
   Scenario: View the links and count of records on the page
     And I am on "/project/user"
     Then I should see the following <links>
-    | links               |
-    | Dashboard           |
-    | Your Posts          |
-    | Your Commits        |
-    | Your Issues         |
-    | Your Projects       |
-    | Profile             |
-    | Add a new project   |
+      | links             |
+      | Dashboard         |
+      | Your Posts        |
+      | Your Commits      |
+      | Your Issues       |
+      | Your Projects     |
+      | Profile           |
+      | Add a new project |
     And I should see at least "1" record in "Projects" table
     And I should see at least "1" record in "Project Issues" table
 
   Scenario: Visit link from Issue Links column for Projects
     When I click the "View" link for the new project
     Then I should see the project name
- 
+
   Scenario: Visit Search link from Issue Links column for Projects
     When I click the "Search" link for the new project
     Then I should see the project name

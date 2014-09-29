@@ -23,19 +23,19 @@ Feature: Administrative view of comments by a user
     And I should see the heading "Comments by site user"
     And I should see at least "3" records
     And I should see the following <texts>
-    | texts         |
-    | Title         |
-    | Node title    |
-    | Comment       |
-    | Updated date  |
-    | Operations    |
-    | Published     |
+      | texts        |
+      | Title        |
+      | Node title   |
+      | Comment      |
+      | Updated date |
+      | Operations   |
+      | Published    |
     And I should see the following <links>
-    | links  |
-    | View   |
-    | Edit   |
-    | edit   |
-    | delete |
+      | links  |
+      | View   |
+      | Edit   |
+      | edit   |
+      | delete |
 
   @dependent
   Scenario: Navigate into a post

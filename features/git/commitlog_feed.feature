@@ -4,7 +4,7 @@ Feature: Subscribe to commitlog feed
   As a site visitor
   I want to subscribe to an RSS feed
 
-  Scenario: Follow the commitlog feed 
+  Scenario: Follow the commitlog feed
     Given I am on the homepage
     When I visit "/commitlog"
     When I click on the feed icon

@@ -12,21 +12,21 @@ Feature: Drupal Books
     And I should see the heading "Marketplace"
     And I should not see the link "Add book listing"
     And I should see the following <tabs>
-    | tabs     |
-    | Services |
-    | Hosting  |
-    | Training |
-    | Books    |
+      | tabs     |
+      | Services |
+      | Hosting  |
+      | Training |
+      | Books    |
     And I should see that the tab "Books" is highlighted
     And I should see the following <texts>
-    | texts                          |
-    | Status                         |
-    | Drupal version                 |
-    | Audience                       |
-    | Format                         |
-    | Availability:                  |
-    | More information               |
-    | by the individual contributors |
+      | texts                          |
+      | Status                         |
+      | Drupal version                 |
+      | Audience                       |
+      | Format                         |
+      | Availability:                  |
+      | More information               |
+      | by the individual contributors |
 
   Scenario: Filter books
     Given I am on "/books"

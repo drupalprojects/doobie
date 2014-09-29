@@ -14,9 +14,9 @@ Feature: Featured Drupal case studies
     And I should see the link "next"
     And I should see the link "last"
     And I should see the following <tabs>
-    | tabs               |
-    | Featured showcase  |
-    | Community showcase |
+      | tabs               |
+      | Featured showcase  |
+      | Community showcase |
     And I should see that the tab "Featured showcase" is highlighted
     And I should see at least "10" links in the "right sidebar"
     And I should see the link "Education"
@@ -45,7 +45,7 @@ Feature: Featured Drupal case studies
     And I should see "Categories:"
     And I should see at least "1" record
     And I should see "Category: <category>"
-    Examples:
+  Examples:
     | category      |
     | Education     |
     | Entertainment |
@@ -58,19 +58,19 @@ Feature: Featured Drupal case studies
     Then I should not see "Page not found"
     And I should see that the tab "Featured showcase" is highlighted
     And I should see the following <texts>
-    | texts                                |
-    | Why Drupal was chosen:               |
-#    | Completed Drupal site or project URL |
-    | Key modules/theme/distribution used  |
-    | Posted by                            |
-    | Categories:                          |
+      | texts                               |
+      | Why Drupal was chosen:              |
+  #    | Completed Drupal site or project URL |
+      | Key modules/theme/distribution used |
+      | Posted by                           |
+      | Categories:                         |
 
   Scenario Outline: Follow tags
     Given I am on "/case-studies"
     When I follow the tag "<tagname>"
     Then I should see "Category: <tagname>"
     And I should see at least "1" record
-    Examples:
+  Examples:
     | tagname       |
     | Entertainment |
     | Community     |

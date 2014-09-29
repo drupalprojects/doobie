@@ -15,7 +15,7 @@ Feature: Users create git repository
     And I follow "Version control"
     And I see "Empty Sandbox Repository"
     And I initialize the repository
-    And I reload the page 
+    And I reload the page
     Then I should see "Routinely"
     And I should see "Switching to a different branch"
 

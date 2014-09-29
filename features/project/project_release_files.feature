@@ -1,4 +1,4 @@
-@releases @anon 
+@releases @anon
 Feature: Project release files
   In order to install a specific release of Drupal core
   As any user
@@ -15,11 +15,11 @@ Feature: Project release files
     And I select "6.x" from "API version"
     When I press "Apply"
     Then I should see the following <texts>
-    | texts     |
-    | Drupal 6. |
-    | Download  |
-    | Size      |
-    | md5 hash  |
+      | texts     |
+      | Drupal 6. |
+      | Download  |
+      | Size      |
+      | md5 hash  |
     And I should see the link "drupal-6.25.tar.gz"
     And I should see the link "drupal-6.25.zip"
 

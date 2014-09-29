@@ -5,8 +5,8 @@ Feature: Drupal.org frontpage
   I should go to Drupal.org frontpage
 
   Background:
-  Given I am on the homepage
-  And I wait until the page loads
+    Given I am on the homepage
+    And I wait until the page loads
 
   Scenario: View texts and links in top left content area
     Then I should see the "link" "Why Choose Drupal?" in "top left content" area
@@ -21,18 +21,18 @@ Feature: Drupal.org frontpage
 
   Scenario: View project and activity links, the count against each of them and advertisement in top right content area
     And I should see the following <links> in "top right content" area
-    | links               |
-    | Develop with Drupal |
-    | Modules             |
-    | Themes              |
-    | Distributions       |
-    | Developers          |
-    | Code commits        |
-    | Issue comments      |
-    | Drupal Core         |
-    | Security Info       |
-    | Developer Docs      |
-    | API Docs            |
+      | links               |
+      | Develop with Drupal |
+      | Modules             |
+      | Themes              |
+      | Distributions       |
+      | Developers          |
+      | Code commits        |
+      | Issue comments      |
+      | Drupal Core         |
+      | Security Info       |
+      | Developer Docs      |
+      | API Docs            |
     And I should see at least "12000" "Modules" in top right content area
     And I should see at least "1000" "Themes" in top right content area
     And I should see at least "400" "Distributions" in top right content area
@@ -50,7 +50,7 @@ Feature: Drupal.org frontpage
     And I wait until the page loads
     Then I should see the heading "<title>"
 
-    Examples:
+  Examples:
     | link                      | title                   |
     | Why Choose Drupal?        | About Drupal            |
     | Get Started with Drupal   | Get Started with Drupal |
@@ -65,7 +65,7 @@ Feature: Drupal.org frontpage
     | Developer Docs            | Develop for Drupal      |
     | API Docs                  | API reference           |
 
-  @local 
+  @local
   Scenario: Find modules for Drupal
     When I follow "Modules"
     Then I should see "Modules match your search"
@@ -85,8 +85,8 @@ Feature: Drupal.org frontpage
 
   Scenario: View tabs in bottom right content area
     And I should see the following <tabs> in "bottom right content" area
-    | tabs          |
-    | News          |
-    | Docs Updates  |
-    | Forum Posts   |
-    | Commits       |
+      | tabs         |
+      | News         |
+      | Docs Updates |
+      | Forum Posts  |
+      | Commits      |

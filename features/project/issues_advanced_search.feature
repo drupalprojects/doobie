@@ -12,12 +12,12 @@ Feature: Overall Filter Search for issues
     When I wait until the page loads
     Then I should see the heading "Search issues for all projects"
     And I should see the following <texts>
-    | texts        |
-    | Search for   |
-    | Project      |
-    | Assigned     |
-    | Submitted by |
-    | Status       |
+      | texts        |
+      | Search for   |
+      | Project      |
+      | Assigned     |
+      | Submitted by |
+      | Status       |
     And I should see at least "50" records
     And I should see the link "next"
     And I should see the link "last"
@@ -35,26 +35,26 @@ Feature: Overall Filter Search for issues
   Scenario: Search the issue with status/priority/category with additonal select
     When I fill in "Project" with "Achievements"
     And I select the following <fields> with <values>
-    | fields   | values       |
-    | Status   | Active       |
-    | Status   | Needs review |
-    | Priority | Normal       |
-    | Priority | Minor        |
+      | fields   | values       |
+      | Status   | Active       |
+      | Status   | Needs review |
+      | Priority | Normal       |
+      | Priority | Minor        |
     And I press "Search" in the "content" region
     Then I should see at least "2" records
 
   Scenario: Search the project by applying all filters
     When I fill in "Project" with "Achievements"
     And I select the following <fields> with <values>
-    | fields   | values          |
-    | Status   | Active          |
-    | Status   | Needs review    |
-    | Status   | Closed (fixed)  |
-    | Priority | Normal          |
-    | Priority | Minor           |
-    | Priority | Major           |
-    | Category | Feature request |
-    | Category | Support request |
+      | fields   | values          |
+      | Status   | Active          |
+      | Status   | Needs review    |
+      | Status   | Closed (fixed)  |
+      | Priority | Normal          |
+      | Priority | Minor           |
+      | Priority | Major           |
+      | Category | Feature request |
+      | Category | Support request |
     And I press "Search" in the "content" region
     Then I should see at least "2" records
 
@@ -77,9 +77,9 @@ Feature: Overall Filter Search for issues
   Scenario: Search the issues with tags
     When I fill in "Assigned" with "eliza411"
     And I select the following <fields> with <values>
-    | fields   | values         |
-    | Status   | Closed (fixed) |
-    | Priority | Normal         |
+      | fields   | values         |
+      | Status   | Closed (fixed) |
+      | Priority | Normal         |
     And I press "Search" in the "content" region
     And I follow a post
     Then I should see the submitted user "eliza411"

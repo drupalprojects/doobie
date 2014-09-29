@@ -14,36 +14,36 @@ Feature: Security public service announcements
     And I should see the heading "Security announcements"
     And I should see the heading "Contacting the Security team"
     And I should see the following <tabs>
-    | tabs                         |
-    | Drupal core                  |
-    | Contributed projects         |
-    | Public service announcements |
+      | tabs                         |
+      | Drupal core                  |
+      | Contributed projects         |
+      | Public service announcements |
     And I should see that the tab "Public service announcements" is highlighted
     And I should see the following <texts>
-    | texts                                                                 |
-    | DRUPAL-PSA                                                            |
-    | Posted by                                                             |
-    | Version:                                                              |
-    | Security-related announcements, such as information on best practices |
-    | all security announcements are posted to                              |
-    | In order to report a security issue                                   |
+      | texts                                                                 |
+      | DRUPAL-PSA                                                            |
+      | Posted by                                                             |
+      | Version:                                                              |
+      | Security-related announcements, such as information on best practices |
+      | all security announcements are posted to                              |
+      | In order to report a security issue                                   |
     And I should see the following <links>
-    | links                |
-    | Read more            |
-    | Drupal Security Team |
+      | links                |
+      | Read more            |
+      | Drupal Security Team |
 
   Scenario: View various parameters on Public service announcements
     Given I am on "/security/psa"
     When I follow "Public service announcements"
     Then I should see the following <texts>
-    | texts             |
-    | Advisory ID:      |
-    | Project:          |
-    | Version:          |
-    | Date:             |
-    | Security risk:    |
-    | Exploitable from: |
-    | Vulnerability:    |
+      | texts             |
+      | Advisory ID:      |
+      | Project:          |
+      | Version:          |
+      | Date:             |
+      | Security risk:    |
+      | Exploitable from: |
+      | Vulnerability:    |
 
   Scenario: View individual announcement
     Given I am on "/security/psa"

@@ -5,8 +5,8 @@ Feature: Documentation Management
   I should be able to search and filter the list of documentation pages
 
   Background:
-   Given I am logged in as the "docs manager"
-   And I visit "/documentation/manage"
+    Given I am logged in as the "docs manager"
+    And I visit "/documentation/manage"
 
   @timeout
   Scenario: Search records by Comment count
@@ -57,7 +57,7 @@ Feature: Documentation Management
     When I select "<value>" from "Page status"
     And I press "Apply"
     Then I should see at least "2" records
-    Examples:
+  Examples:
     | value             |
     | No known problems |
     | Incomplete        |
@@ -67,32 +67,32 @@ Feature: Documentation Management
     When I select "<version>" from "Drupal version"
     And I press "Apply"
     Then I should see at least "2" records
-    Examples:
-    | version               |
-    | Drupal 4.7.x          |
-    | Drupal 5.x            |
-    | Drupal 6.x            |
-    | Drupal 7.x            |
-    | Drupal 8.x            |
+  Examples:
+    | version      |
+    | Drupal 4.7.x |
+    | Drupal 5.x   |
+    | Drupal 6.x   |
+    | Drupal 7.x   |
+    | Drupal 8.x   |
 
   Scenario Outline: Search records by Audience type
     When I select "<audience>" from "Audience type"
     And I press "Apply"
     Then I should see at least "2" records
-    Examples:
-    | audience                   |
-    | Contributors               |
-    | Designers/themers          |
-    | Programmers                |
-    | Site administrators        |
-    | Site builders              |
-    | Site users                 |
+  Examples:
+    | audience            |
+    | Contributors        |
+    | Designers/themers   |
+    | Programmers         |
+    | Site administrators |
+    | Site builders       |
+    | Site users          |
 
   Scenario Outline: Search records by Level
     When I select "<levels>" from "Level"
     And I press "Apply"
     Then I should see at least "2" records
-    Examples:
+  Examples:
     | levels       |
     | Beginner     |
     | Intermediate |
@@ -106,12 +106,12 @@ Feature: Documentation Management
     And I enter "site" for field "top level book"
     And I fill in "git" for "Title contains"
     And I select the following <fields> with <values>
-    | fields         | values                 |
-    | Published      | Yes                    |
-    | Page status    | No known problems      |
-    | Drupal version | Drupal 6.x             |
-    | Audience type  | Programmers            |
-    | Level          | Intermediate           |
+      | fields         | values            |
+      | Published      | Yes               |
+      | Page status    | No known problems |
+      | Drupal version | Drupal 6.x        |
+      | Audience type  | Programmers       |
+      | Level          | Intermediate      |
     And I press "Apply"
     Then I should see at least "1" record
 

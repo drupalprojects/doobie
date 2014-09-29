@@ -3,7 +3,7 @@ Feature: Find Drupal themes
   In order to make my site visually distinct from other sites
   As a site builder
   I should be able to browse available themes
-  
+
   Scenario: Find out about Themes
     Given I am on "/download"
     When I follow "About Themes & Subthemes"
@@ -17,23 +17,23 @@ Feature: Find Drupal themes
     And I should see "Themes allow you to change the look and feel of your Drupal site"
     And I should see "Posted by"
 
-    Examples:
-    | link                     |
-    | Most Installed Themes    |
-    | New Themes               |
-    | Most Active Themes       |
+  Examples:
+    | link                  |
+    | Most Installed Themes |
+    | New Themes            |
+    | Most Active Themes    |
 
   Scenario: Visit Themes page
     Given I am on "/download"
     When I follow "Themes"
     Then I should be on "/project/project_theme"
     And I should see the following <tabs>
-    | tabs                   |
-    | Download & Extend Home |
-    | Drupal Core            |
-    | Distributions          |
-    | Modules                |
-    | Themes                 |
+      | tabs                   |
+      | Download & Extend Home |
+      | Drupal Core            |
+      | Distributions          |
+      | Modules                |
+      | Themes                 |
     And I should see that the tab "Themes" is highlighted
     And I should see "Themes match your search"
     And I should see "Themes allow you to change the look and feel of your Drupal site"

@@ -5,47 +5,47 @@ Feature: About this page block on documentation pages
   I want to fill various field in the form and save the same
 
   Background:
-   Given I am logged in as the "docs manager"
-   And I am on "/documentation/administer"
+    Given I am logged in as the "docs manager"
+    And I am on "/documentation/administer"
 
   Scenario: Dropdown values
     When I follow "Edit"
     Then I should see the following <values> in the dropdown "Drupal version"
-    | values                |
-    | - None -              |
-    | Drupal 4.5.x or older |
-    | Drupal 4.6.x          |
-    | Drupal 4.7.x          |
-    | Drupal 5.x            |
-    | Drupal 6.x            |
-    | Drupal 7.x            |
-    | Drupal 8.x            |
+      | values                |
+      | - None -              |
+      | Drupal 4.5.x or older |
+      | Drupal 4.6.x          |
+      | Drupal 4.7.x          |
+      | Drupal 5.x            |
+      | Drupal 6.x            |
+      | Drupal 7.x            |
+      | Drupal 8.x            |
     And I should see the following <values> in the dropdown "Level"
-    | values       |
-    | - None -     |
-    | Beginner     |
-    | Intermediate |
-    | Advanced     |
+      | values       |
+      | - None -     |
+      | Beginner     |
+      | Intermediate |
+      | Advanced     |
     And I should see the following <values> in the dropdown "Audience"
-    | values              |
-    | - None -            |
-    | Contributors        |
-    | Designers/themers   |
-    | Programmers         |
-    | Site administrators |
-    | Site builders       |
-    | Site users          |
+      | values              |
+      | - None -            |
+      | Contributors        |
+      | Designers/themers   |
+      | Programmers         |
+      | Site administrators |
+      | Site builders       |
+      | Site users          |
     And I should see the following <values> in the dropdown "Page status"
-    | values                  |
-    | - None -       |
-    | No known problems       |
-    | Incomplete              |
-    | Insecure code           |
-    | Needs copy/style review |
-    | Needs dividing          |
-    | Needs technical review  |
-    | Needs updating          |
-    | Deprecated              |
+      | values                  |
+      | - None -                |
+      | No known problems       |
+      | Incomplete              |
+      | Insecure code           |
+      | Needs copy/style review |
+      | Needs dividing          |
+      | Needs technical review  |
+      | Needs updating          |
+      | Deprecated              |
 
   Scenario: Change the drupal version
     When I follow "Edit"

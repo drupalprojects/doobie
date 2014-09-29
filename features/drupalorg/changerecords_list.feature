@@ -10,13 +10,13 @@ Feature: List and search change records
     Then I should see the heading "Change records for Drupal core"
     And I should see at least "40" records
     And I should see the following <texts>
-    | texts                |
-    | 1                    |
-    | 2                    |
-    | next                 |
-    | last                 |
-    | Keywords             |
-    | Introduced in branch |
+      | texts                |
+      | 1                    |
+      | 2                    |
+      | next                 |
+      | last                 |
+      | Keywords             |
+      | Introduced in branch |
 
   Scenario: Search by keyword
     Given I am on "/list-changes/drupal"
@@ -32,10 +32,10 @@ Feature: List and search change records
     And I press "Apply"
     Then I should see "Invalid project or no changes found"
     And I should not see the following <texts>
-    | texts |
-    | 6.x   |
-    | 7.x   |
-    | 8.x   |
+      | texts |
+      | 6.x   |
+      | 7.x   |
+      | 8.x   |
 
   Scenario: Search, filtering by 7.x branch
     Given I am on "/list-changes/drupal"
@@ -43,9 +43,9 @@ Feature: List and search change records
     And I press "Apply"
     Then I should see "7.x"
     And I should not see the following <texts>
-    | texts |
-    | 6.x   |
-    | 8.x   |
+      | texts |
+      | 6.x   |
+      | 8.x   |
     And I should see at least "1" record
 
   Scenario: Search, filtering by 8.x version
@@ -79,7 +79,7 @@ Feature: List and search change records
     And I press "Apply"
     Then I should see at least "10" records
     And I should not see "Invalid project or no changes found"
-    Examples:
+  Examples:
     | value                                  |
     | Site builders, administrators, editors |
     | Module developers                      |
@@ -89,13 +89,13 @@ Feature: List and search change records
     Given I am on "/list-changes/drupal?page=2"
     Then I should see at least "40" records
     And I should see the following <texts>
-    | texts    |
-    | 1        |
-    | 2        |
-    | first    |
-    | previous |
-    | next     |
-    | last     |
+      | texts    |
+      | 1        |
+      | 2        |
+      | first    |
+      | previous |
+      | next     |
+      | last     |
     But I should not see "Invalid project or no changes found"
 
   Scenario: Navigate through pagination links: Last page
@@ -103,11 +103,11 @@ Feature: List and search change records
     When I click on page "last"
     Then I should see at least "10" records
     And I should see the following <texts>
-    | texts    |
-    | 1        |
-    | 2        |
-    | previous |
-    | first    |
+      | texts    |
+      | 1        |
+      | 2        |
+      | previous |
+      | first    |
     And I should not see "next" in the "pager" region
     And I should not see "last" in the "pager" region
 
@@ -130,7 +130,7 @@ Feature: List and search change records
     When I fill in "<fieldname>" with "blahblah"
     And I press "Apply"
     Then I should see "Invalid project or no changes found"
-    Examples:
+  Examples:
     | fieldname             |
     | Introduced in branch  |
     | Introduced in version |

@@ -33,12 +33,12 @@ Feature: Content I posted
     Given I am logged in as the "git vetted user"
     When I follow "Your Posts"
     Then I should see the following <texts>
-    | texts        |
-    | Type         |
-    | Post         |
-    | Author       |
-    | Replies      |
-    | Last updated |
+      | texts        |
+      | Type         |
+      | Post         |
+      | Author       |
+      | Replies      |
+      | Last updated |
     And I should see at least "1" reply for the post
     And I should see at least "1" new reply for the post
     And I should see updated for the post
@@ -61,7 +61,7 @@ Feature: Content I posted
     And I follow "Logged in as site user"
     And I follow "Your Posts"
     Then I should see the random "Project name" link
-  
+
   @clean_data
   Scenario: Create and view a book page
     Given I am logged in as the "site user"
@@ -71,7 +71,7 @@ Feature: Content I posted
     And I follow "Logged in as site user"
     And I follow "Your Posts"
     Then I should see the random "Document title" link
-  
+
   @clean_data
   Scenario: Create and view an Organization page
     Given I am logged in as the "site user"

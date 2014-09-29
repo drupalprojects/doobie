@@ -6,9 +6,9 @@ Feature: Adding company to the Marketplace
 
   Background:
     Given users:
-      | name       | pass     | mail                                 | roles         |
-      | site user2 | password | ryan+siteuser@association.drupal.org | Not a spammer |
-      | site user3 | password | ryan+siteuser2@association.drupal.org  | Not a spammer |
+      | name       | pass     | mail                                  | roles         |
+      | site user2 | password | ryan+siteuser@association.drupal.org  | Not a spammer |
+      | site user3 | password | ryan+siteuser2@association.drupal.org | Not a spammer |
 
   Scenario: Organization cannot be created without filling req fields
     Given I am logged in as "site user2"

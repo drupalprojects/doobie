@@ -12,28 +12,28 @@ Feature: Drupal Association News
     Then I should see the heading "Drupal Association News"
     And I should be on "/aggregator/sources/628"
     And I should see the following <texts>
-    | texts       |
-    | URL         |
-    | Updated     |
-    | Categories: |
+      | texts       |
+      | URL         |
+      | Updated     |
+      | Categories: |
     And I should see the following <links>
-    | links                                    |
-    | Planet Drupal                            |
-    | Drupal News                              |
-    | Planet Drupal                            |
-    | Drupal Association                       |
-    | next                                     |
-    | last                                     |
-    | https://association.drupal.org/news/feed |
+      | links                                    |
+      | Planet Drupal                            |
+      | Drupal News                              |
+      | Planet Drupal                            |
+      | Drupal Association                       |
+      | next                                     |
+      | last                                     |
+      | https://association.drupal.org/news/feed |
 
   Scenario: View the pagination links: Second page
     When I follow "Drupal Association" in the "right sidebar" region
     And I click on page "2"
     Then I should see the following <links>
-    | links    |
-    | first    |
-    | previous |
-    | 1        |
+      | links    |
+      | first    |
+      | previous |
+      | 1        |
 
   Scenario: View the pagination links: Last page
     When I follow "Drupal Association" in the "right sidebar" region

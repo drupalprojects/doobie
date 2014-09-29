@@ -16,11 +16,11 @@ Feature: Moderate Marketplace listing
     When I visit the organization page
     And I follow "Edit"
     Then I should see the following <texts>
-    | texts            |
-    | Services listing |
-    | Issue for review |
-    | Training listing |
-    | Hosting level    |
+      | texts            |
+      | Services listing |
+      | Issue for review |
+      | Training listing |
+      | Hosting level    |
     And I should see "Do not list" selected for "Services listing"
     And I should see "Do not list" selected for "Training listing"
     And I should see "Not listed for hosting" selected for "Hosting level"
@@ -51,7 +51,7 @@ Feature: Moderate Marketplace listing
     And I press "Save"
     Then I should see "has been updated"
 
-  @dependent 
+  @dependent
   Scenario: View organization page in Featured providers list anonymously
     Given I am not logged in
     When I follow "Marketplace"
@@ -66,10 +66,10 @@ Feature: Moderate Marketplace listing
     And I check "Request listing in the Training section"
     And I select "List in the Training section" radio button
     And I press "Save"
-    Then I should see "has been updated"  
+    Then I should see "has been updated"
     And I should see "Regarding Training listing communicate with webmasters using this issue"
 
-  @dependent @clean_data 
+  @dependent @clean_data
   Scenario: View organization page in training section anonymously
     Given I am not logged in
     When I follow "Marketplace"

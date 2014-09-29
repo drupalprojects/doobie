@@ -17,12 +17,12 @@ Feature: Adding new case study
     When I follow "Add your case study"
     And I press "Save"
     Then I should see the following <texts>
-    | texts                                                              |
-    | Project name field is required                                     |
-    | Why Drupal was chosen field is required                            |
-    | URL field is required                                              |
-    | Why these modules/theme/distribution were chosen field is required |
-    | Primary screenshot field is required                               |
+      | texts                                                              |
+      | Project name field is required                                     |
+      | Why Drupal was chosen field is required                            |
+      | URL field is required                                              |
+      | Why these modules/theme/distribution were chosen field is required |
+      | Primary screenshot field is required                               |
     And the field "Project name" should be outlined in red
     And the field "Why Drupal was chosen" should be outlined in red
     And I should not see "has been created"
@@ -39,20 +39,20 @@ Feature: Adding new case study
     And I additionally select "Community" from "Sectors"
     And I fill in "URL" with "example.com"
     And I fill in the following:
-    | Why Drupal was chosen                            | Test data one test case study                  |
-    | Brief overview                                   | Test data two brief overview test case study   |
-    | Why these modules/theme/distribution were chosen | Test data three test case study                |
+      | Why Drupal was chosen                            | Test data one test case study                |
+      | Brief overview                                   | Test data two brief overview test case study |
+      | Why these modules/theme/distribution were chosen | Test data three test case study              |
     And I enter "Features" for field "Key modules/theme/distribution used"
 #    And I select "Features" from the suggestion "Key modules/theme/distribution used"
     And I press "Save"
     Then I should see "has been created"
     And I should see that the tab "Community showcase" is highlighted
     And I should see the following <texts>
-    | texts           |
-    | Test data one   |
-    | Test data two   |
-    | Test data three |
-   And I should see "Edit"
+      | texts           |
+      | Test data one   |
+      | Test data two   |
+      | Test data three |
+    And I should see "Edit"
 
   Scenario: Comment on a case study
     When I click on a case study
@@ -71,12 +71,12 @@ Feature: Adding new case study
     Then I should see the heading "Case Study guidelines"
     And I should see "How to write a case study"
     And I should see the following <links>
-    | links                         |
-    | View                          |
-    | Edit                          |
-    | Revisions                     |
-    | How to write a case study     |
-    | Getting involved              |
+      | links                     |
+      | View                      |
+      | Edit                      |
+      | Revisions                 |
+      | How to write a case study |
+      | Getting involved          |
 
   Scenario: View Add case study link in Community showcase
     When I visit "/case-studies/all"

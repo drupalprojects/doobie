@@ -1,6 +1,6 @@
 @whitelist
 Feature: Create new packaging whitelist entry
-  In order to include an external library on the packaging whitelist 
+  In order to include an external library on the packaging whitelist
   As a packaging whitelist maintainer
   I need to add new entries
 
@@ -29,8 +29,8 @@ Feature: Create new packaging whitelist entry
     And I should see the random "Allowed URL filters" text
     And I should see "Posted by admin test on"
     And I should see the following <links>
-    | links     |
-    | View      |
-    | Edit      |
-    | Outline   |
-    | Clear BSD |
+      | links     |
+      | View      |
+      | Edit      |
+      | Outline   |
+      | Clear BSD |

@@ -16,26 +16,26 @@ Feature: Security announcements for contributed modules
     And I should see the heading "Contacting the Security team"
     And I should be on "/security/contrib"
     And I should see the following <tabs>
-    | tabs                         |
-    | Drupal core                  |
-    | Contributed projects         |
-    | Public service announcements |
+      | tabs                         |
+      | Drupal core                  |
+      | Contributed projects         |
+      | Public service announcements |
     And I should see that the tab "Contributed projects" is highlighted
     And I should see the following <texts>
-    | texts                                                                         |
-    | SA-CONTRIB                                                                    |
-    | Posted by                                                                     |
-    | Version:                                                                      |
-    | Security advisories for third-party projects that are not part of Drupal core |
-    | all security announcements are posted to                                      |
-    | In order to report a security issue                                           |
+      | texts                                                                         |
+      | SA-CONTRIB                                                                    |
+      | Posted by                                                                     |
+      | Version:                                                                      |
+      | Security advisories for third-party projects that are not part of Drupal core |
+      | all security announcements are posted to                                      |
+      | In order to report a security issue                                           |
     And I should see the following <links>
-    | links                |
-    | Read more            |
-    | Drupal Security Team |
-    | next                 |
-    | last                 |
-    | 2                    |
+      | links                |
+      | Read more            |
+      | Drupal Security Team |
+      | next                 |
+      | last                 |
+      | 2                    |
     And I should not see the link "previous"
     And I should not see the link "first"
     And I should not see "SA-CORE"
@@ -44,11 +44,11 @@ Feature: Security announcements for contributed modules
     Given I am on "/security/contrib"
     When I click on page "2"
     Then I should see the following <links>
-    | links    |
-    | first    |
-    | previous |
-    | next     |
-    | last     |
+      | links    |
+      | first    |
+      | previous |
+      | next     |
+      | last     |
     And I should see the heading "Security advisories"
 
   Scenario: View paginated items: Last page
@@ -64,14 +64,14 @@ Feature: Security announcements for contributed modules
     Given I am on "/security"
     When I follow "Contributed projects"
     Then I should see the following <texts>
-    | texts             |
-    | Advisory ID:      |
-    | Project:          |
-    | Version:          |
-    | Date:             |
-    | Security risk:    |
-    | Exploitable from: |
-    | Vulnerability:    |
+      | texts             |
+      | Advisory ID:      |
+      | Project:          |
+      | Version:          |
+      | Date:             |
+      | Security risk:    |
+      | Exploitable from: |
+      | Vulnerability:    |
 
   Scenario: View individual advisory
     Given I am on "/security/contrib"

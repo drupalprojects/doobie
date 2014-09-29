@@ -12,7 +12,7 @@ Feature: Verify Write to VCS permission
     And I see project data
     And I follow "Version control"
     And I initialize the repository
-    And I reload the page 
+    And I reload the page
     Then I should see "Setting up repository for the first time"
 
   @dependent

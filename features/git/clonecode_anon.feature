@@ -9,9 +9,9 @@ Feature: Visitor clones repositories
     When I click "Version control"
     And I clone the repo
     Then I should have a local copy of "git_deploy"
-  
-  Scenario: Sandbox has a repo with no code    
+
+  Scenario: Sandbox has a repo with no code
     Given I am at "/project/git_dev"
     When I click "Version control"
-    Then I should see the heading "Empty Repository"     
+    Then I should see the heading "Empty Repository"
     And I should see the heading "Git on Drupal.org"

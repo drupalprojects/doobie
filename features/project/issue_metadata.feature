@@ -5,22 +5,22 @@ Feature: Prominently display issue metadata
   I want to see the status categories prominently displayed
 
   @api
-    Scenario:
+  Scenario:
     Given users:
-      | name         | pass     | mail                                | roles           |
-      | site user2 | password | ryan+fakeuser@association.drupal.org  | Not a spammer   |
+      | name       | pass     | mail                                 | roles         |
+      | site user2 | password | ryan+fakeuser@association.drupal.org | Not a spammer |
     And I am logged in as "site user2"
     And I visit "/project/issues/doobie"
     And I follow "Create a new issue"
     And I fill in "Title" with "Metadata Example"
     And I select the following <fields> with <values>
-    | fields    | values       |
-    | Version   | 7.x-1.x-dev  |
-    | Component | Failing test |
-    | Assigned  | site user2   |
-    | Category  | Task         |
-    | Priority  | Normal       |
-    | Status    | Active       |
+      | fields    | values       |
+      | Version   | 7.x-1.x-dev  |
+      | Component | Failing test |
+      | Assigned  | site user2   |
+      | Category  | Task         |
+      | Priority  | Normal       |
+      | Status    | Active       |
     And I fill in "Issue summary" with random text
     And I fill in "qa" for "Issue tags"
     And I press "Save"

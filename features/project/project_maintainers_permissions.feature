@@ -9,13 +9,13 @@ Feature: To check maintainers permissions
     And I am at "/node/1765126/maintainers"
     When I follow "Maintainers"
     Then I should see the <users> with the following <permissions>
-    | users          | permissions               |
-    | ksbalajisundar | Write to VCS              |
-    | pradeeprkara   | Edit project              |
-    | ksbalajisundar | Maintain issues           |
-    | eliza411       | Edit project              |
-    | eliza411       | Administer maintainers    |
+      | users          | permissions            |
+      | ksbalajisundar | Write to VCS           |
+      | pradeeprkara   | Edit project           |
+      | ksbalajisundar | Maintain issues        |
+      | eliza411       | Edit project           |
+      | eliza411       | Administer maintainers |
     And I should see the <users> without the following <permissions>
-    | users          | permissions               |
-    | ksbalajisundar | Administer maintainers    |
-    | pradeeprkara   | Write to VCS              |
+      | users          | permissions            |
+      | ksbalajisundar | Administer maintainers |
+      | pradeeprkara   | Write to VCS           |

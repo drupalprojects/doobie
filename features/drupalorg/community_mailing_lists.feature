@@ -10,45 +10,45 @@ Feature: Mailing lists subscription and archives
     And I follow "Mailing Lists"
     Then I should see the heading "Mailing lists"
     And I should see the following <texts>
-    | texts                   |
-    | Last updated            |
-    | Drupal uses email lists |
-    | Support                 |
-    | Development             |
-    | Themes                  |
-    | Translations            |
-    | Consulting              |
-    | Webmasters              |
-    | Infrastructure          |
-    | Subscribe               |
-    | Page status             |
+      | texts                   |
+      | Last updated            |
+      | Drupal uses email lists |
+      | Support                 |
+      | Development             |
+      | Themes                  |
+      | Translations            |
+      | Consulting              |
+      | Webmasters              |
+      | Infrastructure          |
+      | Subscribe               |
+      | Page status             |
     And I should see the following <links>
-    | links                    |
-    | Getting Involved Guide   |
-    | view archive             |
-    | mailman page             |
-    | up                       |
-    | Log in to edit this page |
+      | links                    |
+      | Getting Involved Guide   |
+      | view archive             |
+      | mailman page             |
+      | up                       |
+      | Log in to edit this page |
 
   Scenario Outline: Follow view archive and view texts and links
     Given I am on "/mailing-lists"
     When I click on link "view archive" under section "<section>"
     Then I should see the following <texts>
-    | texts                                        |
-    | You can get more information about this list |
-    | Archives                                     |
-    | Archive                                      |
-    | View by:                                     |
-    | Downloadable version                         |
+      | texts                                        |
+      | You can get more information about this list |
+      | Archives                                     |
+      | Archive                                      |
+      | View by:                                     |
+      | Downloadable version                         |
     And I should see the following <links>
-    | links       |
-    | Thread      |
-    | Subject     |
-    | Author      |
-    | Date        |
-    | Gzip'd Text |
+      | links       |
+      | Thread      |
+      | Subject     |
+      | Author      |
+      | Date        |
+      | Gzip'd Text |
     And I should see "The <section heading> Archives"
-    Examples:
+  Examples:
     | section      | section heading |
     | Support      | support         |
     | Development  | development     |
@@ -62,7 +62,7 @@ Feature: Mailing lists subscription and archives
     Then I should see "<section heading> Private Archives Authentication"
     And I should see "Email address:"
     And I should see "Password:"
-    Examples:
+  Examples:
     | section        | section heading |
     | Webmasters     | webmasters      |
     | Infrastructure | infrastructure  |
@@ -71,15 +71,15 @@ Feature: Mailing lists subscription and archives
     Given I am on "/mailing-lists"
     When I click on link "mailman page" under section "<section>"
     Then I should see the following <texts>
-    | texts          |
-    | A list for     |
-    | English (USA)  |
-    | About          |
-    | Using          |
-    | Subscribing to |
-    | Subscribers    |
+      | texts          |
+      | A list for     |
+      | English (USA)  |
+      | About          |
+      | Using          |
+      | Subscribing to |
+      | Subscribers    |
     And I should see "<section heading>"
-    Examples:
+  Examples:
     | section        | section heading                                                    |
     | Support        | A list for support questions                                       |
     | Development    | A list for whover                                                  |

@@ -12,31 +12,31 @@ Feature: Find Drupal News
     Then I should see the heading "Planet Drupal"
     And I should be on "/planet"
     And I should see the following <texts>
-    | texts                    |
-    | Posted by                |
-    | Subscribe with RSS       |
-    | Planet Drupal aggregates |
+      | texts                    |
+      | Posted by                |
+      | Subscribe with RSS       |
+      | Planet Drupal aggregates |
     And I should see the following <links>
-    | links                  |
-    | Drupal News            |
-    | Planet Drupal          |
-    | Drupal Association     |
-    | next                   |
-    | last                   |
-    | 1                      |
-    | 2                      |
+      | links              |
+      | Drupal News        |
+      | Planet Drupal      |
+      | Drupal Association |
+      | next               |
+      | last               |
+      | 1                  |
+      | 2                  |
 
   Scenario: View the pagination links: Second page
     When I follow "Planet Drupal"
     And I click on page "2"
     Then I should see the following <links>
-    | links    |
-    | first    |
-    | previous |
-    | 1        |
-    | 3        |
-    | next     |
-    | last     |
+      | links    |
+      | first    |
+      | previous |
+      | 1        |
+      | 3        |
+      | next     |
+      | last     |
 
   Scenario: View the pagination links: Last page
     When I follow "Planet Drupal"

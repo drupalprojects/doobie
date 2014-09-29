@@ -38,11 +38,11 @@ Feature: Work information in user profile
     Then I should see "<texts>"
     And I should see the random "<fields>" text
     And I should see the link "site user"
-    Examples:
-    | fields                          | texts                           | 
-    | Industries worked in            | People that have worked in the  |
-    | Companies worked for            | People that have worked for     |
-    | Current company or organization | People who currently work for   |
+  Examples:
+    | fields                          | texts                          |
+    | Industries worked in            | People that have worked in the |
+    | Companies worked for            | People that have worked for    |
+    | Current company or organization | People who currently work for  |
 
   Scenario: Reset work information
     Given I am logged in as the "site user"

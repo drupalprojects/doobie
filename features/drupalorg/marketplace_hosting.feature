@@ -10,14 +10,14 @@ Feature: Drupal hosting providers
     And I follow "Hosting"
     Then I should see the heading "Shared Hosting Providers"
     And I should see the following <texts>
-    | texts                                     |
-    | These hosting companies are great choices |
-    | how to get your organization listed       |
+      | texts                                     |
+      | These hosting companies are great choices |
+      | how to get your organization listed       |
     And I should see the following <tabs>
-    | tabs     |
-    | Services |
-    | Hosting  |
-    | Training |
+      | tabs     |
+      | Services |
+      | Hosting  |
+      | Training |
     And I should see that the tab "Hosting" is highlighted
     And I should see at least "5" WebAds
 
@@ -41,7 +41,7 @@ Feature: Drupal hosting providers
     Then I should be on "<url>"
     And I should see the heading "<heading>"
 
-    Examples:
+  Examples:
     | link                          | url                                                | heading                      |
     | Enterprise & Managed          | /hosting/enterprise                                | Enterprise & Managed Hosting |
     | Platform as a Service         | /hosting/paas                                      | Platform as a Service        |

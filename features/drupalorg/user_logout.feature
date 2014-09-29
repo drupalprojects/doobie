@@ -1,6 +1,6 @@
 @user
 Feature: User log out
-  In order to leave the site and prevent others from using my account 
+  In order to leave the site and prevent others from using my account
   As an authenticated user
   I should be able to log out
 
@@ -8,28 +8,28 @@ Feature: User log out
     Given I am logged in as the "site user"
     Then I should see the heading "site user"
     And I should see the following <links>
-    | links                   |
-    | Your Dashboard          |
-    | Logged in as site user  |
-    | Log out                 |
-    | Dashboard               |
-    | Your Posts              |
-    | Your Commits            |
-    | Your Issues             |
-    | Your Projects           |
-    | Profile                 |
-    | View                    |
-    | Edit                    |
+      | links                  |
+      | Your Dashboard         |
+      | Logged in as site user |
+      | Log out                |
+      | Dashboard              |
+      | Your Posts             |
+      | Your Commits           |
+      | Your Issues            |
+      | Your Projects          |
+      | Profile                |
+      | View                   |
+      | Edit                   |
     And I should not see the following <links>
-    | links                 |
-    | Log in / Register     |
-    | Create new account    |
-    | Log in                |
-    | Request new password  |
+      | links                |
+      | Log in / Register    |
+      | Create new account   |
+      | Log in               |
+      | Request new password |
     And I should not see the following <texts>
-    | texts     |
-    | Username  |
-    | Password  |
+      | texts    |
+      | Username |
+      | Password |
 
   Scenario: Site user logs out
     Given I am logged in as the "site user"
@@ -37,10 +37,10 @@ Feature: User log out
     Then I should be on "/"
     And I should see the link "Log in / Register"
     And I should not see the following <links>
-    | links                   |
-    | Your Dashboard          |
-    | Logged in as site user  |
-    | Log out                 |
+      | links                  |
+      | Your Dashboard         |
+      | Logged in as site user |
+      | Log out                |
 
   @anon
   Scenario: Visit /user url anonymously
@@ -48,25 +48,25 @@ Feature: User log out
     When I visit "/user"
     Then I should see the heading "User account"
     And I should see the following <links>
-    | links                 |
-    | Log in / Register     |
-    | Create new account    |
-    | Log in                |
-    | Request new password  |
+      | links                |
+      | Log in / Register    |
+      | Create new account   |
+      | Log in               |
+      | Request new password |
     And I should see the following <texts>
-    | texts     |
-    | Username  |
-    | Password  |
+      | texts    |
+      | Username |
+      | Password |
     And I should not see the following <links>
-    | links                   |
-    | Your Dashboard          |
-    | Logged in as site user  |
-    | Log out                 |
-    | Dashboard               |
-    | Your Posts              |
-    | Your Commits            |
-    | Your Issues             |
-    | Your Projects           |
-    | Profile                 |
-    | View                    |
-    | Edit                    |
+      | links                  |
+      | Your Dashboard         |
+      | Logged in as site user |
+      | Log out                |
+      | Dashboard              |
+      | Your Posts             |
+      | Your Commits           |
+      | Your Issues            |
+      | Your Projects          |
+      | Profile                |
+      | View                   |
+      | Edit                   |

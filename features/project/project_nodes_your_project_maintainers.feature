@@ -26,10 +26,10 @@ Feature: Maintain the project
     And I am on "/project/test_releases"
     When I follow "Maintainers"
     And I assign the following <permissions> to the maintainer "git vetted user"
-    | permissions            |
-    | Write to VCS           |
-    | Edit project           |
-    | Administer maintainers |
+      | permissions            |
+      | Write to VCS           |
+      | Edit project           |
+      | Administer maintainers |
     And I assign "Write to VCS" to the maintainer "site user"
     And I press "Update"
     Then I should see "Maintainer permissions updated"
@@ -39,12 +39,12 @@ Feature: Maintain the project
     Given I am logged in as the "git vetted user"
     And I visit "/node/1791620/maintainers"
     Then I should see the following <links>
-    | links           |
-    | eliza411        |
-    | ksbalajisundar  |
-    | pradeeprkara    |
-    | sachin2dhoni    |
-    | git vetted user |
+      | links           |
+      | eliza411        |
+      | ksbalajisundar  |
+      | pradeeprkara    |
+      | sachin2dhoni    |
+      | git vetted user |
 
   @dependent
   Scenario: Maintainers tab users and permissions
@@ -52,29 +52,29 @@ Feature: Maintain the project
     And I visit "/project/test_releases"
     When I follow "Maintainers"
     Then I should see the <users> with the following <permissions>
-    | users          | permissions               |
-    | eliza411       | Edit project              |
-    | eliza411       | Write to VCS              |
-    | ksbalajisundar | Write to VCS              |
-    | ksbalajisundar | Edit project              |
-    | ksbalajisundar | Administer maintainers    |
-    | ksbalajisundar | Administer releases       |
-    | ksbalajisundar | Maintain issues           |
-    | pradeeprkara   | Write to VCS              |
-    | pradeeprkara   | Edit project              |
-    | pradeeprkara   | Administer maintainers    |
-    | pradeeprkara   | Administer releases       |
-    | sachin2dhoni   | Write to VCS              |
-    | sachin2dhoni   | Edit project              |
-    | sachin2dhoni   | Administer maintainers    |
+      | users          | permissions            |
+      | eliza411       | Edit project           |
+      | eliza411       | Write to VCS           |
+      | ksbalajisundar | Write to VCS           |
+      | ksbalajisundar | Edit project           |
+      | ksbalajisundar | Administer maintainers |
+      | ksbalajisundar | Administer releases    |
+      | ksbalajisundar | Maintain issues        |
+      | pradeeprkara   | Write to VCS           |
+      | pradeeprkara   | Edit project           |
+      | pradeeprkara   | Administer maintainers |
+      | pradeeprkara   | Administer releases    |
+      | sachin2dhoni   | Write to VCS           |
+      | sachin2dhoni   | Edit project           |
+      | sachin2dhoni   | Administer maintainers |
     And I should see the <users> without the following <permissions>
-    | users          | permissions            |
-    | eliza411       | Administer maintainers |
-    | eliza411       | Administer releases    |
-    | eliza411       | Maintain issues        |
-    | pradeeprkara   | Maintain issues        |
-    | sachin2dhoni   | Maintain issues        |
-    | sachin2dhoni   | Administer releases    |
+      | users        | permissions            |
+      | eliza411     | Administer maintainers |
+      | eliza411     | Administer releases    |
+      | eliza411     | Maintain issues        |
+      | pradeeprkara | Maintain issues        |
+      | sachin2dhoni | Maintain issues        |
+      | sachin2dhoni | Administer releases    |
 
   @dependent
   Scenario: Updated maintainers permissions
@@ -82,10 +82,10 @@ Feature: Maintain the project
     And I am on "/project/test_releases"
     When I follow "Maintainers"
     And I assign the following <permissions> to the maintainer "eliza411"
-    | permissions            |
-    | Administer maintainers |
-    | Administer releases    |
-    | Maintain issues        |
+      | permissions            |
+      | Administer maintainers |
+      | Administer releases    |
+      | Maintain issues        |
     And I unassign "Administer maintainers" from the maintainer "pradeeprkara"
     And I press "Update"
     Then I should see "Maintainer permissions updated"
@@ -96,10 +96,10 @@ Feature: Maintain the project
     And I am on "/project/test_releases"
     When I follow "Maintainers"
     And I unassign the following <permissions> from the maintainer "eliza411"
-    | permissions            |
-    | Administer maintainers |
-    | Administer releases    |
-    | Maintain issues        |
+      | permissions            |
+      | Administer maintainers |
+      | Administer releases    |
+      | Maintain issues        |
     And I assign "Administer maintainers" to the maintainer "pradeeprkara"
     And I press "Update"
     Then I should see "Maintainer permissions updated"

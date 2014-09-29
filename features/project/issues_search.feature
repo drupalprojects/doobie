@@ -10,12 +10,12 @@ Feature: Overall Filter Search for Issues
   Scenario: Visit the project issues page
     Then I should see the heading "Issues for all projects"
     And I should see the following <texts>
-    | texts      |
-    | Search for |
-    | Project    |
-    | Status     |
-    | Priority   |
-    | Category   |
+      | texts      |
+      | Search for |
+      | Project    |
+      | Status     |
+      | Priority   |
+      | Category   |
 
   Scenario: Search for the issues with project name
     When I fill in "Search for" with "Achievements"
@@ -31,7 +31,7 @@ Feature: Overall Filter Search for Issues
     When I select "<status>" from "Status"
     And I press "Search" in the "content" region
     Then I should see at least "4" records
-    Examples:
+  Examples:
     | status               |
     | Active               |
     | Needs work           |
@@ -44,7 +44,7 @@ Feature: Overall Filter Search for Issues
     When I select "<priority>" from "Priority"
     And I press "Search" in the "content" region
     Then I should see at least "3" records
-    Examples:
+  Examples:
     | priority |
     | Critical |
     | Major    |
@@ -55,7 +55,7 @@ Feature: Overall Filter Search for Issues
     When I select "<category>" from "Category"
     And I press "Search" in the "content" region
     Then I should see at least "5" records
-    Examples:
+  Examples:
     | category        |
     | Bug report      |
     | Task            |
@@ -64,32 +64,32 @@ Feature: Overall Filter Search for Issues
 
   Scenario: Search issues with all filters
     When I select the following <fields> with <values>
-    | fields   | values     |
-    | Status   | Needs work |
-    | Priority | Normal     |
-    | Category | Task       |
+      | fields   | values     |
+      | Status   | Needs work |
+      | Priority | Normal     |
+      | Category | Task       |
     And I press "Search" in the "content" region
     Then I should see at least "3" records
     And I should see "Needs work" under "Status"
 
   Scenario: View pagination links: First page
     And I should see the following <links>
-    | links |
-    | next  |
-    | last  |
-    | 2     |
-    | 3     |
+      | links |
+      | next  |
+      | last  |
+      | 2     |
+      | 3     |
 
   Scenario: View pagination links: Second page
     When I click on page "2"
     Then I should see the following <links>
-    | links    |
-    | first    |
-    | previous |
-    | 1        |
-    | 3        |
-    | next     |
-    | last     |
+      | links    |
+      | first    |
+      | previous |
+      | 1        |
+      | 3        |
+      | next     |
+      | last     |
 
   Scenario: View pagination links: Last page
     When I click on page "last"

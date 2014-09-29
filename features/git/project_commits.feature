@@ -13,10 +13,10 @@ Feature: View the commits for a project
     Then I should see the heading "Commits for BDD Sandbox Test Project-Please do not delete this"
     And I should see at least "5" commits
     And I should see the following <texts>
-    | texts              |
-    | Commit             |
-    | on master          |
-    | Subscribe with RSS |
+      | texts              |
+      | Commit             |
+      | on master          |
+      | Subscribe with RSS |
     And I should not see "No commits yet"
 
   Scenario: Click link to project title
@@ -32,18 +32,18 @@ Feature: View the commits for a project
   Scenario: Click link to user profile
     When I click on "user name" of a commit
     Then I should see the following <texts>
-    | texts                |
-    | History              |
-    | Member for           |
-    | Personal information |
+      | texts                |
+      | History              |
+      | Member for           |
+      | Personal information |
 
   @timeout
   Scenario: Click link to repository
     When I click on "commit info" of a commit
     Then I should see the link "summary"
     And I should see the following <texts>
-    | texts     |
-    | author    |
-    | committer |
-    | commit    |
-    | tree      |
+      | texts     |
+      | author    |
+      | committer |
+      | commit    |
+      | tree      |

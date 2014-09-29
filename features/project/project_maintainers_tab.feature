@@ -12,25 +12,25 @@ Feature: Add additional maintainers with appropriate permissions
     When I create a "sandbox" project
     Then I should see project data
 
-  @dependent 
+  @dependent
   Scenario: View texts and links on maintainers tab
     When I am on the Maintainers tab
     Then I should see the following <texts>
-    | texts                  |
-    | User                   |
-    | Write to VCS           |
-    | Edit project           |
-    | Administer maintainers |
-    | Maintain issues        |
-    | Operations             |
-    | locked                 |
+      | texts                  |
+      | User                   |
+      | Write to VCS           |
+      | Edit project           |
+      | Administer maintainers |
+      | Maintain issues        |
+      | Operations             |
+      | locked                 |
     And I should see the following <links>
-    | links           |
-    | View            |
-    | Version control |
-    | Edit            |
-    | Maintainers     |
-    | git vetted user |
+      | links           |
+      | View            |
+      | Version control |
+      | Edit            |
+      | Maintainers     |
+      | git vetted user |
 
   @dependent
   Scenario: Add a maintainer: Invalid maintainer name
@@ -72,14 +72,14 @@ Feature: Add additional maintainers with appropriate permissions
     And I should see "added and permissions updated"
     And I should see the link "git user"
 
-  @dependent 
+  @dependent
   Scenario: Assign permissions to a maintainer
     Given I am on the Maintainers tab
     When I assign the following <permissions> to the maintainer "git user"
-    | permissions     |
-    | Write to VCS    |
-    | Edit project    |
-    | Maintain issues |
+      | permissions     |
+      | Write to VCS    |
+      | Edit project    |
+      | Maintain issues |
     And I assign "Administer maintainers" to the maintainer "git user"
     And I press "Update"
     Then I should see "Maintainer permissions updated"
@@ -88,10 +88,10 @@ Feature: Add additional maintainers with appropriate permissions
   Scenario: Remove permissions from a maintainer
     Given I am on the Maintainers tab
     When I unassign the following <permissions> from the maintainer "git user"
-    | permissions     |
-    | Write to VCS    |
-    | Maintain issues |
-    | Edit project    |
+      | permissions     |
+      | Write to VCS    |
+      | Maintain issues |
+      | Edit project    |
     And I unassign "Administer maintainers" from the maintainer "git user"
     And I press "Update"
     Then I should see "Maintainer permissions updated"

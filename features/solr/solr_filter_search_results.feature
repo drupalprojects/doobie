@@ -17,7 +17,7 @@ Feature: Visitor searches site and filters the results using various options
     Then I should see the link "<module>"
     And I should see the link "Views"
     And I should see "Project Information"
-    Examples:
+  Examples:
     | module         |
     | Administration |
     | Content        |
@@ -35,7 +35,7 @@ Feature: Visitor searches site and filters the results using various options
     And I press "Apply"
     Then I should see the link "<version>"
     And I should see "Releases for"
-    Examples:
+  Examples:
     | version |
     | 5.x     |
     | 6.x     |
@@ -48,7 +48,7 @@ Feature: Visitor searches site and filters the results using various options
     And I follow the first search result
     Then I should see "<text1>"
     And I should not see "<text2>"
-    Examples:
+  Examples:
     | status                | text1                                                       | text2                                                       |
     | Only sandbox projects | This is a sandbox project, which contains experimental code | Recommended releases                                        |
     | All projects          | View all releases                                           | This is a sandbox project, which contains experimental code |

@@ -33,7 +33,7 @@ Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
     And I follow "Your Projects"
     When I click the first project link in the "Sandbox projects" table
     Then I should not see the following <links>
-    | links                 |
-    | View all releases     |
-    | Add new release       |
-    | Administer releases   |
+      | links               |
+      | View all releases   |
+      | Add new release     |
+      | Administer releases |

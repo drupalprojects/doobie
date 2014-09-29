@@ -16,21 +16,21 @@ Feature: Get started with Drupal
     And I should see the heading "Most popular guides"
     And I should see the heading "Drupal books"
     And I should see the following <links>
-    | links                |
-    | Drupal core          |
-    | web hosting provider |
-    | distributions        |
-    | our forums           |
-    | IRC channels         |
+      | links                |
+      | Drupal core          |
+      | web hosting provider |
+      | distributions        |
+      | our forums           |
+      | IRC channels         |
 
   Scenario: View the links under Most popular modules
     Given I am on the homepage
     When I follow "Get Started"
     Then I should see the following <links> under "Most popular modules"
-    | links    |
-    | Views    |
-    | Token    |
-    | Pathauto |
+      | links    |
+      | Views    |
+      | Token    |
+      | Pathauto |
 
   Scenario: Follow All modules link
     Given I am on "/start"
@@ -44,11 +44,11 @@ Feature: Get started with Drupal
     Given I am on the homepage
     When I follow "Get Started"
     Then I should see the following <links> under "Most popular themes"
-    | links         |
-    | Zen           |
-    | Omega         |
-    | AdaptiveTheme |
-    | Fusion        |
+      | links         |
+      | Zen           |
+      | Omega         |
+      | AdaptiveTheme |
+      | Fusion        |
 
   Scenario: Follow All themes link
     Given I am on "/start"
@@ -62,11 +62,11 @@ Feature: Get started with Drupal
     Given I am on the homepage
     When I follow "Get Started"
     Then I should see the following <links> under "Translations"
-    | links     |
-    | Catalan   |
-    | French    |
-    | Hungarian |
-    | Dutch     |
+      | links     |
+      | Catalan   |
+      | French    |
+      | Hungarian |
+      | Dutch     |
 
   Scenario: Follow All translations link
     Given I am on "/start"
@@ -81,10 +81,10 @@ Feature: Get started with Drupal
     Then I should see the heading "Download & Extend"
     And I should see "Get started by downloading the official Drupal core files"
     And I should see the following <texts>
-    | texts                |
-    | Downloads            |
-    | Recommended releases |
-    | Development releases |
+      | texts                |
+      | Downloads            |
+      | Recommended releases |
+      | Development releases |
     And I should see the link "7."
 
   Scenario: Follow Find distribution
@@ -109,14 +109,14 @@ Feature: Get started with Drupal
     And I should see the heading "Community Documentation"
     And I should see "The Drupal.org Community Documentation is maintained by the Drupal community."
     And I should see the following <links>
-    | links                |
-    | Understanding Drupal |
-    | Installation Guide   |
-    | Administration Guide |
-    | Structure Guide      |
-    | Site Building Guide  |
-    | Multilingual Guide   |
-    | Theming Guide        |
-    | Mobile Guide         |
+      | links                |
+      | Understanding Drupal |
+      | Installation Guide   |
+      | Administration Guide |
+      | Structure Guide      |
+      | Site Building Guide  |
+      | Multilingual Guide   |
+      | Theming Guide        |
+      | Mobile Guide         |
     And I should see "Developer Guides"
     And I should see "Other information"

@@ -10,22 +10,22 @@ Feature: View the issues I am interested in
 
   Scenario: View links and texts on the page
     Then I should see the following <links>
-    | links               |
-    | Create a new issue  |
-    | Advanced search     |
+      | links              |
+      | Create a new issue |
+      | Advanced search    |
     And I should see the following <texts>
-    | texts              |
-    | Search for         |
-    | Project            |
-    | Status             |
-    | Priority           |
-    | Category           |
-    | Summary            |
-    | Version            |
-    | Replies            |
-    | Last updated       |
-    | Assigned to        |
-    | Created            |
+      | texts        |
+      | Search for   |
+      | Project      |
+      | Status       |
+      | Priority     |
+      | Category     |
+      | Summary      |
+      | Version      |
+      | Replies      |
+      | Last updated |
+      | Assigned to  |
+      | Created      |
 
   Scenario: Create test data for the following scenarios
     When I follow "Create a new issue"
@@ -49,15 +49,15 @@ Feature: View the issues I am interested in
     And I wait for the suggestion box to appear
     And I select "443 Session" from the suggestion "Project"
     And I select the following <fields> with <values>
-    | fields   | values    |
-    | Status   | Active    |
-    | Priority | Normal    |
-    | Category | Task      |
+      | fields   | values |
+      | Status   | Active |
+      | Priority | Normal |
+      | Category | Task   |
     And I press "Search" in the "content" region
     Then I should see the issue link
     And I should not see "No issues match your criteria."
 
-# clean_data tag was failing because of revision log message 
+# clean_data tag was failing because of revision log message
   @dependent
   Scenario: Navigate through the issue created previously
     When I follow an issue of the project

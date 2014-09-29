@@ -24,11 +24,11 @@ Feature: Training section of the Marketplace
     Then I should see the heading "Upcoming events"
     And I should see the heading "Drupal Events Activity"
     And I should see the following <texts>
-    | texts                         |
-    | User group meeting            |
-    | DrupalCon                     |
-    | Drupalcamp or Regional Summit |
-    | Training (free or commercial) |
+      | texts                         |
+      | User group meeting            |
+      | DrupalCon                     |
+      | Drupalcamp or Regional Summit |
+      | Training (free or commercial) |
 
   @anon
   Scenario: Follow Global training days link
@@ -57,9 +57,9 @@ Feature: Training section of the Marketplace
     When I click on page "last"
     Then I should see at least "1" record
     And I should see the following <links>
-    | links     |
-    | first     |
-    | previous  |
+      | links    |
+      | first    |
+      | previous |
     And I should not see the link "next"
     And I should not see the link "last"
 

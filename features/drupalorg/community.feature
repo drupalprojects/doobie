@@ -10,16 +10,16 @@ Feature: Landing page of Community section of the site
     When I follow "Community"
     Then I should see the heading "Where is the Drupal Community?"
     And I should see the following <texts>
-    | texts                 |
-    | Online & Local Groups |
-    | Events & Meetups      |
-    | Chat (IRC)            |
-    | Planet Drupal         |
-    | Community Spotlight   |
-    | Commercial Support    |
-    | Forum                 |
-    | Mailing Lists         |
-    | Drupal Association    |
+      | texts                 |
+      | Online & Local Groups |
+      | Events & Meetups      |
+      | Chat (IRC)            |
+      | Planet Drupal         |
+      | Community Spotlight   |
+      | Commercial Support    |
+      | Forum                 |
+      | Mailing Lists         |
+      | Drupal Association    |
 
   Scenario: Create test issue to check Recent activity block
     Given I am logged in as the "site user"
@@ -61,10 +61,10 @@ Feature: Landing page of Community section of the site
     Then I should be on "/tracker"
     And I should see the heading "Recent posts"
     And I should see the following <texts>
-    | texts        |
-    | Type         |
-    | Title        |
-    | Author       |
-    | Replies      |
-    | Last updated |
-    | ago          |
+      | texts        |
+      | Type         |
+      | Title        |
+      | Author       |
+      | Replies      |
+      | Last updated |
+      | ago          |

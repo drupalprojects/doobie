@@ -11,8 +11,8 @@ Feature: Create specific project types
     And I should not see "Short name"
     And I should not see "Version"
     And I should not see "Releases"
-  
-    Examples:
+
+  Examples:
     | url                            |
     | /node/add/project-module       |
     | /node/add/project-theme-engine |
@@ -26,8 +26,8 @@ Feature: Create specific project types
     And I am on "<url>"
     And I create a "sandbox" project
     Then I should see "has been created"
-  
-    Examples:
+
+  Examples:
     | url                            |
     | /node/add/project-module       |
     | /node/add/project-theme-engine |

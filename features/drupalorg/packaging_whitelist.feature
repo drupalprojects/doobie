@@ -1,4 +1,4 @@
-@whitelist @anon 
+@whitelist @anon
 Feature: View the list of Packaging whitelist entries
   In order to learn if an external library has already been whitelisted
   As any user
@@ -11,11 +11,11 @@ Feature: View the list of Packaging whitelist entries
     And I should be on "/packaging-whitelist"
     And I should see at least "25" records
     And I should see the following <texts>
-    | texts                                                                                          |
-    | To request changes to this list, visit the Drupal.org Library Packaging Whitelist project page |
-    | Search Packaging Whitelists                                                                    |
-    | Whitelist name                                                                                 |
-    | Allowed URL filters                                                                            |
+      | texts                                                                                          |
+      | To request changes to this list, visit the Drupal.org Library Packaging Whitelist project page |
+      | Search Packaging Whitelists                                                                    |
+      | Whitelist name                                                                                 |
+      | Allowed URL filters                                                                            |
     And I should see the link "next"
     And I should see the link "last"
     And I should not see the link "first"

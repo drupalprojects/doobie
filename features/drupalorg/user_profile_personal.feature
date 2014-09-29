@@ -12,46 +12,46 @@ Feature: Personal information in user profile
   Scenario: Fill all the fields and save
     When I follow "Personal information"
     And I fill in the following:
-    | Full name            | DrupalSiteUser                               |
-    | First or given name  | Drupal                                       |
-    | Last name or surname | Site user                                    |
-    | My website           | http://en.wikipedia.org/wiki/drupalsiteuser  |
-    | Interests            | opensource                                   |
-    | IRC nick             | drupalsiteuser                               |
-    | LinkedIn profile     | http://de.linkedin.com/in/drupalsiteuser     |
-    | Facebook page        | http://www.facebook.com/drupalsiteuser       |
-    | Twitter url          | http://twitter.com/drupalsiteuser            |
-    | Google profile URL   | http://plus.google.com/109229333624640995186 |
-    | Bio                  | Drupal site user                             |
+      | Full name            | DrupalSiteUser                               |
+      | First or given name  | Drupal                                       |
+      | Last name or surname | Site user                                    |
+      | My website           | http://en.wikipedia.org/wiki/drupalsiteuser  |
+      | Interests            | opensource                                   |
+      | IRC nick             | drupalsiteuser                               |
+      | LinkedIn profile     | http://de.linkedin.com/in/drupalsiteuser     |
+      | Facebook page        | http://www.facebook.com/drupalsiteuser       |
+      | Twitter url          | http://twitter.com/drupalsiteuser            |
+      | Google profile URL   | http://plus.google.com/109229333624640995186 |
+      | Bio                  | Drupal site user                             |
     And I select the following <fields> with <values>
-    | fields           | values  |
-    | Languages spoken | Latvian |
-    | Gender           | male    |
-    | Country          | Latvia  |
+      | fields           | values  |
+      | Languages spoken | Latvian |
+      | Gender           | male    |
+      | Country          | Latvia  |
     And I additionally select "Ewe" from "Languages spoken"
     And I additionally select "Czech" from "Languages spoken"
     And I press "Save"
     And I follow "View"
     Then I should see the following <texts>
-    | texts            |
-    | DrupalSiteUser   |
-    | Drupal           |
-    | Site user        |
-    | drupalsiteuser   |
-    | Latvian          |
-    | Ewe              |
-    | Czech            |
-    | Drupal site user |
+      | texts            |
+      | DrupalSiteUser   |
+      | Drupal           |
+      | Site user        |
+      | drupalsiteuser   |
+      | Latvian          |
+      | Ewe              |
+      | Czech            |
+      | Drupal site user |
     And I should see the following <links>
-    | links                                        |
-    | http://en.wikipedia.org/wiki/drupalsiteuser  |
-    | opensource                                   |
-    | male                                         |
-    | Latvia                                       |
-    | http://de.linkedin.com/in/drupalsiteuser     |
-    | http://www.facebook.com/drupalsiteuser       |
-    | http://twitter.com/drupalsiteuser            |
-    | http://plus.google.com/109229333624640995186 |
+      | links                                        |
+      | http://en.wikipedia.org/wiki/drupalsiteuser  |
+      | opensource                                   |
+      | male                                         |
+      | Latvia                                       |
+      | http://de.linkedin.com/in/drupalsiteuser     |
+      | http://www.facebook.com/drupalsiteuser       |
+      | http://twitter.com/drupalsiteuser            |
+      | http://plus.google.com/109229333624640995186 |
 
   Scenario Outline: Visit gender and country links
     When I follow "View"
@@ -60,7 +60,7 @@ Feature: Personal information in user profile
     Then I should be on "<path>"
     And I should see the heading "<text>"
     And I should see the link "site user"
-    Examples:
+  Examples:
     | link       | path                                | text                            |
     | opensource | profile/profile_interest/opensource | People interested in opensource |
     | male       | profile/profile_gender/male         | People who are male             |
@@ -72,7 +72,7 @@ Feature: Personal information in user profile
     And I press "Save"
     And I wait until the page is loaded
     Then I should see "The value provided for <field> is not a valid URL"
-    Examples:
+  Examples:
     | field              | value                        |
     | My website         | DrupalSiteUser.com           |
     | LinkedIn profile   | Drupal LinkedIn Siteuser.com |

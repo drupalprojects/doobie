@@ -30,11 +30,11 @@ Feature: To verify that mentors can be added/viewed/removed by a user
     When I visit "/user"
     Then I should see "My mentors"
     And I should see the following <links>
-    | links        |
-    | eliza411     |
-    | pradeeprkara |
-    | sachin2dhoni |
-    | jhedstrom    |
+      | links        |
+      | eliza411     |
+      | pradeeprkara |
+      | sachin2dhoni |
+      | jhedstrom    |
 
   Scenario: Follow a mentor and users name should be listed
     When I follow "eliza411"

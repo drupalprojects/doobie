@@ -9,20 +9,20 @@ Feature: Visitor searches site
     When I search sitewide for "views"
     And I should see the heading "Search again"
     And I should see the following <texts>
-    | texts                               |
-    | or filter by                        |
-    | or search for                       |
-    | results containing the words: views |
-    | Posted by                           |
-    | Sort by                             |
+      | texts                               |
+      | or filter by                        |
+      | or search for                       |
+      | results containing the words: views |
+      | Posted by                           |
+      | Sort by                             |
     And I should see the following <links>
-    | links           |
-    | Views           |
-    | IRC Nicks       |
-    | Users           |
-    | Advanced Issues |
-    | next            |
-    | last            |
+      | links           |
+      | Views           |
+      | IRC Nicks       |
+      | Users           |
+      | Advanced Issues |
+      | next            |
+      | last            |
     And I should see at least "25" records
     And I should not see "Your search yielded no results"
 
@@ -52,22 +52,22 @@ Feature: Visitor searches site
     Then I should be on "<path>"
     And I should not see "Page not found"
     And I should not see "Access denied"
-    Examples:
-    | link            | path                      |
-    | IRC Nicks       | /search/drupalorg/views   |
-    | Users           | /search/user/views        |
+  Examples:
+    | link            | path                              |
+    | IRC Nicks       | /search/drupalorg/views           |
+    | Users           | /search/user/views                |
     | Advanced Issues | /project/issues/search?text=views |
 
   Scenario: Facet search on the right side bar
     Given I am on "/search"
     When I search sitewide for "views"
     Then I should see the following <links>
-    | links             |
-    | All (             |
-    | Modules (         |
-    | Themes (          |
-    | Documentation (   |
-    | Forums & Issues ( |
+      | links             |
+      | All (             |
+      | Modules (         |
+      | Themes (          |
+      | Documentation (   |
+      | Forums & Issues ( |
     And I should see at least "10" records for each filter
 
   @slow
@@ -79,7 +79,7 @@ Feature: Visitor searches site
     And I should not see "Your search yielded no results"
     And I should see at least "10" records
     And I should see "results containing the words: views"
-    Examples:
+  Examples:
     | filter            |
     | All (             |
     | Modules (         |
@@ -121,10 +121,10 @@ Feature: Visitor searches site
     Given I am on "/about"
     When I follow "Refine your search"
     Then I should see the following <texts>
-    | texts           |
-    | All             |
-    | Modules         |
-    | Themes          |
-    | Documentation   |
-    | Forums & Issues |
-    | Groups          |
+      | texts           |
+      | All             |
+      | Modules         |
+      | Themes          |
+      | Documentation   |
+      | Forums & Issues |
+      | Groups          |

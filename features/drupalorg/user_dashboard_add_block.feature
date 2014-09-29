@@ -15,14 +15,14 @@ Feature:
     And there are no blocks on my dashboard
     When I follow "Add a block"
     Then I should see the following <blocklinks> in small boxes
-    | blocklinks                            |
-    | Drupal News                           |
-    | Planet Drupal                         |
-    | Your Posts                            |
-    | Your Issues                           |
-    | Project issue: Issue queue statistics |
-    | Contributor Links                     |
-    | Documentation Team links              |
+      | blocklinks                            |
+      | Drupal News                           |
+      | Planet Drupal                         |
+      | Your Posts                            |
+      | Your Issues                           |
+      | Project issue: Issue queue statistics |
+      | Contributor Links                     |
+      | Documentation Team links              |
     And I click the link "Contributor Links" to add
     And I should see the block "Contributor Links" in column "1"a
 
@@ -33,7 +33,7 @@ Feature:
     And I reload the page
     And I should see "<blocktitle>"
 
-    Examples:
+  Examples:
     | page                 | blocklink                                 | blocktitle               |
     | /project/drupal      | Add Issues for Drupal core to dashboard   | Issues for Drupal core   |
     | /node/24572          | Add Documentation Team links to dashboard | Documentation Team links |

@@ -12,10 +12,10 @@ Feature: Request new password
   Scenario: View texts and links
     Then I should see the heading "User account"
     Then I should see the following <links>
-    | links                 |
-    | Create new account    |
-    | Log in                |
-    | Request new password  |
+      | links                |
+      | Create new account   |
+      | Log in               |
+      | Request new password |
     And I should see "Username or e-mail address"
 
   Scenario: Enter username and submit

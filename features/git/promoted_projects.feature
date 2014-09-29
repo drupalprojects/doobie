@@ -1,4 +1,4 @@
-@project 
+@project
 Feature: Ensure that sandbox repository is not available once the project is promoted
   In order to maintain a single canonical repository for a project with a memorable namespace
   As a project owner
@@ -10,7 +10,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     When I create a "sandbox" project
     And I promote the project
     Then I should see project data
-    And I follow "Edit" 
+    And I follow "Edit"
     And I should see "Releases"
     And I should see that the project short name is readonly
 

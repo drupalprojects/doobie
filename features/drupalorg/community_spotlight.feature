@@ -28,5 +28,5 @@ Feature: Community Spotlight
     When I visit "/getting-involved"
     Then I should see the community spotlight link
     When I follow "View more community spotlights"
-    Then I should see the community spotlight link 
+    Then I should see the community spotlight link
     And I should see at least "5" records

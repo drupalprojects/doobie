@@ -1,4 +1,4 @@
-@user @project @sandbox 
+@user @project @sandbox
 Feature: Your Project Tab
   In order to easily manage the sandbox projects I've created
   As a project maintainer
@@ -18,7 +18,7 @@ Feature: Your Project Tab
 
   Scenario: Visit View link from Issue Links column for Sandbox Project Table
     When I click the "View" link for the new project
-    Then I should see the project name 
+    Then I should see the project name
 
   Scenario: Visit Search link from Issue Links column for Sandbox Project Table
     When I click the "Search" link for the new project

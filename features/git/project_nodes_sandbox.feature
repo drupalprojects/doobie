@@ -9,23 +9,23 @@ Feature: Learn about details of a (sandbox) project
     Given I am on the homepage
     When I visit "/node/1765126"
     Then I should see the following <texts>
-    | texts                     |
-    | Posted by                 |
-    | Sandbox                   |
-    | Experimental Project      |
-    | This is a sandbox project |
-    | Maintenance status:       |
-    | Development status:       |
-    | Module categories:        |
-    | Maintainers for           |
-    | Issues for                |
+      | texts                     |
+      | Posted by                 |
+      | Sandbox                   |
+      | Experimental Project      |
+      | This is a sandbox project |
+      | Maintenance status:       |
+      | Development status:       |
+      | Module categories:        |
+      | Maintainers for           |
+      | Issues for                |
     And I should see the following <links>
-    | links                |
-    | sandbox project      |
-    | View all committers  |
-    | View commits         |
-    | Advanced search      |
-    | Subscribe via e-mail |
+      | links                |
+      | sandbox project      |
+      | View all committers  |
+      | View commits         |
+      | Advanced search      |
+      | Subscribe via e-mail |
     And I should see the heading "Development"
 
   @anon @smoke
@@ -34,17 +34,17 @@ Feature: Learn about details of a (sandbox) project
     When I follow "Version control"
     Then I should see "This page gives the essential Git commands for working with this project's source files"
     And I should see the following <texts>
-    | texts                |
-    | Version to work from |
-    | One-Time Only        |
-    | Routinely            |
-    | Patching             |
+      | texts                |
+      | Version to work from |
+      | One-Time Only        |
+      | Routinely            |
+      | Patching             |
     And I should see the following <links>
-    | links                          |
-    | Git instructions updates       |
-    | Troubleshooting Git clone      |
-    | branching and tagging          |
-    | Advanced patch workflow        |
+      | links                     |
+      | Git instructions updates  |
+      | Troubleshooting Git clone |
+      | branching and tagging     |
+      | Advanced patch workflow   |
 
   @anon
   Scenario: Browse repository link
@@ -52,22 +52,22 @@ Feature: Learn about details of a (sandbox) project
     When I follow "Repository viewer"
     Then I should not see "Page not found"
     And I should see the following <links>
-    | links       |
-    | shortlog    |
-    | log         |
-    | commit      |
-    | commitdiff  |
-    | tree        |
-    | snapshot    |
-    | heads       |
+      | links      |
+      | shortlog   |
+      | log        |
+      | commit     |
+      | commitdiff |
+      | tree       |
+      | snapshot   |
+      | heads      |
     And I should see the following <texts>
-    | texts       |
-    | description |
-    | owner       |
-    | drupal-git  |
-    | last change |
-    | search:     |
-    | summary     |
+      | texts       |
+      | description |
+      | owner       |
+      | drupal-git  |
+      | last change |
+      | search:     |
+      | summary     |
 
   @anon
   Scenario: View git messages
@@ -75,10 +75,10 @@ Feature: Learn about details of a (sandbox) project
     When I follow "View commits"
     Then I should see at least "5" commits
     And I should see the following <texts>
-    | texts              |
-    | Commit             |
-    | Commits            |
-    | Subscribe with RSS |
+      | texts              |
+      | Commit             |
+      | Commits            |
+      | Subscribe with RSS |
     And I should not see the link "first"
     And I should not see the link "previous"
 
@@ -87,18 +87,18 @@ Feature: Learn about details of a (sandbox) project
     Given I am on the homepage
     When I visit "/node/1765126"
     Then the <user> should have at least <count> commits
-    | user           | count |
-    | ksbalajisundar | 5     |
-    | sachin2dhoni   | 2     |
+      | user           | count |
+      | ksbalajisundar | 5     |
+      | sachin2dhoni   | 2     |
 
   @anon
   Scenario: View users in maintainers block
     Given I am on the homepage
     When I visit "/node/1765126"
     Then the project should have the following <committers>
-    | committers     |
-    | ksbalajisundar |
-    | sachin2dhoni   |
+      | committers     |
+      | ksbalajisundar |
+      | sachin2dhoni   |
 
   @anon
   Scenario: Releases should not exist
@@ -107,13 +107,13 @@ Feature: Learn about details of a (sandbox) project
     Then I should not see the link "Notes"
     And I should not see the link "View all releases"
     And I should not see the following <texts>
-    | texts                |
-    | Downloads            |
-    | Recommended releases |
-    | Development releases |
-    | Downloads            |
-    | tar.gz (             |
-    | zip (                |
+      | texts                |
+      | Downloads            |
+      | Recommended releases |
+      | Development releases |
+      | Downloads            |
+      | tar.gz (             |
+      | zip (                |
     But I should see the link "sandbox project"
 
   @anon @smoke
@@ -121,13 +121,13 @@ Feature: Learn about details of a (sandbox) project
     Given I am on "/node/1765126"
     When I follow "open"
     Then I should see the following <texts>
-    | texts          |
-    | Issues for     |
-    | Search for     |
-    | Status         |
-    | Priority       |
-    | Category       |
-    | Component      |
+      | texts      |
+      | Issues for |
+      | Search for |
+      | Status     |
+      | Priority   |
+      | Category   |
+      | Component  |
     And I should see the link "Login"
     And I should see the link "register"
 

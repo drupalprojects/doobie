@@ -11,12 +11,12 @@ Feature: Manage email notification settings
   Scenario: View Notifications tab contents
     Then I should see the heading "Issue e-mail notifications"
     And I should see the following <texts>
-    | texts                                   |
-    | Project                                 |
-    | Send e-mail                             |
-    | Operations                              |
-    | Default notification                    |
-    | Customize for individual projects below |
+      | texts                                   |
+      | Project                                 |
+      | Send e-mail                             |
+      | Operations                              |
+      | Default notification                    |
+      | Customize for individual projects below |
     And I should see the option "None" selected in "Default notification" dropdown
 
   Scenario: Subscribe to project: Invalid project title

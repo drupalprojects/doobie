@@ -8,7 +8,7 @@ Feature: Participate in community IRC
     Given I am on the homepage
     And I follow "Community"
     And I see "Chat (IRC)"
-    When I follow "IRC" 
+    When I follow "IRC"
     Then I should see the heading "Chat with the Drupal Community on IRC"
     And I should see "For IRC experts"
     And I should see "Essential Channels to Join"
