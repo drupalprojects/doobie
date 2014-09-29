@@ -4,8 +4,14 @@ Feature: Adding company to the Marketplace
   As an authenticated user
   I should be able to create an organization page
 
+  Background:
+    Given users:
+      | name       | pass     | mail                                 | roles         |
+      | site user2 | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | site user3 | password | ryan+siteuser2@association.drupal.org  | Not a spammer |
+
   Scenario: Organization cannot be created without filling req fields
-    Given I am logged in as the "site user"
+    Given I am logged in as "site user2"
     And I follow "Marketplace"
     And I follow "Add your listing"
     And I see "People with your organization name"
@@ -17,7 +23,7 @@ Feature: Adding company to the Marketplace
 
   @javascript
   Scenario: Add organization and request promotion to Services section
-    Given I am logged in as the "site user"
+    Given I am logged in as "site user2"
     And I am on "/node/add/organization"
     When I create a new organization for "drupal services"
     Then I should see the random "Organization name" text
@@ -34,49 +40,49 @@ Feature: Adding company to the Marketplace
 
   @dependent
   Scenario: View an issue request for services section
-    Given I am logged in as the "site user"
+    Given I am logged in as "site user2"
     And I visit the organization page
     And I see "Regarding Services listing communicate with webmasters using this issue"
     When I follow "this issue"
-    Then I should see the random "Organization name" text 
+    Then I should see the random "Organization name" text
     And I should see the following <texts>
-    | texts                    |
-    | has been posted          |
-    | Review                   |
-    | Services listing         |
-    | Drupal.org content       |
-    | Posted by site user      |
+      | texts                |
+      | has been posted      |
+      | Review               |
+      | Services listing     |
+      | Drupal.org content   |
+      | Posted by site user2 |
     And I should see the heading "Comments"
     And I should see "Add new comment"
 
   @dependent
   Scenario: Edit own organization page
-    Given I am logged in as the "site user"
+    Given I am logged in as "site user2"
     When I visit the organization page
     And I follow "Edit"
     Then I should see "Organization name"
     And I should not see the following <texts>
-    | texts            |
-    | Services listing |
-    | Issue for review |
-    | Hosting level    |
+      | texts            |
+      | Services listing |
+      | Issue for review |
+      | Hosting level    |
 
   @dependent @clean_data
   Scenario: User can't edit organization pages or see the issues - that are not created by him
-    Given I am logged in as the "git user"
+    Given I am logged in as "site user3"
     When I visit the organization page
     Then I should not see "Regarding Services listing communicate with webmasters using this issue"
-    And I should see "Posted by site user"
+    And I should see "Posted by site user2"
     And I should see the random "Services" text
     And I should see the random "Drupal contributions" text
     And I should see the random "Organization description" text
     And I should not see the following <links>
-    | links      |
-    | Edit       |
-    | this issue |
+      | links      |
+      | Edit       |
+      | this issue |
 
   Scenario: Add organization and request promotion to Training section
-    Given I am logged in as the "site user"
+    Given I am logged in as "site user2"
     And I visit "/training"
     And I follow "Add your listing"
     When I create a new organization for "training"
@@ -85,32 +91,32 @@ Feature: Adding company to the Marketplace
     And I should see the random "Drupal contributions" text
     And I should see the random "Training url" text
     And I should see the random "Training description" text
-    And I should see "Posted by site user"
+    And I should see "Posted by site user2"
 
   @dependent
   Scenario: View an issue request for training section
-    Given I am logged in as the "site user"
+    Given I am logged in as "site user2"
     And I visit the organization page
     And I see "Regarding Training listing communicate with webmasters using this issue"
     When I follow "this issue"
     Then I should see the random "Organization name" text
     And I should see the following <texts>
-    | texts                 |
-    | Training section      |
-    | has been posted       |
-    | Drupal.org content |
+      | texts              |
+      | Training section   |
+      | has been posted    |
+      | Drupal.org content |
     And I should see the heading "Comments"
     And I should see "Add new comment"
 
   @dependent @clean_data
   Scenario:  User can't edit organization pages or see the issues - that are not created by him
-    Given I am logged in as the "git user"
+    Given I am logged in as "site user3"
     When I visit the organization page
     Then I should not see "Regarding Training listing communicate with webmasters"
-    And I should see "Posted by site user"
+    And I should see "Posted by site user2"
     And I should see the random "Organization name" text
     And I should see the random "Drupal contributions" text
     And I should not see the following <links>
-    | links      |
-    | Edit       |
-    | this issue |
+      | links      |
+      | Edit       |
+      | this issue |
