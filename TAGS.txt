@@ -39,7 +39,7 @@ Tags to assist in selectively running tests
 @anon
     Used for scenarios/features that don't require user authentication to run the test.
 
-@htaccess
+@htaccess (*)
     Denotes tests that currently cause re-authentication due to htaccss and require manual user input. bddtest.drupal.org is whitelisted to allow these tests to pass when run from that host.
 
 @specific_text
@@ -54,29 +54,27 @@ Section Tags:
 The tags below are used to identify where a feature (not an individual scenario) is located within the site map. These should be the first tag on the left above the feature description.
 @about
 @front
-@getting_started
+@getting_started *
 @community
 @forums
 @docs
 @support
 @downloads
 @marketplace
-@about
 @casestudies
-@about_do
-@planet
-@learn_drupal
+@about_do *
+@planet *
+@learn_drupal *
 @security
-@forums
 @user
-@login
+@login *
 @admin
 @site_search
 @project
-@commit_log
+@commitlog
 @git
 @news
-@revert_homepage_setting
+@revert_homepage_setting *
 
 Featureset Tags
 ===============
@@ -87,7 +85,7 @@ Featureset tags describe features that don't correspond to a traditional site ma
 Tags to hook into the test process
 ==================================
 
-Certain tags are used to hook into the testing process to trigger activity. For example, a scenario that creates a node might be tagged with @cleanData will attempt to delete a node or project created by one of its steps. See http://docs.behat.org/guides/3.hooks.html for a detailed discussion of how this works in behat.
+Certain tags are used to hook into the testing process to trigger activity. For example, a scenario that creates a node might be tagged with @cleanData will attempt to delete a node or project created by one of its steps. See http://docs.behat.org/guides/3.hooks.html for a detailed discussion of how this works in behat. None of this is implemented.
 
 @clean_data
     Can be used to delete a project or issue node created as part of testing.
@@ -98,7 +96,7 @@ Certain tags are used to hook into the testing process to trigger activity. For 
 @git_branch
     Indicates a scenario that creates a branch in the git repository and used to invoke an @AfterScenario clean up routine.
 
-@git_tag
+@git_tag (*)
     Indicates a scenario that creates a tag in the git repository and used to invoke an @AfterScenario clean up routine.
 
 See http://docs.behat.org/guides/3.hooks.html for a detailed discussion.
@@ -106,3 +104,32 @@ See http://docs.behat.org/guides/3.hooks.html for a detailed discussion.
 Introducing new tags
 ********************
 Any new tags that are committed to the repository should be documented both here and in the project's TAGS.txt file. If in doubt about whether or how to introduce a new tag, open an issue at http://drupal.org/project/doobie
+
+---------------
+Previously undocumented tags
+These tags are either misused, unnecessary or need to be documented.
+
+@api - causes the drupal extension to use the configured 'drupal api' which is most likely drush.
+@cache - This is a scenario that flushes the cache.
+@drush - not sure. only in the drupal extension.
+
+@content - tests marked content are tests that look for text that is easily changed by end users.
+@known_failure - Known failures
+@prod_only - tests that only work on production? (uses solr) - just one.
+
+@changerecords - tests change record scenarios
+@drupal-services - one feature that tests the /drupal-services drupal service provider
+@issues - scenarios that test the issue tracking functionality of project module
+@maintainers - adding and removing maintainers from a project
+@manual - maybe issues that needed to be run manually?
+@other - scenarios and features that are not on a subsection of the site?
+@profile - User profile features
+@sandbox - Scenarios for validating that sandboxes work properly
+@search - Features and scenarios that cover the Search aspects of drupal.org
+@spam - Scenarios that exercise spam efforts
+@releases - Features + Scenarios to test packaging releases, and downloading releases.
+@whitelist - tests the packaging whitelist features for drupal.org
+
+@local - ??
+@needs_data - ??
+@notification - ??
