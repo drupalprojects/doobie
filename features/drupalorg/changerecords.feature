@@ -30,7 +30,7 @@ Feature: Add change record
     And I am on "/node/add/changenotice"
     When I create new change record
     Then I should see "has been created"
-    And I should see "Posted by site user2"
+    And I should see "Posted by site user"
     And I should see the random text for the following <fields>
     | fields                |
     | Title                 |
