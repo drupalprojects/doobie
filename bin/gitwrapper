@@ -8,7 +8,7 @@ set project [lindex $argv 3]
 set branch [lindex $argv 4]
 
 if { $context == "init" || $context == "push"} {
-  spawn git push origin master;
+  spawn git push origin 7.x-1.x;
 } elseif { $context == "clone" } {
   spawn git clone --branch $branch $url $project;
 } elseif { $context == "branch" } {
