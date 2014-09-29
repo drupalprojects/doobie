@@ -7233,6 +7233,8 @@ class FeatureContext extends DrupalContext {
     $recordTitle = Random::name(12);
 		$element->fillField("Title", $recordTitle);
     HackyDataRegistry::set('random:Title', $recordTitle);
+    # XXX These parenthesis break when trying to use the javascript driver
+    # with firefox.
     $project_code = 'Drupal core (3060)';
     $element->fillField("Project", $project_code);
     HackyDataRegistry::set('random:Project', $project_code);
@@ -7248,6 +7250,8 @@ class FeatureContext extends DrupalContext {
     $element->checkField('Site builders, administrators, editors');
     $element->checkField('Module developers');
     $element->checkField('Themers');
+    # XXX It appears to be necessary to uncollapse the field group if debugging in
+    # a firefox window
     //  The fieldgroup isn't collapsed by default anymore. This code will expand
     //  the fieldgroup if it becomes collapsed by default again.
     //  This can be removed after deployment.
