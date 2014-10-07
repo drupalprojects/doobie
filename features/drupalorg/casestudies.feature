@@ -5,7 +5,10 @@ Feature: Adding new case study
   I should be able to create new case study
 
   Background:
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I visit "/case-studies"
 
   Scenario: View the texts and links on the page
@@ -43,7 +46,8 @@ Feature: Adding new case study
       | Brief overview                                   | Test data two brief overview test case study |
       | Why these modules/theme/distribution were chosen | Test data three test case study              |
     And I enter "Features" for field "Key modules/theme/distribution used"
-#    And I select "Features" from the suggestion "Key modules/theme/distribution used"
+    And I wait for the suggestion box to appear
+    And I select "Features" from the suggestion "Key modules/theme/distribution used"
     And I press "Save"
     Then I should see "has been created"
     And I should see that the tab "Community showcase" is highlighted
@@ -62,7 +66,7 @@ Feature: Adding new case study
     And I press "Save"
     Then I should see the random "Subject" text
     And I should see the random "Comment" text
-    And I should see "site user commented"
+    And I should see "Trusted User commented"
     And I should see the link "Add new comment"
 
   @content
