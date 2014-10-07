@@ -1519,8 +1519,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iSelectFromTheSuggestion($value, $locator) {
     $element = $this->getSession()->getPage();
+    // This is a hack to work for the casestudies page
     if (strtolower($locator) == "key modules/theme/distribution used") {
-      $locator = "edit-field-module-0-nid-nid";
+      $locator = "edit-field-module-und-0-nid";
       $element->fillField($locator, $value);
     }
     $this->project_value = $value;
