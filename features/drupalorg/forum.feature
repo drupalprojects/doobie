@@ -1,11 +1,14 @@
 @community @forums
-Feature: Create new forum topic as a regular site user
+Feature: Create new forum topic as a regular Trusted User
   In order to discuss a topic
-  As a site user
+  As a Trusted User
   I should be able to post a new forum topic
 
   Background:
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
 
   Scenario: View the forum topic page
     When I follow "Support"

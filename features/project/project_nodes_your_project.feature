@@ -111,8 +111,11 @@ Feature: Learn about details of a full project
     And I should see the link "register"
 
   @timeout
-  Scenario: Site user can post an issue or not
-    Given I am logged in as the "site user"
+  Scenario: Trusted User can post an issue or not
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I visit "/project/issues/commons"
     When I follow "Create a new issue"
     Then I should not see "Access denied"

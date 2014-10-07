@@ -5,7 +5,10 @@ Feature: Create new packaging whitelist entry
   I need to add new entries
 
   Scenario: Create packaging whitelist entry: Authenticated user
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I am on "/node/add/packaging-whitelist"
     Then I should see the heading "Access denied"
     But I should not see "Create Packaging whitelist entry"

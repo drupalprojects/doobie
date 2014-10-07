@@ -5,7 +5,10 @@ Feature: Case studies management
   I should be able to search and filter the list of case studies
 
   Background:
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I visit "/case-studies/manage"
 
   Scenario: View casestudies management page

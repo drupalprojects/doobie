@@ -5,7 +5,10 @@ Feature: Marketplace Management
   I should be able to search and filter the list of organization pages
 
   Background:
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I am on "/drupal-services/manage"
 
   Scenario: Visit manage marketplace page and view text and links

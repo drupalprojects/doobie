@@ -4,8 +4,11 @@ Feature: User contact form
   As an authenticated user
   I should be able to enable or disable my contact form
 
-  Scenario: Site user enables contact form
-    Given I am logged in as the "site user"
+  Scenario: Trusted User enables contact form
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     When I follow "Edit"
     And I check the box "Personal contact form"
     And I press "Save"
@@ -16,19 +19,19 @@ Feature: User contact form
   Scenario: Anonymous user doesn't have access to contact form
     Given I am not logged in
     When I visit "/search/user"
-    And I fill in "Enter your keywords" with "site user"
+    And I fill in "Enter your keywords" with "Trusted User"
     And I press "Search" in the "content" region
-    And I follow "site user"
+    And I follow "Trusted User"
     Then I should not see the link "Contact" in the "content" region
 
-  Scenario: Git user accesses site user's contact form and sends message
+  Scenario: Git user accesses Trusted User's contact form and sends message
     Given I am logged in as the "git user"
     When I visit "/search/user"
-    And I fill in "Enter your keywords" with "site user"
+    And I fill in "Enter your keywords" with "Trusted User"
     And I press "Search" in the "content" region
-    And I follow "site user"
+    And I follow "Trusted User"
     And I follow "Contact"
-    And I see the heading "Contact site user"
+    And I see the heading "Contact Trusted User"
     And I see the following <tabs>
       | tabs    |
       | Profile |
@@ -38,7 +41,7 @@ Feature: User contact form
       | links     |
       | View      |
       | Contact   |
-      | site user |
+      | Trusted User |
     And I see the following <texts>
       | texts               |
       | Your name           |
@@ -50,17 +53,20 @@ Feature: User contact form
     And I press "Send message"
     Then I should see "Your message has been sent"
 
-  Scenario: Site user disables contact form
-    Given I am logged in as the "site user"
+  Scenario: Trusted User disables contact form
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     When I follow "Edit"
     And I uncheck the box "Personal contact form"
     And I press "Save"
     Then I should see "The changes have been saved"
 
-  Scenario: Git user doesn't have access to site user's contact form
+  Scenario: Git user doesn't have access to Trusted User's contact form
     Given I am logged in as the "git user"
     When I visit "/search/user"
-    And I fill in "Enter your keywords" with "site user"
+    And I fill in "Enter your keywords" with "Trusted User"
     And I press "Search" in the "content" region
-    And I follow "site user"
+    And I follow "Trusted User"
     Then I should not see the link "Contact" in the "content" region

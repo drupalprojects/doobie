@@ -4,8 +4,11 @@ Feature: Drupal information in user profile
   As an authenticated user
   I should be able to edit my profile and fill in Drupal information
 
-  Scenario: Site user sets Drupal information
-    Given I am logged in as the "site user"
+  Scenario: Trusted User sets Drupal information
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I follow "Edit"
     And I follow "Drupal" tab
     When I fill in "Drupal contributions" with random text
@@ -15,16 +18,22 @@ Feature: Drupal information in user profile
 
   @dependent
   Scenario: View Drupal information on profile page
-    Given I am logged in as the "site user"
-    When I follow "Logged in as site user"
-    Then I should see the heading "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
+    When I follow "Logged in as Trusted User"
+    Then I should see the heading "Trusted User"
     And I should see "Drupal contributions"
     And I should see the random "Drupal contributions" text
     And I should see "Roles in working with Drupal"
     And I should see the random "Roles in working with Drupal" text
 
-  Scenario: Site user sets Drupal contribution checkboxes
-    Given I am logged in as the "site user"
+  Scenario: Trusted User sets Drupal contribution checkboxes
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I follow "Edit"
     And I follow "Drupal" tab
     When I check the box "I contributed Drupal modules"
@@ -39,9 +48,12 @@ Feature: Drupal information in user profile
 
   @dependent
   Scenario: View checked Drupal contribution on profile page
-    Given I am logged in as the "site user"
-    When I follow "Logged in as site user"
-    Then I should see the heading "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
+    When I follow "Logged in as Trusted User"
+    Then I should see the heading "Trusted User"
     And I should see "Roles in working with Drupal"
     And I should see the following <links>
       | links                            |
@@ -51,11 +63,14 @@ Feature: Drupal information in user profile
 
   @dependent @timeout
   Scenario Outline: Follow Drupal contribution links from profile page
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     When I follow "<link>"
     Then I should be on "<path>"
     And I should see the heading "<text>"
-    And I should see the link "site user"
+    And I should see the link "Trusted User"
 
   Examples:
     | link                             | path                                    | text                                      |

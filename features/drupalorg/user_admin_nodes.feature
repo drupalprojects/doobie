@@ -4,8 +4,11 @@ Feature: Administrative view of nodes by a user
   As a site maintainer
   I should be able to view the list of nodes by a specific user and delete them
 
-  Scenario: Create test data as site user
-    Given I am logged in as the "site user"
+  Scenario: Create test data as Trusted User
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     When I visit "/node/add/book?parent=3264"
     And I create "3" book pages
     Then I should see "has been created"
@@ -13,9 +16,9 @@ Feature: Administrative view of nodes by a user
   @dependent
   Scenario: View the list of items
     Given I am logged in as the "admin test"
-    And I visit "site user" profile page
+    And I visit "Trusted User" profile page
     When I follow "Administer nodes"
-    Then I should see the heading "Nodes by site user"
+    Then I should see the heading "Nodes by Trusted User"
     And I should see at least "3" records
     And I should see the following <texts>
       | texts      |
@@ -34,7 +37,7 @@ Feature: Administrative view of nodes by a user
   @dependent
   Scenario: Visit Delete link
     Given I am logged in as the "admin test"
-    And I visit "site user" profile page
+    And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I follow "delete"
     Then I should see "Are you sure you want to delete"
@@ -45,7 +48,7 @@ Feature: Administrative view of nodes by a user
   @dependent @flaky @javascript
   Scenario: Select dropdown: This page
     Given I am logged in as the "admin test"
-    And I visit "site user" profile page
+    And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     And I wait until the page is loaded
     When I "check" the table header checkbox
@@ -58,7 +61,7 @@ Feature: Administrative view of nodes by a user
   @dependent @javascript
   Scenario: Select dropdown: All pages
     Given I am logged in as the "admin test"
-    And I visit "site user" profile page
+    And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     And I wait until the page is loaded
     When I "check" the table header checkbox
@@ -71,7 +74,7 @@ Feature: Administrative view of nodes by a user
   @dependent @javascript
   Scenario: Select dropdown: None
     Given I am logged in as the "admin test"
-    And I visit "site user" profile page
+    And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     And I wait until the page is loaded
     When I "check" the table header checkbox
@@ -82,7 +85,7 @@ Feature: Administrative view of nodes by a user
   @dependent
   Scenario: Unpublish posts: Don't select
     Given I am logged in as the "admin test"
-    And I visit "site user" profile page
+    And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I select "Unpublish content" from field "- Choose an operation -"
     And I press "Execute"
@@ -92,7 +95,7 @@ Feature: Administrative view of nodes by a user
   @dependent @javascript
   Scenario: Unpublish posts: Cancel
     Given I am logged in as the "admin test"
-    And I visit "site user" profile page
+    And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "unpublish"
     And I select "Unpublish content" from field "- Choose an operation -"
@@ -104,7 +107,7 @@ Feature: Administrative view of nodes by a user
   @dependent @javascript
   Scenario: Delete node: Don't select
     Given I am logged in as the "admin test"
-    And I visit "site user" profile page
+    And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I select "Delete item" from field "- Choose an operation -"
     And I press "Execute"
@@ -115,7 +118,7 @@ Feature: Administrative view of nodes by a user
   @dependent @javascript
   Scenario: Delete posts: Cancel
     Given I am logged in as the "admin test"
-    And I visit "site user" profile page
+    And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "delete"
     When I select "Delete item" from field "- Choose an operation -"
@@ -127,7 +130,7 @@ Feature: Administrative view of nodes by a user
   @dependent @slow @javascript @local
   Scenario: Unpublish posts: Confirm
     Given I am logged in as the "admin test"
-    And I visit "site user" profile page
+    And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "unpublish"
     And I select "Unpublish content" from field "- Choose an operation -"
@@ -139,7 +142,7 @@ Feature: Administrative view of nodes by a user
   @dependent @slow @javascript @local
   Scenario: Delete posts: Confirm
     Given I am logged in as the "admin test"
-    And I visit "site user" profile page
+    And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "delete"
     And I select "Delete item" from field "- Choose an operation -"

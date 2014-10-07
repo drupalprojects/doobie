@@ -5,18 +5,24 @@ Feature: Display additional information on my comments
   I should be able to enter my signature and see it on my comments
 
   Scenario: Enter signature and save
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I follow "Your Dashboard"
     And I follow "Profile"
     And I follow "Edit"
-    And I see the heading "site user"
+    And I see the heading "Trusted User"
     And I see "Signature settings"
     When I fill in "Signature" with random text
     And I press "Save"
     Then I should see "The changes have been saved"
 
   Scenario: Create a forum, reply and view signature
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I follow "Community"
     And I follow "Forum"
     And I follow "News and announcements"
@@ -39,7 +45,10 @@ Feature: Display additional information on my comments
     And I should see the random "Signature" text
 
   Scenario: Reset signature and save
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I follow "Your Dashboard"
     And I follow "Profile"
     And I follow "Edit"
@@ -48,8 +57,11 @@ Feature: Display additional information on my comments
     Then I should see "The changes have been saved"
 
   @dependent
-  Scenario: signature doesn't appear in reply any more for site user
-    Given I am logged in as the "site user"
+  Scenario: signature doesn't appear in reply any more for Trusted User
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I am on the forum topic page
     Then I should see the random "Subject" text
     And I should see the random "Comment" text

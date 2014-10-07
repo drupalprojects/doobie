@@ -4,8 +4,11 @@ Feature: Case studies moderation
   As a site administrator
   I need to be able to edit any case study and change their status
 
-  Scenario: Create a case study as a site user
-    Given I am logged in as the "site user"
+  Scenario: Create a case study as a trusted user
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I visit "/node/add/casestudy"
     When I create a case study
     And I see the case study page
@@ -47,7 +50,10 @@ Feature: Case studies moderation
 
   @clean_data
   Scenario: Can't edit until moderated
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I visit "/node/add/casestudy"
     And I create a case study
     When I follow "Edit"

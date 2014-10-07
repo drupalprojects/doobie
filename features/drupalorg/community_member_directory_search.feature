@@ -29,7 +29,7 @@ Feature: Search members in drupal community
 
   Scenario: Search for member: Valid user
     Given I am on "/profile"
-    When I fill in "site user" for "Username"
+    When I fill in "Trusted User" for "Username"
     And I press "Search" in the "right sidebar" region
     Then I should see at least "1" record
     But I should not see "Your search yielded no results"

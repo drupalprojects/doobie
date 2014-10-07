@@ -5,7 +5,10 @@ Feature:
   I need to be able to check User Dashboard and its regions and blocks
 
   Background:
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I wait until the page is loaded
 
   Scenario: View the links and labels on Dashboard

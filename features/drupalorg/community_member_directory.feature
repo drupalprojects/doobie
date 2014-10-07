@@ -16,7 +16,10 @@ Feature: View members of drupal community
     And I should see at least "20" members
 
   Scenario: Navigate to the page as authenticated user
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     When I follow "Community"
     And I follow "Member Directory"
     Then I should see the heading "Community"
@@ -24,7 +27,7 @@ Feature: View members of drupal community
     And I should see the link "last"
     And I should not see the link "first"
     And I should see at least "20" members
-    And I should see the link "site user" in the "content" region
+    And I should see the link "Trusted User" in the "content" region
 
   @anon @javascript
   Scenario: Navigate to groups page

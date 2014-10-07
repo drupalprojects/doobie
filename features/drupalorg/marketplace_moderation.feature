@@ -5,7 +5,10 @@ Feature: Moderate Marketplace listing
   I should be able to edit any organization page and promote it to Marketplace
 
   Scenario: Add organization
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I visit "/node/add/organization"
     When I create a new organization for "drupal services"
     Then I should see "has been created"

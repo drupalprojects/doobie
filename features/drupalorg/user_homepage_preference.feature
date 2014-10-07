@@ -5,7 +5,10 @@ Feature: Home page preference functionality
   I need to be able to use my dashboard as my home page
 
   Background:
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I wait until the page loads
     And I follow "Your Dashboard"
     And I wait until the page loads
@@ -14,7 +17,7 @@ Feature: Home page preference functionality
     When I select the radio button "Make this your Homepage"
     And I click the drupal banner in the header
     And I wait until the page loads
-    Then I should see the heading "site user"
+    Then I should see the heading "Trusted User"
     And I should see the link "Add a block"
     And I should see "Use Default Homepage"
     And I should not see the link "Make this your Homepage"

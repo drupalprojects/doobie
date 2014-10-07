@@ -13,7 +13,10 @@ Feature: Drupal.org contact form
     And I should not see "Send yourself a copy"
 
   Scenario: Authenticated user views the page
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I am on "/contact"
     Then I should see "You can leave us a message using"
     And I should see "Please provide as many"

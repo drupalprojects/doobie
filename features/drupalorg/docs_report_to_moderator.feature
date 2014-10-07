@@ -1,17 +1,23 @@
 @docs
 Feature: Use the "report to moderator" to file a documentation issue
   In order to report a problem with documentation to the page moderator
-  As a site user
+  As a Trusted User
   I want to report an issue from the page itself
 
   Scenario: See the link to report a documentation page
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     When I visit "/documentation/multilingual"
     Then I should see the link "Report to moderator"
     And I should see the link "Edit"
 
   Scenario: Report an issue page
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I am on "/documentation/multilingual"
     When I follow "Report to moderator"
     Then I should see "Create issue"
@@ -20,7 +26,10 @@ Feature: Use the "report to moderator" to file a documentation issue
     And I should see "I am reporting"
 
   Scenario: Report an issue with a documentation page
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I am on "/documentation/multilingual"
     When I follow "Report to moderator"
     And I fill in "Issue summary" with random text

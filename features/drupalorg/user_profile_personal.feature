@@ -5,7 +5,10 @@ Feature: Personal information in user profile
   I should be able to edit my profile and fill in personal information
 
   Background:
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I follow "Edit"
     And I wait until the page is loaded
 
@@ -14,7 +17,7 @@ Feature: Personal information in user profile
     And I fill in the following:
       | Full name            | DrupalSiteUser                               |
       | First or given name  | Drupal                                       |
-      | Last name or surname | Site user                                    |
+      | Last name or surname | Trusted User                                    |
       | My website           | http://en.wikipedia.org/wiki/drupalsiteuser  |
       | Interests            | opensource                                   |
       | IRC nick             | drupalsiteuser                               |
@@ -22,7 +25,7 @@ Feature: Personal information in user profile
       | Facebook page        | http://www.facebook.com/drupalsiteuser       |
       | Twitter url          | http://twitter.com/drupalsiteuser            |
       | Google profile URL   | http://plus.google.com/109229333624640995186 |
-      | Bio                  | Drupal site user                             |
+      | Bio                  | DrupTrusted Userser                             |
     And I select the following <fields> with <values>
       | fields           | values  |
       | Languages spoken | Latvian |
@@ -36,7 +39,7 @@ Feature: Personal information in user profile
       | texts            |
       | DrupalSiteUser   |
       | Drupal           |
-      | Site user        |
+  Trusted Usere user        |
       | drupalsiteuser   |
       | Latvian          |
       | Ewe              |

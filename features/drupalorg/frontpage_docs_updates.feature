@@ -1,11 +1,14 @@
 @front
 Feature: Access document list updates from homepage
   In order to see the newly created document on home page
-  As a site user
+  As a Trusted User
   I should create a book page document
 
-  Scenario: Add a child page as site user
-    Given I am logged in as the "site user"
+  Scenario: Add a child page as Trusted User
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I follow "Documentation"
     And I follow "Understanding Drupal"
     When I follow "Add child page"
@@ -17,7 +20,7 @@ Feature: Access document list updates from homepage
     And I follow "Docs Updates"
     Then I should see at least "5" links under the "Docs Updates" tab
     And I should see the random "Title" text
-    And I should see "Submitted by site user"
+    And I should see "Submitted by Trusted User"
 
   @anon @javascript
   Scenario: More documentation

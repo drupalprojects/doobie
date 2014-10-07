@@ -5,7 +5,10 @@ Feature: Frontpage news section
   I should be able to read the News section on the Drupal front page
 
   Scenario: Create a news post
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I visit "/forum"
     And I follow "News and announcements"
     And I follow "Add new Forum topic"

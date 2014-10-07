@@ -82,10 +82,10 @@ Feature: Register an account on Drupal.org with valid username and email
 
   Scenario: Username validation: Existing username
     When I follow "Create new account"
-    And I fill in "Username" with "site user"
+    And I fill in "Username" with "Trusted User"
     And I fill in "E-mail address" with "testuserforgi6@example.com"
     And I press "Create new account"
-    Then I should see "The name site user is already taken"
+    Then I should see "The naTrusted Userser is already taken"
     And the field "Username" should be outlined in red
 
   Scenario Outline: Email address validation: Valid email address

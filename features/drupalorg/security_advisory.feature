@@ -21,7 +21,10 @@ Feature: Publishing new security announcement
     | Security public service announcements        | /forum/1856 |
 
   Scenario Outline: Fail to create forum topic
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     When I visit "/forum/1188"
     And I follow "<section>"
     And I follow "Add new Forum topic"

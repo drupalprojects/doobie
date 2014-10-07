@@ -22,7 +22,10 @@ Feature: Landing page of Community section of the site
       | Drupal Association    |
 
   Scenario: Create test issue to check Recent activity block
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I visit "/node/1765126"
     When I follow "open"
     And I follow "Create a new issue"
@@ -39,7 +42,10 @@ Feature: Landing page of Community section of the site
 
   @manual
   Scenario: Create one more test issue to check Recent activity block
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I visit "/node/1765126"
     When I follow "open"
     And I follow "Create a new issue"

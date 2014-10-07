@@ -12,13 +12,13 @@ Feature: Maintain the project
     And I press "Update"
     Then I should see the link "git vetted user"
 
-  Scenario: Add site user as another maintainer
+  Scenario: Add Trusted User as another maintainer
     Given I am logged in as the "admin test"
     And I am on "/project/test_releases"
     When I follow "Maintainers"
-    And I enter "site user" for field "Maintainer user name"
+    And I enter "Trusted User" for field "Maintainer user name"
     And I press "Update"
-    Then I should see the link "site user"
+    Then I should see the link "Trusted User"
 
   @dependent
   Scenario: Assign permissions to above users
@@ -30,7 +30,7 @@ Feature: Maintain the project
       | Write to VCS           |
       | Edit project           |
       | Administer maintainers |
-    And I assign "Write to VCS" to the maintainer "site user"
+    And I assign "Write to VCS" to the maintainer "Trusted User"
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
@@ -114,19 +114,22 @@ Feature: Maintain the project
     Then I should have a local copy of "test_releases"
 
   @dependent
-  Scenario: Site user should not be able to commit to repo
-    Given I am logged in as the "site user"
+  Scenario: Trusted User should not be able to commit to repo
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I am on "/project/test_releases"
     When I follow "Version control"
     Then I should see "Account Settings Missing"
     And I should see "Your Git username has not been set yet. Please set one at the Git access page"
 
   @dependent
-  Scenario: Remove site user
+  Scenario: Remove Trusted User
     Given I am logged in as the "git vetted user"
     And I am on "/project/test_releases"
     When I follow "Maintainers"
-    And I follow "delete" for the maintainer "site user"
+    And I follow "delete" for the maintainer "Trusted User"
     And I press "Delete"
     Then I should see "Removed"
     And I should see "as a maintainer"

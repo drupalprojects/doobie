@@ -4,8 +4,11 @@ Feature:
   As a site admin
   I need to know that file upload is only permitted to users with Administer content.
 
-  Scenario: File Attachments is not available for regular site user
-    Given I am logged in as the "site user"
+  Scenario: File Attachments is not available for regular Trusted User
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     When I follow "Support"
     And I follow "Forums"
     And I follow "Post installation"

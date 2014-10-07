@@ -5,7 +5,10 @@ Feature: Page status block on documentation pages
   I need to change the status
 
   Background:
-    Given I am logged in as the "site user"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     And I follow "Documentation"
     And I follow "Understanding Drupal"
 

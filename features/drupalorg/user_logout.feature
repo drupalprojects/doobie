@@ -4,13 +4,16 @@ Feature: User log out
   As an authenticated user
   I should be able to log out
 
-  Scenario: Log in as site user and view links and texts
-    Given I am logged in as the "site user"
-    Then I should see the heading "site user"
+  Scenario: Log in as Trusted User and view links and texts
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
+    Then I should see the heading "Trusted User"
     And I should see the following <links>
       | links                  |
       | Your Dashboard         |
-      | Logged in as site user |
+      | Logged in as Trusted User |
       | Log out                |
       | Dashboard              |
       | Your Posts             |
@@ -31,15 +34,18 @@ Feature: User log out
       | Username |
       | Password |
 
-  Scenario: Site user logs out
-    Given I am logged in as the "site user"
+  Scenario: Trusted User logs out
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+    And I am logged in as "Trusted User"
     When I follow "Log out"
     Then I should be on "/"
     And I should see the link "Log in / Register"
     And I should not see the following <links>
       | links                  |
       | Your Dashboard         |
-      | Logged in as site user |
+      | Logged in as Trusted User |
       | Log out                |
 
   @anon
@@ -60,7 +66,7 @@ Feature: User log out
     And I should not see the following <links>
       | links                  |
       | Your Dashboard         |
-      | Logged in as site user |
+      | Logged in as Trusted User |
       | Log out                |
       | Dashboard              |
       | Your Posts             |
