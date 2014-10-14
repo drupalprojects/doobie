@@ -736,7 +736,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^I (?:should |)see the following <texts>$/
    */
   public function iShouldSeeTheFollowingTexts(TableNode $table) {
-    $page = $this->getSession()->getPage();
+    $page = $this->getSession()->getPage() ;
     $messages = array();
     $failure_detected = FALSE;
     $table = $table->getHash();
@@ -4477,56 +4477,6 @@ class FeatureContext extends DrupalContext {
     $process->run();
   }
 
-  /**
-   * @AfterScenario @clean_data
-   *
-   * Delete test project/issue nodes
-   */
-  public function cleanData() {
-    // Read stored project url and delete
-    $arr_nodeurl = array();
-    // Newly created project
-    if ($project_url = HackyDataRegistry::get('project_url')) {
-      $arr_nodeurl[] = $project_url;
-    }
-    // Issue of a project
-    if ($issue_url = HackyDataRegistry::get('issue_url')) {
-      $arr_nodeurl[] = $issue_url;
-    }
-    // Sandbox project
-    if ($sandbox_url = HackyDataRegistry::get('sandbox_url')) {
-      $arr_nodeurl[] = $sandbox_url;
-    }
-    // Sandbox project/organization
-    if ($project_path = HackyDataRegistry::get('project path')) {
-      $arr_nodeurl[] = $project_path;
-    }
-    // Forum node
-    if ($spotlight_url = HackyDataRegistry::get('forum url')) {
-      $arr_nodeurl[] = $spotlight_url;
-    }
-    if ($spotlight_url = $this->dataRegistry->get('forum url')) {
-      $arr_nodeurl[] = $spotlight_url;
-    }
-    // Test Document/Book page
-    if ($document_url = HackyDataRegistry::get('document url')) {
-      $arr_nodeurl[] = $document_url;
-    }
-    // Project release
-    if ($release_url = HackyDataRegistry::get('release_url')) {
-      $arr_nodeurl[] = $release_url;
-    }
-    if (empty($arr_nodeurl)) {
-      return;
-    }
-    $arr_nodeurl = array_unique($arr_nodeurl);
-    // Log in as admin to perform node deletion
-    $this->iAmLoggedInAs('admin test');
-    $session = $this->getSession();
-    foreach ($arr_nodeurl as $url) {
-      $this->deleteNode($url);
-    }
-  }
 
   /**
    * Function to delete the node
@@ -4536,7 +4486,7 @@ class FeatureContext extends DrupalContext {
    */
   private function deleteNode($path) {
     // Log in as admin to perform node deletion
-    $this->iAmLoggedInAs('admin test');
+    $this->assertLoggedInByName('Administrative User');
     $session = $this->getSession();
     $session->visit($this->locatePath($path));
     sleep(1);
