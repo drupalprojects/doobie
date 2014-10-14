@@ -1,4 +1,4 @@
-Feature: Debugging
-
-Scenario: Get env variables
-  Given I run "env"
+#Feature: Debugging
+#
+#Scenario: Get env variables
+#  Given I run "env"
