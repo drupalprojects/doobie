@@ -21,12 +21,6 @@ Tags to assist in selectively running tests
 @javascript
     Used when the feature being tested relies on CSS or javascript and must use a fully-featured browser for accurate testing. Note: Selenium must be running on the system executing tests or these scenarios will fail.
 
-@known_git6failure
-    Used when properly written tests fail against the D6 version of Drupal.org because that site is not behaving as expected.
-
-@known_git7failure
-    Used when properly written tests fail against the D7 version of Drupal.org because that site is not behaving as expected.
-
 @linux
     Used to tag scenarios that depend on a properly-setup linux based system. Use of this tag needs to be re-evaluated. #1782628: Re-evaluate @linux tag
 
@@ -114,7 +108,6 @@ These tags are either misused, unnecessary or need to be documented.
 @drush - not sure. only in the drupal extension.
 
 @content - tests marked content are tests that look for text that is easily changed by end users.
-@known_failure - Known failures
 @prod_only - tests that only work on production? (uses solr) - just one.
 
 @changerecords - tests change record scenarios
@@ -129,6 +122,7 @@ These tags are either misused, unnecessary or need to be documented.
 @spam - Scenarios that exercise spam efforts
 @releases - Features + Scenarios to test packaging releases, and downloading releases.
 @whitelist - tests the packaging whitelist features for drupal.org
+@failing - tests that are failing due to interdependencies or possibly user role expectations.
 
 @local - ??
 @needs_data - ??
