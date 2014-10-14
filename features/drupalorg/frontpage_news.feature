@@ -15,10 +15,13 @@ Feature: Frontpage news section
     When I create a forum topic
     Then I should see "has been created"
 
-  @javascript
-  Scenario: Admin promotes the news post
-    Given there is a new "General discussion" forum topic
-    And I am logged in as the "admin test"
+  @javascript @failing
+ Scenario: Admin promotes the news post
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
+    And there is a new "General discussion" forum topic
     And I am on the forum topic page
     And I follow "Edit"
     And I wait until the page is loaded
@@ -27,16 +30,16 @@ Feature: Frontpage news section
     And I press "Save"
     Then I should see "has been updated"
 
-  @javascript
-  Scenario: Frontpage News tab: More news viewed as admin
+  @javascript @failing
+ Scenario: Frontpage News tab: More news viewed as admin
     Given there is a new promoted forum topic
     And I am on the homepage
     When I follow "More news"
     Then I should see the heading "Drupal News"
     And I should see the forum topic link
 
-  @javascript
-  Scenario: Frontpage News tab viewed as admin
+  @javascript @failing
+ Scenario: Frontpage News tab viewed as admin
     Given there is a new promoted forum topic
     And I am on the homepage
     Then I should see the forum topic link

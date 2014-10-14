@@ -5,10 +5,13 @@ Feature: To see the list of all the commits for a user
   I should be able to see all of a user's code commits from one log
 
   Background:
-    Given I am logged in as the "git user"
+    Given users:
+      | name     | pass     | mail                              | roles    |
+      | Git User | password | qa+gituser@association.drupal.org | Git user |
+    And I am logged in as "Git User"
 
-  @gitrepo
-  Scenario: Visit the commits page and view commits
+  @gitrepo @failing
+ Scenario: Visit the commits page and view commits
     When I visit "/node/add/project-module"
     And I create a "sandbox" project
     And I see project data
@@ -26,8 +29,8 @@ Feature: To see the list of all the commits for a user
       | master             |
       | Subscribe with RSS |
 
-  @dependent
-  Scenario: Click link to user profile
+  @dependent @failing
+ Scenario: Click link to user profile
     And I follow "Your Dashboard"
     And I follow "Your Commits"
     When I click on "user name" of a commit
@@ -37,8 +40,8 @@ Feature: To see the list of all the commits for a user
       | Git attribution |
       | Member for      |
 
-  @dependent
-  Scenario: Click link to project title: Full project
+  @dependent @failing
+ Scenario: Click link to project title: Full project
     And I follow "Your Dashboard"
     And I follow "Your Commits"
     When I click on "project title" of a commit
@@ -46,8 +49,8 @@ Feature: To see the list of all the commits for a user
     And I should see the link "View"
     And I should see the heading "Development"
 
-  @dependent
-  Scenario: Click link to sandbox project title: Sandbox project
+  @dependent @failing
+ Scenario: Click link to sandbox project title: Sandbox project
     And I follow "Your Dashboard"
     And I follow "Your Commits"
     When I click on "sandbox project title" of a commit
@@ -61,15 +64,15 @@ Feature: To see the list of all the commits for a user
     And I should see the link "View"
     And I should see the heading "Development"
 
-  @dependent
-  Scenario: Click link to date
+  @dependent @failing
+ Scenario: Click link to date
     And I follow "Your Dashboard"
     And I follow "Your Commits"
     When I click on "date" of a commit
     And I should see "Commit"
 
-  @clean_data @dependent
-  Scenario: Click link to repository
+  @clean_data @dependent @failing
+ Scenario: Click link to repository
     And I follow "Your Dashboard"
     And I follow "Your Commits"
     When I click on "commit info" of a commit

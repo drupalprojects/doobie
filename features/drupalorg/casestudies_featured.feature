@@ -51,7 +51,6 @@ Feature: Featured Drupal case studies
     | Entertainment |
     | Healthcare    |
 
-  @known_failure
   Scenario: View individual case study from Featured section
     Given I am on "/case-studies"
     When I click on a case study

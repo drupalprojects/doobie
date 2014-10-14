@@ -5,7 +5,10 @@ Feature: To check maintainers permissions
   I should make sure that proper permissions have been assigned to the maintainers
 
   Scenario: Follow Maintainers page and view maintainer's permissions
-    Given I am logged in as the "admin test"
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I am at "/node/1765126/maintainers"
     When I follow "Maintainers"
     Then I should see the <users> with the following <permissions>

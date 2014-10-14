@@ -53,8 +53,8 @@ Feature: To view and download a release package from the download table
       | md5 hash                          |
       | Release notes                     |
 
-  @content
-  Scenario: See the notes of a release: Recommended
+  @content @failing
+ Scenario: See the notes of a release: Recommended
     Given I am on "/project/drupal"
     When I follow "Notes" for version "6.28"
     Then I should see "drupal 6.28"
@@ -79,8 +79,8 @@ Feature: To view and download a release package from the download table
       | md5 hash                                                          |
       | This is not stable, and production sites should not run this code |
 
-  @content
-  Scenario: Download a release: Recommended - zip
+  @content @failing
+ Scenario: Download a release: Recommended - zip
     Given I am on "/project/drupal"
     When I download the "zip" file for version "6.28"
     Then the downloaded file name should be "drupal-6.28.zip"

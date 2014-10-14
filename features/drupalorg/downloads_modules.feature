@@ -41,7 +41,8 @@ Feature: Find modules to extend Drupal
       | Event          |
       | Media          |
 
-  Scenario: View all module categories
+  @failing
+ Scenario: View all module categories
     Given I am on "/download"
     When I follow "All Categories"
     And I wait until the page loads

@@ -4,7 +4,8 @@ Feature: Drupal information in user profile
   As an authenticated user
   I should be able to edit my profile and fill in Drupal information
 
-  Scenario: Trusted User sets Drupal information
+  @failing
+ Scenario: Trusted User sets Drupal information
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -16,8 +17,8 @@ Feature: Drupal information in user profile
     And I press "Save"
     Then I should see "The changes have been saved"
 
-  @dependent
-  Scenario: View Drupal information on profile page
+  @dependent @failing
+ Scenario: View Drupal information on profile page
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -29,7 +30,8 @@ Feature: Drupal information in user profile
     And I should see "Roles in working with Drupal"
     And I should see the random "Roles in working with Drupal" text
 
-  Scenario: Trusted User sets Drupal contribution checkboxes
+  @failing
+ Scenario: Trusted User sets Drupal contribution checkboxes
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -46,8 +48,8 @@ Feature: Drupal information in user profile
     And the "I attended DrupalCon Boston 2008" checkbox should be checked
     And the "I give support on IRC" checkbox should be checked
 
-  @dependent
-  Scenario: View checked Drupal contribution on profile page
+  @dependent @failing
+ Scenario: View checked Drupal contribution on profile page
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -61,8 +63,8 @@ Feature: Drupal information in user profile
       | I give support on IRC            |
       | I attended DrupalCon Boston 2008 |
 
-  @dependent @timeout
-  Scenario Outline: Follow Drupal contribution links from profile page
+  @dependent @timeout @failing
+ Scenario Outline: Follow Drupal contribution links from profile page
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |

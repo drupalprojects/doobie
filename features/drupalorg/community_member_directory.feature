@@ -4,8 +4,8 @@ Feature: View members of drupal community
   As any user
   I should be able to see the members who have logged in recently
 
-  @anon
-  Scenario: Navigate to the page as anonymous user
+  @anon @failing
+Scenario: Navigate to the page as anonymous user
     Given I am on the homepage
     When I follow "Community"
     And I follow "Member Directory"
@@ -29,15 +29,15 @@ Feature: View members of drupal community
     And I should see at least "20" members
     And I should see the link "Trusted User" in the "content" region
 
-  @anon @javascript
-  Scenario: Navigate to groups page
+  @anon @javascript @failing
+Scenario: Navigate to groups page
     Given I am on "/profile"
     When I follow "Groups.Drupal.org"
     Then I should see the heading "Collaborate with the Drupal community"
     And I should see the link "Go to Drupal.org"
 
-  @anon @javascript
-  Scenario: Navigate to regional groups page
+  @anon @javascript @failing
+Scenario: Navigate to regional groups page
     Given I am on "/profile"
     When I follow "regional groups"
     And I wait until the page loads

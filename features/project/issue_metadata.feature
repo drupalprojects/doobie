@@ -4,10 +4,10 @@ Feature: Prominently display issue metadata
   As a site visitor
   I want to see the status categories prominently displayed
 
-  @api
-  Scenario:
+  @api @javascript @failing
+  Scenario: Create a new issue
     Given users:
-      | name       | pass     | mail                                 | roles         |
+      | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+fakeuser@association.drupal.org | Not a spammer |
     And I am logged in as "Trusted User"
     And I visit "/project/issues/doobie"

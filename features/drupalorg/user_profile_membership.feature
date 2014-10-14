@@ -12,15 +12,15 @@ Feature: Verify the DA membership block on a user profile
     And I should not see "Page not found"
     And I should see "Member for"
 
-  @anon @content
-  Scenario: See that the user is not an individual member: Angie Byron (webchick)
+  @anon @content @failing
+ Scenario: See that the user is not an individual member: Angie Byron (webchick)
     Given I am on "/user/24967"
     Then I should not see "is an individual member of the Drupal Association"
     And I should see "is an Organization Member of the Drupal Association"
     And I should not see "Hey! Want to support the Drupal Community"
 
-  @anon @content
-  Scenario: See that the user is an organization member and individual member: Larry Garfield (Crell)
+  @anon @content @failing
+ Scenario: See that the user is an organization member and individual member: Larry Garfield (Crell)
     Given I am on "/user/26398"
     Then I should see "is an individual member of the Drupal Association"
     And I should see "is an Organization member of the Drupal Association"

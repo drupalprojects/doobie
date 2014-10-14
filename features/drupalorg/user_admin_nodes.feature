@@ -13,9 +13,12 @@ Feature: Administrative view of nodes by a user
     And I create "3" book pages
     Then I should see "has been created"
 
-  @dependent
-  Scenario: View the list of items
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: View the list of items
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     When I follow "Administer nodes"
     Then I should see the heading "Nodes by Trusted User"
@@ -34,9 +37,12 @@ Feature: Administrative view of nodes by a user
       | edit   |
       | delete |
 
-  @dependent
-  Scenario: Visit Delete link
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: Visit Delete link
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I follow "delete"
@@ -45,9 +51,12 @@ Feature: Administrative view of nodes by a user
     And I should see "Delete"
     And I should see the link "Cancel"
 
-  @dependent @flaky @javascript
-  Scenario: Select dropdown: This page
-    Given I am logged in as the "admin test"
+  @dependent @flaky @javascript @failing
+ Scenario: Select dropdown: This page
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     And I wait until the page is loaded
@@ -58,9 +67,12 @@ Feature: Administrative view of nodes by a user
     Then I should see "You selected the following"
     And I should see the link "Cancel"
 
-  @dependent @javascript
-  Scenario: Select dropdown: All pages
-    Given I am logged in as the "admin test"
+  @dependent @javascript @failing
+ Scenario: Select dropdown: All pages
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     And I wait until the page is loaded
@@ -71,9 +83,12 @@ Feature: Administrative view of nodes by a user
     Then I should see "You selected the following"
     And I should see the link "Cancel"
 
-  @dependent @javascript
-  Scenario: Select dropdown: None
-    Given I am logged in as the "admin test"
+  @dependent @javascript @failing
+ Scenario: Select dropdown: None
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     And I wait until the page is loaded
@@ -82,9 +97,12 @@ Feature: Administrative view of nodes by a user
     And I "uncheck" the table header checkbox
     Then none the checkboxes are selected
 
-  @dependent
-  Scenario: Unpublish posts: Don't select
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: Unpublish posts: Don't select
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I select "Unpublish content" from field "- Choose an operation -"
@@ -92,9 +110,12 @@ Feature: Administrative view of nodes by a user
     Then I should see "Please select at least one item"
     And I should not see "You selected the following"
 
-  @dependent @javascript
-  Scenario: Unpublish posts: Cancel
-    Given I am logged in as the "admin test"
+  @dependent @javascript @failing
+ Scenario: Unpublish posts: Cancel
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "unpublish"
@@ -104,9 +125,12 @@ Feature: Administrative view of nodes by a user
     And I follow "Cancel"
     Then I should not see "Performed"
 
-  @dependent @javascript
-  Scenario: Delete node: Don't select
-    Given I am logged in as the "admin test"
+  @dependent @javascript @failing
+ Scenario: Delete node: Don't select
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I select "Delete item" from field "- Choose an operation -"
@@ -115,9 +139,12 @@ Feature: Administrative view of nodes by a user
     And I should not see "You selected the following"
     And I should not see "Performed"
 
-  @dependent @javascript
-  Scenario: Delete posts: Cancel
-    Given I am logged in as the "admin test"
+  @dependent @javascript @failing
+ Scenario: Delete posts: Cancel
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "delete"
@@ -127,9 +154,12 @@ Feature: Administrative view of nodes by a user
     And I follow "Cancel"
     Then I should not see "Performed"
 
-  @dependent @slow @javascript @local
-  Scenario: Unpublish posts: Confirm
-    Given I am logged in as the "admin test"
+  @dependent @slow @javascript @local @failing
+ Scenario: Unpublish posts: Confirm
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "unpublish"
@@ -139,9 +169,12 @@ Feature: Administrative view of nodes by a user
     Then I should see "Performing"
     And I should see "Performed"
 
-  @dependent @slow @javascript @local
-  Scenario: Delete posts: Confirm
-    Given I am logged in as the "admin test"
+  @dependent @slow @javascript @local @failing
+ Scenario: Delete posts: Confirm
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "delete"

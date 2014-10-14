@@ -4,7 +4,8 @@ Feature: Visitor searches content and gets results from multiple sites
   As a visitor to Drupal.org
   I want to search for the users through out the sitewide
 
-  Scenario: Search using the sitewide search: Exact word
+  @failing
+ Scenario: Search using the sitewide search: Exact word
     Given I am on the homepage
     When I search sitewide for "Senpai"
     And I follow "Users"

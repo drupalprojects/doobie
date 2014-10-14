@@ -61,8 +61,8 @@ Feature: Overall Filter Search for issues
     And I press "Search" in the "content" region
     Then I should see at least "2" records
 
-  @javascript
-  Scenario: Search the issues with tags
+  @javascript @failing
+ Scenario: Search the issues with tags
     When I fill in "Assigned" with "sdboyer"
     And I wait for the suggestion box to appear
     And I select "sdboyer" from the suggestion "Assigned"
@@ -71,13 +71,15 @@ Feature: Overall Filter Search for issues
     And I press "Search" in the "content" region
     Then I should see at least "1" record
 
-  Scenario: Search the issues with tags
+  @failing
+ Scenario: Search the issues with tags
     When I select "Is all of" from field "Issue tags"
     And I fill in "sprint 2, sprint 1" for "Issue tags"
     And I press "Search" in the "content" region
     Then I should see at least "1" record
 
-  Scenario: Search the issues with tags
+  @failing
+ Scenario: Search the issues with tags
     When I fill in "Assigned" with "eliza411"
     And I select the following <fields> with <values>
       | fields   | values         |

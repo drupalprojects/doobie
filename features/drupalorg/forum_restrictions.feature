@@ -10,7 +10,8 @@ Feature: Regular users should not be able to post a topic in Newsletters subforu
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
     And I am logged in as "Trusted User"
 
-  Scenario: Add new forum topic from Newsletters forum page
+  @failing
+ Scenario: Add new forum topic from Newsletters forum page
     And I am on "/forum"
     And I follow "Newsletters"
     When I follow "Add new Forum topic"

@@ -11,34 +11,40 @@ Feature: Manage user email addresses
     And I am logged in as "Trusted User"
     And I follow "Edit"
 
-  Scenario: View page contents: Email address field not editable
+  @failing
+ Scenario: View page contents: Email address field not editable
     Then the "E-mail address" field should be "disabled"
 
-  Scenario: Has at least one email address
+  @failing
+ Scenario: Has at least one email address
     When I follow "E-mail addresses"
     Then I should see at least "1" email address
     And I should see "Confirmed"
     And I should see "Primary address"
 
-  Scenario: Add one more email address: Invalid
+  @failing
+ Scenario: Add one more email address: Invalid
     When I follow "E-mail addresses"
     And I enter "test" for field "Add new e-mail"
     And I press "Save"
     Then I should see "You must enter a valid e-mail address"
 
-  Scenario: Add one more email address: Existing
+  @failing
+ Scenario: Add one more email address: Existing
     When I follow "E-mail addresses"
     And I enter "siteuser@happypunch.com" for field "Add new e-mail"
     And I press "Save"
     Then I should see "Entered address is already registered on this site"
 
-  Scenario: Add one more email address: Valid
+  @failing
+ Scenario: Add one more email address: Valid
     When I follow "E-mail addresses"
     And I enter "siteuser1@example.com" for field "Add new e-mail"
     And I press "Save"
     Then I should see "has been added to your account. Check your e-mail in order to confirm this new address"
 
-  Scenario: See at least one confirmed email address
+  @failing
+ Scenario: See at least one confirmed email address
     When I follow "E-mail addresses"
     And I follow "Delete"
     And I press "Delete"

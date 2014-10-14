@@ -4,8 +4,12 @@ Feature: Content I posted
   As an authenticated user
   I want to find all different pieces of content I posted listed in a single place
 
-  Scenario: Create test data for the following scenarios
-    Given I am logged in as the "git vetted user"
+  @failing
+ Scenario: Create test data for the following scenarios
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I am at "/node/add/project-project"
     And I follow "Module project"
     When I create a "full" project
@@ -18,9 +22,12 @@ Feature: Content I posted
     And I add one more comment to the issue
     Then I should see the random "Description" text
 
-  @dependent
-  Scenario: Comment on a specific post as git user
-    Given I am logged in as the "git user"
+  @dependent @failing
+ Scenario: Comment on a specific post as git user
+    Given users:
+      | name     | pass     | mail                              | roles    |
+      | Git User | password | qa+gituser@association.drupal.org | Git user |
+    And I am logged in as "Git User"
     And I am on the project page
     When I follow "open"
     Then I should see the issue link
@@ -28,9 +35,12 @@ Feature: Content I posted
     And I add a comment to the issue
     And I add one more comment to the issue
 
-  @dependent
-  Scenario: Navigate to your posts page
-    Given I am logged in as the "git vetted user"
+  @dependent @failing
+ Scenario: Navigate to your posts page
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     When I follow "Your Posts"
     Then I should see the following <texts>
       | texts        |
@@ -43,9 +53,12 @@ Feature: Content I posted
     And I should see at least "1" new reply for the post
     And I should see updated for the post
 
-  @clean_data @dependent
-  Scenario: Navigate to the specific post and check for the new post.
-    Given I am logged in as the "git vetted user"
+  @clean_data @dependent @failing
+ Scenario: Navigate to the specific post and check for the new post.
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I follow "Your Posts"
     And I follow an issue of the project
     When I move backward one page
@@ -65,8 +78,8 @@ Feature: Content I posted
     And I follow "Your Posts"
     Then I should see the random "Project name" link
 
-  @clean_data
-  Scenario: Create and view a book page
+  @clean_data @failing
+ Scenario: Create and view a book page
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |

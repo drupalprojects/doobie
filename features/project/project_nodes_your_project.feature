@@ -38,8 +38,8 @@ Feature: Learn about details of a full project
       | Patching                                   |
       | git clone --branch                         |
 
-  @anon @content
-  Scenario: Browse repository link
+  @anon @content @failing
+ Scenario: Browse repository link
     Given I am on "/project/commons"
     When I follow "Repository viewer"
     Then I should see the following <links>
@@ -60,8 +60,8 @@ Feature: Learn about details of a full project
       | search:     |
       | summary     |
 
-  @anon
-  Scenario: Git messages
+  @anon @failing
+ Scenario: Git messages
     Given I am on "/project/commons"
     When I follow "View commits"
     Then I should see at least "10" commits
@@ -75,8 +75,8 @@ Feature: Learn about details of a full project
     And I should see "Development" in the "right sidebar" region
 
 
-  @anon @wip
-  Scenario: Commit numbers in maintainers block
+  @anon @wip @failing
+ Scenario: Commit numbers in maintainers block
     Given I am on the homepage
     When I visit "/project/commons"
     Then the <user> should have at least <count> commits
@@ -85,8 +85,8 @@ Feature: Learn about details of a full project
       | pradeeprkara   | 2     |
       | sachin2dhoni   | 4     |
 
-  @anon @wip
-  Scenario: Users in maintainers block
+  @anon @wip @failing
+ Scenario: Users in maintainers block
     Given I am on the homepage
     When I visit "/project/commons"
     Then the project should have the following <committers>

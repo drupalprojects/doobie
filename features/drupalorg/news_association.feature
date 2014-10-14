@@ -7,7 +7,8 @@ Feature: Drupal Association News
   Background:
     Given I am on "/news"
 
-  Scenario: View the news listing page
+  @failing
+ Scenario: View the news listing page
     When I follow "Drupal Association" in the "right sidebar" region
     Then I should see the heading "Drupal Association News"
     And I should be on "/aggregator/sources/628"

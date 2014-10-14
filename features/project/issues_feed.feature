@@ -4,7 +4,8 @@ Feature: Get a feed of Search issues
   As a user
   I should be able to see the rss feeds icon
 
-  Scenario: View feed contents
+  @failing
+ Scenario: View feed contents
     Given I am on "/project/issues/search/feed"
     When I click on the feed icon
     Then I should see the text "Issues for Feed" in the feed

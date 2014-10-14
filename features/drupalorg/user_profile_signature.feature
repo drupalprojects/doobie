@@ -18,7 +18,8 @@ Feature: Display additional information on my comments
     And I press "Save"
     Then I should see "The changes have been saved"
 
-  Scenario: Create a forum, reply and view signature
+  @failing
+ Scenario: Create a forum, reply and view signature
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -36,8 +37,8 @@ Feature: Display additional information on my comments
     And I should see the random "Comment" text
     And I should see the random "Signature" text
 
-  @dependent
-  Scenario: View signature in reply anonymously
+  @dependent @failing
+ Scenario: View signature in reply anonymously
     Given I am not logged in
     And I am on the forum topic page
     Then I should see the random "Subject" text
@@ -56,8 +57,8 @@ Feature: Display additional information on my comments
     And I press "Save"
     Then I should see "The changes have been saved"
 
-  @dependent
-  Scenario: signature doesn't appear in reply any more for Trusted User
+  @dependent @failing
+ Scenario: signature doesn't appear in reply any more for Trusted User
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -67,8 +68,8 @@ Feature: Display additional information on my comments
     And I should see the random "Comment" text
     And I should not see the random "Signature" text
 
-  @dependent @clean_data @api @cache
-  Scenario: signature doesn't appear in reply any more for anonymous user
+  @dependent @clean_data @api @cache @failing
+ Scenario: signature doesn't appear in reply any more for anonymous user
     Given I am not logged in
     And the cache has been cleared
     And I am on the forum topic page

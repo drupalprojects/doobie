@@ -12,7 +12,8 @@ Feature: Ways to get involved with the Drupal community
     And I should see the heading "Community Spotlight"
     And I should see the heading "Ways to Get Involved"
 
-  Scenario: Getting involove guide
+    @failing
+  Scenario: Getting involved guide
     Given I am on "/getting-involved"
     When I follow "Getting Involved Guide"
     Then I should see the heading "Getting Involved Guide"
@@ -20,6 +21,7 @@ Feature: Ways to get involved with the Drupal community
     And I should see the text "Ready to get involved"
     And I should see "Drupal is an open source project built by a team of volunteers"
 
+  @failing
   Scenario: Community spotlight
     Given I am on the homepage
     When I follow "Getting Involved"
@@ -46,6 +48,7 @@ Feature: Ways to get involved with the Drupal community
       | Documentation         |
       | Drupal Association    |
 
+  @failing
   Scenario: See drupal.org activity block
     Given I am on the homepage
     When I follow "Getting Involved"

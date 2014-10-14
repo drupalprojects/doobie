@@ -5,7 +5,7 @@ Feature: Choose git username
   I need to choose my git username and agree to Git access agreement
 
   @clean_data
-  Scenario:
+  Scenario: Choose git username
     Given I am logged in as a new user
     And I am on "/user"
     When I click "Edit"

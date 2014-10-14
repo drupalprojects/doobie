@@ -1,4 +1,4 @@
-@user @admin @known_git7failure @wip
+@user @admin @wip
 Feature: Administrative view of comments by a user
   In order to effectively fight spam
   As a site maintainer
@@ -17,9 +17,12 @@ Feature: Administrative view of comments by a user
     And I add "3" comments
     Then I should see "Trusted User commented"
 
-  @dependent
-  Scenario: View the list of items
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: View the list of items
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     When I follow "Administer comments"
     Then I should not see "Page not found"
@@ -40,9 +43,12 @@ Feature: Administrative view of comments by a user
       | edit   |
       | delete |
 
-  @dependent
-  Scenario: Navigate into a post
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: Navigate into a post
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer comments"
     When I follow a post
@@ -52,18 +58,24 @@ Feature: Administrative view of comments by a user
     And I should not see "Page not found"
     And I should not see "Access denied"
 
-  @dependent
-  Scenario: Visit edit page and view texts
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: Visit edit page and view texts
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer comments"
     When I follow "edit" for a post
     Then I should see "Subject"
     And I should see "Comment"
 
-  @dependent
-  Scenario: Visit Delete link
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: Visit Delete link
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer comments"
     When I follow "delete"
@@ -72,9 +84,12 @@ Feature: Administrative view of comments by a user
     And I should see "Delete"
     And I should see the link "Cancel"
 
-  @dependent @javascript
-  Scenario: Select dropdown: This page
-    Given I am logged in as the "admin test"
+  @dependent @javascript @failing
+ Scenario: Select dropdown: This page
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer comments"
     And I wait until the page is loaded
@@ -85,9 +100,12 @@ Feature: Administrative view of comments by a user
     Then I should see "You selected the following"
     And I should see the link "Cancel"
 
-  @dependent @javascript
-  Scenario: Select dropdown: All pages
-    Given I am logged in as the "admin test"
+  @dependent @javascript @failing
+ Scenario: Select dropdown: All pages
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer comments"
     And I wait until the page is loaded
@@ -98,9 +116,12 @@ Feature: Administrative view of comments by a user
     Then I should see "You selected the following"
     And I should see the link "Cancel"
 
-  @dependent  @javascript
-  Scenario: Select dropdown: None
-    Given I am logged in as the "admin test"
+  @dependent  @javascript @failing
+ Scenario: Select dropdown: None
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer comments"
     And I wait until the page is loaded
@@ -109,9 +130,12 @@ Feature: Administrative view of comments by a user
     And I "uncheck" the table header checkbox
     Then none the checkboxes are selected
 
-  @dependent
-  Scenario: Unpublish comment: Don't select
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: Unpublish comment: Don't select
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer comments"
     When I select "Unpublish comment" from field "- Choose an operation -"
@@ -119,9 +143,12 @@ Feature: Administrative view of comments by a user
     Then I should see "Please select at least one item"
     And I should not see "You selected the following item"
 
-  @dependent
-  Scenario: Unpublish comment: Cancel
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: Unpublish comment: Cancel
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer comments"
     When I check "2" checkboxes to "unpublish"
@@ -130,9 +157,12 @@ Feature: Administrative view of comments by a user
     And I follow "Cancel"
     Then I should not see "Performed Unpublish content on"
 
-  @dependent
-  Scenario: Delete comment: Don't select
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: Delete comment: Don't select
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer comments"
     When I select "Delete item" from field "- Choose an operation -"
@@ -141,9 +171,12 @@ Feature: Administrative view of comments by a user
     And I should not see "You selected the following item"
     And I should not see "Performed Delete item on"
 
-  @dependent
-  Scenario: Delete comments: Cancel
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: Delete comments: Cancel
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer comments"
     When I check "2" checkboxes to "delete"
@@ -152,9 +185,12 @@ Feature: Administrative view of comments by a user
     And I follow "Cancel"
     Then I should not see "Performed Delete item on"
 
-  @dependent @slow
-  Scenario: Unpublish comments: Confirm
-    Given I am logged in as the "admin test"
+  @dependent @slow @failing
+ Scenario: Unpublish comments: Confirm
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer comments"
     When I check "2" checkboxes to "unpublish"
@@ -164,9 +200,12 @@ Feature: Administrative view of comments by a user
     And I wait until the page is loaded
     Then I should see "Performed Unpublish content on"
 
-  @dependent @slow
-  Scenario: Delete comments: Confirm
-    Given I am logged in as the "admin test"
+  @dependent @slow @failing
+ Scenario: Delete comments: Confirm
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "Trusted User" profile page
     And I follow "Administer comments"
     When I check "2" checkboxes to "delete"

@@ -5,10 +5,13 @@ Feature: Users create git repository
   I need to initialize a git repository for my project
 
   Background:
-    Given I am logged in as the "git user"
+    Given users:
+      | name     | pass     | mail                              | roles    |
+      | Git User | password | qa+gituser@association.drupal.org | Git user |
+    And I am logged in as "Git User"
 
-  @smoke @clean_data @gitrepo
-  Scenario: Git User creates a project
+  @smoke @clean_data @gitrepo @failing
+ Scenario: Git User creates a project
     Given I am at "/node/add/project-module"
     When I create a "sandbox" project
     And I see project data

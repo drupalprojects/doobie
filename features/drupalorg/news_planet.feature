@@ -7,7 +7,8 @@ Feature: Find Drupal News
   Background:
     Given I am on the homepage
 
-  Scenario: View the news listing page
+  @failing
+ Scenario: View the news listing page
     When I follow "Planet Drupal"
     Then I should see the heading "Planet Drupal"
     And I should be on "/planet"

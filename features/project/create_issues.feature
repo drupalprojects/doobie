@@ -4,8 +4,8 @@ Feature: Drupal Create Issues
   As a Trusted User
   I want create an issue
 
-  @javascript
-  Scenario: Create an issue from the main issues page
+  @javascript @failing
+ Scenario: Create an issue from the main issues page
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |

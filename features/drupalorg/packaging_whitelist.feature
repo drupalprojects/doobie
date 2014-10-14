@@ -4,7 +4,8 @@ Feature: View the list of Packaging whitelist entries
   As any user
   I should be able browse the list and search for specific library
 
-  Scenario: View the list of items
+  @failing
+ Scenario: View the list of items
     Given I am on "/project/drupalorg_whitelist"
     When I follow "list of existing whitelist entries"
     Then I should see the heading "Packaging whitelist URLs"

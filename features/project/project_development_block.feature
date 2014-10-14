@@ -7,7 +7,8 @@ Feature: Project Development Block
   Background:
     Given I am on "/project/views"
 
-  Scenario: View links in Development block
+  @failing
+ Scenario: View links in Development block
     Then I should see the heading "Development"
     And I should see the following <links>
       | links                   |
@@ -18,11 +19,13 @@ Feature: Project Development Block
       | View change records     |
     And I should not see the link "Sandbox security policy"
 
-  Scenario: View pending patches
+  @failing
+ Scenario: View pending patches
     When I follow "View pending patches"
     Then I should see the heading "Issues for Views"
 
-  Scenario: View Repository
+  @failing
+ Scenario: View Repository
     When I follow "Repository viewer"
     Then I should not see "Page not found"
     And I should see the following <links>
@@ -44,7 +47,8 @@ Feature: Project Development Block
       | search:     |
       | summary     |
 
-  Scenario: View Commits
+  @failing
+ Scenario: View Commits
     When I follow "View commits"
     Then I should see "Commits for"
     And I should see at least "2" records

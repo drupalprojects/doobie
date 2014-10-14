@@ -14,7 +14,10 @@ Feature: Create new packaging whitelist entry
     But I should not see "Create Packaging whitelist entry"
 
   Scenario: Create packaging whitelist entry as Admin user: Validation
-    Given I am logged in as the "admin test"
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     When I visit "/node/add/packaging-whitelist"
     And I press "Save"
     Then I should see "Title field is required"
@@ -22,7 +25,10 @@ Feature: Create new packaging whitelist entry
     But I should not see "has been created"
 
   Scenario: Create packaging whitelist entry as Admin user
-    Given I am logged in as the "admin test"
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     When I visit "/node/add/packaging-whitelist"
     And I fill in "Title" with random text
     And I fill in "Allowed URL filters" with random text
@@ -30,7 +36,7 @@ Feature: Create new packaging whitelist entry
     And I press "Save"
     Then I should see the random "Title" text
     And I should see the random "Allowed URL filters" text
-    And I should see "Posted by admin test on"
+    And I should see "Posted by Administrative User on"
     And I should see the following <links>
       | links     |
       | View      |

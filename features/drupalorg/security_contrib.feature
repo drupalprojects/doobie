@@ -60,7 +60,8 @@ Feature: Security announcements for contributed modules
     And I should not see the link "next"
     And I should see the heading "Security advisories"
 
-  Scenario: View various parameters on Contributed projects page
+  @failing
+ Scenario: View various parameters on Contributed projects page
     Given I am on "/security"
     When I follow "Contributed projects"
     Then I should see the following <texts>

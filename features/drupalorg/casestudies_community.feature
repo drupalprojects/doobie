@@ -61,7 +61,7 @@ Feature: Community case studies
     | Entertainment |
     | Healthcare    |
 
-  @known_failure
+  @javascript
   Scenario: View individual case study from Community section
     Given I am on "/case-studies/community"
     When I click on a case study
@@ -70,7 +70,5 @@ Feature: Community case studies
     And I should see the following <texts>
       | texts                 |
       | Why Drupal was chosen |
-#    | Completed Drupal site or project URL |
-#    | Key modules/theme/distribution used  |
-#    | Posted by                            |
-#    | Categories:                          |
+      | Posted by                            |
+      | Why these modules/theme/distribution were chosen:  |

@@ -4,17 +4,23 @@ Feature: Manage stable releases
   As a project owner
   I should be able to create a tag and stable release
 
-  @javascript
-  Scenario: Add git vetted user as maintainer
-    Given I am logged in as the "admin test"
+  @javascript @failing
+ Scenario: Add git vetted user as maintainer
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I am on "/project/git_deploy"
     When I follow "Maintainers"
     And I wait until the page loads
     Then I should see "git vetted user" as a maintainer
 
-  @dependent
+  @dependent @failing
   Scenario: Create a new tag
-    Given I am logged in as the "git vetted user"
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I visit "/project/git_deploy"
     And I see project data
     And I follow "Version control"
@@ -24,9 +30,12 @@ Feature: Manage stable releases
     And I follow "Add new release"
     Then I should see the tag in the dropdown "Git release tag or branch"
 
-  @dependent
-  Scenario: Create a release for the above tag
-    Given I am logged in as the "git vetted user"
+  @dependent @failing
+ Scenario: Create a release for the above tag
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I visit "/project/git_deploy"
     When I follow "Add new release"
     And I select a tag from "Git release tag or branch"

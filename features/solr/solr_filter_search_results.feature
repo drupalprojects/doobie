@@ -1,4 +1,4 @@
-@known_git7failure @anon @wip @javascript @search
+@anon @wip @javascript @search
 Feature: Visitor searches site and filters the results using various options
   In order to see relevant search results
   As a visitor to Drupal.org
@@ -10,7 +10,8 @@ Feature: Visitor searches site and filters the results using various options
     And I follow "Modules ("
     And I wait until the page loads
 
-  Scenario Outline: Filter by Module categories
+  @failing
+ Scenario Outline: Filter by Module categories
     When I select "<module>" from "Module categories"
     And I see "results containing the words: views"
     And I follow the first search result
@@ -25,7 +26,8 @@ Feature: Visitor searches site and filters the results using various options
     | Mobile         |
     | Search         |
 
-  Scenario Outline: Filter by compatibility
+  @failing
+ Scenario Outline: Filter by compatibility
     When I select "<version>" from "Core compatibility"
     And I see "results containing the words: views"
     And I follow the first search result
@@ -42,7 +44,8 @@ Feature: Visitor searches site and filters the results using various options
     | 7.x     |
     | 8.x     |
 
-  Scenario Outline: Filter by Status
+  @failing
+ Scenario Outline: Filter by Status
     When I select "<status>" from "Status"
     And I see "results containing the words: views"
     And I follow the first search result

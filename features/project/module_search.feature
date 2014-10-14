@@ -16,7 +16,7 @@ Feature: Find modules
     | path                 | type                | term                   |
     | project_module       | Modules             | Masquerade             |
     | project_theme        | Themes              | Zen                    |
-    | project_core         | Drupal Cores        | Core placeholder       |
+    | project_core         | Drupal Cores        | Fake core              |
     | project_distribution | Distributions       | OpenScholar            |
     | project_drupalorg    | Drupal.org projects | Association.drupal.org |
     | project_theme_engine | Theme engines       | wgSmarty theme engine  |

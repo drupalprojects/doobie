@@ -5,7 +5,10 @@ Feature: About this page block on documentation pages
   I want to fill various field in the form and save the same
 
   Background:
-    Given I am logged in as the "docs manager"
+    Given users:
+      | name                  | pass     | mail                                  | roles                   |
+      | Documentation Manager | password | qa+docsmanager@association.drupal.org | Documentation moderator |
+    And I am logged in as "Documentation Manager"
     And I am on "/documentation/administer"
 
   Scenario: Dropdown values

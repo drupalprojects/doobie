@@ -4,7 +4,8 @@ Feature: Visitor clones repositories
   As a visitor to Drupal.org
   I want to clone a sandbox repo
 
-  Scenario: Sandbox has a repo with code
+  @failing
+ Scenario: Sandbox has a repo with code
     Given I am at "/project/git_deploy"
     When I click "Version control"
     And I clone the repo

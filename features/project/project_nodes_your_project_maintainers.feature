@@ -4,25 +4,36 @@ Feature: Maintain the project
   As a project maintainer
   I should be able to commit to the repository and the edit project
 
-  Scenario: Add git vetted user as maintainer
-    Given I am logged in as the "admin test"
+  @failing
+ Scenario: Add git vetted user as maintainer
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I am on "/project/test_releases"
     When I follow "Maintainers"
     And I enter "git vetted user" for field "Maintainer user name"
     And I press "Update"
     Then I should see the link "git vetted user"
 
-  Scenario: Add Trusted User as another maintainer
-    Given I am logged in as the "admin test"
+  @failing
+ Scenario: Add Trusted User as another maintainer
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I am on "/project/test_releases"
     When I follow "Maintainers"
     And I enter "Trusted User" for field "Maintainer user name"
     And I press "Update"
     Then I should see the link "Trusted User"
 
-  @dependent
-  Scenario: Assign permissions to above users
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: Assign permissions to above users
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I am on "/project/test_releases"
     When I follow "Maintainers"
     And I assign the following <permissions> to the maintainer "git vetted user"
@@ -34,9 +45,12 @@ Feature: Maintain the project
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent
-  Scenario: Maintainers users
-    Given I am logged in as the "git vetted user"
+  @dependent @failing
+ Scenario: Maintainers users
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I visit "/node/1791620/maintainers"
     Then I should see the following <links>
       | links           |
@@ -46,9 +60,12 @@ Feature: Maintain the project
       | sachin2dhoni    |
       | git vetted user |
 
-  @dependent
-  Scenario: Maintainers tab users and permissions
-    Given I am logged in as the "git vetted user"
+  @dependent @failing
+ Scenario: Maintainers tab users and permissions
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I visit "/project/test_releases"
     When I follow "Maintainers"
     Then I should see the <users> with the following <permissions>
@@ -76,9 +93,12 @@ Feature: Maintain the project
       | sachin2dhoni | Maintain issues        |
       | sachin2dhoni | Administer releases    |
 
-  @dependent
-  Scenario: Updated maintainers permissions
-    Given I am logged in as the "git vetted user"
+  @dependent @failing
+ Scenario: Updated maintainers permissions
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I am on "/project/test_releases"
     When I follow "Maintainers"
     And I assign the following <permissions> to the maintainer "eliza411"
@@ -90,9 +110,12 @@ Feature: Maintain the project
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent
-  Scenario: Updated maintainers permissions: Reset to previous
-    Given I am logged in as the "git vetted user"
+  @dependent @failing
+ Scenario: Updated maintainers permissions: Reset to previous
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I am on "/project/test_releases"
     When I follow "Maintainers"
     And I unassign the following <permissions> from the maintainer "eliza411"
@@ -104,17 +127,20 @@ Feature: Maintain the project
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent @local
-  Scenario: Git vetted user commits to repo
-    Given I am logged in as the "git vetted user"
+  @dependent @local @failing
+ Scenario: Git vetted user commits to repo
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I am on "/node/1791620/maintainers"
     And I follow "Version control"
     When I clone the repo
     And I push "2" commits to the repository
     Then I should have a local copy of "test_releases"
 
-  @dependent
-  Scenario: Trusted User should not be able to commit to repo
+  @dependent @failing
+ Scenario: Trusted User should not be able to commit to repo
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -124,9 +150,12 @@ Feature: Maintain the project
     Then I should see "Account Settings Missing"
     And I should see "Your Git username has not been set yet. Please set one at the Git access page"
 
-  @dependent
-  Scenario: Remove Trusted User
-    Given I am logged in as the "git vetted user"
+  @dependent @failing
+ Scenario: Remove Trusted User
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I am on "/project/test_releases"
     When I follow "Maintainers"
     And I follow "delete" for the maintainer "Trusted User"
@@ -134,9 +163,12 @@ Feature: Maintain the project
     Then I should see "Removed"
     And I should see "as a maintainer"
 
-  @dependent
-  Scenario: Remove git vetted user
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: Remove git vetted user
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I am on "/project/test_releases"
     When I follow "Maintainers"
     And I follow "delete" for the maintainer "git vetted user"

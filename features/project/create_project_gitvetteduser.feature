@@ -4,15 +4,23 @@ Feature: Create a project
   As a contributor
   I need to be able to create a project
 
-  Scenario: Can choose between sandbox and full project
-    Given I am logged in as the "git vetted user"
+  @failing
+ Scenario: Can choose between sandbox and full project
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     When I visit "/node/add/project-module"
     Then I should see "Project type"
     And I should see "Sandbox project" in the dropdown "Project type"
     And I should see "Full project" in the dropdown "Project type"
 
-  Scenario:
-    Given I am logged in as the "git vetted user"
+  @failing
+  Scenario: Error message for required fields
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I am on "/node/add/project-module"
     When I press "Save"
     Then I should see the following <texts>
@@ -31,9 +39,12 @@ Feature: Create a project
       | Development status |
 
   # See Issue 2035755 re: use of labels
-  @clean_data @javascript
-  Scenario: Create a sandbox project
-    Given I am logged in as the "git vetted user"
+  @clean_data @javascript @failing
+ Scenario: Create a sandbox project
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I am on "/node/add/project-module"
     When I fill in "Name" with random text
     And I select "Sandbox project" from "Project type"
@@ -69,8 +80,13 @@ Feature: Create a project
     And I should see the random "Name" text
     And I should see the random "Description" text
 
-  Scenario Outline: Create each project type
-    Given I am logged in as the "git vetted user"
+#Probably git vetted user permissions
+  @failing
+ Scenario Outline: Create each project type
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I am at "<url>"
     When I create a "full" project
     Then I should see "has been created"
@@ -82,8 +98,12 @@ Feature: Create a project
     | /node/add/project-distribution |
     | /node/add/project-theme        |
 
-  Scenario Outline: Cannot create full projects for Drupal*
-    Given I am logged in as the "git vetted user"
+  @failing
+ Scenario Outline: Cannot create full projects for Drupal*
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I am at "<url>"
     Then I should not see "Project type"
     And I should not see "Short name"
@@ -93,8 +113,12 @@ Feature: Create a project
     | /node/add/project-core      | Drupal core |
     | /node/add/project-drupalorg | Drupal.org  |
 
-  Scenario Outline: Create Drupal* sandbox projects
-    Given I am logged in as the "git vetted user"
+  @failing
+ Scenario Outline: Create Drupal* sandbox projects
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I am at "<url>"
     When I fill in "Name" with random text
     And I select "Unsupported" from "Maintenance status"

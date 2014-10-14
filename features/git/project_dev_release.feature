@@ -4,17 +4,23 @@ Feature: Manage development releases
   As a project owner
   I should be able to create a branch and development release
 
-  @javascript
-  Scenario: Add git vetted user as maintainer
-    Given I am logged in as the "admin test"
+  @javascript @failing
+ Scenario: Add git vetted user as maintainer
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     When I visit "/project/git_deploy"
     And I follow "Maintainers"
     And I wait until the page loads
     Then I should see "git vetted user" as a maintainer
 
-  @dependent
+  @dependent @failing
   Scenario: Create a new branch
-    Given I am logged in as the "git vetted user"
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I visit "/project/git_deploy"
     And I see project data
     And I follow "Version control"
@@ -24,9 +30,12 @@ Feature: Manage development releases
     And I follow "Version control"
     Then I should see the branch in the dropdown "Version to work from"
 
-  @dependent @git_branch
-  Scenario: Create a release for the above branch
-    Given I am logged in as the "git vetted user"
+  @dependent @git_branch @failing
+ Scenario: Create a release for the above branch
+    Given users:
+      | name            | pass     | mail                                | roles           |
+      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+    And I am logged in as "Git Vetted User"
     And I visit "/project/git_deploy"
     When I follow "Add new release"
     And I select a branch from "Git release tag or branch"

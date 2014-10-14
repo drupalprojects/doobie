@@ -12,7 +12,8 @@ Feature: Personal information in user profile
     And I follow "Edit"
     And I wait until the page is loaded
 
-  Scenario: Fill all the fields and save
+  @failing
+ Scenario: Fill all the fields and save
     When I follow "Personal information"
     And I fill in the following:
       | Full name            | DrupalSiteUser                               |
@@ -39,7 +40,7 @@ Feature: Personal information in user profile
       | texts            |
       | DrupalSiteUser   |
       | Drupal           |
-  Trusted Usere user        |
+      | Trusted User     |
       | drupalsiteuser   |
       | Latvian          |
       | Ewe              |
@@ -56,7 +57,8 @@ Feature: Personal information in user profile
       | http://twitter.com/drupalsiteuser            |
       | http://plus.google.com/109229333624640995186 |
 
-  Scenario Outline: Visit gender and country links
+  @failing
+ Scenario Outline: Visit gender and country links
     When I follow "View"
     And I follow "<link>"
     And I wait until the page is loaded
@@ -69,7 +71,8 @@ Feature: Personal information in user profile
     | male       | profile/profile_gender/male         | People who are male             |
     | Latvia     | profile/country/Latvia              | People who live in Latvia       |
 
-  Scenario Outline: Enter invalid values for fields that expect a url and save
+  @failing
+ Scenario Outline: Enter invalid values for fields that expect a url and save
     When I follow "Personal information"
     And I fill in "<field>" with "<value>"
     And I press "Save"

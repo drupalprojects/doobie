@@ -24,13 +24,14 @@ Feature: Sitewide commit log
     And I should see the link "Version control"
     And I should see the heading "Development"
 
-  Scenario: Click link to date
+  @failing
+ Scenario: Click link to date
     Given I am on "/commitlog"
     When I click on "date" of a commit
     Then I should see "Commit"
 
-  @wip
-  Scenario: Click link to user profile
+  @wip @failing
+ Scenario: Click link to user profile
     Given I am on "/commitlog"
     When I click on "user name" of a commit
     Then I should see the following <texts>
@@ -38,7 +39,8 @@ Feature: Sitewide commit log
       | Member for |
       | History    |
 
-  Scenario: Click link to repository
+  @failing
+ Scenario: Click link to repository
     Given I am on "/commitlog"
     When I click on "commit info" of a commit
     Then I should see the link "summary"

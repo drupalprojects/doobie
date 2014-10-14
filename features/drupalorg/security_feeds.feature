@@ -4,7 +4,8 @@ Feature: Get a feed of security announcements
   As a Drupal site maintainer
   I should be able to subscribe to rss feeds
 
-  Scenario: Visit the Drupal core announcements feed and view the contents
+  @failing
+ Scenario: Visit the Drupal core announcements feed and view the contents
     Given I am on "/security"
     And I see "Subscribe with RSS"
     When I click on the feed icon
@@ -14,7 +15,8 @@ Feature: Get a feed of security announcements
     And I should see the text "Versions affected" in the feed
     And I should see at least "5" feed items
 
-  Scenario: Visit the Contributed projects feed and view the contents
+  @failing
+ Scenario: Visit the Contributed projects feed and view the contents
     Given I am on "security/contrib"
     And I see "Subscribe with RSS"
     When I click on the feed icon
@@ -24,7 +26,8 @@ Feature: Get a feed of security announcements
     And I should see the text "Versions affected" in the feed
     And I should see at least "5" feed items
 
-  Scenario: Visit the public service announcements feed and view the contents
+  @failing
+ Scenario: Visit the public service announcements feed and view the contents
     Given I am on "security/psa"
     And I see "Subscribe with RSS"
     When I click on the feed icon

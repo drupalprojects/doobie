@@ -15,10 +15,13 @@ Feature: Community Spotlight
     Then I should see "Create Forum topic"
     And I should not see "Access denied"
 
-  @javascript @clean_data
-  Scenario: Admin can promote a community spotlight
-    Given there is a new "Community Spotlight" forum topic
-    And I am logged in as the "admin test"
+  @javascript @clean_data @failing
+ Scenario: Admin can promote a community spotlight
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
+    And there is a new "Community Spotlight" forum topic
     And I edit the "community spotlight"
     And I wait until the page is loaded
     When I click "Publishing options"

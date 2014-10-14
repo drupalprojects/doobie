@@ -15,9 +15,16 @@ Feature: Case studies moderation
     And I visit "/case-studies/all"
     Then I should see the random "Project name" text
 
-  @dependent
   Scenario: Admin user can feature other people's case study
-    Given I am logged in as the "admin test"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Trusted User"
+    And I visit "/node/add/casestudy"
+    When I create a case study
+    And I see the case study page
+    And I am logged in as "Administrative User"
     And I am on the case study page
     When I follow "Edit"
     And I check "Featured" radio button
@@ -26,9 +33,16 @@ Feature: Case studies moderation
     And I follow "Featured showcase"
     Then I should see the random "Project name" text
 
-  @dependent
   Scenario: Admin user can hide a case study
-    Given I am logged in as the "admin test"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Trusted User"
+    And I visit "/node/add/casestudy"
+    When I create a case study
+    And I see the case study page
+    And I am logged in as "Administrative User"
     And I am on the case study page
     When I follow "Edit"
     And I check "Hidden" radio button
@@ -38,9 +52,18 @@ Feature: Case studies moderation
     And I visit "/case-studies/hidden"
     Then I should see the random "Project name" text
 
-  @dependent @clean_data
+ @clean_data
   Scenario: Admin user can put case study on community showcase
-    Given I am logged in as the "admin test"
+    Given users:
+      | name         | pass     | mail                                 | roles         |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+
+    And I am logged in as "Trusted User"
+    And I visit "/node/add/casestudy"
+    When I create a case study
+    And I see the case study page
+    And I am logged in as "Administrative User"
     And I am on the case study page
     When I follow "Edit"
     And I check "Community" radio button

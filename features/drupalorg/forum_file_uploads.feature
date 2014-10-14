@@ -17,7 +17,10 @@ Feature:
     And I should not see "Add a new file"
 
   Scenario: File Attachments is available for admin
-    Given I am logged in as the "admin test"
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I am on "/forum"
     And I follow "Post installation"
     When I follow "Add new Forum topic"

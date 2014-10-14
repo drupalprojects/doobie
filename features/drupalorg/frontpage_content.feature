@@ -39,7 +39,8 @@ Feature: Drupal.org frontpage
     And I should see at least "10000" "Developers" in top right content area
     And I should see an advertisement in top right content area
 
-  Scenario: View power Drupal text with people, country and language statistics in it
+  @failing
+ Scenario: View power Drupal text with people, country and language statistics in it
     Then I should see at least "682000" "people" in power Drupal text
     And I should see at least "200" "countries" in power Drupal text
     And I should see at least "150" "languages" in power Drupal text

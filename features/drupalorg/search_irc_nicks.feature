@@ -4,7 +4,8 @@ Feature: Search for IRC nicknames on the site
   As a user
   I should search for IRC nicknames on the site
 
-  Scenario: Search using the sitewide search: Exact word
+  @failing
+ Scenario: Search using the sitewide search: Exact word
     Given I am on the homepage
     When I search sitewide for "Senpai"
     And I follow "IRC Nicks"

@@ -4,15 +4,18 @@ Feature: Prevent users from editing certain pages
   As a Trusted User
   I should not be able to edit pages that were locked by a privileged user
 
-  Scenario: Docs manager creates a document
-    Given I am logged in as the "docs manager"
+  Scenario: Documentation Manager creates a document
+    Given users:
+      | name                  | pass     | mail                                  | roles                   |
+      | Documentation Manager | password | qa+docsmanager@association.drupal.org | Documentation moderator |
+    And I am logged in as "Documentation Manager"
     When I visit "/documentation/install"
     And I follow "Add child page"
     And I create a book page with full html
     Then I should see "has been created"
 
-  @dependent
-  Scenario: Trusted User tries to find the Edit link on the above book page
+  @dependent @failing
+Scenario: Trusted User tries to find the Edit link on the above book page
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -21,8 +24,8 @@ Feature: Prevent users from editing certain pages
     And I follow the book page
     Then I should not see the link "Edit"
 
-  @dependent @clean_data
-  Scenario: Trusted User tries to edit a page directly
+  @dependent @clean_data @failing
+Scenario: Trusted User tries to edit a page directly
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |

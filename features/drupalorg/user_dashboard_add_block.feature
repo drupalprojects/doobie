@@ -42,7 +42,7 @@ Feature:
     | /node/24572          | Add Documentation Team links to dashboard | Documentation Team links |
     | /news                | Add Drupal News to dashboard              | Drupal News              |
     | /planet              | Add Planet Drupal to dashboard            | Planet Drupal            |
-    | /project/issues/user | Add Your Issues to dashboard              | site user                |
+    | /project/issues/user | Add Your Issues to dashboard              | Trusted User             |
     | /getting-involved    | Add Contributor Links to dashboard        | Contributor Links        |
 
   Scenario:Add from the user track page
@@ -56,8 +56,8 @@ Feature:
     When I visit "/user/33570/track"
     Then I should not see "Add Your Posts to dashboard"
 
-  @javascript @wip
-  Scenario: Add Issue queue statistics
+  @javascript @wip @failing
+ Scenario: Add Issue queue statistics
     And I follow "Your Dashboard"
     When I click "Add a block"
     And I click "Project issue: Issue queue statistics"

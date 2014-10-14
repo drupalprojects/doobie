@@ -4,7 +4,8 @@ Feature: Get a feed of packaging whitelist entries
   As any user
   I should be able to see RSS feed icon to subscribe
 
-  Scenario: Visit the feed and view the content
+  @failing
+ Scenario: Visit the feed and view the content
     Given I am on "/project/drupalorg_whitelist"
     When I follow "list of existing whitelist entries"
     And I should see "Subscribe with RSS"

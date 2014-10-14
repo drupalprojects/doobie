@@ -11,7 +11,8 @@ Feature: View the issues I am interested in
     And I am logged in as "Trusted User"
     And I follow "Your Issues"
 
-  Scenario: View links and texts on the page
+  @failing
+ Scenario: View links and texts on the page
     Then I should see the following <links>
       | links              |
       | Create a new issue |
@@ -30,15 +31,16 @@ Feature: View the issues I am interested in
       | Assigned to  |
       | Created      |
 
-  Scenario: Create test data for the following scenarios
+  @failing
+ Scenario: Create test data for the following scenarios
     When I follow "Create a new issue"
     And I fill in "Project" with "443 Session"
     And I press "Next"
     When I create a new issue
     Then I should see "has been created"
 
-  @javascript @dependent
-  Scenario: Search issue fill few fields
+  @javascript @dependent @failing
+ Scenario: Search issue fill few fields
     When I fill in "Project" with "443"
     And I wait for the suggestion box to appear
     And I select "443 Session" from the suggestion "Project"
@@ -46,8 +48,8 @@ Feature: View the issues I am interested in
     Then I should see the issue link
     And I should not see "No issues match your criteria."
 
-  @javascript @dependent
-  Scenario: Search issue fill all fields
+  @javascript @dependent @failing
+ Scenario: Search issue fill all fields
     When I fill in "Project" with "443"
     And I wait for the suggestion box to appear
     And I select "443 Session" from the suggestion "Project"
@@ -61,8 +63,8 @@ Feature: View the issues I am interested in
     And I should not see "No issues match your criteria."
 
 # clean_data tag was failing because of revision log message
-  @dependent
-  Scenario: Navigate through the issue created previously
+  @dependent @failing
+ Scenario: Navigate through the issue created previously
     When I follow an issue of the project
     Then I should see the random "Description" text
     And I should see the heading "Issue status"

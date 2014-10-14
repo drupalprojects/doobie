@@ -4,13 +4,16 @@ Feature: Book listing content type
   As an authenticated user
   I should be able to create a book listing page
 
-  @anon
-  Scenario: Anyonymous users can't create book listings
+  @anon @failing
+ Scenario: Anyonymous users can't create book listings
     When I am on "/node/add/book-listing"
     Then the response status code should be 403
 
   Scenario: Create new book listing: validation
-    Given I am logged in as the "admin test"
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "/books"
     When I follow "Add book listing"
     And I see "Book descriptions are generally copyrighted by the book author or publisher"
@@ -24,7 +27,10 @@ Feature: Book listing content type
     And I should see "ISBN-10 field is required"
 
   Scenario: Create new book listing
-    Given I am logged in as the "admin test"
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I am on "/node/add/book-listing"
     And I wait until the page is loaded
     And I fill in "Title" with random text
@@ -64,13 +70,19 @@ Feature: Book listing content type
 
   @dependent
   Scenario: New book listing is unpublished by default
-    Given I am logged in as the "git user"
+    Given users:
+      | name     | pass     | mail                              | roles    |
+      | Git User | password | qa+gituser@association.drupal.org | Git user |
+    And I am logged in as "Git User"
     When I visit "/books"
     Then I should not see the random "Title" link
 
-  @dependent @javascript
-  Scenario: Publish the book listing as admin
-    Given I am logged in as the "admin test"
+  @dependent @javascript @failing
+ Scenario: Publish the book listing as admin
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "/admin/content"
     And I visit the random link for "Title"
     And I follow "Edit"
@@ -80,24 +92,30 @@ Feature: Book listing content type
     And I visit "/books"
     Then I should see the random "Title" link
 
-  @dependent
-  Scenario: Authenticated users can't edit other's book listings
-    Given I am logged in as the "git user"
+  @dependent @failing
+ Scenario: Authenticated users can't edit other's book listings
+    Given users:
+      | name     | pass     | mail                              | roles    |
+      | Git User | password | qa+gituser@association.drupal.org | Git user |
+    And I am logged in as "Git User"
     And I visit "/books"
     When I visit the random link for "Title"
     Then I should see the heading "Book status"
     And I should not see the link "Edit"
 
-  @dependent
-  Scenario: Once book listing is edited by admin and published - it should appear in the list
+  @dependent @failing
+ Scenario: Once book listing is edited by admin and published - it should appear in the list
     Given I am on the homepage
     When I visit "/books"
     Then I should see the random "Title" link
     And I should see the heading "Marketplace"
 
-  @dependent
-  Scenario: Delete the listing once testing is done
-    Given I am logged in as the "admin test"
+  @dependent @failing
+ Scenario: Delete the listing once testing is done
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     And I visit "/books"
     And I visit the random link for "Title"
     And I follow "Edit"

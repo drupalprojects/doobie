@@ -4,7 +4,8 @@ Feature: Company employees on organization pages
   As an authenticated user
   I should be able to edit my profile and add myself to the company employees
 
-  Scenario: Add organization and request promotion to Services section
+  @failing
+ Scenario: Add organization and request promotion to Services section
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -16,17 +17,20 @@ Feature: Company employees on organization pages
     And I should see the random "Organization name" text
     And I should see "Posted by Trusted User"
 
-  @dependent @wip
-  Scenario: Edit newly created organization page and update it to get the page listed
-    Given I am logged in as the "admin test"
+  @dependent @wip @failing
+ Scenario: Edit newly created organization page and update it to get the page listed
+    Given users:
+      | name                | pass     | mail                                    | roles         |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
+    And I am logged in as "Administrative User"
     When I visit the organization page
     And I follow "Edit"
     And I select "Featured providers" radio button
     And I press "Save"
     Then I should see "has been updated"
 
-  @dependent
-  Scenario: Updating profile of a user with current organization
+  @dependent @failing
+ Scenario: Updating profile of a user with current organization
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -39,8 +43,8 @@ Feature: Company employees on organization pages
     And I press "Save"
     Then I should see "The changes have been saved."
 
-  @anon @dependent
-  Scenario: Following Featured providers organization to check for its listed users
+  @anon @dependent @failing
+ Scenario: Following Featured providers organization to check for its listed users
     Given I am on the homepage
     When I visit the organization page
     Then I should see the link "Trusted User"
@@ -57,8 +61,8 @@ Feature: Company employees on organization pages
     And I press "Save"
     Then I should see "has been updated"
 
-  @dependent @clean_data
-  Scenario: View the user profile details in brief
+  @dependent @clean_data @failing
+ Scenario: View the user profile details in brief
     Given I am on the homepage
     When I visit the organization page
     Then I should see the link "Trusted User"

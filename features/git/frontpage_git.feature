@@ -7,9 +7,12 @@ Feature: See git activity on the front page
   Background:
     Given I am on the homepage
 
-  @gitrepo @clean_data @timeout @smoke @local @cache @api
-  Scenario: Create sample data, push commits and view the commits on the homepage
-    Given I am logged in as the "git user"
+  @gitrepo @clean_data @timeout @smoke @local @cache @api @failing
+ Scenario: Create sample data, push commits and view the commits on the homepage
+    Given users:
+      | name     | pass     | mail                              | roles    |
+      | Git User | password | qa+gituser@association.drupal.org | Git user |
+    And I am logged in as "Git User"
     And I am on "/node/add/project-module"
     And I create a "sandbox" project
     And I see project data

@@ -53,7 +53,8 @@ Feature: To view the project details
       | Checking your repository status |
       | Switching to a different branch |
 
-  Scenario: Browse repository link
+  @failing
+ Scenario: Browse repository link
     Given I am on "/project/drupal"
     When I follow "Repository viewer"
     Then I should not see "Page not found"
@@ -77,7 +78,8 @@ Feature: To view the project details
       | search:     |
       | summary     |
 
-  Scenario: View git messages
+  @failing
+ Scenario: View git messages
     Given I am on "/project/drupal"
     When I follow "View commits"
     Then I should see the heading "Commits for Drupal core"

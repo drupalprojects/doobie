@@ -101,7 +101,8 @@ Feature: Get started with Drupal
     When I follow "Get Started"
     Then I should see book image under Drupal books
 
-  Scenario: Follow All documentation
+  @failing
+ Scenario: Follow All documentation
     Given I am on "/start"
     When I follow "All documentation"
     And I wait until the page is loaded

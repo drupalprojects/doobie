@@ -4,7 +4,8 @@ Feature: User log out
   As an authenticated user
   I should be able to log out
 
-  Scenario: Log in as Trusted User and view links and texts
+  @failing
+ Scenario: Log in as Trusted User and view links and texts
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |

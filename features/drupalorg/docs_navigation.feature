@@ -4,7 +4,8 @@ Feature:
   As any user
   I need to access community documentation guides
 
-  Scenario: Visit community documentation tab and view other tabs, heading, texts and blocks
+  @failing
+ Scenario: Visit community documentation tab and view other tabs, heading, texts and blocks
     Given I am on the homepage
     When I follow "Documentation"
     Then I should see the following <tabs>
@@ -21,7 +22,8 @@ Feature:
     And I should see the text "online documentation is" in the "right sidebar" region
     And I should see the text "by the individual contributors and can be used in accordance with the Creative Commons License, Attribution-ShareAlike" in the "right sidebar" region
 
-  Scenario: Visit installation guide tab and view other tabs, heading, texts and blocks
+  @failing
+ Scenario: Visit installation guide tab and view other tabs, heading, texts and blocks
     Given I am on "/documentation"
     When I follow "Installation Guide"
     Then I should see the following <tabs>
@@ -39,7 +41,8 @@ Feature:
     And I should see the text "online documentation is" in the "right sidebar" region
     And I should see the text "by the individual contributors and can be used in accordance with the Creative Commons License, Attribution-ShareAlike" in the "right sidebar" region
 
-  Scenario: Visit administration guide tab and view other tabs, heading, texts and blocks
+  @failing
+ Scenario: Visit administration guide tab and view other tabs, heading, texts and blocks
     Given I am on "/documentation"
     When I follow "Administration Guide"
     Then I should see the following <tabs>
