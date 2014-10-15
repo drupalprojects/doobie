@@ -2,37 +2,6 @@
 default:
   context:
     parameters:
-      drupal_users:
-        drupal:
-          'drupal'
-
-        site user:
-        # TEST_USER_PW_SITEUSER
-          '|SITEUSERPW|'
-
-        git user:
-        #TEST_USER_PW_GITUSER
-          '|GITUSERPW|'
-        git vetted user:
-        #TEST_USER_PW_GITVETTEDUSER
-                  '|GITVETTEDUSERPW|'
-        docs manager:
-        #TEST_USER_PW_DOCSMANAGER
-          '|DOCSMANAGERPW|'
-        admin test:
-        #TEST_USER_PW_ADMINTEST
-          '|ADMINTESTPW|'
-        site maintainer:
-        # This doesnt work yet, its part of a WIP feature.
-          '|SITEMAINTAINERPW|'
-      #git usernames don't always match the drupal username
-      git_users:
-        #TEST_USER_PW_GITUSER
-        gituser:
-          '|GITUSERPW|'
-        gitvetteduser:
-        #TEST_USER_PW_GITVETTEDUSER
-                '|GITVETTEDUSERPW|'
       post title: 'enter a node title here that has a link on the current page'
       #only enable the below if you are configuring in a CI enviroment
       #environment:
@@ -49,5 +18,6 @@ default:
     Drupal\DrupalExtension\Extension:
       # Set this drush alias in your aliases.drushrc.php file to match
       # the base_url set above. Leave off the preceding '@'.
+      default_driver: drush
       drush:
         alias: '|DRUSHALIAS|'
