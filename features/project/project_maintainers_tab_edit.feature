@@ -5,7 +5,7 @@ Feature: 'Edit project' permission check
   I should be able to edit the project
 
   @failing
- Scenario: Create a new project
+  Scenario: Create a new project
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -15,7 +15,7 @@ Feature: 'Edit project' permission check
     Then I should see project data
 
   @dependent @failing
- Scenario: Add a maintainer: Valid maintainer name
+  Scenario: Add a maintainer: Valid maintainer name
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -26,7 +26,7 @@ Feature: 'Edit project' permission check
     Then I should see "added and permissions updated"
 
   @dependent @failing
- Scenario: Assign Edit project permission to a maintainer
+  Scenario: Assign Edit project permission to a maintainer
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -37,7 +37,7 @@ Feature: 'Edit project' permission check
     Then I should see "Maintainer permissions updated"
 
   @dependent @failing
- Scenario: Log in as maintainer and edit the project
+  Scenario: Log in as maintainer and edit the project
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |
@@ -48,7 +48,7 @@ Feature: 'Edit project' permission check
     Then I should see "has been updated"
 
   @dependent @failing
- Scenario: Unassign Edit project permission from a maintainer
+  Scenario: Unassign Edit project permission from a maintainer
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |

@@ -5,7 +5,7 @@ Feature: Verify Write to VCS permission
   I should have the permission to Write to VCS
 
   @gitrepo @failing
- Scenario: Create a new project and initialize repo
+  Scenario: Create a new project and initialize repo
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -19,7 +19,7 @@ Feature: Verify Write to VCS permission
     Then I should see "Setting up repository for the first time"
 
   @dependent @failing
- Scenario: Add a maintainer: Valid maintainer name
+  Scenario: Add a maintainer: Valid maintainer name
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -34,7 +34,7 @@ Feature: Verify Write to VCS permission
     Then I should see "Maintainer permissions updated"
 
   @dependent @gitrepo @clean_data @failing
- Scenario: Git user does a push a commit to the repository
+  Scenario: Git user does a push a commit to the repository
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |

@@ -22,7 +22,7 @@ Feature: Register an account on Drupal.org with valid username and email
       | Password |
 
   @failing
- Scenario: Create an account
+  Scenario: Create an account
     When I follow "Create new account"
     And I fill in "Username" with random text
     And I fill in "E-mail address" with "samp9+foo@example.com"
@@ -34,7 +34,7 @@ Feature: Register an account on Drupal.org with valid username and email
     Then I should see "A welcome message with further instructions has been sent to your e-mail address."
 
   @failing
- Scenario: Create a different user with the same Email Id
+  Scenario: Create a different user with the same Email Id
     When I follow "Create new account"
     And I fill in "Username" with random text
     And I fill in "E-mail address" with "samp9+foo@example.com"
@@ -46,7 +46,7 @@ Feature: Register an account on Drupal.org with valid username and email
     And I wait until the page loads
     Then I should see "The e-mail address samp9+foo@example.com is already registered."
 
-    @failing
+  @failing
   Scenario: Create a different user with the similar Email Id(For ex:same+similar@example.com)
     When I follow "Create new account"
     And I fill in "Username" with random text
@@ -59,7 +59,7 @@ Feature: Register an account on Drupal.org with valid username and email
     Then I should see "An e-mail address similar to samp9+bar@example.com is already registered."
 
   @failing
- Scenario: Create a different user with the different Email Id
+  Scenario: Create a different user with the different Email Id
     When I follow "Create new account"
     And I fill in "Username" with random text
     And I fill in "E-mail address" with "samp949@example.com"
@@ -85,7 +85,7 @@ Feature: Register an account on Drupal.org with valid username and email
     | example(123) |
 
   @failing
- Scenario: Username validation: Existing username
+  Scenario: Username validation: Existing username
     When I follow "Create new account"
     And I fill in "Username" with "Trusted User"
     And I fill in "E-mail address" with "testuserforgi6@example.com"
@@ -108,7 +108,7 @@ Feature: Register an account on Drupal.org with valid username and email
     | test@user@forgi6@gmailcom |
 
   @failing
- Scenario: EmailAddress validation: In valid email address
+  Scenario: EmailAddress validation: In valid email address
     Given I am on the homepage
     And I follow "Log in / Register"
     When I follow "Create new account"

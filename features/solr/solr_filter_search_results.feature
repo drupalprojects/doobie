@@ -11,7 +11,7 @@ Feature: Visitor searches site and filters the results using various options
     And I wait until the page loads
 
   @failing
- Scenario Outline: Filter by Module categories
+  Scenario Outline: Filter by Module categories
     When I select "<module>" from "Module categories"
     And I see "results containing the words: views"
     And I follow the first search result
@@ -27,7 +27,7 @@ Feature: Visitor searches site and filters the results using various options
     | Search         |
 
   @failing
- Scenario Outline: Filter by compatibility
+  Scenario Outline: Filter by compatibility
     When I select "<version>" from "Core compatibility"
     And I see "results containing the words: views"
     And I follow the first search result
@@ -45,7 +45,7 @@ Feature: Visitor searches site and filters the results using various options
     | 8.x     |
 
   @failing
- Scenario Outline: Filter by Status
+  Scenario Outline: Filter by Status
     When I select "<status>" from "Status"
     And I see "results containing the words: views"
     And I follow the first search result

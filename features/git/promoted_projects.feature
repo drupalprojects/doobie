@@ -5,7 +5,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
   I should be able to promote sandbox project and it should not be available at its previous sandbox URL
 
   @failing
- Scenario: Create a Sandbox project as git vetted user and promote
+  Scenario: Create a Sandbox project as git vetted user and promote
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -19,7 +19,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     And I should see that the project short name is readonly
 
   @wip @failing
- Scenario: Initialize the repository as project owner
+  Scenario: Initialize the repository as project owner
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -32,7 +32,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     Then I should have a local copy of the project
 
   @dependent @wip @failing
- Scenario: Clone the repository as anonymous user
+  Scenario: Clone the repository as anonymous user
     Given I visit the recent sandbox
     And I follow "Version control"
     When I clone the repo
@@ -48,7 +48,7 @@ Feature: Ensure that sandbox repository is not available once the project is pro
     Then I should see an error
 
   @clean_data @wip @failing
- Scenario: Clone the sandbox repository as anonymous user
+  Scenario: Clone the sandbox repository as anonymous user
     Given I am not logged in
     When I clone the "promoted sandbox" repo
     Then I should see an error

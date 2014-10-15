@@ -5,7 +5,7 @@ Feature: Search members in drupal community
   I should be able to search for members in the member directroy
 
   @failing
- Scenario: View search block in the right sidebar region
+  Scenario: View search block in the right sidebar region
     Given I am on "/community"
     When I follow "Member Directory"
     Then I should see the text "Search Users" in the "right sidebar" region
@@ -13,7 +13,7 @@ Feature: Search members in drupal community
     And I should see the text "Username" in the "right sidebar" region
 
   @failing
- Scenario: Search for member: Blank
+  Scenario: Search for member: Blank
     Given I am on "/profile"
     When I press "Search" in the "right sidebar" region
     Then I should see "Please enter some keywords"
@@ -21,7 +21,7 @@ Feature: Search members in drupal community
     And I should not see "Your search yielded no results"
 
   @failing
- Scenario: Search for member: Invalid user
+  Scenario: Search for member: Invalid user
     Given I am on "/profile"
     When I fill in "a long username here" for "Username"
     And I press "Search" in the "right sidebar" region
@@ -30,8 +30,8 @@ Feature: Search members in drupal community
     And I should see the heading "Users"
     And I should see "Enter your keywords"
 
- @failing
- Scenario: Search for member: Valid user
+  @failing
+  Scenario: Search for member: Valid user
     Given I am on "/profile"
     When I fill in "Trusted User" for "Username"
     And I press "Search" in the "right sidebar" region
@@ -40,7 +40,7 @@ Feature: Search members in drupal community
     And I should not see "Please enter some keywords"
 
   @failing
- Scenario: Search for members: Valid user
+  Scenario: Search for members: Valid user
     Given I am on "/profile"
     When I fill in "peter" for "Username"
     And I press "Search" in the "right sidebar" region

@@ -5,7 +5,7 @@ Feature: Drupal.org contact form
   I should be required to log in with a valid account to use the contact form
 
   @anon @failing
- Scenario: Anonymous users views the page
+  Scenario: Anonymous users views the page
     Given I am not logged in
     When I am on "/contact"
     Then I should see "Access Denied"

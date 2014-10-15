@@ -12,7 +12,7 @@ Feature: View the issues I am interested in
     And I follow "Your Issues"
 
   @failing
- Scenario: View links and texts on the page
+  Scenario: View links and texts on the page
     Then I should see the following <links>
       | links              |
       | Create a new issue |
@@ -32,7 +32,7 @@ Feature: View the issues I am interested in
       | Created      |
 
   @failing
- Scenario: Create test data for the following scenarios
+  Scenario: Create test data for the following scenarios
     When I follow "Create a new issue"
     And I fill in "Project" with "443 Session"
     And I press "Next"
@@ -40,7 +40,7 @@ Feature: View the issues I am interested in
     Then I should see "has been created"
 
   @javascript @dependent @failing
- Scenario: Search issue fill few fields
+  Scenario: Search issue fill few fields
     When I fill in "Project" with "443"
     And I wait for the suggestion box to appear
     And I select "443 Session" from the suggestion "Project"
@@ -49,7 +49,7 @@ Feature: View the issues I am interested in
     And I should not see "No issues match your criteria."
 
   @javascript @dependent @failing
- Scenario: Search issue fill all fields
+  Scenario: Search issue fill all fields
     When I fill in "Project" with "443"
     And I wait for the suggestion box to appear
     And I select "443 Session" from the suggestion "Project"
@@ -64,7 +64,7 @@ Feature: View the issues I am interested in
 
 # clean_data tag was failing because of revision log message
   @dependent @failing
- Scenario: Navigate through the issue created previously
+  Scenario: Navigate through the issue created previously
     When I follow an issue of the project
     Then I should see the random "Description" text
     And I should see the heading "Issue status"

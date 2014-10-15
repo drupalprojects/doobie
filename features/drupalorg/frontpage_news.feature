@@ -16,7 +16,7 @@ Feature: Frontpage news section
     Then I should see "has been created"
 
   @javascript @failing
- Scenario: Admin promotes the news post
+  Scenario: Admin promotes the news post
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -31,7 +31,7 @@ Feature: Frontpage news section
     Then I should see "has been updated"
 
   @javascript @failing
- Scenario: Frontpage News tab: More news viewed as admin
+  Scenario: Frontpage News tab: More news viewed as admin
     Given there is a new promoted forum topic
     And I am on the homepage
     When I follow "More news"
@@ -39,7 +39,7 @@ Feature: Frontpage news section
     And I should see the forum topic link
 
   @javascript @failing
- Scenario: Frontpage News tab viewed as admin
+  Scenario: Frontpage News tab viewed as admin
     Given there is a new promoted forum topic
     And I am on the homepage
     Then I should see the forum topic link

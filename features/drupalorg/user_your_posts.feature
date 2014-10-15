@@ -5,7 +5,7 @@ Feature: Content I posted
   I want to find all different pieces of content I posted listed in a single place
 
   @failing
- Scenario: Create test data for the following scenarios
+  Scenario: Create test data for the following scenarios
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -23,7 +23,7 @@ Feature: Content I posted
     Then I should see the random "Description" text
 
   @dependent @failing
- Scenario: Comment on a specific post as git user
+  Scenario: Comment on a specific post as git user
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |
@@ -36,7 +36,7 @@ Feature: Content I posted
     And I add one more comment to the issue
 
   @dependent @failing
- Scenario: Navigate to your posts page
+  Scenario: Navigate to your posts page
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -54,7 +54,7 @@ Feature: Content I posted
     And I should see updated for the post
 
   @clean_data @dependent @failing
- Scenario: Navigate to the specific post and check for the new post.
+  Scenario: Navigate to the specific post and check for the new post.
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -79,7 +79,7 @@ Feature: Content I posted
     Then I should see the random "Project name" link
 
   @clean_data @failing
- Scenario: Create and view a book page
+  Scenario: Create and view a book page
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |

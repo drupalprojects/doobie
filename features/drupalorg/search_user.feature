@@ -5,7 +5,7 @@ Feature: Visitor searches content and gets results from multiple sites
   I want to search for the users through out the sitewide
 
   @failing
- Scenario: Search using the sitewide search: Exact word
+  Scenario: Search using the sitewide search: Exact word
     Given I am on the homepage
     When I search sitewide for "Senpai"
     And I follow "Users"

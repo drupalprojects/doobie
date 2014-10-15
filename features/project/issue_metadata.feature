@@ -17,7 +17,7 @@ Feature: Prominently display issue metadata
       | fields    | values       |
       | Version   | 7.x-1.x-dev  |
       | Component | Failing test |
-      | Assigned  | Trusted User   |
+      | Assigned  | Trusted User |
       | Category  | Task         |
       | Priority  | Normal       |
       | Status    | Active       |

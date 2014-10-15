@@ -5,7 +5,7 @@ Feature: Create specific project types
   I should only be allowed to create sandbox projects
 
   @failing
- Scenario Outline: Full project options should not available for git user
+  Scenario Outline: Full project options should not available for git user
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |
@@ -26,7 +26,7 @@ Feature: Create specific project types
     | /node/add/project-theme        |
 
   @failing
- Scenario Outline: Create each project type as a sandbox
+  Scenario Outline: Create each project type as a sandbox
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |

@@ -8,7 +8,7 @@ Feature: Find Drupal News
     Given I am on "/news"
 
   @failing
- Scenario: View the news listing page
+  Scenario: View the news listing page
     Then I should see the heading "Drupal News"
     And I should be on "/news"
     And I should see "Read more"

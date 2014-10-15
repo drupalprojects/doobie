@@ -85,7 +85,7 @@ Feature:
     Then I should see "has been created"
 
   @dependent @failing
- Scenario: View the block: Your Posts
+  Scenario: View the block: Your Posts
     When I follow "Your Dashboard"
     And I wait until the page is loaded
     Then I should see the block "Your Posts" in column "2"
@@ -96,7 +96,7 @@ Feature:
       | Close    |
 
   @dependent @javascript @failing
- Scenario: Change number of items to show in a block
+  Scenario: Change number of items to show in a block
     And I follow "Your Dashboard"
     And I wait until the page is loaded
     When I change the setting "Number of posts to show" to "3" for the block "Your Posts" and save

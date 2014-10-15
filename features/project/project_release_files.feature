@@ -24,7 +24,7 @@ Feature: Project release files
     And I should see the link "drupal-6.25.zip"
 
   @failing
- Scenario: Download gz file
+  Scenario: Download gz file
     Given I am on "/node/3060/release"
     When I select "7.x" from "API version"
     And I press "Apply"
@@ -32,7 +32,7 @@ Feature: Project release files
     Then the md5 hash should match "2eeb63fd1ef6b23b0a9f5f6b8aef8850"
 
   @failing
- Scenario: Download zip file
+  Scenario: Download zip file
     Given I am on "/node/3060/release"
     When I select "7.x" from "API version"
     And I press "Apply"

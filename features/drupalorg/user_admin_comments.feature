@@ -18,7 +18,7 @@ Feature: Administrative view of comments by a user
     Then I should see "Trusted User commented"
 
   @dependent @failing
- Scenario: View the list of items
+  Scenario: View the list of items
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -44,7 +44,7 @@ Feature: Administrative view of comments by a user
       | delete |
 
   @dependent @failing
- Scenario: Navigate into a post
+  Scenario: Navigate into a post
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -59,7 +59,7 @@ Feature: Administrative view of comments by a user
     And I should not see "Access denied"
 
   @dependent @failing
- Scenario: Visit edit page and view texts
+  Scenario: Visit edit page and view texts
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -71,7 +71,7 @@ Feature: Administrative view of comments by a user
     And I should see "Comment"
 
   @dependent @failing
- Scenario: Visit Delete link
+  Scenario: Visit Delete link
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -85,7 +85,7 @@ Feature: Administrative view of comments by a user
     And I should see the link "Cancel"
 
   @dependent @javascript @failing
- Scenario: Select dropdown: This page
+  Scenario: Select dropdown: This page
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -101,7 +101,7 @@ Feature: Administrative view of comments by a user
     And I should see the link "Cancel"
 
   @dependent @javascript @failing
- Scenario: Select dropdown: All pages
+  Scenario: Select dropdown: All pages
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -117,7 +117,7 @@ Feature: Administrative view of comments by a user
     And I should see the link "Cancel"
 
   @dependent  @javascript @failing
- Scenario: Select dropdown: None
+  Scenario: Select dropdown: None
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -131,7 +131,7 @@ Feature: Administrative view of comments by a user
     Then none the checkboxes are selected
 
   @dependent @failing
- Scenario: Unpublish comment: Don't select
+  Scenario: Unpublish comment: Don't select
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -144,7 +144,7 @@ Feature: Administrative view of comments by a user
     And I should not see "You selected the following item"
 
   @dependent @failing
- Scenario: Unpublish comment: Cancel
+  Scenario: Unpublish comment: Cancel
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -158,7 +158,7 @@ Feature: Administrative view of comments by a user
     Then I should not see "Performed Unpublish content on"
 
   @dependent @failing
- Scenario: Delete comment: Don't select
+  Scenario: Delete comment: Don't select
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -172,7 +172,7 @@ Feature: Administrative view of comments by a user
     And I should not see "Performed Delete item on"
 
   @dependent @failing
- Scenario: Delete comments: Cancel
+  Scenario: Delete comments: Cancel
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -186,7 +186,7 @@ Feature: Administrative view of comments by a user
     Then I should not see "Performed Delete item on"
 
   @dependent @slow @failing
- Scenario: Unpublish comments: Confirm
+  Scenario: Unpublish comments: Confirm
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -201,7 +201,7 @@ Feature: Administrative view of comments by a user
     Then I should see "Performed Unpublish content on"
 
   @dependent @slow @failing
- Scenario: Delete comments: Confirm
+  Scenario: Delete comments: Confirm
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |

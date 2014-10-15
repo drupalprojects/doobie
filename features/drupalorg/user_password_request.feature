@@ -19,14 +19,14 @@ Feature: Request new password
     And I should see "Username or e-mail address"
 
   @failing
- Scenario: Enter username and submit
+  Scenario: Enter username and submit
     When I fill in "Username or e-mail address" with "Trusted User"
     And I press "E-mail new password"
     Then I should not see "Sorry, Trusted User is not recognized as a user name or an e-mail address"
     And I should see "Further instructions have been sent to your e-mail address"
 
   @failing
- Scenario: Enter email and submit
+  Scenario: Enter email and submit
     When I fill in "Username or e-mail address" with "siteuser@happypunch.com"
     And I press "E-mail new password"
     Then I should not see "Sorry, siteuser@happypunch.com is not recognized as a user name or an e-mail address"

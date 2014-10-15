@@ -11,14 +11,15 @@ Feature: Visitor searches site and sorts the results
     And I wait until the page loads
 
   @failing
- Scenario: Sort by Title
+  Scenario: Sort by Title
     When I select "Title" from "Sort by"
     And I see the results sorted in alphabetical order by project title
     And I click on page "2"
     And I see "results containing the words: views"
     Then I should see the results sorted in alphabetical order by project title
-   @failing
- Scenario: Sort by Author
+
+  @failing
+  Scenario: Sort by Author
     When I select "Author" from "Sort by"
     And I see the results sorted in alphabetical order by project author
     And I click on page "3"
@@ -26,7 +27,7 @@ Feature: Visitor searches site and sorts the results
     Then I should see the results sorted in alphabetical order by project author
 
   @failing
- Scenario: Sort by Created date
+  Scenario: Sort by Created date
     When I select "Created date" from "Sort by"
     And I see the results sorted by the project posted date
     And I click on page "3"
@@ -35,7 +36,7 @@ Feature: Visitor searches site and sorts the results
 
   # See https://drupal.org/node/1824900
   @slow @failing
- Scenario: Sort by most installed
+  Scenario: Sort by most installed
     When I select "Most installed" from "Sort by"
     Then I should see "results containing the words: views"
     And I should see the results sorted by most installed modules

@@ -5,7 +5,7 @@ Feature: Visitor searches issues and gets results from drupal site
   I want to search for the issues in the site
 
   @failing
- Scenario: Search for drupal issues
+  Scenario: Search for drupal issues
     Given I am on the homepage
     When I search sitewide for "BDD"
     And I see "results containing the words: BDD"
@@ -24,7 +24,7 @@ Feature: Visitor searches issues and gets results from drupal site
       | Issue tags   |
 
   @failing
- Scenario: Search for drupal issues
+  Scenario: Search for drupal issues
     Given I am on "/site/search"
     And I search sitewide for "homepage banner"
     When I enter "acquia banner" for field "Search again"

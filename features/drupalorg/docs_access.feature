@@ -15,7 +15,7 @@ Feature: Prevent users from editing certain pages
     Then I should see "has been created"
 
   @dependent @failing
-Scenario: Trusted User tries to find the Edit link on the above book page
+  Scenario: Trusted User tries to find the Edit link on the above book page
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -25,7 +25,7 @@ Scenario: Trusted User tries to find the Edit link on the above book page
     Then I should not see the link "Edit"
 
   @dependent @clean_data @failing
-Scenario: Trusted User tries to edit a page directly
+  Scenario: Trusted User tries to edit a page directly
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |

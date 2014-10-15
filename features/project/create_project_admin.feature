@@ -43,7 +43,7 @@ Feature: Manage all project types
     | /node/add/project-drupalorg    |
 
   @failing
- Scenario Outline: Create a full project for each type
+  Scenario Outline: Create a full project for each type
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |

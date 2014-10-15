@@ -5,7 +5,7 @@ Feature: Promote a project from a sandbox to a full project
   I should be able to promote a sandbox
 
   @failing
- Scenario: Git user creates a project and tries to promote it
+  Scenario: Git user creates a project and tries to promote it
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |
@@ -18,7 +18,7 @@ Feature: Promote a project from a sandbox to a full project
     And I should see that the project short name is readonly
 
   @gitrepo @dependent @clean_data @failing
- Scenario: Git user initializes the repo and tries to promote project
+  Scenario: Git user initializes the repo and tries to promote project
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |
@@ -32,7 +32,7 @@ Feature: Promote a project from a sandbox to a full project
     And I should see that the project short name is readonly
 
   @clean_data @failing
- Scenario: Git vetted user create a project and tries to promote it
+  Scenario: Git vetted user create a project and tries to promote it
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -46,7 +46,7 @@ Feature: Promote a project from a sandbox to a full project
     And I should see that the project short name is readonly
 
   @gitrepo @clean_data @failing
- Scenario: Git vetted user initializes the repo and tries to promote project
+  Scenario: Git vetted user initializes the repo and tries to promote project
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |

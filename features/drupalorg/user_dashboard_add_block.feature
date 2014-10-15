@@ -57,7 +57,7 @@ Feature:
     Then I should not see "Add Your Posts to dashboard"
 
   @javascript @wip @failing
- Scenario: Add Issue queue statistics
+  Scenario: Add Issue queue statistics
     And I follow "Your Dashboard"
     When I click "Add a block"
     And I click "Project issue: Issue queue statistics"

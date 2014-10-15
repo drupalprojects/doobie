@@ -14,13 +14,13 @@ Feature: Your Project Tab
     And I am on "project/user"
 
   @javascript @failing
- Scenario: See issues on in the project table
+  Scenario: See issues on in the project table
     Given a new "full" "Module project" issue
     When I visit "/project/user"
     Then I should see the random "issue title" text
 
   @failing
- Scenario: View the links and count of records on the page
+  Scenario: View the links and count of records on the page
     And I am on "/project/user"
     Then I should see the following <links>
       | links             |
@@ -35,22 +35,22 @@ Feature: Your Project Tab
     And I should see at least "1" record in "Project Issues" table
 
   @failing
- Scenario: Visit link from Issue Links column for Projects
+  Scenario: Visit link from Issue Links column for Projects
     When I click the "View" link for the new project
     Then I should see the project name
 
   @failing
- Scenario: Visit Search link from Issue Links column for Projects
+  Scenario: Visit Search link from Issue Links column for Projects
     When I click the "Search" link for the new project
     Then I should see the project name
 
   @failing
- Scenario: Visit Create link from Issue Links column for Projects
+  Scenario: Visit Create link from Issue Links column for Projects
     When I click the "Create" link for the new project
     Then I should see the project name
 
   @failing
- Scenario: Visit Edit link from Project Links column for Projects
+  Scenario: Visit Edit link from Project Links column for Projects
     When I click the "Edit" link for the new project
     Then I should see the project name
 
@@ -65,17 +65,17 @@ Feature: Your Project Tab
 #    Then I should see at least "1" record in "Project Issues" table
 
   @wip @failing
- Scenario: Visit project link from in Project Issues table
+  Scenario: Visit project link from in Project Issues table
     When I click the "Project" link for the new project
     Then I should see the project name
 
   @wip @failing
- Scenario: Visit Summary link from in Project Issues table
+  Scenario: Visit Summary link from in Project Issues table
     When I click the "Summary" link for the new project
     Then I should see the project name
 
   @failing
- Scenario: Visit the feed link and view the contents
+  Scenario: Visit the feed link and view the contents
     When I click on the feed icon
     Then I should see at least "1" feed item
     And I should see the issue in the feed

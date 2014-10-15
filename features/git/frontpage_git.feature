@@ -8,7 +8,7 @@ Feature: See git activity on the front page
     Given I am on the homepage
 
   @gitrepo @clean_data @timeout @smoke @local @cache @api @failing
- Scenario: Create sample data, push commits and view the commits on the homepage
+  Scenario: Create sample data, push commits and view the commits on the homepage
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |

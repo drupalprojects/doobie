@@ -116,9 +116,9 @@ Feature: View home page header
       | Drupal Homepage |
       | Your Dashboard  |
     And I should see the following <links> in "bottom header" area
-      | links                  |
+      | links                     |
       | Logged in as Trusted User |
-      | Log out                |
+      | Log out                   |
 
   Examples:
     | page           |

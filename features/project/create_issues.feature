@@ -5,7 +5,7 @@ Feature: Drupal Create Issues
   I want create an issue
 
   @javascript @failing
- Scenario: Create an issue from the main issues page
+  Scenario: Create an issue from the main issues page
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -18,13 +18,13 @@ Feature: Drupal Create Issues
     And I fill in "Title" with random text
     And I fill in "Issue summary" with random text
     And I select the following <fields> with <values>
-      | fields    | values     |
-      | Version   | 7.x-1.4    |
-      | Component | Code       |
-      | Category  | Task       |
-      | Priority  | Normal     |
-      | Assigned  | Trusted User  |
-      | Status    | Needs work |
+      | fields    | values       |
+      | Version   | 7.x-1.4      |
+      | Component | Code         |
+      | Category  | Task         |
+      | Priority  | Normal       |
+      | Assigned  | Trusted User |
+      | Status    | Needs work   |
     And I press "Save"
     Then I should see "has been created"
 
@@ -37,13 +37,13 @@ Feature: Drupal Create Issues
     And I am on "/project/issues/achievements"
     When I follow "Create a new issue"
     And I select the following <fields> with <values>
-      | fields    | values     |
-      | Version   | 7.x-1.4    |
-      | Component | Code       |
-      | Category  | Task       |
-      | Priority  | Normal     |
-      | Assigned  | Trusted User  |
-      | Status    | Needs work |
+      | fields    | values       |
+      | Version   | 7.x-1.4      |
+      | Component | Code         |
+      | Category  | Task         |
+      | Priority  | Normal       |
+      | Assigned  | Trusted User |
+      | Status    | Needs work   |
     And I fill in "Title" with random text
     And I fill in "Issue summary" with random text
     And I press "Save"

@@ -17,8 +17,8 @@ Feature: Case studies moderation
 
   Scenario: Admin user can feature other people's case study
     Given users:
-      | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | name                | pass     | mail                                    | roles         |
+      | Trusted User        | password | ryan+siteuser@association.drupal.org    | Not a spammer |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Trusted User"
     And I visit "/node/add/casestudy"
@@ -35,8 +35,8 @@ Feature: Case studies moderation
 
   Scenario: Admin user can hide a case study
     Given users:
-      | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | name                | pass     | mail                                    | roles         |
+      | Trusted User        | password | ryan+siteuser@association.drupal.org    | Not a spammer |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Trusted User"
     And I visit "/node/add/casestudy"
@@ -52,11 +52,11 @@ Feature: Case studies moderation
     And I visit "/case-studies/hidden"
     Then I should see the random "Project name" text
 
- @clean_data
+  @clean_data
   Scenario: Admin user can put case study on community showcase
     Given users:
-      | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | name                | pass     | mail                                    | roles         |
+      | Trusted User        | password | ryan+siteuser@association.drupal.org    | Not a spammer |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
 
     And I am logged in as "Trusted User"

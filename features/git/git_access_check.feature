@@ -11,7 +11,7 @@ Feature: Verify git access
     And I am logged in as "Git Vetted User"
 
   @gitrepo @failing
- Scenario: Create a sandbox project and initialize repo
+  Scenario: Create a sandbox project and initialize repo
     When I visit "/node/add/project-module"
     And I create a "sandbox" project
     And I see project data
@@ -19,7 +19,7 @@ Feature: Verify git access
     Then I should be able to initialize the repository
 
   @failing
- Scenario: Disagree to git access agreement
+  Scenario: Disagree to git access agreement
     When I follow "Edit"
     And I click "Git access"
     And I uncheck the box "I agree to these terms"
@@ -27,14 +27,14 @@ Feature: Verify git access
     Then I should see the text "You will not be able to use Git"
 
   @gitrepo @dependent @clean_data @failing
- Scenario: Clone repo and push to repo as non-git user
+  Scenario: Clone repo and push to repo as non-git user
     When I am on the project page
     And I follow "Version control"
     And I clone the repo
     Then I should not be able to push a commit to the repository
 
   @failing
- Scenario: Agree git access agreement - Reset to original
+  Scenario: Agree git access agreement - Reset to original
     When I follow "Edit"
     And I click "Git access"
     And I check the box "I agree to these terms"

@@ -5,7 +5,7 @@ Feature: Create a project
   I need to be able to create a project
 
   @failing
- Scenario: Can choose between sandbox and full project
+  Scenario: Can choose between sandbox and full project
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -40,7 +40,7 @@ Feature: Create a project
 
   # See Issue 2035755 re: use of labels
   @clean_data @javascript @failing
- Scenario: Create a sandbox project
+  Scenario: Create a sandbox project
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -82,7 +82,7 @@ Feature: Create a project
 
 #Probably git vetted user permissions
   @failing
- Scenario Outline: Create each project type
+  Scenario Outline: Create each project type
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -99,7 +99,7 @@ Feature: Create a project
     | /node/add/project-theme        |
 
   @failing
- Scenario Outline: Cannot create full projects for Drupal*
+  Scenario Outline: Cannot create full projects for Drupal*
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -114,7 +114,7 @@ Feature: Create a project
     | /node/add/project-drupalorg | Drupal.org  |
 
   @failing
- Scenario Outline: Create Drupal* sandbox projects
+  Scenario Outline: Create Drupal* sandbox projects
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |

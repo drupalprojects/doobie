@@ -13,12 +13,12 @@ Feature: Personal information in user profile
     And I wait until the page is loaded
 
   @failing
- Scenario: Fill all the fields and save
+  Scenario: Fill all the fields and save
     When I follow "Personal information"
     And I fill in the following:
       | Full name            | DrupalSiteUser                               |
       | First or given name  | Drupal                                       |
-      | Last name or surname | Trusted User                                    |
+      | Last name or surname | Trusted User                                 |
       | My website           | http://en.wikipedia.org/wiki/drupalsiteuser  |
       | Interests            | opensource                                   |
       | IRC nick             | drupalsiteuser                               |
@@ -26,7 +26,7 @@ Feature: Personal information in user profile
       | Facebook page        | http://www.facebook.com/drupalsiteuser       |
       | Twitter url          | http://twitter.com/drupalsiteuser            |
       | Google profile URL   | http://plus.google.com/109229333624640995186 |
-      | Bio                  | DrupTrusted Userser                             |
+      | Bio                  | DrupTrusted Userser                          |
     And I select the following <fields> with <values>
       | fields           | values  |
       | Languages spoken | Latvian |
@@ -58,7 +58,7 @@ Feature: Personal information in user profile
       | http://plus.google.com/109229333624640995186 |
 
   @failing
- Scenario Outline: Visit gender and country links
+  Scenario Outline: Visit gender and country links
     When I follow "View"
     And I follow "<link>"
     And I wait until the page is loaded
@@ -72,7 +72,7 @@ Feature: Personal information in user profile
     | Latvia     | profile/country/Latvia              | People who live in Latvia       |
 
   @failing
- Scenario Outline: Enter invalid values for fields that expect a url and save
+  Scenario Outline: Enter invalid values for fields that expect a url and save
     When I follow "Personal information"
     And I fill in "<field>" with "<value>"
     And I press "Save"

@@ -47,7 +47,7 @@ Feature: Learn about details of a (sandbox) project
       | Advanced patch workflow   |
 
   @anon @failing
- Scenario: Browse repository link
+  Scenario: Browse repository link
     Given I am on "/node/1765126"
     When I follow "Repository viewer"
     Then I should not see "Page not found"
@@ -70,7 +70,7 @@ Feature: Learn about details of a (sandbox) project
       | summary     |
 
   @anon @failing
- Scenario: View git messages
+  Scenario: View git messages
     Given I am on "/node/1765126"
     When I follow "View commits"
     Then I should see at least "5" commits

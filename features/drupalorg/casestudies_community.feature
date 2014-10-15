@@ -68,7 +68,7 @@ Feature: Community case studies
     Then I should not see "Page not found"
     And I should see that the tab "Community showcase" is highlighted
     And I should see the following <texts>
-      | texts                 |
-      | Why Drupal was chosen |
-      | Posted by                            |
-      | Why these modules/theme/distribution were chosen:  |
+      | texts                                             |
+      | Why Drupal was chosen                             |
+      | Posted by                                         |
+      | Why these modules/theme/distribution were chosen: |

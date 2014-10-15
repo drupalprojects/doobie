@@ -5,25 +5,25 @@ Feature: User log out
   I should be able to log out
 
   @failing
- Scenario: Log in as Trusted User and view links and texts
+  Scenario: Log in as Trusted User and view links and texts
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
     And I am logged in as "Trusted User"
     Then I should see the heading "Trusted User"
     And I should see the following <links>
-      | links                  |
-      | Your Dashboard         |
+      | links                     |
+      | Your Dashboard            |
       | Logged in as Trusted User |
-      | Log out                |
-      | Dashboard              |
-      | Your Posts             |
-      | Your Commits           |
-      | Your Issues            |
-      | Your Projects          |
-      | Profile                |
-      | View                   |
-      | Edit                   |
+      | Log out                   |
+      | Dashboard                 |
+      | Your Posts                |
+      | Your Commits              |
+      | Your Issues               |
+      | Your Projects             |
+      | Profile                   |
+      | View                      |
+      | Edit                      |
     And I should not see the following <links>
       | links                |
       | Log in / Register    |
@@ -44,10 +44,10 @@ Feature: User log out
     Then I should be on "/"
     And I should see the link "Log in / Register"
     And I should not see the following <links>
-      | links                  |
-      | Your Dashboard         |
+      | links                     |
+      | Your Dashboard            |
       | Logged in as Trusted User |
-      | Log out                |
+      | Log out                   |
 
   @anon
   Scenario: Visit /user url anonymously
@@ -65,15 +65,15 @@ Feature: User log out
       | Username |
       | Password |
     And I should not see the following <links>
-      | links                  |
-      | Your Dashboard         |
+      | links                     |
+      | Your Dashboard            |
       | Logged in as Trusted User |
-      | Log out                |
-      | Dashboard              |
-      | Your Posts             |
-      | Your Commits           |
-      | Your Issues            |
-      | Your Projects          |
-      | Profile                |
-      | View                   |
-      | Edit                   |
+      | Log out                   |
+      | Dashboard                 |
+      | Your Posts                |
+      | Your Commits              |
+      | Your Issues               |
+      | Your Projects             |
+      | Profile                   |
+      | View                      |
+      | Edit                      |

@@ -5,7 +5,7 @@ Feature: Drupal information in user profile
   I should be able to edit my profile and fill in Drupal information
 
   @failing
- Scenario: Trusted User sets Drupal information
+  Scenario: Trusted User sets Drupal information
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -18,7 +18,7 @@ Feature: Drupal information in user profile
     Then I should see "The changes have been saved"
 
   @dependent @failing
- Scenario: View Drupal information on profile page
+  Scenario: View Drupal information on profile page
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -31,7 +31,7 @@ Feature: Drupal information in user profile
     And I should see the random "Roles in working with Drupal" text
 
   @failing
- Scenario: Trusted User sets Drupal contribution checkboxes
+  Scenario: Trusted User sets Drupal contribution checkboxes
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -49,7 +49,7 @@ Feature: Drupal information in user profile
     And the "I give support on IRC" checkbox should be checked
 
   @dependent @failing
- Scenario: View checked Drupal contribution on profile page
+  Scenario: View checked Drupal contribution on profile page
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -64,7 +64,7 @@ Feature: Drupal information in user profile
       | I attended DrupalCon Boston 2008 |
 
   @dependent @timeout @failing
- Scenario Outline: Follow Drupal contribution links from profile page
+  Scenario Outline: Follow Drupal contribution links from profile page
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |

@@ -14,7 +14,7 @@ Feature: Home page preference functionality
     And I wait until the page loads
 
   @failing
- Scenario: Select dashboard as homepage and visit homepage by clicking drupal banner
+  Scenario: Select dashboard as homepage and visit homepage by clicking drupal banner
     When I select the radio button "Make this your Homepage"
     And I click the drupal banner in the header
     And I wait until the page loads

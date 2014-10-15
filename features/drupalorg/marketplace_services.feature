@@ -71,7 +71,7 @@ Feature: Browse Drupal services section
     And I should see the link "Show more"
 
   @failing
- Scenario Outline: Visit marketplace links and view corresponding headings
+  Scenario Outline: Visit marketplace links and view corresponding headings
     Given I am on "/drupal-services"
     When I follow "<link>"
     Then I should be on "<url>"

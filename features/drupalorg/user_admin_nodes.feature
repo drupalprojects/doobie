@@ -14,7 +14,7 @@ Feature: Administrative view of nodes by a user
     Then I should see "has been created"
 
   @dependent @failing
- Scenario: View the list of items
+  Scenario: View the list of items
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -38,7 +38,7 @@ Feature: Administrative view of nodes by a user
       | delete |
 
   @dependent @failing
- Scenario: Visit Delete link
+  Scenario: Visit Delete link
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -52,7 +52,7 @@ Feature: Administrative view of nodes by a user
     And I should see the link "Cancel"
 
   @dependent @flaky @javascript @failing
- Scenario: Select dropdown: This page
+  Scenario: Select dropdown: This page
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -68,7 +68,7 @@ Feature: Administrative view of nodes by a user
     And I should see the link "Cancel"
 
   @dependent @javascript @failing
- Scenario: Select dropdown: All pages
+  Scenario: Select dropdown: All pages
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -84,7 +84,7 @@ Feature: Administrative view of nodes by a user
     And I should see the link "Cancel"
 
   @dependent @javascript @failing
- Scenario: Select dropdown: None
+  Scenario: Select dropdown: None
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -98,7 +98,7 @@ Feature: Administrative view of nodes by a user
     Then none the checkboxes are selected
 
   @dependent @failing
- Scenario: Unpublish posts: Don't select
+  Scenario: Unpublish posts: Don't select
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -111,7 +111,7 @@ Feature: Administrative view of nodes by a user
     And I should not see "You selected the following"
 
   @dependent @javascript @failing
- Scenario: Unpublish posts: Cancel
+  Scenario: Unpublish posts: Cancel
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -126,7 +126,7 @@ Feature: Administrative view of nodes by a user
     Then I should not see "Performed"
 
   @dependent @javascript @failing
- Scenario: Delete node: Don't select
+  Scenario: Delete node: Don't select
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -140,7 +140,7 @@ Feature: Administrative view of nodes by a user
     And I should not see "Performed"
 
   @dependent @javascript @failing
- Scenario: Delete posts: Cancel
+  Scenario: Delete posts: Cancel
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -155,7 +155,7 @@ Feature: Administrative view of nodes by a user
     Then I should not see "Performed"
 
   @dependent @slow @javascript @local @failing
- Scenario: Unpublish posts: Confirm
+  Scenario: Unpublish posts: Confirm
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -170,7 +170,7 @@ Feature: Administrative view of nodes by a user
     And I should see "Performed"
 
   @dependent @slow @javascript @local @failing
- Scenario: Delete posts: Confirm
+  Scenario: Delete posts: Confirm
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |

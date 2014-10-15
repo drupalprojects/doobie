@@ -18,7 +18,7 @@ Feature: Page status block on documentation pages
     Then I should see "has been created"
 
   @javascript @manual @failing
- Scenario Outline: Edit a book page and set status
+  Scenario Outline: Edit a book page and set status
     When I follow a random book page
     And I wait until the page loads
     And I follow "Edit"

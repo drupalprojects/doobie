@@ -102,7 +102,7 @@ Feature: Get started with Drupal
     Then I should see book image under Drupal books
 
   @failing
- Scenario: Follow All documentation
+  Scenario: Follow All documentation
     Given I am on "/start"
     When I follow "All documentation"
     And I wait until the page is loaded

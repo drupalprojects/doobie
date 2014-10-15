@@ -5,7 +5,7 @@ Feature: Drupal hosting providers
   I should be able to see categorized lists of hosting providers
 
   @failing
- Scenario: View Shared hosting providers
+  Scenario: View Shared hosting providers
     Given I am on the homepage
     When I follow "Marketplace"
     And I follow "Hosting"
@@ -23,7 +23,7 @@ Feature: Drupal hosting providers
     And I should see at least "5" WebAds
 
   @failing
- Scenario: View Enterprise and Managed hosting providers
+  Scenario: View Enterprise and Managed hosting providers
     Given I am on "/hosting"
     When I follow "Enterprise & Managed"
     Then I should see the heading "Enterprise & Managed Hosting"
@@ -31,7 +31,7 @@ Feature: Drupal hosting providers
     And I should see at least "2" WebAds
 
   @failing
- Scenario: View Platform as a Service hosting providers
+  Scenario: View Platform as a Service hosting providers
     Given I am on "/hosting"
     When I follow "Platform as a Service"
     Then I should see the heading "Platform as a Service"
@@ -39,7 +39,7 @@ Feature: Drupal hosting providers
     And I should see at least "2" WebAds
 
   @failing
- Scenario Outline: Visit links on hosting page and view corresponding headings
+  Scenario Outline: Visit links on hosting page and view corresponding headings
     Given I am on "/hosting"
     When I follow "<link>"
     Then I should be on "<url>"

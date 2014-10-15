@@ -5,7 +5,7 @@ Feature: User contact form
   I should be able to enable or disable my contact form
 
   @failing
- Scenario: Trusted User enables contact form
+  Scenario: Trusted User enables contact form
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -17,7 +17,7 @@ Feature: User contact form
     And I should not see the link "Contact" in the "content" region
 
   @anon @failing
- Scenario: Anonymous user doesn't have access to contact form
+  Scenario: Anonymous user doesn't have access to contact form
     Given I am not logged in
     When I visit "/search/user"
     And I fill in "Enter your keywords" with "Trusted User"
@@ -26,7 +26,7 @@ Feature: User contact form
     Then I should not see the link "Contact" in the "content" region
 
   @failing
- Scenario: Git user accesses Trusted User's contact form and sends message
+  Scenario: Git user accesses Trusted User's contact form and sends message
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |
@@ -43,9 +43,9 @@ Feature: User contact form
       | Posts   |
       | Commits |
     And I see the following <links>
-      | links     |
-      | View      |
-      | Contact   |
+      | links        |
+      | View         |
+      | Contact      |
       | Trusted User |
     And I see the following <texts>
       | texts               |
@@ -59,7 +59,7 @@ Feature: User contact form
     Then I should see "Your message has been sent"
 
   @failing
- Scenario: Trusted User disables contact form
+  Scenario: Trusted User disables contact form
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -70,7 +70,7 @@ Feature: User contact form
     Then I should see "The changes have been saved"
 
   @failing
- Scenario: Git user doesn't have access to Trusted User's contact form
+  Scenario: Git user doesn't have access to Trusted User's contact form
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |

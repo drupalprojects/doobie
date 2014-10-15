@@ -5,7 +5,7 @@ Feature: Visitor clones repositories
   I want to clone a sandbox repo
 
   @failing
- Scenario: Sandbox has a repo with code
+  Scenario: Sandbox has a repo with code
     Given I am at "/project/git_deploy"
     When I click "Version control"
     And I clone the repo

@@ -5,7 +5,7 @@ Feature: Work information in user profile
   I should be able to edit my profile and fill in work information
 
   @failing
- Scenario: Update work information
+  Scenario: Update work information
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -23,7 +23,7 @@ Feature: Work information in user profile
     Then I should see "The changes have been saved"
 
   @failing
- Scenario: View work information as Trusted User
+  Scenario: View work information as Trusted User
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -39,7 +39,7 @@ Feature: Work information in user profile
     And I should see the random "Company or organization size" text
 
   @failing
- Scenario Outline: Visit the links in work information
+  Scenario Outline: Visit the links in work information
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -57,7 +57,7 @@ Feature: Work information in user profile
     | Current company or organization | People who currently work for  |
 
   @failing
- Scenario: Reset work information
+  Scenario: Reset work information
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |

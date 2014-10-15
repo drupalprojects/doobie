@@ -16,7 +16,7 @@ Feature:  Verify handbook metadata is displayed correctly
     Then I should see "has been created"
 
   @dependent @failing
- Scenario: Edit the document as Git User
+  Scenario: Edit the document as Git User
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |
@@ -27,7 +27,7 @@ Feature:  Verify handbook metadata is displayed correctly
     Then I should see "has been updated"
 
   @dependent @failing
- Scenario: Edit the document as Git Vetted User
+  Scenario: Edit the document as Git Vetted User
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -38,7 +38,7 @@ Feature:  Verify handbook metadata is displayed correctly
     Then I should see "has been updated"
 
   @dependent @failing
- Scenario: Edit the document as Documentation Manager
+  Scenario: Edit the document as Documentation Manager
     Given users:
       | name                  | pass     | mail                                  | roles                   |
       | Documentation Manager | password | qa+docsmanager@association.drupal.org | Documentation moderator |
@@ -49,7 +49,7 @@ Feature:  Verify handbook metadata is displayed correctly
     Then I should see "has been updated"
 
   @dependent @failing
- Scenario: Edit the document as Document Creator
+  Scenario: Edit the document as Document Creator
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
@@ -60,7 +60,7 @@ Feature:  Verify handbook metadata is displayed correctly
     Then I should see "has been updated"
 
   @dependent @failing
- Scenario: Edit the document again as Git User
+  Scenario: Edit the document again as Git User
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |
@@ -71,7 +71,7 @@ Feature:  Verify handbook metadata is displayed correctly
     Then I should see "has been updated"
 
   @dependent @failing
- Scenario: Edit the document as Administrative User user
+  Scenario: Edit the document as Administrative User user
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -82,7 +82,7 @@ Feature:  Verify handbook metadata is displayed correctly
     Then I should see "has been updated"
 
   @dependent @failing
- Scenario: Follow revisions tab and compare last updated date
+  Scenario: Follow revisions tab and compare last updated date
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -92,7 +92,7 @@ Feature:  Verify handbook metadata is displayed correctly
     Then the "last updated date" should match the latest revision
 
   @dependent @failing
- Scenario: Follow revisions tab and view created user and created time
+  Scenario: Follow revisions tab and view created user and created time
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -103,7 +103,7 @@ Feature:  Verify handbook metadata is displayed correctly
     And the "created date" should match the first revision
 
   @clean_data @timeout @dependent @failing
- Scenario: Edited usernames will be the latest four entries from revision tab and it doesn't include creator username or duplicates of the latest editors
+  Scenario: Edited usernames will be the latest four entries from revision tab and it doesn't include creator username or duplicates of the latest editors
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |

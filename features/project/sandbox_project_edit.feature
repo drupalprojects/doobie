@@ -5,7 +5,7 @@ Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
   I should not be able to see the Releases tab, Administer releases permissions and Release links and not be able to edit the Project Short Name
 
   @failing
- Scenario: Create a sample sandbox project
+  Scenario: Create a sample sandbox project
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -18,7 +18,7 @@ Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
     Then I should see at least "1" record
 
   @failing
- Scenario: Sandbox Project edit page doesn't have Releases Tab and editable Project Short Name
+  Scenario: Sandbox Project edit page doesn't have Releases Tab and editable Project Short Name
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -29,7 +29,7 @@ Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
     And I should see that the project short name is readonly
 
   @failing
- Scenario: Administer Releases column doesn't exist in maintainers table
+  Scenario: Administer Releases column doesn't exist in maintainers table
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -40,7 +40,7 @@ Feature: Check the Releases Tab and Project Short Name on Edit Sandbox Project
     Then I should not see "Administer releases"
 
   @clean_data @failing
- Scenario: Releases links don't exist on Sandbox project main page
+  Scenario: Releases links don't exist on Sandbox project main page
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |

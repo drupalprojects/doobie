@@ -5,7 +5,7 @@ Feature: Book listing content type
   I should be able to create a book listing page
 
   @anon @failing
- Scenario: Anyonymous users can't create book listings
+  Scenario: Anyonymous users can't create book listings
     When I am on "/node/add/book-listing"
     Then the response status code should be 403
 
@@ -78,7 +78,7 @@ Feature: Book listing content type
     Then I should not see the random "Title" link
 
   @dependent @javascript @failing
- Scenario: Publish the book listing as admin
+  Scenario: Publish the book listing as admin
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -93,7 +93,7 @@ Feature: Book listing content type
     Then I should see the random "Title" link
 
   @dependent @failing
- Scenario: Authenticated users can't edit other's book listings
+  Scenario: Authenticated users can't edit other's book listings
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |
@@ -104,14 +104,14 @@ Feature: Book listing content type
     And I should not see the link "Edit"
 
   @dependent @failing
- Scenario: Once book listing is edited by admin and published - it should appear in the list
+  Scenario: Once book listing is edited by admin and published - it should appear in the list
     Given I am on the homepage
     When I visit "/books"
     Then I should see the random "Title" link
     And I should see the heading "Marketplace"
 
   @dependent @failing
- Scenario: Delete the listing once testing is done
+  Scenario: Delete the listing once testing is done
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |

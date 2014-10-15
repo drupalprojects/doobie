@@ -11,7 +11,7 @@ Feature: Verify projects and commits summary in user profile page
     And I am logged in as "Git Vetted User"
 
   @gitrepo @failing
- Scenario: Create a sandbox project and initialize repo
+  Scenario: Create a sandbox project and initialize repo
     When I visit "/node/add/project-module"
     And I create a "sandbox" project
     And I see project data
@@ -21,7 +21,7 @@ Feature: Verify projects and commits summary in user profile page
     Then I should see "Setting up repository for the first time"
 
   @gitrepo @dependent @failing
- Scenario: Commit to the above sandbox project and view the commits
+  Scenario: Commit to the above sandbox project and view the commits
     When I visit the recent sandbox
     And I follow "Version control"
     And I clone the repo
@@ -31,7 +31,7 @@ Feature: Verify projects and commits summary in user profile page
     And I should see "2" commits for the project
 
   @gitrepo @dependent @clean_data @failing
- Scenario: Promote the sandbox project, commit and view the commits
+  Scenario: Promote the sandbox project, commit and view the commits
     When I visit the project page
     And I promote the project
     And I follow "Version control"
@@ -42,7 +42,7 @@ Feature: Verify projects and commits summary in user profile page
     And I should see "4" commits for the project
 
   @gitrepo @clean_data @failing
- Scenario: Create a full project, commit and view the commits
+  Scenario: Create a full project, commit and view the commits
     When I visit "/node/add/project-module"
     And I create a "full" project
     And I see project data

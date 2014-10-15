@@ -11,7 +11,7 @@ Feature: Visitor views issue queue for a project
     And I should see "Last updated" sorted in "ascending" order
 
   @clean_data @failing
- Scenario: No issues exist in new project
+  Scenario: No issues exist in new project
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |

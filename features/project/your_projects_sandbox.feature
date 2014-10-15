@@ -14,23 +14,23 @@ Feature: Your Project Tab
     And I am on "project/user"
 
   @failing
- Scenario: View the records in Sandbox Projects table
+  Scenario: View the records in Sandbox Projects table
     When I click the "Create" link for the new project
     And I create a new issue
     And I visit "/project/user"
     Then I should see at least "1" record in "Project Issues" table
 
   @failing
- Scenario: Visit View link from Issue Links column for Sandbox Project Table
+  Scenario: Visit View link from Issue Links column for Sandbox Project Table
     When I click the "View" link for the new project
     Then I should see the project name
 
   @failing
- Scenario: Visit Search link from Issue Links column for Sandbox Project Table
+  Scenario: Visit Search link from Issue Links column for Sandbox Project Table
     When I click the "Search" link for the new project
     Then I should see the project name
 
   @failing
- Scenario: Visit Edit link from Project Links column for Sandbox Project Table
+  Scenario: Visit Edit link from Project Links column for Sandbox Project Table
     When I click the "Edit" link for the new project
     Then I should see the project name

@@ -11,13 +11,13 @@ Feature: Add additional maintainers with appropriate permissions
     And I am logged in as "Git Vetted User"
 
   @failing
- Scenario: Create a new project
+  Scenario: Create a new project
     And I am at "/node/add/project-distribution"
     When I create a "sandbox" project
     Then I should see project data
 
   @dependent @failing
- Scenario: View texts and links on maintainers tab
+  Scenario: View texts and links on maintainers tab
     When I am on the Maintainers tab
     Then I should see the following <texts>
       | texts                  |
@@ -37,14 +37,14 @@ Feature: Add additional maintainers with appropriate permissions
       | git vetted user |
 
   @dependent @failing
- Scenario: Add a maintainer: Invalid maintainer name
+  Scenario: Add a maintainer: Invalid maintainer name
     Given I am on the Maintainers tab
     When I enter "git user test user name" for field "Maintainer user name"
     And I press "Update"
     Then I should see "is not a valid user on this site"
 
   @dependent @failing
- Scenario: Add a maintainer: Valid maintainer name
+  Scenario: Add a maintainer: Valid maintainer name
     Given I am on the Maintainers tab
     When I enter "git user" for field "Maintainer user name"
     And I press "Update"
@@ -53,14 +53,14 @@ Feature: Add additional maintainers with appropriate permissions
     And I should see the link "git user"
 
   @dependent @failing
- Scenario: Add a maintainer: Existing maintainer name
+  Scenario: Add a maintainer: Existing maintainer name
     Given I am on the Maintainers tab
     When I enter "git user" for field "Maintainer user name"
     And I press "Update"
     Then I should see "is already a maintainer of this project"
 
   @dependent @failing
- Scenario: Delete a maintainer
+  Scenario: Delete a maintainer
     Given I am on the Maintainers tab
     When I follow "delete" for the maintainer "git user"
     And I press "Delete"
@@ -68,7 +68,7 @@ Feature: Add additional maintainers with appropriate permissions
     And I should see "as a maintainer"
 
   @dependent @failing
- Scenario: Add a maintainer: Valid maintainer name
+  Scenario: Add a maintainer: Valid maintainer name
     Given I am on the Maintainers tab
     When I enter "git user" for field "Maintainer user name"
     And I press "Update"
@@ -77,7 +77,7 @@ Feature: Add additional maintainers with appropriate permissions
     And I should see the link "git user"
 
   @dependent @failing
- Scenario: Assign permissions to a maintainer
+  Scenario: Assign permissions to a maintainer
     Given I am on the Maintainers tab
     When I assign the following <permissions> to the maintainer "git user"
       | permissions     |
@@ -89,7 +89,7 @@ Feature: Add additional maintainers with appropriate permissions
     Then I should see "Maintainer permissions updated"
 
   @dependent @failing
- Scenario: Remove permissions from a maintainer
+  Scenario: Remove permissions from a maintainer
     Given I am on the Maintainers tab
     When I unassign the following <permissions> from the maintainer "git user"
       | permissions     |
@@ -101,7 +101,7 @@ Feature: Add additional maintainers with appropriate permissions
     Then I should see "Maintainer permissions updated"
 
   @dependent @clean_data @failing
- Scenario: Create a new issue is available for owner
+  Scenario: Create a new issue is available for owner
     Given I am on the Maintainers tab
     When I follow "total"
     Then I should see the link "Create a new issue"

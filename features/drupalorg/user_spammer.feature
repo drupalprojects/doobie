@@ -5,7 +5,7 @@ Feature: Remove default post speed throttle
   I want allow known users to post content as fast as they like
 
   @failing
- Scenario: View link on user profile
+  Scenario: View link on user profile
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -14,11 +14,11 @@ Feature: Remove default post speed throttle
     Then I should see the link "revoke role Not a spammer"
 
   @failing
- Scenario: Assign user admin role
+  Scenario: Assign user admin role
     Given users:
-      | name                | pass     | mail                                    | roles         |
-      | Administrative User | password | qa+administrator@association.drupal.org | administrator |
-      | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
+      | name                | pass     | mail                                    | roles           |
+      | Administrative User | password | qa+administrator@association.drupal.org | administrator   |
+      | Git Vetted User     | password | qa+gitvetted@association.drupal.org     | Git vetted user |
     And I am logged in as "Administrative User"
     And I visit "/user/1123222/edit"
     And I check "user administrator"
@@ -30,7 +30,7 @@ Feature: Remove default post speed throttle
     And I should see "revoke role Not a spammer"
 
   @failing
- Scenario: Assign "spam fighter"
+  Scenario: Assign "spam fighter"
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |

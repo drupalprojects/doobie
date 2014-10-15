@@ -5,7 +5,7 @@ Feature: Find Drupal service provider in the Marketplace
   I should be able to see the list of service providers and filter it
 
   @failing
- Scenario: Expand main category and view subcategories
+  Scenario: Expand main category and view subcategories
     Given I am on "/drupal-services"
     When I expand the category "Services"
     And I expand the category "Sectors"

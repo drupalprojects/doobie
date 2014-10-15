@@ -11,7 +11,7 @@ Feature: Regular users should not be able to post a topic in Newsletters subforu
     And I am logged in as "Trusted User"
 
   @failing
- Scenario: Add new forum topic from Newsletters forum page
+  Scenario: Add new forum topic from Newsletters forum page
     And I am on "/forum"
     And I follow "Newsletters"
     When I follow "Add new Forum topic"

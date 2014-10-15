@@ -5,7 +5,7 @@ Feature: Manage development releases
   I should be able to create a branch and development release
 
   @javascript @failing
- Scenario: Add git vetted user as maintainer
+  Scenario: Add git vetted user as maintainer
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -31,7 +31,7 @@ Feature: Manage development releases
     Then I should see the branch in the dropdown "Version to work from"
 
   @dependent @git_branch @failing
- Scenario: Create a release for the above branch
+  Scenario: Create a release for the above branch
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |

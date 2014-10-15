@@ -11,7 +11,7 @@ Feature: Create new forum topic as a regular Trusted User
     And I am logged in as "Trusted User"
 
   @failing
- Scenario: View the forum topic page
+  Scenario: View the forum topic page
     When I follow "Support"
     And I follow "Forums"
     Then I should be on "/forum"
@@ -20,7 +20,7 @@ Feature: Create new forum topic as a regular Trusted User
     And I should see at least "5" links in the "right sidebar" region
 
   @failing
- Scenario: Add a new forum topic with empty required fields
+  Scenario: Add a new forum topic with empty required fields
     And I visit "/forum"
     When I follow "Add new Forum topic"
     And I press "Save"

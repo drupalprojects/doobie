@@ -14,7 +14,7 @@ Feature: Moderate Marketplace listing
     Then I should see "has been created"
 
   @dependent @failing
- Scenario: Visit edit organization page as an admin
+  Scenario: Visit edit organization page as an admin
     Given I am logged in as the "site maintainer"
     When I visit the organization page
     And I follow "Edit"
@@ -29,7 +29,7 @@ Feature: Moderate Marketplace listing
     And I should see "Not listed for hosting" selected for "Hosting level"
 
   @dependent @failing
- Scenario: Edit organization page as an admin to promote to All providers
+  Scenario: Edit organization page as an admin to promote to All providers
     Given I am logged in as the "site maintainer"
     And I am on the organization page
     When I follow "Edit"
@@ -39,14 +39,14 @@ Feature: Moderate Marketplace listing
     And I should see "Regarding Services listing communicate with webmasters using this issue"
 
   @dependent @failing
- Scenario: View organization page in All providers list anonymously
+  Scenario: View organization page in All providers list anonymously
     Given I am not logged in
     When I follow "Marketplace"
     And I follow "All providers"
     Then I should see the organization link
 
   @dependent @failing
- Scenario: Edit organization page as an admin to promote to Featured providers
+  Scenario: Edit organization page as an admin to promote to Featured providers
     Given I am logged in as the "site maintainer"
     And I am on the organization page
     When I follow "Edit"
@@ -55,14 +55,14 @@ Feature: Moderate Marketplace listing
     Then I should see "has been updated"
 
   @dependent @failing
- Scenario: View organization page in Featured providers list anonymously
+  Scenario: View organization page in Featured providers list anonymously
     Given I am not logged in
     When I follow "Marketplace"
     And I follow "Featured providers"
     Then I should see the organization link
 
   @dependent @failing
- Scenario: Edit organization page as an admin to promote to Training section
+  Scenario: Edit organization page as an admin to promote to Training section
     Given I am logged in as the "site maintainer"
     And I am on the organization page
     When I follow "Edit"
@@ -73,7 +73,7 @@ Feature: Moderate Marketplace listing
     And I should see "Regarding Training listing communicate with webmasters using this issue"
 
   @dependent @clean_data @failing
- Scenario: View organization page in training section anonymously
+  Scenario: View organization page in training section anonymously
     Given I am not logged in
     When I follow "Marketplace"
     And I follow "Training"

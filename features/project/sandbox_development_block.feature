@@ -8,7 +8,7 @@ Feature: Sandbox Project Development Block
     Given I am on "/sandbox/eliza411/1663360"
 
   @failing
- Scenario: View links in Development block
+  Scenario: View links in Development block
     Then I should see the heading "Development"
     And I should see the following <links>
       | links                   |
@@ -20,12 +20,12 @@ Feature: Sandbox Project Development Block
     And I should not see the link "Report a security issue"
 
   @failing
- Scenario: View pending patches
+  Scenario: View pending patches
     When I follow "View pending patches"
     Then I should see the text "Search issues for"
 
   @failing
- Scenario: View Repository
+  Scenario: View Repository
     When I follow "Repository viewer"
     Then I should not see "Page not found"
     And I should see the following <links>
@@ -48,7 +48,7 @@ Feature: Sandbox Project Development Block
       | summary     |
 
   @failing
- Scenario: View Commits
+  Scenario: View Commits
     When I follow "View commits"
     Then I should see "Commits for"
     And I should see at least "2" records

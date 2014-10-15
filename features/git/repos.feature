@@ -11,7 +11,7 @@ Feature: Users create git repository
     And I am logged in as "Git User"
 
   @smoke @clean_data @gitrepo @failing
- Scenario: Git User creates a project
+  Scenario: Git User creates a project
     Given I am at "/node/add/project-module"
     When I create a "sandbox" project
     And I see project data

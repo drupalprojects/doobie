@@ -68,7 +68,7 @@ Feature: Mailing lists subscription and archives
     | Infrastructure | infrastructure  |
 
   @failing
- Scenario Outline: Follow mailman page and view the texts
+  Scenario Outline: Follow mailman page and view the texts
     Given I am on "/mailing-lists"
     When I click on link "mailman page" under section "<section>"
     Then I should see the following <texts>

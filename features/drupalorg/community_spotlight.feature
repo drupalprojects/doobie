@@ -16,7 +16,7 @@ Feature: Community Spotlight
     And I should not see "Access denied"
 
   @javascript @clean_data @failing
- Scenario: Admin can promote a community spotlight
+  Scenario: Admin can promote a community spotlight
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |

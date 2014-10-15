@@ -25,7 +25,7 @@ Feature: To view an individual commit
     And I should see the commit message
 
   @failing
- Scenario: Click link on commit information page
+  Scenario: Click link on commit information page
     Given I am on "/commitlog/commit/43232/65c565d3f47412b1d37a9e47afff66e0f7dc1b70"
     When I follow "65c565d"
     Then I should see "Added new module file"
@@ -38,7 +38,7 @@ Feature: To view an individual commit
     And I should see "Full name"
 
   @failing
- Scenario: Click link on file name
+  Scenario: Click link on file name
     Given I am on "/commitlog/commit/43232/a5b40fb414ad9eef9dbc8e9f1360fb3d50bfdf8e"
     When I follow "/bdd_sandbox_test_project_please_do_not_delete_this.info"
     Then I should see "blob"

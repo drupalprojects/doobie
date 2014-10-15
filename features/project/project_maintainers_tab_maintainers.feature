@@ -5,7 +5,7 @@ Feature: 'Administer maintainers' permission check
   I need to be able to add people to my project with appropriate permissions
 
   @failing
- Scenario: Create a new project
+  Scenario: Create a new project
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -15,7 +15,7 @@ Feature: 'Administer maintainers' permission check
     Then I should see project data
 
   @dependent @failing
- Scenario: Add a maintainer: Valid maintainer name
+  Scenario: Add a maintainer: Valid maintainer name
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -26,7 +26,7 @@ Feature: 'Administer maintainers' permission check
     Then I should see "added and permissions updated"
 
   @dependent @failing
- Scenario: Assign Administer maintainers permission to a maintainer
+  Scenario: Assign Administer maintainers permission to a maintainer
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -37,7 +37,7 @@ Feature: 'Administer maintainers' permission check
     Then I should see "Maintainer permissions updated"
 
   @dependent @failing
- Scenario: Log in as maintainer and see that if you can add a maintainer
+  Scenario: Log in as maintainer and see that if you can add a maintainer
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |
@@ -48,7 +48,7 @@ Feature: 'Administer maintainers' permission check
     Then I should see "added and permissions updated"
 
   @dependent @failing
- Scenario: Unassign Administer maintainers permission from a maintainer
+  Scenario: Unassign Administer maintainers permission from a maintainer
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
@@ -59,7 +59,7 @@ Feature: 'Administer maintainers' permission check
     Then I should see "Maintainer permissions updated"
 
   @dependent @clean_data @failing
- Scenario: Log in as maintainer and see that maintainers tab is accessible
+  Scenario: Log in as maintainer and see that maintainers tab is accessible
     Given users:
       | name     | pass     | mail                              | roles    |
       | Git User | password | qa+gituser@association.drupal.org | Git user |

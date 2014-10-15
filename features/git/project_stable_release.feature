@@ -5,7 +5,7 @@ Feature: Manage stable releases
   I should be able to create a tag and stable release
 
   @javascript @failing
- Scenario: Add git vetted user as maintainer
+  Scenario: Add git vetted user as maintainer
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
@@ -31,7 +31,7 @@ Feature: Manage stable releases
     Then I should see the tag in the dropdown "Git release tag or branch"
 
   @dependent @failing
- Scenario: Create a release for the above tag
+  Scenario: Create a release for the above tag
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |

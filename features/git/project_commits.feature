@@ -25,12 +25,12 @@ Feature: View the commits for a project
     And I should see "Commit"
 
   @failing
- Scenario: Click link to date
+  Scenario: Click link to date
     When I click on "date" of a commit
     And I should see "Commit"
 
   @wip @failing
- Scenario: Click link to user profile
+  Scenario: Click link to user profile
     When I click on "user name" of a commit
     Then I should see the following <texts>
       | texts                |
@@ -39,7 +39,7 @@ Feature: View the commits for a project
       | Personal information |
 
   @timeout @failing
- Scenario: Click link to repository
+  Scenario: Click link to repository
     When I click on "commit info" of a commit
     Then I should see the link "summary"
     And I should see the following <texts>

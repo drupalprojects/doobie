@@ -36,7 +36,7 @@ Feature: Case studies management
     Then I should see at least "10" records
 
   @failing
- Scenario Outline: Filter by Status
+  Scenario Outline: Filter by Status
     When I select "<option>" from "Status"
     And I press "Apply"
     Then I should see at least "1" record

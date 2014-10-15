@@ -12,7 +12,7 @@ Feature: Ways to get involved with the Drupal community
     And I should see the heading "Community Spotlight"
     And I should see the heading "Ways to Get Involved"
 
-    @failing
+  @failing
   Scenario: Getting involved guide
     Given I am on "/getting-involved"
     When I follow "Getting Involved Guide"
