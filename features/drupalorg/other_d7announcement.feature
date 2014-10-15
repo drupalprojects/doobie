@@ -1,4 +1,4 @@
-@other @anon @content
+@anon @content
 Feature: View Drupal 7 announcement page
   In order to learn more about Drupal 7
   As any user

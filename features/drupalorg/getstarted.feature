@@ -1,4 +1,4 @@
-@content @other @anon
+@content @anon
 Feature: Get started with Drupal
   In order to use Drupal
   As any user
