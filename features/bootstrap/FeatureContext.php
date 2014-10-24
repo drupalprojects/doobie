@@ -590,7 +590,7 @@ class FeatureContext extends DrupalContext {
     $element->fillField("Description", str_repeat(Random::name(20) . " ", 3));
     $element->pressButton('Save');
     // Allow some time for the repo to be created.
-    sleep(5);
+    sleep(15);
     if ($type == "full") {
       HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
     }
