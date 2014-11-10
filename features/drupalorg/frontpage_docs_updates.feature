@@ -18,6 +18,7 @@ Feature: Access document list updates from homepage
     And I see "has been created"
     And I follow "Drupal Homepage"
     And I follow "Docs Updates"
+    And I wait until the page loads
     Then I should see at least "5" links under the "Docs Updates" tab
     And I should see the random "Title" text
     And I should see "Submitted by Trusted User"
@@ -27,6 +28,7 @@ Feature: Access document list updates from homepage
     Given I am on the homepage
     And I follow "Docs Updates"
     When I follow "More documentation"
+    And I wait until the page loads
     Then I should see the heading "Community Documentation"
     And I should see the link "Understanding Drupal"
     And I should see the link "Installation Guide"
