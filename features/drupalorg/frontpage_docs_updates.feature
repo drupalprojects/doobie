@@ -4,19 +4,24 @@ Feature: Access document list updates from homepage
   As a Trusted User
   I should create a book page document
 
+  @javascript
   Scenario: Add a child page as Trusted User
     Given users:
       | name         | pass     | mail                                 | roles         |
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
     And I am logged in as "Trusted User"
     And I follow "Documentation"
+    And I wait until the page is loaded
     And I follow "Understanding Drupal"
+    And I wait until the page loads
     When I follow "Add child page"
+    And I wait until the page loads
     And I fill in "Title" with random text
     And I fill in "Body" with "Sample random behat testing body text of more than 10 words."
     And I press "Save"
     And I see "has been created"
     And I follow "Drupal Homepage"
+    And I wait until the page loads
     And I follow "Docs Updates"
     And I wait until the page loads
     Then I should see at least "5" links under the "Docs Updates" tab
