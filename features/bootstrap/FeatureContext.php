@@ -6663,22 +6663,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * Save site output to be viewed later when run in a continuous integration environment
-   * The web root and a directory writable by the behat user must be configured in behat.local.yml
-   * @AfterStep
-   */
-  public function generateFailedStepScreenshot(StepEvent $event) {
-    if ($event->hasException() && isset($this->environment['webpath'])) {
-      $html = $this->getSession()->getPage()->getContent(); //Here is the HTML of your failed step
-      $url = $this->getSession()->getCurrentUrl();
-      $filename = date('c') . '-' . Random::name(4) . '.html';
-      $filepath = $this->environment['webpath'] . '/html/' . $filename;
-      file_put_contents($filepath, $html);
-      print '<li class="failed">View: <a href="' . $this->environment['baseurl'] . '/html/' . urlencode($filename) . '">failure snapshot</a> <a href="' . $url . '"></a></li>';
-    }
-  }
-
-  /**
    * Click on the first result link on the search results page
    *
    * @Given /^I follow the first search result$/
@@ -7560,6 +7544,16 @@ class FeatureContext extends DrupalContext {
       new Then("I visit \"http://git7site.devdrupal.org/sites/default/kick-cache.php\""),
       new Then("I move backward one page"),
     );
+  }
+
+
+
+  /**
+   * @Given /^I accept the terms of service$/
+   */
+  public function iAcceptTheTermsOfService() {
+    // This uses the assertCheckBox from the drupal extension.
+    $this->checkOption('edit-field-terms-of-service-und');
   }
 
 }
