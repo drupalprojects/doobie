@@ -1,4 +1,4 @@
-@user @profile
+@profile
 Feature: Display additional information on my comments
   In order to add some information to all my comments
   As an authenticated user
@@ -15,6 +15,7 @@ Feature: Display additional information on my comments
     And I see the heading "Trusted User"
     And I see "Signature settings"
     When I fill in "Signature" with random text
+    And I accept the terms of service
     And I press "Save"
     Then I should see "The changes have been saved"
 
@@ -54,6 +55,7 @@ Feature: Display additional information on my comments
     And I follow "Profile"
     And I follow "Edit"
     When I fill in "Signature" with ""
+    And I accept the terms of service
     And I press "Save"
     Then I should see "The changes have been saved"
 
