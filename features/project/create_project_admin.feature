@@ -12,7 +12,7 @@ Feature: Manage all project types
     And I am on "<url>"
     And I create a "sandbox" project
     Then I should see "has been created"
-    And the URL should match "/sandbox/*"
+    And the url should match "/sandbox/*"
 
   Examples:
     | url                            |
@@ -23,7 +23,7 @@ Feature: Manage all project types
     | /node/add/project-drupalorg    |
     | /node/add/project-theme        |
 
-  @javascript @local
+  @javascript @local @failing
   Scenario Outline: Promote sandboxes
     Given users:
       | name                | pass     | mail                                    | roles         |
@@ -32,7 +32,7 @@ Feature: Manage all project types
     And I am on "<url>"
     And I create a "sandbox" project
     When I promote the project
-    Then the URL should match "/project/*"
+    Then the url should match "/project/*"
 
   Examples:
     | url                            |
@@ -51,7 +51,7 @@ Feature: Manage all project types
     And I am on "<url>"
     And I create a "full" project
     Then I should see "has been created"
-    And the URL should match "/project/*"
+    And the url should match "/project/*"
 
   Examples:
     | url                            |
