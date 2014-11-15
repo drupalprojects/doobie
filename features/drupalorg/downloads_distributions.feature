@@ -22,7 +22,7 @@ Feature: Find Drupal distributions
     | link                         |
     | Most Installed Distributions |
     | New Distributions            |
-    | Most Active Distribitions    |
+    | Most Active Distributions    |
 
   Scenario: Visit Distributions page
     Given I am on "/download"
