@@ -11,5 +11,6 @@ Feature: Community Search Documentation
     And I fill in "FAQ" for "Search Documentation"
     And I wait for "4" seconds
     And I follow "FAQ: Frequently Asked Questions"
+    #And I wait until the page loads
     Then I should see the heading "FAQ: Frequently Asked Questions"
     And I should be on "/documentation/modules/faq"
