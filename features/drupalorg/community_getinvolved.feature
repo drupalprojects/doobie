@@ -7,12 +7,12 @@ Feature: Ways to get involved with the Drupal community
   Scenario: Navigate to the Getting Involved page
     Given I am on the homepage
     When I follow "Community"
-    And I follow "Getting Involved"
+    And I follow "Getting Involved" in the "footer" region
     Then I should see the heading "Getting Involved"
     And I should see the heading "Community Spotlight"
     And I should see the heading "Ways to Get Involved"
 
-  @failing
+  @failing @content
   Scenario: Getting involved guide
     Given I am on "/getting-involved"
     When I follow "Getting Involved Guide"
@@ -21,10 +21,11 @@ Feature: Ways to get involved with the Drupal community
     And I should see the text "Ready to get involved"
     And I should see "Drupal is an open source project built by a team of volunteers"
 
-  @failing
+  @failing @javascript
   Scenario: Community spotlight
     Given I am on the homepage
-    When I follow "Getting Involved"
+    When I follow "Getting Involved" in the "footer" region
+    And I wait until the page loads
     Then I should see the heading "Community Spotlight"
     And I should see the link "Community Spotlight:"
     And I should see "Posted by"
@@ -32,7 +33,8 @@ Feature: Ways to get involved with the Drupal community
 
   Scenario: Right side block links
     Given I am on the homepage
-    When I follow "Getting Involved"
+    When I follow "Getting Involved" in the "footer" region
+    And I wait until the page loads
     Then I should see "Ways to Get Involved"
     And I should see the following <links>
       | links                 |
@@ -51,7 +53,7 @@ Feature: Ways to get involved with the Drupal community
   @failing
   Scenario: See drupal.org activity block
     Given I am on the homepage
-    When I follow "Getting Involved"
+    When I follow "Getting Involved" in the "footer" region
     Then the count of "people with Git accounts" should be greater than zero
     And the count of "Git commits this week" should be greater than zero
     And the count of "users on drupal.org" should be greater than zero
