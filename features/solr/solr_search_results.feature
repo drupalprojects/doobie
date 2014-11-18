@@ -113,6 +113,7 @@ Feature: Visitor searches site
     When I select "7.x" from "Core compatibility"
     And I wait until the page loads
     And I select "Full projects" from "Status"
+    And I wait until the page loads
     And I select "Author" from "Sort by"
     Then I should see "results containing the words: views"
     And I should see at least "25" records
