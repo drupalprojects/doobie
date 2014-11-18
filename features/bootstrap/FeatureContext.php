@@ -218,7 +218,31 @@ class FeatureContext extends DrupalContext {
     throw new Exception('Something* took too long to load at ' . $this->getSession()->getCurrentUrl());
   }
 
-
+  /**
+   * Helper function to sort the given array alphabetically
+   *
+   * @param $items
+   *    array An array of strings
+   * @return TRUE/FALSE
+   *    boolean Return true if all the items in array matches after comparing, false otherwise
+   */
+  private function checkSortByAlphabets($items) {
+    $origArr = $items;
+    $b = "";
+    // Sort alphabetically and do not maintain index association
+    usort($items,
+      function($items, $b){
+        return strcasecmp($items, $b);
+      }
+    );
+    // Now compare original array and sorted array
+    for ($i = 0; $i < sizeof($items); $i++) {
+      if ($origArr[$i] != $items[$i]) {
+        return FALSE;
+      }
+    }
+    return TRUE;
+  }
 
   /**
    * @} End of defgroup "helper functions".
@@ -534,7 +558,7 @@ class FeatureContext extends DrupalContext {
     }
     $element = $this->getSession()->getPage();
     if (!$element->hasField('Name')) {
-      throw new Exception("The field Name was not found on the page");
+      throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', 'Name');
     }
     $this->projectTitle = Random::name(16);
     HackyDataRegistry::set('project title', $this->projectTitle);
@@ -6739,31 +6763,7 @@ class FeatureContext extends DrupalContext {
     }
   }
 
-  /**
-   * Function to sort the given array alphabetically
-   *
-   * @param $items
-   *    array An array of strings
-   * @return TRUE/FALSE
-   *    boolean Return true if all the items in array matches after comparing, false otherwise
-   */
-  private function checkSortByAlphabets($items) {
-    $origArr = $items;
-    $b = "";
-    // Sort alphabetically and do not maintain index association
-    usort($items,
-      function($items, $b){
-        return strcasecmp($items, $b);
-      }
-    );
-    // Now compare original array and sorted array
-    for ($i = 0; $i < sizeof($items); $i++) {
-      if ($origArr[$i] != $items[$i]) {
-        return FALSE;
-      }
-    }
-    return TRUE;
-  }
+
 
   /**
    * Fills the field Revision log message with the given text or a random text
