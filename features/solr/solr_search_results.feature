@@ -92,6 +92,7 @@ Feature: Visitor searches site
     Given I am on "/search"
     And I search sitewide for "views"
     And I follow "Modules ("
+    And I wait until the page loads
     When I select "Event" from "Module categories"
     And I wait until the page loads
     And I select "6.x" from "Core compatibility"
