@@ -57,7 +57,6 @@ The tags below are used to identify where a feature (not an individual scenario)
 @marketplace
 @casestudies
 @about_do *
-@planet *
 @learn_drupal *
 @security
 @user
