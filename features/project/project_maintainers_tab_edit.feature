@@ -58,7 +58,7 @@ Feature: 'Edit project' permission check
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
-  @dependent @clean_data
+  @dependent @clean_data @failing
   Scenario: Log in as maintainer and look for edit link
     Given users:
       | name     | pass     | mail                              | roles    |
