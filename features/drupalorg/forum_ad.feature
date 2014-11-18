@@ -7,6 +7,7 @@ Feature: Display of advertisements in Hosting support and Paid services forums
   Scenario: Advertisement in services hosting support page
     Given I am on the homepage
     And I follow "Support"
+    And I wait until the page loads
     And I follow "Forums"
     And I wait until the page loads
     When I follow "Hosting support"
