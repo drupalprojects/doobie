@@ -10,6 +10,7 @@ Feature: Page status block on documentation pages
       | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
     And I am logged in as "Trusted User"
     And I follow "Documentation"
+    And I wait until the page is loaded
     And I follow "Understanding Drupal"
 
   Scenario: Create a book page
