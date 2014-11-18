@@ -101,7 +101,7 @@ Feature: List and search change records
   Scenario: Navigate through pagination links: Last page
     Given I am on "/list-changes/drupal?page=2"
     When I click on page "last"
-    Then I should see at least "10" records
+    Then I should see at least "1" record
     And I should see the following <texts>
       | texts    |
       | 1        |
