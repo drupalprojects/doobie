@@ -17,6 +17,10 @@ Feature: Handbook comment directions
     And I should see "Is your comment an addition, problem report, or example?"
     And I should see "Is your comment a question or request for support?"
 
+    # This story has to run as a javascript because the redirect after post includes
+    # the #anchor and drupal cannot figure out how to route when that is there.
+    # Libcurl is out of date on staging, which is what is causing that problem.
+  @javascript
   Scenario: Submit a comment
     When I follow "Add new comment"
     And I fill in "Subject" with random text
