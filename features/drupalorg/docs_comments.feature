@@ -23,6 +23,7 @@ Feature: Handbook comment directions
   @javascript
   Scenario: Submit a comment
     When I follow "Add new comment"
+    And I wait until the page loads
     And I fill in "Subject" with random text
     And I fill in "Comment" with random text
     And I press "Save"
