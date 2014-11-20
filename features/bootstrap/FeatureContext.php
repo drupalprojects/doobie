@@ -108,7 +108,7 @@ class FeatureContext extends DrupalContext {
    *
    * Every scenario gets its own context object.
    *
-   * @param array $parameters.
+   * @param array $parameters .
    *   Context parameters (set them up through behat.yml or behat.local.yml).
    */
   public function __construct(array $parameters) {
@@ -157,7 +157,6 @@ class FeatureContext extends DrupalContext {
   }
 
 
-
   /**
    * Helper function to fetch previously generated random strings stored by randomString().
    *
@@ -203,19 +202,20 @@ class FeatureContext extends DrupalContext {
    * A step to deal with slow loading pages
    */
 
-  public function spin ($lambda, $wait = 120) {
+  public function spin($lambda, $wait = 120) {
     for ($i = 0; $i < $wait; $i++) {
       try {
         if ($lambda($this)) {
-          return true;
+          return TRUE;
         }
       } catch (Exception $e) {
-             // do nothing
+        // do nothing
       }
-        sleep(1);
+      sleep(1);
     }
     $backtrace = debug_backtrace();
-    throw new Exception('Something* took too long to load at ' . $this->getSession()->getCurrentUrl());
+    throw new Exception('Something* took too long to load at ' . $this->getSession()
+        ->getCurrentUrl());
   }
 
   /**
@@ -231,7 +231,7 @@ class FeatureContext extends DrupalContext {
     $b = "";
     // Sort alphabetically and do not maintain index association
     usort($items,
-      function($items, $b){
+      function ($items, $b) {
         return strcasecmp($items, $b);
       }
     );
@@ -291,7 +291,9 @@ class FeatureContext extends DrupalContext {
           throw new Exception("No page was found");
         }
         // Make sure you are on the version control tab
-        if (strpos($this->getSession()->getCurrentUrl(), "git-instructions") === FALSE) {
+        if (strpos($this->getSession()
+              ->getCurrentUrl(), "git-instructions") === FALSE
+        ) {
           throw new Exception("The page should be on the Version control tab in order to clone the repo");
         }
         // Get the code block
@@ -322,7 +324,10 @@ class FeatureContext extends DrupalContext {
           if (isset($components['path'])) {
             // Remove username from path
             // if host is drupal.org. $components['path'] will have username too
-            $components['path'] = preg_replace(array("/(.+)@/", "/:sandbox/"), array("", "/sandbox"), $components['path']);
+            $components['path'] = preg_replace(array(
+                "/(.+)@/",
+                "/:sandbox/"
+              ), array("", "/sandbox"), $components['path']);
             $endpoint .= $components['path'];
           }
           $endpoint = $components['scheme'] . '://' . $endpoint;
@@ -336,25 +341,25 @@ class FeatureContext extends DrupalContext {
     HackyDataRegistry::set('git repo', $this->repo);
     // Get user data only if a user is logged in. Even anonymous user can clone.
     if ($user) {
-    	$userData = $this->getGitUserData($this->repo);
-    	$password = $userData['password'];
+      $userData = $this->getGitUserData($this->repo);
+      $password = $userData['password'];
     }
     $tempArr = explode(" ", $this->repo);
     $branch = "";
     foreach ($tempArr as $key => $value) {
       if (strpos($tempArr[$key], '--branch') !== FALSE) {
         // The branch name always follows --branch.
-        $branch = trim($tempArr[$key+1]);
+        $branch = trim($tempArr[$key + 1]);
       }
       if (strpos($tempArr[$key], ".git") !== FALSE) {
         $url = trim($tempArr[$key]);
         break;
       }
     }
-    if (!$branch || trim($branch) == "" ) {
+    if (!$branch || trim($branch) == "") {
       throw new Exception("Could not find the branch to use with the repository.");
     }
-    if (!$url || trim($url) == "" ) {
+    if (!$url || trim($url) == "") {
       throw new Exception("Could not find the url to the repository. Initialize the repository before cloning");
     }
     // Get the project folder name and make sure there is a clone
@@ -367,7 +372,7 @@ class FeatureContext extends DrupalContext {
       }
       HackyDataRegistry::set('project_short_name', $project);
     }
-    if(empty($project)) {
+    if (empty($project)) {
       throw new Exception("No project found to push");
     }
     $command = "./bin/gitwrapper clone $password $url $project $branch";
@@ -428,7 +433,8 @@ class FeatureContext extends DrupalContext {
     $element = $this->getSession()->getPage();
     $result = $element->hasContent($this->project);
     if ($result === FALSE) {
-      throw new Exception("The text " . $this->project . " was not found " . $this->getSession()->getCurrentUrl());
+      throw new Exception("The text " . $this->project . " was not found " . $this->getSession()
+          ->getCurrentUrl());
     }
   }
 
@@ -440,7 +446,8 @@ class FeatureContext extends DrupalContext {
     $element->fillField('edit-text', $searchterm);
     $submit = $element->findById('edit-submit');
     if (empty($submit)) {
-      throw new Exception('No submit button at ' . $this->getSession()->getCurrentUrl());
+      throw new Exception('No submit button at ' . $this->getSession()
+          ->getCurrentUrl());
     }
     $submit->click();
   }
@@ -453,7 +460,8 @@ class FeatureContext extends DrupalContext {
     $element->fillField('edit-search-block-form--2', $searchterm);
     $submit = $element->find('css', '#block-search-form .form-submit');
     if (empty($submit)) {
-      throw new Exception('No submit button at ' . $this->getSession()->getCurrentUrl());
+      throw new Exception('No submit button at ' . $this->getSession()
+          ->getCurrentUrl());
     }
     $submit->click();
   }
@@ -476,7 +484,7 @@ class FeatureContext extends DrupalContext {
 
     $element = $this->getSession()->getPage();
     if (empty($element)) {
-        throw new Exception('Page not found');
+      throw new Exception('Page not found');
     }
     if ($user != 'User account') {
       // Logout.
@@ -488,7 +496,8 @@ class FeatureContext extends DrupalContext {
     // Get the page title.
     $title_element = $element->findByID('page-title');
     if (empty($title_element)) {
-        throw new Exception ('No page title found at ' . $this->getSession()->getCurrentUrl());
+      throw new Exception ('No page title found at ' . $this->getSession()
+          ->getCurrentUrl());
     }
     $page_title = $title_element->getText();
 
@@ -498,7 +507,8 @@ class FeatureContext extends DrupalContext {
       $element->fillField('Password', $passwd);
       $submit = $element->findButton('Log in');
       if (empty($submit)) {
-        throw new Exception('No submit button at ' . $this->getSession()->getCurrentUrl());
+        throw new Exception('No submit button at ' . $this->getSession()
+            ->getCurrentUrl());
       }
       // Log in.
       $submit->click();
@@ -566,13 +576,15 @@ class FeatureContext extends DrupalContext {
     $element->fillField('Name', $this->projectTitle);
     $element->selectFieldOption('Maintenance status', 'Actively maintained'); //Actively maintained
     $field = $this->getSession()->getPage()->findField('Project type');
-    if(($field)) {
-  		if ($type == 'full') {
-		    $element->selectFieldOption('Project type', $type);
-        $element->fillField('Short name', strtolower($this->projectTitle));
-		  }
-      else if($type == 'sandbox') {
+    if (($field)) {
+      if ($type == 'full') {
         $element->selectFieldOption('Project type', $type);
+        $element->fillField('Short name', strtolower($this->projectTitle));
+      }
+      else {
+        if ($type == 'sandbox') {
+          $element->selectFieldOption('Project type', $type);
+        }
       }
     }
 
@@ -616,10 +628,12 @@ class FeatureContext extends DrupalContext {
     // Allow some time for the repo to be created.
     sleep(15);
     if ($type == "full") {
-      HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
+      HackyDataRegistry::set('project_url', $this->getSession()
+          ->getCurrentUrl());
     }
     elseif ($type == "sandbox") {
-      HackyDataRegistry::set('sandbox_url', $this->getSession()->getCurrentUrl());
+      HackyDataRegistry::set('sandbox_url', $this->getSession()
+          ->getCurrentUrl());
     }
   }
 
@@ -636,11 +650,13 @@ class FeatureContext extends DrupalContext {
       }
     }
     // Get the path of the current project
-    HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
+    HackyDataRegistry::set('project path', $this->getSession()
+        ->getCurrentUrl());
     if (!HackyDataRegistry::get('sandbox_url')) {
       $this->projectTitle = $element->getText();
       // If clone is called after visiting url instead of creating project
-      HackyDataRegistry::set('project_short_name', basename($this->getSession()->getCurrentUrl()));
+      HackyDataRegistry::set('project_short_name', basename($this->getSession()
+            ->getCurrentUrl()));
       HackyDataRegistry::set('project title', $this->projectTitle);
 
     }
@@ -669,7 +685,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iVisitTheRecentSandbox() {
     // Temporary function to allow us to get rid of the even more confusing one.
-    $dest =  HackyDataRegistry::get('sandbox_url');
+    $dest = HackyDataRegistry::get('sandbox_url');
     if (!$dest) {
       throw new Exception('No sandbox found to visit.');
     }
@@ -685,14 +701,16 @@ class FeatureContext extends DrupalContext {
   public function iInitializeTheRepository() {
     // Check for the `expect` library.
     $this->checkExpectLibraryStatus();
-    $element = $this->getSession()->getPage()->findAll('css', 'div.codeblock code');
+    $element = $this->getSession()
+      ->getPage()
+      ->findAll('css', 'div.codeblock code');
     if (empty($element)) {
       throw new Exception("Initialization of repository failed. The page did not contain any code block to run");
     }
     $fullCommand = "";
     foreach ($element as $code) {
       $command = trim($code->getText());
-      if  (strpos($command, "mkdir") !== FALSE) {
+      if (strpos($command, "mkdir") !== FALSE) {
         $mkdircmd = explode(' ', $command);
         $dirname = $mkdircmd[1];
         HackyDataRegistry::set('project_short_name', $dirname);
@@ -719,9 +737,9 @@ class FeatureContext extends DrupalContext {
     $process->run();
     if (!$process->isSuccessful() || stripos($process->getOutput(), "error") !== FALSE) {
       throw new Exception("Initializing repository failed - " .
-      "\nCommand: " . $fullCommand .
-      "\nError: " . $process->getErrorOutput() .
-      "\nOutput: " . $process->getOutput()
+        "\nCommand: " . $fullCommand .
+        "\nError: " . $process->getErrorOutput() .
+        "\nOutput: " . $process->getOutput()
       );
     }
   }
@@ -742,7 +760,7 @@ class FeatureContext extends DrupalContext {
    * TODO Place in the right defgroups
    */
 
-   /**
+  /**
    * @Given /^I should not see the following <texts>$/
    */
   public function iShouldNotSeeTheFollowingTexts(TableNode $table) {
@@ -750,22 +768,22 @@ class FeatureContext extends DrupalContext {
     $table = $table->getHash();
     foreach ($table as $key => $value) {
       $text = $table[$key]['texts'];
-      if(!$page->hasContent($text) === FALSE) {
+      if (!$page->hasContent($text) === FALSE) {
         throw new Exception("The text '" . $text . "' was found");
       }
     }
   }
 
   /**
-  * @Given /^I (?:should |)see the following <links>$/
-  */
+   * @Given /^I (?:should |)see the following <links>$/
+   */
   public function iShouldSeeTheFollowingLinks(TableNode $table) {
     $page = $this->getSession()->getPage();
     $table = $table->getHash();
     foreach ($table as $key => $value) {
       $link = $table[$key]['links'];
       $result = $page->findLink($link);
-      if(empty($result)) {
+      if (empty($result)) {
         throw new Exception("The link '" . $link . "' was not found");
       }
     }
@@ -780,7 +798,7 @@ class FeatureContext extends DrupalContext {
     foreach ($table as $key => $value) {
       $link = $table[$key]['links'];
       $result = $page->findLink($link);
-      if(!empty($result)) {
+      if (!empty($result)) {
         throw new Exception("The link '" . $link . "' was found");
       }
     }
@@ -895,8 +913,8 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The page '" . $pager . "' was not found");
     }
     $result = $page->find('css', $class);
-    if(empty($result)) {
-    throw new Exception("The page '" . $pager . "' was not found");
+    if (empty($result)) {
+      throw new Exception("The page '" . $pager . "' was not found");
     }
     $href = $result->getAttribute("href");
     $this->getSession()->visit($href);
@@ -933,8 +951,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Then /^I should see "([^"]*)" sorted in "([^"]*)" order$/
    */
-  public function iShouldSeeSortedInOrder($column, $order)
-  {
+  public function iShouldSeeSortedInOrder($column, $order) {
     $column_class = "";
     $count = 0;
     $date = FALSE;
@@ -953,7 +970,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The page does not have a table with column '" . $column . "'");
     }
     $count = 0;
-    $items = $page->findAll('css', '.view table.views-table tr td.'.$column_class);
+    $items = $page->findAll('css', '.view table.views-table tr td.' . $column_class);
     // make sure we have the data
     if (sizeof($items)) {
       // put all items in an array
@@ -1002,7 +1019,7 @@ class FeatureContext extends DrupalContext {
       }
       // if all indexs match, then count will be same as array size
       if ($count == sizeof($temp_arr)) {
-       return true;
+        return TRUE;
       }
       else {
         throw new Exception("The column '" . $column . "' is not sorted in " . $order . " order");
@@ -1026,7 +1043,7 @@ class FeatureContext extends DrupalContext {
       if ($time === FALSE) {
         $return = FALSE;
       }
-      elseif(is_numeric($time) && strlen($time) == 10) {
+      elseif (is_numeric($time) && strlen($time) == 10) {
         return $time;
       }
       else {
@@ -1053,16 +1070,21 @@ class FeatureContext extends DrupalContext {
     $result->click();
     // Use response headers to make sure we got the xml data and not html
     // sleep(5);
-    $this->spin(function($context) {
+    $this->spin(function ($context) {
       return ($context->getSession()->getResponseHeaders());
-    },5);
-     $responseHeaders = $this->getSession()->getResponseHeaders();
+    }, 5);
+    $responseHeaders = $this->getSession()->getResponseHeaders();
     // Use Goutte driver to get content to get the complete xml data and store it
     // temporarily in a variable for use by function iShouldSeeTheTextInTheFeed()
-    $this->xmlContent = $this->getSession()->getDriver()->getClient()->getResponse()->getContent();
+    $this->xmlContent = $this->getSession()
+      ->getDriver()
+      ->getClient()
+      ->getResponse()
+      ->getContent();
     if (strpos(array_pop($responseHeaders['content-type']), "application/rss+xml") === FALSE) {
       if (strpos($this->xmlContent, "<?xml version=") === FALSE && strpos($this->xmlContent, "<rss version=") === FALSE) {
-        throw new Exception("This page '" . $this->getSession()->getCurrentUrl() . "' does not provide xml data");
+        throw new Exception("This page '" . $this->getSession()
+            ->getCurrentUrl() . "' does not provide xml data");
       }
     }
   }
@@ -1070,7 +1092,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Then /^I should see the (?:issue|text )(?:|"([^"]*)") in the feed$/
    */
-  public function iShouldSeeTheTextInTheFeed($text = null) {
+  public function iShouldSeeTheTextInTheFeed($text = NULL) {
     if ($issue = HackyDataRegistry::get('issue title')) {
       $text = $issue;
     }
@@ -1098,13 +1120,13 @@ class FeatureContext extends DrupalContext {
       if ($count) {
         if ($match < $count) {
           throw new Exception('The feed contains less than ' . $count .
-           ' feed items');
+            ' feed items');
         }
       }
       // if count = 0, then no feeds should be found
       elseif ($match > 0) {
         throw new Exception('The feed contains more than ' . $count .
-         ' feed items');
+          ' feed items');
       }
     }
   }
@@ -1162,8 +1184,8 @@ class FeatureContext extends DrupalContext {
     // counts the number of rows in the view table
     $records = $this->getViewDisplayRows($element);
     if ($records == "" || sizeof($records) < $count) {
-        throw new Exception("The page (" . $this->getSession()->getCurrentUrl() .
-         ") has less than " . $count . " records");
+      throw new Exception("The page (" . $this->getSession()->getCurrentUrl() .
+        ") has less than " . $count . " records");
     }
   }
 
@@ -1174,41 +1196,42 @@ class FeatureContext extends DrupalContext {
     $element = $this->getSession()->getPage();
 
     // Get metadata block
-    $metadata = $element->find('css','#block-project-issue-issue-metadata');
-    if(empty($metadata)) {
-      throw new Exception ("The issue metadata block is not present on " . $this->getSession()->getCurrentUrl());
+    $metadata = $element->find('css', '#block-project-issue-issue-metadata');
+    if (empty($metadata)) {
+      throw new Exception ("The issue metadata block is not present on " . $this->getSession()
+          ->getCurrentUrl());
     }
 
     // Get rows
-    $rows = $metadata->findAll('css','.field');
+    $rows = $metadata->findAll('css', '.field');
 
-    if(empty($rows)) {
+    if (empty($rows)) {
       throw new Exception ("No rows present in the issue metadata block. Did the css selector change?");
     }
     foreach ($rows as $row) {
 
       // Get label
-      $label_row = $row->find('css','.field-label');
+      $label_row = $row->find('css', '.field-label');
       if (empty($label_row)) {
         continue; // No label on this row. Skip it.
       }
       $label_row = $label_row->getText();
 
       // Get value
-      if(strpos($label_row, $field) !== FALSE) {
-        $item_row = $row->find('css','.field-item');
+      if (strpos($label_row, $field) !== FALSE) {
+        $item_row = $row->find('css', '.field-item');
         if (empty($item_row)) {
           throw new Exception ('Item row not found. Did the css selector change?');
-      }
+        }
         $item_row = $item_row->getText();
-        if(strpos($item_row, $value) !== FALSE) {
+        if (strpos($item_row, $value) !== FALSE) {
           return; //We found what we need, exit.
         }
-        throw new Exception ("Value ". $value ." was not found near label ". $field);
+        throw new Exception ("Value " . $value . " was not found near label " . $field);
       }
     }
 
-    throw new Exception ("Label ". $field ." was not found");
+    throw new Exception ("Label " . $field . " was not found");
   }
 
   /**
@@ -1217,53 +1240,58 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeTheIssueStatus($status) {
 
     $element = $this->getSession()->getPage();
-    $metadata = $element->find('css','#block-project-issue-issue-metadata');
-    if(empty($metadata)) {
-      throw new Exception ("The issue metadata block is not present on " . $this->getSession()->getCurrentUrl());
+    $metadata = $element->find('css', '#block-project-issue-issue-metadata');
+    if (empty($metadata)) {
+      throw new Exception ("The issue metadata block is not present on " . $this->getSession()
+          ->getCurrentUrl());
     }
-   $status_row = $metadata->find('css', '.field-name-field-issue-status');
-    if(empty($status_row)) {
-      throw new Exception ("The issue status field is not present on " . $this->getSession()->getCurrentUrl());
+    $status_row = $metadata->find('css', '.field-name-field-issue-status');
+    if (empty($status_row)) {
+      throw new Exception ("The issue status field is not present on " . $this->getSession()
+          ->getCurrentUrl());
     }
     $status_value = $status_row->getText();
-    if($status_value != $status) {
-      throw new Exception ("The issue status is not set to ". $status ." on " . $this->getSession()->getCurrentUrl());
+    if ($status_value != $status) {
+      throw new Exception ("The issue status is not set to " . $status . " on " . $this->getSession()
+          ->getCurrentUrl());
     }
 
 
+  }
 
-}
   /**
    * @Then /^I should not see "([^"]*)" in the "([^"]*)" metadata$/
    */
   public function iShouldNoteSeeInTheMetadata($value, $field) {
     $element = $this->getSession()->getPage();
-    $metadata = $element->find('css','#block-project-issue-issue-metadata');
-    if(empty($metadata)) {
-      throw new Exception ("The issue metadata block is not present on " . $this->getSession()->getCurrentUrl());
+    $metadata = $element->find('css', '#block-project-issue-issue-metadata');
+    if (empty($metadata)) {
+      throw new Exception ("The issue metadata block is not present on " . $this->getSession()
+          ->getCurrentUrl());
     }
-    $rows = $element->findAll('css','.field-label-inline');
-    if(empty($rows)) {
-      throw new Exception ("No rows present in the issue metadata block on "  . $this->getSession()->getCurrentUrl());
+    $rows = $element->findAll('css', '.field-label-inline');
+    if (empty($rows)) {
+      throw new Exception ("No rows present in the issue metadata block on " . $this->getSession()
+          ->getCurrentUrl());
     }
     foreach ($rows as $row) {
-      $label_row = $row->find('css','.field-label')->getText();
-      if(strpos($label_row, $field) !== FALSE) {
-        $item_row = $row->find('css','.field-item')->getText();
-        if(strpos($item_row, $value) == FALSE) {
+      $label_row = $row->find('css', '.field-label')->getText();
+      if (strpos($label_row, $field) !== FALSE) {
+        $item_row = $row->find('css', '.field-item')->getText();
+        if (strpos($item_row, $value) == FALSE) {
           return; //We found what we need, exit.
         }
-        throw new Exception ("Value ". $value ." was found near label ". $field . "and it should not be.");
+        throw new Exception ("Value " . $value . " was found near label " . $field . "and it should not be.");
       }
     }
-    throw new Exception ("Label ". $field ." was not found");
+    throw new Exception ("Label " . $field . " was not found");
   }
 
   /**
    * Function to get the array of records from the current view listing
    * @param $page Object The page object to look into
    * @return $result Array An array of items
-  */
+   */
   private function getViewDisplayRows($page) {
     $result = "";
     $classes = array(
@@ -1306,9 +1334,12 @@ class FeatureContext extends DrupalContext {
    * @When /^I click on a case study$/
    */
   public function iClickOnACaseStudy() {
-    $result = $this->getSession()->getPage()->find('css', '.view-content .col-first a');
+    $result = $this->getSession()
+      ->getPage()
+      ->find('css', '.view-content .col-first a');
     if (empty($result)) {
-      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not have any case study");
+      throw new Exception("The page " . $this->getSession()
+          ->getCurrentUrl() . " does not have any case study");
     }
     $result->click();
   }
@@ -1322,7 +1353,7 @@ class FeatureContext extends DrupalContext {
     $curr_url = $this->getSession()->getCurrentUrl();
     $message = "The page " . $curr_url . " did not contain the specified texts";
     $region = $page->find('region', $region);
-        if (empty($region)) {
+    if (empty($region)) {
       throw new Exception("Right sidebar region was not found");
     }
     $nodes = $region->findAll('css', '.item-list a');
@@ -1339,16 +1370,16 @@ class FeatureContext extends DrupalContext {
       }
       // check for last element
       elseif ($position == "bottom") {
-        if($link != $categories[sizeof($categories) - 1]) {
+        if ($link != $categories[sizeof($categories) - 1]) {
           $error = 1;
         }
       }
       if ($error == 1) {
         $message = "The page " . $curr_url . " does not contain '" .
-        $link . "' in " . $position . " position";
+          $link . "' in " . $position . " position";
       }
       else {
-        return true;
+        return TRUE;
       }
     }
     throw new Exception($message);
@@ -1373,16 +1404,20 @@ class FeatureContext extends DrupalContext {
    * @When /^I select the following <fields> with <values>$/
    */
   public function iSelectTheFollowingFieldsWithValues(TableNode $table) {
-    $multiple = true;
+    $multiple = TRUE;
     $table = $table->getHash();
     foreach ($table as $key => $value) {
-      $select = $this->getSession()->getPage()->findField($table[$key]['fields']);
-      if(empty($select)) {
+      $select = $this->getSession()
+        ->getPage()
+        ->findField($table[$key]['fields']);
+      if (empty($select)) {
         throw new Exception("The page does not have the field with id|name|label|value '" . $table[$key]['fields'] . "'");
       }
       // if multiple is always true we get "value cannot be an array" error for single select fields
-      $multiple = $select->getAttribute('multiple') ? true : false;
-      $this->getSession()->getPage()->selectFieldOption($table[$key]['fields'], $table[$key]['values'], $multiple);
+      $multiple = $select->getAttribute('multiple') ? TRUE : FALSE;
+      $this->getSession()
+        ->getPage()
+        ->selectFieldOption($table[$key]['fields'], $table[$key]['values'], $multiple);
     }
   }
 
@@ -1393,11 +1428,11 @@ class FeatureContext extends DrupalContext {
    */
   public function iSelectFromProjectTypeOnCreateProjectPage($option) {
     $field = "project_type";
-    $check_category = false;
-    switch($option) {
+    $check_category = FALSE;
+    switch ($option) {
       case 'Modules':
         $id = 'edit-project-type-14';
-        $check_category = true;
+        $check_category = TRUE;
         break;
       case 'Themes':
         $id = 'edit-project-type-15';
@@ -1415,7 +1450,7 @@ class FeatureContext extends DrupalContext {
         $id = 'edit-project-type-13';
         break;
       default:
-        throw new Exception('The option: "' . $option .'" doesn\'t exist' );
+        throw new Exception('The option: "' . $option . '" doesn\'t exist');
         break;
     }
     $radio = $this->getSession()->getPage()->findById($id);
@@ -1437,8 +1472,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeUnder($text, $column) {
     $result = $this->checkTextInColumn($text, $column, 1);
-    if ($result)
+    if ($result) {
       throw new Exception($result);
+    }
   }
 
   /**
@@ -1446,9 +1482,10 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldNotSeeUnder($text, $column) {
     $result = $this->checkTextInColumn($text, $column, 0);
-    if ($result)
+    if ($result) {
       throw new Exception($result);
- }
+    }
+  }
 
   /**
    * Function to check whether a particular text is present in the column or not
@@ -1475,7 +1512,7 @@ class FeatureContext extends DrupalContext {
       }
       if ($class) {
         // get the column value of each row
-        $result = $page->findAll('css', '.view table.views-table tr td.'.$class);
+        $result = $page->findAll('css', '.view table.views-table tr td.' . $class);
         if (!empty($result)) {
           $text = strtolower($text);
           foreach ($result as $res) {
@@ -1496,10 +1533,12 @@ class FeatureContext extends DrupalContext {
             }
           }
           if ($check) {
-            if ($flag)
+            if ($flag) {
               $message = "The text '" . $text . "' was not found in all the rows of the column '" . $column . "'";
-            else
+            }
+            else {
               $message = "The text '" . $text . "' was found in atleast one row of the column '" . $column . "'";
+            }
           }
         }
         else {
@@ -1529,7 +1568,8 @@ class FeatureContext extends DrupalContext {
     $this->project_value = $value;
     // In order to close the autocomplete dropdown, otherwise button click does not work
     sleep(3);
-    $this->getSession()->executeScript("if (document.getElementById('autocomplete')) { document.getElementById('autocomplete').style.display = 'none'; }");
+    $this->getSession()
+      ->executeScript("if (document.getElementById('autocomplete')) { document.getElementById('autocomplete').style.display = 'none'; }");
   }
 
   /**
@@ -1551,7 +1591,7 @@ class FeatureContext extends DrupalContext {
           //$parent = $res->getParent()->getParent();
           // From parent row get the file hash column and its contents.
           $md5Hash = $parent->find('css', '.views-field-field-release-file-hash');
-          if(empty($md5Hash)) {
+          if (empty($md5Hash)) {
             throw new Exception('The CSS selector was not found');
           }
           // Set the temporary variable for use in "the md5 hash should match".
@@ -1567,13 +1607,13 @@ class FeatureContext extends DrupalContext {
           // If "gz" is requested, then check corresponding content type.
           if ($type == "gz") {
             if (strpos(array_pop($responseHeaders['content-type']), "application/x-gzip") === FALSE) {
-              throw new Exception("The file '" . $filename. "' was not downloaded");
+              throw new Exception("The file '" . $filename . "' was not downloaded");
             }
           }
           // If "zip" is requested, then check corresponding content type.
           elseif ($type == "zip") {
             if (strpos(array_pop($responseHeaders['content-type']), "application/zip") === FALSE) {
-              throw new Exception("The file '" . $filename. "' was not downloaded");
+              throw new Exception("The file '" . $filename . "' was not downloaded");
             }
           }
           // If any thing other than gz or zip is requested, throw error.
@@ -1582,15 +1622,15 @@ class FeatureContext extends DrupalContext {
           }
         }
         else {
-          throw new Exception("The file '" . $filename. "' was not downloaded");
+          throw new Exception("The file '" . $filename . "' was not downloaded");
         }
       }
       else {
-        throw new Exception("The link '" . $filename. "' was not found on the page");
+        throw new Exception("The link '" . $filename . "' was not found on the page");
       }
     }
     else {
-      throw new Exception("The link '" . $filename. "' was not found on the page");
+      throw new Exception("The link '" . $filename . "' was not found on the page");
     }
   }
 
@@ -1604,8 +1644,8 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-  * @Then /^I should see assorted links under "([^"]*)"$/
-  */
+   * @Then /^I should see assorted links under "([^"]*)"$/
+   */
   public function shouldSeeAssortedLinksUnder($category) {
     // find grid container
     $page = $this->getSession()->getPage();
@@ -1615,18 +1655,22 @@ class FeatureContext extends DrupalContext {
       throw new Exception('No categories found on the page.');
     }
     // loop through the grid to identify appropriate DIV
-    foreach ( $grids as $grid) {
+    foreach ($grids as $grid) {
       // check main category
-      if (is_object($h3 = $grid->find('css', 'h3')) &&  $h3->getText() == $category) {
+      if (is_object($h3 = $grid->find('css', 'h3')) && $h3->getText() == $category) {
         // find sub-category links
         $links = $grid->findAll('css', 'ul > li > a');
         if (!empty($links)) {
           //$visible = false;
-          foreach($links as $a) {
+          foreach ($links as $a) {
             // if visible
             if (!('display: none;' == $a->getParent()->getAttribute('style'))) {
               $text = $a->getText();
-              if (empty($text) || in_array($text, array('Show more', 'Show fewer'))) {
+              if (empty($text) || in_array($text, array(
+                    'Show more',
+                    'Show fewer'
+                  ))
+              ) {
                 continue;
               }
               // Check link text pattern: Eg: Development (49)
@@ -1653,17 +1697,17 @@ class FeatureContext extends DrupalContext {
     $temp_table = $table->getHash();
     $temp_array = array_keys($temp_table[0]);
     $resVal = $temp_array[0];
-    switch($resVal) {
+    switch ($resVal) {
       //To get the grid headings and switch to the headings
       case 'subcategories':
         $grid_path = 'div.grid-2';
-        $index  = 'subcategories';
+        $index = 'subcategories';
         $h_tag = 'h3';
         $grids = $page->findAll('css', $grid_path);
         $type_text = "subcategory";
         break;
       default:
-        throw new Exception('The option "' . $resVal .'" doesn\'t exist' );
+        throw new Exception('The option "' . $resVal . '" doesn\'t exist');
         break;
     }
     // find grid container
@@ -1671,22 +1715,24 @@ class FeatureContext extends DrupalContext {
       $table = $table->getHash();
       $arr_subcats = array();
       $arr_visiblecats = array();
-      if(!empty($temp_table)) {
-        foreach($temp_table as $subcat) {
+      if (!empty($temp_table)) {
+        foreach ($temp_table as $subcat) {
           $arr_subcats[] = $subcat[$index];
         }
         // loop through the grid to identify appropriate DIV
         foreach ($grids as $grid) {
           // check main category
-          if (is_object($head_tag = $grid->find('css', $h_tag)) &&  $head_tag->getText() == $category) {
+          if (is_object($head_tag = $grid->find('css', $h_tag)) && $head_tag->getText() == $category) {
             $links = $grid->findAll('css', 'ul > li > a');
             if (!empty($links)) {
               //$visible = false;
-              foreach($links as $a) {
+              foreach ($links as $a) {
                 // if visible
-                if (!('display: none;' == $a->getParent()->getAttribute('style'))) {
+                if (!('display: none;' == $a->getParent()
+                    ->getAttribute('style'))
+                ) {
                   // remove count with parenthasis
-                  if($text = trim(preg_replace('~\(.*?\)~', "", $a->getText()))) {
+                  if ($text = trim(preg_replace('~\(.*?\)~', "", $a->getText()))) {
                     $arr_visiblecats[] = $text;
                   }
                 }
@@ -1698,21 +1744,22 @@ class FeatureContext extends DrupalContext {
         //check presence of given subcategories in visible subcategories
         if (count($arr_np = array_diff($arr_subcats, $arr_visiblecats))) {
           $catcount = count($arr_np);
-          throw new Exception('The ' . $type_text . ((strlen($type_text) > 4) ? ($catcount == 1 ? 'y' : 'ies') : (($catcount == 1 ? '' : 's'))) . ': "' . ($np = implode('", "', $arr_np)).'" cannot be found.');
+          throw new Exception('The ' . $type_text . ((strlen($type_text) > 4) ? ($catcount == 1 ? 'y' : 'ies') : (($catcount == 1 ? '' : 's'))) . ': "' . ($np = implode('", "', $arr_np)) . '" cannot be found.');
         }
-      }else {
+      }
+      else {
         throw new Exception('"' . $resVal . '" are not given.');
       }
-    }else {
+    }
+    else {
       throw new Exception('"' . $resVal . '" are not given.');
     }
   }
 
   /**
-  * @Then /^I should not see the following <subcategories> under "([^"]*)"$/
-  */
-  public function iShouldNotSeeTheFollowingSubcategoriesUnder($category, TableNode $table)
-  {
+   * @Then /^I should not see the following <subcategories> under "([^"]*)"$/
+   */
+  public function iShouldNotSeeTheFollowingSubcategoriesUnder($category, TableNode $table) {
     // find grid container
     $page = $this->getSession()->getPage();
     $grids = $page->findAll('css', 'div.grid-2');
@@ -1720,22 +1767,24 @@ class FeatureContext extends DrupalContext {
       $table = $table->getHash();
       $arr_subcats = array();
       $arr_hiddencats = array();
-      if(!empty($table)) {
-        foreach($table as $subcat) {
+      if (!empty($table)) {
+        foreach ($table as $subcat) {
           $arr_subcats[] = $subcat['subcategories'];
         }
 
-        foreach ( $grids as $grid) {
+        foreach ($grids as $grid) {
           // check main category
-          if (is_object($h3 = $grid->find('css', 'h3')) &&  $h3->getText() == $category) {
+          if (is_object($h3 = $grid->find('css', 'h3')) && $h3->getText() == $category) {
             // find sub-category links
             $links = $grid->findAll('css', 'ul > li > a');
             if (!empty($links)) {
-              foreach($links as $a) {
+              foreach ($links as $a) {
                 // check the links are hidden
-                if (('display: none;' == $a->getParent()->getAttribute('style'))) {
-                // remove count with parenthasis
-                  if($text = trim(preg_replace('~\(.*?\)~', "", $a->getText()))) {
+                if (('display: none;' == $a->getParent()
+                    ->getAttribute('style'))
+                ) {
+                  // remove count with parenthasis
+                  if ($text = trim(preg_replace('~\(.*?\)~', "", $a->getText()))) {
                     $arr_hiddencats[] = $text;
                   }
                 }
@@ -1747,12 +1796,14 @@ class FeatureContext extends DrupalContext {
         //check presence of given subcategories in hidden subcategories
         if (count($arr_np = array_diff($arr_subcats, $arr_hiddencats))) {
           $catcount = count($arr_np);
-          throw new Exception('The subcategor' . ($catcount == 1 ? 'y' : 'ies') . ': "' . ($np = implode('", "', $arr_np)).'" ' .($catcount == 1 ? 'is' : 'are') . ' present on the page.');
+          throw new Exception('The subcategor' . ($catcount == 1 ? 'y' : 'ies') . ': "' . ($np = implode('", "', $arr_np)) . '" ' . ($catcount == 1 ? 'is' : 'are') . ' present on the page.');
         }
-      }else {
-      throw new Exception('Subcategories are not given.');
       }
-    }else {
+      else {
+        throw new Exception('Subcategories are not given.');
+      }
+    }
+    else {
       throw new Exception('Subcategories are not given.');
     }
   }
@@ -1760,20 +1811,20 @@ class FeatureContext extends DrupalContext {
   /**
    * @Then /^I expand the category "([^"]*)"$/
    */
-  public function iExpandTheCategory($category)
-  {
+  public function iExpandTheCategory($category) {
     // find grid container
     $expanded = 0;
     $category_found = 0;
     $page = $this->getSession()->getPage();
     $grids = $page->findAll('css', '.nav-column');
     if (empty($grids)) {
-      throw new Exception ('The CSS selector for the category was not found on ' . $this->getSession()->getCurrentUrl());
+      throw new Exception ('The CSS selector for the category was not found on ' . $this->getSession()
+          ->getCurrentUrl());
     }
     if (!empty($grids)) {
-      foreach ( $grids as $grid) {
+      foreach ($grids as $grid) {
         // check main category
-        if (is_object($h3 = $grid->find('css', 'h3')) &&  $h3->getText() == $category) {
+        if (is_object($h3 = $grid->find('css', 'h3')) && $h3->getText() == $category) {
           $category_found++;
           // find sub-category links
           $links = $grid->findAll('css', 'ul > li > a');
@@ -1791,27 +1842,26 @@ class FeatureContext extends DrupalContext {
       }
     }
     if (!$category_found) {
-      throw new Exception('The category:"' . $category .  '" cannot be found.');
+      throw new Exception('The category:"' . $category . '" cannot be found.');
     }
     if (!$expanded) {
-      throw new Exception('The category: "' . $category. ' cannot be expanded');
+      throw new Exception('The category: "' . $category . ' cannot be expanded');
     }
   }
 
   /**
    * @Then /^I collapse the category "([^"]*)"$/
    */
-  public function iCollapseTheCategory($category)
-  {
+  public function iCollapseTheCategory($category) {
     // find grid container
     $collapsed = 0;
     $category_found = 0;
     $page = $this->getSession()->getPage();
     $grids = $page->findAll('css', 'div.grid-2');
     if (!empty($grids)) {
-      foreach ( $grids as $grid) {
+      foreach ($grids as $grid) {
         // check main category
-        if (is_object($h3 = $grid->find('css', 'h3')) &&  $h3->getText() == $category) {
+        if (is_object($h3 = $grid->find('css', 'h3')) && $h3->getText() == $category) {
           $category_found++;
           // find sub-category links
           $links = $grid->findAll('css', 'ul > li > a');
@@ -1829,10 +1879,10 @@ class FeatureContext extends DrupalContext {
       }
     }
     if (!$category_found) {
-      throw new Exception('The category:"' . $category .  '" cannot be found.');
+      throw new Exception('The category:"' . $category . '" cannot be found.');
     }
     if (!$collapsed) {
-      throw new Exception('The category: "' . $category. ' cannot be collapsed');
+      throw new Exception('The category: "' . $category . ' cannot be collapsed');
     }
   }
 
@@ -1848,7 +1898,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtleastLinksUnderTab($count, $tab) {
     $tab = strtolower($tab);
-    switch($tab) {
+    switch ($tab) {
       case 'news':
         $id = '#tab-news';
         $selector = $id . ' a';
@@ -1868,7 +1918,9 @@ class FeatureContext extends DrupalContext {
       default:
         throw new Exception('The tab "' . ucfirst($tab) . '" was not found on the page');
     }
-    $region = $this->getSession()->getPage()->find('region', 'bottom right content');
+    $region = $this->getSession()
+      ->getPage()
+      ->find('region', 'bottom right content');
     if (!$region) {
       throw new Exception('Region "bottom right content" not found');
     }
@@ -1876,34 +1928,34 @@ class FeatureContext extends DrupalContext {
     if (empty($temp)) {
       throw new Exception("The page does not have the required CSS id '" . $id . "'");
     }
-	  $nodes = $region->findAll("css", $selector);
+    $nodes = $region->findAll("css", $selector);
     if (empty($nodes)) {
       throw new Exception("The tab '" . ucfirst($tab) . "' did not contain any links on the page");
     }
-	  $nodes = $region->findAll("css", $selector);
+    $nodes = $region->findAll("css", $selector);
     if (sizeof($nodes) < $count) {
       throw new Exception("The tab '" . ucfirst($tab) . "' has less than '" . $count . "' links");
     }
   }
 
   /**
-  * @When /^I select <option> from "([^"]*)" results will contain <text>$/
-  */
-  public function iSelectOptionFromResultsWillContainText($select, TableNode $table)
-  {
+   * @When /^I select <option> from "([^"]*)" results will contain <text>$/
+   */
+  public function iSelectOptionFromResultsWillContainText($select, TableNode $table) {
     if (!empty($table)) {
-      $arr_return  = array();
+      $arr_return = array();
       $table = $table->getHash();
       // loop through page
-      for ($i = 0,$count = count($table); $i < $count; $i++) {
-        if (!empty($table[$i]['option']) && !empty($table[$i]['text']) ) {
-          $arr_return[] = new When("I select ". $table[$i]['option'] ." from \"" . $select ."\"");
+      for ($i = 0, $count = count($table); $i < $count; $i++) {
+        if (!empty($table[$i]['option']) && !empty($table[$i]['text'])) {
+          $arr_return[] = new When("I select " . $table[$i]['option'] . " from \"" . $select . "\"");
           $arr_return[] = new Then("I should see " . $table[$i]['text']);
         }
       }
 
       return $arr_return;
-    }else {
+    }
+    else {
       throw new Exception("No options/texts specified");
     }
   }
@@ -1948,10 +2000,10 @@ class FeatureContext extends DrupalContext {
             $href = $temp->getText();
           }
         }
-      break;
+        break;
       case 'project title':
         $href = $project->getAttribute('href');
-      break;
+        break;
       case 'sandbox project title':
         $links = $page->findAll("css", ".commit-global h3 a");
         if (!empty($links)) {
@@ -1964,7 +2016,7 @@ class FeatureContext extends DrupalContext {
             }
           }
         }
-      break;
+        break;
       case 'date':
         $links = $commitGlobal->findAll("css", "h3 a");
         if (!empty($links)) {
@@ -1975,14 +2027,14 @@ class FeatureContext extends DrupalContext {
             }
           }
         }
-      break;
+        break;
       case 'commit info':
         // this is the 8 digit hash
         $temp = $commitGlobal->find("css", ".commit-info a");
         if (!empty($temp)) {
           $href = $temp->getAttribute('href');
         }
-      break;
+        break;
       case 'file name':
         // this is the file name that got committed and can be seen in individual commit message
         $temp = $page->findAll("css", ".view-vc-git-individual-commit .view-commitlog-commit-items .views-field-nothing span a");
@@ -1992,13 +2044,14 @@ class FeatureContext extends DrupalContext {
             break;
           }
         }
-      break;
+        break;
       default:
         throw new Exception("Link type '" . $linkType . "' is not valid.");
-      break;
+        break;
     }
     if (trim($href) == "") {
-      throw new Exception("No link for '" . $linkType . "' was found on the page " . $this->getSession()->getCurrentUrl());
+      throw new Exception("No link for '" . $linkType . "' was found on the page " . $this->getSession()
+          ->getCurrentUrl());
     }
     $this->getSession()->visit($this->locatePath($href));
   }
@@ -2019,7 +2072,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastSymbol($count, $symbol) {
     $page = $this->getSession()->getPage();
-    $temp = $page->findAll("css", ".versioncontrol-diffstat .".$symbol);
+    $temp = $page->findAll("css", ".versioncontrol-diffstat ." . $symbol);
     // If an image is committed, + or - does not appear, so check if its empty first.
     if (empty($temp)) {
       throw new Exception("The page does not have any '" . $symbol . "' symbols");
@@ -2070,7 +2123,8 @@ class FeatureContext extends DrupalContext {
     }
     foreach ($links as $temp) {
       if (trim($temp->getText()) == $link) {
-        $this->getSession()->visit($this->locatePath($temp->getAttribute('href')));
+        $this->getSession()
+          ->visit($this->locatePath($temp->getAttribute('href')));
       }
     }
   }
@@ -2080,7 +2134,7 @@ class FeatureContext extends DrupalContext {
    *
    * @Given /^all the checkboxes are selected$/
    */
-  public function allTheCheckboxesAreSelected($flag = true) {
+  public function allTheCheckboxesAreSelected($flag = TRUE) {
     $page = $this->getSession()->getPage();
     $chks = $page->findAll("css", ".views-table .form-item input[type=checkbox]");
     if (empty($chks)) {
@@ -2102,7 +2156,7 @@ class FeatureContext extends DrupalContext {
    * @Then /^none the checkboxes are selected$/
    */
   public function noneTheCheckboxesAreSelected() {
-    $this->allTheCheckboxesAreSelected(false);
+    $this->allTheCheckboxesAreSelected(FALSE);
   }
 
   /**
@@ -2114,9 +2168,11 @@ class FeatureContext extends DrupalContext {
     $i = 1;
     $page = $this->getSession()->getPage();
     // Get all checkboxes
-    $this->spin(function($context) {
-      return ($context->getSession()->getPage()->find('css','.views-table .form-item'));
-    },3);
+    $this->spin(function ($context) {
+      return ($context->getSession()
+        ->getPage()
+        ->find('css', '.views-table .form-item'));
+    }, 3);
     $chks = $page->findAll("css", ".views-table .form-item input[type=checkbox]");
     if (empty($chks)) {
       throw new Exception("No checkboxes were found on the page");
@@ -2163,7 +2219,7 @@ class FeatureContext extends DrupalContext {
           }
         }
       }
-      elseif($context == "delete") {
+      elseif ($context == "delete") {
         $chk->click();
         $i++;
       }
@@ -2198,7 +2254,8 @@ class FeatureContext extends DrupalContext {
     // Parse until the <span> tag, since it contains text 'xx commits'.
     $result = $page->findAll('css', "#block-versioncontrol-project-project-maintainers div.item-list ul li div span");
     if (empty($result)) {
-      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not contain any commits");
+      throw new Exception("The page " . $this->getSession()
+          ->getCurrentUrl() . " does not contain any commits");
     }
     foreach ($result as $commit) {
       // Get the text and make sure it has the string 'commits'.
@@ -2228,7 +2285,7 @@ class FeatureContext extends DrupalContext {
    * @When /^I click the "([^"]*)" link in the "([^"]*)" table$/
    * @When /^I click the first project link in the "([^"]*)" table$/
    */
-  public function iClickTheLinkInTheTable($linktype, $projecttable='') {
+  public function iClickTheLinkInTheTable($linktype, $projecttable = '') {
     // If $projecttable is empty we need to switch arguments since that means
     // only the table was passed using the second step type.
     if (empty($projecttable)) {
@@ -2239,28 +2296,31 @@ class FeatureContext extends DrupalContext {
     // Find the first title link from sandbox table.
     $page = $this->getSession()->getPage();
     $result = $page->findAll('css', 'caption');
-    if(empty($result)) {
-      throw new Exception("No project type label was found on " . $this->getSession()->getCurrentUrl() . "Has the css selctor changed?");
+    if (empty($result)) {
+      throw new Exception("No project type label was found on " . $this->getSession()
+          ->getCurrentUrl() . "Has the css selctor changed?");
     }
     $table = $this->findTableWithCaption($projecttable);
     if ($linktype == 'first project') {
       $link = $table->find('css', 'a');
-    } else {
+    }
+    else {
       $link = $table->findLink($linktype);
     }
     if ($link) {
       $link->click();
       return;
-    } else {
-      throw new Exception ("No " . $linktype . " link was present on " .  $this->getSession()->getCurrentUrl());
+    }
+    else {
+      throw new Exception ("No " . $linktype . " link was present on " . $this->getSession()
+          ->getCurrentUrl());
     }
   }
 
   /**
    * @Given /^I should see that the project short name is readonly$/
    */
-  public function iShouldSeeThatTheProjectShortNameIsReadonly()
-  {
+  public function iShouldSeeThatTheProjectShortNameIsReadonly() {
     $field = $this->getSession()->getPage()->findField('Short project name');
     if (!empty($field) && !$field->getAttribute('disabled')) {
       throw new Exception('Short project name form field exists on Edit Project page and is editable');
@@ -2349,7 +2409,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception('The page does not have any email addresses');
     }
     // the table has extra non-data row at the bottom, so exclude it
-    if (sizeof($trs)-1 < $count) {
+    if (sizeof($trs) - 1 < $count) {
       throw new Exception('The page has less than "' . $count . '" email addresses');
     }
   }
@@ -2377,7 +2437,7 @@ class FeatureContext extends DrupalContext {
       }
     }
     if ($i < $count) {
-      throw new Exception('The page has less than "' . $count .'" confirmed email addresses');
+      throw new Exception('The page has less than "' . $count . '" confirmed email addresses');
     }
   }
 
@@ -2387,7 +2447,7 @@ class FeatureContext extends DrupalContext {
    * @Then /^I should not see "([^"]*)" in the dropdown "([^"]*)"$/
    *
    * @param string $value
-    *  The option string to be searched for
+   *  The option string to be searched for
    * @param string $field
    *   The dropdown field label
    */
@@ -2421,9 +2481,9 @@ class FeatureContext extends DrupalContext {
       // Images Eg: Module project page
       case 'images':
         // upload field id
-        $filefield_id 	= 'edit-field-project-images-und-{index}-upload';
+        $filefield_id = 'edit-field-project-images-und-{index}-upload';
         // upload button id
-        $uploadbutton_id 	= 'edit-field-project-images-und-{index}-upload-button';
+        $uploadbutton_id = 'edit-field-project-images-und-{index}-upload-button';
         // parameters to be filled in after upload finishes
         $arr_postupload_params = array(
           // Alternate text
@@ -2433,9 +2493,9 @@ class FeatureContext extends DrupalContext {
       // File attachments Eg: Module project page
       case 'file attachments':
         // upload field id
-        $filefield_id 	= 'edit-upload-und-{index}-upload';
+        $filefield_id = 'edit-upload-und-{index}-upload';
         // upload button id
-        $uploadbutton_id 	= 'edit-upload-und-{index}-upload-button';
+        $uploadbutton_id = 'edit-upload-und-{index}-upload-button';
         // parameters to be filled in after upload finishes
         $arr_postupload_params = array(
           // Description
@@ -2445,11 +2505,11 @@ class FeatureContext extends DrupalContext {
       // Primary screenshot image. Eg: Case study page
       case 'primary screenshot':
         // upload field id
-        $filefield_id 	= 'edit-field-mainimage-und-{index}-upload';
+        $filefield_id = 'edit-field-mainimage-und-{index}-upload';
         // upload button id
-        $uploadbutton_id 	= 'edit-field-mainimage-und-{index}-upload-button';
+        $uploadbutton_id = 'edit-field-mainimage-und-{index}-upload-button';
         // upload response id
-        $responsebox_id	= 'edit-field-mainimage-und-{index}-alt';
+        $responsebox_id = 'edit-field-mainimage-und-{index}-alt';
         // parameters to be filled in after upload finishes
         $arr_postupload_params = array(
           // Alternate text
@@ -2459,9 +2519,9 @@ class FeatureContext extends DrupalContext {
       // Additional  screenshot image. Eg: Case study page
       case 'additional screenshots':
         // upload field id
-        $filefield_id 	= 'edit-field-images-und-{index}-upload';
+        $filefield_id = 'edit-field-images-und-{index}-upload';
         // upload button id
-        $uploadbutton_id 	= 'edit-field-images-und-{index}-upload-button';
+        $uploadbutton_id = 'edit-field-images-und-{index}-upload-button';
         // parameters to be filled in after upload finishes
         $arr_postupload_params = array(
           // Alternate text
@@ -2496,7 +2556,7 @@ class FeatureContext extends DrupalContext {
         }
         $file->attachFile($filepath);
         // find upload button and click
-        $button_id = str_replace( '{index}', $i, $uploadbutton_id);
+        $button_id = str_replace('{index}', $i, $uploadbutton_id);
         sleep(1);
         $submit = $this->getSession()->getPage()->findById($button_id);
         if (empty($submit)) {
@@ -2510,17 +2570,20 @@ class FeatureContext extends DrupalContext {
         }
         else {
           // ID of the next file field.
-          $fieldid_tocheck = str_replace('{index}', $i+1, $filefield_id);
+          $fieldid_tocheck = str_replace('{index}', $i + 1, $filefield_id);
         }
         // wait for upload to finish: will wait until the upload completes OR 300 seconds
-        $this->iWaitForSeconds(10, "typeof(jQuery('#". $fieldid_tocheck . "').val()) != 'undefined'");
+        $this->iWaitForSeconds(10, "typeof(jQuery('#" . $fieldid_tocheck . "').val()) != 'undefined'");
         // process post upload parameters
         if (!empty($arr_postupload_params)) {
           sleep(1);
           foreach ($arr_postupload_params as $param => $field_id) {
             if (isset($files[$i][$param]) && !empty($files[$i][$param])) {
               $field_id = str_replace('{index}', $i, $field_id);
-              if ($field_ele = $this->getSession()->getPage()->findById($field_id)) {
+              if ($field_ele = $this->getSession()
+                ->getPage()
+                ->findById($field_id)
+              ) {
                 $field_ele->setValue($files[$i][$param]);
               }
               else {
@@ -2539,23 +2602,22 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-  * @When /^I upload the following <files> for "([^"]*)"$/
-  *
-  * @param string $type
-  *   file attachments/primary screenshot/additional screenshots
-  * @param object $files
-  *   TableNode
-  */
+   * @When /^I upload the following <files> for "([^"]*)"$/
+   *
+   * @param string $type
+   *   file attachments/primary screenshot/additional screenshots
+   * @param object $files
+   *   TableNode
+   */
   public function iUploadTheFollowingFilesFor($type, TableNode $files) {
-   $this->uploadMultipleFiles($type, $files);
+    $this->uploadMultipleFiles($type, $files);
   }
 
   /**
    * @Then /^I (?:should |)see (?:that |)the project was created$/
    */
-  public function iCheckTheProjectIsCreated()
-  {
-    $success = false;
+  public function iCheckTheProjectIsCreated() {
+    $success = FALSE;
     $div_ele = $this->getSession()->getPage()->find('css', 'div#content');
     if (empty($div_ele) || (!empty($div_ele) && !preg_match("/has been created/", $div_ele->getText()))) {
       throw new Exception("Project Creation failed");
@@ -2564,11 +2626,10 @@ class FeatureContext extends DrupalContext {
     HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
   }
 
-    /**
+  /**
    * @Given /^I should see that the Sandbox checkbox is "([^"]*)"$/
    */
-  public function iShouldSeeThatTheSandboxCheckboxIs($attribute)
-  {
+  public function iShouldSeeThatTheSandboxCheckboxIs($attribute) {
     $attribute = strtolower($attribute);
     $field = $this->getSession()->getPage()->findField('Sandbox');
     if (empty($field)) {
@@ -2580,7 +2641,7 @@ class FeatureContext extends DrupalContext {
       return;
     }
     if ($attribute != $disabled) {
-      throw new Exception('Sandbox checkbox is not '. $attribute);
+      throw new Exception('Sandbox checkbox is not ' . $attribute);
     }
   }
 
@@ -2631,7 +2692,7 @@ class FeatureContext extends DrupalContext {
     $temp = explode(" ", $replies_new);
     // temp[0] = xx, temp[1] = "new".
     $newreplies_count = trim($temp[0]);
-    if($newreplies_count < $count) {
+    if ($newreplies_count < $count) {
       throw new Exception("The post '" . $postTitle . "' has less than '" . $count . "' new replies");
     }
   }
@@ -2640,14 +2701,14 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see at least "([^"]*)" new (?:reply|replies) for the post$/
    */
   public function iShouldSeeAtLeastNewRepliesForThePost($count) {
-	  $page = $this->getSession()->getPage();
+    $page = $this->getSession()->getPage();
     $result = $this->getIssueTitleObj($page);
     $postTitle = $result->getText();
     // Get the row in which the post resides. a > td > tr.
     $trow = $result->getParent()->getParent();
     // If there is a new reply, we get an anchor tag.
     $replies = $trow->find('css', '.replies a');
-    if(empty($replies)) {
+    if (empty($replies)) {
       throw new Exception("Could not find any new replies for this '" . $postTitle . "'post");
     }
     $replies_new = $replies->getText();
@@ -2655,7 +2716,7 @@ class FeatureContext extends DrupalContext {
     $temp = explode(" ", $replies_new);
     // temp[0] = xx, temp[1] = "new".
     $newreplies_count = trim($temp[0]);
-    if($newreplies_count < $count) {
+    if ($newreplies_count < $count) {
       throw new Exception("The post '" . $postTitle . "' has less than '" . $count . "' new replies");
     }
   }
@@ -2663,8 +2724,8 @@ class FeatureContext extends DrupalContext {
   /**
    * @Given /^I should see updated for the post$/
    */
-  public function iShouldSeeUpdatedForThePost($postUpdated= TRUE) {
-	  $page = $this->getSession()->getPage();
+  public function iShouldSeeUpdatedForThePost($postUpdated = TRUE) {
+    $page = $this->getSession()->getPage();
     $result = $this->getIssueTitleObj($page);
     $postTitle = $result->getText();
     // Get the row in which the post resides. span > td.
@@ -2677,7 +2738,7 @@ class FeatureContext extends DrupalContext {
       }
     }
     else {
-      if(!empty($stat_message)) {
+      if (!empty($stat_message)) {
         throw new Exception("The post '" . $postTitle . "' has an updated status message");
       }
     }
@@ -2686,9 +2747,9 @@ class FeatureContext extends DrupalContext {
   /**
    * @Given /^I should not see updated for the post$/
    */
-	public function iShouldNotSeeUpdatedForThePost() {
-		$this->iShouldSeeUpdatedForThePost(FALSE);
-	}
+  public function iShouldNotSeeUpdatedForThePost() {
+    $this->iShouldSeeUpdatedForThePost(FALSE);
+  }
 
   /**
    * Function to get the Title for Post of type Issue
@@ -2705,7 +2766,7 @@ class FeatureContext extends DrupalContext {
       }
     }
     // If not avalilable from Hacky, then get from yml.
-    if(!empty($this->postTitle)) {
+    if (!empty($this->postTitle)) {
       $postTitle = $this->postTitle;
       $result = $page->findLink($postTitle);
       if (!empty($result)) {
@@ -2727,7 +2788,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheFollowingTabs(TableNode $table) {
     // Fetch tab links.
-    $tab_links = $this->getSession()->getPage()->findAll('css', '#nav-content ul.links > li > a');
+    $tab_links = $this->getSession()
+      ->getPage()
+      ->findAll('css', '#nav-content ul.links > li > a');
     if (empty($tab_links)) {
       throw new Exception('No tabs found');
     }
@@ -2741,7 +2804,7 @@ class FeatureContext extends DrupalContext {
     // Loop through table and check tab is present.
     foreach ($table->getHash() as $t) {
       if (!in_array($t['tabs'], $arr_tabs)) {
-        throw new Exception('The tab: "' . $t['tabs'] . '" cannot be found' );
+        throw new Exception('The tab: "' . $t['tabs'] . '" cannot be found');
       }
     }
   }
@@ -2775,10 +2838,10 @@ class FeatureContext extends DrupalContext {
     }
     $tablink = $ul->findLink($tab);
     if (empty($tablink)) {
-      throw new Exception('The tab "' . $tab . '" cannot be found' );
+      throw new Exception('The tab "' . $tab . '" cannot be found');
     }
     if (strpos($tablink->getAttribute('class'), 'active') === FALSE) {
-      throw new Exception('The tab "' . $tab . '" is not highlighted' );
+      throw new Exception('The tab "' . $tab . '" is not highlighted');
     }
   }
 
@@ -2835,17 +2898,22 @@ class FeatureContext extends DrupalContext {
    */
   public function theBackgroundColorOfTheStatusShouldBe($color) {
     $flag = FALSE;
-    $colorCode = array('red' => '#EBCCCC', 'green' => '#D4EFCC', 'yellow' => '#FFE69F');
+    $colorCode = array(
+      'red' => '#EBCCCC',
+      'green' => '#D4EFCC',
+      'yellow' => '#FFE69F'
+    );
     // Get the background color of an element using javascript and then compare with above array.
     $this->getSession()->executeScript("
       var temp = document.getElementsByClassName('page-status');
       var currColorCode = temp[0].style.backgroundColor;
-      if (currColorCode == '".$colorCode[$color]."') {
-        var flag = ".($flag = TRUE).";
+      if (currColorCode == '" . $colorCode[$color] . "') {
+        var flag = " . ($flag = TRUE) . ";
       }
     ");
     if (!$flag) {
-      throw new Exception("The background of the status is not '" . $color . "' on the page " . $this->getSession()->getCurrentUrl());
+      throw new Exception("The background of the status is not '" . $color . "' on the page " . $this->getSession()
+          ->getCurrentUrl());
     }
   }
 
@@ -2902,7 +2970,7 @@ class FeatureContext extends DrupalContext {
     // Validate empty arguements.
     $this->validateBlankArgs(func_get_args());
     // Define order for columns.
-    $arr_order = array( 'left' => 1,'center' => 2,'right' => 3,);
+    $arr_order = array('left' => 1, 'center' => 2, 'right' => 3,);
     $this->iShouldSeeTheBelowBlocksInColumn($arr_order[$position], $table);
   }
 
@@ -2926,15 +2994,16 @@ class FeatureContext extends DrupalContext {
    * @param int $column
    * @param TableNode object $table
    */
-  public function iShouldSeeTheBelowBlocksInColumn($column, TableNode $table)
-  {
+  public function iShouldSeeTheBelowBlocksInColumn($column, TableNode $table) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     if (empty($table)) {
       throw new Exception('Block list cannot be empty.');
     }
     // Find block with header, for the column.
-    $blocks_h3 = $this->getSession()->getPage()->findAll('css', '#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
+    $blocks_h3 = $this->getSession()
+      ->getPage()
+      ->findAll('css', '#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
     if (empty($blocks_h3)) {
       throw new Exception('The column "' . $column . '" is empty.');
     }
@@ -2965,11 +3034,12 @@ class FeatureContext extends DrupalContext {
    *
    * @param TableNode object $table
    */
-  public function iShouldSeeTheFollowingBlocklinksInSmallBoxes(TableNode $table)
-  {
+  public function iShouldSeeTheFollowingBlocklinksInSmallBoxes(TableNode $table) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
-    $block_links = $this->getSession()->getPage()->findAll('css', '#homebox-add > div.item-list > ul > li > a');
+    $block_links = $this->getSession()
+      ->getPage()
+      ->findAll('css', '#homebox-add > div.item-list > ul > li > a');
     if (empty($block_links)) {
       throw new Exception('The link for the blocks cannot be found.');
     }
@@ -2997,8 +3067,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see at least "([^"]*)" record(?:|s) in "([^"]*)" table$/
    * @param string $tableType : "Projects"/"Sandbox Projects"/"Project Issues"
    */
-  public function iShouldSeeAtLeastRecordsInTable($count, $tableType)
-  {
+  public function iShouldSeeAtLeastRecordsInTable($count, $tableType) {
     // Find the table element object and other data
     $arr_table = $this->getTableElement($tableType);
     if (!isset($arr_table['element'])) {
@@ -3032,7 +3101,7 @@ class FeatureContext extends DrupalContext {
         }
       }
     }
-    if ( $records < $count ) {
+    if ($records < $count) {
       throw new Exception('The table has ' . $records . ' records. Expected ' . $count . ' or more records.');
     }
   }
@@ -3042,8 +3111,7 @@ class FeatureContext extends DrupalContext {
    *
    * @Then /^I should see the following <links> in column "([^"]*)" in "([^"]*)" table$/
    */
-  public function iShouldSeeTheFollowingLinksInColumnInTable($column, $tableType, TableNode $links)
-  {
+  public function iShouldSeeTheFollowingLinksInColumnInTable($column, $tableType, TableNode $links) {
     $column_class = $this->getColumnClasses($column);
     if (empty($column_class)) {
       throw new Exception('The column cannot be found.');
@@ -3056,7 +3124,7 @@ class FeatureContext extends DrupalContext {
     $projectTitle = HackyDataRegistry::get('project title');
     $project_a = $arr_table['element']->findLink($projectTitle);
     if (empty($project_a)) {
-      throw new Exception('The project "' . $projectTitle . '" is not found in "' . $tableType .'"');
+      throw new Exception('The project "' . $projectTitle . '" is not found in "' . $tableType . '"');
     }
     $first_tr = $project_a->getParent()->getParent();
     if (empty($first_tr)) {
@@ -3081,8 +3149,7 @@ class FeatureContext extends DrupalContext {
    * Visits the link inside a column of a table
    * @Given /^I click "([^"]*)" from "([^"]*)" table$/
    */
-  public function iClickFromTable($link, $tableType)
-  {
+  public function iClickFromTable($link, $tableType) {
     // Find column for the Link
     switch ($link) {
       // Issue links column of "Projects"/"Projects Sandbox"
@@ -3099,7 +3166,7 @@ class FeatureContext extends DrupalContext {
       // Project column of Project issues Table
       case 'Project':
         $column = 'Project Issue';
-         break;
+        break;
       case 'Summary':
         $column = 'Issue Summary';
         break;
@@ -3128,18 +3195,22 @@ class FeatureContext extends DrupalContext {
     // Find all links inside a column
     $arr_a = $first_tr->findAll('css', 'td.' . $column_class . ' a');
     if (empty($arr_a)) {
-      throw new Exception('No links exist in column: "'. $column .'".');
+      throw new Exception('No links exist in column: "' . $column . '".');
     }
-    $visited = false;
+    $visited = FALSE;
     foreach ($arr_a as $a) {
-      if (in_array($link, array('Project', 'Summary')) || $link == $a->getText()) {
+      if (in_array($link, array(
+            'Project',
+            'Summary'
+          )) || $link == $a->getText()
+      ) {
         // Store issue name if it is a "Summary column" from "Project Issues" table.
         if ($link == 'Summary') {
           HackyDataRegistry::set('issue name', $a->getText());
         }
         // Visit the link to make sure it actually exists
         $this->getSession()->visit($a->getAttribute('href'));
-        $visited = true;
+        $visited = TRUE;
         break;
       }
     }
@@ -3185,8 +3256,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Given /^I fill in "([^"]*)" with issue name$/
    */
-  public function iFillInWithIssueName($label)
-  {
+  public function iFillInWithIssueName($label) {
     // Find project from Projects table
     $table_type = 'Project Issues';
     // Find the table element object
@@ -3207,7 +3277,7 @@ class FeatureContext extends DrupalContext {
       throw new Exception('Project/Issue link cannot be found');
     }
     HackyDataRegistry::set('project name', $a_first[0]->getText());
-    return new Given('I fill in "' . $label . '" with "' . $a_first[1]->getText() .'"');
+    return new Given('I fill in "' . $label . '" with "' . $a_first[1]->getText() . '"');
   }
 
   /**
@@ -3215,7 +3285,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iSelectProjectNameFrom($label) {
     if ($project_name = HackyDataRegistry::get('project name')) {
-      return new Given('I select "' . $project_name . '" from "' . $label .'"');
+      return new Given('I select "' . $project_name . '" from "' . $label . '"');
     }
     else {
       // Find project from Projects table.
@@ -3235,24 +3305,25 @@ class FeatureContext extends DrupalContext {
         // Store the link label to use afterwards
         throw new Exception('Project link cannot be found.');
       }
-       return new Given('I select "' . $a_first->getText() . '" from "' . $label .'"');
+      return new Given('I select "' . $a_first->getText() . '" from "' . $label . '"');
     }
   }
 
   private function findTableWithCaption($caption) {
     $page = $this->getSession()->getPage();
     $result = $page->findAll('css', 'caption');
-    if(empty($result)) {
-      throw new Exception("No project type label was found on " . $this->getSession()->getCurrentUrl() . "Has the css selctor changed?");
+    if (empty($result)) {
+      throw new Exception("No project type label was found on " . $this->getSession()
+          ->getCurrentUrl() . "Has the css selctor changed?");
     }
-    foreach($result as $tabletype) {
+    foreach ($result as $tabletype) {
       $text = trim($tabletype->getText());
       if ($text == $caption) {
         $table = $tabletype->getParent();
-          return $table;
-        }
+        return $table;
       }
     }
+  }
 
 
   /**
@@ -3262,10 +3333,13 @@ class FeatureContext extends DrupalContext {
   private function getTableElement($type) {
     $arr_table = array();
     // Make sure we have project tables before proceeding ahead
-    $tables = $this->getSession()->getPage()->findAll('css','#content-inner table');
+    $tables = $this->getSession()
+      ->getPage()
+      ->findAll('css', '#content-inner table');
     if (empty($tables)) {
       $this->getSession()->getCurrentUrl();
-      throw new Exception('No tables found on the page ' . $this->getSession()->getCurrentUrl());
+      throw new Exception('No tables found on the page ' . $this->getSession()
+          ->getCurrentUrl());
     }
     switch ($type) {
       case 'Projects':
@@ -3281,9 +3355,12 @@ class FeatureContext extends DrupalContext {
         $arr_table['link_exceptions'] = array('Add a new project');
         return $arr_table;
       case 'Project Issues':
-        $issue_table = $this->getSession()->getPage()->find('css', '#content-inner table.project-issue');
+        $issue_table = $this->getSession()
+          ->getPage()
+          ->find('css', '#content-inner table.project-issue');
         if (!$issue_table) {
-          throw new Exception('Project issue table no found at ' . $this->getSession()->getCurrentUrl());
+          throw new Exception('Project issue table no found at ' . $this->getSession()
+              ->getCurrentUrl());
         }
         $arr_table['element'] = $issue_table;
         $arr_table['link_column'] = '1';
@@ -3299,7 +3376,7 @@ class FeatureContext extends DrupalContext {
    * Gets class names of columns of "Projects"/"Sandbox Projects"/"Project Issues" tables
    *
    */
-  private function getColumnClasses($column = null) {
+  private function getColumnClasses($column = NULL) {
     $arr_td_classes = array(
       'Project' => 'project-name',
       'Issue links' => 'project-issue-links',
@@ -3309,7 +3386,8 @@ class FeatureContext extends DrupalContext {
     );
     if (is_null($column)) {
       return $arr_td_classes;
-    }else {
+    }
+    else {
       return $arr_td_classes[$column];
     }
   }
@@ -3320,14 +3398,16 @@ class FeatureContext extends DrupalContext {
    * @Then /^I should see at least "([^"]*)" blocks(?: in column "([^"]*)"|)$/
    *
    * @param int $count
-   * @param null/int $column
+   * @param null /int $column
    */
-  public function iShouldSeeAtLeastBlocks($count, $column = null) {
+  public function iShouldSeeAtLeastBlocks($count, $column = NULL) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     // Find divs with the class 'homebox-portlet' inside #homebox div
-    $boxes = $this->getSession()->getPage()->findAll('css', ($column ? '#homebox div.homebox-column-wrapper-' . $column . ' div.homebox-portlet' :
-      '#homebox div.homebox-portlet'));
+    $boxes = $this->getSession()
+      ->getPage()
+      ->findAll('css', ($column ? '#homebox div.homebox-column-wrapper-' . $column . ' div.homebox-portlet' :
+        '#homebox div.homebox-portlet'));
     if (empty($boxes) || count($boxes) < $count) {
       throw new Exception(($column ? 'Column ' . $column : 'Dashboard') . ' has less than ' . $count . ' block' . ($count > 1 ? 's' : ''));
     }
@@ -3348,7 +3428,8 @@ class FeatureContext extends DrupalContext {
       if (empty($items) || count($items) < $count) {
         throw new Exception('The block: ' . $block . ' has only less than ' . $count . ' item' . ($count > 1 ? 's' : ''));
       }
-    }else {
+    }
+    else {
       throw new Exception('The block: ' . $block . ' couldn\'t be found on Dashboard.');
     }
   }
@@ -3361,23 +3442,24 @@ class FeatureContext extends DrupalContext {
     $this->validateBlankArgs(func_get_args());
     $obj_block = $this->getBlockInnerContainer($block);
     if (!empty($obj_block)) {
-      $found = false;
+      $found = FALSE;
       // Find <li> tags in item-list div
       $lis = $obj_block->findAll('css', '.portlet-content > .item-list ul > li');
       if (!empty($lis)) {
         foreach ($lis as $li) {
           // Check <li> text
           if ($item == $li->getText()) {
-            $found = true;
+            $found = TRUE;
             break;
           }
         }
       }
-      if (!$found){
-        throw new Exception('The item: '. $item . ' cannot be found in block: ' . $block);
+      if (!$found) {
+        throw new Exception('The item: ' . $item . ' cannot be found in block: ' . $block);
       }
-    }else {
-      throw new Exception('The block: '. $block . ' couldn\'t be found on Dashboard');
+    }
+    else {
+      throw new Exception('The block: ' . $block . ' couldn\'t be found on Dashboard');
     }
   }
 
@@ -3397,15 +3479,19 @@ class FeatureContext extends DrupalContext {
     $this->validateBlankArgs(func_get_args());
     $block_ele = $this->getBlockInnerContainer($origin);
     if (!empty($block_ele) && $draggable = $block_ele->getParent()) {
-      $droppable = $this->getBlockInnerContainer($destination)->getParent()->getParent();
+      $droppable = $this->getBlockInnerContainer($destination)
+        ->getParent()
+        ->getParent();
       if ($droppable) {
         $this->getSession()->wait(1, '');
         $draggable->dragTo($droppable);
         $this->getSession()->wait(1, '');
-      }else {
+      }
+      else {
         throw new Exception('The block: ' . $destination . ' cannot be found on Dashboard');
       }
-    }else {
+    }
+    else {
       throw new Exception('The block: ' . $origin . ' cannot be found on Dashboard');
     }
   }
@@ -3418,15 +3504,19 @@ class FeatureContext extends DrupalContext {
     $this->validateBlankArgs(func_get_args());
     $block_ele = $this->getBlockInnerContainer($origin);
     if (!empty($block_ele) && $draggable = $block_ele->getParent()) {
-      $droppable = $this->getSession()->getPage()->find('css', '#homebox-column-'. $destination );
+      $droppable = $this->getSession()
+        ->getPage()
+        ->find('css', '#homebox-column-' . $destination);
       if ($droppable) {
         $this->getSession()->wait(1, '');
         $draggable->dragTo($droppable);
         $this->getSession()->wait(1, '');
-      }else {
+      }
+      else {
         throw new Exception('The column: ' . $destination . ' cannot be found on Dashboard');
       }
-    }else {
+    }
+    else {
       throw new Exception('The block: ' . $origin . ' cannot be found on Dashboard');
     }
   }
@@ -3454,17 +3544,20 @@ class FeatureContext extends DrupalContext {
           foreach ($table as $item) {
             // Check the box exists in column boxes
             if (in_array($item['blocks'], $arr_boxes)) {
-              throw new Exception('The box: ' . $item['blocks'] .' is present in column '. $column);
+              throw new Exception('The box: ' . $item['blocks'] . ' is present in column ' . $column);
               break;
             }
           }
-        }else {
-          throw new Exception('The column '. $column . ' is empty');
         }
-      }else {
-        throw new Exception('The column '. $column . ' is empty');
+        else {
+          throw new Exception('The column ' . $column . ' is empty');
+        }
       }
-    }else {
+      else {
+        throw new Exception('The column ' . $column . ' is empty');
+      }
+    }
+    else {
       throw new Exception('Block list cannot be empty');
     }
   }
@@ -3480,7 +3573,7 @@ class FeatureContext extends DrupalContext {
    * @param string $blockNearBy
    *   Block name
    */
-  public function iShouldSeeTheBlockInColumnJustTheBlock($blockToFind, $column, $position, $blockNearBy ) {
+  public function iShouldSeeTheBlockInColumnJustTheBlock($blockToFind, $column, $position, $blockNearBy) {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     $arr_exporder = array();
@@ -3488,28 +3581,33 @@ class FeatureContext extends DrupalContext {
     if ($position == 'above') {
       $arr_exporder[0] = $blockToFind;
       $arr_exporder[1] = $blockNearBy;
-    }elseif($position == 'below') {
+    }
+    elseif ($position == 'below') {
       $arr_exporder[0] = $blockNearBy;
       $arr_exporder[1] = $blockToFind;
     }
     // Find blocks from the column
-    $blocks_h3 = $this->getSession()->getPage()->findAll('css', '#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
+    $blocks_h3 = $this->getSession()
+      ->getPage()
+      ->findAll('css', '#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
     if (!empty($blocks_h3)) {
       $arr_order = array();
       foreach ($blocks_h3 as $header_span) {
         if ($boxname = $header_span->getText()) {
-          if (in_array($boxname ,$arr_exporder)) {
+          if (in_array($boxname, $arr_exporder)) {
             $arr_order[] = $boxname;
           }
         }
       }
       // Check for errors
       if (($count = count($arr_order)) < 2) {
-        throw new Exception('The box'.( $count == 1 ? '' : 'es' ) . ': "' . (implode('"," ', (!empty($arr_order) ? $arr_order : $arr_exporder))) . '" cannot be found in column: "' . $column . '"');
-      }elseif($arr_order != $arr_exporder) {
-        throw new Exception('The block: "' . $blockToFind . '" couldn\'t be found "' . $position . '" the block "' . $blockNearBy . '" in Column "' . $column . '"') ;
+        throw new Exception('The box' . ($count == 1 ? '' : 'es') . ': "' . (implode('"," ', (!empty($arr_order) ? $arr_order : $arr_exporder))) . '" cannot be found in column: "' . $column . '"');
       }
-    }else {
+      elseif ($arr_order != $arr_exporder) {
+        throw new Exception('The block: "' . $blockToFind . '" couldn\'t be found "' . $position . '" the block "' . $blockNearBy . '" in Column "' . $column . '"');
+      }
+    }
+    else {
       throw new Exception('The column "' . $column . '" is empty');
     }
   }
@@ -3542,17 +3640,22 @@ class FeatureContext extends DrupalContext {
             sleep(2);
             $block_container_id = $block_inner->getParent()->getAttribute('id');
             // Wait for the result until it is loaded through ajax
-            $this->getSession()->wait(1, "typeof(jQuery('#" . $block_container_id . " > div.ahah-progress.ahah-progress-throbber').html()) == 'undefined'");
-          }else {
+            $this->getSession()
+              ->wait(1, "typeof(jQuery('#" . $block_container_id . " > div.ahah-progress.ahah-progress-throbber').html()) == 'undefined'");
+          }
+          else {
             throw new Exception('The setting cannot be saved for the block "' . $block . '"');
           }
-        }else {
+        }
+        else {
           throw new Exception('The setting "' . $setting . '" cannot be found for the block: "' . $block . '"');
         }
-      }else {
+      }
+      else {
         throw new Exception('No Setting Icon found for the block "' . $block . '"');
       }
-    }else {
+    }
+    else {
       throw new Exception('The block "' . $block . '" cannot be found.');
     }
   }
@@ -3579,11 +3682,13 @@ class FeatureContext extends DrupalContext {
         // Click it
         $close_link->click();
         sleep(1);
-      }else {
-        throw new Exception('Close Icon cannot be found for the block "'  . $block . '"');
       }
-    }else {
-      throw new Exception('The block "'  . $block . '" cannot be found.');
+      else {
+        throw new Exception('Close Icon cannot be found for the block "' . $block . '"');
+      }
+    }
+    else {
+      throw new Exception('The block "' . $block . '" cannot be found.');
     }
   }
 
@@ -3611,19 +3716,23 @@ class FeatureContext extends DrupalContext {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     // Loop through the links
-    $ul_ele = $this->getSession()->getPage()->find('css', '#homebox-add > div.item-list > ul' );
+    $ul_ele = $this->getSession()
+      ->getPage()
+      ->find('css', '#homebox-add > div.item-list > ul');
     if (!empty($ul_ele)) {
       $link = $ul_ele->findLink($blockLink);
       if (!empty($link)) {
         $link->click();
         $this->iWaitForSeconds(5);
-      }else {
-        $message = true;
       }
-    }else {
-      $message = true;
+      else {
+        $message = TRUE;
+      }
     }
-    if(isset($message)) {
+    else {
+      $message = TRUE;
+    }
+    if (isset($message)) {
       throw new Exception('The link "' . $blockLink . '" cannot be found.');
     }
   }
@@ -3638,20 +3747,23 @@ class FeatureContext extends DrupalContext {
     // Validate empty arguments
     $this->validateBlankArgs(func_get_args());
     // Find blocks from the column
-    $blocks_h3 = $this->getSession()->getPage()->findAll('css', 'div#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
+    $blocks_h3 = $this->getSession()
+      ->getPage()
+      ->findAll('css', 'div#homebox-column-' . $column . ' h3.portlet-header > span.portlet-title');
     if (!empty($blocks_h3)) {
-      $found = false;
+      $found = FALSE;
       foreach ($blocks_h3 as $header_span) {
         // Find the exact block
         if ($block = $header_span->getText()) {
-          $found = true;
+          $found = TRUE;
           break;
         }
       }
-      if(!$found) {
+      if (!$found) {
         throw new Exception('The block "' . $block . '" cannot be found');
       }
-    }else {
+    }
+    else {
       throw new Exception('The column ' . $column . ' is empty');
     }
   }
@@ -3680,12 +3792,14 @@ class FeatureContext extends DrupalContext {
             throw new Exception('The icon "' . $icon['icons'] . '" cannot be found in the block');
             break;
           }
-        }else {
+        }
+        else {
           throw new Exception('The icon "' . $icon['icons'] . '" cannot be found in the block');
           break;
         }
       }
-    }else {
+    }
+    else {
       throw new Exception('Icon list should not be empty');
     }
   }
@@ -3693,12 +3807,13 @@ class FeatureContext extends DrupalContext {
   /**
    * Find dashboard block inner container div
    */
-  private function getBlockInnerContainer($block = null) {
+  private function getBlockInnerContainer($block = NULL) {
     $page = $this->getSession()->getPage();
     // Find blocks with header
     if (is_null($block)) {
-      $blocks_h3 = array( 0 => $page->find('css', 'h3.portlet-header > span.portlet-title'));
-    }else {
+      $blocks_h3 = array(0 => $page->find('css', 'h3.portlet-header > span.portlet-title'));
+    }
+    else {
       $blocks_h3 = $page->findAll('css', 'h3.portlet-header > span.portlet-title');
     }
     if (!empty($blocks_h3)) {
@@ -3708,7 +3823,7 @@ class FeatureContext extends DrupalContext {
         }
       }
     }
-    return null;
+    return NULL;
   }
 
   /**
@@ -3719,7 +3834,7 @@ class FeatureContext extends DrupalContext {
     if (!empty($result)) {
       $findUser = $result->getText('link');
       if (trim($findUser) != trim($submUser)) {
-        throw new Exception('The user "' . $submUser .  '"  was not the submitted user for this issue.');
+        throw new Exception('The user "' . $submUser . '"  was not the submitted user for this issue.');
       }
     }
   }
@@ -3741,7 +3856,8 @@ class FeatureContext extends DrupalContext {
     }
     $page->pressButton('Save');
     sleep(2);
-    HackyDataRegistry::set('document url', $this->getSession()->getCurrentUrl());
+    HackyDataRegistry::set('document url', $this->getSession()
+        ->getCurrentUrl());
   }
 
   /**
@@ -3887,10 +4003,10 @@ class FeatureContext extends DrupalContext {
     // TODO: refactor so this is not necessary in both spots
     HackyDataRegistry::set('random:' . 'issue title', $this->issueTitle);
     $element->selectFieldOption("Component", "Code");
-		$field = $this->getSession()->getPage()->findField('Version');
-		if(!empty($field)) {
+    $field = $this->getSession()->getPage()->findField('Version');
+    if (!empty($field)) {
       $element->selectFieldOption("Version", "7.x-1.x-dev");
-		}
+    }
     $element->selectFieldOption("Category", "Task");
     $description = Random::name(18);
     $element->fillField("Issue summary", $description);
@@ -3967,7 +4083,7 @@ class FeatureContext extends DrupalContext {
     $password = $this->fetchPassword('git', $gitUsername);
     $process = new Process("../bin/gitwrapper push $password");
     $process->run();
-    if($canCommit) {
+    if ($canCommit) {
       if (!$process->isSuccessful()) {
         throw new RuntimeException('Git push failed - ' . $process->getErrorOutput());
       }
@@ -4017,7 +4133,8 @@ class FeatureContext extends DrupalContext {
    * @When /^I follow "([^"]*)" for version "([^"]*)"$/
    */
   public function iFollowForVersion($link, $version) {
-    $result = $this->getRowOfLink($this->getSession()->getPage(), $version, $link);
+    $result = $this->getRowOfLink($this->getSession()
+        ->getPage(), $version, $link);
     if (empty($result)) {
       throw new Exception("The link '" . $link . "' was not found for the version '" . $version . "' on the page.");
     }
@@ -4030,8 +4147,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iDownloadTheFileForVersion($format, $version) {
     $flag = 0;
-    $noDownloadMsg = "The '" . $format. "' file for version '" . $version . "' was not downloaded";
-    $result = $this->getRowOfLink($this->getSession()->getPage(), $version, $format);
+    $noDownloadMsg = "The '" . $format . "' file for version '" . $version . "' was not downloaded";
+    $result = $this->getRowOfLink($this->getSession()
+        ->getPage(), $version, $format);
     if (empty($result)) {
       throw new Exception("The format '" . $format . "' was not found for the version '" . $version . "' on the page.");
     }
@@ -4049,7 +4167,7 @@ class FeatureContext extends DrupalContext {
       }
       // If "zip" is requested, then check corresponding content type
       elseif ($format == "zip") {
-        if (strpos(array_pop($responseHeaders['content-type']),"application/zip") === FALSE) {
+        if (strpos(array_pop($responseHeaders['content-type']), "application/zip") === FALSE) {
           throw new Exception($noDownloadMsg);
         }
       }
@@ -4113,7 +4231,7 @@ class FeatureContext extends DrupalContext {
     return $result;
   }
 
-	/**
+  /**
    * @Given /^(?:that I|I) create(?:|d) a sandbox project$/
    */
   public function iCreatedASandboxProject() {
@@ -4151,7 +4269,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Then /^I should have a local copy of (?:the|([^"]*)") project$/
    */
-  public function iShouldHaveALocalCopyOfTheProject($project = null) {
+  public function iShouldHaveALocalCopyOfTheProject($project = NULL) {
     $project_shortname = $this->projectShortName;
     if (empty($project_shortname)) {
       throw new Exception('The project cannot be found.');
@@ -4185,10 +4303,10 @@ class FeatureContext extends DrupalContext {
     if ($this->getSession()->getPage()->findLink('Log out')) {
       return HackyDataRegistry::get('username');
     }
-    return null;
+    return NULL;
   }
 
-	/**
+  /**
    * @Then /^I should see the <users> with the following <permissions>$/
    */
   public function iShouldSeeTheUsersWithTheFollowingPermissions(TableNode $table, $assign = TRUE) {
@@ -4197,48 +4315,50 @@ class FeatureContext extends DrupalContext {
     if (empty($table)) {
       throw new Exception("No maintainers for this project");
     }
-    $ths = $this->getSession()->getPage()->findAll('css', '#project-maintainers-form table thead tr th');
-	  if (empty($ths)) {
+    $ths = $this->getSession()
+      ->getPage()
+      ->findAll('css', '#project-maintainers-form table thead tr th');
+    if (empty($ths)) {
       throw new Exception("Could not find project maintainers desired permissions for this project");
     }
     $arr_th = array();
     foreach ($ths as $th) {
       $header = trim($th->getText());
-      if ($header !="" && 'User' !=  $header && 'Operations' != $header) {
+      if ($header != "" && 'User' != $header && 'Operations' != $header) {
         $arr_th[] = $header;
       }
     }
     foreach ($table as $data) {
       $user = $data['users'];
       $permission = $data['permissions'];
-			$userLink = $this->getSession()->getPage()->findLink($user);
+      $userLink = $this->getSession()->getPage()->findLink($user);
       if (empty($userLink)) {
-        $message .= 'The page does not have the following user "' . $user . '" '. "\n";
+        $message .= 'The page does not have the following user "' . $user . '" ' . "\n";
       }
-			// a -> td -> tr In order to find the maintainers link for checking his permissons.
+      // a -> td -> tr In order to find the maintainers link for checking his permissons.
       else {
         $tr = $userLink->getParent()->getParent();
         $vcsCheckboxes = $tr->findAll('css', 'td .form-item .form-checkbox');
         if (empty($vcsCheckboxes)) {
           throw new Exception('The page could not find any checkboxes');
         }
-				$index = array_search($permission, $arr_th);
-				// Find the checkbox corresponding to the header column.
+        $index = array_search($permission, $arr_th);
+        // Find the checkbox corresponding to the header column.
         $chk = $vcsCheckboxes[$index];
-				if ($assign) {
+        if ($assign) {
           // If a checkbox with the above id exists and it is not checked, then 'check' it.
-					if (!($chk->hasAttribute('checked'))) {
-					  // The error messages will be concatenated and message will be thrown at the end.
-					 	$message .= 'The user "' . $user . '" does not have "' . $permission . '" permissions' . "\n";
-					}
-				}
-				else {
-					if (($chk->hasAttribute('checked'))) {
-					  // The error messages will be concatenated and message will be thrown at the end.
-						$message .= 'The user "' . $user . '" already have the mentioned "' . $permission . '" permissions' . "\n";
-					}
-				}
-			}
+          if (!($chk->hasAttribute('checked'))) {
+            // The error messages will be concatenated and message will be thrown at the end.
+            $message .= 'The user "' . $user . '" does not have "' . $permission . '" permissions' . "\n";
+          }
+        }
+        else {
+          if (($chk->hasAttribute('checked'))) {
+            // The error messages will be concatenated and message will be thrown at the end.
+            $message .= 'The user "' . $user . '" already have the mentioned "' . $permission . '" permissions' . "\n";
+          }
+        }
+      }
     }
     if (($message)) {
       throw new Exception($message);
@@ -4257,7 +4377,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheTitle() {
     $page = $this->getSession()->getPage();
-    $element = $page->find('css','h1#page-subtitle')->getText();
+    $element = $page->find('css', 'h1#page-subtitle')->getText();
     $title = $type = "";
     if (isset($this->issueTitle)) {
       $title = $this->issueTitle;
@@ -4304,10 +4424,10 @@ class FeatureContext extends DrupalContext {
     if (!empty($result)) {
       return $result;
     }
-    return null;
+    return NULL;
   }
 
-	/**
+  /**
    * @Given /^I add (?:a|one more) comment to the issue$/
    */
   public function iAddACommentToTheIssue() {
@@ -4337,8 +4457,8 @@ class FeatureContext extends DrupalContext {
       }
       $process = new Process('git config user.name "' . $gitUsername . '"');
       $process->run();
-		  if (!$process->isSuccessful()) {
-    	  throw new Exception("Unable to set user.name '" . $gitUsername . "' in git config");
+      if (!$process->isSuccessful()) {
+        throw new Exception("Unable to set user.name '" . $gitUsername . "' in git config");
       }
     }
     return TRUE;
@@ -4527,19 +4647,19 @@ class FeatureContext extends DrupalContext {
     }
     $gitUsername = "";
     $password = "";
-	  $code = explode("@", $repo);
-	  $code = explode(" ", $code[0]);
-  	$gitUsernameTemp = trim(end($code));
+    $code = explode("@", $repo);
+    $code = explode(" ", $code[0]);
+    $gitUsernameTemp = trim(end($code));
     $gitUsername = str_replace("ssh://", "", $gitUsernameTemp);
-	  if (!isset($this->git_users[$gitUsername])) {
-  	  $gitUsernameTemp = trim($code[sizeof($code) - 2]);
+    if (!isset($this->git_users[$gitUsername])) {
+      $gitUsernameTemp = trim($code[sizeof($code) - 2]);
       $gitUsername = str_replace("ssh://", "", $gitUsernameTemp);
     }
     if (!isset($this->git_users[$gitUsername])) {
       return FALSE;
     }
     $password = $this->git_users[$gitUsername];
-	  return array('username' => $gitUsername, 'password' => $password);
+    return array('username' => $gitUsername, 'password' => $password);
   }
 
   /**
@@ -4575,7 +4695,9 @@ class FeatureContext extends DrupalContext {
     $this->getSession()->visit($this->locatePath($doc_url));
     sleep(1);
     // Find and save metdata string
-    $updates = $this->getSession()->getPage()->find('css', 'div.content > p.updated > em');
+    $updates = $this->getSession()
+      ->getPage()
+      ->find('css', 'div.content > p.updated > em');
     if (empty($updates)) {
       throw new Exception(' Document metadata cannot be found on the document');
     }
@@ -4612,14 +4734,14 @@ class FeatureContext extends DrupalContext {
       if (empty($created_user)) {
         throw new Exception('Created username cannot be found');
       }
-      if (true === strpos($this->edited_users, $created_user)) {
+      if (TRUE === strpos($this->edited_users, $created_user)) {
         throw new Exception('Editor usernames contains Document creator');
       }
     }
     elseif ($type == 'repeated usernames') {
       // Check for duplicates in editor usernames
       // Find usernames between "Edited by " and ". You can edit"
-      $editors = substr($this->updates, strpos($this->updates, 'Edited by ') + 10,  (strlen($this->updates) - strpos($this->updates, '. You can edit')) * -1);
+      $editors = substr($this->updates, strpos($this->updates, 'Edited by ') + 10, (strlen($this->updates) - strpos($this->updates, '. You can edit')) * -1);
       $arr_editors = explode(',', $editors);
       if ($arr_editors != array_unique($arr_editors)) {
         throw new Exception('Editor usernames has duplicate values');
@@ -4645,7 +4767,7 @@ class FeatureContext extends DrupalContext {
           throw new Exception('Edited usernames cannot be found');
         }
         $string = 'Edited by ' . $this->edited_users;
-        if (empty($this->edited_users) || false === strpos($this->updates, $string)) {
+        if (empty($this->edited_users) || FALSE === strpos($this->updates, $string)) {
           throw new Exception('Editor usernames don\'t match with the latest unique entries in revisions');
         }
         break;
@@ -4655,7 +4777,7 @@ class FeatureContext extends DrupalContext {
           throw new Exception('Last updated date cannot be found');
         }
         $string = 'Last updated ' . $updated_date;
-        if (empty($updated_date) || false === strpos($this->updates, $string)) {
+        if (empty($updated_date) || FALSE === strpos($this->updates, $string)) {
           throw new Exception('Last updated date doesn\'t match with latest revision date');
         }
         break;
@@ -4665,7 +4787,7 @@ class FeatureContext extends DrupalContext {
           throw new Exception('Created date cannot be found');
         }
         $string = 'on ' . $created_date;
-        if (empty($created_date) || false === strpos($this->updates, $string)) {
+        if (empty($created_date) || FALSE === strpos($this->updates, $string)) {
           throw new Exception('Created date doesn\'t match with the last entry in revisions');
         }
         break;
@@ -4674,7 +4796,7 @@ class FeatureContext extends DrupalContext {
           throw new Exception('Created username cannot be found');
         }
         $string = 'Created by ' . $created_user;
-        if (empty($created_user) || false === strpos($this->updates, $string)) {
+        if (empty($created_user) || FALSE === strpos($this->updates, $string)) {
           throw new Exception('Creator username doesn\'t match with the last entry in revisions');
         }
         break;
@@ -4694,10 +4816,11 @@ class FeatureContext extends DrupalContext {
     $current_url = $session->getCurrentUrl();
     // Visit revisions tab
     $session->visit($this->locatePath($current_url . '/revisions'));
-    switch($type) {
+    switch ($type) {
       case 'updated_date':
         // Last updated date will be date showing in the first row of revisions table
-        $tables = $session->getPage()->findAll('css', 'form#diff-node-revisions > div > table');
+        $tables = $session->getPage()
+          ->findAll('css', 'form#diff-node-revisions > div > table');
         if (empty($tables)) {
           throw new Exception('Revisions table cannot be found.');
         }
@@ -4716,10 +4839,13 @@ class FeatureContext extends DrupalContext {
       case 'created_user':
       case 'created_date':
         if ($session->getPage()->hasLink('Go to last page')) {
-          $session->visit($this->locatePath($session->getPage()->findLink('Go to last page')->getAttribute('href')));
+          $session->visit($this->locatePath($session->getPage()
+                ->findLink('Go to last page')
+                ->getAttribute('href')));
           $go_back = $session->getCurrentUrl();
         }
-        $tables = $session->getPage()->findAll('css', 'form#diff-node-revisions div table');
+        $tables = $session->getPage()
+          ->findAll('css', 'form#diff-node-revisions div table');
         if (empty($tables)) {
           throw new Exception('Revisions table cannot be found.');
         }
@@ -4758,7 +4884,8 @@ class FeatureContext extends DrupalContext {
         return $string;
         break;
       case 'edited_users':
-        $tables = $session->getPage()->findAll('css', 'form#diff-node-revisions div table');
+        $tables = $session->getPage()
+          ->findAll('css', 'form#diff-node-revisions div table');
         // Point to the last table
         $table = end($tables);
         $trs = $table->findAll('css', 'tbody tr');
@@ -4790,14 +4917,14 @@ class FeatureContext extends DrupalContext {
    *   date format
    */
   private function formatSiteDate($date, $format = 'F d, Y') {
-    if (preg_match("/(.*)\/(.*)\/(.*)/", $date )) {
+    if (preg_match("/(.*)\/(.*)\/(.*)/", $date)) {
       list($date, $month, $year) = explode('/', $date);
       return date($format, strtotime("$year-$month-$date"));
     }
     else {
       return date($format, strtotime($date));
     }
-    return null;
+    return NULL;
   }
 
   /**
@@ -4812,10 +4939,11 @@ class FeatureContext extends DrupalContext {
     }
     $tabs = $page->findAll('css', $selector);
     if (empty($tabs)) {
-      throw new Exception('The page '. $this->getSession()->getCurrentUrl() .' does not have any tabs');
+      throw new Exception('The page ' . $this->getSession()
+          ->getCurrentUrl() . ' does not have any tabs');
     }
     // Loop throught each link and find the one required
-    foreach($tabs as $tab) {
+    foreach ($tabs as $tab) {
       if (trim($tab->getText()) == $link) {
         $tabLink = $tab;
         break;
@@ -4837,7 +4965,8 @@ class FeatureContext extends DrupalContext {
     $page = $this->getSession()->getPage();
     $link = $this->getIssueTitleObj($page);
     if (1 || empty($link)) {
-      throw new Exception(sprintf('Could not find the link on %s', $this->getSession()->getCurrentUrl()));
+      throw new Exception(sprintf('Could not find the link on %s', $this->getSession()
+            ->getCurrentUrl()));
     }
   }
 
@@ -4850,13 +4979,16 @@ class FeatureContext extends DrupalContext {
    * @param boolean $throw
    *   Whether to show exception message
    */
-  public function iClickLink($link, $throw = true) {
+  public function iClickLink($link, $throw = TRUE) {
     sleep(2);
     $page = $this->getSession()->getPage();
-    $clicked = false;
+    $clicked = FALSE;
     // Perform some operations specific to the link, after clicking the link
     //Homepage preference settings links
-    if (in_array($link, array('Make this your Homepage', 'Use Default Homepage'))) {
+    if (in_array($link, array(
+        'Make this your Homepage',
+        'Use Default Homepage'
+      ))) {
       // Reset homepage setting value
       if (!HackyDataRegistry::get('homepage setting')) {
         $this->changeDefaultHomepageSetting('reset');
@@ -4866,15 +4998,15 @@ class FeatureContext extends DrupalContext {
         $element->click();
         // As the operation is done through ajax, wait until the link disappears from the dom or for 3 seconds
         $this->iWaitForSeconds(1, "jQuery('a:contains(\"" . $link . "\")').text() == \"\"");
-        $clicked = true;
+        $clicked = TRUE;
       }
     }
     // Drupal banner in the header
-    elseif($link == 'drupal banner') {
+    elseif ($link == 'drupal banner') {
       $element = $page->find('css', 'div#header-left-inner > div#site-name > a');
       if (!empty($element)) {
         $element->click();
-        $clicked = true;
+        $clicked = TRUE;
       }
     }
     // Other links fall here
@@ -4882,7 +5014,7 @@ class FeatureContext extends DrupalContext {
       $element = $page->findLink($link);
       if (!empty($element)) {
         $element->click();
-        $clicked = true;
+        $clicked = TRUE;
       }
     }
     if (!$clicked) {
@@ -4930,14 +5062,14 @@ class FeatureContext extends DrupalContext {
       }
     }
     // Revert setting to saved default setting
-    elseif($action == 'revert') {
+    elseif ($action == 'revert') {
       $setting = HackyDataRegistry::get('homepage setting');
       if (empty($setting)) {
         // Assume that revert is not required
         return;
       }
       // Find setting link
-      $link = $page->find('css','form#drupalorg-set-home div a');
+      $link = $page->find('css', 'form#drupalorg-set-home div a');
       if (empty($link)) {
         echo "\n" . 'Homepage setting link is not found. Revert failed';
         return;
@@ -4946,7 +5078,7 @@ class FeatureContext extends DrupalContext {
       if ($setting != $link->getText()) {
         HackyDataRegistry::set('homepage setting', '');
         // Use the click statement to make sure ajax request is complete
-        $this->iClickLink($link->getText(), false);
+        $this->iClickLink($link->getText(), FALSE);
       }
     }
   }
@@ -4978,7 +5110,9 @@ class FeatureContext extends DrupalContext {
    *
    */
   public function removeDashboardBlocks() {
-    $close_links = $this->getSession()->getPage()->findAll('css', 'a.portlet-icon.portlet-close');
+    $close_links = $this->getSession()
+      ->getPage()
+      ->findAll('css', 'a.portlet-icon.portlet-close');
     // Assume there are no blocks on dashboard
     if (empty($close_links)) {
       return;
@@ -4993,9 +5127,9 @@ class FeatureContext extends DrupalContext {
   /**
    * @Then /^the count of "([^"]*)" should be greater than zero$/
    */
-	public function theCountOfShouldBeGreaterThanZero($gitActivity) {
+  public function theCountOfShouldBeGreaterThanZero($gitActivity) {
     $total = 0;
-	  $page = $this->getSession()->getPage();
+    $page = $this->getSession()->getPage();
     $result = $page->findAll('css', "#block-drupalorg-drupalorg_activity div.item-list ul li");
     if (empty($result)) {
       throw new Exception("Unable to find activity block");
@@ -5005,8 +5139,8 @@ class FeatureContext extends DrupalContext {
       $fullText = explode("</strong>", $text);
       if (strpos($fullText[1], $gitActivity) !== FALSE) {
         $resultCount = explode('>', $fullText[0]);
-        $repTemp =  str_replace(",", "", $resultCount[1]);
-        if(empty($repTemp)) {
+        $repTemp = str_replace(",", "", $resultCount[1]);
+        if (empty($repTemp)) {
           throw new Exception("Could not find any records for this  '" . $gitActivity . "' activity");
         }
         $total = $total + (int) trim($repTemp);
@@ -5022,7 +5156,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeCommunityMemberPhoto() {
     $page = $this->getSession()->getPage();
-	  $result = $page->find('css', '.view-drupalorg-community-spotlight .node-content img');
+    $result = $page->find('css', '.view-drupalorg-community-spotlight .node-content img');
     if (empty($result)) {
       throw new Exception('No Photo Id exists for the user');
     }
@@ -5126,7 +5260,9 @@ class FeatureContext extends DrupalContext {
     }
     $this->getSession()->visit($this->locatePath($link->getAttribute('href')));
     // Get the code block
-    $element = $this->getSession()->getPage()->find('css', '#content div.codeblock');
+    $element = $this->getSession()
+      ->getPage()
+      ->find('css', '#content div.codeblock');
     if (empty($element)) {
       $this->getSession()->visit($this->locatePath($current_url));
       return;
@@ -5140,7 +5276,7 @@ class FeatureContext extends DrupalContext {
       $end_point = end($arr_ep) . ".git";
     }
     elseif (preg_match('#git remote add origin (.+)\.git#', $code, $matches)) {
-       $end_point = $matches[1] . ".git";
+      $end_point = $matches[1] . ".git";
     }
     HackyDataRegistry::set('sandbox git endpoint', $end_point);
     $this->getSession()->visit($this->locatePath($current_url));
@@ -5180,7 +5316,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iFollowTheResultUnder($heading) {
     $id = "";
-    switch($heading) {
+    switch ($heading) {
       case 'New Modules':
         $id = '#block-drupalorg-order-facet-ds-created .item-list ul > li > a';
         break;
@@ -5240,7 +5376,8 @@ class FeatureContext extends DrupalContext {
     sleep(2);
     $temp = $page->findAll('css', '.commit-global h3 a');
     if (empty($temp)) {
-      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " did not contain the commit information");
+      throw new Exception("The page " . $this->getSession()
+          ->getCurrentUrl() . " did not contain the commit information");
     }
     $commitLogLinks = array();
     $count = 0;
@@ -5384,8 +5521,10 @@ class FeatureContext extends DrupalContext {
    * @param boolean $present
    *   Return True if success, false otherwise
    */
-  public function checkBreadcrumb($breadcrumb, $present = true) {
-    $result = $this->getSession()->getPage()->find('xpath', '//div[@id="page-heading"]//div[@class="breadcrumb"]//a[text()="' . $breadcrumb . '"]');
+  public function checkBreadcrumb($breadcrumb, $present = TRUE) {
+    $result = $this->getSession()
+      ->getPage()
+      ->find('xpath', '//div[@id="page-heading"]//div[@class="breadcrumb"]//a[text()="' . $breadcrumb . '"]');
     if ($present && empty($result)) {
       throw new Exception("The breadcrumb \"" . $breadcrumb . "\" was not found on the page");
     }
@@ -5399,7 +5538,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldNotSeeTheBreadcrumb($breadcrumb) {
     //To check for the breadcrumb link exists
-    $this->checkBreadcrumb($breadcrumb, false);
+    $this->checkBreadcrumb($breadcrumb, FALSE);
   }
 
   /**
@@ -5421,7 +5560,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^I create "([^"]*)" page(?:|s)$/
    */
   public function iCreatePages($count) {
-    for ($i = 0; $i < $count; $i++ ) {
+    for ($i = 0; $i < $count; $i++) {
       // Visit the page again if more than 1 page is to be created
       if ($i > 0) {
         $this->getSession()->visit($this->locatePath("/node/add/page"));
@@ -5435,7 +5574,8 @@ class FeatureContext extends DrupalContext {
       sleep(2);
       // Store the url of the page if only 1 page is created
       if ($count == 1) {
-        HackyDataRegistry::set('project_url', $this->getSession()->getCurrentUrl());
+        HackyDataRegistry::set('project_url', $this->getSession()
+            ->getCurrentUrl());
       }
     }
   }
@@ -5462,7 +5602,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastRecordForEachFilter($count) {
     // Get all the links under the block
-    $links = $this->getSession()->getPage()->findAll('css', '#facetapi-facet-apachesolrsolr-block-ss-meta-type li a');
+    $links = $this->getSession()
+      ->getPage()
+      ->findAll('css', '#facetapi-facet-apachesolrsolr-block-ss-meta-type li a');
     if (empty($links)) {
       throw new Exception("The page did not contain any results");
     }
@@ -5500,24 +5642,27 @@ class FeatureContext extends DrupalContext {
    * @param object $callback
    *   The callback function that needs to be checked repeatedly
    */
-  public function iWaitUntilThePageLoads($callback = null) {
+  public function iWaitUntilThePageLoads($callback = NULL) {
     // Manual timeout in seconds
     $timeout = 60;
     // Default callback
     if (empty($callback)) {
-      if ($this->getSession()->getDriver() instanceof Behat\Mink\Driver\GoutteDriver) {
-        $callback = function($context) {
+      if ($this->getSession()
+          ->getDriver() instanceof Behat\Mink\Driver\GoutteDriver
+      ) {
+        $callback = function ($context) {
           // If the page is completely loaded and the footer text is found
-          if(200 == $context->getSession()->getDriver()->getStatusCode()) {
-            return true;
+          if (200 == $context->getSession()->getDriver()->getStatusCode()) {
+            return TRUE;
           }
-          return false;
+          return FALSE;
         };
       }
       else {
         // Convert $timeout value into milliseconds
         // document.readyState becomes 'complete' when the page is fully loaded
-        $this->getSession()->wait($timeout*1000, "document.readyState == 'complete'");
+        $this->getSession()
+          ->wait($timeout * 1000, "document.readyState == 'complete'");
         return;
       }
     }
@@ -5525,9 +5670,9 @@ class FeatureContext extends DrupalContext {
       throw new Exception('The given callback is invalid/doesn\'t exist');
     }
     // Try out the callback until $timeout is reached
-    for ($i = 0, $limit = $timeout/2; $i < $limit; $i++) {
+    for ($i = 0, $limit = $timeout / 2; $i < $limit; $i++) {
       if ($callback($this)) {
-        return true;
+        return TRUE;
       }
       // Try every 2 seconds
       sleep(2);
@@ -5584,7 +5729,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastMostInstalledModules($count) {
     // Get the links from the most installed block
-    $links = $this->getSession()->getPage()->findAll("css", ".most-installed a");
+    $links = $this->getSession()
+      ->getPage()
+      ->findAll("css", ".most-installed a");
     if (empty($links)) {
       throw new Exception("The most installed block did not contain any links");
     }
@@ -5609,7 +5756,9 @@ class FeatureContext extends DrupalContext {
     // Wait for the page to load. Otherwise we will get timeout error here. project/usage page is long
     sleep(7);
     // Get the links from the table
-    $links = $this->getSession()->getPage()->findAll("css", "#project-usage-all-projects tbody tr td a");
+    $links = $this->getSession()
+      ->getPage()
+      ->findAll("css", "#project-usage-all-projects tbody tr td a");
     if (empty($links)) {
       throw new Exception("The most installed block did not contain any links");
     }
@@ -5636,8 +5785,10 @@ class FeatureContext extends DrupalContext {
    * @When /^I follow (?:Featured providers|All providers|Organization) title post$/
    */
   public function iFollowFeaturedProvidersTitlePost() {
-    $result = $this->getSession()->getPage()->find('css', '.view-content .node-organization a');
-    if(empty($result)) {
+    $result = $this->getSession()
+      ->getPage()
+      ->find('css', '.view-content .node-organization a');
+    if (empty($result)) {
       throw new Exception("Title post is not found on the page");
     }
     $href = $result->getAttribute("href");
@@ -5650,11 +5801,11 @@ class FeatureContext extends DrupalContext {
    * @param string $context
    * To specify feauture/all providers title post
    */
-  public function iCreateANewOrganizationFor($context = null) {
+  public function iCreateANewOrganizationFor($context = NULL) {
     $element = $this->getSession()->getPage();
     // Prefix title with 01 in order to get it listed on top
     $this->issueTitle = "01" . Random::name(12);
-		$element->fillField("Organization name", $this->issueTitle);
+    $element->fillField("Organization name", $this->issueTitle);
     HackyDataRegistry::set('random:Organization name', $this->issueTitle);
     $website = Random::name(18);
     //id for website
@@ -5671,15 +5822,15 @@ class FeatureContext extends DrupalContext {
     $browse->attachFile($file_path);
     // Services
     $service = 'Consulting';
-    $element->selectFieldOption('Services', $service, true);
+    $element->selectFieldOption('Services', $service, TRUE);
     HackyDataRegistry::set('random:Services', $service);
     // Services
     $sector = 'Arts';
-    $element->selectFieldOption('Sectors', $sector, true);
+    $element->selectFieldOption('Sectors', $sector, TRUE);
     HackyDataRegistry::set('random:Sectors', $sector);
     // Locations
     $location = 'Algeria';
-    $element->selectFieldOption('Locations', $location, true);
+    $element->selectFieldOption('Locations', $location, TRUE);
     HackyDataRegistry::set('random:Locations', $location);
     // Drupal contributions
     $element->fillField("Drupal contributions", $drupal_contributions);
@@ -5689,8 +5840,8 @@ class FeatureContext extends DrupalContext {
     $element->fillField("Organization description", $org_desc);
     HackyDataRegistry::set('random:Organization description', $org_desc);
 
-    if(!empty($context)) {
-      if($context == 'training') {
+    if (!empty($context)) {
+      if ($context == 'training') {
         $chk = $element->findField("Request listing in the Training section");
         // Training url
         $train_url = Random::name(20);
@@ -5701,10 +5852,12 @@ class FeatureContext extends DrupalContext {
         $element->fillField("Training description", $train_desc);
         HackyDataRegistry::set('random:Training description', $train_desc);
       }
-      else if($context == 'drupal services') {
-        $chk = $element->findField("Request listing in the Drupal services section");
+      else {
+        if ($context == 'drupal services') {
+          $chk = $element->findField("Request listing in the Drupal services section");
+        }
       }
-      if(isset($chk)) {
+      if (isset($chk)) {
         $chk->check();
       }
     }
@@ -5716,14 +5869,15 @@ class FeatureContext extends DrupalContext {
     $budget = Random::name(10);
     $element->fillField("Usual project budget (optional)", $budget);
     HackyDataRegistry::set('random:Usual project budget (optional)', $budget);
-    $hosting = $element->find('css','#edit-field-organization-hosting-categ-und-enterprise-managed');
-    if($hosting) {
+    $hosting = $element->find('css', '#edit-field-organization-hosting-categ-und-enterprise-managed');
+    if ($hosting) {
       $this->assertSelectRadioById('Enterprise & Managed', $hosting);
     }
     HackyDataRegistry::set('issue title', $this->issueTitle);
     $element->pressButton("Save");
     sleep(7);
-    HackyDataRegistry::set('project path', $this->getSession()->getCurrentUrl());
+    HackyDataRegistry::set('project path', $this->getSession()
+        ->getCurrentUrl());
     sleep(2);
   }
 
@@ -5735,7 +5889,9 @@ class FeatureContext extends DrupalContext {
    * define the field name
    */
   public function iShouldSeeSelectedFor($option, $field) {
-    $result = $this->getSession()->getPage()->findAll('css', '.group-moderation .form-item label');
+    $result = $this->getSession()
+      ->getPage()
+      ->findAll('css', '.group-moderation .form-item label');
     if (empty($result)) {
       throw new Exception("Radio buttons are not found on the page");
     }
@@ -5743,16 +5899,16 @@ class FeatureContext extends DrupalContext {
       $listHeader = $row->getText();
       $resultCount = explode(':', $listHeader);
       $repTemp = $resultCount[0];
-      if(empty($repTemp)) {
+      if (empty($repTemp)) {
         throw new Exception("Moderator field '" . $field . "' is not found on the page");
       }
       if (strpos($repTemp, $field) !== FALSE) {
         $optionLable = $row->getParent();
-        $optionField =  $optionLable->findField($option);
-        if(empty($optionField)) {
+        $optionField = $optionLable->findField($option);
+        if (empty($optionField)) {
           throw new Exception("Moderator field '" . $option . "' option is not found on the page");
         }
-        if(($optionField->isChecked())){
+        if (($optionField->isChecked())) {
           return;
         }
       }
@@ -5776,16 +5932,17 @@ class FeatureContext extends DrupalContext {
    * @param boolean $count_param
    *   count
    */
-  public function iShouldSeeInArea($type = 'text', $content, $region, $find = true, $count_param = null) {
+  public function iShouldSeeInArea($type = 'text', $content, $region, $find = TRUE, $count_param = NULL) {
     // Find the region
     $region_ele = $this->getSession()->getPage()->find('region', $region);
     if (empty($region_ele)) {
-      throw new Exception('The region "' . $region . '" is not found at ' . $this->getSession()->getCurrentUrl() );
+      throw new Exception('The region "' . $region . '" is not found at ' . $this->getSession()
+          ->getCurrentUrl());
     }
     switch ($type) {
       // Normal text(includes link labels as well)
       case 'text':
-        if (false === strpos($region_ele->getText(), $content)) {
+        if (FALSE === strpos($region_ele->getText(), $content)) {
           if ($find) {
             throw new Exception('The text "' . $content . '" was not found in the "' . $region . '" region of the page');
           }
@@ -5818,10 +5975,10 @@ class FeatureContext extends DrupalContext {
         if (empty($radio_ele)) {
           throw new Exception('The option "' . $content . '" is not found in the "' . $region . '" region of the page');
         }
-        $found = false;
+        $found = FALSE;
         foreach ($radio_ele as $radio) {
           if ($content == $radio->getParent()->getText()) {
-            $found = true;
+            $found = TRUE;
             if (!$find) {
               throw new Exception('The option "' . $content . '" is found in the "' . $region . '" region of the page but it should not be');
             }
@@ -5838,10 +5995,10 @@ class FeatureContext extends DrupalContext {
         if (empty($a_ele)) {
           throw new Exception('The tab "' . $content . '" is not found in the "' . $region . '" region of the page');
         }
-        $found = false;
-        foreach ( $a_ele as $a) {
+        $found = FALSE;
+        foreach ($a_ele as $a) {
           if ($content == $a->getText()) {
-            $found = true;
+            $found = TRUE;
             if (!$find) {
               throw new Exception('The tab "' . $content . '" is found in the "' . $region . '" region of the page but it should not be');
             }
@@ -5849,7 +6006,7 @@ class FeatureContext extends DrupalContext {
           }
         }
         if (!$found && $find) {
-           throw new Exception('The tab "' . $content . '" is not found in the "' . $region . '" region of the page');
+          throw new Exception('The tab "' . $content . '" is not found in the "' . $region . '" region of the page');
         }
         break;
       // Right content count for different links
@@ -5859,10 +6016,10 @@ class FeatureContext extends DrupalContext {
           throw new Exception('"' . $content . '" is not found in the "' . $region . '" region of the page');
         }
         $count_ele = $td_ele->getParent()->getParent()->find('css', 'td');
-        if(empty($count_ele)) {
+        if (empty($count_ele)) {
           throw new Exception('Count for "' . $content . '" is not found in the "' . $region . '" region of the page');
         }
-        $count = (int) str_replace(',','', $count_ele->getText());
+        $count = (int) str_replace(',', '', $count_ele->getText());
         if (trim($count) == "") {
           throw new Exception('"' . $content . '" count is not found');
         }
@@ -5898,11 +6055,13 @@ class FeatureContext extends DrupalContext {
 
             // Advertisement iFrame is loaded via javascript, so test needs to wait
             // until iFrame actually loaded.
-            $this->getSession()->wait(10, "jQuery('.block-google-admanger iframe').length");
+            $this->getSession()
+              ->wait(10, "jQuery('.block-google-admanger iframe').length");
 
             $iframe_ele = $region_ele->find('css', '.block-google-admanger iframe');
             if (!empty($iframe_ele)) {
-              $this->getSession()->switchToIFrame($iframe_ele->getAttribute('name'));
+              $this->getSession()
+                ->switchToIFrame($iframe_ele->getAttribute('name'));
               $a = $this->getSession()->getPage()->findAll('css', 'a');
               if (empty($a)) {
                 $this->getSession()->switchToIFrame();
@@ -5938,7 +6097,7 @@ class FeatureContext extends DrupalContext {
         }
         break;
       default:
-        throw new Exception('The type "' . $type . '" is not implemented.' );
+        throw new Exception('The type "' . $type . '" is not implemented.');
         break;
     }
   }
@@ -5954,7 +6113,7 @@ class FeatureContext extends DrupalContext {
    *   region on homepage
    */
   public function iShouldNotSeeInArea($type, $content, $region) {
-    $this->iShouldSeeInArea($type, $content, $region, false );
+    $this->iShouldSeeInArea($type, $content, $region, FALSE);
   }
 
   /**
@@ -5968,7 +6127,7 @@ class FeatureContext extends DrupalContext {
    *   count
    */
   public function iShouldSeeAtLeastPeopleInPowerDrupalText($count, $type) {
-    $this->iShouldSeeInArea('power drupal', $type, 'middle content', true, $count);
+    $this->iShouldSeeInArea('power drupal', $type, 'middle content', TRUE, $count);
   }
 
   /**
@@ -5985,7 +6144,7 @@ class FeatureContext extends DrupalContext {
     foreach ($table->getHash() as $content) {
       $keys = array_keys($content);
       $key = str_replace('s', '', $keys[0]);
-      $this->iShouldSeeInArea($key, $content[$keys[0]], $region, true);
+      $this->iShouldSeeInArea($key, $content[$keys[0]], $region, TRUE);
     }
   }
 
@@ -6000,7 +6159,7 @@ class FeatureContext extends DrupalContext {
    *   Modules/Code Commits etc.
    */
   public function iShouldSeeAtLeastInArea($count, $type) {
-    $this->iShouldSeeInArea('count', $type, 'top right content', true, $count );
+    $this->iShouldSeeInArea('count', $type, 'top right content', TRUE, $count);
   }
 
   /**
@@ -6009,7 +6168,9 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the results sorted by most installed modules$/
    */
   public function iShouldSeeTheResultsSortedByMostInstalledModules() {
-    $links = $this->getSession()->getPage()->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
+    $links = $this->getSession()
+      ->getPage()
+      ->findAll("css", "dl.apachesolr_multisitesearch-results dt a");
     if (empty($links)) {
       throw new Exception("The page did not contain any links");
     }
@@ -6027,19 +6188,25 @@ class FeatureContext extends DrupalContext {
       throw new Exception("The module '" . $linksArr[0] . "' was not found on the statistics page");
     }
     // a > td > tr
-    $link = $link->getParent()->getParent()->find("css", ".project-usage-numbers");
+    $link = $link->getParent()
+      ->getParent()
+      ->find("css", ".project-usage-numbers");
     if (empty($link)) {
       throw new Exception("Could not find module install count on the statistics page");
     }
     $resultFirst = (int) str_replace(",", "", trim($link->getText()));
 
     // Get the links for the last result
-    $link = $this->getSession()->getPage()->findLink($linksArr[sizeof($linksArr) - 1]);
+    $link = $this->getSession()
+      ->getPage()
+      ->findLink($linksArr[sizeof($linksArr) - 1]);
     if (empty($link)) {
       throw new Exception("The module '" . end($linksArr) . "' was not found on the statistics page");
     }
     // a > td > tr
-    $link = $link->getParent()->getParent()->find("css", ".project-usage-numbers");
+    $link = $link->getParent()
+      ->getParent()
+      ->find("css", ".project-usage-numbers");
     if (empty($link)) {
       throw new Exception("Could not find module install count on the statistics page");
     }
@@ -6150,8 +6317,10 @@ class FeatureContext extends DrupalContext {
     $this->dataRegistry->set('random:Forum subject', $subject);
     $summary = str_repeat(Random::name(10) . " ", 10);
     // Fill summary
-     // If javascript is used, then click Edit summary link and then fill field
-    if ($this->getSession()->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
+    // If javascript is used, then click Edit summary link and then fill field
+    if ($this->getSession()
+        ->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver
+    ) {
       $page->findLink('Edit summary')->click();
       $page->fillField("Summary", $summary);
     }
@@ -6168,9 +6337,11 @@ class FeatureContext extends DrupalContext {
     $this->dataRegistry->set('random:Forum body', $body);
     $page->pressButton('Save');
     // Wait for the Save to complete before trying to store node url
-    $this->spin(function($context) {
-    return ($context->getSession()->getPage()->hasContent('has been created'));
-    },5);
+    $this->spin(function ($context) {
+      return ($context->getSession()
+        ->getPage()
+        ->hasContent('has been created'));
+    }, 5);
     $this->dataRegistry->set('forum url', $this->getSession()->getCurrentUrl());
     HackyDataRegistry::set('forum url', $this->getSession()->getCurrentUrl());
   }
@@ -6179,7 +6350,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^there is a new "([^"]*)" forum topic$/
    */
   public function thereIsANewForumTopic($forum) {
-    return array (
+    return array(
       new Given("I am logged in as the \"site user\""),
       new Given("I am at \"/node/add/forum/0\""),
       new Given("I select \"-$forum\" from \"edit-taxonomy-forums-und\""),
@@ -6193,7 +6364,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^there is a new promoted forum topic$/
    */
   public function thereIsANewPromotedForumTopic() {
-   return array (
+    return array(
       new Given("there is a new \"General discussion\" forum topic"),
       new Given("I am logged in as the \"admin test\""),
       new Given("I am on the forum topic page"),
@@ -6217,7 +6388,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iEditThe($forumtopic) {
     $url = $this->dataRegistry->get('forum url');
-    return array (
+    return array(
       new Given("I visit \"$url\""),
       new Given("I follow \"Edit\"")
     );
@@ -6255,7 +6426,9 @@ class FeatureContext extends DrupalContext {
    * @Then /^I should see book image under Drupal books$/
    */
   public function iShouldSeeBookImageUnderDrupalBooks() {
-    $result = $this->getSession()->getPage()->find('css', '#content-inner .narrow-box-list img');
+    $result = $this->getSession()
+      ->getPage()
+      ->find('css', '#content-inner .narrow-box-list img');
     if (empty($result)) {
       throw new Exception('No Drupal book image under drupal books');
     }
@@ -6575,19 +6748,19 @@ class FeatureContext extends DrupalContext {
       if (is_dir($projectTitle)) {
         chdir($projectTitle);
         $command = "git " . $type . " -d " . $value;
-    		$process = new Process($command);
-		    $process->run();
-		    sleep(1);
-		    $userData = $this->getGitUserData(HackyDataRegistry::get('git repo'));
+        $process = new Process($command);
+        $process->run();
+        sleep(1);
+        $userData = $this->getGitUserData(HackyDataRegistry::get('git repo'));
         if (!$userData) {
           return;
         }
         $gitUsername = $userData['username'];
         $password = $userData['password'];
-		    $command = "../bin/gitwrapper ". $type . "_delete $password $value";
-    		$process = new Process($command);
-    		$process->run();
-    		// Move back one folder after completion
+        $command = "../bin/gitwrapper " . $type . "_delete $password $value";
+        $process = new Process($command);
+        $process->run();
+        // Move back one folder after completion
         chdir("../");
       }
     }
@@ -6600,7 +6773,9 @@ class FeatureContext extends DrupalContext {
    */
   public function theReleaseShouldNotBePublished() {
     HackyDataRegistry::set('release_url', $this->getSession()->getCurrentUrl());
-    $result = $this->getSession()->getPage()->find("css", "#content-inner .node-unpublished");
+    $result = $this->getSession()
+      ->getPage()
+      ->find("css", "#content-inner .node-unpublished");
     if (empty($result)) {
       throw new Exception("The release is in published mode");
     }
@@ -6612,7 +6787,7 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeLatestForumTopicInTheRightsideBlock() {
     sleep(6);
     $forumTitle = $this->dataRegistry->get('random:Forum subject');
-    if(empty($forumTitle)) {
+    if (empty($forumTitle)) {
       throw new Exception('No Forum title exists in this page');
     }
     $this->iShouldSeeInArea('link', $forumTitle, "right sidebar");
@@ -6670,7 +6845,9 @@ class FeatureContext extends DrupalContext {
    * @Given /^I follow the first search result$/
    */
   public function iFollowTheFirstSearchResult() {
-    $result = $this->getSession()->getPage()->find("css", ".search-results dt a");
+    $result = $this->getSession()
+      ->getPage()
+      ->find("css", ".search-results dt a");
     if (empty($result)) {
       throw new Exception("The page does not contain any results");
     }
@@ -6694,7 +6871,7 @@ class FeatureContext extends DrupalContext {
     foreach ($links as $link) {
       $linksArr[] = trim($link->getText());
     }
-    if(!$this->checkSortByAlphabets($linksArr)) {
+    if (!$this->checkSortByAlphabets($linksArr)) {
       throw new Exception("The results are not sorted by alphabetical order of project title");
     }
   }
@@ -6704,7 +6881,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheResultsSortedInAlphabeticalOrderByProjectAuthor() {
     // Get all the results links
-    $links = $this->getSession()->getPage()->findAll("css", "dl dd p.submitted a");
+    $links = $this->getSession()
+      ->getPage()
+      ->findAll("css", "dl dd p.submitted a");
     if (empty($links)) {
       throw new Exception("The page did not contain any links for project author");
     }
@@ -6712,7 +6891,7 @@ class FeatureContext extends DrupalContext {
     foreach ($links as $link) {
       $linksArr[] = trim($link->getText());
     }
-    if(!$this->checkSortByAlphabets($linksArr)) {
+    if (!$this->checkSortByAlphabets($linksArr)) {
       throw new Exception("The results are not sorted by alphabetical order of project author");
     }
   }
@@ -6722,7 +6901,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeTheResultsSortedByTheProjectPostedDate() {
     // Get all the results links
-    $dates = $this->getSession()->getPage()->findAll("css", "dl dd p.submitted em");
+    $dates = $this->getSession()
+      ->getPage()
+      ->findAll("css", "dl dd p.submitted em");
     if (empty($dates)) {
       throw new Exception("The page did not contain project posted date");
     }
@@ -6740,7 +6921,6 @@ class FeatureContext extends DrupalContext {
       }
     }
   }
-
 
 
   /**
@@ -6762,7 +6942,9 @@ class FeatureContext extends DrupalContext {
     }
     HackyDataRegistry::set('random:Revision log message', trim($text));
     // If javascript is used, then we have to click Revision information link and then fill field
-    if ($this->getSession()->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver) {
+    if ($this->getSession()
+        ->getDriver() instanceof Behat\Mink\Driver\Selenium2Driver
+    ) {
       $revlink = $page->findLink('Revision information');
       if (empty($revlink)) {
         throw new Exception("Revision information link not found");
@@ -6842,13 +7024,15 @@ class FeatureContext extends DrupalContext {
    *    string The heading of the section
    * @return div object
    *    object The parent element object of the given section
-  */
+   */
   private function getSectionParentDiv($section) {
     // List possible headings, here we are looking for section headings
-    $headings = array("h1", "h2", "h2", "h4", "h5", "h6","dt");
+    $headings = array("h1", "h2", "h2", "h4", "h5", "h6", "dt");
     $hTag = "";
     foreach ($headings as $heading) {
-      $hTag = $this->getSession()->getPage()->find("xpath", '//div[@id="content-inner"]//' . $heading . '[text()="' . $section . '"]');
+      $hTag = $this->getSession()
+        ->getPage()
+        ->find("xpath", '//div[@id="content-inner"]//' . $heading . '[text()="' . $section . '"]');
       if (!empty($hTag)) {
         break;
       }
@@ -6913,7 +7097,9 @@ class FeatureContext extends DrupalContext {
     $this->getSession()->visit($this->locatePath("/case-studies"));
     sleep(3);
     // Get all the slideshow case studies
-    $temp = $this->getSession()->getPage()->findAll("css", "#block-views-drupalorg-casestudies-block-3 .view-id-drupalorg_casestudies ul li .views-field-title a");
+    $temp = $this->getSession()
+      ->getPage()
+      ->findAll("css", "#block-views-drupalorg-casestudies-block-3 .view-id-drupalorg_casestudies ul li .views-field-title a");
     if (empty($temp)) {
       throw new Exception("The page does not have any case studies in the slide show");
     }
@@ -6945,19 +7131,24 @@ class FeatureContext extends DrupalContext {
     $this->getSession()->visit($this->locatePath("/"));
     sleep(3);
     // First check if case study section exists or not
-    $temp = $this->getSession()->getPage()->find("css", "#block-system-main #sites-with-drupal .things-we-made-wrapper");
+    $temp = $this->getSession()
+      ->getPage()
+      ->find("css", "#block-system-main #sites-with-drupal .things-we-made-wrapper");
     if (empty($temp)) {
-      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not contain case study section");
+      throw new Exception("The page " . $this->getSession()
+          ->getCurrentUrl() . " does not contain case study section");
     }
     // Now look for the title of the case study
     $temp = $temp->findAll("css", "a");
     if (empty($temp)) {
-      throw new Exception("The case study section on the page " . $this->getSession()->getCurrentUrl() . " does not contain any case study");
+      throw new Exception("The case study section on the page " . $this->getSession()
+          ->getCurrentUrl() . " does not contain any case study");
     }
     $temp = end($temp);
     $caseStudy = trim($temp->getText());
     if ($caseStudy == "") {
-      throw new Exception("The case study title is empty in the case study section of the page - " . $this->getSession()->getCurrentUrl());
+      throw new Exception("The case study title is empty in the case study section of the page - " . $this->getSession()
+          ->getCurrentUrl());
     }
     // If the recent cases studies list contains the one in homepage, then we pass here
     if (!in_array($caseStudy, $textsManage)) {
@@ -6977,9 +7168,12 @@ class FeatureContext extends DrupalContext {
     $textsManage = array();
     $i = 0;
     // Get all the case studies from the table
-    $temp = $this->getSession()->getPage()->findAll("css", ".view-drupalorg-casestudies table tbody tr td div.views-field-title a");
+    $temp = $this->getSession()
+      ->getPage()
+      ->findAll("css", ".view-drupalorg-casestudies table tbody tr td div.views-field-title a");
     if (empty($temp)) {
-      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not have any case studies");
+      throw new Exception("The page " . $this->getSession()
+          ->getCurrentUrl() . " does not have any case studies");
     }
     // Now, consider only the $count number of case studies
     foreach ($temp as $result) {
@@ -6990,11 +7184,13 @@ class FeatureContext extends DrupalContext {
       $i++;
     }
     if (empty($textsManage)) {
-      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not have any case studies");
+      throw new Exception("The page " . $this->getSession()
+          ->getCurrentUrl() . " does not have any case studies");
     }
     // Check if we have enough case studies or not
     if (sizeof($textsManage) < $count) {
-      throw new Exception("There are less than '" . $count . "' case studies on the page - " . $this->getSession()->getCurrentUrl());
+      throw new Exception("There are less than '" . $count . "' case studies on the page - " . $this->getSession()
+          ->getCurrentUrl());
     }
     return $textsManage;
   }
@@ -7006,7 +7202,7 @@ class FeatureContext extends DrupalContext {
    *
    */
   public function iShouldSeeTheOrganizationLink() {
-    if(!$orgn_name = HackyDataRegistry::get('random:Organization name')) {
+    if (!$orgn_name = HackyDataRegistry::get('random:Organization name')) {
       throw new Exception('Organization name was not found');
     }
     return new Then('I should see the link "' . $orgn_name . '"');
@@ -7041,7 +7237,7 @@ class FeatureContext extends DrupalContext {
   /**
    * @Then /^I should see "([^"]*)" under "([^"]*)" heading$/
    */
-   public function iShouldSeeUnderHeading($link, $section) {
+  public function iShouldSeeUnderHeading($link, $section) {
     $parent = $this->getSectionParentDiv($section);
     // Get all the links under this section - Assuming all links are under dl dd :)
     $links = $parent->find("css", "dl dd a");
@@ -7058,8 +7254,10 @@ class FeatureContext extends DrupalContext {
    * @When /^I follow training organization post$/
    */
   public function iFollowTrainingOrganizationPost() {
-    $result = $this->getSession()->getPage()->find('css', '.view-drupalorg-training .intro a');
-    if(empty($result)) {
+    $result = $this->getSession()
+      ->getPage()
+      ->find('css', '.view-drupalorg-training .intro a');
+    if (empty($result)) {
       throw new Exception("Title post is not found on the page");
     }
     $href = $result->getAttribute("href");
@@ -7076,15 +7274,17 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeTheOrganizationLogo() {
     sleep(2);
     $logo = HackyDataRegistry::get('Organization Logo');
-    $img_elements = $this->getSession()->getPage()->findAll('css', 'div.content img');
+    $img_elements = $this->getSession()
+      ->getPage()
+      ->findAll('css', 'div.content img');
     if (empty($img_elements) || empty($logo)) {
       throw new Exception('Image/logo was not found');
     }
     $logo_name = pathinfo($logo);
-    $found = false;
+    $found = FALSE;
     foreach ($img_elements as $img) {
-      if (false !== strpos($img->getAttribute('src'), $logo_name['filename'])) {
-        $found = true;
+      if (FALSE !== strpos($img->getAttribute('src'), $logo_name['filename'])) {
+        $found = TRUE;
         break;
       }
     }
@@ -7102,7 +7302,9 @@ class FeatureContext extends DrupalContext {
    */
   public function iShouldSeeAtLeastAds($count) {
     // Find wrapper div for ads: class=gam-holder
-    $div_ele = $this->getSession()->getPage()->findAll('css', 'div.hosting-item');
+    $div_ele = $this->getSession()
+      ->getPage()
+      ->findAll('css', 'div.hosting-item');
     if (empty($div_ele)) {
       throw new Exception("No WebAd was found");
     }
@@ -7123,7 +7325,7 @@ class FeatureContext extends DrupalContext {
    * Check the given table of fields are outlined in red
    *
    * @Then /^the following <fields> should be outlined in red$/
-   *   @param TableNode object $table
+   * @param TableNode object $table
    */
   public function theFollowingFieldsShouldBeOutlinedInRed(TableNode $table) {
     if (empty($table)) {
@@ -7144,7 +7346,7 @@ class FeatureContext extends DrupalContext {
   public function iCreateNewChangeRecord() {
     $element = $this->getSession()->getPage();
     $recordTitle = Random::name(12);
-		$element->fillField("Title", $recordTitle);
+    $element->fillField("Title", $recordTitle);
     HackyDataRegistry::set('random:Title', $recordTitle);
     # XXX These parenthesis break when trying to use the javascript driver
     # with firefox.
@@ -7205,7 +7407,9 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the attachment$/
    */
   public function iShouldSeeTheAttachment() {
-    $img_elements = $this->getSession()->getPage()->findAll('css', 'div.field-name-upload span.file a');
+    $img_elements = $this->getSession()
+      ->getPage()
+      ->findAll('css', 'div.field-name-upload span.file a');
     if (empty($img_elements)) {
       throw new Exception('Image/logo was not found');
     }
@@ -7233,13 +7437,13 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeChangeRecordLink() {
     $recordTitle = HackyDataRegistry::get('random:Title');
     if (empty($recordTitle)) {
-        throw new Exception('No Title set for this page');
+      throw new Exception('No Title set for this page');
     }
     $link = $this->getSession()->getPage()->findLink($recordTitle);
     if (empty($link)) {
       throw new Exception("The project title '" . $recordTitle . "' was not found on the page");
     }
-   }
+  }
 
   /**
    * Checks if the given value is default selected in the given dropdown
@@ -7326,7 +7530,8 @@ class FeatureContext extends DrupalContext {
         sleep(2);
         // If there is only one book page or if its the last book page created, then don't go to node add page
         if ($count != 1 && $i != $count) {
-          $this->getSession()->visit($this->locatePath("/node/add/book?parent=3264"));
+          $this->getSession()
+            ->visit($this->locatePath("/node/add/book?parent=3264"));
           sleep(2);
         }
       }
@@ -7355,7 +7560,9 @@ class FeatureContext extends DrupalContext {
    * @When /^I "([^"]*)" the table header checkbox$/
    */
   public function iSelectTheCheckboxInTheTableHeader($status) {
-    $chk_ele = $this->getSession()->getPage()->find('css', 'table.views-table thead tr th .vbo-table-select-all');
+    $chk_ele = $this->getSession()
+      ->getPage()
+      ->find('css', 'table.views-table thead tr th .vbo-table-select-all');
     if (empty($chk_ele)) {
       throw new Exception("No checkbox found in the table header");
     }
@@ -7364,12 +7571,14 @@ class FeatureContext extends DrupalContext {
         $chk_ele->click();
         sleep(2);
       }
-    }elseif ($status == 'uncheck') {
+    }
+    elseif ($status == 'uncheck') {
       if ($chk_ele->isChecked()) {
         $chk_ele->click();
         sleep(2);
       }
-    }else {
+    }
+    else {
       throw new Exception('Either "check" or "uncheck" needs to be specified');
     }
   }
@@ -7396,17 +7605,20 @@ class FeatureContext extends DrupalContext {
     $resultTitles = $page->findAll('css', 'table.views-view-grid tr td .views-field-field-mainimage a');
     // Make sure the page has case studies in it
     if (empty($resultTitles)) {
-      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not have any case study");
+      throw new Exception("The page " . $this->getSession()
+          ->getCurrentUrl() . " does not have any case study");
     }
     // Get all the images on the case study view
     $resultImgs = $page->findAll('css', 'table.views-view-grid tr td a img');
     // Make sure there is at least one image
     if (empty($resultImgs)) {
-      throw new Exception("The case studies on the page " . $this->getSession()->getCurrentUrl() . " do not have any images");
+      throw new Exception("The case studies on the page " . $this->getSession()
+          ->getCurrentUrl() . " do not have any images");
     }
     // If the number of titles and number of images do not match, then some of the case studies are missing images
     if (sizeof($resultTitles) != sizeof($resultImgs)) {
-      throw new Exception("Not all the case studies on the page " . $this->getSession()->getCurrentUrl() . " have images");
+      throw new Exception("Not all the case studies on the page " . $this->getSession()
+          ->getCurrentUrl() . " have images");
     }
   }
 
@@ -7437,32 +7649,36 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the book cover image$/
    */
   public function iShouldSeeTheBookCoverImage() {
-    $result = $this->getSession()->getPage()->find('css', '.field-name-field-cover-image img');
+    $result = $this->getSession()
+      ->getPage()
+      ->find('css', '.field-name-field-cover-image img');
     if (empty($result)) {
       throw new Exception('No Book cover image was found on this page');
     }
   }
 
- /**
-  * Put a spin on the slow-loading homepage
-  */
+  /**
+   * Put a spin on the slow-loading homepage
+   */
   public function iAmOnHomepage() {
     $this->getSession()->visit($this->locatePath('/'));
-    $this->spin(function($context) {
+    $this->spin(function ($context) {
       return ($context->getSession()->getPage()->hasLink('Forum Posts'));
-    },5);
+    }, 5);
   }
 
- /**
-  * D.o: Strip markup out of the links in administrative vertical tabs
-  *
-  * @When /^I click the "([^"]*)" tab$/
-  */
+  /**
+   * D.o: Strip markup out of the links in administrative vertical tabs
+   *
+   * @When /^I click the "([^"]*)" tab$/
+   */
   public function iClickTheTab($tab) {
     $page = $this->getSession()->getPage();
-    $this->spin(function($context) {
-      return ($context->getSession()->getPage()->find('css','.vertical-tab-button'));
-    },10);
+    $this->spin(function ($context) {
+      return ($context->getSession()
+        ->getPage()
+        ->find('css', '.vertical-tab-button'));
+    }, 10);
     $links = $page->findAll('css', '.vertical-tab-button');
     if (empty($links)) {
       throw new Exception('No vertical tabs found');
@@ -7479,7 +7695,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iAmLoggedInAsANewUser() {
     $username = Random::name(10);
-    return array (
+    return array(
       new Given("I am logged in as the \"admin test\""),
       new Given("I visit \"/admin/people/create\""),
       new Given("I fill in \"Username\" with \"$username\""),
@@ -7502,7 +7718,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^a new "([^"]*)" "([^"]*)" issue$/
    */
   public function aNewIssue($type, $project) {
-    return array (
+    return array(
       new Given("I am on \"/project/user\""),
       new Given("I click \"Add a new project\""),
       new Given("I click \"$project\""),
@@ -7518,7 +7734,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^the cache is cleared$/
    */
   public function theCacheIsCleared() {
-    return array (
+    return array(
       new Then("I visit \"http://git7site.devdrupal.org/sites/default/kick-cache.php\""),
       new Then("I move backward one page"),
     );
@@ -7538,19 +7754,19 @@ class FeatureContext extends DrupalContext {
     $this->checkOption('edit-field-terms-of-service-und');
   }
 
-}
 
-/**
- * @Given /^I (?:should |)see the following <texts>$/
- */
-public function iShouldSeeTheFollowingTexts(TableNode $table) {
-  $arr_return  = array();
-  $table = $table->getHash();
-  foreach ($table as $key => $value) {
-    $text = $table[$key]['texts'];
-    $arr_return[] =new Given("I should see text matching \"$text\"");
+  /**
+   * @Given /^I (?:should |)see the following <texts>$/
+   */
+  public function iShouldSeeTheFollowingTexts(TableNode $table) {
+    $arr_return = array();
+    $table = $table->getHash();
+    foreach ($table as $key => $value) {
+      $text = $table[$key]['texts'];
+      $arr_return[] = new Given("I should see text matching \"$text\"");
+
+    }
+    return $arr_return;
 
   }
-  return $arr_return;
-
 }
