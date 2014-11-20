@@ -757,28 +757,6 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I (?:should |)see the following <texts>$/
-   */
-  public function iShouldSeeTheFollowingTexts(TableNode $table) {
-    $page = $this->getSession()->getPage() ;
-    $messages = array();
-    $failure_detected = FALSE;
-    $table = $table->getHash();
-    foreach ($table as $key => $value) {
-      $text = $table[$key]['texts'];
-      if($page->hasContent($text) === FALSE) {
-        $messages[] = "FAILED: The text '" . $text . "' was not found";
-        $failure_detected = TRUE;
-      } else {
-        $messages[] = "PASSED: '" . $text . "'";
-      }
-    }
-    if ($failure_detected) {
-      throw new Exception(implode("\n", $messages));
-    }
-  }
-
-  /**
   * @Given /^I (?:should |)see the following <links>$/
   */
   public function iShouldSeeTheFollowingLinks(TableNode $table) {
@@ -7546,7 +7524,11 @@ class FeatureContext extends DrupalContext {
     );
   }
 
-
+  /**
+   * Refactored steps
+   *
+   * These steps have all been cleansed of their impurities.
+   */
 
   /**
    * @Given /^I accept the terms of service$/
@@ -7555,5 +7537,20 @@ class FeatureContext extends DrupalContext {
     // This uses the assertCheckBox from the drupal extension.
     $this->checkOption('edit-field-terms-of-service-und');
   }
+
+}
+
+/**
+ * @Given /^I (?:should |)see the following <texts>$/
+ */
+public function iShouldSeeTheFollowingTexts(TableNode $table) {
+  $arr_return  = array();
+  $table = $table->getHash();
+  foreach ($table as $key => $value) {
+    $text = $table[$key]['texts'];
+    $arr_return[] =new Given("I should see text matching \"$text\"");
+
+  }
+  return $arr_return;
 
 }
