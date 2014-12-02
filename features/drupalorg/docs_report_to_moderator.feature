@@ -21,7 +21,7 @@ Feature: Use the "report to moderator" to file a documentation issue
     And I am on "/documentation/multilingual"
     When I follow "Report to moderator"
     Then I should see "Create issue"
-    And I should see "Spam" in the dropdown "Component"
+    And I should see "Correction/Clarification" in the dropdown "Component"
     And the "Title" field should contain "Moderation report for Multilingual Guide"
     And I should see "I am reporting"
 
