@@ -13,7 +13,7 @@ Feature: Landing page of Community section of the site
       | texts                 |
       | Online & Local Groups |
       | Events & Meetups      |
-      | Chat (IRC)            |
+      | Chat \(IRC\)          |
       | Planet Drupal         |
       | Community Spotlight   |
       | Commercial Support    |
