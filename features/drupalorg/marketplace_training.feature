@@ -24,11 +24,11 @@ Feature: Training section of the Marketplace
     Then I should see the heading "Upcoming events"
     And I should see the heading "Drupal Events Activity"
     And I should see the following <texts>
-      | texts                         |
-      | User group meeting            |
-      | DrupalCon                     |
-      | Drupalcamp or Regional Summit |
-      | Training (free or commercial) |
+      | texts                           |
+      | User group meeting              |
+      | DrupalCon                       |
+      | Drupalcamp or Regional Summit   |
+      | Training \(free or commercial\) |
 
   @anon
   Scenario: Follow Global training days link
