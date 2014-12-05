@@ -58,9 +58,8 @@ Feature: Sandbox Project Development Block
       | commits            |
       | Issue #            |
       | Subscribe with RSS |
-    And I should see the link "next"
-    And I should not see the link "first"
-    And I should not see the link "previous"
+    And I should see the link "››"
+    And I should not see the link "‹‹"
 
   @content
   Scenario: View Sandbox security policy
