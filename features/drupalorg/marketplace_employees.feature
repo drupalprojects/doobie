@@ -8,7 +8,7 @@ Feature: Company employees on organization pages
   Scenario: Add organization and request promotion to Services section
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I visit "/drupal-services"
     And I follow "Add your listing"
@@ -33,7 +33,7 @@ Feature: Company employees on organization pages
   Scenario: Updating profile of a user with current organization
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I follow "Profile"
     And I follow "Edit"
@@ -52,7 +52,7 @@ Feature: Company employees on organization pages
   Scenario: Edit the document page and update
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I follow "Documentation"
     And I follow "Glossary"

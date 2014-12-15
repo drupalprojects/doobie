@@ -135,7 +135,7 @@ Feature: Learn about details of a (sandbox) project
   Scenario: Visit create a new issue page to post an issue
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I visit "/project/issues/1765126"
     When I follow "Create a new issue"

@@ -29,7 +29,7 @@ Feature: Verify the DA membership block on a user profile
   Scenario: See member block on own profile
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I follow "Logged in as Trusted User"
     Then I should see the heading "Trusted User"

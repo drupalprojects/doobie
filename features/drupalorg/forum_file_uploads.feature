@@ -7,7 +7,7 @@ Feature:
   Scenario: File Attachments is not available for regular Trusted User
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I follow "Support"
     And I follow "Forums"

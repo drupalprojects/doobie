@@ -8,7 +8,7 @@ Feature: Drupal Create Issues
   Scenario: Create an issue from the main issues page
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I am on "/node/add/project-issue"
     When I fill in "Project" with "Achievements"
@@ -32,7 +32,7 @@ Feature: Drupal Create Issues
   Scenario: Create an issue from a specific project's issue page
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I am on "/project/issues/achievements"
     When I follow "Create a new issue"

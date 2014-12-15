@@ -7,7 +7,7 @@ Feature: Regular users should not be able to post a topic in Newsletters subforu
   Background:
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
 
   @failing

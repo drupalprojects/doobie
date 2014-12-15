@@ -8,7 +8,7 @@ Feature: User log out
   Scenario: Log in as Trusted User and view links and texts
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     Then I should see the heading "Trusted User"
     And I should see the following <links>
@@ -38,7 +38,7 @@ Feature: User log out
   Scenario: Trusted User logs out
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I follow "Log out"
     Then I should be on "/"

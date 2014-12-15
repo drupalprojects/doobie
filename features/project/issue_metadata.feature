@@ -8,7 +8,7 @@ Feature: Prominently display issue metadata
   Scenario: Create a new issue
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+fakeuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+fakeuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I visit "/project/issues/doobie"
     And I follow "Create a new issue"

@@ -8,7 +8,7 @@ Feature: Administrative view of comments by a user
   Scenario: Create test data
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I visit "/node/add/book?parent=3264"
     And I create a book page

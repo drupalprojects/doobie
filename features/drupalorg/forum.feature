@@ -7,7 +7,7 @@ Feature: Create new forum topic as a regular Trusted User
   Background:
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
 
   @failing

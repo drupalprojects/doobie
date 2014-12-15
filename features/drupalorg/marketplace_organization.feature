@@ -7,8 +7,8 @@ Feature: Adding company to the Marketplace
   Background:
     Given users:
       | name          | pass     | mail                                  | roles         |
-      | Trusted User  | password | ryan+siteuser@association.drupal.org  | Not a spammer |
-      | Trusted User2 | password | ryan+siteuser2@association.drupal.org | Not a spammer |
+      | Trusted User  | password | ryan+siteuser@association.drupal.org  | trusted |
+      | Trusted User2 | password | ryan+siteuser2@association.drupal.org | trusted |
 
   @javascript @failing
   Scenario: Organization cannot be created without filling req fields

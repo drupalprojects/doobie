@@ -69,7 +69,7 @@ Feature: Content I posted
   Scenario: Create a case study and view the same
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I visit "/node/add/casestudy"
     And I create a case study
@@ -82,7 +82,7 @@ Feature: Content I posted
   Scenario: Create and view a book page
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I visit "/node/add/book?parent=3264"
     And I create a book page
@@ -95,7 +95,7 @@ Feature: Content I posted
   Scenario: Create and view an Organization page
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I visit "/node/add/organization"
     And I create a new organization

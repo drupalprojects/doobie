@@ -8,7 +8,7 @@ Feature: User contact form
   Scenario: Trusted User enables contact form
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I follow "Edit"
     And I check the box "Personal contact form"
@@ -62,7 +62,7 @@ Feature: User contact form
   Scenario: Trusted User disables contact form
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I follow "Edit"
     And I uncheck the box "Personal contact form"

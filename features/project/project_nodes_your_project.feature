@@ -114,7 +114,7 @@ Feature: Learn about details of a full project
   Scenario: Trusted User can post an issue or not
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I visit "/project/issues/commons"
     When I follow "Create a new issue"

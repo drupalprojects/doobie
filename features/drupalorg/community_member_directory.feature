@@ -18,7 +18,7 @@ Feature: View members of drupal community
   Scenario: Navigate to the page as authenticated user
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I follow "Community"
     And I follow "Member Directory"

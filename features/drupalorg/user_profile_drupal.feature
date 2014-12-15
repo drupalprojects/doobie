@@ -8,7 +8,7 @@ Feature: Drupal information in user profile
   Scenario: Trusted User sets Drupal information
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I follow "Edit"
     And I follow "Drupal" tab
@@ -21,7 +21,7 @@ Feature: Drupal information in user profile
   Scenario: View Drupal information on profile page
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I follow "Logged in as Trusted User"
     Then I should see the heading "Trusted User"
@@ -34,7 +34,7 @@ Feature: Drupal information in user profile
   Scenario: Trusted User sets Drupal contribution checkboxes
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I follow "Edit"
     And I follow "Drupal" tab
@@ -52,7 +52,7 @@ Feature: Drupal information in user profile
   Scenario: View checked Drupal contribution on profile page
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I follow "Logged in as Trusted User"
     Then I should see the heading "Trusted User"
@@ -67,7 +67,7 @@ Feature: Drupal information in user profile
   Scenario Outline: Follow Drupal contribution links from profile page
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I follow "<link>"
     Then I should be on "<path>"

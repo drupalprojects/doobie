@@ -8,7 +8,7 @@ Feature: Work information in user profile
   Scenario: Update work information
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I follow "Your Dashboard"
     And I follow "Profile"
@@ -26,7 +26,7 @@ Feature: Work information in user profile
   Scenario: View work information as Trusted User
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I follow "Your Dashboard"
     And I follow "Profile"
@@ -42,7 +42,7 @@ Feature: Work information in user profile
   Scenario Outline: Visit the links in work information
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I follow "Your Dashboard"
     And I follow "Profile"
@@ -60,7 +60,7 @@ Feature: Work information in user profile
   Scenario: Reset work information
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I follow "Your Dashboard"
     And I follow "Profile"

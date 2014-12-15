@@ -7,7 +7,7 @@ Feature: Case studies moderation
   Scenario: Create a case study as a trusted user
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I visit "/node/add/casestudy"
     When I create a case study
@@ -18,7 +18,7 @@ Feature: Case studies moderation
   Scenario: Admin user can feature other people's case study
     Given users:
       | name                | pass     | mail                                    | roles         |
-      | Trusted User        | password | ryan+siteuser@association.drupal.org    | Not a spammer |
+      | Trusted User        | password | ryan+siteuser@association.drupal.org    | trusted |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Trusted User"
     And I visit "/node/add/casestudy"
@@ -36,7 +36,7 @@ Feature: Case studies moderation
   Scenario: Admin user can hide a case study
     Given users:
       | name                | pass     | mail                                    | roles         |
-      | Trusted User        | password | ryan+siteuser@association.drupal.org    | Not a spammer |
+      | Trusted User        | password | ryan+siteuser@association.drupal.org    | trusted |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Trusted User"
     And I visit "/node/add/casestudy"
@@ -56,7 +56,7 @@ Feature: Case studies moderation
   Scenario: Admin user can put case study on community showcase
     Given users:
       | name                | pass     | mail                                    | roles         |
-      | Trusted User        | password | ryan+siteuser@association.drupal.org    | Not a spammer |
+      | Trusted User        | password | ryan+siteuser@association.drupal.org    | trusted |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
 
     And I am logged in as "Trusted User"
@@ -75,7 +75,7 @@ Feature: Case studies moderation
   Scenario: Can't edit until moderated
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I visit "/node/add/casestudy"
     And I create a case study

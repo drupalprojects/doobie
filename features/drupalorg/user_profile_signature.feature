@@ -7,7 +7,7 @@ Feature: Display additional information on my comments
   Scenario: Enter signature and save
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I follow "Your Dashboard"
     And I follow "Profile"
@@ -23,7 +23,7 @@ Feature: Display additional information on my comments
   Scenario: Create a forum, reply and view signature
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I follow "Community"
     And I follow "Forum"
@@ -49,7 +49,7 @@ Feature: Display additional information on my comments
   Scenario: Reset signature and save
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I follow "Your Dashboard"
     And I follow "Profile"
@@ -63,7 +63,7 @@ Feature: Display additional information on my comments
   Scenario: signature doesn't appear in reply any more for Trusted User
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | Not a spammer |
+      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I am on the forum topic page
     Then I should see the random "Subject" text
