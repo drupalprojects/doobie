@@ -13,7 +13,7 @@ Feature: Sandbox Project Development Block
     And I should see the following <links>
       | links                   |
       | View pending patches    |
-      | Repository viewer       |
+      | Browse code repository  |
       | View commits            |
       | Sandbox security policy |
       | View change records     |
@@ -26,7 +26,7 @@ Feature: Sandbox Project Development Block
 
   @failing
   Scenario: View Repository
-    When I follow "Repository viewer"
+    When I follow "Browse code repository"
     Then I should not see "Page not found"
     And I should see the following <links>
       | links      |

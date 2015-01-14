@@ -41,7 +41,7 @@ Feature: Learn about details of a full project
   @anon @content @failing
   Scenario: Browse repository link
     Given I am on "/project/commons"
-    When I follow "Repository viewer"
+    When I follow "Browse code repository"
     Then I should see the following <links>
       | links      |
       | shortlog   |

@@ -49,7 +49,7 @@ Feature: Learn about details of a (sandbox) project
   @anon @failing
   Scenario: Browse repository link
     Given I am on "/node/1765126"
-    When I follow "Repository viewer"
+    When I follow "Browse code repository"
     Then I should not see "Page not found"
     And I should see the following <links>
       | links      |

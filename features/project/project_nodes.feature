@@ -56,7 +56,7 @@ Feature: To view the project details
   @failing
   Scenario: Browse repository link
     Given I am on "/project/drupal"
-    When I follow "Repository viewer"
+    When I follow "Browse code repository"
     Then I should not see "Page not found"
     And I should see the following <links>
       | links              |
