@@ -8,7 +8,7 @@ Feature: Drupal.org contact form
   Scenario: Anonymous users views the page
     Given I am not logged in
     When I am on "/contact"
-    Then I should see "Access Denied"
+    Then I should see "403 - Access denied"
     And I should not see "You can leave us a message using"
     And I should not see "Send yourself a copy"
 

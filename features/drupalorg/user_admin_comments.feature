@@ -56,7 +56,7 @@ Feature: Administrative view of comments by a user
     And I should see the link "View"
     And I should see the heading "Comments"
     And I should not see "Page not found"
-    And I should not see "Access denied"
+    And I should not see "403 - Access denied"
 
   @dependent @failing
   Scenario: Visit edit page and view texts

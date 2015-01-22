@@ -51,7 +51,7 @@ Feature: Visitor searches site
     When I follow "<link>"
     Then I should be on "<path>"
     And I should not see "Page not found"
-    And I should not see "Access denied"
+    And I should not see "403 - Access denied"
   Examples:
     | link            | path                              |
     | IRC Nicks       | /search/drupalorg/views           |

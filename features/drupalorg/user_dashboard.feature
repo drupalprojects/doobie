@@ -74,7 +74,7 @@ Feature:
   @notification @wip
   Scenario: Create test data for Your Posts
     And I am on "/node/add/project-issue/spark"
-    And I should not see "Access denied"
+    And I should not see "403 - Access denied"
     When I create a new issue
     And I see "has been created"
     And I am on "/node/add/project-issue/spark"

@@ -31,7 +31,7 @@ Feature: Prevent users from editing certain pages
       | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     When I go to the document edit page
-    Then I should see "Access Denied"
+    Then I should see "403 - Access denied"
     And I should see "You are not authorized to access this page"
     And I should not get a "200" HTTP response
     But I should get a "403" HTTP response

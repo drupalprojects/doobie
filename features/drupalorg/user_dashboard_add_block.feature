@@ -32,7 +32,7 @@ Feature:
   Scenario Outline: Add block from project page
     And I am on "<page>"
     When I click "<blocklink>"
-    Then I should not see "Access denied"
+    Then I should not see "403 - Access denied"
     And I reload the page
     And I should see "<blocktitle>"
 
@@ -49,7 +49,7 @@ Feature:
     And I follow "Your Dashboard"
     And I click "Your Posts"
     When I follow "Add Your Posts to dashboard"
-    Then I should not see "Access denied"
+    Then I should not see "403 - Access denied"
     And I should see "Your Posts"
 
   Scenario: User cannot add someone else's block

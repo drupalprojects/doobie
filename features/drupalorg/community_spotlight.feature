@@ -13,7 +13,7 @@ Feature: Community Spotlight
     When I follow "Community Spotlight"
     And I follow "Add new Forum topic"
     Then I should see "Create Forum topic"
-    And I should not see "Access denied"
+    And I should not see "403 - Access denied"
 
   @javascript @clean_data @failing
   Scenario: Admin can promote a community spotlight

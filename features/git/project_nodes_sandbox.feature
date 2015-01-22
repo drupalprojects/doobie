@@ -139,7 +139,7 @@ Feature: Learn about details of a (sandbox) project
     And I am logged in as "Trusted User"
     And I visit "/project/issues/1765126"
     When I follow "Create a new issue"
-    Then I should not see "Access denied"
+    Then I should not see "403 - Access denied"
     But I should see the heading "Create Issue"
     And I should see "Title"
     And I should see "Description"
