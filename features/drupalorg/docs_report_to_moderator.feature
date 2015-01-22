@@ -11,7 +11,6 @@ Feature: Use the "report to moderator" to file a documentation issue
     And I am logged in as "Trusted User"
     When I visit "/documentation/multilingual"
     Then I should see the link "Report to moderator"
-    And I should see the link "Edit"
 
   Scenario: Report an issue page
     Given users:
