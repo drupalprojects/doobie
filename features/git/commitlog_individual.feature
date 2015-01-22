@@ -34,8 +34,8 @@ Feature: To view an individual commit
   Scenario: Click link on user name
     Given I am on "/commitlog/commit/43232/12766a6649db2ee24cffd3bcc0f48827956ddd12"
     When I follow "ksbalajisundar"
-    Then I should see the heading "Personal information"
-    And I should see "Full name"
+    Then I should see the heading "Personal Info"
+    And I should see "Gender"
 
   @failing
   Scenario: Click link on file name
