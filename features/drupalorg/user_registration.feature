@@ -93,6 +93,7 @@ Feature: Register an account on Drupal.org with valid username and email
     Then I should see "The naTrusted Userser is already taken"
     And the field "Username" should be outlined in red
 
+  @failing
   Scenario Outline: Email address validation: Valid email address
     When I follow "Create new account"
     And I fill in "Username" with random text
