@@ -10,7 +10,7 @@ Feature: Create new packaging whitelist entry
       | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
     And I am logged in as "Trusted User"
     And I am on "/node/add/packaging-whitelist"
-    Then I should see the heading "Access denied"
+    Then I should see the heading "403 - Access denied"
     But I should not see "Create Packaging whitelist entry"
 
   Scenario: Create packaging whitelist entry as Admin user: Validation
