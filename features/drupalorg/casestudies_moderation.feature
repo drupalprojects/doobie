@@ -14,7 +14,7 @@ Feature: Case studies moderation
     And I see the case study page
     And I visit "/case-studies/all"
     Then I should see the random "Project name" text
-`
+
   Scenario: Admin user can feature other people's case study
     Given users:
       | name                | pass     | mail                                    | roles         |
