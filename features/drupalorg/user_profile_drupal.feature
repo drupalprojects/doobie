@@ -5,11 +5,11 @@ Feature: Drupal information in user profile
   I should be able to edit my profile and fill in Drupal information
 
   @failing
-  Scenario: Trusted User sets Drupal information
+  Scenario: Confirmed User sets Drupal information
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I follow "Edit"
     And I follow "Drupal" tab
     When I fill in "Drupal contributions" with random text
@@ -21,21 +21,21 @@ Feature: Drupal information in user profile
   Scenario: View Drupal information on profile page
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
-    When I follow "Logged in as Trusted User"
-    Then I should see the heading "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
+    When I follow "Logged in as Confirmed User"
+    Then I should see the heading "Confirmed User"
     And I should see "Drupal contributions"
     And I should see the random "Drupal contributions" text
     And I should see "Roles in working with Drupal"
     And I should see the random "Roles in working with Drupal" text
 
   @failing
-  Scenario: Trusted User sets Drupal contribution checkboxes
+  Scenario: Confirmed User sets Drupal contribution checkboxes
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I follow "Edit"
     And I follow "Drupal" tab
     When I check the box "I contributed Drupal modules"
@@ -52,10 +52,10 @@ Feature: Drupal information in user profile
   Scenario: View checked Drupal contribution on profile page
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
-    When I follow "Logged in as Trusted User"
-    Then I should see the heading "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
+    When I follow "Logged in as Confirmed User"
+    Then I should see the heading "Confirmed User"
     And I should see "Roles in working with Drupal"
     And I should see the following <links>
       | links                            |
@@ -67,12 +67,12 @@ Feature: Drupal information in user profile
   Scenario Outline: Follow Drupal contribution links from profile page
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     When I follow "<link>"
     Then I should be on "<path>"
     And I should see the heading "<text>"
-    And I should see the link "Trusted User"
+    And I should see the link "Confirmed User"
 
   Examples:
     | link                             | path                                    | text                                      |

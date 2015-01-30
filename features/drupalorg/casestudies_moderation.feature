@@ -4,23 +4,23 @@ Feature: Case studies moderation
   As a site administrator
   I need to be able to edit any case study and change their status
 
-  Scenario: Create a case study as a trusted user
+  Scenario: Create a case study as a confirmed user
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I visit "/node/add/casestudy"
     When I create a case study
     And I see the case study page
     And I visit "/case-studies/all"
     Then I should see the random "Project name" text
-
+`
   Scenario: Admin user can feature other people's case study
     Given users:
       | name                | pass     | mail                                    | roles         |
-      | Trusted User        | password | ryan+siteuser@association.drupal.org    | trusted |
+      | Confirmed User        | password | ryan+siteuser@association.drupal.org    | confirmed |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
-    And I am logged in as "Trusted User"
+    And I am logged in as "Confirmed User"
     And I visit "/node/add/casestudy"
     When I create a case study
     And I see the case study page
@@ -36,9 +36,9 @@ Feature: Case studies moderation
   Scenario: Admin user can hide a case study
     Given users:
       | name                | pass     | mail                                    | roles         |
-      | Trusted User        | password | ryan+siteuser@association.drupal.org    | trusted |
+      | Confirmed User        | password | ryan+siteuser@association.drupal.org    | confirmed |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
-    And I am logged in as "Trusted User"
+    And I am logged in as "Confirmed User"
     And I visit "/node/add/casestudy"
     When I create a case study
     And I see the case study page
@@ -56,10 +56,10 @@ Feature: Case studies moderation
   Scenario: Admin user can put case study on community showcase
     Given users:
       | name                | pass     | mail                                    | roles         |
-      | Trusted User        | password | ryan+siteuser@association.drupal.org    | trusted |
+      | Confirmed User        | password | ryan+siteuser@association.drupal.org    | confirmed |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
 
-    And I am logged in as "Trusted User"
+    And I am logged in as "Confirmed User"
     And I visit "/node/add/casestudy"
     When I create a case study
     And I see the case study page
@@ -75,8 +75,8 @@ Feature: Case studies moderation
   Scenario: Can't edit until moderated
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I visit "/node/add/casestudy"
     And I create a case study
     When I follow "Edit"

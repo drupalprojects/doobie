@@ -111,11 +111,11 @@ Feature: Learn about details of a full project
     And I should see the link "register"
 
   @timeout
-  Scenario: Trusted User can post an issue or not
+  Scenario: Confirmed User can post an issue or not
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I visit "/project/issues/commons"
     When I follow "Create a new issue"
     Then I should not see "403 - Access denied"

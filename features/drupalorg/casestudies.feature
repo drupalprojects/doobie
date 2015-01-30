@@ -7,8 +7,8 @@ Feature: Adding new case study
   Background:
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I visit "/case-studies"
 
   Scenario: View the texts and links on the page
@@ -66,7 +66,7 @@ Feature: Adding new case study
     And I press "Save"
     Then I should see the random "Subject" text
     And I should see the random "Comment" text
-    And I should see "Trusted User commented"
+    And I should see "Confirmed User commented"
     And I should see the link "Add new comment"
 
   @content

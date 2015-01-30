@@ -15,8 +15,8 @@ Feature: Add change record
   Scenario: Navigate to a change record
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     When I am on "/project/drupal"
     And I follow "View change records"
     And I follow "Add new change record"
@@ -26,12 +26,12 @@ Feature: Add change record
   Scenario: Add new change record
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I am on "/node/add/changenotice"
     When I create new change record
     Then I should see "has been created"
-    And I should see "Posted by Trusted User"
+    And I should see "Posted by Confirmed User"
     And I should see the random text for the following <fields>
       | fields                |
       | Title                 |

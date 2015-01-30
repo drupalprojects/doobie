@@ -5,7 +5,7 @@ Feature: Verify the DA membership block on a user profile
   I should see the DA member badge block on the profile page
 
   @anon
-  Scenario: See that the user is not a member: Trusted User
+  Scenario: See that the user is not a member: Confirmed User
     Given I am on "/user/2360770"
     Then I should not see "is an individual member of the Drupal Association"
     And I should not see "My organization is a member of the Drupal Association"
@@ -29,10 +29,10 @@ Feature: Verify the DA membership block on a user profile
   Scenario: See member block on own profile
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
-    When I follow "Logged in as Trusted User"
-    Then I should see the heading "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
+    When I follow "Logged in as Confirmed User"
+    Then I should see the heading "Confirmed User"
     And I should see "History"
     And I should see "Member for"
     And I should see "Hey! Want to support the Drupal Community"

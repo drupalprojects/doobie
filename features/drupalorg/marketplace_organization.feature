@@ -7,12 +7,12 @@ Feature: Adding company to the Marketplace
   Background:
     Given users:
       | name          | pass     | mail                                  | roles         |
-      | Trusted User  | password | ryan+siteuser@association.drupal.org  | trusted |
-      | Trusted User2 | password | ryan+siteuser2@association.drupal.org | trusted |
+      | Confirmed User  | password | ryan+siteuser@association.drupal.org  | confirmed |
+      | Confirmed User2 | password | ryan+siteuser2@association.drupal.org | confirmed |
 
   @javascript @failing
   Scenario: Organization cannot be created without filling req fields
-    Given I am logged in as "Trusted User"
+    Given I am logged in as "Confirmed User"
     And I follow "Marketplace"
     And I follow "Add your listing"
     And I see "People with your organization name"
@@ -24,7 +24,7 @@ Feature: Adding company to the Marketplace
 
   @javascript @failing
   Scenario: Add organization and request promotion to Services section
-    Given I am logged in as "Trusted User"
+    Given I am logged in as "Confirmed User"
     And I am on "/node/add/organization"
     When I create a new organization for "drupal services"
     Then I should see the random "Organization name" text
@@ -41,7 +41,7 @@ Feature: Adding company to the Marketplace
 
   @dependent @failing
   Scenario: View an issue request for services section
-    Given I am logged in as "Trusted User"
+    Given I am logged in as "Confirmed User"
     And I visit the organization page
     And I see "Regarding Services listing communicate with webmasters using this issue"
     When I follow "this issue"
@@ -52,13 +52,13 @@ Feature: Adding company to the Marketplace
       | Review                 |
       | Services listing       |
       | Drupal.org content     |
-      | Posted by Trusted User |
+      | Posted by Confirmed User |
     And I should see the heading "Comments"
     And I should see "Add new comment"
 
   @dependent @failing
   Scenario: Edit own organization page
-    Given I am logged in as "Trusted User"
+    Given I am logged in as "Confirmed User"
     When I visit the organization page
     And I follow "Edit"
     Then I should see "Organization name"
@@ -70,10 +70,10 @@ Feature: Adding company to the Marketplace
 
   @dependent @clean_data @failing
   Scenario: User can't edit organization pages or see the issues - that are not created by him
-    Given I am logged in as "Trusted User2"
+    Given I am logged in as "Confirmed User2"
     When I visit the organization page
     Then I should not see "Regarding Services listing communicate with webmasters using this issue"
-    And I should see "Posted by Trusted User"
+    And I should see "Posted by Confirmed User"
     And I should see the random "Services" text
     And I should see the random "Drupal contributions" text
     And I should see the random "Organization description" text
@@ -84,7 +84,7 @@ Feature: Adding company to the Marketplace
 
   @failing
   Scenario: Add organization and request promotion to Training section
-    Given I am logged in as "Trusted User"
+    Given I am logged in as "Confirmed User"
     And I visit "/training"
     And I follow "Add your listing"
     When I create a new organization for "training"
@@ -93,11 +93,11 @@ Feature: Adding company to the Marketplace
     And I should see the random "Drupal contributions" text
     And I should see the random "Training url" text
     And I should see the random "Training description" text
-    And I should see "Posted by Trusted User"
+    And I should see "Posted by Confirmed User"
 
   @dependent @failing
   Scenario: View an issue request for training section
-    Given I am logged in as "Trusted User"
+    Given I am logged in as "Confirmed User"
     And I visit the organization page
     And I see "Regarding Training listing communicate with webmasters using this issue"
     When I follow "this issue"
@@ -112,10 +112,10 @@ Feature: Adding company to the Marketplace
 
   @dependent @clean_data @failing
   Scenario:  User can't edit organization pages or see the issues - that are not created by him
-    Given I am logged in as "Trusted User2"
+    Given I am logged in as "Confirmed User2"
     When I visit the organization page
     Then I should not see "Regarding Training listing communicate with webmasters"
-    And I should see "Posted by Trusted User"
+    And I should see "Posted by Confirmed User"
     And I should see the random "Organization name" text
     And I should see the random "Drupal contributions" text
     And I should not see the following <links>

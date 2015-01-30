@@ -7,8 +7,8 @@ Feature: Page status block on documentation pages
   Background:
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I follow "Documentation"
     And I wait until the page is loaded
     And I follow "Understanding Drupal"

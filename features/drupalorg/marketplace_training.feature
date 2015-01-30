@@ -39,8 +39,8 @@ Feature: Training section of the Marketplace
   Scenario: Follow Marketplace guidelines link
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I am on "/training"
     When I follow "Marketplace guidelines"
     Then I should see the heading "Marketplace guidelines"

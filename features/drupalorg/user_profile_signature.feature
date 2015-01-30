@@ -7,12 +7,12 @@ Feature: Display additional information on my comments
   Scenario: Enter signature and save
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I follow "Your Dashboard"
     And I follow "Profile"
     And I follow "Edit"
-    And I see the heading "Trusted User"
+    And I see the heading "Confirmed User"
     And I see "Signature settings"
     When I fill in "Signature" with random text
     And I accept the terms of service
@@ -23,8 +23,8 @@ Feature: Display additional information on my comments
   Scenario: Create a forum, reply and view signature
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I follow "Community"
     And I follow "Forum"
     And I follow "News and announcements"
@@ -49,8 +49,8 @@ Feature: Display additional information on my comments
   Scenario: Reset signature and save
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I follow "Your Dashboard"
     And I follow "Profile"
     And I follow "Edit"
@@ -60,11 +60,11 @@ Feature: Display additional information on my comments
     Then I should see "The changes have been saved"
 
   @dependent @failing
-  Scenario: signature doesn't appear in reply any more for Trusted User
+  Scenario: signature doesn't appear in reply any more for Confirmed User
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I am on the forum topic page
     Then I should see the random "Subject" text
     And I should see the random "Comment" text

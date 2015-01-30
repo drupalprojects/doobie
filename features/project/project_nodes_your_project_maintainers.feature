@@ -17,16 +17,16 @@ Feature: Maintain the project
     Then I should see the link "git vetted user"
 
   @failing
-  Scenario: Add Trusted User as another maintainer
+  Scenario: Add Confirmed User as another maintainer
     Given users:
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Administrative User"
     And I am on "/project/test_releases"
     When I follow "Maintainers"
-    And I enter "Trusted User" for field "Maintainer user name"
+    And I enter "Confirmed User" for field "Maintainer user name"
     And I press "Update"
-    Then I should see the link "Trusted User"
+    Then I should see the link "Confirmed User"
 
   @dependent @failing
   Scenario: Assign permissions to above users
@@ -41,7 +41,7 @@ Feature: Maintain the project
       | Write to VCS           |
       | Edit project           |
       | Administer maintainers |
-    And I assign "Write to VCS" to the maintainer "Trusted User"
+    And I assign "Write to VCS" to the maintainer "Confirmed User"
     And I press "Update"
     Then I should see "Maintainer permissions updated"
 
@@ -140,25 +140,25 @@ Feature: Maintain the project
     Then I should have a local copy of "test_releases"
 
   @dependent @failing
-  Scenario: Trusted User should not be able to commit to repo
+  Scenario: Confirmed User should not be able to commit to repo
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I am on "/project/test_releases"
     When I follow "Version control"
     Then I should see "Account Settings Missing"
     And I should see "Your Git username has not been set yet. Please set one at the Git access page"
 
   @dependent @failing
-  Scenario: Remove Trusted User
+  Scenario: Remove Confirmed User
     Given users:
       | name            | pass     | mail                                | roles           |
       | Git Vetted User | password | qa+gitvetted@association.drupal.org | Git vetted user |
     And I am logged in as "Git Vetted User"
     And I am on "/project/test_releases"
     When I follow "Maintainers"
-    And I follow "delete" for the maintainer "Trusted User"
+    And I follow "delete" for the maintainer "Confirmed User"
     And I press "Delete"
     Then I should see "Removed"
     And I should see "as a maintainer"

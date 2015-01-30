@@ -7,8 +7,8 @@ Feature: Marketplace Management
   Background:
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I am on "/drupal-services/manage"
 
   Scenario: Visit manage marketplace page and view text and links

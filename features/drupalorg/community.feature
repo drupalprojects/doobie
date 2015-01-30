@@ -24,8 +24,8 @@ Feature: Landing page of Community section of the site
   Scenario: Create test issue to check Recent activity block
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I visit "/node/1765126"
     When I follow "open"
     And I follow "Create a new issue"
@@ -44,8 +44,8 @@ Feature: Landing page of Community section of the site
   Scenario: Create one more test issue to check Recent activity block
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I visit "/node/1765126"
     When I follow "open"
     And I follow "Create a new issue"

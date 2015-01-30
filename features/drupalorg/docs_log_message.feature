@@ -1,14 +1,14 @@
 @docs
 Feature: Log message required for documentation edits
   In order to promote communication and collaboration in the community
-  As a Trusted User
+  As a Confirmed User
   I should be required to supply a revision log message when editing documentation
 
   Background:
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I am on "/best-practices"
 
   Scenario: Edit a documentation: Leave blank

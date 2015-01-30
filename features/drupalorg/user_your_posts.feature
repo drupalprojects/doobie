@@ -69,12 +69,12 @@ Feature: Content I posted
   Scenario: Create a case study and view the same
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     When I visit "/node/add/casestudy"
     And I create a case study
     And I see the case study page
-    And I follow "Logged in as Trusted User"
+    And I follow "Logged in as Confirmed User"
     And I follow "Your Posts"
     Then I should see the random "Project name" link
 
@@ -82,12 +82,12 @@ Feature: Content I posted
   Scenario: Create and view a book page
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     When I visit "/node/add/book?parent=3264"
     And I create a book page
     And I see "has been created"
-    And I follow "Logged in as Trusted User"
+    And I follow "Logged in as Confirmed User"
     And I follow "Your Posts"
     Then I should see the random "Document title" link
 
@@ -95,11 +95,11 @@ Feature: Content I posted
   Scenario: Create and view an Organization page
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     When I visit "/node/add/organization"
     And I create a new organization
     And I see "has been created"
-    And I follow "Logged in as Trusted User"
+    And I follow "Logged in as Confirmed User"
     And I follow "Your Posts"
     Then I should see the random "Organization name" link

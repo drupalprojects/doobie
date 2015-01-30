@@ -8,8 +8,8 @@ Feature: Prominently display issue metadata
   Scenario: Create a new issue
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+fakeuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+fakeuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I visit "/project/issues/doobie"
     And I follow "Create a new issue"
     And I fill in "Title" with "Metadata Example"
@@ -17,7 +17,7 @@ Feature: Prominently display issue metadata
       | fields    | values       |
       | Version   | 7.x-1.x-dev  |
       | Component | Failing test |
-      | Assigned  | Trusted User |
+      | Assigned  | Confirmed User |
       | Category  | Task         |
       | Priority  | Normal       |
       | Status    | Active       |
@@ -28,7 +28,7 @@ Feature: Prominently display issue metadata
     Then I should see the "Active" issue status
     Then I should see "7.x-1.x-dev" in the "Version" metadata
     And I should see "Failing test" in the "Component" metadata
-    And I should see "Trusted User" in the "Assigned" metadata
+    And I should see "Confirmed User" in the "Assigned" metadata
     And I should see "Task" in the "Category" metadata
     And I should see "Normal" in the "Priority" metadata
     And I should see "qa" in the "Issue tags" metadata

@@ -7,8 +7,8 @@ Feature:
   Background:
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I wait until the page is loaded
 
   @javascript
@@ -42,7 +42,7 @@ Feature:
     | /node/24572          | Add Documentation Team links to dashboard | Documentation Team links |
     | /news                | Add Drupal News to dashboard              | Drupal News              |
     | /planet              | Add Planet Drupal to dashboard            | Planet Drupal            |
-    | /project/issues/user | Add Your Issues to dashboard              | Trusted User             |
+    | /project/issues/user | Add Your Issues to dashboard              | Confirmed User             |
     | /getting-involved    | Add Contributor Links to dashboard        | Contributor Links        |
 
   Scenario:Add from the user track page

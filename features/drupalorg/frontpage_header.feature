@@ -108,8 +108,8 @@ Feature: View home page header
   Scenario Outline: View bottom header tabs as authenticated user
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I am on "<page>"
     Then I should see the following <tabs> in "bottom header" area
       | tabs            |
@@ -117,7 +117,7 @@ Feature: View home page header
       | Your Dashboard  |
     And I should see the following <links> in "bottom header" area
       | links                     |
-      | Logged in as Trusted User |
+      | Logged in as Confirmed User |
       | Log out                   |
 
   Examples:

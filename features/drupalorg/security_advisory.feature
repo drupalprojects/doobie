@@ -26,8 +26,8 @@ Feature: Publishing new security announcement
   Scenario Outline: Fail to create forum topic
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     When I visit "/forum/1188"
     And I follow "<section>"
     And I follow "Add new Forum topic"

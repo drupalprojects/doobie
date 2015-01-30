@@ -4,11 +4,11 @@ Feature: Administrative view of nodes by a user
   As a site maintainer
   I should be able to view the list of nodes by a specific user and delete them
 
-  Scenario: Create test data as Trusted User
+  Scenario: Create test data as Confirmed User
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     When I visit "/node/add/book?parent=3264"
     And I create "3" book pages
     Then I should see "has been created"
@@ -19,9 +19,9 @@ Feature: Administrative view of nodes by a user
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Administrative User"
-    And I visit "Trusted User" profile page
+    And I visit "Confirmed User" profile page
     When I follow "Administer nodes"
-    Then I should see the heading "Nodes by Trusted User"
+    Then I should see the heading "Nodes by Confirmed User"
     And I should see at least "3" records
     And I should see the following <texts>
       | texts      |
@@ -43,7 +43,7 @@ Feature: Administrative view of nodes by a user
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Administrative User"
-    And I visit "Trusted User" profile page
+    And I visit "Confirmed User" profile page
     And I follow "Administer nodes"
     When I follow "delete"
     Then I should see "Are you sure you want to delete"
@@ -57,7 +57,7 @@ Feature: Administrative view of nodes by a user
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Administrative User"
-    And I visit "Trusted User" profile page
+    And I visit "Confirmed User" profile page
     And I follow "Administer nodes"
     And I wait until the page is loaded
     When I "check" the table header checkbox
@@ -73,7 +73,7 @@ Feature: Administrative view of nodes by a user
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Administrative User"
-    And I visit "Trusted User" profile page
+    And I visit "Confirmed User" profile page
     And I follow "Administer nodes"
     And I wait until the page is loaded
     When I "check" the table header checkbox
@@ -89,7 +89,7 @@ Feature: Administrative view of nodes by a user
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Administrative User"
-    And I visit "Trusted User" profile page
+    And I visit "Confirmed User" profile page
     And I follow "Administer nodes"
     And I wait until the page is loaded
     When I "check" the table header checkbox
@@ -103,7 +103,7 @@ Feature: Administrative view of nodes by a user
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Administrative User"
-    And I visit "Trusted User" profile page
+    And I visit "Confirmed User" profile page
     And I follow "Administer nodes"
     When I select "Unpublish content" from field "- Choose an operation -"
     And I press "Execute"
@@ -116,7 +116,7 @@ Feature: Administrative view of nodes by a user
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Administrative User"
-    And I visit "Trusted User" profile page
+    And I visit "Confirmed User" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "unpublish"
     And I select "Unpublish content" from field "- Choose an operation -"
@@ -131,7 +131,7 @@ Feature: Administrative view of nodes by a user
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Administrative User"
-    And I visit "Trusted User" profile page
+    And I visit "Confirmed User" profile page
     And I follow "Administer nodes"
     When I select "Delete item" from field "- Choose an operation -"
     And I press "Execute"
@@ -145,7 +145,7 @@ Feature: Administrative view of nodes by a user
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Administrative User"
-    And I visit "Trusted User" profile page
+    And I visit "Confirmed User" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "delete"
     When I select "Delete item" from field "- Choose an operation -"
@@ -160,7 +160,7 @@ Feature: Administrative view of nodes by a user
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Administrative User"
-    And I visit "Trusted User" profile page
+    And I visit "Confirmed User" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "unpublish"
     And I select "Unpublish content" from field "- Choose an operation -"
@@ -175,7 +175,7 @@ Feature: Administrative view of nodes by a user
       | name                | pass     | mail                                    | roles         |
       | Administrative User | password | qa+administrator@association.drupal.org | administrator |
     And I am logged in as "Administrative User"
-    And I visit "Trusted User" profile page
+    And I visit "Confirmed User" profile page
     And I follow "Administer nodes"
     When I check "2" checkboxes to "delete"
     And I select "Delete item" from field "- Choose an operation -"

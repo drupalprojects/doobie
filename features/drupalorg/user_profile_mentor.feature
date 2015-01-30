@@ -7,11 +7,11 @@ Feature: To verify that mentors can be added/viewed/removed by a user
   Background:
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
 
   @failing
-  Scenario: Trusted User adds mentors to his profile
+  Scenario: Confirmed User adds mentors to his profile
     When I follow "Edit"
     And I follow "Drupal" tab
     And I fill in "My mentors" with "eliza411"
@@ -25,7 +25,7 @@ Feature: To verify that mentors can be added/viewed/removed by a user
     And I should see the link "eliza411"
 
   @failing
-  Scenario: Trusted User adds more mentors to his profile
+  Scenario: Confirmed User adds more mentors to his profile
     When I follow "Edit"
     And I follow "Drupal" tab
     And I fill in "eliza411, pradeeprkara, sachin2dhoni, jhedstrom" for "My mentors"
@@ -46,7 +46,7 @@ Feature: To verify that mentors can be added/viewed/removed by a user
   @failing
   Scenario: Follow a mentor and users name should be listed
     When I follow "eliza411"
-    Then I should see the link "Trusted User"
+    Then I should see the link "Confirmed User"
     And I should see the heading "People mentored by eliza411"
 
   @failing

@@ -4,11 +4,11 @@ Feature:  Verify handbook metadata is displayed correctly
   As a community member
   I should be able to see the meta information displayed on the page in proper format
 
-  Scenario: Create a documentation as Trusted User
+  Scenario: Create a documentation as Confirmed User
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I follow "Documentation"
     And I follow "Installation Guide"
     And I follow "Add child page"
@@ -52,8 +52,8 @@ Feature:  Verify handbook metadata is displayed correctly
   Scenario: Edit the document as Document Creator
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I am on the document page
     And I follow "edit this page"
     When I edit the document

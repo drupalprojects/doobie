@@ -17,8 +17,8 @@ Feature: Forum breadcrumbs
   Scenario: Logged in user follows link in Support forum
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     When I visit "/forum/18"
     And I follow "Before you start"
     Then I should see "Add new forum topic"

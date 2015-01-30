@@ -7,8 +7,8 @@ Feature: Personal information in user profile
   Background:
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I follow "Edit"
     And I wait until the page is loaded
 
@@ -18,7 +18,7 @@ Feature: Personal information in user profile
     And I fill in the following:
       | Full name            | DrupalSiteUser                               |
       | First or given name  | Drupal                                       |
-      | Last name or surname | Trusted User                                 |
+      | Last name or surname | Confirmed User                                 |
       | My website           | http://en.wikipedia.org/wiki/drupalsiteuser  |
       | Interests            | opensource                                   |
       | IRC nick             | drupalsiteuser                               |
@@ -26,7 +26,7 @@ Feature: Personal information in user profile
       | Facebook page        | http://www.facebook.com/drupalsiteuser       |
       | Twitter url          | http://twitter.com/drupalsiteuser            |
       | Google profile URL   | http://plus.google.com/109229333624640995186 |
-      | Bio                  | DrupTrusted Userser                          |
+      | Bio                  | DrupConfirmed Userser                          |
     And I select the following <fields> with <values>
       | fields           | values  |
       | Languages spoken | Latvian |
@@ -40,7 +40,7 @@ Feature: Personal information in user profile
       | texts            |
       | DrupalSiteUser   |
       | Drupal           |
-      | Trusted User     |
+      | Confirmed User     |
       | drupalsiteuser   |
       | Latvian          |
       | Ewe              |

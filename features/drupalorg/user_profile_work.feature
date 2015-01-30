@@ -8,8 +8,8 @@ Feature: Work information in user profile
   Scenario: Update work information
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I follow "Your Dashboard"
     And I follow "Profile"
     And I follow "Edit"
@@ -23,14 +23,14 @@ Feature: Work information in user profile
     Then I should see "The changes have been saved"
 
   @failing
-  Scenario: View work information as Trusted User
+  Scenario: View work information as Confirmed User
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I follow "Your Dashboard"
     And I follow "Profile"
-    Then I should see the heading "Trusted User"
+    Then I should see the heading "Confirmed User"
     And I should see the heading "Work"
     And I should see the random "Job title" text
     And I should see the random "Industries worked in" link
@@ -42,14 +42,14 @@ Feature: Work information in user profile
   Scenario Outline: Visit the links in work information
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I follow "Your Dashboard"
     And I follow "Profile"
     When I visit the random link for "<fields>"
     Then I should see "<texts>"
     And I should see the random "<fields>" text
-    And I should see the link "Trusted User"
+    And I should see the link "Confirmed User"
   Examples:
     | fields                          | texts                          |
     | Industries worked in            | People that have worked in the |
@@ -60,8 +60,8 @@ Feature: Work information in user profile
   Scenario: Reset work information
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I follow "Your Dashboard"
     And I follow "Profile"
     And I follow "Edit"

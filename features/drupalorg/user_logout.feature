@@ -5,16 +5,16 @@ Feature: User log out
   I should be able to log out
 
   @failing
-  Scenario: Log in as Trusted User and view links and texts
+  Scenario: Log in as Confirmed User and view links and texts
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
-    Then I should see the heading "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
+    Then I should see the heading "Confirmed User"
     And I should see the following <links>
       | links                     |
       | Your Dashboard            |
-      | Logged in as Trusted User |
+      | Logged in as Confirmed User |
       | Log out                   |
       | Dashboard                 |
       | Your Posts                |
@@ -35,18 +35,18 @@ Feature: User log out
       | Username |
       | Password |
 
-  Scenario: Trusted User logs out
+  Scenario: Confirmed User logs out
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     When I follow "Log out"
     Then I should be on "/"
     And I should see the link "Log in / Register"
     And I should not see the following <links>
       | links                     |
       | Your Dashboard            |
-      | Logged in as Trusted User |
+      | Logged in as Confirmed User |
       | Log out                   |
 
   @anon
@@ -67,7 +67,7 @@ Feature: User log out
     And I should not see the following <links>
       | links                     |
       | Your Dashboard            |
-      | Logged in as Trusted User |
+      | Logged in as Confirmed User |
       | Log out                   |
       | Dashboard                 |
       | Your Posts                |

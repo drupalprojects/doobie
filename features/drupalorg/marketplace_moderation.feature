@@ -7,8 +7,8 @@ Feature: Moderate Marketplace listing
   Scenario: Add organization
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I visit "/node/add/organization"
     When I create a new organization for "drupal services"
     Then I should see "has been created"

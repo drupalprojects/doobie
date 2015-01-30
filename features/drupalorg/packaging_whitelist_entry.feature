@@ -7,8 +7,8 @@ Feature: Create new packaging whitelist entry
   Scenario: Create packaging whitelist entry: Authenticated user
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
     And I am on "/node/add/packaging-whitelist"
     Then I should see the heading "403 - Access denied"
     But I should not see "Create Packaging whitelist entry"

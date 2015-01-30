@@ -1,14 +1,14 @@
 @community @forums
-Feature: Create new forum topic as a regular Trusted User
+Feature: Create new forum topic as a regular Confirmed User
   In order to discuss a topic
-  As a Trusted User
+  As a Confirmed User
   I should be able to post a new forum topic
 
   Background:
     Given users:
       | name         | pass     | mail                                 | roles         |
-      | Trusted User | password | ryan+siteuser@association.drupal.org | trusted |
-    And I am logged in as "Trusted User"
+      | Confirmed User | password | ryan+siteuser@association.drupal.org | confirmed |
+    And I am logged in as "Confirmed User"
 
   @failing
   Scenario: View the forum topic page
