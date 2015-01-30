@@ -8,7 +8,7 @@ Feature: Add change record
   Scenario: Add new change record as anonymous user
     Given I am on "/list-changes/drupal"
     When I follow "Add new change record"
-    Then I should see "You need to log in or register an account to access this page"
+    Then I should see "You need to log in or create an account to access this page."
     And I should see the heading "Welcome to Drupal.org"
     But I should not see "Create Change record"
 
