@@ -10,7 +10,7 @@ Feature: Request new password
     And I follow "Request new password"
 
   Scenario: View texts and links
-    Then I should see the heading "User account"
+    Then I should see the heading "Welcome to Drupal.org"
     Then I should see the following <links>
       | links                |
       | Create new account   |

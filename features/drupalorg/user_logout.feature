@@ -53,7 +53,7 @@ Feature: User log out
   Scenario: Visit /user url anonymously
     Given I am not logged in
     When I visit "/user"
-    Then I should see the heading "User account"
+    Then I should see the heading "Welcome to Drupal.org"
     And I should see the following <links>
       | links                |
       | Log in / Register    |

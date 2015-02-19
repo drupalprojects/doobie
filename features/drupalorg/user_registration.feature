@@ -10,7 +10,7 @@ Feature: Register an account on Drupal.org with valid username and email
     And I follow "Log in / Register"
 
   Scenario: Register to the site
-    Then I should see the heading "User account"
+    Then I should see the heading "Welcome to Drupal.org"
     And I should see the following <links>
       | links                |
       | Create new account   |
