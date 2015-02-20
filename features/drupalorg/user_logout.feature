@@ -56,7 +56,6 @@ Feature: User log out
     Then I should see the heading "Welcome to Drupal.org"
     And I should see the following <links>
       | links                |
-      | Log in / Register    |
       | Create new account   |
       | Log in               |
       | Request new password |
@@ -66,6 +65,7 @@ Feature: User log out
       | Password |
     And I should not see the following <links>
       | links                     |
+      | Log in / Register         |
       | Your Dashboard            |
       | Logged in as Confirmed User |
       | Log out                   |
