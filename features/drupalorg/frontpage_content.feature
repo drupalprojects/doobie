@@ -11,8 +11,6 @@ Feature: Drupal.org frontpage
   Scenario: View texts and links in top left content area
     Then I should see the "link" "Why Choose Drupal?" in "top left content" area
     And I should see the "text" "Use Drupal to build everything from personal blogs to enterprise applications" in "top left content" area
-    And I should see the "link" "Drupal Distributions" in "top left content" area
-    And I should see the "text" "Distributions are a collection of pre-configured themes and modules" in "top left content" area
 
   Scenario: View sites made with Drupal in top middle content area
     Then I should see the "link" "Sites Made with Drupal" in "top middle content" area
@@ -56,7 +54,6 @@ Feature: Drupal.org frontpage
     | Why Choose Drupal?        | About Drupal            |
     | Get Started with Drupal   | Get Started with Drupal |
     | Distributions             | Download & Extend       |
-    | Learn about Distributions | Distributions           |
     | Sites Made with Drupal    | Drupal Case Studies     |
     | Develop with Drupal       | Download & Extend       |
     | Developers                | All commits             |
@@ -75,10 +72,6 @@ Feature: Drupal.org frontpage
   Scenario: Find themes for Drupal
     When I follow "Themes"
     Then I should see "Themes match your search"
-
-  Scenario: Find Drupal distributions
-    When I follow "Distributions"
-    Then I should see "Distributions match your search"
 
   Scenario: Find out about Drupal core
     When I follow "Drupal Core"
