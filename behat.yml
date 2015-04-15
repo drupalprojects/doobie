@@ -32,7 +32,6 @@ default:
         right header: "#header-right"
         bottom header: "#nav-masthead"
         # frontpage content regions
-        top left content: "#choose-drupal"
         top middle content: "#sites-with-drupal"
         top right content: "#develop-with-drupal"
         bottom right content: "#community-updates"

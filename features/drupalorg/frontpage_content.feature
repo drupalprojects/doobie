@@ -8,9 +8,9 @@ Feature: Drupal.org frontpage
     Given I am on the homepage
     And I wait until the page loads
 
-  Scenario: View texts and links in top left content area
-    Then I should see the "link" "Why Choose Drupal?" in "top left content" area
-    And I should see the "text" "Use Drupal to build everything from personal blogs to enterprise applications" in "top left content" area
+  Scenario: View calls to action
+    Then I should see the "link" "Get Started"
+    And I should see the "text" "Use Drupal to build everything from personal blogs to enterprise applications"
 
   Scenario: View sites made with Drupal in top middle content area
     Then I should see the "link" "Sites Made with Drupal" in "top middle content" area
