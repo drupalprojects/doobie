@@ -6,7 +6,7 @@ Feature: Featured Drupal case studies
 
   Scenario: View case study page
     Given I am on the homepage
-    When I follow "Sites Made with Drupal"
+    When I follow "Who Uses Drupal"
     Then I should see the heading "Drupal Case Studies"
     And I should see "Categories:"
     And I should not see the link "Add your case study"
@@ -27,7 +27,7 @@ Feature: Featured Drupal case studies
   @javascript
   Scenario: View the image slideshow
     Given I am on the homepage
-    When I follow "Sites Made with Drupal"
+    When I follow "Who Uses Drupal"
     And I wait until the page loads
     Then I should see the case studies slideshow
     And I should see "1"

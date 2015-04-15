@@ -7133,22 +7133,19 @@ class FeatureContext extends DrupalContext {
     // First check if case study section exists or not
     $temp = $this->getSession()
       ->getPage()
-      ->find("css", "#block-system-main #sites-with-drupal .things-we-made-wrapper");
+      ->find("css", "#block-system-main #sites-with-drupal");
     if (empty($temp)) {
-      throw new Exception("The page " . $this->getSession()
-          ->getCurrentUrl() . " does not contain case study section");
+      throw new Exception("The page " . $this->getSession()->getCurrentUrl() . " does not contain case study section");
     }
     // Now look for the title of the case study
     $temp = $temp->findAll("css", "a");
     if (empty($temp)) {
-      throw new Exception("The case study section on the page " . $this->getSession()
-          ->getCurrentUrl() . " does not contain any case study");
+      throw new Exception("The case study section on the page " . $this->getSession()->getCurrentUrl() . " does not contain any case study");
     }
     $temp = end($temp);
     $caseStudy = trim($temp->getText());
     if ($caseStudy == "") {
-      throw new Exception("The case study title is empty in the case study section of the page - " . $this->getSession()
-          ->getCurrentUrl());
+      throw new Exception("The case study title is empty in the case study section of the page - " . $this->getSession()->getCurrentUrl());
     }
     // If the recent cases studies list contains the one in homepage, then we pass here
     if (!in_array($caseStudy, $textsManage)) {
