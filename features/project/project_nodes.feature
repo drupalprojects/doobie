@@ -121,7 +121,6 @@ Feature: To view the project details
       | Size                      |
       | md5 hash                  |
       | Release notes             |
-      | Known issues              |
       | Official release from tag |
 
   Scenario: Issue queue can be read
